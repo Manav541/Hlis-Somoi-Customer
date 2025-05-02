@@ -17,9 +17,9 @@ export const activityOpacity = 0.6;
 export const hitSlop = 10;
 
 // Flash Messages
-export const flashMessageSucess = (message: string) => {
+export const flashMessageSucess = (message: string | null) => {
   showMessage({
-    message: message,
+    message: message || '',
     type: 'success',
     color: colors.white,
     duration: 3000,
@@ -31,13 +31,14 @@ export const flashMessageSucess = (message: string) => {
     titleStyle: {
       fontFamily: fontsfamily.bold,
       fontSize: fontSize.size16,
+      color : colors.white
     },
   });
 };
 
-export const flashMessageWarning = (message: string) => {
+export const flashMessageWarning = (message: string | null )  => {
   showMessage({
-    message: message,
+    message: message || '',
     backgroundColor: colors.white,
     color: colors.white,
     duration: 3000,
@@ -49,6 +50,7 @@ export const flashMessageWarning = (message: string) => {
     titleStyle: {
       fontFamily: fontsfamily.bold,
       fontSize: fontSize.size16,
+      color : colors.blue4e
     },
   });
 };

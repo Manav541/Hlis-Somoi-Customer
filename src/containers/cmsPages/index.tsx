@@ -1,8 +1,9 @@
-import { View, Text } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import { Text } from "react-native";
+import React, { useEffect, useState } from "react";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { styles } from "./styles";
 import CMSPageComponent from "../../components/cmsPages";
+import GlobalBackButton from "../../global/GlobalBackButton";
 
 interface FaqArrProps {
   faqTitle: string | null;
@@ -41,8 +42,11 @@ const CMSPageContainer = ({ navigation, route }: any) => {
     },
   ]);
 
-  useLayoutEffect(() => {
+  const header = () => {
     navigation.setOptions({
+      headerLeft: () => (
+        <GlobalBackButton onPress={() => navigation.goBack()} />
+      ),
       headerTitle: () => (
         <Text style={styles.txtHeaderTitle}>
           {navigateFrom === "aboutUs"
@@ -55,7 +59,11 @@ const CMSPageContainer = ({ navigation, route }: any) => {
         </Text>
       ),
     });
-  }, [navigation, navigateFrom]);
+  };
+
+  useEffect(() => {
+    header();
+  }, [navigateFrom]);
 
   const handleOnPressFaq = (index: number) => {
     const updatedFaqArr = faqArr.map((faq, i) =>

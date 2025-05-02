@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.blue4e,
     paddingHorizontal: 20,
   },
-  vwFaq: { borderBottomWidth: 1, borderBottomColor: `${colors.graya7}50` },
+  vwFaq: { borderBottomWidth: 1, borderBottomColor: `${colors.greya7}50` },
   btnTitle: {
     flexDirection: "row",
     alignItems: "center",
@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
   },
   lblDesc: {
     fontSize: fontSize.size14,
-    color: colors.graya7,
+    color: colors.greya7,
     fontFamily: fontsfamily.regular,
     flex: 1,
     letterSpacing: 0.2,

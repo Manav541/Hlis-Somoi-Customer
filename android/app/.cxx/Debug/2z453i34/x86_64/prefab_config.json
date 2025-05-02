@@ -3,6 +3,7 @@
   "prefabPath": "/Users/hyperlink/.gradle/caches/modules-2/files-2.1/com.google.prefab/cli/2.1.0/aa32fec809c44fa531f01dcfb739b5b3304d3050/cli-2.1.0-all.jar",
   "packages": [
     "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-reanimated/android/build/intermediates/prefab_package/debug/prefab",
     "/Users/hyperlink/.gradle/caches/8.13/transforms/382e55fcee46f80de207e8dc1c08a8da/transformed/jetified-hermes-android-0.79.1-debug/prefab",
     "/Users/hyperlink/.gradle/caches/8.13/transforms/490740573f38e6ed55cd7cd0f0ce2cff/transformed/jetified-fbjni-0.7.0/prefab"
   ]

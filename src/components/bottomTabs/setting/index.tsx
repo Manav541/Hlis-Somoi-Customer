@@ -1,18 +1,29 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Modal,
+} from "react-native";
 import React from "react";
 import { styles } from "./styles";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Images } from "../../../constants/Images";
+import { images } from "../../../constants/Images";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { activityOpacity } from "../../../constants/GConstant";
+import { colors } from "../../../constants/Colors";
+import GlobalButton from "../../../global/GlobalButton";
 
 interface PropsType {
   arrSettingData: any[];
+  isModalVisible: boolean;
+  selectedType: string;
+  handleOnPressYesDelete: () => void;
+  handleOnPressNoThanks: () => void;
 }
 
 const SettingComponent = (props: PropsType) => {
-  const insets = useSafeAreaInsets();
-
+  console.log("props", props?.isModalVisible);
   const renderArrSettingData = (item: any, index: number) => {
     return (
       <View key={index}>
@@ -21,22 +32,20 @@ const SettingComponent = (props: PropsType) => {
         <View style={styles.vwSubArrayData}>
           {item?.subArr?.map((subItem: any, subIndex: number) => (
             <TouchableOpacity
-            key={subIndex}
-            activeOpacity={activityOpacity}
-            style={{
-              ...styles.btnSubArrayData,
-              borderBottomWidth: subIndex !== item.subArr.length - 1 ? 1 : 0,
-            }}
-            onPress={
-              subItem?.onPress 
-            }
-          
-          >
-            <View>
-              <Image
-                style={{height : subItem?.height,width : subItem?.width}}
-                source={subItem?.icon}/>
-            </View>
+              key={subIndex}
+              activeOpacity={activityOpacity}
+              style={{
+                ...styles.btnSubArrayData,
+                borderBottomWidth: subIndex !== item.subArr.length - 1 ? 1 : 0,
+              }}
+              onPress={subItem?.onPress}
+            >
+              <View>
+                <Image
+                  style={{ height: subItem?.height, width: subItem?.width }}
+                  source={subItem?.icon}
+                />
+              </View>
               <Text style={styles.lblSettingTitle}>{subItem?.title}</Text>
             </TouchableOpacity>
           ))}
@@ -50,11 +59,14 @@ const SettingComponent = (props: PropsType) => {
       <View
         style={{
           ...styles.vwSettingView,
-          // marginBottom: PlatformVersion.isIOS ? insets.bottom + 81 : 0,
         }}
       >
         <ScrollView
-          contentContainerStyle={{ paddingTop: 20, flexGrow : 1, paddingBottom :20}}
+          contentContainerStyle={{
+            paddingTop: 20,
+            flexGrow: 1,
+            paddingBottom: 20,
+          }}
           showsVerticalScrollIndicator={false}
           bounces={false}
         >
@@ -62,7 +74,7 @@ const SettingComponent = (props: PropsType) => {
             <View style={styles.vwProfileImage}>
               <Image
                 style={styles.imgProfileIcon}
-                source={Images.profileIcon}
+                source={images.profileIcon}
               />
             </View>
             <View style={styles.vwHelloName}>
@@ -78,6 +90,47 @@ const SettingComponent = (props: PropsType) => {
           </View>
         </ScrollView>
       </View>
+
+      {/* Delete Modal */}
+      <Modal visible={props?.isModalVisible} transparent animationType="fade">
+        <View
+          style={styles.vwDeleteLogoutView}
+        >
+          <View
+            style={styles.vwDeleteLogoutModal}
+          >
+            <Image
+              style={styles.imgModalLogo}
+              source={images.logoTitle}
+            />
+            <Text style={styles.lblDeleteLogoutTitle}>
+              {props?.selectedType === "delete" ?  getTranslation("deleteProfileTitle") : getTranslation("signOutProfileTitle")
+               }
+            </Text>
+            <Text style={styles.lblDeleteLogoutDecs}>
+              {props?.selectedType === "delete" ? getTranslation("deleteProfileDescription") : getTranslation("signOutProfileDescription")}
+            </Text>
+
+            <View style={{ width: "100%", marginTop: 24 }}>
+              <GlobalButton
+                title={props?.selectedType === 'delete' ? getTranslation("yesDelete") : getTranslation("yesSignOut")
+                    
+                }
+                isOrange={true}
+                onPress={props?.handleOnPressYesDelete}
+              />
+            </View>
+
+            <View style={{ width: "100%", marginTop: 13 }}>
+              <GlobalButton
+                title={getTranslation("noThanks")}
+                onPress={props?.handleOnPressNoThanks}
+                isOrangeWithBorder={true}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };

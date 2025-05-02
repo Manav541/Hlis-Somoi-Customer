@@ -1,8 +1,9 @@
 import { View, Text } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import AvailableOffersComponent from "../../components/availableOffers";
+import GlobalBackButton from "../../global/GlobalBackButton";
 
 const AvailableOffersContainer = ({ navigation }: any) => {
   const arrAvailableOffers = [
@@ -32,15 +33,22 @@ const AvailableOffersContainer = ({ navigation }: any) => {
     },
   ];
 
-  useLayoutEffect(() => {
+  const header = () => {
     navigation.setOptions({
-      headerTitle: () => (
-        <Text style={styles.txtHeaderTitle}>
-          {getTranslation("availableOffers")}
-        </Text>
+      headerLeft: () => (
+        <GlobalBackButton
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
       ),
     });
-  }, [navigation]);
+  };
+
+  useEffect(() => {
+    header();
+  }, []);
+
   return <AvailableOffersComponent arrAvailableOffers={arrAvailableOffers} />;
 };
 

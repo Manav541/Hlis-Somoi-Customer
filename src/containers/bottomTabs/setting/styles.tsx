@@ -5,7 +5,7 @@ import { fontsfamily } from "../../../constants/FontFamily";
 
 export const styles = StyleSheet.create({
   vwHeader : {
-    backgroundColor: colors.ornage1c,
+    backgroundColor: colors.orange1c,
     justifyContent: "center",
     flexDirection: "row",
     paddingBottom : 12

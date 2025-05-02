@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const AsyncManager = {
   Keys: {
     appLanguage: 'appLanguage',
+    isOnBoardingVisisted: 'isOnBoardingVisisted',
   },
 
   getData: async (key: string, callback: (value: string | null) => void) => {

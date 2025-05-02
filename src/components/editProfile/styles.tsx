@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size20,
     fontFamily: fontsfamily.bold,
     alignSelf: "center",
+    marginBottom : 30
   },
 
   //   TextIn
@@ -30,7 +31,7 @@ export const styles = StyleSheet.create({
     height: 110,
     width: 110,
     borderRadius: 110 / 2,
-    backgroundColor: colors.ornage1c,
+    backgroundColor: colors.orange1c,
     borderColor: colors.white,
     borderWidth: 1.51,
     justifyContent: "center",

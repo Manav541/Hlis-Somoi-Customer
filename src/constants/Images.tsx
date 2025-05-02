@@ -1,4 +1,16 @@
-export const Images = {
+export const images = {
+
+    // OnBoardinfg Screen
+  onboarding1: require('../assets/images/onboarding1.png'),
+  onboarding2: require('../assets/images/onboarding2.png'),
+  onboarding3: require('../assets/images/onboarding3.png'),
+  goBtn: require('../assets/images/goBtn.png'),
+
+  // Signup Screen
+  backarrow: require('../assets/images/backarrow.png'),
+  logoTitle: require('../assets/images/logoTitle.png'),
+  showEye: require('../assets/images/showEye.png'),
+  
     // Setting
     profileIcon : require('../assets/images/profileIcon.png'),
     editProfileIcon : require('../assets/images/editProfileIcon.png'),
@@ -20,8 +32,14 @@ export const Images = {
     logoutIcon : require('../assets/images/logoutIcon.png'),
 
     // Edit Profile
-    backWhiteArrow : require('../assets/images/backWhiteArrow.png'),
     profileBigIcon : require('../assets/images/profileBigIcon.png'),
 
     downOrangeArrow : require('../assets/images/downOrangeArrow.png'),
+
+    // Manage Address
+    add : require('../assets/images/add.png'),
+    checkfill:require('../assets/images/checkfill.png'),
+    checkempty:require('../assets/images/checkempty.png'),
+    edit : require('../assets/images/edit.png'),
+    delete : require('../assets/images/delete.png'),
 }

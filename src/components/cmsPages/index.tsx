@@ -1,9 +1,8 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { styles } from "./styles";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { activityOpacity } from "../../constants/GConstant";
-import { Images } from "../../constants/Images";
+import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 
 interface PropsType {
@@ -13,7 +12,6 @@ interface PropsType {
 }
 
 const CMSPageComponent = (props: PropsType) => {
-  const insets = useSafeAreaInsets();
 
   const renderItemFaq = (item: any, index: number) => {
     return (
@@ -27,7 +25,7 @@ const CMSPageComponent = (props: PropsType) => {
             {item.faqTitle}
           </Text>
           <Image
-            source={Images.downOrangeArrow}
+            source={images.downOrangeArrow}
             style={[
               styles.imgDropdown,
               {
@@ -55,13 +53,11 @@ const CMSPageComponent = (props: PropsType) => {
       bounces={false}
       contentContainerStyle={[
         styles.vwMain,
-        {
-          paddingBottom: insets.bottom > 0 ? insets.bottom + 20 : 20,
-        },
+       
       ]}
     >
       {props?.navigateFrom === "aboutUs" ? (
-        <View style={{ marginTop: 16, gap: 10 }}>
+        <View style={{ marginTop: 16, gap: 10,marginBottom : 10 }}>
           <Text style={styles.lblCMSData}>
             {getTranslation("faqDescription")}
           </Text>

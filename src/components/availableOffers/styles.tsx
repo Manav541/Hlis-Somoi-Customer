@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     fontFamily : fontsfamily.semibold,
   },
   lblOfferCode:{
-    color : colors.ornage1c,
+    color : colors.orange1c,
     fontSize : fontSize.size14,
     fontFamily : fontsfamily.bold,
   },
@@ -65,7 +65,7 @@ export const styles = StyleSheet.create({
   },
   btnOfferCode:{
     borderStyle:'dotted',
-    borderColor : colors.ornage1c,
+    borderColor : colors.orange1c,
     borderWidth : 1,
     padding : 7.4,
     borderRadius : 7.4,
