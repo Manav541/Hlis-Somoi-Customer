@@ -8,7 +8,7 @@ import {activityOpacity, hitSlop} from '../../constants/GConstant';
 interface PropsType {
   value: string;
   onChangeText: (text: string) => void;
-  onSubmitEditing?: () => void;
+  onSubmitEditing: () => void;
   onFocus: () => void;
   onBlur: () => void;
   focusValue: boolean;
@@ -52,15 +52,18 @@ const GlobalTextInput = (props: PropsType) => {
           value={props.value}
           onFocus={props.onFocus}
           onBlur={props.onBlur}
+          cursorColor={colors.greya7}
+          selectionColor={colors.greya7}
           onChangeText={props.onChangeText}
           secureTextEntry={props.secureTextEntry}
           onSubmitEditing={props.onSubmitEditing}
           placeholderTextColor={colors.greya7}
           multiline={props.isDescriptionField}
-          returnKeyType={props.isLastField ? 'done' : 'next'}
+          returnKeyType={props.isLastField ? 'done' : 'default'}
           blurOnSubmit={props.isLastField ? true : false}
           autoCorrect={false}
           spellCheck={false}
+          autoComplete="off"
           autoCapitalize="none"
           keyboardType={
             props.isEmailField
@@ -85,7 +88,10 @@ const GlobalTextInput = (props: PropsType) => {
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
             onPress={props.onPressEye}>
-            <Image source={images.showEye} style={styles.eyeImg} />
+            <Image
+              source={props.secureTextEntry ? images.hideEye : images.showEye}
+              style={styles.eyeImg}
+            />
           </TouchableOpacity>
         )}
       </View>

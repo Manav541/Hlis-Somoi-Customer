@@ -10,13 +10,12 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.blue4e,
     paddingHorizontal: 20,
-    paddingTop: 30,
+    paddingTop: 20,
   },
   vwManageAddress: {
     backgroundColor: "#EEF0FF",
     paddingVertical: 15,
     paddingHorizontal: 12,
-    marginBottom: 15,
     width: ScreenDimensions.screenWidth - 40,
     alignSelf: "center",
     borderRadius: 8,
@@ -25,6 +24,12 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 16,
     justifyContent: "space-between",
+  },
+  vwLine :{
+    height: 17,
+    width: 1,
+    backgroundColor: "#D9D9D9",
+    alignSelf: "center",
   },
 
   // Text Styles
@@ -35,13 +40,13 @@ export const styles = StyleSheet.create({
   },
   lblAddressTitle: {
     fontSize: fontSize.size14,
-    fontFamily: fontsfamily.semibold,
+    fontFamily: fontsfamily.medium,
     color: colors.blue4e,
     lineHeight: 20,
   },
   lblSetAsDefault: {
     fontSize: fontSize.size14,
-    fontFamily: fontsfamily.medium,
+    fontFamily: fontsfamily.regular,
     color: colors.blue4e,
     alignSelf: "center",
     marginLeft: 10,
@@ -55,7 +60,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
-    marginBottom: 20,
+    // marginBottom: 20,
   },
 
   // Image Styles

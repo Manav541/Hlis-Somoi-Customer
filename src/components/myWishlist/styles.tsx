@@ -1,0 +1,152 @@
+import { StyleSheet } from "react-native";
+import { colors } from "../../constants/Colors";
+import { fontSize } from "../../constants/FontSizes";
+import { fontsfamily } from "../../constants/FontFamily";
+
+export const styles = StyleSheet.create({
+  //   View styles
+  vwMain: {
+    flex: 1,
+    backgroundColor: colors.blue4e,
+  },
+  vwSearch: {
+    height: 52,
+    backgroundColor: colors.white,
+    borderRadius: 100,
+    marginVertical: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 18,
+    gap: 13,
+    marginHorizontal: 20,
+  },
+  vwMyWishlistItem: {
+    height: 241,
+    borderRadius: 20,
+    backgroundColor: colors.white,
+  },
+  vwProductImgLike: {
+    height: 112,
+    borderTopStartRadius: 20,
+    borderTopEndRadius: 20,
+    overflow: "hidden",
+    backgroundColor: colors.whiteff,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  vwProductDetails: {
+    flex: 1,
+    paddingHorizontal: 7,
+    paddingTop: 6,
+    paddingBottom: 7,
+    flexDirection: 'column',
+  justifyContent: 'space-between',
+  },
+  vwPriceRating:{
+    height : 17,
+    flexDirection : 'row',
+    alignItems : 'center',
+    justifyContent : 'space-between',
+    marginTop : 7
+  },
+  vwPrice : {
+    flexDirection : 'row',
+    alignItems : 'center',
+    gap : 6
+  },
+  vwRating : {
+    flexDirection : 'row',
+    gap : 4,
+    alignItems : 'center'
+  },
+  vwNoData: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  
+ 
+
+  //   TextInput styles
+  txtSearch: {
+    flex: 1,
+    color: colors.black,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.regular,
+  },
+
+  //   Image styles
+  imgSearch: {
+    height: 19,
+    width: 19,
+  },
+  imgRedHeart: {
+    height: 14,
+    width: 14,
+  },
+  imgStar :{
+    height : 12.5,
+    width : 12.6,
+  },
+
+  //   TouchableOpacity styles
+  btnRedHeart: {
+    height: 24,
+    width: 24,
+    borderRadius: 22,
+    backgroundColor: colors.white,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 10,
+    right: 10,
+  },
+  btnAddToCart: {
+    height: 34,
+    borderBottomStartRadius: 20,
+    borderBottomEndRadius: 20,
+    backgroundColor: colors.orange1c,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  //   Text styles
+  lblAddToCart: {
+    color: colors.blue4e,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblProductName: {
+    color: colors.black35,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+    lineHeight : 25,
+    flexWrap : 'wrap',
+  },
+  lblProductWeight: {
+    color: colors.greya7,
+    fontSize: fontSize.size10,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblProductFinalPrice: {
+    color: colors.blue4e,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.bold,
+  },
+  lblProductPrice: {
+    color: colors.greya7,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regular,
+    textDecorationLine: "line-through",
+  },
+  lblProductRating: {
+    color: colors.black13,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblNoData: {
+    fontSize: fontSize.size16,
+    color: colors.greya7,
+  },
+});

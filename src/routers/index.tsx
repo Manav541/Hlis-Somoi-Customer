@@ -1,16 +1,29 @@
-// import OnboardingContainer from '../container/authentication/onboarding';
+import AddAddressContainer from '../containers/authentication/addAddress';
+import ChangePasswordContainer from '../containers/authentication/changePassword';
+import ForgotPasswordContainer from '../containers/authentication/forgotPassword';
+import OnboardingContainer from '../containers/authentication/onboarding';
+import SignInContainer from '../containers/authentication/signin';
+import SignupContainer from '../containers/authentication/signup';
+import VerificationContainer from '../containers/authentication/verification';
 import AvailableOffersContainer from '../containers/availableOffers';
 import SettingContainer from '../containers/bottomTabs/setting';
+import ChangeEmailPhoneNumberContainer from '../containers/changeEmailPhoneNumber';
 import CMSPageContainer from '../containers/cmsPages';
 import ContactUsContainer from '../containers/contactUs';
 import EditProfileContainer from '../containers/editProfile';
 import ManageAddressesContainer from '../containers/manageAddresses';
-import OnboardingContainer from '../containers/onboarding';
+import MyWishlistContainer from '../containers/myWishlist';
 
 export const MyScreens = {
   // Authentication
 
   OnboardingContainer,
+  SignupContainer,
+  SignInContainer,
+  VerificationContainer,
+  ForgotPasswordContainer,
+  ChangePasswordContainer,
+  AddAddressContainer,
 
   // bottom tab
   SettingContainer,
@@ -18,5 +31,7 @@ export const MyScreens = {
   CMSPageContainer,
   AvailableOffersContainer,
   ContactUsContainer,
-  ManageAddressesContainer
+  ManageAddressesContainer,
+  MyWishlistContainer,
+  ChangeEmailPhoneNumberContainer
 };

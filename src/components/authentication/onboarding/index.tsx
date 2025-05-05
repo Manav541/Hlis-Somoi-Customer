@@ -10,15 +10,15 @@ import {
   StatusBar,
 } from 'react-native';
 import React, {RefObject} from 'react';
+import {colors} from '../../../constants/Colors';
+import {ScreenDimensions} from '../../../constants/utils/Dimensions';
+import GlobalButton from '../../../global/GlobalButton';
+import {getTranslation} from '../../../localization/i18n/i18n.config';
 import {styles} from './styles';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import { PlatformVersion } from '../../constants/utils/Platform';
-import { ScreenDimensions } from '../../constants/utils/Dimensions';
-import { colors } from '../../constants/Colors';
-import { activityOpacity } from '../../constants/GConstant';
-import { images } from '../../constants/Images';
-import GlobalButton from '../../global/GlobalButton';
-import { getTranslation } from '../../localization/i18n/i18n.config';
+import {PlatformVersion} from '../../../constants/utils/Platform';
+import {images} from '../../../constants/Images';
+import {activityOpacity} from '../../../constants/GConstant';
 
 interface OnboardingItem {
   image: ImageSourcePropType;
@@ -99,7 +99,7 @@ const OnboardingComponent = (props: PropsType) => {
         {/* Go Button */}
         <TouchableOpacity
           activeOpacity={activityOpacity}
-          style={{alignSelf: 'center'}}
+          style={styles.btnGo}
           onPress={props.handleOnPressGo}>
           <Image source={images.goBtn} style={styles.imageGo} />
         </TouchableOpacity>
@@ -107,7 +107,7 @@ const OnboardingComponent = (props: PropsType) => {
 
       {/* View Next Button */}
       <View style={{marginHorizontal: 20}}>
-        <GlobalButton 
+        <GlobalButton
           title={getTranslation('getStarted')}
           onPress={props.handleOnPressGetStarted}
         />

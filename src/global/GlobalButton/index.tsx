@@ -12,6 +12,7 @@ interface PropsType {
   isTransparentWithBorder?: boolean;
   isOrangeWithBorder?: boolean;
   flex?: number;
+  isWhite? : boolean;
 }
 
 const GlobalButton = (props: PropsType) => {
@@ -24,7 +25,7 @@ const GlobalButton = (props: PropsType) => {
             ? colors.orange1c
             : props.isOrangeWithBorder
             ? 'transaprent'
-            : colors.blue4e,
+            : props?.isWhite ? colors.whiteff : colors.blue4e ,
           borderWidth:
             props.isTransparentWithBorder || props.isOrangeWithBorder ? 1 : 0,
           borderColor: props.isTransparentWithBorder
@@ -41,7 +42,7 @@ const GlobalButton = (props: PropsType) => {
         style={[
           styles.title,
           {
-            color: props.isOrange
+            color: props.isOrange || props.isWhite
               ? colors.blue4e
               : props.isOrangeWithBorder
               ? colors.orange1c

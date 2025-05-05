@@ -20,6 +20,14 @@ export default {
   profileUpdated: "Profile updated successfully",
   logoutSuccess: "Logout successfully",
   addressDeleted: "Address deleted successfully",
+  emptyOtp: 'Please enter OTP',
+  invalidOtp: 'Invalid OTP',
+  emptyOldPassword: 'Please enter old password',
+  emptyNewPassword: 'Please enter new password',
+  emptyConfirmPassword: 'Please enter confirm password',
+  passwordNotMatch: 'New password and confirm password does not match',
+  passwordChangedSucessfully: 'Password Changed Sucessfully',
+  noDataFound: 'No Data Found!',
 
   // Onboarding
   onboardingTitle1: "Fast, Reliable, and Hassle-Free Deliveries",
@@ -41,10 +49,16 @@ export default {
   update: "Update",
   verify: "Verify",
   submit: "Submit",
+  search :'Search',
+  addToCart: 'Add to Cart',
+  addToWishlist: 'Add to Wishlist',
+  viewAll: 'View All',
 
   // Signup-Signin
   email: "Email",
+  emailId : 'Email Id',
   phone: "Phone",
+  phoneNumber: "Phone Number",
   mobileNumber: "Mobile Number",
   password: "Password",
   or: "Or",
@@ -54,6 +68,28 @@ export default {
   // privacyPolicy: 'Privacy Policy',
   name: "Name",
   forgotPassword: "Forgot Password",
+  ContinueAsGuest: "Continue as a Guest",
+
+  // Verification
+  enterYouOTPDesc: 'Enter OTP that you received on',
+  resendOTP: 'Resend OTP',
+  resendIn: 'Resend In',
+  seconds: 'Sec',
+  otpVerifiedSucessfully: 'OTP Verified Sucessfully',
+  otpResendSuccessfully: 'OTP Resend Successfully',
+
+  // Forgot Password
+  enterYourTitle: 'Enter your',
+  toGetTitle: 'to get the',
+  otp: 'OTP',
+  toVerifyChangeTitle: ' to verify & change your password',
+  toVerifyChangeEmailID : 'to verify & change your email id',
+  toVerifyChangePhoneNumber : 'to verify & change your Phone Number',
+
+  // Change Password
+  oldPassword: 'Old Password',
+  newPassword: 'New Password',
+  confirmPassword: 'Confirm Password',
 
   // Setting
   setting: "Setting",

@@ -1,8 +1,8 @@
 import {StyleSheet} from 'react-native';
-import { colors } from '../../constants/Colors';
-import { ScreenDimensions } from '../../constants/utils/Dimensions';
-import { fontSize } from '../../constants/FontSizes';
-import { fontsfamily } from '../../constants/FontFamily';
+import {colors} from '../../../constants/Colors';
+import {ScreenDimensions} from '../../../constants/utils/Dimensions';
+import {fontsfamily} from '../../../constants/FontFamily';
+import {fontSize} from '../../../constants/FontSizes';
 
 export const styles = StyleSheet.create({
   vwMain: {
@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   vwFlatlistMain: {
-    height: ScreenDimensions.windowHeight / 1.2,
+    height: ScreenDimensions.screenHeight / 1.3,
     backgroundColor: colors.blue4e,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
@@ -23,8 +23,13 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 30,
     marginBottom: 40,
-    // position: 'absolute',
-    // top: ScreenDimensions.screenHeight / 1.5,
+    position: 'absolute',
+    top: ScreenDimensions.screenHeight / 1.68,
+  },
+  btnGo: {
+    alignSelf: 'center',
+    position: 'absolute',
+    top: ScreenDimensions.screenHeight / 1.48,
   },
   vwDots: {
     height: 2,
@@ -32,8 +37,8 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
   },
   image: {
-    width: ScreenDimensions.screenWidth - 48,
-    height: ScreenDimensions.screenHeight / 2.4,
+    width: ScreenDimensions.screenWidth - 30,
+    height: ScreenDimensions.screenHeight / 2.7,
     alignSelf: 'center',
     resizeMode: 'stretch',
   },
@@ -51,7 +56,7 @@ export const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: fontsfamily.regular,
     textAlign: 'center',
-    marginHorizontal: 51,
+    marginHorizontal: 45,
     marginTop: 10,
   },
 });

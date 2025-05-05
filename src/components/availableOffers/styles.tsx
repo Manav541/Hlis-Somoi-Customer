@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     fontFamily : fontsfamily.extrabold,
   },
   lblOfferDesc :{
-    color : colors.gray62,
+    color : colors.grey62,
     fontSize : fontSize.size16,
     fontFamily : fontsfamily.semibold,
   },

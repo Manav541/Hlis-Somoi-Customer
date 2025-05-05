@@ -31,6 +31,7 @@ const EditProfileContainer = ({ navigation }: any) => {
       setNameFocused(false);
     }
   };
+  
 
   const handleOnPressUpadte = () => {
     if (name.trim() == "") {

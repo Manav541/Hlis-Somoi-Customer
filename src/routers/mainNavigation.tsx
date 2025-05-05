@@ -13,7 +13,8 @@ const MainNavigation = () => {
   const handleStackScreens = (
     screenName: string,
     component: React.ComponentType,
-    headerShown: boolean
+    headerShown: boolean,
+    gestureEnabled?: boolean
   ) => {
     return (
       <Stack.Screen
@@ -29,6 +30,7 @@ const MainNavigation = () => {
             color: colors.blue4e,
           },
           headerShadowVisible: false,
+          gestureEnabled: gestureEnabled,
         }}
       />
     );
@@ -41,8 +43,33 @@ const MainNavigation = () => {
         backgroundColor={"transparent"}
         barStyle={"dark-content"}
       />
-      <Stack.Navigator>
-        {/* {handleStackScreens('Onboarding', MyScreens.OnboardingContainer, false)} */}
+      <Stack.Navigator
+        screenOptions={{ animation: "slide_from_right" }}
+        initialRouteName="Setting"
+      >
+        {/* Auth */}
+        {handleStackScreens("Onboarding", MyScreens.OnboardingContainer, false)}
+        {handleStackScreens("Sign Up", MyScreens.SignupContainer, true)}
+        {handleStackScreens("Sign In", MyScreens.SignInContainer, true)}
+        {handleStackScreens(
+          "Verification",
+          MyScreens.VerificationContainer,
+          true
+        )}
+        {handleStackScreens(
+          "Forgot Password",
+          MyScreens.ForgotPasswordContainer,
+          true
+        )}
+        {handleStackScreens(
+          "Change Password",
+          MyScreens.ChangePasswordContainer,
+          true,
+          false
+        )}
+        {handleStackScreens("Add Address", MyScreens.AddAddressContainer, true)}
+
+        {/* Setting */}
         {handleStackScreens("Setting", MyScreens.SettingContainer, true)}
         {handleStackScreens(
           "Edit Profile",
@@ -59,14 +86,20 @@ const MainNavigation = () => {
           MyScreens.AvailableOffersContainer,
           true
         )}
-        {handleStackScreens(
-          "Contact Us",
-          MyScreens.ContactUsContainer,
-          true
-        )}
+        {handleStackScreens("Contact Us", MyScreens.ContactUsContainer, true)}
         {handleStackScreens(
           "Manage Address",
           MyScreens.ManageAddressesContainer,
+          true
+        )}
+        {handleStackScreens(
+          "My Wishlist",
+          MyScreens.MyWishlistContainer,
+          true
+        )}
+        {handleStackScreens(
+          "ChangeEmailPhoneNumberContainer",
+          MyScreens.ChangeEmailPhoneNumberContainer,
           true
         )}
       </Stack.Navigator>

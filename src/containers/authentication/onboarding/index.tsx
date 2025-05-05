@@ -1,15 +1,15 @@
 import React, {useRef, useState} from 'react';
+import OnboardingComponent from '../../../components/authentication/onboarding';
+import {images} from '../../../constants/Images';
+import {getTranslation} from '../../../localization/i18n/i18n.config';
+import {ScreenDimensions} from '../../../constants/utils/Dimensions';
 import {
   FlatList,
   ImageSourcePropType,
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
-import { images } from '../../constants/Images';
-import { getTranslation } from '../../localization/i18n/i18n.config';
-import { ScreenDimensions } from '../../constants/utils/Dimensions';
-import { AsyncManager } from '../../constants/utils/AsyncManager';
-import OnboardingComponent from '../../components/onboarding';
+import {AsyncManager} from '../../../constants/utils/AsyncManager';
 
 interface OnboardingItem {
   image: ImageSourcePropType;
@@ -50,8 +50,7 @@ const OnboardingContainer = ({navigation}: any) => {
 
   const handleOnPressGetStarted = () => {
     AsyncManager.setData(AsyncManager.Keys.isOnBoardingVisisted, 'true');
-    // navigation.replace('Sign Up');
-    navigation.replace('Setting');
+    navigation.replace('Sign Up');
   };
 
   //handleOnPressGo

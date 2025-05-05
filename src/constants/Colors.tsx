@@ -7,6 +7,12 @@ export const colors = {
   greya7: "#A7A7A7",
   whiteff: "#EEF0FF",
   black35: "#353535",
-  gray62: "#626262",
-  
+  grey62: "#626262",
+  greye8: "#E8E8E8",
+  greyff: "#EEF0FF",
+  greyd9_50: "#D9D9D950",
+  black12: "#0A0912",
+  red2e: "#F3592E",
+  green4f: "#05944F",
+  black13: "#151413",
 };

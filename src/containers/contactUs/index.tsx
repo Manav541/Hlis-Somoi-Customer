@@ -125,7 +125,8 @@ const ContactUsContainer = ({navigation} : any) => {
       handleOnSubmit={handleOnSubmit}
       handleOnPressSubmit={handleOnPressSubmit}
       handleOnFocus={handleOnFocus}
-      handleOnBlur={handleOnBlur}/>
+      handleOnBlur={handleOnBlur}
+      />
   )
 }
 

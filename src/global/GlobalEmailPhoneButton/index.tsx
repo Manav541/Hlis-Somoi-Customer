@@ -25,7 +25,7 @@ const GlobalEmailPhoneButton = (props: PropsType) => {
               : 'transparent',
             borderBottomWidth: props.isSelected ? 1 : 0,
           },
-        ]}>
+        ]} onPress={props?.onPressEmail}>
         <Text
           style={[
             styles.lbl,
@@ -51,7 +51,7 @@ const GlobalEmailPhoneButton = (props: PropsType) => {
           style={[
             styles.lbl,
             {color: !props.isSelected ? colors.orange1c : colors.greya7},
-          ]}>
+          ]} onPress={props?.onPressPhone}>
           {getTranslation('phone')}
         </Text>
       </TouchableOpacity>

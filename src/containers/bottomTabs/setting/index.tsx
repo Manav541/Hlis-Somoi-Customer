@@ -43,21 +43,30 @@ const SettingContainer = ({ navigation }: any) => {
           title: getTranslation("changePassword"),
           height: 22,
           width: 22,
-          onPress: () => navigation.navigate("EditProfileContainer"),
+          onPress: () =>
+            navigation.navigate("Change Password", {
+              navigateFromForgotPassword: false,
+            }),
         },
         {
           icon: images.changeEmailIcon,
           title: getTranslation("changeEmail"),
           height: 22,
           width: 22,
-          onPress: () => navigation.navigate("EditProfileContainer"),
+          onPress: () =>
+            navigation.navigate("ChangeEmailPhoneNumberContainer", {
+              navigateFrom: "ChangeEmail",
+            }),
         },
         {
           icon: images.changePhoneIcon,
           title: getTranslation("changePhoneNumber"),
           height: 22,
           width: 22,
-          onPress: () => navigation.navigate("EditProfileContainer"),
+          onPress: () =>
+            navigation.navigate("ChangeEmailPhoneNumberContainer", {
+              navigateFrom: "ChangePhoneNumber",
+            }),
         },
         {
           icon: images.managePaymentIcon,
@@ -71,7 +80,7 @@ const SettingContainer = ({ navigation }: any) => {
           title: getTranslation("myWishlist"),
           height: 22,
           width: 22,
-          onPress: () => navigation.navigate("EditProfileContainer"),
+          onPress: () => navigation.navigate("My Wishlist"),
         },
         {
           icon: images.manageAddressIcon,

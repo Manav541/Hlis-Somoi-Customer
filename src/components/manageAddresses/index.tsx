@@ -9,6 +9,7 @@ interface PropsType {
   arrManageAddress: any[];
   handleDelete: (index: number) => void;
   handleSetDefault: (index: number) => void;
+  handleOnPressAddAddress: () => void;
 }
 
 const ManageAddressesComponent = (props: PropsType) => {
@@ -42,17 +43,10 @@ const ManageAddressesComponent = (props: PropsType) => {
           </View>
 
           {/* Separator */}
-          <View
-            style={{
-              height: 17,
-              width: 2,
-              backgroundColor: "#D9D9D9",
-              alignSelf: "center",
-            }}
-          />
+          <View style={styles.vwLine} />
 
           {/* Edit/Delete Buttons */}
-          <View style={{ flexDirection: "row",gap : 15 }}>
+          <View style={{ flexDirection: "row", gap: 15 }}>
             <TouchableOpacity activeOpacity={activityOpacity}>
               <Image style={styles.imgEditDelete} source={images.edit} />
             </TouchableOpacity>
@@ -78,6 +72,7 @@ const ManageAddressesComponent = (props: PropsType) => {
         style={styles.btnAddAddress}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
+        onPress={props?.handleOnPressAddAddress}
       >
         <Image style={styles.imgAddAddress} source={images.add} />
         <Text style={styles.lblAddNewAddress}>
@@ -89,8 +84,9 @@ const ManageAddressesComponent = (props: PropsType) => {
         data={props.arrManageAddress}
         renderItem={renderManageAddress}
         keyExtractor={(_, index) => index.toString()}
-        contentContainerStyle={{ paddingTop: 15 }}
+        contentContainerStyle={{ paddingTop: 20, gap: 15 }}
         showsVerticalScrollIndicator={false}
+        bounces={false}
       />
     </View>
   );
