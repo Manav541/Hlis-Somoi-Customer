@@ -27,10 +27,12 @@ export const ImagePickerManager = {
           videoQuality: 'high',
           quality: 1,
           selectionLimit: mediaType == 'mixed' ? 10 : 1,
+          maxHeight: 500,
+          maxWidth: 500,
         };
 
         launchOption(mediaOptions, mediaRes => {
-          console.log('Response=>', mediaRes);
+          // console.log('Response=>', mediaRes);
           if (mediaRes?.didCancel != true) {
             const maxFileSize = 1000000; // 1MB in bytes
             const maxVideoSize = 20; // 20 seconds
@@ -96,52 +98,14 @@ export const ImagePickerManager = {
             {
               text: 'CAMERA',
               onPress: () => {
-                if (mediaType === 'mixed') {
-                  Alert.alert('Select Media', '', [
-                    {
-                      text: 'CANCEL',
-                      style: 'destructive',
-                      onPress: () => reject('User cancelled picker'),
-                    },
-                    {
-                      text: 'TAKE VIDEO',
-                      onPress: () => {
-                        try {
-                          const result = ImagePickerManager.selectPicker(
-                            ImagePickerSelectionOptions.CAMERA,
-                            'video',
-                          );
-                          resolve(result);
-                        } catch (error) {
-                          reject(error);
-                        }
-                      },
-                    },
-                    {
-                      text: 'TAKE IMAGE',
-                      onPress: () => {
-                        try {
-                          const result = ImagePickerManager.selectPicker(
-                            ImagePickerSelectionOptions.CAMERA,
-                            'photo',
-                          );
-                          resolve(result);
-                        } catch (error) {
-                          reject(error);
-                        }
-                      },
-                    },
-                  ]);
-                } else {
-                  try {
-                    const result = ImagePickerManager.selectPicker(
-                      ImagePickerSelectionOptions.CAMERA,
-                      mediaType,
-                    );
-                    resolve(result);
-                  } catch (error) {
-                    reject(error);
-                  }
+                try {
+                  const result = ImagePickerManager.selectPicker(
+                    ImagePickerSelectionOptions.CAMERA,
+                    mediaType,
+                  );
+                  resolve(result);
+                } catch (error) {
+                  reject(error);
                 }
               },
             },
@@ -164,52 +128,14 @@ export const ImagePickerManager = {
             {
               text: 'CAMERA',
               onPress: () => {
-                if (mediaType === 'mixed') {
-                  Alert.alert('Select Media', '', [
-                    {
-                      text: 'TAKE IMAGE',
-                      onPress: () => {
-                        try {
-                          const result = ImagePickerManager.selectPicker(
-                            ImagePickerSelectionOptions.CAMERA,
-                            'photo',
-                          );
-                          resolve(result);
-                        } catch (error) {
-                          reject(error);
-                        }
-                      },
-                    },
-                    {
-                      text: 'TAKE VIDEO',
-                      onPress: () => {
-                        try {
-                          const result = ImagePickerManager.selectPicker(
-                            ImagePickerSelectionOptions.CAMERA,
-                            'video',
-                          );
-                          resolve(result);
-                        } catch (error) {
-                          reject(error);
-                        }
-                      },
-                    },
-                    {
-                      text: 'CANCEL',
-                      style: 'destructive',
-                      onPress: () => reject('User cancelled picker'),
-                    },
-                  ]);
-                } else {
-                  try {
-                    const result = ImagePickerManager.selectPicker(
-                      ImagePickerSelectionOptions.CAMERA,
-                      mediaType,
-                    );
-                    resolve(result);
-                  } catch (error) {
-                    reject(error);
-                  }
+                try {
+                  const result = ImagePickerManager.selectPicker(
+                    ImagePickerSelectionOptions.CAMERA,
+                    mediaType,
+                  );
+                  resolve(result);
+                } catch (error) {
+                  reject(error);
                 }
               },
             },

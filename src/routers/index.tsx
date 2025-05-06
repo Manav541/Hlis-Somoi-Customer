@@ -12,6 +12,7 @@ import CMSPageContainer from '../containers/cmsPages';
 import ContactUsContainer from '../containers/contactUs';
 import EditProfileContainer from '../containers/editProfile';
 import ManageAddressesContainer from '../containers/manageAddresses';
+import ManagePaymentMethodsContainer from '../containers/managePaymentMethods';
 import MyWishlistContainer from '../containers/myWishlist';
 
 export const MyScreens = {
@@ -33,5 +34,6 @@ export const MyScreens = {
   ContactUsContainer,
   ManageAddressesContainer,
   MyWishlistContainer,
-  ChangeEmailPhoneNumberContainer
+  ChangeEmailPhoneNumberContainer,
+  ManagePaymentMethodsContainer
 };

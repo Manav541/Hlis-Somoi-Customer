@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size20,
     fontFamily: fontsfamily.bold,
     alignSelf: "center",
-    marginBottom : 30
+    marginBottom: 30,
   },
 
   //   TextIn
@@ -26,6 +26,18 @@ export const styles = StyleSheet.create({
     height: 50,
     width: 50,
   },
+  imgProfileBigIconUri: {
+    height: 106,
+    width: 106,
+    borderRadius: 106 / 2,
+    overflow: "hidden",
+  },
+  imgCamera: {
+    height: 20.51,
+    width: 20.51,
+    position: "absolute",
+  },
+
   //   TouchableOpacity styles
   btnProfileImage: {
     height: 110,
@@ -33,7 +45,6 @@ export const styles = StyleSheet.create({
     borderRadius: 110 / 2,
     backgroundColor: colors.orange1c,
     borderColor: colors.white,
-    borderWidth: 1.51,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",

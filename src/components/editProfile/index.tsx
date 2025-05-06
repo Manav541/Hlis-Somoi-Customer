@@ -5,8 +5,6 @@ import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { activityOpacity } from "../../constants/GConstant";
 import { colors } from "../../constants/Colors";
-import { fontsfamily } from "../../constants/FontFamily";
-import { fontSize } from "../../constants/FontSizes";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import GlobalButton from "../../global/GlobalButton";
 import GlobalTextInput from "../../global/GlobalTextInput";
@@ -19,6 +17,8 @@ interface PropsType {
   handleOnFocus: (type: string) => void;
   handleOnBlur: (type: string) => void;
   nameFocused: boolean;
+  profileImage: any;
+  handleOnPressProfileImage: () => void;
 }
 
 const EditProfileComponent = (props: PropsType) => {
@@ -33,15 +33,29 @@ const EditProfileComponent = (props: PropsType) => {
         backgroundColor: colors.blue4e,
       }}
     >
-      <View style={{flex:1}}>
+      <View style={{ flex: 1 }}>
         <TouchableOpacity
-          style={styles.btnProfileImage}
+          style={{
+            ...styles.btnProfileImage,
+            borderWidth: props?.profileImage ? 4 : 1.51,
+            borderColor:  props?.profileImage ?colors.orange1c: colors.white,
+          }}
           activeOpacity={activityOpacity}
+          onPress={props.handleOnPressProfileImage}
         >
           <Image
-            style={styles.imgProfileBigIcon}
-            source={images.profileBigIcon}
+            style={
+              props?.profileImage
+                ? styles.imgProfileBigIconUri
+                : styles.imgProfileBigIcon
+            }
+            source={
+              props?.profileImage
+                ? { uri: props?.profileImage }
+                : images.profileBigIcon
+            }
           />
+          {props?.profileImage && <Image style={styles.imgCamera} source={images.camera}/>}
         </TouchableOpacity>
         <Text style={styles.lblName}>{getTranslation("johnDoe")}</Text>
         <View>
@@ -60,6 +74,7 @@ const EditProfileComponent = (props: PropsType) => {
               props.handleOnFocus("name");
             }}
             focusValue={props.nameFocused}
+            onSubmitEditing={() => {}}
           />
         </View>
       </View>

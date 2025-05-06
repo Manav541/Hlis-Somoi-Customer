@@ -21,9 +21,12 @@ interface PropsType {
   countryCode?: string;
   isEmailField?: boolean;
   isPhoneField?: boolean;
+  isNumberInputField?: boolean;
   isPasswordField?: boolean;
   isLastField?: boolean;
   isDescriptionField?: boolean;
+  onPressCode?: () => void;
+  maxLength?: number;
 }
 
 const GlobalTextInput = (props: PropsType) => {
@@ -39,8 +42,11 @@ const GlobalTextInput = (props: PropsType) => {
       ]}>
       {/* Country Code */}
       {props.isPhoneField && (
-        <TouchableOpacity activeOpacity={activityOpacity}>
-          <Text style={styles.lblCountryCode}>+91</Text>
+        <TouchableOpacity
+          activeOpacity={activityOpacity}
+          hitSlop={hitSlop}
+          onPress={props.onPressCode}>
+          <Text style={styles.lblCountryCode}>{props.countryCode}</Text>
         </TouchableOpacity>
       )}
 
@@ -59,8 +65,9 @@ const GlobalTextInput = (props: PropsType) => {
           onSubmitEditing={props.onSubmitEditing}
           placeholderTextColor={colors.greya7}
           multiline={props.isDescriptionField}
-          returnKeyType={props.isLastField ? 'done' : 'default'}
+          returnKeyType={props.isLastField ? 'done' : 'next'}
           blurOnSubmit={props.isLastField ? true : false}
+          maxLength={props.maxLength}
           autoCorrect={false}
           spellCheck={false}
           autoComplete="off"
@@ -68,7 +75,7 @@ const GlobalTextInput = (props: PropsType) => {
           keyboardType={
             props.isEmailField
               ? 'email-address'
-              : props.isPhoneField
+              : props.isPhoneField || props.isNumberInputField
               ? 'number-pad'
               : 'default'
           }

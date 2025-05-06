@@ -1,9 +1,10 @@
-import {Alert} from 'react-native';
+import {Alert, Platform} from 'react-native';
 import {colors} from './Colors';
 import {PlatformVersion} from './utils/Platform';
 import {fontsfamily} from './FontFamily';
 import {fontSize} from './FontSizes';
 import {showMessage} from 'react-native-flash-message';
+import { checkMultiple, openSettings, PERMISSIONS, requestMultiple, RESULTS } from 'react-native-permissions';
 
 export const appName = 'Somoi';
 
@@ -91,4 +92,74 @@ export const toggleLoader = (showLoader: boolean) => {
   if (loaderRef) {
     loaderRef.toggleLoader(showLoader);
   }
+};
+
+// Camera-Gallery Permissions
+export const messages = {
+  cameraPermission: `Allow ${appName} to use your camera for your profile picture and documents?`,
+  galleryPermission: `Allow ${appName} to use your gallery for your profile picture and documents?`,
+  documentPermission: `Allow ${appName} to use your documents?`,
+};
+export const cameraPermission = Platform.select({
+  ios: PERMISSIONS.IOS.CAMERA,
+  android: PERMISSIONS.ANDROID.CAMERA,
+});
+export const galleryPermission = Platform.select({
+  ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
+  android:
+    Number(Platform.Version) > 32
+      ? PERMISSIONS.ANDROID.READ_MEDIA_IMAGES
+      : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+});
+export const checkPermission = (permission: any, message: string) => {
+  return new Promise(callback => {
+    checkMultiple([permission]).then(status => {
+      if (
+        status[permission] === RESULTS.DENIED ||
+        status[permission] === RESULTS.UNAVAILABLE
+      ) {
+        requestMultiple([permission]).then(status => {
+          const data: any = Object.values(status);
+          callback(data[0] === 'granted');
+
+          if (data[0] === 'blocked' && Platform.OS === 'android') {
+            Alert.alert(
+              appName,
+              message,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => __DEV__ && console.log('Cancel Pressed'),
+                },
+                {
+                  text: 'Settings',
+                  onPress: () => openSettings(),
+                },
+              ],
+              {cancelable: false},
+            );
+          }
+        });
+      } else if (status[permission] === RESULTS.BLOCKED) {
+        Alert.alert(
+          appName,
+          message,
+          [
+            {
+              text: 'Cancel',
+              onPress: () => __DEV__ && console.log('Cancel Pressed'),
+            },
+            {
+              text: 'Settings',
+              onPress: () => openSettings(),
+            },
+          ],
+          {cancelable: false},
+        );
+        callback(false);
+      } else {
+        callback(true);
+      }
+    });
+  });
 };

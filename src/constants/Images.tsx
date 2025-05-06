@@ -34,7 +34,7 @@ export const images = {
 
   // Edit Profile
   profileBigIcon: require("../assets/images/profileBigIcon.png"),
-
+  camera : require("../assets/images/camera.png"),
   downOrangeArrow: require("../assets/images/downOrangeArrow.png"),
 
   // Manage Address
@@ -52,4 +52,9 @@ export const images = {
   atta : require("../assets/images/atta.png"),
   star : require("../assets/images/star.png"),
   search : require("../assets/images/search.png"),
+
+  // Manage Payment 
+  visaIcon : require("../assets/images/visaIcon.png"),
+  mastercardIcon : require("../assets/images/mastercardIcon.png"),
+  deleteWhiteBg : require("../assets/images/deleteWhiteBg.png"),
 };

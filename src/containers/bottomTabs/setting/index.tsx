@@ -73,7 +73,7 @@ const SettingContainer = ({ navigation }: any) => {
           title: getTranslation("managePaymentMethods"),
           height: 22,
           width: 22,
-          onPress: () => navigation.navigate("EditProfileContainer"),
+          onPress: () => navigation.navigate("Manage Payment Methods"),
         },
         {
           icon: images.myWishlistIcon,

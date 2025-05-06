@@ -36,6 +36,7 @@ const MyWishlistComponent = (props: PropsType) => {
           },
         ]}
       >
+        {/* Product Image and Favourite button */}
         <View style={styles.vwProductImgLike}>
           <Image
             source={item?.product_img}
@@ -52,14 +53,20 @@ const MyWishlistComponent = (props: PropsType) => {
             <Image style={styles.imgRedHeart} source={images.redHeart} />
           </TouchableOpacity>
         </View>
+
+        {/* Product Details */}
         <View style={styles.vwProductDetails}>
-          <View style={{flex : 0}}>
+          <View style={{height : 59}}>
+          <View style={{ height : 44}}>
             <Text style={styles.lblProductName} numberOfLines={2}>
               {item?.product_name}
             </Text>
           </View>
-          <View>
-          <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
+          <View style={{height : 15}}>
+            <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
+          </View>
+          </View>
+
           <View style={styles.vwPriceRating}>
             <View style={styles.vwPrice}>
               <Text style={styles.lblProductFinalPrice}>
@@ -74,12 +81,11 @@ const MyWishlistComponent = (props: PropsType) => {
               </Text>
             </View>
           </View>
-          </View>
         </View>
+        {/* Add to cart */}
         <TouchableOpacity
           style={styles.btnAddToCart}
           activeOpacity={activityOpacity}
-          
         >
           <Text style={styles.lblAddToCart}>{getTranslation("addToCart")}</Text>
         </TouchableOpacity>

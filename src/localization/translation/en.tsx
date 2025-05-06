@@ -150,5 +150,8 @@ export default {
   addAddressHeading:
     "Please fill in the details below to add a new address for your orders.",
     HousenoBuildingsreetarea:'House no/ Building/sreet/area',
-    additionalDescription:'Additional Description'
+    additionalDescription:'Additional Description',
+
+    // Manage Payment Methods
+    addNewCard: 'Add New Card',
 };

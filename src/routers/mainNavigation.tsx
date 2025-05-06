@@ -102,6 +102,11 @@ const MainNavigation = () => {
           MyScreens.ChangeEmailPhoneNumberContainer,
           true
         )}
+        {handleStackScreens(
+          "Manage Payment Methods",
+          MyScreens.ManagePaymentMethodsContainer,
+          true
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

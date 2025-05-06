@@ -36,28 +36,25 @@ export const styles = StyleSheet.create({
   },
   vwProductDetails: {
     flex: 1,
-    paddingHorizontal: 7,
-    paddingTop: 6,
-    paddingBottom: 7,
-    flexDirection: 'column',
-  justifyContent: 'space-between',
+    marginHorizontal: 7,
+    marginTop: 6,
+    marginBottom: 7,
   },
   vwPriceRating:{
     height : 17,
     flexDirection : 'row',
-    alignItems : 'center',
     justifyContent : 'space-between',
-    marginTop : 7
+    marginTop : 7,
   },
   vwPrice : {
     flexDirection : 'row',
     alignItems : 'center',
-    gap : 6
+    gap : 6,
   },
   vwRating : {
     flexDirection : 'row',
-    gap : 4,
-    alignItems : 'center'
+    alignItems : 'center',
+    gap : 4
   },
   vwNoData: {
     flex: 1,
@@ -121,8 +118,7 @@ export const styles = StyleSheet.create({
     color: colors.black35,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
-    lineHeight : 25,
-    flexWrap : 'wrap',
+    lineHeight : 22
   },
   lblProductWeight: {
     color: colors.greya7,

@@ -1,13 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import EditProfileComponent from "../../components/editProfile";
 import GlobalBackButton from "../../global/GlobalBackButton";
-import { flashMessageWarning } from "../../constants/GConstant";
+import {
+  cameraPermission,
+  checkPermission,
+  flashMessageWarning,
+  galleryPermission,
+  messages,
+} from "../../constants/GConstant";
 import { regex } from "../../constants/Regex";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { TextInput } from "react-native";
+import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
+import { Asset } from "react-native-image-picker";
 
 const EditProfileContainer = ({ navigation }: any) => {
-  const [profileImage, setProfileImage] = useState();
+  const [profileImage, setProfileImage] = useState<string>("");
   const [name, setName] = useState("");
   const nameRef = useRef<TextInput>(null);
   const [nameFocused, setNameFocused] = useState(false);
@@ -31,7 +39,37 @@ const EditProfileContainer = ({ navigation }: any) => {
       setNameFocused(false);
     }
   };
-  
+
+  const handleOnPressProfileImage = () => {
+    checkPermission(cameraPermission, messages.cameraPermission).then(
+      (isAllow) => {
+        if (isAllow) {
+          checkPermission(galleryPermission, messages.galleryPermission).then(
+            (isAllow) => {
+              if (isAllow) {
+                ImagePickerManager.choosePickerOptions("photo")
+                  .then((result: unknown) => {
+                    const pickerResponse = result as Asset[];
+                    console.log("Response==>", result);
+                    if (
+                      Array.isArray(pickerResponse) &&
+                      pickerResponse[0]?.uri
+                    ) {
+                      setProfileImage(pickerResponse[0].uri);
+                    } else {
+                      __DEV__ && console.log("No media selected or captured");
+                    }
+                  })
+                  .catch((error: string) => {
+                    __DEV__ && console.log("Error capturing media:", error);
+                  });
+              }
+            }
+          );
+        }
+      }
+    );
+  };
 
   const handleOnPressUpadte = () => {
     if (name.trim() == "") {
@@ -56,8 +94,6 @@ const EditProfileContainer = ({ navigation }: any) => {
     header();
   }, []);
 
- 
-
   return (
     <EditProfileComponent
       name={name}
@@ -67,6 +103,8 @@ const EditProfileContainer = ({ navigation }: any) => {
       handleOnBlur={handleOnBlur}
       nameFocused={nameFocused}
       handleOnPressUpadte={handleOnPressUpadte}
+      profileImage={profileImage}
+      handleOnPressProfileImage={handleOnPressProfileImage}
     />
   );
 };
