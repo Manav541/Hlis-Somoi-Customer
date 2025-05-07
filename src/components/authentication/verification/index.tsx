@@ -1,12 +1,12 @@
-import {View, Text, TouchableOpacity, TextInput} from 'react-native';
-import React, {Ref, RefObject} from 'react';
-import {constnatStyles} from '../../../constants/Styles';
-import GlobalLogoTitle from '../../../global/GlobalLogoTitle';
-import {styles} from './styles';
-import {getTranslation} from '../../../localization/i18n/i18n.config';
-import {colors} from '../../../constants/Colors';
-import GlobalButton from '../../../global/GlobalButton';
-import {activityOpacity} from '../../../constants/GConstant';
+import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import React, { Ref, RefObject } from "react";
+import { constnatStyles } from "../../../constants/Styles";
+import GlobalLogoTitle from "../../../global/GlobalLogoTitle";
+import { styles } from "./styles";
+import { getTranslation } from "../../../localization/i18n/i18n.config";
+import { colors } from "../../../constants/Colors";
+import GlobalButton from "../../../global/GlobalButton";
+import { activityOpacity } from "../../../constants/GConstant";
 
 interface OtpArray {
   value: string;
@@ -23,6 +23,8 @@ interface PropsType {
   resendOtp: boolean;
   onPressResendOtp: () => void;
   handleOnPressContinueUpdateSubmit: () => void;
+  countryCode: string;
+  mobileNumber: string;
 }
 
 const VerificationComponent = (props: PropsType) => {
@@ -30,8 +32,11 @@ const VerificationComponent = (props: PropsType) => {
     <View style={constnatStyles.vwOrangeBgParent}>
       <View style={constnatStyles.vwBlueBgWithRadius}>
         <GlobalLogoTitle style={styles.vwLogoTitle} />
-        <Text style={styles.lblTitle}>{getTranslation('enterYouOTPDesc')}</Text>
-        <Text style={styles.lblTitle}>{props.emailFromRoute}</Text>
+        <Text style={styles.lblTitle}>{getTranslation("enterYouOTPDesc")}</Text>
+        <Text style={styles.lblTitle}>
+          {props?.emailFromRoute
+            ? props.emailFromRoute : props?.countryCode + props?.mobileNumber}
+        </Text>
 
         {/* View OTP Field */}
         <View style={styles.vwOtpMain}>
@@ -48,12 +53,12 @@ const VerificationComponent = (props: PropsType) => {
                   ref={item?.ref}
                   blurOnSubmit={index == props?.otpArray?.length - 1}
                   returnKeyType={
-                    index == props?.otpArray?.length - 1 ? 'default' : 'next'
+                    index == props?.otpArray?.length - 1 ? "default" : "next"
                   }
-                  onChangeText={text => {
+                  onChangeText={(text) => {
                     props.handleOnChangeText(text, index);
                   }}
-                  onKeyPress={nativeEvent => {
+                  onKeyPress={(nativeEvent) => {
                     props.handleOnKeyPress(nativeEvent, item, index);
                   }}
                   onSubmitEditing={() => {
@@ -69,22 +74,23 @@ const VerificationComponent = (props: PropsType) => {
         <GlobalButton
           isOrange
           onPress={props.handleOnPressContinueUpdateSubmit}
-          title={getTranslation('continue')}
+          title={getTranslation("continue")}
         />
 
         {/* Button Resend OTP */}
         <TouchableOpacity
-          style={{alignSelf: 'center', marginTop: 20}}
+          style={{ alignSelf: "center", marginTop: 20 }}
           activeOpacity={activityOpacity}
           disabled={props.resendOtp}
-          onPress={props.onPressResendOtp}>
+          onPress={props.onPressResendOtp}
+        >
           {!props.resendOtp ? (
-            <Text style={styles.lblTitle}>{getTranslation('resendOTP')}</Text>
+            <Text style={styles.lblTitle}>{getTranslation("resendOTP")}</Text>
           ) : (
             <Text style={styles.lblResendTitle}>
-              {getTranslation('resendIn')}{' '}
-              <Text style={[styles.lblResendTitle, {color: colors.white}]}>
-                {props.otp} {getTranslation('seconds')}
+              {getTranslation("resendIn")}{" "}
+              <Text style={[styles.lblResendTitle, { color: colors.white }]}>
+                {props.otp} {getTranslation("seconds")}
               </Text>
             </Text>
           )}

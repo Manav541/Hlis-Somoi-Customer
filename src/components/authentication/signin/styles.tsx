@@ -10,8 +10,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 11,
-    marginTop: 20,
-    marginBottom : 10
+    marginBottom : 20
   },
   lblForgot: {
     color: colors.orange1c,

@@ -96,6 +96,11 @@ export const styles = StyleSheet.create({
     height: 24,
     width: 24,
   },
+  imgPrfileImage: {
+    height: 58,
+    width: 58,
+    borderRadius: 58 / 2,
+  },
   imgModalLogo: {
     height: 151,
     width: 143,

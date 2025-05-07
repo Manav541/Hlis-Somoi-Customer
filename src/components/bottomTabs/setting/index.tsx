@@ -20,6 +20,8 @@ interface PropsType {
   selectedType: string;
   handleOnPressYesDelete: () => void;
   handleOnPressNoThanks: () => void;
+  profileImage: any;
+  name: string;
 }
 
 const SettingComponent = (props: PropsType) => {
@@ -74,12 +76,12 @@ const SettingComponent = (props: PropsType) => {
             <View style={styles.vwProfileImage}>
               <Image
                 style={styles.imgProfileIcon}
-                source={images.profileIcon}
+                source={props?.profileImage}
               />
             </View>
             <View style={styles.vwHelloName}>
               <Text style={styles.lblHello}>{getTranslation("hello")}</Text>
-              <Text style={styles.lblName}>{getTranslation("johnDoe")}</Text>
+              <Text style={styles.lblName}>{props?.name}</Text>
             </View>
           </View>
 

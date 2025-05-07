@@ -10,14 +10,18 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../../constants/utils/Platform";
 import { constnatStyles } from "../../../constants/Styles";
 import GlobalEmailPhoneButton from "../../../global/GlobalEmailPhoneButton";
+import GlobalCountryModal from "../../../global/GlobalCountryModal";
+import { CountryDataType } from "../../../constants/utils/interfaces";
 
 interface PropsType {
   name: string;
   email: string;
   password: string;
+  mobileNumber: string;
   nameRef: Ref<TextInput>;
   emailRef: Ref<TextInput>;
   passwordRef: Ref<TextInput>;
+  mobileNumberRef: Ref<TextInput>;
   handleOnChangeText: (text: string, type: string) => void;
   handleOnSubmit: (type: string) => void;
   showPassword: boolean;
@@ -29,10 +33,20 @@ interface PropsType {
   nameFocused: boolean;
   emailFocused: boolean;
   passwordFocused: boolean;
+  mobileNumberFocused: boolean;
 
   isEmailSelected: boolean;
   onPressEmail: () => void;
   onPressPhone: () => void;
+
+  countryCode: string;
+  countryArray: CountryDataType[];
+  countryModal: boolean;
+  searchCountry: string;
+  handleOnPressCountryCode: () => void;
+  handleOnChangeSearchCountry: (text: string) => void;
+  handleOnSelectCountry: (item: CountryDataType) => void;
+  handleOnPressBackCountryModal: () => void;
 }
 
 const SignupComponent = (props: PropsType) => {
@@ -101,6 +115,28 @@ const SignupComponent = (props: PropsType) => {
                   focusValue={props.emailFocused}
                 />
                 <GlobalTextInput
+                  isPhoneField
+                  maxLength={10}
+                  placeholder={getTranslation("mobileNumber")}
+                  value={props.mobileNumber}
+                  reference={props.mobileNumberRef}
+                  onChangeText={(text) => {
+                    props.handleOnChangeText(text, "mobileNumber");
+                  }}
+                  onSubmitEditing={() => {
+                    props.handleOnSubmit("mobileNumber");
+                  }}
+                  onFocus={() => {
+                    props.handleOnFocus("mobileNumber");
+                  }}
+                  onBlur={() => {
+                    props.handleOnBlur("mobileNumber");
+                  }}
+                  focusValue={props.mobileNumberFocused}
+                  countryCode={props.countryCode}
+                  onPressCode={props.handleOnPressCountryCode}
+                />
+                <GlobalTextInput
                   placeholder={getTranslation("password")}
                   isPasswordField
                   value={props.password}
@@ -124,7 +160,31 @@ const SignupComponent = (props: PropsType) => {
                 />
               </View>
             ) : (
-              <Text>Hello</Text>
+              <View>
+                <GlobalTextInput
+                  isPhoneField
+                  isLastField
+                  maxLength={10}
+                  placeholder={getTranslation("mobileNumber")}
+                  value={props.mobileNumber}
+                  reference={props.mobileNumberRef}
+                  onChangeText={(text) => {
+                    props.handleOnChangeText(text, "mobileNumber");
+                  }}
+                  onSubmitEditing={() => {
+                    props.handleOnSubmit("mobileNumber");
+                  }}
+                  onFocus={() => {
+                    props.handleOnFocus("mobileNumber");
+                  }}
+                  onBlur={() => {
+                    props.handleOnBlur("mobileNumber");
+                  }}
+                  focusValue={props.mobileNumberFocused}
+                  countryCode={props.countryCode}
+                  onPressCode={props.handleOnPressCountryCode}
+                />
+              </View>
             )}
 
             {/* Bottom View */}
@@ -200,6 +260,15 @@ const SignupComponent = (props: PropsType) => {
           </View>
         </KeyboardAwareScrollView>
       </View>
+      {/* Country Modal */}
+      <GlobalCountryModal
+        countryArray={props.countryArray}
+        onPressBack={props.handleOnPressBackCountryModal}
+        onPressData={props.handleOnSelectCountry}
+        onChangeText={props.handleOnChangeSearchCountry}
+        searchVal={props.searchCountry}
+        visible={props.countryModal}
+      />
     </View>
   );
 };

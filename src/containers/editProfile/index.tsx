@@ -4,6 +4,7 @@ import GlobalBackButton from "../../global/GlobalBackButton";
 import {
   cameraPermission,
   checkPermission,
+  flashMessageSucess,
   flashMessageWarning,
   galleryPermission,
   messages,
@@ -75,6 +76,9 @@ const EditProfileContainer = ({ navigation }: any) => {
     if (name.trim() == "") {
       flashMessageWarning(getTranslation("emptyName"));
     } else {
+      navigation.setParams({ profileImage, name });
+      navigation.goBack();
+      flashMessageSucess(getTranslation("profileUpdatedSucess"));
     }
   };
 

@@ -40,12 +40,8 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
     }
   };
 
-
-
   const handleOnSubmit = () => {
-   
-      confirmPasswordRef?.current?.focus();
-    
+    confirmPasswordRef?.current?.focus();
   };
 
   const handleOnFocus = (type: string) => {
@@ -59,9 +55,9 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
   };
 
   const handleOnBlur = (type: string) => {
-    if (type === 'oldPassword') {
+    if (type === "oldPassword") {
       setOldPasswordFocused(false);
-    } else if (type === 'newPassword') {
+    } else if (type === "newPassword") {
       setNewPasswordFocused(false);
     } else {
       setConfirmPasswordFocused(false);
@@ -69,9 +65,9 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
   };
 
   const handleOnPressEye = (type: string) => {
-    if (type === 'oldPassword') {
+    if (type === "oldPassword") {
       setShowOldPassword(!showOldPassword);
-    } else if (type === 'newPassword') {
+    } else if (type === "newPassword") {
       setShowNewPassword(!showNewPassword);
     } else {
       setShowConfirmPassword(!showConfirmPassword);
@@ -129,35 +125,9 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
     header();
   }, []);
 
-  useEffect(() => {
-    // iOS swipe-back or back gesture
-    let unsubscribe: (() => void) | undefined;
-
-    if (PlatformVersion.isIOS) {
-      unsubscribe = navigation.addListener("beforeRemove", (e: any) => {
-        console.log("iOS swipe-back or back pressed");
-        handleOnBack();
-      });
-    }
-
-    // Android hardware back button
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      () => {
-        handleOnBack();
-        return true;
-      }
-    );
-
-    return () => {
-      if (unsubscribe) unsubscribe();
-      backHandler.remove();
-    };
-  }, [navigation, route]);
-
   return (
     <ChangePasswordComponent
-    oldPassword={oldPassword}
+      oldPassword={oldPassword}
       newPassword={newPassword}
       confirmPassword={confirmPassword}
       oldPasswordRef={oldPasswordRef}

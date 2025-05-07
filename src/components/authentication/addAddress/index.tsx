@@ -1,5 +1,5 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
+import React, { Ref } from "react";
 import { styles } from "./styles";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
@@ -15,9 +15,9 @@ interface PropsType {
   house: string;
   additionalDescription: string;
 
-  addressRef: any;
-  houseRef: any;
-  additionalDescriptionRef: any;
+  addressRef: Ref<TextInput>;
+  houseRef: Ref<TextInput>;
+  additionalDescriptionRef: Ref<TextInput>;
 
   addressFocused: boolean;
   houseFocused: boolean;
@@ -87,6 +87,7 @@ const AddAddressComponent = (props: PropsType) => {
               }}
               focusValue={props.houseFocused}
             />
+            
             <GlobalTextInput
               placeholder={getTranslation("additionalDescription")}
               isDescriptionField

@@ -11,6 +11,8 @@ import GlobalButton from "../../../global/GlobalButton";
 import { PlatformVersion } from "../../../constants/utils/Platform";
 import { constnatStyles } from "../../../constants/Styles";
 import GlobalEmailPhoneButton from "../../../global/GlobalEmailPhoneButton";
+import { CountryDataType } from "../../../constants/utils/interfaces";
+import GlobalCountryModal from "../../../global/GlobalCountryModal";
 
 interface PropsType {
   email: string;
@@ -31,6 +33,17 @@ interface PropsType {
   isEmailSelected: boolean;
   onPressEmail: () => void;
   onPressPhone: () => void;
+  mobileNumber: string;
+  mobileNumberRef: Ref<TextInput>;
+  mobileNumberFocused: boolean;
+  countryCode: string;
+  countryArray: CountryDataType[];
+  countryModal: boolean;
+  searchCountry: string;
+  handleOnPressCountryCode: () => void;
+  handleOnChangeSearchCountry: (text: string) => void;
+  handleOnSelectCountry: (item: CountryDataType) => void;
+  handleOnPressBackCountryModal: () => void;
 }
 
 const SignInComponent = (props: PropsType) => {
@@ -47,8 +60,8 @@ const SignInComponent = (props: PropsType) => {
           {/* View Logo - Title */}
           <GlobalLogoTitle style={styles.vwLogoTitle} />
 
-           {/* Email Phone */}
-           <View style={{ marginBottom: 30 }}>
+          {/* Email Phone */}
+          <View style={{ marginBottom: 30 }}>
             <GlobalEmailPhoneButton
               isSelected={props?.isEmailSelected}
               onPressEmail={props?.onPressEmail}
@@ -57,69 +70,98 @@ const SignInComponent = (props: PropsType) => {
           </View>
 
           {/* View Input */}
-          {props?.isEmailSelected ? <View style={{ gap: 10 }}>
-            <GlobalTextInput
-              placeholder={getTranslation("email")}
-              isEmailField
-              value={props.email}
-              reference={props.emailRef}
-              onChangeText={(text) => {
-                props.handleOnChangeText(text, "email");
-              }}
-              onSubmitEditing={() => {
-                props.handleOnSubmit("email");
-              }}
-              onBlur={() => {
-                props.handleOnBlur("email");
-              }}
-              onFocus={() => {
-                props.handleOnFocus("email");
-              }}
-              focusValue={props.emailFocused}
-            />
+          {props?.isEmailSelected ? (
+            <View style={{ gap: 10 }}>
+              <GlobalTextInput
+                placeholder={getTranslation("email")}
+                isEmailField
+                value={props.email}
+                reference={props.emailRef}
+                onChangeText={(text) => {
+                  props.handleOnChangeText(text, "email");
+                }}
+                onSubmitEditing={() => {
+                  props.handleOnSubmit("email");
+                }}
+                onBlur={() => {
+                  props.handleOnBlur("email");
+                }}
+                onFocus={() => {
+                  props.handleOnFocus("email");
+                }}
+                focusValue={props.emailFocused}
+              />
 
-            <GlobalTextInput
-              isLastField
-              isPasswordField
-              placeholder={getTranslation("password")}
-              value={props.password}
-              reference={props.passwordRef}
-              secureTextEntry={!props.showPassword}
-              onChangeText={(text) => {
-                props.handleOnChangeText(text, "password");
-              }}
-              onSubmitEditing={() => {
-                props.handleOnSubmit("password");
-              }}
-              onPressEye={props.handleOnPressEye}
-              onBlur={() => {
-                props.handleOnBlur("password");
-              }}
-              onFocus={() => {
-                props.handleOnFocus("password");
-              }}
-              focusValue={props.passwordFocused}
-            />
-          </View> : <View></View> }
-          
+              <GlobalTextInput
+                isLastField
+                isPasswordField
+                placeholder={getTranslation("password")}
+                value={props.password}
+                reference={props.passwordRef}
+                secureTextEntry={!props.showPassword}
+                onChangeText={(text) => {
+                  props.handleOnChangeText(text, "password");
+                }}
+                onSubmitEditing={() => {
+                  props.handleOnSubmit("password");
+                }}
+                onPressEye={props.handleOnPressEye}
+                onBlur={() => {
+                  props.handleOnBlur("password");
+                }}
+                onFocus={() => {
+                  props.handleOnFocus("password");
+                }}
+                focusValue={props.passwordFocused}
+              />
+            </View>
+          ) : (
+            <View>
+              <GlobalTextInput
+                isPhoneField
+                isLastField
+                maxLength={10}
+                placeholder={getTranslation("mobileNumber")}
+                value={props.mobileNumber}
+                reference={props.mobileNumberRef}
+                onChangeText={(text) => {
+                  props.handleOnChangeText(text, "mobileNumber");
+                }}
+                onSubmitEditing={() => {
+                  props.handleOnSubmit("mobileNumber");
+                }}
+                onFocus={() => {
+                  props.handleOnFocus("mobileNumber");
+                }}
+                onBlur={() => {
+                  props.handleOnBlur("mobileNumber");
+                }}
+                focusValue={props.mobileNumberFocused}
+                countryCode={props.countryCode}
+                onPressCode={props.handleOnPressCountryCode}
+              />
+            </View>
+          )}
 
           {/* Forgot Password Button */}
-          <TouchableOpacity
-            style={styles.btnForgot}
-            activeOpacity={activityOpacity}
-            onPress={props.handleOnPressForgotPassword}
-          >
-            <Text style={styles.lblForgot}>
-              {getTranslation("forgotPassword")}?
-            </Text>
-          </TouchableOpacity>
+          {props?.isEmailSelected && (
+            <TouchableOpacity
+              style={styles.btnForgot}
+              activeOpacity={activityOpacity}
+              onPress={props.handleOnPressForgotPassword}
+            >
+              <Text style={styles.lblForgot}>
+                {getTranslation("forgotPassword")}?
+              </Text>
+            </TouchableOpacity>
+          )}
 
           {/* View Bottom */}
           <View
             style={[
               styles.vwBottom,
               {
-                paddingBottom: PlatformVersion.isIOS ? insets.bottom + 10 : 20,
+                marginTop: props?.isEmailSelected ? 20 : 40,
               },
             ]}
           >
@@ -145,6 +187,15 @@ const SignInComponent = (props: PropsType) => {
           />
         </KeyboardAwareScrollView>
       </View>
+      {/* Country Modal */}
+      <GlobalCountryModal
+        countryArray={props.countryArray}
+        onPressBack={props.handleOnPressBackCountryModal}
+        onPressData={props.handleOnSelectCountry}
+        onChangeText={props.handleOnChangeSearchCountry}
+        searchVal={props.searchCountry}
+        visible={props.countryModal}
+      />
     </View>
   );
 };

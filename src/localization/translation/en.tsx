@@ -10,6 +10,8 @@ export default {
   // Validations
   emptyName: "Please enter your name",
   emptyEmail: "Please enter your email",
+  emptyMobileNumber: "Please enter mobile number",
+  invalidMobileNumber: "Please enter valid mobile number",
   invalidEmail: "Please enter a valid email address",
   emptyPassword: "Please enter your password",
   emptySubject: "Please enter your subject",
@@ -20,14 +22,23 @@ export default {
   profileUpdated: "Profile updated successfully",
   logoutSuccess: "Logout successfully",
   addressDeleted: "Address deleted successfully",
-  emptyOtp: 'Please enter OTP',
-  invalidOtp: 'Invalid OTP',
-  emptyOldPassword: 'Please enter old password',
-  emptyNewPassword: 'Please enter new password',
-  emptyConfirmPassword: 'Please enter confirm password',
-  passwordNotMatch: 'New password and confirm password does not match',
-  passwordChangedSucessfully: 'Password Changed Sucessfully',
-  noDataFound: 'No Data Found!',
+  emptyOtp: "Please enter OTP",
+  invalidOtp: "Invalid OTP",
+  emptyOldPassword: "Please enter old password",
+  emptyNewPassword: "Please enter new password",
+  emptyConfirmPassword: "Please enter confirm password",
+  passwordNotMatch: "New password and confirm password does not match",
+  passwordChangedSucessfully: "Password Changed Sucessfully",
+  noDataFound: "No Data Found!",
+  emptyCardNumber: "Please enter card number",
+  emptyCardHolderName: "Please enter card holder name",
+  emptyExpiryDate: "Please enter expiry date",
+  emptyCvv: "Please enetr CVV",
+  successAddNewCard: "New card add successfully",
+  invalidCardNumber: "Please enter valid card number",
+  invalidCvv: "Please enter valid CVV",
+  deleteCardSuccess: "Card deleted successfully",
+  profileUpdatedSucess: "Profile updated successfully",
 
   // Onboarding
   onboardingTitle1: "Fast, Reliable, and Hassle-Free Deliveries",
@@ -49,14 +60,14 @@ export default {
   update: "Update",
   verify: "Verify",
   submit: "Submit",
-  search :'Search',
-  addToCart: 'Add to Cart',
-  addToWishlist: 'Add to Wishlist',
-  viewAll: 'View All',
+  search: "Search",
+  addToCart: "Add to Cart",
+  addToWishlist: "Add to Wishlist",
+  viewAll: "View All",
 
   // Signup-Signin
   email: "Email",
-  emailId : 'Email Id',
+  emailId: "Email Id",
   phone: "Phone",
   phoneNumber: "Phone Number",
   mobileNumber: "Mobile Number",
@@ -71,25 +82,32 @@ export default {
   ContinueAsGuest: "Continue as a Guest",
 
   // Verification
-  enterYouOTPDesc: 'Enter OTP that you received on',
-  resendOTP: 'Resend OTP',
-  resendIn: 'Resend In',
-  seconds: 'Sec',
-  otpVerifiedSucessfully: 'OTP Verified Sucessfully',
-  otpResendSuccessfully: 'OTP Resend Successfully',
+  enterYouOTPDesc: "Enter OTP that you received on",
+  resendOTP: "Resend OTP",
+  resendIn: "Resend In",
+  seconds: "Sec",
+  otpVerifiedSucessfully: "OTP Verified Sucessfully",
+  otpResendSuccessfully: "OTP Resend Successfully",
 
   // Forgot Password
-  enterYourTitle: 'Enter your',
-  toGetTitle: 'to get the',
-  otp: 'OTP',
-  toVerifyChangeTitle: ' to verify & change your password',
-  toVerifyChangeEmailID : 'to verify & change your email id',
-  toVerifyChangePhoneNumber : 'to verify & change your Phone Number',
+  enterYourTitle: "Enter your",
+  toGetTitle: "to get the",
+  otp: "OTP",
+  toVerifyChangeTitle: " to verify & change your password",
+  toVerifyChangeEmailID: "to verify & change your email id",
+  toVerifyChangePhoneNumber: "to verify & change your Phone Number",
 
   // Change Password
-  oldPassword: 'Old Password',
-  newPassword: 'New Password',
-  confirmPassword: 'Confirm Password',
+  oldPassword: "Old Password",
+  newPassword: "New Password",
+  confirmPassword: "Confirm Password",
+
+  // Bottom Tabs
+  home: 'Home',
+  categories: 'Categories',
+  cart: 'Cart',
+  myOrders: 'My Orders',
+  settings: 'Settings',
 
   // Setting
   setting: "Setting",
@@ -146,12 +164,17 @@ export default {
 
   // Add Address
   address: "Address",
-  add : "Add",
+  add: "Add",
   addAddressHeading:
     "Please fill in the details below to add a new address for your orders.",
-    HousenoBuildingsreetarea:'House no/ Building/sreet/area',
-    additionalDescription:'Additional Description',
+  HousenoBuildingsreetarea: "House no/ Building/sreet/area",
+  additionalDescription: "Additional Description",
 
-    // Manage Payment Methods
-    addNewCard: 'Add New Card',
+  // Manage Payment Methods
+  addNewCard: "Add New Card",
+  AddCardHeading: "Add your credit/debit card details",
+  cardNumber: "Card Number",
+  cardHolderName: "Card Holder Name",
+  expiryDate: "Expiry Date",
+  cvv: "CVV",
 };

@@ -12,6 +12,18 @@ export const images = {
   showEye: require("../assets/images/showEye.png"),
   hideEye: require('../assets/images/hideEye.png'),
 
+  // Bottom Tabs
+  homeFocus : require("../assets/images/homeFocus.png"),
+  homeUnFocus : require("../assets/images/homeUnFocus.png"),
+  categoryFocus : require("../assets/images/categoryFocus.png"),
+  categoryUnFocus : require("../assets/images/categoryUnFocus.png"),
+  cartFocus : require("../assets/images/cartFocus.png"),
+  cartUnFocus : require("../assets/images/cartUnFocus.png"),
+  myOrdersFocus : require("../assets/images/myOrdersFocus.png"),
+  myOrdersUnFocus : require("../assets/images/myOrdersUnFocus.png"),
+  settingsFocus : require("../assets/images/settingsFocus.png"),
+  settingsUnFocus : require("../assets/images/settingsUnFocus.png"),
+
   // Setting
   profileIcon: require("../assets/images/profileIcon.png"),
   editProfileIcon: require("../assets/images/editProfileIcon.png"),
@@ -57,4 +69,5 @@ export const images = {
   visaIcon : require("../assets/images/visaIcon.png"),
   mastercardIcon : require("../assets/images/mastercardIcon.png"),
   deleteWhiteBg : require("../assets/images/deleteWhiteBg.png"),
+  calendar : require("../assets/images/calendar.png"),
 };

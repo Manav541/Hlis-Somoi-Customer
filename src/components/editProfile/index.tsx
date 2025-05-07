@@ -57,8 +57,7 @@ const EditProfileComponent = (props: PropsType) => {
           />
           {props?.profileImage && <Image style={styles.imgCamera} source={images.camera}/>}
         </TouchableOpacity>
-        <Text style={styles.lblName}>{getTranslation("johnDoe")}</Text>
-        <View>
+        <View style={{marginTop : 30}}>
           <GlobalTextInput
             placeholder={getTranslation("name")}
             value={props.name}

@@ -9,7 +9,7 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 const AddAddressContainer = ({ navigation, route }: any) => {
   const [address, setAddress] = useState("");
   const [house, setHouse] = useState("");
-  const [additionalDescription, setAdditionalDescription] = React.useState("");
+  const [additionalDescription, setAdditionalDescription] = useState("");
 
   const addressRef = useRef<TextInput>(null);
   const houseRef = useRef<TextInput>(null);

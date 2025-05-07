@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import SettingComponent from "../../../components/bottomTabs/setting";
 import {
@@ -8,11 +8,25 @@ import {
 } from "../../../constants/GConstant";
 import { images } from "../../../constants/Images";
 
-const SettingContainer = ({ navigation }: any) => {
+const SettingContainer = ({ navigation,route }: any) => {
+  console.log("route ==>>> ",route?.params?.name)
+  const [profileImage, setProfileImage] = useState<any>(images.profileIcon);
+  const [name, setName] = useState<string>("Jhon Doe");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedType, setSelectedType] = useState<"delete" | "logout">(
     "logout"
   );
+
+  useEffect(() => {
+    if (route.params?.profileImage && route.params?.name) {
+      setProfileImage(route.params?.profileImage);
+      setName(route.params?.name);
+    } {
+      
+    }
+  }, [route.params]);
+
+
 
   const handleOnPressNoThanks = () => {
     setIsModalVisible(false);
@@ -198,6 +212,8 @@ const SettingContainer = ({ navigation }: any) => {
       selectedType={selectedType}
       handleOnPressYesDelete={handleOnPressYesDelete}
       handleOnPressNoThanks={handleOnPressNoThanks}
+      profileImage={profileImage}
+      name={name}
     />
   );
 };

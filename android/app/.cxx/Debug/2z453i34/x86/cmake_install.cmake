@@ -45,6 +45,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86/rnasyncstorage_autolinked_build/cmake_install.cmake")
+  include("/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86/RNDatePickerSpecs_autolinked_build/cmake_install.cmake")
   include("/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86/rngesturehandler_codegen_autolinked_build/cmake_install.cmake")
   include("/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86/RNImagePickerSpec_autolinked_build/cmake_install.cmake")
   include("/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86/RNLocalizeSpec_autolinked_build/cmake_install.cmake")

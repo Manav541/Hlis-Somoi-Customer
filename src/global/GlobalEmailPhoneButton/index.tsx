@@ -52,7 +52,7 @@ const GlobalEmailPhoneButton = (props: PropsType) => {
             styles.lbl,
             {color: !props.isSelected ? colors.orange1c : colors.greya7},
           ]} onPress={props?.onPressPhone}>
-          {getTranslation('phone')}
+          {getTranslation('phoneNumber')}
         </Text>
       </TouchableOpacity>
     </View>

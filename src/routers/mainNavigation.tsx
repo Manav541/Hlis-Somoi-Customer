@@ -1,6 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { MyScreens } from ".";
+import { MyScreens, ScreeNames } from ".";
 import { StatusBar } from "react-native";
 import { colors } from "../constants/Colors";
 import { fontSize } from "../constants/FontSizes";
@@ -45,7 +45,7 @@ const MainNavigation = () => {
       />
       <Stack.Navigator
         screenOptions={{ animation: "slide_from_right" }}
-        initialRouteName="Setting"
+        initialRouteName={ScreeNames.bottomTabsNavigation}
       >
         {/* Auth */}
         {handleStackScreens("Onboarding", MyScreens.OnboardingContainer, false)}
@@ -69,8 +69,15 @@ const MainNavigation = () => {
         )}
         {handleStackScreens("Add Address", MyScreens.AddAddressContainer, true)}
 
+        {/* Bottom Tabs */}
+        {handleStackScreens(
+          ScreeNames.bottomTabsNavigation,
+          MyScreens.BottomTabsNavigation,
+          false,
+        )}
+
         {/* Setting */}
-        {handleStackScreens("Setting", MyScreens.SettingContainer, true)}
+        {/* {handleStackScreens("Setting", MyScreens.SettingContainer, true)} */}
         {handleStackScreens(
           "Edit Profile",
           MyScreens.EditProfileContainer,
@@ -105,6 +112,11 @@ const MainNavigation = () => {
         {handleStackScreens(
           "Manage Payment Methods",
           MyScreens.ManagePaymentMethodsContainer,
+          true
+        )}
+        {handleStackScreens(
+          "Add New Card",
+          MyScreens.AddNewCardContainer,
           true
         )}
       </Stack.Navigator>

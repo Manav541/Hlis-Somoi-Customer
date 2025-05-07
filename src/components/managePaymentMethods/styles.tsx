@@ -14,7 +14,25 @@ export const styles = StyleSheet.create({
       height : 58,
       borderRadius : 10,
       borderColor : colors.orange1c,
-      borderWidth : 1
+      borderWidth : 1,
+      flexDirection : "row",
+      alignItems : "center",
+      justifyContent : "space-between",
+      paddingHorizontal : 16,
+    },
+    vwCardTypeNumber:{
+      flexDirection : "row",
+      alignItems : "center",
+      gap:11,
+      flex : 1,
+    },
+    vwCardType:{
+      height : 25.29,
+      width : 44,
+      justifyContent:'center',
+      alignItems : 'center',
+      backgroundColor : colors.white,
+      borderRadius : 5
     },
 
      // Text Styles
@@ -22,6 +40,11 @@ export const styles = StyleSheet.create({
     color: colors.blue4e,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.medium,
+  },
+  lblCardNumber:{
+    color: colors.white,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
   },
 
      // TouchableOpacity Styles
@@ -40,6 +63,18 @@ export const styles = StyleSheet.create({
     width: 24,
     height: 24,
     marginRight: 10,
+  },
+  imgCardTypeVisa:{
+    width: 29.39,
+    height: 9.75,
+  },
+  imgCardTypeMaster:{
+    width: 23.59,
+    height: 14.58,
+  },
+  imgDeleteCard:{
+    height : 28,
+    width : 28
   },
 
 })
