@@ -47,6 +47,7 @@ interface PropsType {
   handleOnChangeSearchCountry: (text: string) => void;
   handleOnSelectCountry: (item: CountryDataType) => void;
   handleOnPressBackCountryModal: () => void;
+  handleOnPressGuest: () => void;
 }
 
 const SignupComponent = (props: PropsType) => {
@@ -222,7 +223,7 @@ const SignupComponent = (props: PropsType) => {
               <GlobalButton
                 isWhite={true}
                 title={getTranslation("ContinueAsGuest")}
-                onPress={() => console.log("Continue As Guest")}
+                onPress={props?.handleOnPressGuest}
               />
 
               {/* Terms and condition */}

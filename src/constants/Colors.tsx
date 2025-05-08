@@ -15,4 +15,6 @@ export const colors = {
   red2e: "#F3592E",
   green4f: "#05944F",
   black13: "#151413",
+  greyd9: "#D9D9D9",
+  whiteea :'#EAEAEA'
 };

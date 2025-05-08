@@ -36,10 +36,12 @@ const SettingComponent = (props: PropsType) => {
             <TouchableOpacity
               key={subIndex}
               activeOpacity={activityOpacity}
-              style={{
-                ...styles.btnSubArrayData,
-                borderBottomWidth: subIndex !== item.subArr.length - 1 ? 1 : 0,
-              }}
+              style={[
+                styles.btnSubArrayData,
+                {
+                  borderBottomWidth: subIndex !== item.subArr.length - 1 ? 1 : 0,
+                },
+              ]}
               onPress={subItem?.onPress}
             >
               <View>
@@ -58,16 +60,14 @@ const SettingComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
-      <View
-        style={{
-          ...styles.vwSettingView,
-        }}
-      >
+      <View style={styles.vwSettingView}>
         <ScrollView
+        style={{borderBottomLeftRadius : 10, borderBottomRightRadius : 10}}
           contentContainerStyle={{
             paddingTop: 20,
+            paddingBottom: 27, 
             flexGrow: 1,
-            paddingBottom: 20,
+
           }}
           showsVerticalScrollIndicator={false}
           bounces={false}
@@ -85,7 +85,7 @@ const SettingComponent = (props: PropsType) => {
             </View>
           </View>
 
-          <View>
+          <View style={{}}>
             {props?.arrSettingData.map((item, index) =>
               renderArrSettingData(item, index)
             )}

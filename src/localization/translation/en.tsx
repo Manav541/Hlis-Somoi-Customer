@@ -39,6 +39,9 @@ export default {
   invalidCvv: "Please enter valid CVV",
   deleteCardSuccess: "Card deleted successfully",
   profileUpdatedSucess: "Profile updated successfully",
+  loginSuccessfully: "Login Successfully",
+  signUpSuccess : "Sign Up Successfully",
+  addressAddedSucess: "Address added successfully",
 
   // Onboarding
   onboardingTitle1: "Fast, Reliable, and Hassle-Free Deliveries",
@@ -108,6 +111,15 @@ export default {
   cart: 'Cart',
   myOrders: 'My Orders',
   settings: 'Settings',
+
+  // Home
+  groceries: "Groceries",
+  food: "Food",
+  ahmedabad: "Ahmedabad",
+  shopBySubCategories: "Shop By Sub Categories",
+  seeAll : "See All",
+  bestProducts: "Best Products",
+  bestSellers: "Best Sellers",
 
   // Setting
   setting: "Setting",

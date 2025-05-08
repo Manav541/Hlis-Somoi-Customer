@@ -8,6 +8,7 @@ import {
 import { getTranslation } from "../../localization/i18n/i18n.config";
 
 const ManagePaymentMethodsContainer = ({ navigation, route }: any) => {
+  console.log("route", route.params?.newCardData);
   const [arrCards, setArrCards] = useState<any>([
     {
       card_number: "4567890123456789",

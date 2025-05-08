@@ -36,7 +36,8 @@ export const styles = StyleSheet.create({
   },
   vwSubArrayData: {
     backgroundColor: colors.white,
-    borderRadius: 10,
+    borderRadius: 20,
+    overflow: 'hidden',
   },
   vwDeleteLogoutView: {
     flex: 1,
@@ -114,4 +115,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 17,
     borderBottomColor: colors.graye6,
   },
+
+  
+  
 });

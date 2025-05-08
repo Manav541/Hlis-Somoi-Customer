@@ -9,6 +9,9 @@ import {
   flashMessageWarning,
 } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
+import { MmkvManager } from "../../../constants/utils/MmkvManager";
+import { CommonActions } from "@react-navigation/native";
+import { ScreeNames } from "../../../routers";
 
 interface OtpArray {
   value: string;
@@ -116,12 +119,21 @@ const VerificationContainer = ({ navigation, route }: any) => {
       setOtpArray(clearedOtpArray);
       setFullOtp("");
 
-      flashMessageSucess(getTranslation("otpVerifiedSucessfully"));
+      // flashMessageSucess(getTranslation("otpVerifiedSucessfully"));
+      MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
+      flashMessageSucess(getTranslation("signUpSuccess"));
       navigation.navigate("Add Address", {
         navigateFromManageAddress: false,
       });
-      if (navigateFromSignup) {
-        //
+      if (!navigateFromSignup) {
+        MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
+        flashMessageSucess(getTranslation("loginSuccessfully"));
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{ name: ScreeNames.bottomTabsNavigation }],
+          })
+        );
       } else if (navigateFromForgotPassword) {
         navigation.navigate("Change Password", {
           navigateFromForgotPassword: true,

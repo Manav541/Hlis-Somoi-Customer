@@ -7,9 +7,12 @@ import {
   showAlert,
 } from "../../../constants/GConstant";
 import { images } from "../../../constants/Images";
+import { MmkvManager } from "../../../constants/utils/MmkvManager";
+import { CommonActions } from "@react-navigation/native";
+import { ScreeNames } from "../../../routers";
 
-const SettingContainer = ({ navigation,route }: any) => {
-  console.log("route ==>>> ",route?.params?.name)
+const SettingContainer = ({ navigation, route }: any) => {
+  console.log("route ==>>> ", route?.params?.name);
   const [profileImage, setProfileImage] = useState<any>(images.profileIcon);
   const [name, setName] = useState<string>("Jhon Doe");
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -21,12 +24,10 @@ const SettingContainer = ({ navigation,route }: any) => {
     if (route.params?.profileImage && route.params?.name) {
       setProfileImage(route.params?.profileImage);
       setName(route.params?.name);
-    } {
-      
+    }
+    {
     }
   }, [route.params]);
-
-
 
   const handleOnPressNoThanks = () => {
     setIsModalVisible(false);
@@ -35,9 +36,25 @@ const SettingContainer = ({ navigation,route }: any) => {
   const handleOnPressYesDelete = () => {
     setIsModalVisible(false);
     if (selectedType === "delete") {
+      MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
+      MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       flashMessageSucess(getTranslation("profileDeleted"));
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: ScreeNames.signup }],
+        })
+      );
     } else {
+      MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
+      MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       flashMessageSucess(getTranslation("logoutSuccess"));
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: ScreeNames.signin }],
+        })
+      );
     }
   };
 

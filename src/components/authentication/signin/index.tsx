@@ -44,6 +44,7 @@ interface PropsType {
   handleOnChangeSearchCountry: (text: string) => void;
   handleOnSelectCountry: (item: CountryDataType) => void;
   handleOnPressBackCountryModal: () => void;
+  handleOnPressGuest: () => void;
 }
 
 const SignInComponent = (props: PropsType) => {
@@ -183,7 +184,7 @@ const SignInComponent = (props: PropsType) => {
           <GlobalButton
             isWhite={true}
             title={getTranslation("ContinueAsGuest")}
-            onPress={() => console.log("Continue As Guest")}
+            onPress={props.handleOnPressGuest}
           />
         </KeyboardAwareScrollView>
       </View>

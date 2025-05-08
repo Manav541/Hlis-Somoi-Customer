@@ -10,6 +10,7 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 import {AsyncManager} from '../../../constants/utils/AsyncManager';
+import { MmkvManager } from '../../../constants/utils/MmkvManager';
 
 interface OnboardingItem {
   image: ImageSourcePropType;
@@ -49,7 +50,7 @@ const OnboardingContainer = ({navigation}: any) => {
   };
 
   const handleOnPressGetStarted = () => {
-    AsyncManager.setData(AsyncManager.Keys.isOnBoardingVisisted, 'true');
+    MmkvManager.setData(MmkvManager.Keys.isOnBoardingVisisted, 'true');
     navigation.replace('Sign Up');
   };
 

@@ -1,11 +1,14 @@
 import React, { useRef, useState } from "react";
 import SignupComponent from "../../../components/authentication/signup";
 import { regex } from "../../../constants/Regex";
-import { flashMessageWarning } from "../../../constants/GConstant";
+import { flashMessageSucess, flashMessageWarning } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { CountryData } from "../../../constants/utils/CountryData";
 import { CountryDataType } from "../../../constants/utils/interfaces";
 import { TextInput } from "react-native-gesture-handler";
+import { MmkvManager } from "../../../constants/utils/MmkvManager";
+import { CommonActions } from "@react-navigation/native";
+import { ScreeNames } from "../../../routers";
 
 const SignupContainer = ({ navigation }: any) => {
   const [name, setName] = useState("");
@@ -162,6 +165,16 @@ const SignupContainer = ({ navigation }: any) => {
     navigation.replace("Sign In");
   };
 
+  const handleOnPressGuest =()=>{
+    MmkvManager.setData(MmkvManager.Keys.isGuestUser, 'true');
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{name: ScreeNames.bottomTabsNavigation}],
+        }),
+      );
+  }
+
   return (
     <SignupComponent
       name={name}
@@ -195,6 +208,7 @@ const SignupContainer = ({ navigation }: any) => {
       handleOnChangeSearchCountry={handleOnChangeSearchCountry}
       handleOnSelectCountry={handleOnSelectCountry}
       handleOnPressBackCountryModal={handleOnPressBackCountryModal}
+      handleOnPressGuest={handleOnPressGuest}
     />
   );
 };

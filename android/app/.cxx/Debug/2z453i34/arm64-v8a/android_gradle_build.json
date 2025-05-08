@@ -5,6 +5,9 @@
     "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
     "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-image-picker/android/build/generated/source/codegen/jni/CMakeLists.txt",
     "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-localize/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/MMKV/Core/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/android/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/android/build/generated/source/codegen/jni/CMakeLists.txt",
     "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-permissions/android/build/generated/source/codegen/jni/CMakeLists.txt",
     "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/CMakeLists.txt",
     "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
@@ -32,8 +35,26 @@
       "artifactName": "appmodules",
       "output": "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/Debug/2z453i34/obj/arm64-v8a/libappmodules.so",
       "runtimeFiles": [
+        "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/Debug/2z453i34/obj/arm64-v8a/libreact-native-mmkv.so",
         "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/Debug/2z453i34/obj/arm64-v8a/libreact_codegen_safeareacontext.so",
         "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/Debug/2z453i34/obj/arm64-v8a/libreact_codegen_rnscreens.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/490740573f38e6ed55cd7cd0f0ce2cff/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.arm64-v8a/libfbjni.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab/modules/jsi/libs/android.arm64-v8a/libjsi.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab/modules/reactnative/libs/android.arm64-v8a/libreactnative.so"
+      ]
+    },
+    "core::@1b9a7d546b295b7d0867": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "core",
+      "output": "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/arm64-v8a/RNMmkvSpec_cxxmodule_autolinked_build/core/libcore.a"
+    },
+    "react-native-mmkv::@4ae6a1e65d3e68ba0197": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "react-native-mmkv",
+      "output": "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/Debug/2z453i34/obj/arm64-v8a/libreact-native-mmkv.so",
+      "runtimeFiles": [
         "/Users/hyperlink/.gradle/caches/8.13/transforms/490740573f38e6ed55cd7cd0f0ce2cff/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.arm64-v8a/libfbjni.so",
         "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab/modules/jsi/libs/android.arm64-v8a/libjsi.so",
         "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab/modules/reactnative/libs/android.arm64-v8a/libreactnative.so"
@@ -53,6 +74,11 @@
       "toolchain": "toolchain",
       "abi": "arm64-v8a",
       "artifactName": "react_codegen_RNLocalizeSpec"
+    },
+    "react_codegen_RNMmkvSpec::@7541eabbae598da31a69": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "react_codegen_RNMmkvSpec"
     },
     "react_codegen_RNPermissionsSpec::@7ad697819b753921c957": {
       "toolchain": "toolchain",

@@ -22,6 +22,14 @@ import MyWishlistContainer from '../containers/myWishlist';
 import BottomTabsNavigation from './bottomTabsNavigation';
 
 export const ScreeNames = {
+  // Authentication
+  onboarding: 'Onboarding',
+  signup: 'Sign Up',
+  signin: 'Sign In',
+  verification: 'Verification',
+  forgotPassword: 'Forgot Password',
+  changePassword: 'Change Password',
+  addAddress: 'Add Address',
  
 
   // Bottom Tabs

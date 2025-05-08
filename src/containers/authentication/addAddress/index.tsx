@@ -3,8 +3,15 @@ import React, { useEffect, useRef, useState } from "react";
 import GlobalBackButton from "../../../global/GlobalBackButton";
 import AddAddressComponent from "../../../components/authentication/addAddress";
 import { regex } from "../../../constants/Regex";
-import { flashMessageWarning, showConfirmAlert } from "../../../constants/GConstant";
+import {
+  flashMessageSucess,
+  flashMessageWarning,
+  showConfirmAlert,
+} from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
+import { MmkvManager } from "../../../constants/utils/MmkvManager";
+import { CommonActions } from "@react-navigation/native";
+import { ScreeNames } from "../../../routers";
 
 const AddAddressContainer = ({ navigation, route }: any) => {
   const [address, setAddress] = useState("");
@@ -20,8 +27,9 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const [additionalDescriptionFocused, setAdditionalDescriptionFocused] =
     useState(false);
 
-    const [isDefault, setIsDefault] = useState(false);
-    const isNavigateFromManageAddress = route?.params?.isNavigateFromManageAddress;
+  const [isDefault, setIsDefault] = useState(false);
+  const isNavigateFromManageAddress =
+    route?.params?.isNavigateFromManageAddress;
 
   const handleOnSubmit = (type: string) => {
     if (type === "address") {
@@ -34,21 +42,21 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   };
 
   const handleOnChangeText = (text: string, type: string) => {
-    if (type === 'address') {
+    if (type === "address") {
       if (regex.address.test(text)) {
         setAddress(text);
       }
-    } else if (type === 'house') {
-      setHouse(text.replace(/\s/g, ''));
+    } else if (type === "house") {
+      setHouse(text.replace(/\s/g, ""));
     } else {
-      setAdditionalDescription(text.replace(/\s/g, ''));
+      setAdditionalDescription(text.replace(/\s/g, ""));
     }
   };
 
   const handleOnFocus = (type: string) => {
-    if (type === 'address') {
+    if (type === "address") {
       setAddressFocused(true);
-    } else if (type === 'house') {
+    } else if (type === "house") {
       setHouseFocused(true);
     } else {
       setAdditionalDescriptionFocused(true);
@@ -56,40 +64,56 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   };
 
   const handleOnBlur = (type: string) => {
-    if (type === 'address') {
-        setAddressFocused(true);
-      } else if (type === 'house') {
-        setHouseFocused(true);
-      } else {
-        setAdditionalDescriptionFocused(true);
-      }
+    if (type === "address") {
+      setAddressFocused(true);
+    } else if (type === "house") {
+      setHouseFocused(true);
+    } else {
+      setAdditionalDescriptionFocused(true);
+    }
   };
 
   const handleOnPressAdd = () => {
-    if (address.trim() == '') {
-      flashMessageWarning(getTranslation('emptyName'));
-    } else if (house.trim() == '') {
-      flashMessageWarning(getTranslation('emptyEmail'));
+    if (!isNavigateFromManageAddress) {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: ScreeNames.bottomTabsNavigation }],
+        })
+      );
+      flashMessageSucess(getTranslation("addressAddedSucess"));
     } else {
+      navigation.goBack();
+      flashMessageSucess(getTranslation("addressAddedSucess"));
     }
   };
 
   const handleSetDefault = () => {
-    showConfirmAlert(
-        "Are you sure want to set this as default?",
-        () => {
-            setIsDefault(true);
-        }
-      );
+    showConfirmAlert("Are you sure want to set this as default?", () => {
+      setIsDefault(true);
+    });
   };
-
 
   const header = () => {
     navigation.setOptions({
       headerLeft: () => (
         <GlobalBackButton
           onPress={() => {
-            navigation.goBack();
+            if (isNavigateFromManageAddress) {
+              navigation.goBack();
+            } else {
+              showConfirmAlert(
+                "Do you want to continue without address?",
+                () => {
+                  navigation.dispatch(
+                    CommonActions.reset({
+                      index: 1,
+                      routes: [{ name: ScreeNames.bottomTabsNavigation }],
+                    })
+                  );
+                }
+              );
+            }
           }}
         />
       ),
@@ -105,21 +129,17 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       address={address}
       house={house}
       additionalDescription={additionalDescription}
-
       addressRef={addressRef}
       houseRef={houseRef}
       additionalDescriptionRef={additionalDescriptionRef}
-
       addressFocused={addressFocused}
       houseFocused={houseFocused}
       additionalDescriptionFocused={additionalDescriptionFocused}
-      
       handleOnChangeText={handleOnChangeText}
       handleOnSubmit={handleOnSubmit}
       handleOnPressAdd={handleOnPressAdd}
       handleOnFocus={handleOnFocus}
       handleOnBlur={handleOnBlur}
-
       isDefault={isDefault}
       handleSetDefault={handleSetDefault}
       isNavigateFromManageAddress={isNavigateFromManageAddress}

@@ -7,7 +7,11 @@ import { fontSize } from "../constants/FontSizes";
 import { fontsfamily } from "../constants/FontFamily";
 import { createStackNavigator } from "@react-navigation/stack";
 
-const MainNavigation = () => {
+interface PropsType {
+  initialRoute: string;
+}
+
+const MainNavigation = (props: PropsType) => {
   const Stack = createStackNavigator();
 
   const handleStackScreens = (
@@ -45,29 +49,29 @@ const MainNavigation = () => {
       />
       <Stack.Navigator
         screenOptions={{ animation: "slide_from_right" }}
-        initialRouteName={ScreeNames.bottomTabsNavigation}
+        initialRouteName={props.initialRoute}
       >
         {/* Auth */}
-        {handleStackScreens("Onboarding", MyScreens.OnboardingContainer, false)}
-        {handleStackScreens("Sign Up", MyScreens.SignupContainer, true)}
-        {handleStackScreens("Sign In", MyScreens.SignInContainer, true)}
+        {handleStackScreens(ScreeNames.onboarding, MyScreens.OnboardingContainer, false)}
+        {handleStackScreens(ScreeNames.signup, MyScreens.SignupContainer, true)}
+        {handleStackScreens(ScreeNames.signin, MyScreens.SignInContainer, true)}
         {handleStackScreens(
-          "Verification",
+          ScreeNames.verification,
           MyScreens.VerificationContainer,
           true
         )}
         {handleStackScreens(
-          "Forgot Password",
+          ScreeNames.forgotPassword,
           MyScreens.ForgotPasswordContainer,
           true
         )}
         {handleStackScreens(
-          "Change Password",
+          ScreeNames.changePassword,
           MyScreens.ChangePasswordContainer,
           true,
           false
         )}
-        {handleStackScreens("Add Address", MyScreens.AddAddressContainer, true)}
+        {handleStackScreens(ScreeNames.addAddress, MyScreens.AddAddressContainer, true)}
 
         {/* Bottom Tabs */}
         {handleStackScreens(
