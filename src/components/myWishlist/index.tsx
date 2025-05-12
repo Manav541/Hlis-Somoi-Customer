@@ -122,13 +122,13 @@ const MyWishlistComponent = (props: PropsType) => {
         }}
         showsVerticalScrollIndicator={false}
         bounces={false}
-        // ListEmptyComponent={
-        //   <View style={styles.vwNoData}>
-        //     <Text style={styles.lblNoData}>
-        //       {getTranslation("noDataFound")}
-        //     </Text>
-        //   </View>
-        // }
+        ListEmptyComponent={
+          <View style={styles.vwNoData}>
+            <Text style={styles.lblNoData}>
+              {getTranslation("noDataFound")}
+            </Text>
+          </View>
+        }
       />
     </View>
   );

@@ -9,7 +9,7 @@ import {
 import { images } from "../../../constants/Images";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
-import { ScreeNames } from "../../../routers";
+import { ScreenNames } from "../../../routers";
 
 const SettingContainer = ({ navigation, route }: any) => {
   console.log("route ==>>> ", route?.params?.name);
@@ -42,7 +42,7 @@ const SettingContainer = ({ navigation, route }: any) => {
       navigation.dispatch(
         CommonActions.reset({
           index: 1,
-          routes: [{ name: ScreeNames.signup }],
+          routes: [{ name: ScreenNames.signup }],
         })
       );
     } else {
@@ -52,7 +52,7 @@ const SettingContainer = ({ navigation, route }: any) => {
       navigation.dispatch(
         CommonActions.reset({
           index: 1,
-          routes: [{ name: ScreeNames.signin }],
+          routes: [{ name: ScreenNames.signin }],
         })
       );
     }

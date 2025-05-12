@@ -6,7 +6,7 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "./src/localization/i18n/i18n.config";
 import FlashMessage from "react-native-flash-message";
 import { MmkvManager } from "./src/constants/utils/MmkvManager";
-import { ScreeNames } from "./src/routers";
+import { ScreenNames } from "./src/routers";
 import { colors } from "./src/constants/Colors";
 
 const App = () => {
@@ -25,19 +25,19 @@ const App = () => {
       if (isOnBoardingVisited) {
         MmkvManager.getData(MmkvManager.Keys.isLoggedIn, isLoggedIn => {
           if (isLoggedIn) {
-            setInitialRoute(ScreeNames.bottomTabsNavigation);
+            setInitialRoute(ScreenNames.bottomTabsNavigation);
           } else {
             MmkvManager.getData(MmkvManager.Keys.isGuestUser, isGuestUser => {
               if (isGuestUser) {
-                setInitialRoute(ScreeNames.bottomTabsNavigation);
+                setInitialRoute(ScreenNames.bottomTabsNavigation);
               } else {
-                setInitialRoute(ScreeNames.signup); 
+                setInitialRoute(ScreenNames.signup); 
               }
             });
           }
         });
       } else {
-        setInitialRoute(ScreeNames.onboarding);
+        setInitialRoute(ScreenNames.onboarding);
       }
     });
   });

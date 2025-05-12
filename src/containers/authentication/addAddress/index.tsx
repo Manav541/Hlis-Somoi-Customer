@@ -11,7 +11,7 @@ import {
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
-import { ScreeNames } from "../../../routers";
+import { ScreenNames } from "../../../routers";
 
 const AddAddressContainer = ({ navigation, route }: any) => {
   const [address, setAddress] = useState("");
@@ -78,7 +78,7 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       navigation.dispatch(
         CommonActions.reset({
           index: 1,
-          routes: [{ name: ScreeNames.bottomTabsNavigation }],
+          routes: [{ name: ScreenNames.bottomTabsNavigation }],
         })
       );
       flashMessageSucess(getTranslation("addressAddedSucess"));
@@ -108,7 +108,7 @@ const AddAddressContainer = ({ navigation, route }: any) => {
                   navigation.dispatch(
                     CommonActions.reset({
                       index: 1,
-                      routes: [{ name: ScreeNames.bottomTabsNavigation }],
+                      routes: [{ name: ScreenNames.bottomTabsNavigation }],
                     })
                   );
                 }

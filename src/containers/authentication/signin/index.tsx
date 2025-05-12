@@ -8,7 +8,7 @@ import { CountryDataType } from '../../../constants/utils/interfaces';
 import { CountryData } from '../../../constants/utils/CountryData';
 import { MmkvManager } from '../../../constants/utils/MmkvManager';
 import { CommonActions } from '@react-navigation/native';
-import { ScreeNames } from '../../../routers';
+import { ScreenNames } from '../../../routers';
 
 const SignInContainer = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -127,7 +127,7 @@ const SignInContainer = ({navigation}: any) => {
       navigation.dispatch(
         CommonActions.reset({
           index: 1,
-          routes: [{name: ScreeNames.bottomTabsNavigation}],
+          routes: [{name: ScreenNames.bottomTabsNavigation}],
         }),
       );
       }
@@ -162,7 +162,7 @@ const SignInContainer = ({navigation}: any) => {
       navigation.dispatch(
         CommonActions.reset({
           index: 1,
-          routes: [{name: ScreeNames.bottomTabsNavigation}],
+          routes: [{name: ScreenNames.bottomTabsNavigation}],
         }),
       );
   }

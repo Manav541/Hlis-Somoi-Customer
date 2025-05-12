@@ -59,6 +59,39 @@ export const images = {
   burgerKingLogo : require("../assets/images/burgerKingLogo.png"),
   locationIconOrange : require("../assets/images/locationIconOrange.png"),
   starEmpty: require("../assets/images/starEmpty.png"),
+  starFilled: require("../assets/images/starFilled.png"),
+  notificationBell : require("../assets/images/notificationBell.png"),
+
+  // All Categories
+  groceriesC1 : require("../assets/images/groceriesC1.png"),
+  foodC2: require("../assets/images/foodC2.png"),
+  fruitC3 : require("../assets/images/fruitC3.png"),
+  beautyC4 : require("../assets/images/beautyC4.png"),
+  electronicsC5 : require("../assets/images/electronicsC5.png"),
+  householdC6 : require("../assets/images/householdC6.png"),
+ 
+  // All Best Sellers
+  dotOrange : require("../assets/images/dotOrange.png"),
+  starBlue : require("../assets/images/starBlue.png"),
+
+  // Search
+  searchWithOrangeBG : require("../assets/images/searchWithOrangeBG.png"),
+  closeSearch : require("../assets/images/closeSearch.png"),
+
+  // Categories Tab
+  locationWhite : require("../assets/images/locationWhite.png"),
+  notificationWhite : require("../assets/images/notificationWhite.png"),
+  whiteDownArrow : require("../assets/images/whiteDownArrow.png"),
+
+  // Product Listing
+  allSubIcon : require("../assets/images/allSubIcon.png"),
+  riceSubIcon : require("../assets/images/riceSubIcon.png"),
+  flourSubIcon : require("../assets/images/flourSubIcon.png"),
+  cookingoilSubIcon : require("../assets/images/cookingoilSubIcon.png"),
+  minus : require("../assets/images/minus.png"),
+  rice1 :require("../assets/images/rice1.png"),
+  rice2 :require("../assets/images/rice2.png"),
+
 
   // Setting
   profileIcon: require("../assets/images/profileIcon.png"),
@@ -94,6 +127,7 @@ export const images = {
 
   //  My Wishlist
   redHeart : require("../assets/images/redHeart.png"),
+  emptyHeart : require("../assets/images/emptyHeart.png"),
   rice : require("../assets/images/rice.png"),
   oil : require("../assets/images/oil.png"),
   milk : require("../assets/images/milk.png"),

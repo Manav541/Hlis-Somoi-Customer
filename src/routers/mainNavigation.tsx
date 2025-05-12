@@ -1,6 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { MyScreens, ScreeNames } from ".";
+import { MyScreens, ScreenNames } from ".";
 import { StatusBar } from "react-native";
 import { colors } from "../constants/Colors";
 import { fontSize } from "../constants/FontSizes";
@@ -52,36 +52,64 @@ const MainNavigation = (props: PropsType) => {
         initialRouteName={props.initialRoute}
       >
         {/* Auth */}
-        {handleStackScreens(ScreeNames.onboarding, MyScreens.OnboardingContainer, false)}
-        {handleStackScreens(ScreeNames.signup, MyScreens.SignupContainer, true)}
-        {handleStackScreens(ScreeNames.signin, MyScreens.SignInContainer, true)}
+        {handleStackScreens(ScreenNames.onboarding, MyScreens.OnboardingContainer, false)}
+        {handleStackScreens(ScreenNames.signup, MyScreens.SignupContainer, true)}
+        {handleStackScreens(ScreenNames.signin, MyScreens.SignInContainer, true)}
         {handleStackScreens(
-          ScreeNames.verification,
+          ScreenNames.verification,
           MyScreens.VerificationContainer,
           true
         )}
         {handleStackScreens(
-          ScreeNames.forgotPassword,
+          ScreenNames.forgotPassword,
           MyScreens.ForgotPasswordContainer,
           true
         )}
         {handleStackScreens(
-          ScreeNames.changePassword,
+          ScreenNames.changePassword,
           MyScreens.ChangePasswordContainer,
           true,
           false
         )}
-        {handleStackScreens(ScreeNames.addAddress, MyScreens.AddAddressContainer, true)}
+        {handleStackScreens(ScreenNames.addAddress, MyScreens.AddAddressContainer, true)}
 
         {/* Bottom Tabs */}
         {handleStackScreens(
-          ScreeNames.bottomTabsNavigation,
+          ScreenNames.bottomTabsNavigation,
           MyScreens.BottomTabsNavigation,
           false,
         )}
 
+        {/* Home */}
+        {handleStackScreens(
+          ScreenNames.search,
+          MyScreens.SearchContainer,
+          true
+        )}
+        {handleStackScreens(
+          ScreenNames.allCategories,
+          MyScreens.ViewAllCategoriesContainer,
+          true
+        )}
+         {handleStackScreens(
+          ScreenNames.allBestSellers,
+          MyScreens.ViewAllBestSellersContainer,
+          true
+        )}
+        {handleStackScreens(
+          ScreenNames.notification,
+          MyScreens.NotificationContainer,
+          true
+        )}
+
+        {/* Categories */}
+        {handleStackScreens(
+          ScreenNames.productListing,
+          MyScreens.ProductListingContainer,
+          true
+        )}
+
         {/* Setting */}
-        {/* {handleStackScreens("Setting", MyScreens.SettingContainer, true)} */}
         {handleStackScreens(
           "Edit Profile",
           MyScreens.EditProfileContainer,

@@ -8,6 +8,7 @@ import {
   Platform,
   TextInput,
   FlatList,
+  ImageBackground,
 } from "react-native";
 import React, { useRef, useEffect, useState } from "react";
 import { styles } from "./styles";
@@ -22,14 +23,16 @@ interface PropsType {
   arrGroceriesFood: any[];
   onPressGroceriesFood: (type: string) => void;
   isGroceriesFoodSelected: string;
-  search: string;
-  onChangeSearch: (text: string) => void;
   arrAds: any[];
   handleOnScrollAds: (event: any) => void;
   arrSubCategoryGroceries: any[];
   arrBestProducts: any[];
   arrSubCategoryFood: any[];
   arrBestSellers: any[];
+  handleSellAllCategories: () => void;
+  handleSellAllBestSellers: () => void;
+  onPressSearch:() => void;
+  handleOnPressNotifaicationIcon:() => void;
 }
 
 const HomeComponent = (props: PropsType) => {
@@ -82,7 +85,11 @@ const HomeComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         onPress={() => props?.onPressGroceriesFood(item?.type)}
       >
-        <Image style={styles.imgGroceriesFood} source={item?.image} />
+        <Image
+          style={styles.imgGroceriesFood}
+          source={item?.image}
+          resizeMode="stretch"
+        />
         <View style={styles.vwType}>
           <Text style={styles.lblGroceriesFood}>{item?.type}</Text>
         </View>
@@ -159,16 +166,17 @@ const HomeComponent = (props: PropsType) => {
 
   const renderStar = (rate: number) => {
     const totalStars = 5;
+    const filledStars = 4;
     return (
       <View style={{ flexDirection: "row" }}>
         {Array.from({ length: totalStars }).map((_, index) => {
-          const isFilled = index < Math.floor(rate);
           return (
             <Image
               key={index}
-              source={isFilled ? images.star : images.starEmpty}
+              source={
+                index !== filledStars ? images.starFilled : images.starEmpty
+              }
               style={{ width: 24, height: 24, marginRight: 2 }}
-              resizeMode="contain"
             />
           );
         })}
@@ -176,31 +184,29 @@ const HomeComponent = (props: PropsType) => {
     );
   };
 
-  const renderBestSeller = ({item,index} : any) => {
+  const renderBestSeller = ({ item, index }: any) => {
     return (
-      <TouchableOpacity style={styles.btnBestSeller} activeOpacity={activityOpacity}>
+      <TouchableOpacity
+        style={styles.btnBestSeller}
+        activeOpacity={activityOpacity}
+      >
         <Image style={styles.imgBestSeller} source={item?.image} />
-        
+
         <View style={styles.vwBestSellerDetails}>
           <Text style={styles.lblBestSellerName}>{item?.name}</Text>
-          <View style={{flexDirection : 'row',marginTop : 7, alignItems : 'center'}}>
-          {renderStar(item?.rating)}
+          <View style={styles.vwRating}>
+            {renderStar(item?.rating)}
             <Text style={styles.lblBestSellerReviews}>(+{item?.reviews})</Text>
           </View>
         </View>
-        <Image style={styles.imgLogo} source={item?.logo}/>
+        <Image style={styles.imgLogo} source={item?.logo} />
       </TouchableOpacity>
-    )
-  }
+    );
+  };
 
   return (
     <View style={styles.vwMain}>
-      <StatusBar
-        translucent
-        backgroundColor={"transparent"}
-        barStyle={"light-content"}
-      />
-      <View style={styles.vwMainContainer}>
+      <ImageBackground style={styles.vwMainContainer} source={images.linearBG} resizeMode="cover">
         <ScrollView
           contentContainerStyle={{
             paddingTop: Platform.OS === "ios" ? insets.top : 30,
@@ -213,7 +219,6 @@ const HomeComponent = (props: PropsType) => {
         >
           {/* Groceries Food */}
           <View style={{ flexDirection: "row", paddingHorizontal: 20 }}>
-            {/* Groceries Food */}
             {props?.arrGroceriesFood.map((item, index) =>
               renderGroceriesFoodItem(item, index)
             )}
@@ -241,6 +246,7 @@ const HomeComponent = (props: PropsType) => {
               style={styles.btnNotification}
               activeOpacity={activityOpacity}
               hitSlop={hitSlop}
+              onPress={props?.handleOnPressNotifaicationIcon}
             >
               <Image
                 style={styles.imgLocation}
@@ -250,18 +256,15 @@ const HomeComponent = (props: PropsType) => {
           </View>
 
           {/* Search */}
-          <View style={styles.vwSearch}>
+          <TouchableOpacity
+            style={styles.btnSearch}
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={props?.onPressSearch}
+          >
             <Image style={styles.imgLocation} source={images.search} />
-            <TextInput
-              placeholder={getTranslation("search") || ""}
-              placeholderTextColor={colors.greya7}
-              style={styles.txtSearchInput}
-              selectionColor={colors.blue4e}
-              value={props?.search}
-              onChangeText={props?.onChangeSearch}
-              keyboardType="default"
-            />
-          </View>
+            <Text style={styles.lblSearch}>{getTranslation("search")}</Text>
+          </TouchableOpacity>
 
           {/* Ads */}
           <View style={styles.vwAdds}>
@@ -290,6 +293,7 @@ const HomeComponent = (props: PropsType) => {
               <TouchableOpacity
                 activeOpacity={activityOpacity}
                 hitSlop={hitSlop}
+                onPress={props?.handleSellAllCategories}
               >
                 <Text style={styles.lblSeeAll}>{getTranslation("seeAll")}</Text>
               </TouchableOpacity>
@@ -305,7 +309,7 @@ const HomeComponent = (props: PropsType) => {
 
           {props?.isGroceriesFoodSelected === "Groceries" ? (
             <View style={styles.vwBestProducts}>
-              <Text style={styles.lblBestProducts}>
+              <Text style={{ ...styles.lblBestProducts, marginHorizontal: 20 }}>
                 {getTranslation("bestProducts")}
               </Text>
               <View style={styles.vwBestProductsGrid}>
@@ -315,20 +319,40 @@ const HomeComponent = (props: PropsType) => {
               </View>
             </View>
           ) : (
-            <View style={{marginBottom : 10}}>
-              <Text style={styles.lblBestProducts}>
-                {getTranslation("bestSellers")}
-              </Text>
+            <View style={{ marginBottom: 10, marginTop: 30 }}>
+              <View style={styles.vwBestSellerSeeAll}>
+                <Text style={styles.lblBestProducts}>
+                  {getTranslation("bestSellers")}
+                </Text>
+                <TouchableOpacity
+                  activeOpacity={activityOpacity}
+                  hitSlop={hitSlop}
+                  onPress={props?.handleSellAllBestSellers}
+                >
+                  <Text style={styles.lblSeeAll}>
+                    {getTranslation("seeAll")}
+                  </Text>
+                </TouchableOpacity>
+              </View>
               <FlatList
                 data={props?.arrBestSellers}
-                horizontal
-                showsHorizontalScrollIndicator={false}
                 renderItem={renderBestSeller}
+                keyExtractor={(item, index) => index.toString()}
+                horizontal
+                bounces={false}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ paddingHorizontal: 16 }}
+                initialScrollIndex={1}
+                getItemLayout={(data, index) => ({
+                  length: 299,
+                  offset: 299 * index,
+                  index,
+                })}
               />
             </View>
           )}
         </ScrollView>
-      </View>
+      </ImageBackground>
     </View>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {MyScreens, ScreeNames} from '.';
+import {MyScreens, ScreenNames} from '.';
 import { colors } from '../constants/Colors';
 import { fontSize } from '../constants/FontSizes';
 import { fontsfamily } from '../constants/FontFamily';
@@ -37,33 +37,33 @@ const BottomTabsNavigation = () => {
 
   return (
     <BottomTabs.Navigator
-      initialRouteName={ScreeNames.home}
+      initialRouteName={ScreenNames.home}
       tabBar={props => <CustomBottomTabsContainer {...props} />}
       screenOptions={{
         tabBarHideOnKeyboard: true,
       }}>
       {handleBottomTabsScreens(
-        ScreeNames.home,
+        ScreenNames.home,
         MyScreens.HomeContainer,
         false,
       )}
       {handleBottomTabsScreens(
-        ScreeNames.categories,
+        ScreenNames.categories,
         MyScreens.CategoriesContainer,
-        true,
+        false,
       )}
       {handleBottomTabsScreens(
-        ScreeNames.cart,
+        ScreenNames.cart,
         MyScreens.CartContainer,
         true,
       )}
       {handleBottomTabsScreens(
-        ScreeNames.myOrders,
+        ScreenNames.myOrders,
         MyScreens.MyOrdersContainer,
         true,
       )}
       {handleBottomTabsScreens(
-        ScreeNames.settings,
+        ScreenNames.settings,
         MyScreens.SettingContainer,
         true,
       )}

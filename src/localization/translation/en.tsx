@@ -120,6 +120,12 @@ export default {
   seeAll : "See All",
   bestProducts: "Best Products",
   bestSellers: "Best Sellers",
+  openCloseTime : "Open & Close Time : ",
+
+  // Search
+  searchPlaceholder: "Search your products",
+  noResultsFound : "No Results Found",
+  cantFindMatch :"We couldn’t find any matches for your search.",
 
   // Setting
   setting: "Setting",

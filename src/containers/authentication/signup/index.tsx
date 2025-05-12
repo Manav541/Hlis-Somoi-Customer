@@ -8,7 +8,7 @@ import { CountryDataType } from "../../../constants/utils/interfaces";
 import { TextInput } from "react-native-gesture-handler";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
-import { ScreeNames } from "../../../routers";
+import { ScreenNames } from "../../../routers";
 
 const SignupContainer = ({ navigation }: any) => {
   const [name, setName] = useState("");
@@ -170,7 +170,7 @@ const SignupContainer = ({ navigation }: any) => {
       navigation.dispatch(
         CommonActions.reset({
           index: 1,
-          routes: [{name: ScreeNames.bottomTabsNavigation}],
+          routes: [{name: ScreenNames.bottomTabsNavigation}],
         }),
       );
   }
