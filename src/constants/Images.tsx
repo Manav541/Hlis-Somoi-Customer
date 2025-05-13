@@ -88,10 +88,24 @@ export const images = {
   riceSubIcon : require("../assets/images/riceSubIcon.png"),
   flourSubIcon : require("../assets/images/flourSubIcon.png"),
   cookingoilSubIcon : require("../assets/images/cookingoilSubIcon.png"),
+  fastfoodSubIcon : require("../assets/images/fastfoodSubIcon.png"),
   minus : require("../assets/images/minus.png"),
   rice1 :require("../assets/images/rice1.png"),
   rice2 :require("../assets/images/rice2.png"),
 
+  // Product Detail
+  shareIcon: require("../assets/images/shareIcon.png"),
+  distanceIcon : require("../assets/images/distanceIcon.png"),
+  cartBagIcon : require("../assets/images/cartBagIcon.png"),
+  // Restaurant Detail
+  restaurantImage : require("../assets/images/restaurantImage.png"),
+  restaurantImage1 : require("../assets/images/restaurantImage1.png"),
+  restaurantImage2 : require("../assets/images/restaurantImage2.png"),
+  filterWhiteIcon : require("../assets/images/filterWhiteIcon.png"),
+  backarrowWhite : require("../assets/images/backarrowWhite.png"),
+  burger : require("../assets/images/burger.png"),
+  videocircle : require("../assets/images/videocircle.png"),
+  rightArrowOrange :require("../assets/images/rightArrowOrange.png"),
 
   // Setting
   profileIcon: require("../assets/images/profileIcon.png"),

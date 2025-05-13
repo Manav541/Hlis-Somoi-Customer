@@ -8,13 +8,17 @@ import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { fontsfamily } from "../../constants/FontFamily";
 
 interface PropsType {
+  mainCategoryName: string;
   subCategoryTitle: any[];
+  subCategoryFoodTitle: any[];
   onPressSubCategoryTitle: (index: number) => void;
   arrSubCategory: any[];
   handleQuantityChange: (index: number, type: "add" | "remove") => void;
   onPressFavourite: (index: number) => void;
+  onPressRestaurant: (item: any) => void;
 }
 
 const ProductListingComponent = (props: PropsType) => {
@@ -77,7 +81,7 @@ const ProductListingComponent = (props: PropsType) => {
           >
             <Image
               style={styles.imgRedHeart}
-              source={item?.favourite ? images.redHeart : images.emptyHeart}
+              source={item?.isFavourite ? images.redHeart : images.emptyHeart}
             />
           </TouchableOpacity>
         </View>
@@ -104,7 +108,7 @@ const ProductListingComponent = (props: PropsType) => {
               </Text>
               <Text style={styles.lblProductPrice}>{item?.product_price}</Text>
             </View>
-            <View style={styles.vwRating}>
+            <View style={styles.vwProductRating}>
               <Image style={styles.imgStar} source={images.star} />
               <Text style={styles.lblProductRating}>
                 {item?.product_rating}
@@ -148,11 +152,76 @@ const ProductListingComponent = (props: PropsType) => {
     );
   };
 
+  const renderArrFoodSubCategory = ({ item, index }: any) => {
+    return (
+      <TouchableOpacity
+        style={styles.btnAllBestSellersItem}
+        activeOpacity={activityOpacity}
+        onPress={() => props?.onPressRestaurant(item)}
+      >
+        <Image style={styles.imgBestSellers} source={item?.restaurant_img} />
+        <TouchableOpacity
+          style={styles.btnFavourite}
+          activeOpacity={activityOpacity}
+          hitSlop={hitSlop}
+          onPress={() => props?.onPressFavourite(index)}
+        >
+          <Image
+            style={styles.imgRedHeart}
+            source={item?.isFavourite ? images.redHeart : images.emptyHeart}
+          />
+        </TouchableOpacity>
+        <View style={styles.vwBestSellersItemDetails}>
+          <Text style={styles.lblBestSellersItemName}>
+            {item?.restaurant_name}
+          </Text>
+          <View style={styles.vwLocation}>
+            <Image
+              style={styles.imgLocation}
+              source={images.locationIconOrange}
+            />
+            <Text style={styles.lblLocation}>{item?.restaurant_address}</Text>
+          </View>
+          <View style={styles.vwTimeDistanceRating}>
+            <View style={styles.vwTimeDistance}>
+              <Text style={styles.lblTime}>
+                {getTranslation("openCloseTime")}
+                <Text
+                  style={{
+                    ...styles.lblTime,
+                    fontFamily: fontsfamily.semiboldOutFit,
+                  }}
+                >
+                  {item?.restaurant_time}
+                </Text>
+              </Text>
+              <View style={styles.vwDistance}>
+                <Image style={styles.imgDot} source={images.dotOrange} />
+                <Text style={styles.lblDistance}>
+                  {item?.restaurant_distance}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.vwRating}>
+              <Text style={styles.lblRatings}>{item?.restaurant_ratings}</Text>
+              <Image style={styles.imgStarBlue} source={images.starBlue} />
+            </View>
+          </View>
+          <Image style={styles.imgLogo} source={item?.restaurant_logo} />
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={styles.vwMain}>
       <View>
         <FlatList
-          data={props?.subCategoryTitle}
+          data={
+            props?.mainCategoryName === "Food"
+              ? props?.subCategoryFoodTitle
+              : props?.subCategoryTitle
+          }
           horizontal
           bounces={false}
           showsHorizontalScrollIndicator={false}
@@ -160,29 +229,45 @@ const ProductListingComponent = (props: PropsType) => {
           contentContainerStyle={styles.vwSubCategoryContainer}
         />
       </View>
-      <FlatList
-        data={props?.arrSubCategory}
-        numColumns={2}
-        renderItem={renderArrSubCategory}
-        keyExtractor={(_, index) => index.toString()}
-        contentContainerStyle={{
-          paddingHorizontal: 20,
-          paddingBottom: PlatformVersion.isIOS ? insets.bottom : 19,
-        }}
-        columnWrapperStyle={{
-          justifyContent: "space-between",
-          marginBottom: 19,
-        }}
-        showsVerticalScrollIndicator={false}
-        bounces={false}
-        ListEmptyComponent={
-          <View style={styles.vwNoData}>
-            <Text style={styles.lblNoData}>
-              {getTranslation("noDataFound")}
-            </Text>
-          </View>
-        }
-      />
+      
+      {props?.mainCategoryName === "Food" ? (
+        <FlatList
+          data={props?.arrSubCategory}
+          bounces={false}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderArrFoodSubCategory}
+          contentContainerStyle={{
+            gap: 10,
+            // marginTop: 20,
+            paddingHorizontal: 20,
+            // paddingBottom: insets.bottom ? insets.bottom : 20,
+          }}
+        />
+      ) : (
+        <FlatList
+          data={props?.arrSubCategory}
+          numColumns={2}
+          renderItem={renderArrSubCategory}
+          keyExtractor={(_, index) => index.toString()}
+          contentContainerStyle={{
+            paddingHorizontal: 20,
+            // paddingBottom: PlatformVersion.isIOS ? insets.bottom : 19,
+            gap: 19,
+          }}
+          columnWrapperStyle={{
+            justifyContent: "space-between",
+          }}
+          showsVerticalScrollIndicator={false}
+          bounces={false}
+          ListEmptyComponent={
+            <View style={styles.vwNoData}>
+              <Text style={styles.lblNoData}>
+                {getTranslation("noDataFound")}
+              </Text>
+            </View>
+          }
+        />
+      )}
     </View>
   );
 };

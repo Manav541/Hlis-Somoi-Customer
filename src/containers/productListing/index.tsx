@@ -4,8 +4,10 @@ import ProductListingComponent from "../../components/productListing";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
+import { ScreenNames } from "../../routers";
 
 const ProductListingContainer = ({ navigation, route }: any) => {
+  const mainCategoryName = route.params?.mainCategoryName;
   const [arrSubCategory, setArrSubCategory] = useState(
     route.params?.arrSubCategory
   );
@@ -37,16 +39,44 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     },
   ]);
 
+  const [subCategoryFoodTitle, setSubCategoryFoodTitle] = useState([
+    {
+      subIcon: images.allSubIcon,
+      name: "All",
+      isSelected: true,
+    },
+    {
+      subIcon: images.riceSubIcon,
+      name: "Local & Regional Cuisine",
+      isSelected: false,
+    },
+    {
+      subIcon: images.fastfoodSubIcon,
+      name: "Fast Food & Snacks",
+      isSelected: false,
+    },
+  ]);
+
   const onPressSubCategoryTitle = (selectedIndex: number) => {
-    // Update selected state
-    const updated = subCategoryTitle.map((item, index) => ({
+    const categoryArray =
+      mainCategoryName.toLowerCase() === "food"
+        ? subCategoryFoodTitle
+        : subCategoryTitle;
+
+    const updated = categoryArray.map((item, index) => ({
       ...item,
       isSelected: index === selectedIndex,
     }));
-    setSubCategoryTitle(updated);
+
+    if (mainCategoryName.toLowerCase() === "food") {
+      setSubCategoryFoodTitle(updated);
+    } else {
+      setSubCategoryTitle(updated);
+    }
 
     const selectedTitle = updated[selectedIndex].name.toLowerCase();
 
+    
     if (selectedTitle === "all") {
       setArrSubCategory(route.params?.arrSubCategory);
     } else {
@@ -66,10 +96,15 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     }
     setArrSubCategory(updated);
   };
+
   const onPressFavourite = (index: number) => {
     const updatedList = [...arrSubCategory];
-    updatedList[index].favourite = !updatedList[index].favourite;
+    updatedList[index].isFavourite = !updatedList[index].isFavourite;
     setArrSubCategory(updatedList);
+  };
+
+  const onPressRestaurant = (item: any) => {
+    navigation.navigate(ScreenNames.restaurantDetail, { item : item });
   };
 
   const header = () => {
@@ -78,23 +113,25 @@ const ProductListingContainer = ({ navigation, route }: any) => {
         <GlobalBackButton onPress={() => navigation.goBack()} />
       ),
       headerTitle: () => (
-        <Text style={styles.txtHeaderTitle}>
-          {route.params?.mainCategoryName}
-        </Text>
+        <Text style={styles.txtHeaderTitle}>{mainCategoryName}</Text>
       ),
     });
   };
 
   useEffect(() => {
     header();
-  }, []);
+  }, [mainCategoryName]);
+
   return (
     <ProductListingComponent
+      mainCategoryName={mainCategoryName}
       subCategoryTitle={subCategoryTitle}
+      subCategoryFoodTitle={subCategoryFoodTitle}
       onPressSubCategoryTitle={onPressSubCategoryTitle}
       arrSubCategory={arrSubCategory}
       handleQuantityChange={handleQuantityChange}
       onPressFavourite={onPressFavourite}
+      onPressRestaurant={onPressRestaurant}
     />
   );
 };

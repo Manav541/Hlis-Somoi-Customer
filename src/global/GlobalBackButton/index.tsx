@@ -14,6 +14,7 @@ interface PropsType {
   onPress: () => void;
   isRight?: boolean;
   rightImage?: ImageSourcePropType;
+  isWhite?: boolean;
 }
 
 const GlobalBackButton = (props: PropsType) => {
@@ -28,7 +29,7 @@ const GlobalBackButton = (props: PropsType) => {
       }}>
       <Image
         style={styles.img}
-        source={props.isRight ? props.rightImage : images.backarrow}
+        source={props.isRight ? props.rightImage : props?.isWhite ? images.backarrowWhite :  images.backarrow}
       />
     </TouchableOpacity>
   );

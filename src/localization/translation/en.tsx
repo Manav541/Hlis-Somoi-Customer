@@ -127,6 +127,16 @@ export default {
   noResultsFound : "No Results Found",
   cantFindMatch :"We couldn’t find any matches for your search.",
 
+  // Product Detail
+  reviews: "Reviews",
+  reviews1:"reviews",
+  approxDistanceTime :"Approx Distance & Time: ",
+  fastDelivery : "Fast Delivery",
+  dayReturnExchange : "3 Day Return/Exchange",
+  cashOnDelivery : "Cash on Delivery",
+  deliveryTiming :"Delivery Timing :",
+  additionalInfo: "Additional Info",
+
   // Setting
   setting: "Setting",
   hello: "Hello",

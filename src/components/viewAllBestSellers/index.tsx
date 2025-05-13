@@ -70,6 +70,7 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
       </TouchableOpacity>
     );
   };
+  
   return (
     <View style={styles.vwMain}>
       <FlatList

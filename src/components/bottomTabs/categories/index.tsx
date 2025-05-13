@@ -43,11 +43,6 @@ const CategoriesComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
-      <StatusBar
-        translucent
-        backgroundColor={"transparent"}
-        barStyle={"light-content"}
-      />
       <View style={styles.vwContainer}>
         <View
           style={{

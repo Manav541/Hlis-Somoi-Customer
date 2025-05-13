@@ -21,9 +21,12 @@ import ManagePaymentMethodsContainer from "../containers/managePaymentMethods";
 import MyWishlistContainer from "../containers/myWishlist";
 import NotificationContainer from "../containers/notification";
 import ProductListingContainer from "../containers/productListing";
+import ReviewContainer from "../containers/review";
 import SearchContainer from "../containers/search";
 import ViewAllBestSellersContainer from "../containers/viewAllBestSellers";
 import ViewAllCategoriesContainer from "../containers/viewAllCategories";
+import ViewProductDetailContainer from "../containers/viewProductDetail";
+import ViewRestaurantDetailContainer from "../containers/viewRestaurantDetail";
 import BottomTabsNavigation from "./bottomTabsNavigation";
 
 export const ScreenNames = {
@@ -44,6 +47,9 @@ export const ScreenNames = {
 
   // Categories tabs
   productListing: "Product Listing",
+  productDetail:"Product Detail",
+  restaurantDetail:"Restaurant Detail",
+  review:"Review",
 
   // Bottom Tabs
   bottomTabsNavigation: "BottomTabs",
@@ -81,6 +87,12 @@ export const MyScreens = {
 
   // Categories tab
   ProductListingContainer,
+
+  // Product Detail
+  ViewProductDetailContainer,
+  ViewRestaurantDetailContainer,
+  ReviewContainer,
+
 
   // Setting tab
   EditProfileContainer,
