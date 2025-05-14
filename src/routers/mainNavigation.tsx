@@ -49,7 +49,7 @@ const MainNavigation = (props: PropsType) => {
       />
       <Stack.Navigator
         screenOptions={{ animation: "slide_from_right" }}
-        initialRouteName={ScreenNames.review}
+        initialRouteName={props?.initialRoute}
       >
         {/* Auth */}
         {handleStackScreens(ScreenNames.onboarding, MyScreens.OnboardingContainer, false)}
@@ -116,6 +116,16 @@ const MainNavigation = (props: PropsType) => {
         {handleStackScreens(
           ScreenNames.review,
           MyScreens.ReviewContainer,
+          true
+        )}
+        {handleStackScreens(
+          ScreenNames.compareProduct,
+          MyScreens.CompareProductConteiner,
+          true
+        )}
+        {handleStackScreens(
+          ScreenNames.addCompareProduct,
+          MyScreens.AddCompareProductsContainer,
           true
         )}
        

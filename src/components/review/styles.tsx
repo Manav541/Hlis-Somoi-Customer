@@ -24,9 +24,9 @@ export const styles = StyleSheet.create({
   vwRateProgressItem: {
     flexDirection: "row",
     // height: 17,
-    flex : 1,
+    flex: 1,
     alignItems: "center",
-    gap : 8
+    gap: 8,
   },
   vwRateNumber: {
     flexDirection: "row",
@@ -35,55 +35,54 @@ export const styles = StyleSheet.create({
     gap: 4,
   },
   vwProgressBar: {
-    flex : 1,
+    flex: 1,
     height: 4,
     backgroundColor: colors.white,
     borderRadius: 1,
     overflow: "hidden",
   },
-  vwReviewItem:{},
-  vwLine :{
-    height : 1,
-    flex:1,
-    backgroundColor : `${colors.greya7}30`,
-    marginTop : 20,
-    marginBottom:10
+  vwReviewItem: {},
+  vwLine: {
+    height: 1,
+    flex: 1,
+    backgroundColor: `${colors.greya7}30`,
+    marginTop: 20,
+    marginBottom: 10,
   },
 
   vwProgressBarFill: {
-    height: '100%',
+    height: "100%",
     borderRadius: 1,
     backgroundColor: colors.orange1c,
   },
-  vwReviewRateDate:{
-    marginTop : 5,
-    flexDirection : 'row',
-    alignItems : 'center',
-    justifyContent : 'space-between',
+  vwReviewRateDate: {
+    marginTop: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  vwImgeVideo :{
-    height : 65,
-    width : 65,
-    borderRadius : 5,
-    marginTop : 5
+  vwImgeVideo: {
+    height: 65,
+    width: 65,
+    borderRadius: 5,
+    marginTop: 5,
   },
-  vwReviewImage :{
-    height : 65,
-    width : 65,
-    borderRadius : 5,
-    backgroundColor : colors.whiteff,
-    justifyContent:'center',
-    alignItems:'center',
-   
+  vwReviewImage: {
+    height: 65,
+    width: 65,
+    borderRadius: 5,
+    backgroundColor: colors.whiteff,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  vwReviewVideo :{
-    height : 65,
-    width : 65,
-    borderRadius : 5,
-    backgroundColor : `${colors.black}17`,
-    justifyContent:'center',
-    alignItems:'center',
-    position : 'absolute'
+  vwReviewVideo: {
+    height: 65,
+    width: 65,
+    borderRadius: 5,
+    backgroundColor: `${colors.black}17`,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
   },
 
   // Text Styles
@@ -113,7 +112,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.medium,
   },
-  lblReviewName:{
+  lblReviewName: {
     color: colors.white,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
@@ -123,19 +122,19 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semiboldGolosText,
   },
-  lblReviewDate:{
+  lblReviewDate: {
     color: colors.white,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regular,
   },
-  lblReviewDesc:{
+  lblReviewDesc: {
     color: colors.white,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regular,
-    marginTop : 5,
-    marginRight : 30
+    marginTop: 5,
+    marginRight: 30,
   },
-  lblViewAll :{
+  lblViewAll: {
     color: colors.orange1c,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.medium,
@@ -146,23 +145,22 @@ export const styles = StyleSheet.create({
     height: 15.02,
     width: 15.14,
   },
-  imgVideo:{
-    height : 24,
-    width : 24,
+  imgVideo: {
+    height: 24,
+    width: 24,
   },
-  imgReview:{
-    width : 30.9,
-    height : 45
+  imgReview: {
+    width: 30.9,
+    height: 45,
   },
-  imgRightOrangeArrow:{
-    height : 16,
-    width : 16
-  }
-,
-  btnViewAll:{
-    flexDirection : 'row',
-    alignItems : 'center',
-    gap : 5,
-    marginTop : 9
-  }
+  imgRightOrangeArrow: {
+    height: 16,
+    width: 16,
+  },
+  btnViewAll: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    marginTop: 9,
+  },
 });

@@ -106,6 +106,9 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const onPressRestaurant = (item: any) => {
     navigation.navigate(ScreenNames.restaurantDetail, { item : item });
   };
+  const onPressProduct = (item: any) => {
+    navigation.navigate(ScreenNames.productDetail, { item : item });
+  };
 
   const header = () => {
     navigation.setOptions({
@@ -132,6 +135,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       handleQuantityChange={handleQuantityChange}
       onPressFavourite={onPressFavourite}
       onPressRestaurant={onPressRestaurant}
+      onPressProduct={onPressProduct}
     />
   );
 };

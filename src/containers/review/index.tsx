@@ -118,6 +118,8 @@ import React, { useEffect, useState } from "react";
 import ReviewComponent from "../../components/review";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
+import { flashMessageWarning } from "../../constants/GConstant";
+import { getTranslation } from "../../localization/i18n/i18n.config";
 
 const ReviewContainer = ({ navigation }: any) => {
   const totalRate = 4.5;
@@ -172,6 +174,10 @@ const ReviewContainer = ({ navigation }: any) => {
     },
   ])
 
+  const onPressViewAll =()=>{
+    flashMessageWarning(getTranslation("underDevelopment"));
+  }
+
   useEffect(() => {
     header();
   }, []);
@@ -181,6 +187,7 @@ const ReviewContainer = ({ navigation }: any) => {
       totalReviews={totalReviews}
       arrRateProgress={arrRateProgress}
       arrRevieews={arrRevieews}
+      onPressViewAll={onPressViewAll}
     />
   );
 };

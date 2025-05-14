@@ -17,4 +17,10 @@ export const colors = {
   black13: "#151413",
   greyd9: "#D9D9D9",
   whiteea :'#EAEAEA',
+  green86 : "#1AEA86",
+  creamee : "#FFF8EE",
+  brown08:"#560D08",
+  brown46:"#806946",
+  green9f : "#4AC79F",
+  grey72:"#344D72"
 };

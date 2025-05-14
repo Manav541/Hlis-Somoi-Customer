@@ -67,6 +67,8 @@ export default {
   addToCart: "Add to Cart",
   addToWishlist: "Add to Wishlist",
   viewAll: "View All",
+  goToCompareProduct:"Go to Compare Product",
+  buyNow:"Buy Now",
 
   // Signup-Signin
   email: "Email",
@@ -136,6 +138,13 @@ export default {
   cashOnDelivery : "Cash on Delivery",
   deliveryTiming :"Delivery Timing :",
   additionalInfo: "Additional Info",
+  inStock: "In Stock",
+  outOfStock: "Out of Stock",
+  highlight:"Highlight",
+  productDetails: "Product Details",
+  similarProducttoCompare:"Similar Product to Compare",
+  size:"Size",
+  color:"Color",
 
   // Setting
   setting: "Setting",

@@ -1,3 +1,4 @@
+import AddCompareProductsContainer from "../containers/addCompareProducts";
 import AddNewCardContainer from "../containers/addNewCard";
 import AddAddressContainer from "../containers/authentication/addAddress";
 import ChangePasswordContainer from "../containers/authentication/changePassword";
@@ -14,6 +15,7 @@ import MyOrdersContainer from "../containers/bottomTabs/myOrders";
 import SettingContainer from "../containers/bottomTabs/setting";
 import ChangeEmailPhoneNumberContainer from "../containers/changeEmailPhoneNumber";
 import CMSPageContainer from "../containers/cmsPages";
+import CompareProductConteiner from "../containers/compareProduct";
 import ContactUsContainer from "../containers/contactUs";
 import EditProfileContainer from "../containers/editProfile";
 import ManageAddressesContainer from "../containers/manageAddresses";
@@ -50,6 +52,8 @@ export const ScreenNames = {
   productDetail:"Product Detail",
   restaurantDetail:"Restaurant Detail",
   review:"Review",
+  compareProduct : "Compare Product",
+  addCompareProduct : "Add Compare Product",
 
   // Bottom Tabs
   bottomTabsNavigation: "BottomTabs",
@@ -92,6 +96,8 @@ export const MyScreens = {
   ViewProductDetailContainer,
   ViewRestaurantDetailContainer,
   ReviewContainer,
+  CompareProductConteiner,
+  AddCompareProductsContainer,
 
 
   // Setting tab

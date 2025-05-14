@@ -4,6 +4,8 @@ import { images } from "../../../constants/Images";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { ScreenDimensions } from "../../../constants/utils/Dimensions";
 import { ScreenNames } from "../../../routers";
+import { useFocusEffect } from "@react-navigation/native";
+import { StatusBar } from "react-native";
 
 const HomeContainer = ({ navigation }: any) => {
   const [arrGroceriesFood, setArrGroceriesFood] = useState([
@@ -196,7 +198,15 @@ const HomeContainer = ({ navigation }: any) => {
   // handleOnPressNotifaicationIcon
   const handleOnPressNotifaicationIcon = () => {
     navigation.navigate(ScreenNames.notification)
-  }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle('light-content');
+      return () => {};
+    }, [navigation]),
+  );
+
 
   return (
     <HomeComponent

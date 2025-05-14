@@ -19,6 +19,7 @@ interface PropsType {
   handleQuantityChange: (index: number, type: "add" | "remove") => void;
   onPressFavourite: (index: number) => void;
   onPressRestaurant: (item: any) => void;
+  onPressProduct: (item: any) => void;
 }
 
 const ProductListingComponent = (props: PropsType) => {
@@ -64,6 +65,7 @@ const ProductListingComponent = (props: PropsType) => {
         ]}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
+        onPress={() => props?.onPressProduct(item)}
       >
         {/* Product Image and Favourite button */}
         <View style={styles.vwProductImgLike}>
@@ -229,7 +231,7 @@ const ProductListingComponent = (props: PropsType) => {
           contentContainerStyle={styles.vwSubCategoryContainer}
         />
       </View>
-      
+
       {props?.mainCategoryName === "Food" ? (
         <FlatList
           data={props?.arrSubCategory}

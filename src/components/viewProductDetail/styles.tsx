@@ -1,0 +1,472 @@
+import { StyleSheet } from "react-native";
+import { colors } from "../../constants/Colors";
+import { ScreenDimensions } from "../../constants/utils/Dimensions";
+import { fontSize } from "../../constants/FontSizes";
+import { fontsfamily } from "../../constants/FontFamily";
+
+export const styles = StyleSheet.create({
+  // View Styles
+  vwMain: {
+    flex: 1,
+    backgroundColor: colors.blue4e,
+    justifyContent : 'space-between',
+  },
+  vwImgMainLogo: {
+    height: ScreenDimensions.screenHeight / 3,
+    width: ScreenDimensions.screenWidth,
+    backgroundColor: colors.whiteff,
+  },
+  vwDotsContainer: {
+    flexDirection: "row",
+    position: "absolute",
+    bottom: 9,
+    alignSelf: "center",
+    gap: 8,
+  },
+  vwDot: {
+    width: 5,
+    height: 5,
+    borderRadius: 5 / 2,
+  },
+
+  vwCategoryTitleInstock: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginHorizontal: 20,
+    marginTop: 15,
+  },
+  vwProductRateReview: {
+    height: 17,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    marginHorizontal: 20,
+    marginTop: 6,
+  },
+  vwProductRate: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+  },
+  vwProductReview: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  vwProductPrice: {
+    marginHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 18,
+    gap: 9,
+  },
+  vwDistanceTime: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 18,
+    marginHorizontal: 20,
+  },
+  vwProductData: {
+    backgroundColor: colors.creamee,
+    flexDirection: "row",
+    borderRadius: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    margin: 20,
+  },
+  vwPriceWeight: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginHorizontal: 9,
+    marginTop: 4,
+  },
+  vwHighlight: {
+    gap: 10,
+    marginHorizontal: 20,
+    marginTop: 15,
+    marginBottom: 20,
+  },
+  vwHighlightItem: {
+    gap: 17,
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+  },
+  vwRateProgress: {
+    height: 120,
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 20,
+    marginHorizontal : 20,
+  },
+  vwVerticalLine: {
+    height: 120,
+    width: 1,
+    backgroundColor: colors.greya7,
+    marginHorizontal: 15,
+  },
+  vwRateProgressItem: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+    gap: 8,
+  },
+  vwRateNumber: {
+    flexDirection: "row",
+    width: 28.14,
+    alignItems: "center",
+    gap: 4,
+  },
+  vwProgressBar: {
+    flex: 1,
+    height: 4,
+    backgroundColor: colors.white,
+    borderRadius: 1,
+    overflow: "hidden",
+  },
+  vwLine: {
+    height: 1,
+    flex: 1,
+    backgroundColor: `${colors.greya7}30`,
+    marginTop: 20,
+    marginBottom: 10,
+  },
+
+  vwProgressBarFill: {
+    height: "100%",
+    borderRadius: 1,
+    backgroundColor: colors.orange1c,
+  },
+  vwReviewRateDate: {
+    marginTop: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  vwImgeVideo: {
+    height: 65,
+    width: 65,
+    borderRadius: 5,
+    marginTop: 5,
+  },
+  vwReviewImage: {
+    height: 65,
+    width: 65,
+    borderRadius: 5,
+    backgroundColor: colors.whiteff,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  vwReviewVideo: {
+    height: 65,
+    width: 65,
+    borderRadius: 5,
+    backgroundColor: `${colors.black}17`,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+  },
+  vwGotoComapreButton:{
+    marginHorizontal : 20,
+    marginVertical : 40,
+  },
+  vwLikeBuyNow:{
+    flexDirection : 'row',
+    gap : 15,
+    alignItems : 'center',
+    marginHorizontal : 20,
+    marginBottom : 63,
+    marginTop : 8
+  },
+  vwFashionSizeColor:{
+    marginHorizontal : 10,
+    backgroundColor : colors.whiteff,
+    borderRadius : 10,
+    height : 194,
+    marginTop : 20,
+    paddingTop : 10,
+    paddingLeft : 10
+  },
+
+  //   Text Styles
+  lblCategoryTitle: {
+    color: colors.whiteff,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regular,
+  },
+  lblStock: {
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblProductName: {
+    color: colors.white,
+    fontSize: fontSize.size18,
+    fontFamily: fontsfamily.semibold,
+    marginHorizontal: 20,
+    marginTop: 9,
+  },
+  lblProductWeight: {
+    color: colors.greya7,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.semibold,
+    marginTop: 5,
+    marginHorizontal: 20,
+  },
+  lblProductWeight1: {
+    color: colors.greya7,
+    fontSize: fontSize.size18,
+    fontFamily: fontsfamily.regular,
+  },
+  lblProduct_rate: {
+    color: colors.white,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblProduct_reviews: {
+    color: colors.white,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.medium,
+  },
+  lblReviews: {
+    color: colors.greya7,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.regularGolosText,
+  },
+  lblProdcuctFinalPrice: {
+    color: colors.orange1c,
+    fontSize: fontSize.size18,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblProductPrice: {
+    color: colors.greya7,
+    fontSize: fontSize.size18,
+    fontFamily: fontsfamily.regular,
+    textDecorationLine: "line-through",
+  },
+  lblApproxDistanceTime: {
+    color: colors.white,
+    fontSize: fontSize.size10,
+    fontFamily: fontsfamily.medium,
+  },
+  lblPoductDistance: {
+    color: colors.white,
+    fontSize: fontSize.size10,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblProductDeliveryTime: {
+    color: colors.white,
+    fontSize: fontSize.size10,
+    fontFamily: fontsfamily.medium,
+  },
+  lblProductDeliveryData: {
+    color: colors.black13,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.medium,
+    textAlign: "center",
+  },
+  lblHighlight: {
+    color: colors.white,
+    fontSize: fontSize.size16,
+    fontFamily: fontsfamily.semibold,
+    marginHorizontal: 20,
+  },
+  lblHighlightTitle: {
+    color: colors.white,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.regular,
+    width: 90,
+  },
+  lblHighlightDesc: {
+    color: colors.white,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.medium,
+  },
+  lblProductDesc: {
+    color: colors.white,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.regular,
+    marginHorizontal: 20,
+    marginTop: 10,
+    lineHeight: 20,
+    marginBottom: 20,
+  },
+  lblRate: {
+    color: colors.white,
+    fontSize: fontSize.size22,
+    fontFamily: fontsfamily.boldGolosText,
+  },
+  lblReviewsCount: {
+    color: colors.greya7,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regular,
+    marginTop: 5,
+  },
+  lblRateNumber: {
+    color: colors.greya7,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.medium,
+  },
+  lblRatePercentage: {
+    color: colors.greya7,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.medium,
+  },
+  lblReviewName: {
+    color: colors.white,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblReviewRateNumber: {
+    color: colors.white,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semiboldGolosText,
+  },
+  lblReviewDate: {
+    color: colors.white,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regular,
+  },
+  lblReviewDesc: {
+    color: colors.white,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regular,
+    marginTop: 5,
+    marginRight: 30,
+  },
+  lblViewAll: {
+    color: colors.orange1c,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.medium,
+  },
+  lblSize:{
+    color: colors.blue4e,
+    fontSize: fontSize.size16,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblColor:{
+    color: colors.blue4e,
+    fontSize: fontSize.size16,
+    fontFamily: fontsfamily.medium,
+  },
+
+  //   Image Styles
+  imgProduct_imgMain: {
+    height: 163,
+    width: ScreenDimensions.screenWidth,
+    alignSelf: "flex-end",
+    marginBottom: 35,
+  },
+  imgProduct_imgMainF:{
+    height: ScreenDimensions.screenHeight / 3,
+    width: ScreenDimensions.screenWidth,
+  },
+  imgDotGrey: {
+    height: 6,
+    width: 6,
+  },
+  imgDotOrange: {
+    height: 4,
+    width: 4,
+    marginHorizontal: 4,
+  },
+  imgStar: {
+    height: 15.02,
+    width: 15.14,
+  },
+  imgDistance: {
+    height: 20,
+    width: 20,
+    marginRight: 5,
+  },
+  imgProductDeliveryData: {
+    height: 42,
+    width: 42,
+    marginBottom: 8,
+    resizeMode: "contain",
+  },
+  imgFastDelivery: {
+    width: 51.28,
+    height: 38.84,
+    marginBottom: 8,
+    resizeMode: "contain",
+  },
+  imgSimilarProduct: {
+    height: 93.2,
+    width: 64,
+    alignSelf: "center",
+    marginTop: 15,
+    marginBottom: 21.8,
+  },
+  imgMainStar: {
+    height: 15.02,
+    width: 15.14,
+  },
+  imgVideo: {
+    height: 24,
+    width: 24,
+  },
+  imgReview: {
+    width: 30.9,
+    height: 45,
+  },
+  imgReviewF: {
+    width: 65,
+    height: 65,
+    borderRadius : 5
+  },
+  imgRightOrangeArrow: {
+    height: 16,
+    width: 16,
+  },
+  imgRedHeart:{
+    height : 24,
+    width : 24
+  },
+  imgSelectedDot:{
+    height : 10,
+    width : 10,
+    position:'absolute',
+    top:16,
+    left:16,
+    right:16,
+    bottom:16
+  },
+
+  //   TouchableOpacity Styles
+  btnSimilarProduct: {
+    backgroundColor: colors.creamee,
+    borderRadius: 20,
+    height: 192,
+    width: 120,
+  },
+  btnViewAll: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    marginTop: 9,
+    marginHorizontal : 20
+  },
+  btnIsFavourite: {
+    height : 50,
+    width : 51,
+    borderRadius : 8,
+    justifyContent : 'center',
+    alignItems : 'center',
+    backgroundColor : colors.white
+  },
+  btnSize:{
+    height : 42,
+    width : 42,
+    alignItems : 'center',
+    justifyContent : 'center',
+    borderRadius : 10,
+    backgroundColor : colors.orange1c
+  },
+  btnColor:{
+    height : 42,
+    width : 42,
+    borderRadius : 10,
+  }
+});

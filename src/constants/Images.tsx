@@ -69,6 +69,7 @@ export const images = {
   beautyC4 : require("../assets/images/beautyC4.png"),
   electronicsC5 : require("../assets/images/electronicsC5.png"),
   householdC6 : require("../assets/images/householdC6.png"),
+  fashionC7: require("../assets/images/fashionC7.png"),
  
   // All Best Sellers
   dotOrange : require("../assets/images/dotOrange.png"),
@@ -97,6 +98,15 @@ export const images = {
   shareIcon: require("../assets/images/shareIcon.png"),
   distanceIcon : require("../assets/images/distanceIcon.png"),
   cartBagIcon : require("../assets/images/cartBagIcon.png"),
+  productReturn : require("../assets/images/productReturn.png"),
+  cashOnDelivery : require("../assets/images/cashOnDelivery.png"),
+  fastDelivery : require("../assets/images/fastDelivery.png"),
+  fashionMainImg :require("../assets/images/fashionMainImg.png"),
+
+  // Comapre Product
+  addCircle : require("../assets/images/addCircle.png"),
+  selectedDot : require("../assets/images/selectedDot.png"),
+
   // Restaurant Detail
   restaurantImage : require("../assets/images/restaurantImage.png"),
   restaurantImage1 : require("../assets/images/restaurantImage1.png"),

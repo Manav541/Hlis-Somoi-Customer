@@ -6,15 +6,7 @@ import { fontsfamily } from "../../constants/FontFamily";
 
 export const styles = StyleSheet.create({
   // View Styles
-  vwStickyHeader: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 999,
-    backgroundColor: colors.blue4e,
-  },
-  vwMain: {
+   vwMain: {
     flex: 1,
     backgroundColor: colors.blue4e,
   },

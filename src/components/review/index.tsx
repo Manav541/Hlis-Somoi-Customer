@@ -10,6 +10,7 @@ interface PropsType {
   totalReviews: string;
   arrRateProgress: any[];
   arrRevieews: any[];
+  onPressViewAll: () => void;
 }
 
 const ReviewComponent = (props: PropsType) => {
@@ -49,7 +50,7 @@ const ReviewComponent = (props: PropsType) => {
 
   const renderItemArrReviews = (item: any, index: number) => {
     return (
-      <View style={styles.vwReviewItem}>
+      <View style={styles.vwReviewItem} key={index}>
         <Text style={styles.lblReviewName}>{item?.review_personName}</Text>
         <View style={styles.vwReviewRateDate}>
           <View style={styles.vwRateNumber}>
@@ -60,16 +61,18 @@ const ReviewComponent = (props: PropsType) => {
         </View>
         <Text style={styles.lblReviewDesc}>{item?.review_description}</Text>
         <View style={styles.vwImgeVideo}>
-        <View style={styles.vwReviewImage}>
-          <Image style={styles.imgReview} source={item?.review_image} />
+          <View style={styles.vwReviewImage}>
+            <Image style={styles.imgReview} source={item?.review_image} />
+          </View>
+          {item?.type === "video" && (
+            <View style={styles.vwReviewVideo}>
+              <Image style={styles.imgVideo} source={images.videocircle} />
+            </View>
+          )}
         </View>
-        {item?.type === 'video' && <View style={styles.vwReviewVideo}>
-          <Image style={styles.imgVideo} source={images.videocircle}/>
-        </View>}
-        
-        </View>
-      <View style={styles.vwLine} />
-        
+        {index !== props?.arrRevieews.length - 1 && (
+          <View style={styles.vwLine} />
+        )}
       </View>
     );
   };
@@ -102,10 +105,20 @@ const ReviewComponent = (props: PropsType) => {
             {props?.arrRateProgress.map(renderItemArrRateProgress)}
           </View>
         </View>
-        <View style={{marginTop : 20}}>{props?.arrRevieews.map(renderItemArrReviews)}</View>
-        <TouchableOpacity style={styles.btnViewAll} activeOpacity={activityOpacity} hitSlop={hitSlop}>
-          <Text style={styles.lblViewAll}>{getTranslation('viewAll')}</Text>
-          <Image style={styles.imgRightOrangeArrow} source={images.rightArrowOrange}/>
+        <View style={{ marginTop: 20 }}>
+          {props?.arrRevieews.map(renderItemArrReviews)}
+        </View>
+        <TouchableOpacity
+          style={styles.btnViewAll}
+          activeOpacity={activityOpacity}
+          hitSlop={hitSlop}
+          onPress={props?.onPressViewAll}
+        >
+          <Text style={styles.lblViewAll}>{getTranslation("viewAll")}</Text>
+          <Image
+            style={styles.imgRightOrangeArrow}
+            source={images.rightArrowOrange}
+          />
         </TouchableOpacity>
       </ScrollView>
     </View>

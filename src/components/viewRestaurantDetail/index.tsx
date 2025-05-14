@@ -184,6 +184,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
           data={props?.restaurant_imgMain}
           horizontal
           bounces={false}
+          pagingEnabled
           showsHorizontalScrollIndicator={false}
           onScroll={props?.handleScroll}
           renderItem={({ item, index }) => {

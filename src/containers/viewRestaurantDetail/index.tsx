@@ -11,7 +11,7 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { ScreenNames } from "../../routers";
 
 const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
-  console.log("route", route.params?.item);
+  // console.log("route", route.params?.item);
   const itemData = route.params?.item;
   const restaurant_imgMain = itemData?.restaurant_imgMain;
   const restaurant_img = itemData?.restaurant_img;

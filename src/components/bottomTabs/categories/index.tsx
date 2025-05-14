@@ -76,7 +76,7 @@ const CategoriesComponent = (props: PropsType) => {
           showsVerticalScrollIndicator={false}
           renderItem={renderItemAllCategories}
           numColumns={2}
-          contentContainerStyle={{ paddingTop: 37, gap: 20 }}
+          contentContainerStyle={{ paddingTop: 37, gap: 20,paddingBottom:20 }}
           columnWrapperStyle={{
             marginHorizontal: 20,
             justifyContent: "space-between",

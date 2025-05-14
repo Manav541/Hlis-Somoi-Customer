@@ -14,7 +14,9 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.blue4e,
     borderBottomLeftRadius : 40,
-    borderBottomRightRadius:40
+    borderBottomRightRadius:40,
+    overflow:'hidden'
+    
   },
   vwLocationNotification:{
     flexDirection : 'row',
