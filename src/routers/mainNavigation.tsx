@@ -52,9 +52,21 @@ const MainNavigation = (props: PropsType) => {
         initialRouteName={props?.initialRoute}
       >
         {/* Auth */}
-        {handleStackScreens(ScreenNames.onboarding, MyScreens.OnboardingContainer, false)}
-        {handleStackScreens(ScreenNames.signup, MyScreens.SignupContainer, true)}
-        {handleStackScreens(ScreenNames.signin, MyScreens.SignInContainer, true)}
+        {handleStackScreens(
+          ScreenNames.onboarding,
+          MyScreens.OnboardingContainer,
+          false
+        )}
+        {handleStackScreens(
+          ScreenNames.signup,
+          MyScreens.SignupContainer,
+          true
+        )}
+        {handleStackScreens(
+          ScreenNames.signin,
+          MyScreens.SignInContainer,
+          true
+        )}
         {handleStackScreens(
           ScreenNames.verification,
           MyScreens.VerificationContainer,
@@ -71,13 +83,17 @@ const MainNavigation = (props: PropsType) => {
           true,
           false
         )}
-        {handleStackScreens(ScreenNames.addAddress, MyScreens.AddAddressContainer, true)}
+        {handleStackScreens(
+          ScreenNames.addAddress,
+          MyScreens.AddAddressContainer,
+          true
+        )}
 
         {/* Bottom Tabs */}
         {handleStackScreens(
           ScreenNames.bottomTabsNavigation,
           MyScreens.BottomTabsNavigation,
-          false,
+          false
         )}
 
         {/* Home */}
@@ -91,7 +107,7 @@ const MainNavigation = (props: PropsType) => {
           MyScreens.ViewAllCategoriesContainer,
           true
         )}
-         {handleStackScreens(
+        {handleStackScreens(
           ScreenNames.allBestSellers,
           MyScreens.ViewAllBestSellersContainer,
           true
@@ -128,7 +144,11 @@ const MainNavigation = (props: PropsType) => {
           MyScreens.AddCompareProductsContainer,
           true
         )}
-       
+        {handleStackScreens(
+          ScreenNames.paymentMethod,
+          MyScreens.PaymentMethodContainer,
+          true
+        )}
 
         {/* Categories */}
         {handleStackScreens(
@@ -139,43 +159,47 @@ const MainNavigation = (props: PropsType) => {
 
         {/* Setting */}
         {handleStackScreens(
-          "Edit Profile",
+          ScreenNames.editProfile,
           MyScreens.EditProfileContainer,
           true
         )}
         {handleStackScreens(
-          "CMSPageContainer",
+          ScreenNames.cmsPage,
           MyScreens.CMSPageContainer,
           true
         )}
         {handleStackScreens(
-          "Available Offers",
+          ScreenNames.availableOffers,
           MyScreens.AvailableOffersContainer,
           true
         )}
-        {handleStackScreens("Contact Us", MyScreens.ContactUsContainer, true)}
         {handleStackScreens(
-          "Manage Address",
+          ScreenNames.contactUs,
+          MyScreens.ContactUsContainer,
+          true
+        )}
+        {handleStackScreens(
+          ScreenNames.manageAddress,
           MyScreens.ManageAddressesContainer,
           true
         )}
         {handleStackScreens(
-          "My Wishlist",
+          ScreenNames.myWishlist,
           MyScreens.MyWishlistContainer,
           true
         )}
         {handleStackScreens(
-          "ChangeEmailPhoneNumberContainer",
+          ScreenNames.changeEmailPhoneNumber,
           MyScreens.ChangeEmailPhoneNumberContainer,
           true
         )}
         {handleStackScreens(
-          "Manage Payment Methods",
+          ScreenNames.managePaymentMethods,
           MyScreens.ManagePaymentMethodsContainer,
           true
         )}
         {handleStackScreens(
-          "Add New Card",
+          ScreenNames.addNewCard,
           MyScreens.AddNewCardContainer,
           true
         )}

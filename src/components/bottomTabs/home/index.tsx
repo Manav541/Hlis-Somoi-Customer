@@ -9,6 +9,7 @@ import {
   TextInput,
   FlatList,
   ImageBackground,
+  StyleSheet,
 } from "react-native";
 import React, { useRef, useEffect, useState } from "react";
 import { styles } from "./styles";
@@ -31,8 +32,8 @@ interface PropsType {
   arrBestSellers: any[];
   handleSellAllCategories: () => void;
   handleSellAllBestSellers: () => void;
-  onPressSearch:() => void;
-  handleOnPressNotifaicationIcon:() => void;
+  onPressSearch: () => void;
+  handleOnPressNotifaicationIcon: () => void;
 }
 
 const HomeComponent = (props: PropsType) => {
@@ -75,8 +76,7 @@ const HomeComponent = (props: PropsType) => {
         key={index}
         style={{
           ...styles.btnGroceriesFood,
-          width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
-          marginRight: index % 2 === 0 ? 19 : 0,
+         
           backgroundColor:
             props?.isGroceriesFoodSelected === item?.type
               ? colors.orange1c
@@ -88,7 +88,7 @@ const HomeComponent = (props: PropsType) => {
         <Image
           style={styles.imgGroceriesFood}
           source={item?.image}
-          resizeMode="stretch"
+          resizeMode="cover"
         />
         <View style={styles.vwType}>
           <Text style={styles.lblGroceriesFood}>{item?.type}</Text>
@@ -190,35 +190,51 @@ const HomeComponent = (props: PropsType) => {
         style={styles.btnBestSeller}
         activeOpacity={activityOpacity}
       >
-        <Image style={styles.imgBestSeller} source={item?.image} />
+        <Image style={styles.imgBestSeller} source={item?.restaurant_img} />
 
         <View style={styles.vwBestSellerDetails}>
-          <Text style={styles.lblBestSellerName}>{item?.name}</Text>
+          <Text style={styles.lblBestSellerName}>{item?.restaurant_name}</Text>
           <View style={styles.vwRating}>
-            {renderStar(item?.rating)}
-            <Text style={styles.lblBestSellerReviews}>(+{item?.reviews})</Text>
+            {renderStar(item?.restaurant_rating)}
+            <Text style={styles.lblBestSellerReviews}>
+              (+{item?.restaurant_reviews})
+            </Text>
           </View>
         </View>
-        <Image style={styles.imgLogo} source={item?.logo} />
+        <Image style={styles.imgLogo} source={item?.restaurant_logo} />
       </TouchableOpacity>
     );
   };
 
   return (
     <View style={styles.vwMain}>
-      <ImageBackground style={styles.vwMainContainer} source={images.linearBG} resizeMode="cover">
+      <StatusBar
+        barStyle={"light-content"}
+        backgroundColor={'transparent'}
+        translucent={false}/>
+      <View style={styles.vwMainContainer}>
+        <Image
+          style={{
+            width: ScreenDimensions.screenWidth,
+            height: ScreenDimensions.screenHeight / 3,
+          }}
+          source={images.linearBG1}
+        />
         <ScrollView
+          style={StyleSheet.absoluteFillObject}
           contentContainerStyle={{
             paddingTop: Platform.OS === "ios" ? insets.top : 30,
             overflow: "hidden",
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,
+
+            flexGrow: 1,
           }}
           bounces={false}
           showsVerticalScrollIndicator={false}
         >
           {/* Groceries Food */}
-          <View style={{ flexDirection: "row", paddingHorizontal: 20 }}>
+          <View style={{ flexDirection: "row", paddingHorizontal: 20, gap : 19 }}>
             {props?.arrGroceriesFood.map((item, index) =>
               renderGroceriesFoodItem(item, index)
             )}
@@ -352,7 +368,7 @@ const HomeComponent = (props: PropsType) => {
             </View>
           )}
         </ScrollView>
-      </ImageBackground>
+      </View>
     </View>
   );
 };

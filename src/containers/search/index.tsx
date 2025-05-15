@@ -1,4 +1,10 @@
-import { View, TextInput, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import SearchComponent from "../../components/search";
 import GlobalBackButton from "../../global/GlobalBackButton";
@@ -8,6 +14,7 @@ import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useFocusEffect } from "@react-navigation/native";
 
 const SearchContainer = ({ navigation }: any) => {
   const insets = useSafeAreaInsets();
@@ -59,8 +66,8 @@ const SearchContainer = ({ navigation }: any) => {
     setSearch("");
   };
 
-  const filteredProducts = search 
-    ? arrProducts.filter((item : any) => 
+  const filteredProducts = search
+    ? arrProducts.filter((item: any) =>
         item.product_name.toLowerCase().includes(search.toLowerCase())
       )
     : [];
@@ -98,7 +105,19 @@ const SearchContainer = ({ navigation }: any) => {
     });
   }, [search]);
 
-  return <SearchComponent arrProducts={arrProducts} filteredProducts={filteredProducts} />;
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
+
+  return (
+    <SearchComponent
+      arrProducts={arrProducts}
+      filteredProducts={filteredProducts}
+    />
+  );
 };
 
 export default SearchContainer;

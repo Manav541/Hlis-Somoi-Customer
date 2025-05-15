@@ -6,6 +6,8 @@ import {
   showConfirmAlert,
 } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
+import { useFocusEffect } from "@react-navigation/native";
+import { StatusBar } from "react-native";
 
 const ManagePaymentMethodsContainer = ({ navigation, route }: any) => {
   console.log("route", route.params?.newCardData);
@@ -59,6 +61,13 @@ const ManagePaymentMethodsContainer = ({ navigation, route }: any) => {
       setArrCards((prevCards: any) => [...prevCards, route.params.newCardData]);
     }
   }, [route?.params?.newCardData]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
 
   return (
     <ManagePaymentMethodsComponent

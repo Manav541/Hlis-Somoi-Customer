@@ -11,9 +11,10 @@ import {
 } from "../../constants/GConstant";
 import { regex } from "../../constants/Regex";
 import { getTranslation } from "../../localization/i18n/i18n.config";
-import { TextInput } from "react-native";
+import { StatusBar, TextInput } from "react-native";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import { Asset } from "react-native-image-picker";
+import { useFocusEffect } from "@react-navigation/native";
 
 const EditProfileContainer = ({ navigation }: any) => {
   const [profileImage, setProfileImage] = useState<string>("");
@@ -97,6 +98,13 @@ const EditProfileContainer = ({ navigation }: any) => {
   useEffect(() => {
     header();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
 
   return (
     <EditProfileComponent

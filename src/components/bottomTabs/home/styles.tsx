@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
+    backgroundColor : colors.whiteff,
     overflow: "hidden",
   },
   vwGroceriesFoodLogo: {
@@ -211,6 +212,7 @@ export const styles = StyleSheet.create({
   },
   btnGroceriesFood: {
     height: 122,
+    width: (ScreenDimensions.screenWidth - 20 * 2 - 20) / 2,
     borderRadius: 11.42,
     backgroundColor: colors.orange1c,
   },
@@ -241,7 +243,7 @@ export const styles = StyleSheet.create({
   // Image Styles
   imgGroceriesFood: {
     height: 87.36,
-    width: "100%",
+    width: (ScreenDimensions.screenWidth - 20 * 2 - 19) /2,
     borderRadius: 11.42,
     overflow: "hidden",
   },

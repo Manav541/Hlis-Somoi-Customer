@@ -1,9 +1,10 @@
-import { View, Text } from "react-native";
+import { View, Text, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import NotificationComponent from "../../components/notification";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
+import { useFocusEffect } from "@react-navigation/native";
 
 const NotificationContainer = ({ navigation }: any) => {
   const [arrNotification, setArrNotification] = useState([
@@ -68,7 +69,20 @@ const NotificationContainer = ({ navigation }: any) => {
   useEffect(() => {
     header();
   }, []);
-  return <NotificationComponent arrNotification={arrNotification} onPressNotification={onPressNotification} />;
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
+
+  return (
+    <NotificationComponent
+      arrNotification={arrNotification}
+      onPressNotification={onPressNotification}
+    />
+  );
 };
 
 export default NotificationContainer;

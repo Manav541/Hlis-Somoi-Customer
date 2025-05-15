@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import ViewRestaurantDetailComponent from "../../components/viewRestaurantDetail";
 import GlobalBackButton from "../../global/GlobalBackButton";
@@ -9,6 +9,7 @@ import { colors } from "../../constants/Colors";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { ScreenNames } from "../../routers";
+import { useFocusEffect } from "@react-navigation/native";
 
 const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   // console.log("route", route.params?.item);
@@ -243,6 +244,13 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   useEffect(() => {
     header();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("light-content");
+      return () => {};
+    }, [navigation])
+  );
 
   return (
     <ViewRestaurantDetailComponent

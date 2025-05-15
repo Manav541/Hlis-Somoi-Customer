@@ -5,6 +5,8 @@ import { TextInput } from 'react-native-gesture-handler';
 import { regex } from '../../constants/Regex';
 import { flashMessageSucess, flashMessageWarning } from '../../constants/GConstant';
 import { getTranslation } from '../../localization/i18n/i18n.config';
+import { useFocusEffect } from '@react-navigation/native';
+import { StatusBar } from 'react-native';
 
 const ContactUsContainer = ({navigation} : any) => {
 
@@ -104,6 +106,14 @@ const ContactUsContainer = ({navigation} : any) => {
       useEffect(() => {
         header();
       }, []);
+
+      useFocusEffect(
+        React.useCallback(() => {
+          StatusBar.setBarStyle("dark-content");
+          return () => {};
+        }, [navigation])
+      );
+
   return (
    <ContactUsComponent
       name={name}

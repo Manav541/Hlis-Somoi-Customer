@@ -113,25 +113,19 @@
 
 // export default ReviewContainer;
 
-import { View, Text } from "react-native";
+import { View, Text, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import ReviewComponent from "../../components/review";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
+import { useFocusEffect } from "@react-navigation/native";
 
 const ReviewContainer = ({ navigation }: any) => {
   const totalRate = 4.5;
   const totalReviews = "1.5k";
-  const header = () => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <GlobalBackButton onPress={() => navigation.goBack()} />
-      ),
-    });
-  };
-
+  
   const [arrRateProgress, setArrRateProgress] = useState([
     {
       rate_number: 5,
@@ -154,7 +148,7 @@ const ReviewContainer = ({ navigation }: any) => {
       rate_percentage: 0,
     },
   ]);
-
+  
   const [arrRevieews,setArrReviews] = useState([
     {
       review_personName : 'Jesus Loy',
@@ -173,14 +167,31 @@ const ReviewContainer = ({ navigation }: any) => {
       type: 'video'
     },
   ])
-
+  
   const onPressViewAll =()=>{
     flashMessageWarning(getTranslation("underDevelopment"));
   }
-
+  
   useEffect(() => {
+    const header = () => {
+      navigation.setOptions({
+        headerLeft: () => (
+          <GlobalBackButton onPress={() => navigation.goBack()} />
+        ),
+      });
+    };
+
     header();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
+
+
   return (
     <ReviewComponent
       totalRate={totalRate}

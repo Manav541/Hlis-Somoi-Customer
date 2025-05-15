@@ -10,6 +10,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 interface PropsType {
   arrAllBestSellers: any[];
   onPressFavourite: (index: number) => void;
+  onPressRestaurant:(item: any)=>void;
 }
 
 const ViewAllBestSellersComponent = (props: PropsType) => {
@@ -20,8 +21,9 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
       <TouchableOpacity
         style={styles.btnAllBestSellersItem}
         activeOpacity={activityOpacity}
+        onPress={()=>props?.onPressRestaurant(item)}
       >
-        <Image style={styles.imgBestSellers} source={item?.image} />
+        <Image style={styles.imgBestSellers} source={item?.restaurant_img} />
         <TouchableOpacity
           style={styles.btnFavourite}
           activeOpacity={activityOpacity}
@@ -34,13 +36,13 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
           />
         </TouchableOpacity>
         <View style={styles.vwBestSellersItemDetails}>
-          <Text style={styles.lblBestSellersItemName}>{item?.name}</Text>
+          <Text style={styles.lblBestSellersItemName}>{item?.restaurant_name}</Text>
           <View style={styles.vwLocation}>
             <Image
               style={styles.imgLocation}
               source={images.locationIconOrange}
             />
-            <Text style={styles.lblLocation}>{item?.address}</Text>
+            <Text style={styles.lblLocation}>{item?.restaurant_address}</Text>
           </View>
           <View style={styles.vwTimeDistanceRating}>
             <View style={styles.vwTimeDistance}>
@@ -52,20 +54,20 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
                     fontFamily: fontsfamily.semiboldOutFit,
                   }}
                 >
-                  {item?.time}
+                  {item?.restaurant_time}
                 </Text>
               </Text>
               <View style={styles.vwDistance}>
                 <Image style={styles.imgDot} source={images.dotOrange} />
-                <Text style={styles.lblDistance}>{item?.distance}</Text>
+                <Text style={styles.lblDistance}>{item?.restaurant_distance}</Text>
               </View>
             </View>
             <View style={styles.vwRating}>
-              <Text style={styles.lblRatings}>{item?.ratings}</Text>
+              <Text style={styles.lblRatings}>{item?.restaurant_ratings}</Text>
               <Image style={styles.imgStarBlue} source={images.starBlue} />
             </View>
           </View>
-          <Image style={styles.imgLogo} source={item?.logo}/>
+          <Image style={styles.imgLogo} source={item?.restaurant_logo}/>
         </View>
       </TouchableOpacity>
     );

@@ -1,9 +1,10 @@
-import { Text } from "react-native";
+import { StatusBar, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { styles } from "./styles";
 import CMSPageComponent from "../../components/cmsPages";
 import GlobalBackButton from "../../global/GlobalBackButton";
+import { useFocusEffect } from "@react-navigation/native";
 
 interface FaqArrProps {
   faqTitle: string | null;
@@ -64,6 +65,13 @@ const CMSPageContainer = ({ navigation, route }: any) => {
   useEffect(() => {
     header();
   }, [navigateFrom]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
 
   const handleOnPressFaq = (index: number) => {
     const updatedFaqArr = faqArr.map((faq, i) =>

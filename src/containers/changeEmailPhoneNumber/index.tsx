@@ -3,9 +3,10 @@ import ChangeEmailPhoneNumberComponenet from "../../components/changeEmailPhoneN
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { styles } from "./styles";
-import { Text, TextInput } from "react-native";
+import { StatusBar, Text, TextInput } from "react-native";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { regex } from "../../constants/Regex";
+import { useFocusEffect } from "@react-navigation/native";
 
 const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
   const navigateFrom = route.params?.navigateFrom;
@@ -86,6 +87,12 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
   useEffect(() => {
     header();
   }, [navigateFrom]);
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
 
   return (
     <ChangeEmailPhoneNumberComponenet

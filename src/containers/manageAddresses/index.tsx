@@ -1,11 +1,13 @@
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import ManageAddressesComponent from "../../components/manageAddresses";
 import { flashMessageSucess, showConfirmAlert } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
+import { useFocusEffect } from "@react-navigation/native";
+import { styles } from "./styles";
 
-const ManageAddressesContainer = ({ navigation }: any) => {
+const ManageAddressesContainer = ({ navigation,route }: any) => {
   const [arrManageAddress, setArrManageAddress] = useState([
     {
       title: `1181 North Bend River Road Lexington, KY 40507`,
@@ -63,12 +65,24 @@ const ManageAddressesContainer = ({ navigation }: any) => {
           }}
         />
       ),
+      headerTitle: () => (
+        <Text style={styles.txtHeaderTitle}>
+          {route.params?.navigateFromCart ? getTranslation('changeLocation') : getTranslation('manageAddress')}
+        </Text>
+      ),
     });
   };
 
   useEffect(() => {
     header();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
 
   return (
     <ManageAddressesComponent

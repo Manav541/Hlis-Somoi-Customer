@@ -10,10 +10,5 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size18,
     fontFamily: fontsfamily.bold,
   },
-  imgSort:{
-    height : 24,
-    width : 24,
-    marginRight : 20
-  },
  
 });

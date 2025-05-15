@@ -4,21 +4,20 @@ import SettingComponent from "../../../components/bottomTabs/setting";
 import {
   flashMessageSucess,
   flashMessageWarning,
-  showAlert,
 } from "../../../constants/GConstant";
 import { images } from "../../../constants/Images";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
-import { CommonActions } from "@react-navigation/native";
+import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
+import { StatusBar } from "react-native";
 
 const SettingContainer = ({ navigation, route }: any) => {
   console.log("route ==>>> ", route?.params?.name);
   const [profileImage, setProfileImage] = useState<any>(images.profileIcon);
   const [name, setName] = useState<string>("Jhon Doe");
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedType, setSelectedType] = useState<"delete" | "logout">(
-    "logout"
-  );
+  const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
+  const [isModalSignOutVisible, setIsModalSignOutVisible] = useState(false);
+ 
 
   useEffect(() => {
     if (route.params?.profileImage && route.params?.name) {
@@ -30,23 +29,26 @@ const SettingContainer = ({ navigation, route }: any) => {
   }, [route.params]);
 
   const handleOnPressNoThanks = () => {
-    setIsModalVisible(false);
+    setIsModalDeleteVisible(false);
+    setIsModalSignOutVisible(false);
   };
 
   const handleOnPressYesDelete = () => {
-    setIsModalVisible(false);
-    if (selectedType === "delete") {
-      MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
-      MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
-      flashMessageSucess(getTranslation("profileDeleted"));
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 1,
-          routes: [{ name: ScreenNames.signup }],
-        })
-      );
-    } else {
-      MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
+    setIsModalDeleteVisible(false);
+    MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
+    MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
+    flashMessageSucess(getTranslation("profileDeleted"));
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: ScreenNames.signup }],
+      })
+    );
+  }
+
+  const handleOnPressYesSignOut = () => {
+    setIsModalSignOutVisible(false);
+    MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
       MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       flashMessageSucess(getTranslation("logoutSuccess"));
       navigation.dispatch(
@@ -55,7 +57,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           routes: [{ name: ScreenNames.signin }],
         })
       );
-    }
+    
   };
 
   const arrSettingData = [
@@ -67,7 +69,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           title: getTranslation("editProfile"),
           height: 22,
           width: 22,
-          onPress: () => navigation.navigate("Edit Profile"),
+          onPress: () => navigation.navigate(ScreenNames.editProfile),
         },
         {
           icon: images.changePasswordIcon,
@@ -75,7 +77,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           height: 22,
           width: 22,
           onPress: () =>
-            navigation.navigate("Change Password", {
+            navigation.navigate(ScreenNames.changePassword, {
               navigateFromForgotPassword: false,
             }),
         },
@@ -85,7 +87,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           height: 22,
           width: 22,
           onPress: () =>
-            navigation.navigate("ChangeEmailPhoneNumberContainer", {
+            navigation.navigate(ScreenNames.changeEmailPhoneNumber, {
               navigateFrom: "ChangeEmail",
             }),
         },
@@ -95,7 +97,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           height: 22,
           width: 22,
           onPress: () =>
-            navigation.navigate("ChangeEmailPhoneNumberContainer", {
+            navigation.navigate(ScreenNames.changeEmailPhoneNumber, {
               navigateFrom: "ChangePhoneNumber",
             }),
         },
@@ -104,28 +106,28 @@ const SettingContainer = ({ navigation, route }: any) => {
           title: getTranslation("managePaymentMethods"),
           height: 22,
           width: 22,
-          onPress: () => navigation.navigate("Manage Payment Methods"),
+          onPress: () => navigation.navigate(ScreenNames.managePaymentMethods),
         },
         {
           icon: images.myWishlistIcon,
           title: getTranslation("myWishlist"),
           height: 22,
           width: 22,
-          onPress: () => navigation.navigate("My Wishlist"),
+          onPress: () => navigation.navigate(ScreenNames.myWishlist),
         },
         {
           icon: images.manageAddressIcon,
           title: getTranslation("manageAddresses"),
           height: 22,
           width: 22,
-          onPress: () => navigation.navigate("Manage Address"),
+          onPress: () => navigation.navigate(ScreenNames.manageAddress,{navigateFromCart : false}),
         },
         {
           icon: images.availableOffersIcon,
           title: getTranslation("availableOffers"),
           height: 22,
           width: 22,
-          onPress: () => navigation.navigate("Available Offers"),
+          onPress: () => navigation.navigate(ScreenNames.availableOffers),
         },
       ],
     },
@@ -154,7 +156,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           height: 22,
           width: 22,
           onPress: () =>
-            navigation.navigate("CMSPageContainer", {
+            navigation.navigate(ScreenNames.cmsPage, {
               navigateFrom: "aboutUs",
             }),
         },
@@ -163,7 +165,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           title: getTranslation("contactUs"),
           height: 22,
           width: 22,
-          onPress: () => navigation.navigate("Contact Us"),
+          onPress: () => navigation.navigate(ScreenNames.contactUs),
         },
         {
           icon: images.faqIcon,
@@ -171,7 +173,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           height: 22,
           width: 22,
           onPress: () =>
-            navigation.navigate("CMSPageContainer", { navigateFrom: "faq" }),
+            navigation.navigate(ScreenNames.cmsPage, { navigateFrom: "faq" }),
         },
         {
           icon: images.privacyPolicyIcon,
@@ -179,7 +181,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           height: 22,
           width: 22,
           onPress: () =>
-            navigation.navigate("CMSPageContainer", {
+            navigation.navigate(ScreenNames.cmsPage, {
               navigateFrom: "privacyPolicy",
             }),
         },
@@ -189,7 +191,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           height: 22,
           width: 22,
           onPress: () =>
-            navigation.navigate("CMSPageContainer", {
+            navigation.navigate(ScreenNames.cmsPage, {
               navigateFrom: "termsConditions",
             }),
         },
@@ -204,8 +206,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           height: 22,
           width: 22,
           onPress: () => {
-            setSelectedType("delete");
-            setIsModalVisible(true);
+            setIsModalDeleteVisible(true);
           },
         },
         {
@@ -214,20 +215,27 @@ const SettingContainer = ({ navigation, route }: any) => {
           height: 22,
           width: 22,
           onPress: () => {
-            setSelectedType("logout");
-            setIsModalVisible(true);
+            setIsModalSignOutVisible(true);
           },
         },
       ],
     },
   ];
 
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
+
   return (
     <SettingComponent
       arrSettingData={arrSettingData}
-      isModalVisible={isModalVisible}
-      selectedType={selectedType}
+      isModalDeleteVisible={isModalDeleteVisible}
+      isModalSignOutVisible={isModalSignOutVisible}
       handleOnPressYesDelete={handleOnPressYesDelete}
+      handleOnPressYesSignOut={handleOnPressYesSignOut}
       handleOnPressNoThanks={handleOnPressNoThanks}
       profileImage={profileImage}
       name={name}

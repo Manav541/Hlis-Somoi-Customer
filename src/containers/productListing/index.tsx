@@ -1,16 +1,19 @@
-import { View, Text } from "react-native";
+import { View, Text, StatusBar, TouchableOpacity, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import ProductListingComponent from "../../components/productListing";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
+import { useFocusEffect } from "@react-navigation/native";
+import { activityOpacity, hitSlop } from "../../constants/GConstant";
 
 const ProductListingContainer = ({ navigation, route }: any) => {
   const mainCategoryName = route.params?.mainCategoryName;
   const [arrSubCategory, setArrSubCategory] = useState(
     route.params?.arrSubCategory
   );
+  const [isFilterModalVisible,setIsFilterModalVisible] = useState<boolean>(false);
   const [subCategoryTitle, setSubCategoryTitle] = useState([
     {
       subIcon: images.allSubIcon,
@@ -110,6 +113,10 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     navigation.navigate(ScreenNames.productDetail, { item : item });
   };
 
+  const onPressFilter = ()=> {
+    setIsFilterModalVisible(true)
+  }
+
   const header = () => {
     navigation.setOptions({
       headerLeft: () => (
@@ -118,12 +125,24 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       headerTitle: () => (
         <Text style={styles.txtHeaderTitle}>{mainCategoryName}</Text>
       ),
+      headerRight: () => (
+        <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop} onPress={onPressFilter}>
+          <Image style={styles.imgSort} source={images.sort}/>
+        </TouchableOpacity>
+      ),
     });
   };
 
   useEffect(() => {
     header();
   }, [mainCategoryName]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
 
   return (
     <ProductListingComponent
@@ -136,6 +155,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       onPressFavourite={onPressFavourite}
       onPressRestaurant={onPressRestaurant}
       onPressProduct={onPressProduct}
+      isFilterModalVisible={isFilterModalVisible}
     />
   );
 };

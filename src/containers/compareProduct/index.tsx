@@ -1,10 +1,11 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import CompareProductComponent from "../../components/compareProduct";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
+import { useFocusEffect } from "@react-navigation/native";
 
 const CompareProductConteiner = ({ navigation, route }: any) => {
   const mainCategoryTitle = route.params?.mainCategoryTitle;
@@ -25,9 +26,9 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
     navigation.navigate(ScreenNames.addCompareProduct, {
       mainCategoryTitle,
       onSelectProduct: (selectedProduct: any) => {
-        setArrCompareProducts(prev => [...prev, selectedProduct]);
+        setArrCompareProducts((prev) => [...prev, selectedProduct]);
       },
-    })
+    });
   };
 
   const header = () => {
@@ -53,6 +54,14 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
   useEffect(() => {
     header();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
+
   return <CompareProductComponent arrCompareProducts={arrCompareProducts} />;
 };
 

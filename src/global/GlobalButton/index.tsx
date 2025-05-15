@@ -6,7 +6,7 @@ import {colors} from '../../constants/Colors';
 import {fontsfamily} from '../../constants/FontFamily';
 
 interface PropsType {
-  onPress: () => void;
+  onPress: (() => void) | undefined;
   title: string | null;
   isOrange?: boolean;
   isTransparentWithBorder?: boolean;

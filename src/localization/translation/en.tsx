@@ -40,7 +40,7 @@ export default {
   deleteCardSuccess: "Card deleted successfully",
   profileUpdatedSucess: "Profile updated successfully",
   loginSuccessfully: "Login Successfully",
-  signUpSuccess : "Sign Up Successfully",
+  signUpSuccess: "Sign Up Successfully",
   addressAddedSucess: "Address added successfully",
 
   // Onboarding
@@ -67,8 +67,14 @@ export default {
   addToCart: "Add to Cart",
   addToWishlist: "Add to Wishlist",
   viewAll: "View All",
-  goToCompareProduct:"Go to Compare Product",
-  buyNow:"Buy Now",
+  goToCompareProduct: "Go to Compare Product",
+  buyNow: "Buy Now",
+  change: "Change",
+  placeOrder: "Place Order",
+  apply: "Apply",
+  remove: "Remove",
+  trackOrder:"Track Order",
+  continueShopping:"Continue Shopping",
 
   // Signup-Signin
   email: "Email",
@@ -108,43 +114,76 @@ export default {
   confirmPassword: "Confirm Password",
 
   // Bottom Tabs
-  home: 'Home',
-  categories: 'Categories',
-  cart: 'Cart',
-  myOrders: 'My Orders',
-  settings: 'Settings',
+  home: "Home",
+  categories: "Categories",
+  cart: "Cart",
+  myOrders: "My Orders",
+  settings: "Settings",
 
   // Home
   groceries: "Groceries",
   food: "Food",
   ahmedabad: "Ahmedabad",
   shopBySubCategories: "Shop By Sub Categories",
-  seeAll : "See All",
+  seeAll: "See All",
   bestProducts: "Best Products",
   bestSellers: "Best Sellers",
-  openCloseTime : "Open & Close Time : ",
+  openCloseTime: "Open & Close Time : ",
 
   // Search
   searchPlaceholder: "Search your products",
-  noResultsFound : "No Results Found",
-  cantFindMatch :"We couldn’t find any matches for your search.",
+  noResultsFound: "No Results Found",
+  cantFindMatch: "We couldn’t find any matches for your search.",
 
   // Product Detail
   reviews: "Reviews",
-  reviews1:"reviews",
-  approxDistanceTime :"Approx Distance & Time: ",
-  fastDelivery : "Fast Delivery",
-  dayReturnExchange : "3 Day Return/Exchange",
-  cashOnDelivery : "Cash on Delivery",
-  deliveryTiming :"Delivery Timing :",
+  reviews1: "reviews",
+  approxDistanceTime: "Approx Distance & Time: ",
+  fastDelivery: "Fast Delivery",
+  dayReturnExchange: "3 Day Return/Exchange",
+  cashOnDelivery: "Cash on Delivery",
+  deliveryTiming: "Delivery Timing :",
   additionalInfo: "Additional Info",
   inStock: "In Stock",
   outOfStock: "Out of Stock",
-  highlight:"Highlight",
+  highlight: "Highlight",
   productDetails: "Product Details",
-  similarProducttoCompare:"Similar Product to Compare",
-  size:"Size",
-  color:"Color",
+  similarProducttoCompare: "Similar Product to Compare",
+  size: "Size",
+  color: "Color",
+
+  // Cart Module
+  applyCouponCode: "Apply Coupon Code",
+  enterCouponCode: "Enter Coupon Code",
+  coupon_code_required: "Please enter coupon code",
+  deliverto: "Deliver to:",
+  approxDeliveryTime: "Approx delivery time",
+  orderDetails: "Order Details",
+  itemTotal: "Item total",
+  subTotal: "Sub Total",
+  tax: "Tax (5%)",
+  discount: "Discount",
+  promocode: "Promocode",
+  delivery: "Delivery",
+  paymentType: "Payment Type",
+  total: "Total",
+
+  // Payment Method
+  paymentMethods: "Payment Methods",
+  paymentMethodsDesc:
+    "Select a saved card or enter new card details for payment.",
+  creditorDebitCard: "Credit or Debit Card",
+  cashonDelivery: "Cash on Delivery",
+  totalAmount: "Total Amount",
+
+  // Success
+  success: "Success!",
+  yourOrderisPlaced: "Your Order is Placed",
+  orderSuccessMSG :"Your order has been successfully placed. We'll notify you when it's on the way.",
+  order:"Order",
+
+  // Filter Modal
+  filters:"Filters",
 
   // Setting
   setting: "Setting",
@@ -196,6 +235,8 @@ export default {
   description: "Description",
 
   // Manage Addresses
+  changeLocation: "Change Location",
+  manageAddress: "Manage Address",
   addaNewAddress: "Add a New Address",
   setAsDefault: "Set as Default",
 

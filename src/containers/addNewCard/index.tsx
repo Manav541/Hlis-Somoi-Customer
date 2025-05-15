@@ -1,4 +1,4 @@
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import AddNewCardComponent from "../../components/addNewCard";
 import GlobalBackButton from "../../global/GlobalBackButton";
@@ -8,6 +8,7 @@ import {
   flashMessageWarning,
 } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
+import { useFocusEffect } from "@react-navigation/native";
 
 const AddNewCardContainer = ({ navigation }: any) => {
   const [cardNumebr, setCardNumber] = useState<string>("");
@@ -133,6 +134,12 @@ const AddNewCardContainer = ({ navigation }: any) => {
   useEffect(() => {
     header();
   }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
   return (
     <AddNewCardComponent
       cardNumber={cardNumebr}

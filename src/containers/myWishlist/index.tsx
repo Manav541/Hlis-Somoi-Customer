@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import MyWishlistComponent from "../../components/myWishlist";
 import { images } from "../../constants/Images";
+import { useFocusEffect } from "@react-navigation/native";
+import { StatusBar } from "react-native";
 
 const MyWishlistContainer = ({ navigation }: any) => {
   const [search, setSearch] = useState<string>("");
@@ -127,6 +129,13 @@ const MyWishlistContainer = ({ navigation }: any) => {
   useEffect(() => {
     header();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
 
   return (
     <MyWishlistComponent

@@ -22,6 +22,7 @@ import ManageAddressesContainer from "../containers/manageAddresses";
 import ManagePaymentMethodsContainer from "../containers/managePaymentMethods";
 import MyWishlistContainer from "../containers/myWishlist";
 import NotificationContainer from "../containers/notification";
+import PaymentMethodContainer from "../containers/paymentMethod";
 import ProductListingContainer from "../containers/productListing";
 import ReviewContainer from "../containers/review";
 import SearchContainer from "../containers/search";
@@ -55,6 +56,9 @@ export const ScreenNames = {
   compareProduct : "Compare Product",
   addCompareProduct : "Add Compare Product",
 
+  // Payment Method
+  paymentMethod: "Payment Method",
+
   // Bottom Tabs
   bottomTabsNavigation: "BottomTabs",
   home: "Home",
@@ -62,6 +66,17 @@ export const ScreenNames = {
   cart: "Your Cart",
   myOrders: "My Orders",
   settings: "Setting",
+
+  // Setting tab
+  editProfile: "Edit Profile",
+  cmsPage: "CMS Page",
+  availableOffers: "Available Offers",
+  contactUs: "Contact Us",
+  manageAddress: "Manage Address",
+  myWishlist: "My Wishlist",
+  changeEmailPhoneNumber: "ChangeEmailPhoneNumberContainer",
+  managePaymentMethods: "Manage Payment Methods",
+  addNewCard: "Add New Card",
 };
 
 export const MyScreens = {
@@ -98,6 +113,9 @@ export const MyScreens = {
   ReviewContainer,
   CompareProductConteiner,
   AddCompareProductsContainer,
+
+  // Payment Method
+  PaymentMethodContainer,
 
 
   // Setting tab

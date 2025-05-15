@@ -22,5 +22,8 @@ export const colors = {
   brown08:"#560D08",
   brown46:"#806946",
   green9f : "#4AC79F",
-  grey72:"#344D72"
+  grey72:"#344D72",
+  black1d : "#01041D",
+  black1c :"#1C1C1C",
+  black50: '#00000050',
 };

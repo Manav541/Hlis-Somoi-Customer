@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import GlobalBackButton from '../../global/GlobalBackButton';
 import ViewAllCategoriesComponenet from '../../components/viewAllCategories';
 import { images } from '../../constants/Images';
+import { useFocusEffect } from '@react-navigation/native';
+import { StatusBar } from 'react-native';
 
 const ViewAllCategoriesContainer = ({navigation, route} : any) => {
     const [arrAllCategories, setArrAllCategories] = React.useState<any>([
@@ -46,6 +48,14 @@ const ViewAllCategoriesContainer = ({navigation, route} : any) => {
       useEffect(() => {
         header();
       }, []);
+
+      useFocusEffect(
+        React.useCallback(() => {
+          StatusBar.setBarStyle("dark-content");
+          return () => {};
+        }, [navigation])
+      );
+      
   return (
     <ViewAllCategoriesComponenet arrAllCategories={arrAllCategories} />
   )

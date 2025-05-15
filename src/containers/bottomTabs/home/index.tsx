@@ -107,7 +107,7 @@ const HomeContainer = ({ navigation }: any) => {
     },
     {
       image: images.rice,
-      name: "Dairy",
+      name: "Rice",
       used: "+13 More",
       height: 102.4,
       width: 70.31,
@@ -129,36 +129,75 @@ const HomeContainer = ({ navigation }: any) => {
   ]);
   const [arrBestSellers, setArrBestSellers] = useState([
     {
-      image: images.bs1,
-      logo: images.burgerKingLogo,
-      name: "Burger King",
-      address: "Denver Church, California, USA",
-      time: "10:00-18:00",
-      distance: "1 km",
-      ratings: 4.5,
-      reviews: 200,
+      restaurant_imgMain: [
+        {
+          imgMain: images.restaurantImage,
+        },
+        {
+          imgMain: images.restaurantImage1,
+        },
+        {
+          imgMain: images.restaurantImage2,
+        },
+      ],
+      subCategoryTitle: "Fast Food & Snacks",
+      restaurant_img: images.bs1,
+      restaurant_logo: images.burgerKingLogo,
+      restaurant_name: "Burger King",
+      restaurant_address: "Denver Church, California, USA",
+      restaurant_time: "10:00-18:00",
+      restaurant_deliverytime: "1 hour",
+      restaurant_distance: "1 km",
+      restaurant_ratings: 4.5,
+      restaurant_reviews: 250,
       isFavourite: true,
     },
     {
-      image: images.bs2,
-      logo: images.macdonaldsLogo,
-      name: "Macdonalds",
-      address: "Denver Church, California, USA",
-      time: "10:00-18:00",
-      distance: "1.2 km",
-      ratings: 4.5,
-      reviews: 200,
+      restaurant_imgMain: [
+        {
+          imgMain: images.restaurantImage1,
+        },
+        {
+          imgMain: images.restaurantImage2,
+        },
+        {
+          imgMain: images.restaurantImage,
+        },
+      ],
+      subCategoryTitle: "Fast Food & Snacks",
+      restaurant_img: images.bs2,
+      restaurant_logo: images.macdonaldsLogo,
+      restaurant_name: "Macdonalds",
+      restaurant_address: "Denver Church, California, USA",
+      restaurant_time: "10:00-18:00",
+      restaurant_deliverytime: "1 hour",
+      restaurant_distance: "1.2 km",
+      restaurant_ratings: 4.5,
+      restaurant_reviews: 200,
       isFavourite: false,
     },
     {
-      image: images.bs3,
-      logo: images.subwayLogo,
-      name: "Burger King",
-      address: "Denver Church, California, USA",
-      time: "10:00-18:00",
-      distance: "3 km",
-      ratings: 4.5,
-      reviews: 200,
+      restaurant_imgMain: [
+        {
+          imgMain: images.restaurantImage2,
+        },
+        {
+          imgMain: images.restaurantImage1,
+        },
+        {
+          imgMain: images.restaurantImage,
+        },
+      ],
+      subCategoryTitle: "Local & Regional Cuisine",
+      restaurant_img: images.bs3,
+      restaurant_logo: images.subwayLogo,
+      restaurant_name: "Subway",
+      restaurant_address: "Denver Church, California, USA",
+      restaurant_time: "10:00-18:00",
+      restaurant_deliverytime: "1 hour",
+      restaurant_distance: "3 km",
+      restaurant_ratings: 4.5,
+      restaurant_reviews: 200,
       isFavourite: false,
     },
   ]);

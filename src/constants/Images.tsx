@@ -26,6 +26,7 @@ export const images = {
 
   // Home
   linearBG : require("../assets/images/linearBG.png"),
+  linearBG1 : require("../assets/images/linearBG1.png"),
   groceriesLogo : require("../assets/images/groceriesLogo.png"),
   foodLogo : require("../assets/images/foodLogo.png"),
   locationIcon : require("../assets/images/locationIcon.png"),
@@ -93,6 +94,7 @@ export const images = {
   minus : require("../assets/images/minus.png"),
   rice1 :require("../assets/images/rice1.png"),
   rice2 :require("../assets/images/rice2.png"),
+  sort : require("../assets/images/sort.png"),
 
   // Product Detail
   shareIcon: require("../assets/images/shareIcon.png"),
@@ -116,6 +118,22 @@ export const images = {
   burger : require("../assets/images/burger.png"),
   videocircle : require("../assets/images/videocircle.png"),
   rightArrowOrange :require("../assets/images/rightArrowOrange.png"),
+
+  // My Cart 
+  discountIcon : require("../assets/images/discountIcon.png"),
+  boyRide : require("../assets/images/boyRide.png"),
+  tickCircle : require("../assets/images/tickCircle.png"),
+
+  // Payment Method
+  gPayLogo: require("../assets/images/gPayLogo.png"),
+  codLogo: require("../assets/images/codLogo.png"),
+  blueFillCheckbox : require("../assets/images/blueFillCheckbox.png"),
+  emptyBlackCheckBox :require("../assets/images/emptyBlackCheckBox.png"),
+  visaIcon1 : require("../assets/images/visaIcon1.png"),
+  mastercardIcon1 : require("../assets/images/mastercardIcon1.png"),
+
+  // Success Modal
+  success : require("../assets/images/success.png"),
 
   // Setting
   profileIcon: require("../assets/images/profileIcon.png"),

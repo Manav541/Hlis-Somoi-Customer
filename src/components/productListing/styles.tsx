@@ -300,5 +300,43 @@ export const styles = StyleSheet.create({
     position : 'absolute',
     bottom : 70,
     right : 13,
-  }
+  },
+
+  // Filter Modal
+  vwFilterModal: {
+    flex: 1,
+    backgroundColor: "#00000088",
+    justifyContent: "flex-end",
+  },
+  vwFilterModalContainer: {
+    width: "100%",
+    paddingTop: 21,
+    paddingBottom: 51.19,
+    backgroundColor: colors.blue4e,
+    borderTopStartRadius: 20,
+    borderTopEndRadius: 20,
+    alignItems: "center",
+  },
+  vwFilterTitleClose:{
+    flexDirection : 'row',
+    justifyContent : 'space-between',
+    alignItems :'center',
+    marginHorizontal : 20
+  },
+  vwLine :{
+    height : 5,
+    backgroundColor : colors.white,
+  },
+
+  lblFilters:{
+    color : colors.white,
+    fontSize : fontSize.size14,
+    fontFamily : fontsfamily.bold,
+    flex : 1
+  },
+  imgClose:{
+    height : 24,
+    width : 24
+  },
+
 });

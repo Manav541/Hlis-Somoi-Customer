@@ -1,9 +1,10 @@
-import { View, Text } from "react-native";
+import { View, Text, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import AddCompareProductsComponent from "../../components/addCompareProducts";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
+import { useFocusEffect } from "@react-navigation/native";
 
 const AddCompareProductsContainer = ({ navigation, route }: any) => {
   const mainCategoryTitle = route.params?.mainCategoryTitle;
@@ -104,6 +105,13 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
   useEffect(() => {
     header();
   }, [mainCategoryTitle]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
   return (
     <AddCompareProductsComponent
       arrCompareProducts={arrCompareProducts}

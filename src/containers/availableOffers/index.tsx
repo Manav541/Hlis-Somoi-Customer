@@ -1,9 +1,10 @@
-import { View, Text } from "react-native";
+import { View, Text, StatusBar } from "react-native";
 import React, { useEffect, useLayoutEffect } from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import AvailableOffersComponent from "../../components/availableOffers";
 import GlobalBackButton from "../../global/GlobalBackButton";
+import { useFocusEffect } from "@react-navigation/native";
 
 const AvailableOffersContainer = ({ navigation }: any) => {
   const arrAvailableOffers = [
@@ -48,6 +49,12 @@ const AvailableOffersContainer = ({ navigation }: any) => {
   useEffect(() => {
     header();
   }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
 
   return <AvailableOffersComponent arrAvailableOffers={arrAvailableOffers} />;
 };

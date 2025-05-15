@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Image, Modal } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { colors } from "../../constants/Colors";
@@ -20,6 +20,7 @@ interface PropsType {
   onPressFavourite: (index: number) => void;
   onPressRestaurant: (item: any) => void;
   onPressProduct: (item: any) => void;
+  isFilterModalVisible:boolean;
 }
 
 const ProductListingComponent = (props: PropsType) => {
@@ -270,6 +271,20 @@ const ProductListingComponent = (props: PropsType) => {
           }
         />
       )}
+      <Modal visible={props?.isFilterModalVisible} transparent animationType="fade">
+        <View style={styles.vwFilterModal}>
+          <View style={styles.vwFilterModalContainer}>
+            <View style={styles.vwFilterTitleClose}>
+              <Text style={styles.lblFilters}>{getTranslation('filters')}</Text>
+              <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop}>
+              <Image style={styles.imgClose} source={images.closeSearch} tintColor={colors.orange1c}/>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.vwLine}/>
+            
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
