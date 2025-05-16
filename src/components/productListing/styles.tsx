@@ -309,13 +309,12 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   vwFilterModalContainer: {
-    width: "100%",
+    width: ScreenDimensions.screenWidth,
     paddingTop: 21,
-    paddingBottom: 51.19,
+    paddingBottom: 34,
     backgroundColor: colors.blue4e,
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
-    alignItems: "center",
   },
   vwFilterTitleClose:{
     flexDirection : 'row',
@@ -324,8 +323,50 @@ export const styles = StyleSheet.create({
     marginHorizontal : 20
   },
   vwLine :{
-    height : 5,
+    height : 1,
     backgroundColor : colors.white,
+    width: ScreenDimensions.screenWidth,
+    marginTop : 16
+  },
+  vwInstantDeliveries:{
+    gap : 5,
+    height : 51,
+    justifyContent : 'space-between',
+    marginBottom : 12,
+  },
+  vwInstantDeliveriesCheck:{
+    gap : 5,
+    flexDirection : 'row',
+    alignItems : 'center'
+  },
+  vwCategories:{
+    height : 84,
+    gap : 10,
+    marginBottom : 12,
+  },
+  vwPricerange:{
+    height : 133,
+    gap : 10,
+    marginBottom : 12,
+  },
+  vwPriceRangeData:{
+    flexDirection : 'row',
+    alignItems : 'center',
+    height : 48,
+    gap :10
+  },
+  vwPriceValueBox:{
+    height : 48,
+    width : 72,
+    borderRadius : 10,
+    borderColor : colors.greya7,
+    borderWidth : 1,
+    justifyContent :'center',
+    alignItems : 'center'
+  },
+  vwRatingRange:{
+    marginTop : 12,
+    gap:10
   },
 
   lblFilters:{
@@ -334,9 +375,88 @@ export const styles = StyleSheet.create({
     fontFamily : fontsfamily.bold,
     flex : 1
   },
+  lblInstantDeliveries:{
+    color : colors.white,
+    fontSize : fontSize.size14,
+    fontFamily : fontsfamily.semibold,
+  },
+  lblAvailableInstantDeliveries:{
+    color : colors.white,
+    fontSize : fontSize.size14,
+    fontFamily : fontsfamily.regular,
+  },
+  lblCategories:{
+    color : colors.white,
+    fontSize : fontSize.size14,
+    fontFamily : fontsfamily.bold,
+  },
+  lblDropdownCategories:{
+    color : colors.greya7,
+    fontSize : fontSize.size14,
+    fontFamily : fontsfamily.semibold,
+  },
+  lblLowHightPriceValue:{
+    color : colors.white,
+    fontSize : fontSize.size14,
+    fontFamily : fontsfamily.semibold,
+  },
+
   imgClose:{
     height : 24,
     width : 24
   },
+  imgCheckBox:{
+    height : 24,
+    width : 24
+  },
+  imgDash:{
+    height : 1,
+    width : 14
+  },
+  btnDropdownCategories:{
+    height : 52,
+    borderRadius : 100,
+    borderColor : colors.greya7,
+    borderWidth : 1,
+    alignItems : 'center',
+    flexDirection : 'row',
+    paddingHorizontal : 16,
+    justifyContent :'space-between'
+  },
+
+  // Slider Styles
+  sliderSelected:{
+    backgroundColor: colors.orange1c,
+    height: 4,
+  },
+  sliderUnselected:{
+    backgroundColor: colors.greya7,
+    height: 4,
+    borderRadius: 140,
+  },
+  sliderMarker:{
+    backgroundColor: colors.blue4e,
+    borderColor: colors.orange1c,
+    borderWidth: 1,
+    height: 16,
+    width: 16,
+  },
+  sliderContainer : {
+    height: 4,
+    marginTop: 16,
+  },
+  vwSliderMinMaxValue:{
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: ScreenDimensions.screenWidth - 40,
+    alignSelf: "center",
+    marginTop: 4,
+  },
+  lblSliderMinMaxValue:{
+    color: colors.white,
+    fontFamily: fontsfamily.medium,
+    fontSize: fontSize.size14,
+  },
+
 
 });

@@ -95,6 +95,9 @@ export const images = {
   rice1 :require("../assets/images/rice1.png"),
   rice2 :require("../assets/images/rice2.png"),
   sort : require("../assets/images/sort.png"),
+  filterCheckbox : require("../assets/images/filterCheckbox.png"),
+  dropdown : require("../assets/images/dropdown.png"),
+  dashLine : require("../assets/images/dashLine.png"),
 
   // Product Detail
   shareIcon: require("../assets/images/shareIcon.png"),
@@ -134,6 +137,18 @@ export const images = {
 
   // Success Modal
   success : require("../assets/images/success.png"),
+
+  // My Orders
+  filterIconMyOreders : require("../assets/images/filterIconMyOreders.png"),
+  radioButtonSelected : require("../assets/images/radioButtonSelected.png"),
+  radioButtonUnSelected : require("../assets/images/radioButtonUnSelected.png"),
+
+  // Order Summary
+  orderPlaced : require("../assets/images/orderPlaced.png"),
+  orderConfirmed : require("../assets/images/orderConfirmed.png"),
+  preparing : require("../assets/images/preparing.png"),
+  onTheWay1 : require("../assets/images/onTheWay1.png"),
+  onTheWay2 : require("../assets/images/onTheWay2.png"),
 
   // Setting
   profileIcon: require("../assets/images/profileIcon.png"),

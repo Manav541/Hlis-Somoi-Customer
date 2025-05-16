@@ -1,14 +1,27 @@
-import { View, Text, FlatList, TouchableOpacity, Image, Modal } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  Modal,
+} from "react-native";
+import React, { useState } from "react";
 import { styles } from "./styles";
 import { colors } from "../../constants/Colors";
-import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import {
+  activityOpacity,
+  hitSlop,
+  rupeeSymbol,
+} from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { getTranslation } from "../../localization/i18n/i18n.config";
-import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { fontsfamily } from "../../constants/FontFamily";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
+import { fontSize } from "../../constants/FontSizes";
+import GlobalButton from "../../global/GlobalButton";
 
 interface PropsType {
   mainCategoryName: string;
@@ -20,7 +33,13 @@ interface PropsType {
   onPressFavourite: (index: number) => void;
   onPressRestaurant: (item: any) => void;
   onPressProduct: (item: any) => void;
-  isFilterModalVisible:boolean;
+  isFilterModalVisible: boolean;
+  range: number[];
+  setRange: (values: number[]) => void;
+  rating: number;
+  onPressRating: (index: number) => void;
+  onPressCloseFilterModal: () => void;
+  onPressApplyFilter: () => void;
 }
 
 const ProductListingComponent = (props: PropsType) => {
@@ -271,17 +290,152 @@ const ProductListingComponent = (props: PropsType) => {
           }
         />
       )}
-      <Modal visible={props?.isFilterModalVisible} transparent animationType="fade">
+      <Modal
+        visible={props?.isFilterModalVisible}
+        transparent
+        animationType="fade"
+      >
         <View style={styles.vwFilterModal}>
           <View style={styles.vwFilterModalContainer}>
             <View style={styles.vwFilterTitleClose}>
-              <Text style={styles.lblFilters}>{getTranslation('filters')}</Text>
-              <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop}>
-              <Image style={styles.imgClose} source={images.closeSearch} tintColor={colors.orange1c}/>
+              <Text style={styles.lblFilters}>{getTranslation("filters")}</Text>
+              <TouchableOpacity
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={props?.onPressCloseFilterModal}
+              >
+                <Image
+                  style={styles.imgClose}
+                  source={images.closeSearch}
+                  tintColor={colors.orange1c}
+                />
               </TouchableOpacity>
             </View>
-            <View style={styles.vwLine}/>
-            
+            <View style={styles.vwLine} />
+            <View
+              style={{ marginHorizontal: 20, marginTop: 10, marginBottom: 15 }}
+            >
+              <View style={styles.vwInstantDeliveries}>
+                <Text style={styles.lblInstantDeliveries}>
+                  {getTranslation("instantDeliveries")}
+                </Text>
+                <View style={styles.vwInstantDeliveriesCheck}>
+                  <TouchableOpacity
+                    activeOpacity={activityOpacity}
+                    hitSlop={hitSlop}
+                  >
+                    <Image
+                      style={styles.imgCheckBox}
+                      source={images.filterCheckbox}
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.lblAvailableInstantDeliveries}>
+                    {getTranslation("availableforInstantDelivery")}
+                  </Text>
+                </View>
+              </View>
+              {/* Categories Dropdown */}
+              <View style={styles.vwCategories}>
+                <Text style={styles.lblCategories}>
+                  {getTranslation("categories")}
+                </Text>
+                <TouchableOpacity
+                  style={styles.btnDropdownCategories}
+                  activeOpacity={activityOpacity}
+                  hitSlop={hitSlop}
+                >
+                  <Text style={styles.lblDropdownCategories}>
+                    {getTranslation("select")}
+                  </Text>
+                  <Image style={styles.imgCheckBox} source={images.dropdown} />
+                </TouchableOpacity>
+              </View>
+              {/* Sub Categories Dropdown */}
+              <View style={styles.vwCategories}>
+                <Text style={styles.lblCategories}>
+                  {getTranslation("subCategories")}
+                </Text>
+                <TouchableOpacity
+                  style={styles.btnDropdownCategories}
+                  activeOpacity={activityOpacity}
+                  hitSlop={hitSlop}
+                >
+                  <Text style={styles.lblDropdownCategories}>
+                    {getTranslation("select")}
+                  </Text>
+                  <Image style={styles.imgCheckBox} source={images.dropdown} />
+                </TouchableOpacity>
+              </View>
+              {/* Price Range */}
+              <View style={styles.vwPricerange}>
+                <Text style={styles.lblCategories}>
+                  {getTranslation("priceRange")}
+                </Text>
+                <View style={styles.vwPriceRangeData}>
+                  <View style={styles.vwPriceValueBox}>
+                    <Text style={styles.lblLowHightPriceValue}>
+                      {rupeeSymbol + props?.range[0]}
+                    </Text>
+                  </View>
+                  <Image style={styles.imgDash} source={images.dashLine} />
+                  <View style={styles.vwPriceValueBox}>
+                    <Text style={styles.lblLowHightPriceValue}>
+                      {rupeeSymbol + props?.range[1]}
+                    </Text>
+                  </View>
+                </View>
+                <MultiSlider
+                  values={props?.range}
+                  sliderLength={ScreenDimensions.screenWidth - 40}
+                  onValuesChange={props?.setRange}
+                  min={0}
+                  max={500}
+                  step={1}
+                  selectedStyle={styles.sliderSelected}
+                  unselectedStyle={styles.sliderUnselected}
+                  markerStyle={styles.sliderMarker}
+                  containerStyle={styles.sliderContainer}
+                />
+                <View style={styles.vwSliderMinMaxValue}>
+                  <Text style={styles.lblSliderMinMaxValue}>
+                    {rupeeSymbol + 0}
+                  </Text>
+                  <Text style={styles.lblSliderMinMaxValue}>
+                    {rupeeSymbol + 500}
+                  </Text>
+                </View>
+              </View>
+              {/* rating range */}
+              <View style={styles.vwRatingRange}>
+                <Text style={styles.lblCategories}>
+                  {getTranslation("ratingRange")}
+                </Text>
+                <View style={{ flexDirection: "row", gap: 5 }}>
+                  {[0, 1, 2, 3, 4].map((index) => (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => props?.onPressRating(index)}
+                      activeOpacity={activityOpacity}
+                      hitSlop={hitSlop}
+                    >
+                      <Image
+                        style={styles.imgCheckBox}
+                        source={images.starFilled}
+                        tintColor={
+                          index < props?.rating
+                            ? colors.orange1c
+                            : colors.greyda
+                        }
+                      />
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+              {/* Filter Button */}
+              <View style={{marginTop : 15}}>
+                <GlobalButton title={getTranslation('applyFilters')} isOrange onPress={props?.onPressApplyFilter} />
+              </View>
+            </View>
           </View>
         </View>
       </Modal>

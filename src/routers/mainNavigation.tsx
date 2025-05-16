@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { MyScreens, ScreenNames } from ".";
-import { StatusBar } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import { colors } from "../constants/Colors";
 import { fontSize } from "../constants/FontSizes";
 import { fontsfamily } from "../constants/FontFamily";
@@ -32,6 +32,7 @@ const MainNavigation = (props: PropsType) => {
             fontSize: fontSize.size18,
             fontFamily: fontsfamily.extrabold,
             color: colors.blue4e,
+            marginBottom : Platform.OS =="ios" ? 12 :0
           },
           headerShadowVisible: false,
           gestureEnabled: gestureEnabled,
@@ -154,6 +155,13 @@ const MainNavigation = (props: PropsType) => {
         {handleStackScreens(
           ScreenNames.productListing,
           MyScreens.ProductListingContainer,
+          true
+        )}
+
+        {/* My Orders */}
+        {handleStackScreens(
+          ScreenNames.orderSummary,
+          MyScreens.OrderSummaryContainer,
           true
         )}
 

@@ -22,6 +22,7 @@ import ManageAddressesContainer from "../containers/manageAddresses";
 import ManagePaymentMethodsContainer from "../containers/managePaymentMethods";
 import MyWishlistContainer from "../containers/myWishlist";
 import NotificationContainer from "../containers/notification";
+import OrderSummaryContainer from "../containers/orderSummary";
 import PaymentMethodContainer from "../containers/paymentMethod";
 import ProductListingContainer from "../containers/productListing";
 import ReviewContainer from "../containers/review";
@@ -58,6 +59,9 @@ export const ScreenNames = {
 
   // Payment Method
   paymentMethod: "Payment Method",
+
+  // My Orders
+  orderSummary : "Order Summary",
 
   // Bottom Tabs
   bottomTabsNavigation: "BottomTabs",
@@ -117,6 +121,8 @@ export const MyScreens = {
   // Payment Method
   PaymentMethodContainer,
 
+  // My Orders
+  OrderSummaryContainer,
 
   // Setting tab
   EditProfileContainer,

@@ -59,6 +59,21 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       isSelected: false,
     },
   ]);
+  const [range, setRange] = useState([150, 300]);
+  const [rating, setRating] = useState(4);
+
+  const onPressRating = (index: number) => {
+    setRating(index + 1);
+  };
+
+  const onPressCloseFilterModal = () => {
+    setIsFilterModalVisible(false)
+  }
+
+  const onPressApplyFilter = () => {
+    setIsFilterModalVisible(false)
+  }
+
 
   const onPressSubCategoryTitle = (selectedIndex: number) => {
     const categoryArray =
@@ -156,6 +171,12 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       onPressRestaurant={onPressRestaurant}
       onPressProduct={onPressProduct}
       isFilterModalVisible={isFilterModalVisible}
+      range={range}
+      setRange={setRange}
+      rating={rating}
+      onPressRating={onPressRating}
+      onPressCloseFilterModal={onPressCloseFilterModal}
+      onPressApplyFilter={onPressApplyFilter}
     />
   );
 };

@@ -5,6 +5,7 @@ import { colors } from '../constants/Colors';
 import { fontSize } from '../constants/FontSizes';
 import { fontsfamily } from '../constants/FontFamily';
 import CustomBottomTabsContainer from '../containers/bottomTabs/customTab';
+import { Platform } from 'react-native';
 
 const BottomTabsNavigation = () => {
   const BottomTabs = createBottomTabNavigator();
@@ -29,6 +30,7 @@ const BottomTabsNavigation = () => {
             fontSize: fontSize.size18,
             fontFamily: fontsfamily.extrabold,
             color: colors.blue4e,
+            marginBottom : Platform.OS =="ios" ? 12 :0
           },
         }}
       />

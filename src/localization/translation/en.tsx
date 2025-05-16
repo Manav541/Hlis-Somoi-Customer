@@ -75,6 +75,7 @@ export default {
   remove: "Remove",
   trackOrder:"Track Order",
   continueShopping:"Continue Shopping",
+  reset:"Reset",
 
   // Signup-Signin
   email: "Email",
@@ -184,6 +185,24 @@ export default {
 
   // Filter Modal
   filters:"Filters",
+  instantDeliveries:"Instant Deliveries",
+  availableforInstantDelivery:"Available for Instant Delivery",
+  select:"Select",
+  subCategories:"Sub Categories",
+  priceRange:"Price Range",
+  ratingRange:"Rating Range",
+  applyFilters:"Apply Filters",
+
+  filterbyOrderType:"Filter by Order Type",
+  orders:"Orders",
+  notYetDelivered:"Not Yet Delivered",
+  cancelled:"Cancelled",
+  filterbyOrderDate:"Filter by Order Date",
+  last30Days:"Last 30 Days",
+  last3Moths:"Last 3 Moths",
+
+  // My Orders Module
+  orderNumber:"Order Number",
 
   // Setting
   setting: "Setting",
