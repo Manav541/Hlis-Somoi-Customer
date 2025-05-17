@@ -274,7 +274,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
         style={{
           paddingHorizontal: 20,
           gap: 19,
-          paddingBottom: 20,
+          marginBottom: 20,
           marginTop: 10,
         }}
       >

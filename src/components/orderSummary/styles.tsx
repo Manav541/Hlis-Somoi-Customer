@@ -1,0 +1,381 @@
+import { StyleSheet } from "react-native";
+import { colors } from "../../constants/Colors";
+import { fontSize } from "../../constants/FontSizes";
+import { fontsfamily } from "../../constants/FontFamily";
+
+export const styles = StyleSheet.create({
+  /* vertical connector */
+  line: {
+    position: "absolute",
+    left: 24 / 2 - 1,
+    top: 24, // start exactly under the icon
+    bottom: 0,
+    width: 1,
+  },
+  // View styles
+  vwMain: {
+    flex: 10,
+    backgroundColor: colors.blue4e,
+  },
+  vwOrderNumDateTimeTotal: {
+    borderBottomColor: colors.greyd9_50,
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginLeft: 19,
+    marginRight: 17,
+    marginTop: 20,
+    paddingBottom: 19,
+  },
+  vwOrderStatusMain: {
+    marginLeft: 19,
+    marginRight: 17,
+    marginTop: 20,
+    gap: 20,
+  },
+  vwOrderStatusItem: {
+    flexDirection: "row",
+    gap: 11,
+    paddingBottom: 20,
+  },
+  vwLine: {
+    height: 1,
+    backgroundColor: colors.greyd9_50,
+    marginHorizontal: 20,
+    marginBottom: 20,
+  },
+  vwProductsItems: {
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    flexDirection: "row",
+    overflow: "hidden",
+  },
+  vwProductImage: {
+    width: 69,
+    backgroundColor: colors.whiteff,
+    justifyContent: "center",
+    alignItems: "center",
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    overflow: "hidden",
+  },
+  vwProductItemDetails: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flex: 1,
+    marginRight: 14,
+    marginVertical: 9,
+    marginLeft: 11,
+  },
+  vwOrderDetails: {
+    marginHorizontal: 20,
+    gap: 15,
+  },
+  vwOrderDetailsItemMain: {
+    gap: 11,
+  },
+  vwOrderDetailsItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: 18,
+  },
+  vwLineFull: {
+    height: 1,
+    backgroundColor: colors.grey62,
+  },
+  vwTotal: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: 25,
+  },
+  vwDriverDetails: {
+    height: 79,
+    backgroundColor: colors.white,
+    borderRadius: 8,
+    marginHorizontal: 20,
+    gap: 12,
+    paddingLeft: 12,
+    paddingTop: 12,
+    marginBottom: 20,
+    flexDirection : 'row'
+  },
+  vwDriverDetails1: {
+    height: 79,
+    backgroundColor: colors.white,
+    borderRadius: 8,
+    marginHorizontal: 20,
+    gap: 12,
+    paddingLeft: 12,
+    marginBottom: 20,
+    flexDirection : 'row',
+    alignItems :'center'
+  },
+  vwTrackCallChat: {
+    height: 27.4,
+    marginTop: 9,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 15,
+  },
+
+  // Text styles
+  lblOrderNumber: {
+    color: colors.white,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regular,
+    lineHeight: 16,
+    marginBottom: 7,
+  },
+  lblOrderNumberValue: {
+    color: colors.white,
+    fontSize: fontSize.size16,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblOrderDateTime: {
+    color: colors.white,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regular,
+    marginTop: 4,
+  },
+  lblTotal: {
+    color: colors.white,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regular,
+    lineHeight: 16,
+    marginBottom: 7,
+    textAlign: "right",
+  },
+  lblTotalAmount: {
+    color: colors.orange1c,
+    fontSize: fontSize.size16,
+    fontFamily: fontsfamily.semibold,
+    textAlign: "right",
+  },
+  lblYourOrderisConfirmed: {
+    color: colors.white,
+    fontSize: fontSize.size16,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblOrderStatusTitle: {
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.semibold,
+    lineHeight: 16,
+    marginBottom: 2,
+  },
+  lblOrderStatusDate: {
+    color: colors.greya7,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regular,
+  },
+  lblItemsAdded: {
+    color: colors.white,
+    fontSize: fontSize.size16,
+    fontFamily: fontsfamily.semiboldGolosText,
+    marginBottom: 20,
+  },
+  lblProductName: {
+    color: colors.black35,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+    marginBottom: 5,
+    lineHeight: 21,
+  },
+  lblProductPrice: {
+    color: colors.blue4e,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.bold,
+  },
+  lblProductWeight: {
+    color: colors.greya7,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblQuantity: {
+    color: colors.grey62,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.regularGolosText,
+  },
+  lblQuantityCount: {
+    color: colors.blue4e,
+    fontFamily: fontsfamily.semiboldGolosText,
+    fontSize: fontSize.size14,
+  },
+  lblDelivertoName: {
+    color: colors.white,
+    fontFamily: fontsfamily.semiboldGolosText,
+    fontSize: fontSize.size16,
+    marginHorizontal: 20,
+  },
+  lblDelivertoAddress: {
+    color: colors.greya7,
+    fontFamily: fontsfamily.regularGolosText,
+    fontSize: fontSize.size12,
+    marginHorizontal: 20,
+    marginTop: 7,
+    lineHeight: 16,
+    marginBottom: 20,
+  },
+  lblCancelOrderQue: {
+    color: colors.red2e,
+    fontFamily: fontsfamily.medium,
+    fontSize: fontSize.size16,
+    marginBottom: 5,
+  },
+  lblCancelOrderReason: {
+    color: colors.greya7,
+    fontFamily: fontsfamily.regular,
+    fontSize: fontSize.size12,
+    marginBottom: 5,
+  },
+  lblCancelOrderTime: {
+    color: colors.red2e,
+    fontFamily: fontsfamily.regular,
+    fontSize: fontSize.size12,
+  },
+  lblReportIssueQue: {
+    color: colors.black35,
+    fontFamily: fontsfamily.mediumGolosText,
+    fontSize: fontSize.size16,
+    marginBottom: 5,
+  },
+  lblReportIssueDesc: {
+    color: colors.greya7,
+    fontFamily: fontsfamily.regular,
+    fontSize: fontSize.size12,
+  },
+  lblOrderDetails: {
+    fontSize: fontSize.size16,
+    fontFamily: fontsfamily.semibold,
+    color: colors.white,
+  },
+  lblOrderDetailsTitle: {
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.medium,
+    color: colors.whiteff,
+  },
+  lblOrderDetailsValue: {
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+    color: colors.whiteff,
+  },
+  lblTotalBold: {
+    fontSize: fontSize.size20,
+    fontFamily: fontsfamily.bold,
+    color: colors.white,
+  },
+  lblRateReview: {
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.semibold,
+    color: colors.black35,
+  },
+  lblDriverInfo: {
+    fontSize: fontSize.size16,
+    fontFamily: fontsfamily.semibold,
+    color: colors.white,
+    marginHorizontal: 20,
+    marginBottom: 10,
+  },
+  lblDriverName: {
+    fontSize: fontSize.size16,
+    fontFamily: fontsfamily.mediumGolosText,
+    color: colors.blue4e,
+  },
+  lblTrack : {
+    fontSize: fontSize.size10,
+    fontFamily: fontsfamily.semibold,
+    color: colors.blue4e,
+  },
+
+  //  Image styles
+  imgOrderStatusIcon: {
+    height: 24,
+    width: 24,
+  },
+  imgDot: {
+    height: 4,
+    width: 4,
+    marginHorizontal: 4,
+  },
+  imgCancel: {
+    height: 24,
+    width: 24,
+  },
+  imgRightArrowGrey: {
+    height: 20,
+    width: 20,
+    position: "absolute",
+    right: 10,
+    alignSelf: "center",
+  },
+  imgReportIssue: {
+    height: 24,
+    width: 24,
+  },
+  imgDriverProfile: {
+    height: 42,
+    width: 42,
+    borderRadius: 42 / 2,
+    overflow: "hidden",
+  },
+  imgTrackIcon: {
+    height: 15,
+    width: 15,
+  },
+  imgChatCall: {
+    height: 27,
+    width: 27,
+  },
+  imgStar:{
+    height : 17.2,
+    width : 17.2,
+    marginRight : 2
+  },
+
+  //   TouchableOpacity Styles
+  btnCancelOrder: {
+    borderRadius: 10,
+    backgroundColor: colors.white,
+    marginHorizontal: 20,
+    marginBottom: 12,
+    paddingVertical: 20,
+    paddingLeft: 16,
+    paddingRight: 28,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 15,
+  },
+
+  btnReportIssue: {
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 20,
+    paddingLeft: 16,
+    paddingRight: 10,
+    marginHorizontal: 20,
+    marginBottom: 20,
+    gap: 15,
+  },
+  btnRateReview: {
+    borderRadius: 3,
+    borderColor: colors.greya7,
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 6,
+    height : 23
+  },
+  btnTrack: {
+    height: 27.4,
+    width: 84.31,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 5.27,
+    borderRadius: 105.38,
+    backgroundColor: colors.orange1c,
+    flexDirection: "row",
+  },
+});

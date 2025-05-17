@@ -164,6 +164,11 @@ const MainNavigation = (props: PropsType) => {
           MyScreens.OrderSummaryContainer,
           true
         )}
+        {handleStackScreens(
+          ScreenNames.cancelOrder,
+          MyScreens.CancelOrderContainer,
+          true
+        )}
 
         {/* Setting */}
         {handleStackScreens(

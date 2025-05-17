@@ -19,6 +19,7 @@ export const DateFormatsManager = {
     MMDDYYYY_SLASH: 'MM/DD/YYYY', // 04/15/2025
     DoMMYYYY: 'D MMM YYYY', // 15 Apr 2025 (ordinal suffix like '15th' not supported)
     ddddMMMMDoYYYY: 'dddd, MMMM D YYYY', // Tuesday, April 15 2025
+    DMMM_COMMA_YYYY: 'D MMM, YYYY', // 10 Mar, 2025
   },
 
   TimeFormats: {

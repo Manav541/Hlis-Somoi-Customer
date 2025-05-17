@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
    vwMain: {
     flex: 1,
     backgroundColor: colors.blue4e,
+    paddingBottom : 20
   },
   vwImgMainLogo: {
     // height : 278,

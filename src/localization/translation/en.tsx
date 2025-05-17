@@ -73,9 +73,10 @@ export default {
   placeOrder: "Place Order",
   apply: "Apply",
   remove: "Remove",
-  trackOrder:"Track Order",
-  continueShopping:"Continue Shopping",
-  reset:"Reset",
+  trackOrder: "Track Order",
+  continueShopping: "Continue Shopping",
+  reset: "Reset",
+  rateReview:"Rate & Review",
 
   // Signup-Signin
   email: "Email",
@@ -180,29 +181,52 @@ export default {
   // Success
   success: "Success!",
   yourOrderisPlaced: "Your Order is Placed",
-  orderSuccessMSG :"Your order has been successfully placed. We'll notify you when it's on the way.",
-  order:"Order",
+  orderSuccessMSG:
+    "Your order has been successfully placed. We'll notify you when it's on the way.",
+  order: "Order",
 
   // Filter Modal
-  filters:"Filters",
-  instantDeliveries:"Instant Deliveries",
-  availableforInstantDelivery:"Available for Instant Delivery",
-  select:"Select",
-  subCategories:"Sub Categories",
-  priceRange:"Price Range",
-  ratingRange:"Rating Range",
-  applyFilters:"Apply Filters",
+  filters: "Filters",
+  instantDeliveries: "Instant Deliveries",
+  availableforInstantDelivery: "Available for Instant Delivery",
+  select: "Select",
+  subCategories: "Sub Categories",
+  priceRange: "Price Range",
+  ratingRange: "Rating Range",
+  applyFilters: "Apply Filters",
 
-  filterbyOrderType:"Filter by Order Type",
-  orders:"Orders",
-  notYetDelivered:"Not Yet Delivered",
-  cancelled:"Cancelled",
-  filterbyOrderDate:"Filter by Order Date",
-  last30Days:"Last 30 Days",
-  last3Moths:"Last 3 Moths",
+  filterbyOrderType: "Filter by Order Type",
+  orders: "Orders",
+  notYetDelivered: "Not Yet Delivered",
+  cancelled: "Cancelled",
+  filterbyOrderDate: "Filter by Order Date",
+  last30Days: "Last 30 Days",
+  last3Moths: "Last 3 Moths",
 
   // My Orders Module
-  orderNumber:"Order Number",
+  orderNumber: "Order Number",
+  yourOrderisConfirmed: "Your Order is Confirmed",
+  itemsadded: "items added",
+  qty: "QTY",
+
+  // Order Summary
+  cancelOrderQue: "Cancel Order?",
+  cancelOrderReason: "Cancel your order by providing a reason.",
+  cancelOrderTime: "An order can be canceled within 1 minute.",
+  reportIssueQue: "Report an issue?",
+  reportIssueDesc: "Let us know about any problems",
+  requestforReturnQue:"Request for return?",
+  requestforReturnDesc:"Cancel your order by providing a reason.",
+  driverInfo:"Driver Info",
+  track:"Track",
+
+  // Cancel Order
+  cancelOrderHeader : "If the cancellation is made less than 24 hours before the booking time, the deposit will be forfeited and non-refundable.",
+  selectCancelOrderReason :"Select a reason for cancellation",
+  writehere:"Write here",
+  orderCancelled:"Order Cancelled",
+  orderCancelledSuccessDesc:"Your order has been successfully cancelled.",
+  ok:"Ok",
 
   // Setting
   setting: "Setting",

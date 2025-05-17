@@ -13,6 +13,7 @@ import CategoriesContainer from "../containers/bottomTabs/categories";
 import HomeContainer from "../containers/bottomTabs/home";
 import MyOrdersContainer from "../containers/bottomTabs/myOrders";
 import SettingContainer from "../containers/bottomTabs/setting";
+import CancelOrderContainer from "../containers/cancelOrder";
 import ChangeEmailPhoneNumberContainer from "../containers/changeEmailPhoneNumber";
 import CMSPageContainer from "../containers/cmsPages";
 import CompareProductConteiner from "../containers/compareProduct";
@@ -62,6 +63,7 @@ export const ScreenNames = {
 
   // My Orders
   orderSummary : "Order Summary",
+  cancelOrder:"Cancel Order",
 
   // Bottom Tabs
   bottomTabsNavigation: "BottomTabs",
@@ -123,6 +125,7 @@ export const MyScreens = {
 
   // My Orders
   OrderSummaryContainer,
+  CancelOrderContainer,
 
   // Setting tab
   EditProfileContainer,
