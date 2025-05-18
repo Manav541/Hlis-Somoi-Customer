@@ -14,7 +14,11 @@ const ImagePickerSelectionOptions = {
 };
 
 export const ImagePickerManager = {
-  selectPicker: async (pickerType: number, mediaType: MediaType) => {
+  selectPicker: async (
+    pickerType: number,
+    mediaType: MediaType,
+    isMultiSelection?: boolean,
+  ) => {
     return new Promise((resolve, reject) => {
       const launchOption =
         pickerType == ImagePickerSelectionOptions.CAMERA
@@ -26,7 +30,7 @@ export const ImagePickerManager = {
           mediaType: mediaType,
           videoQuality: 'high',
           quality: 1,
-          selectionLimit: mediaType == 'mixed' ? 10 : 1,
+          selectionLimit: isMultiSelection ? 10 : 1,
           maxHeight: 500,
           maxWidth: 500,
         };
@@ -83,7 +87,10 @@ export const ImagePickerManager = {
     });
   },
 
-  choosePickerOptions: async (mediaType: MediaType) => {
+  choosePickerOptions: async (
+    mediaType: MediaType,
+    isMultiSelection?: boolean,
+  ) => {
     return new Promise((resolve, reject) => {
       Alert.alert(
         'Select Media',
@@ -116,6 +123,7 @@ export const ImagePickerManager = {
                   const result = ImagePickerManager.selectPicker(
                     ImagePickerSelectionOptions.GALLERY,
                     mediaType,
+                    isMultiSelection,
                   );
                   resolve(result);
                 } catch (error) {
@@ -146,6 +154,7 @@ export const ImagePickerManager = {
                   const result = ImagePickerManager.selectPicker(
                     ImagePickerSelectionOptions.GALLERY,
                     mediaType,
+                    isMultiSelection,
                   );
                   resolve(result);
                 } catch (error) {

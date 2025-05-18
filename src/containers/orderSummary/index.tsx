@@ -1,4 +1,4 @@
-import { StatusBar } from "react-native";
+import { Linking, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import OrderSummaryComponent from "../../components/orderSummary";
 import { useFocusEffect } from "@react-navigation/native";
@@ -9,7 +9,7 @@ import { ScreenNames } from "../../routers";
 
 const ONE_MIN = 60_000;
 
-const OrderSummaryContainer = ({ navigation }: any) => {
+const OrderSummaryContainer = ({ navigation, route }: any) => {
   const [orderNumber, setOrderNumber] = useState<string>("#12343235");
   const [orderPlacedDate, setOrderPlacedDate] = useState<string>("10/03/2025");
   const [orderPlacedTime, setOrderPlacedTime] = useState<string>("1:00 pm");
@@ -18,7 +18,7 @@ const OrderSummaryContainer = ({ navigation }: any) => {
   const [delivertoAddress, setDelivertoAddress] = useState<string>(
     "3465 Hanover Street, Locust Court Burbank New York, NY 10038"
   );
-  const [arrOrderStatus, setArrOrderStatus] = useState<any>([
+  const defaultOrderStatus = [
     {
       status_icon: images.orderPlaced,
       status_icon1: images.orderPlacedUn,
@@ -31,7 +31,7 @@ const OrderSummaryContainer = ({ navigation }: any) => {
       status_icon1: images.orderConfirmedUn,
       status_title: "Order Confirmed",
       status_date: "17/03/2025",
-      status_isdone: false,
+      status_isdone: true,
     },
     {
       status_icon: images.preparing,
@@ -54,7 +54,27 @@ const OrderSummaryContainer = ({ navigation }: any) => {
       status_date: "17/03/2025",
       status_isdone: false,
     },
-  ]);
+  ];
+
+  const [arrOrderStatus, setArrOrderStatus] = useState(defaultOrderStatus);
+
+  const pickupDateTimeStatus = {
+    status_icon: images.orderReturnedUn,
+    status_icon1: images.orderReturnedUn,
+    status_title: "Order pickup date & Time",
+    status_date: "18/03/2025",
+    status_time: "- 10:00 am",
+    status_isdone: false,
+  };
+
+  const orederReturnedStatus = {
+    status_icon: images.orderReturned,
+    status_icon1: images.orderReturned,
+    status_title: "Order Returned",
+    status_date: "20/03/2025",
+    status_isdone: false,
+  };
+
   const [arrProducts, setArrProducts] = useState([
     {
       product_name: `India Gate Basmati ${"\n"}Rice`,
@@ -64,7 +84,7 @@ const OrderSummaryContainer = ({ navigation }: any) => {
       product_weight: "1 kg",
       height: 61.6,
       width: 42.3,
-      product_rating : "4.5",
+      product_rating: "4.5",
       isRateReview: true,
     },
     {
@@ -75,7 +95,7 @@ const OrderSummaryContainer = ({ navigation }: any) => {
       product_weight: "500 ml",
       height: 66,
       width: 47.52,
-      product_rating : "4.5",
+      product_rating: "4.5",
       isRateReview: false,
     },
   ]);
@@ -111,27 +131,130 @@ const OrderSummaryContainer = ({ navigation }: any) => {
   const [cancelDisabled, setCancelDisabled] = useState<boolean>(false);
   const [driverProfile, setDriverProfile] = useState<any>(images.driverProfile);
   const [driverName, setDriverName] = useState<string>("Jaylon Carder");
+  const [driverMobileNumber, setDriverMobileNumber] =
+    useState<string>("9876543210");
+  const [cancelOrderDate, setCancelOrderDate] = useState<string>("22/03/2025");
+  const [cancelReason, setCancelReason] = useState<string>(
+    () => getTranslation("cancelOrderSelectedReason") || ""
+  );
+  const [orderMainStatus, setOrderMainStatus] = useState<string>("");
+
+  const [isEditReviewModalVisible, setIsEditReviewModalVisible] =
+    useState<boolean>(false);
+
+    const onPressOpenEditReview = () => {
+      setIsEditReviewModalVisible(true);
+    };
+
+    const onPressEditReview = () => {
+      setIsEditReviewModalVisible(false);
+      navigation.navigate(ScreenNames.rateAndReview);
+    };
+
+    const onPressDeleteReview = () => {
+      setIsEditReviewModalVisible(false);
+    };
+
+    const onPressReportIssue =() =>{
+      navigation.navigate(ScreenNames.reportIssue)
+    }
 
   const onPressCancelOrder = () => {
     navigation.navigate(ScreenNames.cancelOrder);
   };
 
+  const onPressReturnOrder = () => {
+    navigation.navigate(ScreenNames.returnOrder);
+  };
+
+  const onPressRateReview = (item: any) => {
+    navigation.navigate(ScreenNames.rateAndReview, { item: item });
+  };
+
+  const onPressTrackDriver = () => {
+    navigation.navigate(ScreenNames.driverTracking, {
+      driverProfile: driverProfile,
+      driverName: driverName,
+      driverMobileNumber: driverMobileNumber,
+      delivertoName: delivertoName,
+      delivertoAddress: delivertoAddress,
+    });
+  };
+
+  const onPressChatDriver = () => {
+    navigation.navigate(ScreenNames.chat, {
+      driverName: driverName,
+      driverMobileNumber: driverMobileNumber,
+    });
+  };
+
+  const onPressCallDriver = () => {
+    Linking.openURL(`tel:${driverMobileNumber}`);
+  };
+
   // Satus update simulation
+
   useEffect(() => {
-    const nextIndex = arrOrderStatus.findIndex((s: any) => !s.status_isdone);
-    if (nextIndex === -1) return; // all done
+    if (orderMainStatus !== "Confirmed") return;
 
-    const t = setTimeout(() => {
-      setArrOrderStatus((prev: any) =>
-        prev.map((item: any, i: number) =>
-          i === nextIndex ? { ...item, status_isdone: true } : item
-        )
-      );
-      setCurrentStatus(arrOrderStatus[nextIndex].status_title);
-    }, 10000);
+    let index = 0;
+    const interval = setInterval(() => {
+      setArrOrderStatus((prev) => {
+        if (index >= prev.length) {
+          clearInterval(interval);
+          return prev;
+        }
 
-    return () => clearTimeout(t);
-  }, [arrOrderStatus]);
+        const updated = prev.map((item, i) =>
+          i === index ? { ...item, status_isdone: true } : item
+        );
+        setCurrentStatus(updated[index].status_title);
+        index++;
+        return updated;
+      });
+    }, ONE_MIN);
+
+    return () => clearInterval(interval);
+  }, [orderMainStatus]);
+
+  useEffect(() => {
+    if (orderMainStatus === "Request_return") {
+      const updatedStatus = defaultOrderStatus.map((item) => ({
+        ...item,
+        status_isdone: true,
+      }));
+
+      updatedStatus.push({
+        ...pickupDateTimeStatus,
+        status_isdone: true,
+      });
+
+      setArrOrderStatus(updatedStatus);
+    } else if (orderMainStatus === "Returned") {
+      const updatedStatus = defaultOrderStatus.map((item) => ({
+        ...item,
+        status_isdone: true,
+      }));
+
+      updatedStatus.push({
+        ...orederReturnedStatus,
+        status_isdone: true,
+      });
+
+      setArrOrderStatus(updatedStatus);
+    } else if (orderMainStatus === "Delivered") {
+      // ✅ Mark all items in the main array as done
+      const updatedStatus = defaultOrderStatus.map((item) => ({
+        ...item,
+        status_isdone: true,
+      }));
+
+      setArrOrderStatus(updatedStatus);
+    } else {
+      // Default: show base status with isdone false
+      setArrOrderStatus(defaultOrderStatus);
+    }
+  }, [orderMainStatus]);
 
   // Cancel button disabled simulation
   useEffect(() => {
@@ -149,7 +272,13 @@ const OrderSummaryContainer = ({ navigation }: any) => {
 
   useEffect(() => {
     header();
-  }, []);
+    if (route?.params) {
+      console.log("route?.params", route?.params);
+      setOrderMainStatus(route?.params?.orderMainStatus);
+    } else {
+      setCancelReason("");
+    }
+  }, [route]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -157,6 +286,7 @@ const OrderSummaryContainer = ({ navigation }: any) => {
       return () => {};
     }, [navigation])
   );
+
   return (
     <OrderSummaryComponent
       orderNumber={orderNumber}
@@ -173,6 +303,19 @@ const OrderSummaryContainer = ({ navigation }: any) => {
       cancelDisabled={cancelDisabled}
       driverProfile={driverProfile}
       driverName={driverName}
+      onPressTrackDriver={onPressTrackDriver}
+      onPressChatDriver={onPressChatDriver}
+      onPressCallDriver={onPressCallDriver}
+      cancelReason={cancelReason}
+      orderMainStatus={orderMainStatus}
+      cancelOrderDate={cancelOrderDate}
+      onPressReturnOrder={onPressReturnOrder}
+      onPressRateReview={onPressRateReview}
+      isEditReviewModalVisible={isEditReviewModalVisible}
+      onPressOpenEditReview={onPressOpenEditReview}
+      onPressEditReview={onPressEditReview}
+      onPressDeleteReview={onPressDeleteReview}
+      onPressReportIssue={onPressReportIssue}
     />
   );
 };

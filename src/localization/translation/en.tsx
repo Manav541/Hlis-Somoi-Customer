@@ -158,7 +158,7 @@ export default {
   applyCouponCode: "Apply Coupon Code",
   enterCouponCode: "Enter Coupon Code",
   coupon_code_required: "Please enter coupon code",
-  deliverto: "Deliver to:",
+  deliverto: "Deliver to :",
   approxDeliveryTime: "Approx delivery time",
   orderDetails: "Order Details",
   itemTotal: "Item total",
@@ -205,7 +205,7 @@ export default {
 
   // My Orders Module
   orderNumber: "Order Number",
-  yourOrderisConfirmed: "Your Order is Confirmed",
+  yourOrderis: "Your Order is ",
   itemsadded: "items added",
   qty: "QTY",
 
@@ -219,6 +219,24 @@ export default {
   requestforReturnDesc:"Cancel your order by providing a reason.",
   driverInfo:"Driver Info",
   track:"Track",
+  yourOrderIsCancelled:"Your Order is Cancelled",
+  cancelOrderSelectedReason :"I want to Cancel due to product quality issues",
+  requestReturn :"You have requested for return the order.",
+  orderReturned:"Order Returned",
+  returnReason : "I want to return due to product quality issues",
+  refundDesc : "You will get refund  3-4 business day",
+
+  // Rate & Review
+  rateReviewTitle: "Share your experience with the product",
+  feedBackTitle :"Thank You for Feedback",
+  feedBackDesc: "Your review has been submitted.",
+  yourReview: "Your Review",
+  edit : "Edit",
+  reviewDesc : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+  reportTitle :"Report a Problem, We’re Here to Help",
+
+  // Chat Screen
+  messageTitle: 'Message',
 
   // Cancel Order
   cancelOrderHeader : "If the cancellation is made less than 24 hours before the booking time, the deposit will be forfeited and non-refundable.",
@@ -227,6 +245,13 @@ export default {
   orderCancelled:"Order Cancelled",
   orderCancelledSuccessDesc:"Your order has been successfully cancelled.",
   ok:"Ok",
+
+  // Return Order 
+  ReturnOrderHeader : "Easily return or exchange items that are faulty or incorrect.",
+  requestSend: "Request Send",
+  requestSendSuccessDesc : "Your return/exchange request has been received. We will inform you once the vendor approves the request.",
+  uploadImagesVideo:"Upload Images/Video",
+  uploadImages:"Upload Images",
 
   // Setting
   setting: "Setting",

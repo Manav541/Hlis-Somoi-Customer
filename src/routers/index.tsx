@@ -15,9 +15,11 @@ import MyOrdersContainer from "../containers/bottomTabs/myOrders";
 import SettingContainer from "../containers/bottomTabs/setting";
 import CancelOrderContainer from "../containers/cancelOrder";
 import ChangeEmailPhoneNumberContainer from "../containers/changeEmailPhoneNumber";
+import ChatContainer from "../containers/chat";
 import CMSPageContainer from "../containers/cmsPages";
 import CompareProductConteiner from "../containers/compareProduct";
 import ContactUsContainer from "../containers/contactUs";
+import DriverTrackingContainer from "../containers/driverTracking";
 import EditProfileContainer from "../containers/editProfile";
 import ManageAddressesContainer from "../containers/manageAddresses";
 import ManagePaymentMethodsContainer from "../containers/managePaymentMethods";
@@ -26,6 +28,9 @@ import NotificationContainer from "../containers/notification";
 import OrderSummaryContainer from "../containers/orderSummary";
 import PaymentMethodContainer from "../containers/paymentMethod";
 import ProductListingContainer from "../containers/productListing";
+import RateAndReviewContainer from "../containers/rateAndReview";
+import ReportIssueContainer from "../containers/reportIssue";
+import ReturnOrderContainer from "../containers/returnOrder";
 import ReviewContainer from "../containers/review";
 import SearchContainer from "../containers/search";
 import ViewAllBestSellersContainer from "../containers/viewAllBestSellers";
@@ -64,6 +69,13 @@ export const ScreenNames = {
   // My Orders
   orderSummary : "Order Summary",
   cancelOrder:"Cancel Order",
+  returnOrder:"Return Order",
+  rateAndReview : "Rate & Review",
+  reportIssue : "Report Issue", 
+
+  // Driver Tracking
+  driverTracking : "Tracking",
+  chat : "Chat",
 
   // Bottom Tabs
   bottomTabsNavigation: "BottomTabs",
@@ -126,6 +138,13 @@ export const MyScreens = {
   // My Orders
   OrderSummaryContainer,
   CancelOrderContainer,
+  ReturnOrderContainer,
+  RateAndReviewContainer,
+  ReportIssueContainer,
+
+  // Driver Tracking
+  DriverTrackingContainer,
+  ChatContainer,
 
   // Setting tab
   EditProfileContainer,

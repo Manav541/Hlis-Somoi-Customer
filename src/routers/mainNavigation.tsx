@@ -32,7 +32,7 @@ const MainNavigation = (props: PropsType) => {
             fontSize: fontSize.size18,
             fontFamily: fontsfamily.extrabold,
             color: colors.blue4e,
-            marginBottom : Platform.OS =="ios" ? 12 :0
+            marginBottom: Platform.OS == "ios" ? 12 : 0,
           },
           headerShadowVisible: false,
           gestureEnabled: gestureEnabled,
@@ -51,6 +51,7 @@ const MainNavigation = (props: PropsType) => {
       <Stack.Navigator
         screenOptions={{ animation: "slide_from_right" }}
         initialRouteName={props?.initialRoute}
+        // initialRouteName={ScreenNames.reportIssue}
       >
         {/* Auth */}
         {handleStackScreens(
@@ -169,6 +170,27 @@ const MainNavigation = (props: PropsType) => {
           MyScreens.CancelOrderContainer,
           true
         )}
+        {handleStackScreens(
+          ScreenNames.returnOrder,
+          MyScreens.ReturnOrderContainer,
+          true
+        )}
+        {handleStackScreens(
+          ScreenNames.rateAndReview,
+          MyScreens.RateAndReviewContainer,
+          true
+        )}
+        {handleStackScreens(
+          ScreenNames.reportIssue,
+          MyScreens.ReportIssueContainer,
+          true
+        )}
+        {handleStackScreens(
+          ScreenNames.driverTracking,
+          MyScreens.DriverTrackingContainer,
+          true
+        )}
+        {handleStackScreens(ScreenNames.chat, MyScreens.ChatContainer, true)}
 
         {/* Setting */}
         {handleStackScreens(

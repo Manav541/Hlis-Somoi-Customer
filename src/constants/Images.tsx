@@ -165,9 +165,20 @@ export const images = {
   callIcon : require("../assets/images/callIcon.png"),
   chatIcon : require("../assets/images/chatIcon.png"),
   driverProfile : require("../assets/images/driverProfile.png"),
+  closeImage : require("../assets/images/closeImage.png"),
+  dummyImg : require("../assets/images/dummyImg.png"),
+  returnIcon : require("../assets/images/returnIcon.png"),
+  delete1 : require("../assets/images/delete1.png"),
 
   // Tracking Order
   map: require("../assets/images/map.png"),
+  mapDirection : require("../assets/images/mapDirection.png"),
+
+  // Chat
+  call : require("../assets/images/call.png"),
+  sendIcon : require("../assets/images/sendIcon.png"),
+  attachIcon : require("../assets/images/attachIcon.png"),
+  emojiIcon : require("../assets/images/emojiIcon.png"),
 
   // Setting
   profileIcon: require("../assets/images/profileIcon.png"),

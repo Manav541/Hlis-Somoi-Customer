@@ -19,7 +19,13 @@ export const DateFormatsManager = {
     MMDDYYYY_SLASH: 'MM/DD/YYYY', // 04/15/2025
     DoMMYYYY: 'D MMM YYYY', // 15 Apr 2025 (ordinal suffix like '15th' not supported)
     ddddMMMMDoYYYY: 'dddd, MMMM D YYYY', // Tuesday, April 15 2025
-    DMMM_COMMA_YYYY: 'D MMM, YYYY', // 10 Mar, 2025
+    ddMMMYYYY: 'DD MMM, YYYY', // 16 Feb, 2025
+    dddDDMM: 'ddd, DD/MM', // Sat, 17/03
+    dddd: 'dddd', // Tuesday
+    YYYY: 'YYYY', // 2025,
+    MMMMYYYY: 'MMMM, YYYY', // April, 2025
+    DD_MM_YYYY: 'DD MMM YYYY', // 01 may 2025
+    DDMMM: 'DD MMMM', // 14 July
   },
 
   TimeFormats: {
@@ -27,6 +33,7 @@ export const DateFormatsManager = {
     hhmmA: 'hh:mm A', // 02:30 PM
     HHmmss: 'HH:mm:ss', // 14:30:45
     hhmmssA: 'hh:mm:ss A', // 02:30:45 PM
+    HH_mm: 'HH.mm',
   },
 
   DateTimeFormatsWithTimezone: {

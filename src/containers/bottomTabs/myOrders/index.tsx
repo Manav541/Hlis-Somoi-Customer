@@ -16,7 +16,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
       order_number: "#12343235",
       total: "₹ 732.00",
       items_Count: 2,
-      status: "Confirm",
+      status: "Confirmed",
       date: "10 Mar, 2025",
       arrProduct: [
         {
@@ -97,7 +97,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
       order_number: "#12343238",
       total: "₹ 732.00",
       items_Count: 2,
-      status: "Order_return",
+      status: "Returned",
       date: "10 Mar, 2025",
       arrProduct: [
         {
@@ -124,7 +124,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
       order_number: "#12343239",
       total: "₹ 732.00",
       items_Count: 2,
-      status: "Canceled",
+      status: "Cancelled",
       date: "10 Mar, 2025",
       arrProduct: [
         {
@@ -190,8 +190,10 @@ const MyOrdersContainer = ({ navigation }: any) => {
     
     setSelectOrderDate(index)
   }
-  const handleNavigateOrderSummary=()=>{
-   navigation.navigate(ScreenNames.orderSummary)
+  const handleNavigateOrderSummary=(status : string)=>{
+   navigation.navigate(ScreenNames.orderSummary,{
+    orderMainStatus:status
+   })
   } 
 
   const onPressApply = () => {

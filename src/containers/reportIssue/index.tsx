@@ -1,0 +1,131 @@
+import { View, Text, StatusBar, TextInput } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import GlobalBackButton from "../../global/GlobalBackButton";
+import { Asset } from "react-native-image-picker";
+import {
+  cameraPermission,
+  checkPermission,
+  galleryPermission,
+  messages,
+} from "../../constants/GConstant";
+import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
+import { ScreenNames } from "../../routers";
+import ReportIssueComponent from "../../components/reportIssue";
+
+const ReportIssueContainer = ({ navigation }: any) => {
+  const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
+  const [reportIssue, setReportIssue] = useState<string>("");
+  const reportIssueRef = useRef<TextInput>(null);
+  const [reportIssueFocused, setReportIssueFocused] = useState(false);
+
+  // Image uplaod
+  const handleOnPressUploadImages = () => {
+    checkPermission(cameraPermission, messages.cameraPermission).then(
+      (isAllow) => {
+        if (isAllow) {
+          checkPermission(galleryPermission, messages.galleryPermission).then(
+            (isAllow) => {
+              if (isAllow) {
+                const isMultiSelection = true;
+                ImagePickerManager.choosePickerOptions(
+                  "photo",
+                  isMultiSelection
+                )
+                  .then((result: unknown) => {
+                    const pickerResponse = result as Asset[];
+                    console.log("Response==>", result);
+                    if (pickerResponse) {
+                      if (multiImagesArray.length == 0) {
+                        setMultiImagesArray(pickerResponse);
+                      } else {
+                        setMultiImagesArray([
+                          ...multiImagesArray,
+                          ...pickerResponse,
+                        ]);
+                      }
+                    } else {
+                      __DEV__ && console.log("No media selected or captured");
+                    }
+                  })
+                  .catch((error: string) => {
+                    __DEV__ && console.log("Error capturing media:", error);
+                  });
+              }
+            }
+          );
+        }
+      }
+    );
+  };
+
+  const handleOnPressDeleteUploadedImage = (index: number) => {
+    const updatedArray = [...multiImagesArray];
+    updatedArray.splice(index, 1);
+    setMultiImagesArray(updatedArray);
+  };
+
+  const handleOnChangeText = (text: string, type: string) => {
+    if (type === "reportIssue") {
+      setReportIssue(text.replace(/\s/g, ""));
+    }
+  };
+
+  const handleOnFocus = (type: string) => {
+    if (type === "reportIssue") {
+      setReportIssueFocused(true);
+    }
+  };
+
+  const handleOnBlur = (type: string) => {
+    if (type === "reportIssue") {
+      setReportIssueFocused(true);
+    }
+  };
+
+  const handleOnSubmit = (type: string) => {
+    reportIssueRef?.current?.focus();
+  };
+
+  const onPressSubmit = () => {
+    navigation.navigate(ScreenNames.bottomTabsNavigation, {
+      screen: ScreenNames.myOrders,
+    });
+  };
+
+  const header = () => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <GlobalBackButton onPress={() => navigation.goBack()} />
+      ),
+    });
+  };
+
+  useEffect(() => {
+    header();
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
+  return (
+    <ReportIssueComponent
+      reportIssue={reportIssue}
+      reportIssueRef={reportIssueRef}
+      reportIssueFocused={reportIssueFocused}
+      handleOnChangeText={handleOnChangeText}
+      handleOnFocus={handleOnFocus}
+      handleOnBlur={handleOnBlur}
+      handleOnSubmit={handleOnSubmit}
+      onPressSubmit={onPressSubmit}
+      multiImagesArray={multiImagesArray}
+      handleOnPressUploadImages={handleOnPressUploadImages}
+      handleOnPressDeleteUploadedImage={handleOnPressDeleteUploadedImage}
+    />
+  );
+};
+
+export default ReportIssueContainer;

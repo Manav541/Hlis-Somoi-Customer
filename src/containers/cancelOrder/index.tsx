@@ -37,6 +37,9 @@ const CancelOrderContainer = ({ navigation }: any) => {
   const [isCancelSuccessModalVisible, setIsCancelSuccessModalVisible] =
     useState(false);
 
+    const [finalCancelReason, setFinalCancelReason] = useState<string>("");
+
+
   const handleOnChangeText = (text: string, type: string) => {
     if (type === "otherReason") {
       setOtherReason(text.replace(/\s/g, ""));
@@ -70,12 +73,12 @@ const CancelOrderContainer = ({ navigation }: any) => {
 
   const onPressSubmit = () => {
     const selectedReason = arrCancelOrderReason.find((item) => item.isSelected);
-
+  
     if (!selectedReason) {
       flashMessageWarning("Please select a reason for cancellation.");
       return;
     }
-
+  
     if (
       selectedReason.reason === "Other (please specify)" &&
       !otherReason.trim()
@@ -84,12 +87,20 @@ const CancelOrderContainer = ({ navigation }: any) => {
       otherReasonRef?.current?.focus();
       return;
     }
-
-    // ✅ All good
+  
+    // ✅ Set final reason
+    const reasonToSubmit =
+      selectedReason.reason === "Other (please specify)"
+        ? otherReason.trim()
+        : selectedReason.reason;
+  
+    setFinalCancelReason(reasonToSubmit);
     setIsCancelSuccessModalVisible(true);
   };
+  
 
   const onPressOkCancel = () => {
+    
     setIsCancelSuccessModalVisible(false);
     navigation.navigate(ScreenNames.bottomTabsNavigation, {
       screen: ScreenNames.myOrders,

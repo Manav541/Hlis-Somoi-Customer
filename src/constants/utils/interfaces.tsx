@@ -18,6 +18,15 @@ export interface UploadDetailsType {
   emptyMessage: string | null;
 }
 
+export interface ChatMessage {
+  text: string;
+  time: string;
+  isSender: boolean;
+  status?: 'Read' | 'Delivered' | 'Sent';
+  type: 'text' | 'image' | 'video';
+  image?: string;
+}
+
 // Static
 export interface DashboardDataType {
   title: string | null;

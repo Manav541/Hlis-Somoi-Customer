@@ -25,4 +25,5 @@ export const constnatStyles = StyleSheet.create({
     fontSize: fontSize.size16,
     fontFamily: fontsfamily.semibold,
   },
+  img24: {height: 24, width: 24},
 });

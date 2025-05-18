@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Modal,
+} from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -6,6 +13,10 @@ import { colors } from "../../constants/Colors";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
 import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { PlatformVersion } from "../../constants/utils/Platform";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import GlobalButton from "../../global/GlobalButton";
+import { constnatStyles } from "../../constants/Styles";
 
 interface PropsType {
   orderNumber: string;
@@ -22,9 +33,24 @@ interface PropsType {
   cancelDisabled: boolean;
   driverProfile: any;
   driverName: string;
+  onPressTrackDriver: () => void;
+  onPressChatDriver: () => void;
+  onPressCallDriver: () => void;
+  orderMainStatus: string;
+  cancelReason: string;
+  cancelOrderDate: string;
+  onPressReturnOrder: () => void;
+  onPressRateReview: (item: any) => void;
+  isEditReviewModalVisible: boolean;
+  onPressOpenEditReview: (item: any) => void;
+  onPressEditReview: () => void;
+  onPressDeleteReview: () => void;
+  onPressReportIssue:()=>void;
 }
 
 const OrderSummaryComponent = (props: PropsType) => {
+  const insets = useSafeAreaInsets();
+  const rating = 4;
   const totalItems = props?.arrProducts?.length;
   const renderItemOrderStatus = (item: any, index: number) => {
     return (
@@ -56,12 +82,15 @@ const OrderSummaryComponent = (props: PropsType) => {
           </Text>
           {item?.status_isdone && (
             <Text style={styles.lblOrderStatusDate}>
-              on{" "}
-              {DateFormatsManager.formatDate(
-                item?.status_date,
-                DateFormatsManager.DateFormats.DMMM_COMMA_YYYY,
-                DateFormatsManager.DateFormats.DDMMYYYY_SLASH
-              )}
+              <Text>{"on "}</Text>
+              <Text>
+                {DateFormatsManager.formatDate(
+                  item?.status_date,
+                  DateFormatsManager.DateFormats.ddMMMYYYY,
+                  DateFormatsManager.DateFormats.DDMMYYYY_SLASH
+                )}
+              </Text>
+              <Text>{item?.status_time ?? ""}</Text>
             </Text>
           )}
         </View>
@@ -102,13 +131,16 @@ const OrderSummaryComponent = (props: PropsType) => {
                 </Text>
               </View>
               <Text style={styles.lblQuantity}>
-                {getTranslation("qty") + " "}
+                <Text>{getTranslation("qty")}</Text>{" "}
                 <Text style={styles.lblQuantityCount}>
                   {item?.product_quantity}
                 </Text>
               </Text>
             </View>
-            {props?.currentStatus === "Order Delivered" && (
+            {(props?.currentStatus === "Order Delivered" ||
+              props?.orderMainStatus === "Cancelled" ||
+              props?.orderMainStatus === "Returned" ||
+              props?.orderMainStatus === "Delivered") && (
               <TouchableOpacity
                 style={{
                   ...styles.btnRateReview,
@@ -116,15 +148,24 @@ const OrderSummaryComponent = (props: PropsType) => {
                 }}
                 activeOpacity={activityOpacity}
                 hitSlop={hitSlop}
+                onPress={() => {
+                  item?.isRateReview
+                    ? props?.onPressOpenEditReview(item)
+                    : props?.onPressRateReview(item);
+                }}
               >
-                {item?.isRateReview ?
-                <View style={{flexDirection : 'row',alignItems : 'center'}}>
-                  <Image style={styles.imgStar} source={images.star}/>
-                  <Text style={styles.lblRateReview}>{item?.product_rating}</Text>
-                </View> : <Text style={styles.lblRateReview}>
-                  {getTranslation("rateReview")}
-                </Text> }
-                
+                {item?.isRateReview ? (
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image style={styles.imgStar} source={images.star} />
+                    <Text style={styles.lblRateReview}>
+                      {item?.product_rating}
+                    </Text>
+                  </View>
+                ) : (
+                  <Text style={styles.lblRateReview}>
+                    {getTranslation("rateReview")}
+                  </Text>
+                )}
               </TouchableOpacity>
             )}
           </View>
@@ -161,7 +202,9 @@ const OrderSummaryComponent = (props: PropsType) => {
             </Text>
             <Text style={styles.lblOrderNumberValue}>{props?.orderNumber}</Text>
             <Text style={styles.lblOrderDateTime}>
-              {props?.orderPlacedDate} | {props?.orderPlacedTime}
+              <Text>{props?.orderPlacedDate}</Text>
+              <Text>{" | "}</Text>
+              <Text>{props?.orderPlacedTime}</Text>
             </Text>
           </View>
           <View style={{ alignSelf: "flex-end" }}>
@@ -172,171 +215,266 @@ const OrderSummaryComponent = (props: PropsType) => {
 
         {/* Order Status */}
         <View style={styles.vwOrderStatusMain}>
-          <Text style={styles.lblYourOrderisConfirmed}>
-            {getTranslation("yourOrderisConfirmed")}
+          <Text
+            style={{
+              ...styles.lblYourOrderisConfirmed,
+              color:
+                props?.orderMainStatus === "Cancelled" ||
+                props?.orderMainStatus === "Request_return"
+                  ? colors.red2e
+                  : colors.white,
+            }}
+          >
+            {props?.orderMainStatus === "Request_return" ? (
+              <Text>{getTranslation("requestReturn")}</Text>
+            ) : (
+              <Text>
+                <Text>{getTranslation("yourOrderis")}</Text>
+                <Text>{" "}</Text>
+                <Text>{props?.orderMainStatus}</Text>
+              </Text>
+            )}
           </Text>
-          <View>{props?.arrOrderStatus.map(renderItemOrderStatus)}</View>
+          {props?.orderMainStatus === "Cancelled" ? (
+            <View style={styles.vwCancelledOrder}>
+              <Image style={styles.imgCancel} source={images.orderCancel} />
+              <View style={{ gap: 5 }}>
+                <Text style={{ ...styles.lblReportIssueQue, marginBottom: 0 }}>
+                  {getTranslation("orderCancelled")}
+                </Text>
+                <Text style={styles.lblOrderStatusDate}>
+                  <Text>{"On "}</Text>
+                  <Text>
+                    {DateFormatsManager.formatDate(
+                      props?.cancelOrderDate,
+                      DateFormatsManager.DateFormats.ddMMMYYYY,
+                      DateFormatsManager.DateFormats.DDMMYYYY_SLASH
+                    )}
+                  </Text>
+                </Text>
+                <Text style={styles.lblReportIssueDesc}>
+                  {props?.cancelReason}
+                </Text>
+              </View>
+            </View>
+          ) : (
+            <View>
+              {props?.arrOrderStatus.map(renderItemOrderStatus)}{" "}
+              {props?.orderMainStatus === "Returned" && (
+                <View style={styles.vwOrderReturned}>
+                  <Image
+                    style={styles.imgReportIssue}
+                    source={images.returnIcon}
+                  />
+                  <View>
+                    <Text style={styles.lblReportIssueQue}>
+                      {getTranslation("orderReturned")}
+                    </Text>
+                    <Text style={styles.lblReportIssueDesc}>
+                      {getTranslation("returnReason")}
+                    </Text>
+                    <Text style={styles.lblRefundDesc}>
+                      {getTranslation("refundDesc")}
+                    </Text>
+                  </View>
+                  <Image
+                    style={styles.imgRightArrowGrey}
+                    source={images.rightArrowGrey}
+                  />
+                </View>
+              )}
+            </View>
+          )}
         </View>
         <View style={styles.vwLine} />
 
         {/* Products */}
         <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
           <Text style={styles.lblItemsAdded}>
-            {totalItems + " " + getTranslation("itemsadded")}
+            <Text>{totalItems}</Text>
+            <Text>{" "}</Text>
+            <Text>{getTranslation("itemsadded")}</Text>
           </Text>
           <View style={{ gap: 10 }}>
             {props?.arrProducts.map(renderItemProducts)}
           </View>
         </View>
         <View style={styles.vwLine} />
+
+        {/* Deliver To name Address */}
         <Text style={styles.lblDelivertoName}>
-          {getTranslation("deliverto") + " " + props?.delivertoName}
+          <Text>{getTranslation("deliverto")}</Text>
+          <Text>{" "}</Text>
+          <Text>{props?.delivertoName}</Text>
         </Text>
         <Text style={styles.lblDelivertoAddress}>
           {props?.delivertoAddress}
         </Text>
 
-        {/* Cancel Order & Return Oreder */}
-        {props?.currentStatus === "Order Delivered" ? (
-          <TouchableOpacity
-            style={{ ...styles.btnReportIssue, marginBottom: 10 }}
-            activeOpacity={activityOpacity}
-            hitSlop={hitSlop}
-          >
-            <Image style={styles.imgReportIssue} source={images.reportIssue} />
-            <View>
-              <Text style={styles.lblReportIssueQue}>
-                {getTranslation("requestforReturnQue")}
-              </Text>
-              <Text style={styles.lblReportIssueDesc}>
-                {getTranslation("requestforReturnDesc")}
-              </Text>
-            </View>
-            <Image
-              style={styles.imgRightArrowGrey}
-              source={images.rightArrowGrey}
-            />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.btnCancelOrder}
-            activeOpacity={activityOpacity}
-            hitSlop={hitSlop}
-            onPress={props?.onPressCancelOrder}
-          >
-            <Image style={styles.imgCancel} source={images.orderCancel} />
-            <View>
-              <Text style={styles.lblCancelOrderQue}>
-                {getTranslation("cancelOrderQue")}
-              </Text>
-              <Text style={styles.lblCancelOrderReason}>
-                {getTranslation("cancelOrderReason")}
-              </Text>
-              {!props?.cancelDisabled && (
-                <Text style={styles.lblCancelOrderTime}>
-                  {getTranslation("cancelOrderTime")}
-                </Text>
-              )}
-            </View>
-            <Image
-              style={styles.imgRightArrowGrey}
-              source={images.rightArrowGrey}
-            />
-          </TouchableOpacity>
-        )}
+        {props?.orderMainStatus !== "Cancelled" && (
+          <>
+            {/* Cancel Order & Return Oreder */}
+            {props?.currentStatus === "Order Delivered" ||
+            props?.orderMainStatus === "Delivered" ? (
+              <TouchableOpacity
+                style={{ ...styles.btnReportIssue, marginBottom: 10 }}
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={props?.onPressReturnOrder}
+              >
+                <Image
+                  style={styles.imgReportIssue}
+                  source={images.returnIcon}
+                />
+                <View>
+                  <Text style={styles.lblReportIssueQue}>
+                    {getTranslation("requestforReturnQue")}
+                  </Text>
+                  <Text style={styles.lblReportIssueDesc}>
+                    {getTranslation("requestforReturnDesc")}
+                  </Text>
+                </View>
+                <Image
+                  style={styles.imgRightArrowGrey}
+                  source={images.rightArrowGrey}
+                />
+              </TouchableOpacity>
+            ) : !props?.cancelDisabled ? (
+              <TouchableOpacity
+                style={styles.btnCancelOrder}
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={props?.onPressCancelOrder}
+              >
+                <Image style={styles.imgCancel} source={images.orderCancel} />
+                <View>
+                  <Text style={styles.lblCancelOrderQue}>
+                    {getTranslation("cancelOrderQue")}
+                  </Text>
+                  <Text style={styles.lblCancelOrderReason}>
+                    {getTranslation("cancelOrderReason")}
+                  </Text>
+                  <Text style={styles.lblCancelOrderTime}>
+                    {getTranslation("cancelOrderTime")}
+                  </Text>
+                </View>
+                <Image
+                  style={styles.imgRightArrowGrey}
+                  source={images.rightArrowGrey}
+                />
+              </TouchableOpacity>
+            ) : null}
 
-        {/* Report Issue */}
-        <TouchableOpacity
-          style={styles.btnReportIssue}
-          activeOpacity={activityOpacity}
-          hitSlop={hitSlop}
-        >
-          <Image style={styles.imgReportIssue} source={images.reportIssue} />
-          <View>
-            <Text style={styles.lblReportIssueQue}>
-              {getTranslation("reportIssueQue")}
-            </Text>
-            <Text style={styles.lblReportIssueDesc}>
-              {getTranslation("reportIssueDesc")}
-            </Text>
-          </View>
-          <Image
-            style={styles.imgRightArrowGrey}
-            source={images.rightArrowGrey}
-          />
-        </TouchableOpacity>
+            {/* Report Issue */}
+            {props?.orderMainStatus !== "Returned" && (
+              <TouchableOpacity
+                style={styles.btnReportIssue}
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={props?.onPressReportIssue}
+              >
+                <Image
+                  style={styles.imgReportIssue}
+                  source={images.reportIssue}
+                />
+                <View>
+                  <Text style={styles.lblReportIssueQue}>
+                    {getTranslation("reportIssueQue")}
+                  </Text>
+                  <Text style={styles.lblReportIssueDesc}>
+                    {getTranslation("reportIssueDesc")}
+                  </Text>
+                </View>
+                <Image
+                  style={styles.imgRightArrowGrey}
+                  source={images.rightArrowGrey}
+                />
+              </TouchableOpacity>
+            )}
 
-        {/* Driver Details */}
-        {(props?.currentStatus === "On The Way" ||
-          props?.currentStatus === "Order Delivered") && (
-          <View>
-            <Text style={styles.lblDriverInfo}>
-              {getTranslation("driverInfo")}
-            </Text>
-
-            <View
-              style={
-                props?.currentStatus === "Order Delivered"
-                  ? styles.vwDriverDetails1
-                  : styles.vwDriverDetails
-              }
-            >
-              {/* Driver photo */}
-              <Image
-                style={styles.imgDriverProfile}
-                source={props?.driverProfile}
-              />
-
-              {/* Name + (optionally) actions */}
+            {/* Driver Details */}
+            {(props?.currentStatus === "On The Way" ||
+              props?.currentStatus === "Order Delivered" ||
+              props?.orderMainStatus === "Delivered") && (
               <View>
-                <Text style={styles.lblDriverName}>{props?.driverName}</Text>
+                <Text style={styles.lblDriverInfo}>
+                  {getTranslation("driverInfo")}
+                </Text>
 
-                {/* 👉 Hide this row after delivery */}
-                {props?.currentStatus !== "Order Delivered" && (
-                  <View style={styles.vwTrackCallChat}>
-                    <TouchableOpacity
-                      style={styles.btnTrack}
-                      activeOpacity={activityOpacity}
-                      hitSlop={hitSlop}
-                    >
-                      <Image
-                        style={styles.imgTrackIcon}
-                        source={images.trackIcon}
-                      />
-                      <Text style={styles.lblTrack}>
-                        {getTranslation("track")}
-                      </Text>
-                    </TouchableOpacity>
+                <View
+                  style={
+                    props?.currentStatus === "Order Delivered" ||
+                    props?.orderMainStatus === "Delivered"
+                      ? styles.vwDriverDetails1
+                      : styles.vwDriverDetails
+                  }
+                >
+                  {/* Driver photo */}
+                  <Image
+                    style={styles.imgDriverProfile}
+                    source={props?.driverProfile}
+                  />
 
-                    <TouchableOpacity
-                      activeOpacity={activityOpacity}
-                      hitSlop={hitSlop}
-                    >
-                      <Image
-                        style={styles.imgChatCall}
-                        source={images.callIcon}
-                      />
-                    </TouchableOpacity>
+                  {/* Name + (optionally) actions */}
+                  <View>
+                    <Text style={styles.lblDriverName}>
+                      {props?.driverName}
+                    </Text>
 
-                    <TouchableOpacity
-                      activeOpacity={activityOpacity}
-                      hitSlop={hitSlop}
-                    >
-                      <Image
-                        style={styles.imgChatCall}
-                        source={images.chatIcon}
-                      />
-                    </TouchableOpacity>
+                    {/* 👉 Hide this row after delivery */}
+                    {!(
+                      props?.currentStatus === "Order Delivered" ||
+                      props?.orderMainStatus === "Delivered"
+                    ) && (
+                      <View style={styles.vwTrackCallChat}>
+                        <TouchableOpacity
+                          style={styles.btnTrack}
+                          activeOpacity={activityOpacity}
+                          hitSlop={hitSlop}
+                          onPress={props?.onPressTrackDriver}
+                        >
+                          <Image
+                            style={styles.imgTrackIcon}
+                            source={images.trackIcon}
+                          />
+                          <Text style={styles.lblTrack}>
+                            {getTranslation("track")}
+                          </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                          activeOpacity={activityOpacity}
+                          hitSlop={hitSlop}
+                          onPress={props?.onPressCallDriver}
+                        >
+                          <Image
+                            style={styles.imgChatCall}
+                            source={images.callIcon}
+                          />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                          activeOpacity={activityOpacity}
+                          hitSlop={hitSlop}
+                          onPress={props?.onPressChatDriver}
+                        >
+                          <Image
+                            style={styles.imgChatCall}
+                            source={images.chatIcon}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    )}
                   </View>
-                )}
-              </View>
 
-              <Image
-                style={styles.imgRightArrowGrey}
-                source={images.rightArrowGrey}
-              />
-            </View>
-          </View>
+                  <Image
+                    style={styles.imgRightArrowGrey}
+                    source={images.rightArrowGrey}
+                  />
+                </View>
+              </View>
+            )}
+          </>
         )}
 
         {/* Order Details */}
@@ -356,6 +494,54 @@ const OrderSummaryComponent = (props: PropsType) => {
           </View>
         </View>
       </ScrollView>
+
+      {/* Edit Modal */}
+      <Modal
+        visible={props?.isEditReviewModalVisible}
+        transparent
+        animationType="fade"
+      >
+        <View style={styles.vwFilterModal}>
+          <View
+            style={{
+              ...styles.vwFilterModalContainer,
+              paddingBottom: PlatformVersion.isIOS ? insets.bottom + 20 : 20,
+            }}
+          >
+            <Text style={styles.lblYourReview}>
+              {getTranslation("yourReview")}
+            </Text>
+            <View style={{ flexDirection: "row" }}>
+              {[1, 2, 3, 4, 5].map((item: any,index : number) => (
+                <Image
+                key={index}
+                  style={styles.imgStarModal}
+                  source={item <= rating ? images.starFilled : images.starEmpty}
+                />
+              ))}
+            </View>
+            <Text style={styles.lblReviewDesc}>
+              {getTranslation("reviewDesc")}
+            </Text>
+            <View style={styles.vwEditDeleteReview}>
+              <GlobalButton
+                isOrange
+                title={getTranslation("edit")}
+                flex={1}
+                onPress={props?.onPressEditReview}
+              />
+              <TouchableOpacity
+                style={styles.btnDelete}
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={props?.onPressDeleteReview}
+              >
+                <Image style={constnatStyles.img24} source={images.delete1} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };

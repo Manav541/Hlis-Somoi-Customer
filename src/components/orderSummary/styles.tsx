@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../constants/Colors";
 import { fontSize } from "../../constants/FontSizes";
 import { fontsfamily } from "../../constants/FontFamily";
+import { ScreenDimensions } from "../../constants/utils/Dimensions";
 
 export const styles = StyleSheet.create({
   /* vertical connector */
@@ -99,7 +100,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 12,
     paddingTop: 12,
     marginBottom: 20,
-    flexDirection : 'row'
+    flexDirection: "row",
   },
   vwDriverDetails1: {
     height: 79,
@@ -109,8 +110,8 @@ export const styles = StyleSheet.create({
     gap: 12,
     paddingLeft: 12,
     marginBottom: 20,
-    flexDirection : 'row',
-    alignItems :'center'
+    flexDirection: "row",
+    alignItems: "center",
   },
   vwTrackCallChat: {
     height: 27.4,
@@ -118,6 +119,24 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 15,
+  },
+  vwCancelledOrder: {
+    flexDirection: "row",
+    borderRadius: 10,
+    backgroundColor: colors.white,
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+    gap : 15
+  },
+  vwOrderReturned:{
+    flexDirection: "row",
+    borderRadius: 10,
+    backgroundColor: colors.white,
+    paddingHorizontal: 16,
+    paddingVertical : 20,
+    marginBottom : 20,
+    gap  : 20,
+    flex : 1
   },
 
   // Text styles
@@ -154,7 +173,6 @@ export const styles = StyleSheet.create({
     textAlign: "right",
   },
   lblYourOrderisConfirmed: {
-    color: colors.white,
     fontSize: fontSize.size16,
     fontFamily: fontsfamily.semibold,
   },
@@ -245,6 +263,12 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.regular,
     fontSize: fontSize.size12,
   },
+  lblRefundDesc:{
+    color: colors.green4f,
+    fontFamily: fontsfamily.medium,
+    fontSize: fontSize.size12,
+    marginTop : 5
+  },
   lblOrderDetails: {
     fontSize: fontSize.size16,
     fontFamily: fontsfamily.semibold,
@@ -282,7 +306,7 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.mediumGolosText,
     color: colors.blue4e,
   },
-  lblTrack : {
+  lblTrack: {
     fontSize: fontSize.size10,
     fontFamily: fontsfamily.semibold,
     color: colors.blue4e,
@@ -309,6 +333,11 @@ export const styles = StyleSheet.create({
     right: 10,
     alignSelf: "center",
   },
+  imgRightArrow: {
+    height: 20,
+    width: 20,
+    alignSelf : 'center',
+  },
   imgReportIssue: {
     height: 24,
     width: 24,
@@ -327,10 +356,10 @@ export const styles = StyleSheet.create({
     height: 27,
     width: 27,
   },
-  imgStar:{
-    height : 17.2,
-    width : 17.2,
-    marginRight : 2
+  imgStar: {
+    height: 17.2,
+    width: 17.2,
+    marginRight: 2,
   },
 
   //   TouchableOpacity Styles
@@ -366,7 +395,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 6,
-    height : 23
+    height: 23,
   },
   btnTrack: {
     height: 27.4,
@@ -377,5 +406,55 @@ export const styles = StyleSheet.create({
     borderRadius: 105.38,
     backgroundColor: colors.orange1c,
     flexDirection: "row",
+  },
+
+  // Modal style
+  vwFilterModal: {
+    flex: 1,
+    justifyContent: "flex-end",
+    backgroundColor: colors.black50,
+  },
+  vwFilterModalContainer: {
+    width: ScreenDimensions.screenWidth,
+    backgroundColor: colors.blue4e,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingHorizontal : 16,
+    paddingTop : 33
+  },
+  vwEditDeleteReview :{
+    flexDirection : 'row',
+    justifyContent : 'space-between',
+    alignItems : 'center',
+    gap : 10
+  },
+  lblYourReview:{
+    color : colors.white,
+    fontSize : fontSize.size20,
+    fontFamily : fontsfamily.bold,
+    marginBottom : 36,
+    textAlign : 'center'
+  },
+  lblReviewDesc:{
+    color : colors.greya7,
+    fontSize : fontSize.size14,
+    fontFamily : fontsfamily.regular,
+    lineHeight : 20,
+    marginTop : 10,
+    marginBottom : 35.8,
+    marginRight : 31
+  },
+  imgStarModal:{
+    height : 31.2,
+    width : 31.2,
+    marginRight : 6.98
+  },
+  btnDelete :{
+    height : 50,
+    width : 50,
+    borderRadius : 8,
+    backgroundColor : colors.whiteff,
+    justifyContent : 'center',
+    alignItems : 'center'
   },
 });

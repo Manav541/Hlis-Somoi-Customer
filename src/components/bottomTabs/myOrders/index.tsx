@@ -28,25 +28,25 @@ interface PropsType {
   arrFilterOrderType: any;
   handleSelectOrderType: (index: number) => void;
   handleSelectOrderDate: (index: number) => void;
-  handleNavigateOrderSummary: () => void;
+  handleNavigateOrderSummary: (status : string) => void;
   onPressApply: () => void;
   onPressReset: () => void;
 }
 
 const statusColors: { [key: string]: string } = {
-  Confirm: colors.black35,
+  Confirmed: colors.black35,
   Delivered: colors.green4f,
-  Order_return: colors.green4f,
+  Returned: colors.green4f,
   Request_return: colors.orange1c,
-  Canceled: colors.red2e,
+  Cancelled: colors.red2e,
 };
 
 const statusTexts: { [key: string]: string } = {
-  Confirm: "Your Order Confirmed",
+  Confirmed: "Your Order Confirmed",
   Delivered: "Your Order Delivered",
   Request_return: "Requested for Returned",
-  Order_return: "Your Order is Returned",
-  Canceled: "Your Order is Cancelled",
+  Returned: "Your Order is Returned",
+  Cancelled: "Your Order is Cancelled",
 };
 
 const MyOrdersComponent = (props: PropsType) => {
@@ -57,7 +57,7 @@ const MyOrdersComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         style={styles.btnOrderItems}
         onPress={()=>{
-          props.handleNavigateOrderSummary()
+          props.handleNavigateOrderSummary(item?.status)
         }}
         >
           {/* Oreder Number Total Price */}

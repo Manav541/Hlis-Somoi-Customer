@@ -6,6 +6,7 @@ export const fontsfamily = {
     bold: 'Montserrat-Bold',
     extrabold: 'Montserrat-ExtraBold',
 
+    // Outfit
     lightOutFit: 'Outfit-Light',
     regularOutFit: 'Outfit-Regular',
     mediumOutFit: 'Outfit-Medium',
@@ -13,10 +14,18 @@ export const fontsfamily = {
     boldOutFit: 'Outfit-Bold',
     extraboldOutFit: 'Outfit-ExtraBold',
 
+    // GolosText
     blackGolosText: 'GolosText-Black',
     regularGolosText: 'GolosText-Regular',
     mediumGolosText: 'GolosText-Medium',
     semiboldGolosText: 'GolosText-SemiBold',
     boldGolosText: 'GolosText-Bold',
     extraboldGolosText: 'GolosText-ExtraBold',
+
+    // publicSans
+    regularPublicSans: 'PublicSans-Regular',
+    mediumPublicSans: 'PublicSans-Medium',
+    semiboldPublicSans: 'PublicSans-SemiBold',
+    boldPublicSans: 'PublicSans-Bold',
+    extraboldPublicSans: 'PublicSans-ExtraBold',
   };
