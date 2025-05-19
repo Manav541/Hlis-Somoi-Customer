@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import {colors} from '../../constants/Colors';
 import {fontSize} from '../../constants/FontSizes';
 import {fontsfamily} from '../../constants/FontFamily';
-
+ 
 export const styles = StyleSheet.create({
   vwMain: {flex: 1, backgroundColor: colors.blue4e},
   flatlistContainer: {
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   },
   vwMessageInputSendBtn: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     gap: 20,
   },
   vwMesssageInput: {
@@ -61,16 +61,16 @@ export const styles = StyleSheet.create({
   },
   lblMessage: {
     fontSize: fontSize.size14,
-    fontFamily: fontsfamily.regularPublicSans,
+    fontFamily: fontsfamily.regular,
     color: colors.black35,
   },
   lblTime: {
     fontSize: fontSize.size10,
-    fontFamily: fontsfamily.regularPublicSans,
+    fontFamily: fontsfamily.regular,
   },
   lblMainTime: {
     color: colors.greya7,
     fontSize: fontSize.size12,
-    fontFamily: fontsfamily.regularPublicSans,
+    fontFamily: fontsfamily.regular,
   },
 });

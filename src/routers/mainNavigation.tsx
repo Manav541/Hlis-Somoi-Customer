@@ -30,7 +30,7 @@ const MainNavigation = (props: PropsType) => {
           headerStyle: { backgroundColor: colors.orange1c },
           headerTitleStyle: {
             fontSize: fontSize.size18,
-            fontFamily: fontsfamily.extrabold,
+            fontFamily: fontsfamily.bold,
             color: colors.blue4e,
             marginBottom: Platform.OS == "ios" ? 12 : 0,
           },
@@ -51,7 +51,7 @@ const MainNavigation = (props: PropsType) => {
       <Stack.Navigator
         screenOptions={{ animation: "slide_from_right" }}
         initialRouteName={props?.initialRoute}
-        // initialRouteName={ScreenNames.reportIssue}
+        // initialRouteName={ScreenNames.chat}
       >
         {/* Auth */}
         {handleStackScreens(

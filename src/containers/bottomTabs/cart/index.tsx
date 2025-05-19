@@ -6,26 +6,145 @@ import { flashMessageWarning } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { images } from "../../../constants/Images";
 import { ScreenNames } from "../../../routers";
+import {
+  GroceryProduct,
+  OrderDetail,
+} from "../../../constants/utils/interfaces";
 
 const CartContainer = ({ navigation }: any) => {
   const [couponCode, setCouponCode] = useState<string>("");
   const [isApplyCoupon, setIsApplyCoupon] = useState<boolean>(false);
-  const [arrOrderProduts, setArrOrderProducts] = useState<any[]>([
+  const [arrOrderProduts, setArrOrderProducts] = useState<GroceryProduct[]>([
     {
+      mainCategoryTitle: "Groceries",
+      subCategoryTitle: "Rice",
+      product_imgMain: [
+        {
+          imgMain: images.rice,
+        },
+        {
+          imgMain: images.rice,
+        },
+        {
+          imgMain: images.rice,
+        },
+      ],
       product_img: images.rice,
-      product_name: "India Gate Basmati Rice",
-      product_final_price: "₹499",
+      product_name: `India Gate Basmati ${"\n"}Rice`,
+      product_price: "₹600",
       product_weight: "1 kg",
+      product_final_price: "₹499",
+      product_rating: "4.5",
+      product_review: 250,
+      isFavourite: true,
       product_quantity: 1,
+      product_deliverytime: "10 Min",
+      product_distance: "5 km",
+      product_desc:
+        "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  using Lorem Ipsum is that it has a more-or-less normal distribution of  letters, as opposed to using 'Content here, content here', making it  look like readable English.",
+      product_highlight: [
+        {
+          highlightTitle: "Grain Size",
+          highlightDesc: "250",
+        },
+        {
+          highlightTitle: "Organic",
+          highlightDesc: "No",
+        },
+        {
+          highlightTitle: "Polished",
+          highlightDesc: "Yes",
+        },
+        {
+          highlightTitle: "Brand",
+          highlightDesc: "India Gate",
+        },
+        {
+          highlightTitle: "Fssai license ",
+          highlightDesc: "250",
+        },
+      ],
+      product_inStock: true,
+      product_deliveryData: [
+        {
+          deliveryDataImage: images.productReturn,
+          deliveryDataTitle: "3 day Return/ Exchange",
+        },
+        {
+          deliveryDataImage: images.cashOnDelivery,
+          deliveryDataTitle: "Cash on Delivery",
+        },
+        {
+          deliveryDataImage: images.fastDelivery,
+          deliveryDataTitle: "Fast Delivery",
+        },
+      ],
       height: 61.6,
       width: 42.3,
     },
     {
+      mainCategoryTitle: "Groceries",
+      subCategoryTitle: "Cooking Oil",
+      product_imgMain: [
+        {
+          imgMain: images.oil,
+        },
+        {
+          imgMain: images.oil,
+        },
+        {
+          imgMain: images.oil,
+        },
+      ],
       product_img: images.oil,
       product_name: "Fortune Premium Mustard Oil",
+      product_price: "₹600",
+      product_weight: "500 ml",
       product_final_price: "₹499",
-      product_weight: "1 kg",
+      product_rating: "4.5",
+      isFavourite: false,
       product_quantity: 2,
+      product_deliverytime: "10 Min",
+      product_distance: "5 km",
+      product_desc:
+        "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+      product_highlight: [
+        {
+          highlightTitle: "Grain Size",
+          highlightDesc: "250",
+        },
+        {
+          highlightTitle: "Organic",
+          highlightDesc: "No",
+        },
+        {
+          highlightTitle: "Polished",
+          highlightDesc: "Yes",
+        },
+        {
+          highlightTitle: "Brand",
+          highlightDesc: "India Gate",
+        },
+        {
+          highlightTitle: "Fssai license ",
+          highlightDesc: "250",
+        },
+      ],
+      product_inStock: true,
+      product_deliveryData: [
+        {
+          deliveryDataImage: images.productReturn,
+          deliveryDataTitle: "3 day Return/ Exchange",
+        },
+        {
+          deliveryDataImage: images.cashOnDelivery,
+          deliveryDataTitle: "Cash on Delivery",
+        },
+        {
+          deliveryDataImage: images.fastDelivery,
+          deliveryDataTitle: "Fast Delivery",
+        },
+      ],
       height: 66,
       width: 47.52,
     },
@@ -33,36 +152,38 @@ const CartContainer = ({ navigation }: any) => {
 
   const [deliverToName, setDeliverToName] = useState<string>("John");
   const [deliverToAddress, setDeliverToAddress] = useState<string>(
-    "3465 Hanover Street, Locust Court Burbank New York, NY 10038" 
+    "3465 Hanover Street, Locust Court Burbank New York, NY 10038"
   );
-  const [approxDeliveryTime, setApproxDeliveryTime] = useState<string>("25 min");
+  const [approxDeliveryTime, setApproxDeliveryTime] =
+    useState<string>("25 min");
 
-  const [arrOrderDetails, setArrOrderDetails] = useState<any[]>([
+  const [arrOrderDetails, setArrOrderDetails] = useState<OrderDetail[]>([
     {
-      orderDetailTitle : getTranslation('itemTotal'),
-      orderDetailValue : "2",
+      orderDetailTitle: getTranslation("itemTotal"),
+      orderDetailValue: "2",
     },
     {
-      orderDetailTitle : getTranslation('subTotal'),
-      orderDetailValue : "₹698",
+      orderDetailTitle: getTranslation("subTotal"),
+      orderDetailValue: "₹698",
     },
     {
-      orderDetailTitle : getTranslation('tax'),
-      orderDetailValue : "₹34",
+      orderDetailTitle: getTranslation("tax"),
+      orderDetailValue: "₹34",
     },
     {
-      orderDetailTitle : getTranslation('discount'),
-      orderDetailValue : "-₹10.00",
+      orderDetailTitle: getTranslation("discount"),
+      orderDetailValue: "-₹10.00",
     },
     {
-      orderDetailTitle : getTranslation('delivery'),
-      orderDetailValue : "Free",
+      orderDetailTitle: getTranslation("delivery"),
+      orderDetailValue: "Free",
     },
     {
-      orderDetailTitle : getTranslation('paymentType'),
-      orderDetailValue : "Cash on Delivery",
+      orderDetailTitle: getTranslation("paymentType"),
+      orderDetailValue: "Cash on Delivery",
     },
   ]);
+
   const [totalPrice, setTotalPrice] = useState<string>("₹723");
 
   const onChangeCouponCode = (text: string) => {
@@ -83,7 +204,7 @@ const CartContainer = ({ navigation }: any) => {
   };
 
   const onPressChangeDeliveryAddress = () => {
-    navigation.navigate(ScreenNames.manageAddress,{navigateFromCart : true});
+    navigation.navigate(ScreenNames.manageAddress, { navigateFromCart: true });
   };
 
   const onPressPlaceOrder = () => {

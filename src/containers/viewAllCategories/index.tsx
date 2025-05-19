@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import GlobalBackButton from '../../global/GlobalBackButton';
 import ViewAllCategoriesComponenet from '../../components/viewAllCategories';
 import { images } from '../../constants/Images';
 import { useFocusEffect } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
+import { SubCategory } from '../../constants/utils/interfaces';
 
 const ViewAllCategoriesContainer = ({navigation, route} : any) => {
-    const [arrAllCategories, setArrAllCategories] = React.useState<any>([
+    const [arrAllCategories, setArrAllCategories] = useState<SubCategory[]>([
         {
             image : images.groceriesC1,
             name : 'Groceries',

@@ -1,19 +1,21 @@
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { activityOpacity } from "../../constants/GConstant";
+import { AvailableOfferItem } from "../../constants/utils/interfaces";
 
 interface PropsType {
-  arrAvailableOffers: any;
+  arrAvailableOffers: AvailableOfferItem[];
 }
 
 const AvailableOffersComponent = (props: PropsType) => {
-  const renderAvailableOffers = ({ item, index }: any) => {
+  const renderAvailableOffers = ({ item, index }: {item : AvailableOfferItem, index : number}) => {
     return (
       <TouchableOpacity
         style={styles.btnOffersData}
         activeOpacity={activityOpacity}
+        key={index}
       >
         <View style={{ gap: 4 }}>
           <Text style={styles.lblOfferTitle}>{item?.title}</Text>

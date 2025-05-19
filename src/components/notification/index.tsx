@@ -3,19 +3,30 @@ import React from "react";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import {
+  NotificationData,
+  NotificationGroup,
+} from "../../constants/utils/interfaces";
 
 interface PropsType {
-  arrNotification: any[];
+  arrNotification: NotificationGroup[];
   onPressNotification: () => void;
 }
 
 const NotificationComponent = (props: PropsType) => {
-  const renderItemArrNotification = ({ item }: any) => {
+  const renderItemArrNotification = ({
+    item,
+    index,
+  }: {
+    item: NotificationData;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         style={styles.btnNotification}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
+        key={index}
         onPress={props?.onPressNotification}
       >
         <View style={styles.vwNotification}>
@@ -28,7 +39,7 @@ const NotificationComponent = (props: PropsType) => {
               <Text style={styles.lblNotificationTitle}>{item?.title}</Text>
               <Text style={styles.lblNotificationTime}>{item?.time}</Text>
             </View>
-            <Text style={styles.lblNotificationDesc}>{item?.desc}</Text>    
+            <Text style={styles.lblNotificationDesc}>{item?.desc}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -38,7 +49,7 @@ const NotificationComponent = (props: PropsType) => {
     <View style={styles.vwMain}>
       <SectionList
         sections={props?.arrNotification}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item, index) => `${item.title}_${index}`}
         bounces={false}
         showsVerticalScrollIndicator={false}
         renderItem={renderItemArrNotification}

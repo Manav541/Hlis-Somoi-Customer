@@ -12,12 +12,13 @@ import { styles } from "./styles";
 import { images } from "../../../constants/Images";
 import { activityOpacity, hitSlop } from "../../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Category, FashionProduct, GroceryProduct, Restaurant } from "../../../constants/utils/interfaces";
 
 interface PropsType {
-  arrAllCategories: any[];
+  arrAllCategories: Category[];
   onPressMainCategories: (
     mainCategoryName: string,
-    arrSubCategory: any
+    arrSubCategory: (GroceryProduct | Restaurant | FashionProduct)[],
   ) => void;
   handleOnPressNotifaicationIcon: () => void;
 }
@@ -25,12 +26,13 @@ interface PropsType {
 const CategoriesComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
 
-  const renderItemAllCategories = ({ item, index }: any) => {
+  const renderItemAllCategories = ({ item, index }: {item :Category,index :number}) => {
     return (
       <TouchableOpacity
         style={styles.btnAllCategories}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
+        key={index}
         onPress={() => {
           props?.onPressMainCategories(item?.name, item?.arrSubCategory);
         }}

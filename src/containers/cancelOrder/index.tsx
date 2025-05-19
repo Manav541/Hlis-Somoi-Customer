@@ -5,9 +5,10 @@ import { useFocusEffect } from "@react-navigation/native";
 import CancelOrderComponent from "../../components/cancelOrder";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { ScreenNames } from "../../routers";
+import { CancelOrderReason } from "../../constants/utils/interfaces";
 
 const CancelOrderContainer = ({ navigation }: any) => {
-  const [arrCancelOrderReason, setArrCancelOrderReason] = useState([
+  const [arrCancelOrderReason, setArrCancelOrderReason] = useState<CancelOrderReason[]>([
     {
       reason: "Change of mind",
       isSelected: false,

@@ -8,7 +8,6 @@ import {
 } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { regex } from "../../../constants/Regex";
-import { PlatformVersion } from "../../../constants/utils/Platform";
 import { CommonActions } from "@react-navigation/native";
 
 const ChangePasswordContainer = ({ navigation, route }: any) => {

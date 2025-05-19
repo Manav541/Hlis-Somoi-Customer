@@ -14,6 +14,7 @@ import { colors } from "../../../constants/Colors";
 import { activityOpacity, hitSlop } from "../../../constants/GConstant";
 import GlobalButton from "../../../global/GlobalButton";
 import { fontsfamily } from "../../../constants/FontFamily";
+import { GroceryProduct, OrderDetail } from "../../../constants/utils/interfaces";
 
 interface PropsType {
   couponCode: string;
@@ -21,18 +22,18 @@ interface PropsType {
   onChangeCouponCode: (text: string) => void;
   onPressApplyCoupon: () => void;
   onPressRemoveCoupon: () => void;
-  arrOrderProduts: any[];
+  arrOrderProduts: GroceryProduct[];
   deliverToName: string;
   deliverToAddress: string;
   approxDeliveryTime: string;
-  arrOrderDetails: any[];
+  arrOrderDetails: OrderDetail[];
   totalPrice: string;
   onPressChangeDeliveryAddress: () => void;
   onPressPlaceOrder: () => void;
 }
 
 const CartComponent = (props: PropsType) => {
-  const renderItemOrderProduct = (item: any, index: number) => {
+  const renderItemOrderProduct = (item: GroceryProduct, index: number) => {
     return (
       <View style={styles.vwOrderProductItem} key={index}>
         <View style={styles.vwProductImage}>
@@ -74,7 +75,7 @@ const CartComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemOrderDetails = (item: any, index: number) => {
+  const renderItemOrderDetails = (item: OrderDetail, index: number) => {
     return (
       <View style={styles.vwOrderDetailsItem} key={index}>
         <Text style={styles.lblOrderDetailsTitle}>

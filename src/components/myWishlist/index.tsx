@@ -16,9 +16,10 @@ import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
+import { WishlistItem } from "../../constants/utils/interfaces";
 
 interface PropsType {
-  arrMyWhislist: any;
+  arrMyWhislist: WishlistItem[];
   search: string;
   onChangeSearch: (text: string) => void;
   handleRemoveFromWishlist: (indexToRemove: number) => void;
@@ -26,7 +27,7 @@ interface PropsType {
 
 const MyWishlistComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
-  const renderArrMyWhislist = ({ item, index }: any) => {
+  const renderArrMyWhislist = ({ item, index }: { item: WishlistItem; index: number }) => {
     return (
       <View
         style={[

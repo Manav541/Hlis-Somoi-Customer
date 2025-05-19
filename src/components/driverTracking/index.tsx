@@ -4,6 +4,7 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  ImageSourcePropType,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -14,7 +15,7 @@ import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface PropsType {
-  driverProfile: any;
+  driverProfile: string;
   driverName: string;
   delivertoName: string;
   delivertoAddress: string;

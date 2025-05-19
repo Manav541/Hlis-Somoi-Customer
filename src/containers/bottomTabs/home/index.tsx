@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HomeComponent from "../../../components/bottomTabs/home";
 import { images } from "../../../constants/Images";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { ScreenDimensions } from "../../../constants/utils/Dimensions";
 import { ScreenNames } from "../../../routers";
 import { useFocusEffect } from "@react-navigation/native";
-import { StatusBar } from "react-native";
+import { NativeScrollEvent, NativeSyntheticEvent, StatusBar } from "react-native";
+import { AdItem, BestProduct, GroceriesFoodItem, Restaurant, SubCategory } from "../../../constants/utils/interfaces";
+import { FlatList } from "react-native-gesture-handler";
 
 const HomeContainer = ({ navigation }: any) => {
-  const [arrGroceriesFood, setArrGroceriesFood] = useState([
+  const [arrGroceriesFood, setArrGroceriesFood] = useState<GroceriesFoodItem[]>([
     {
       type: getTranslation("groceries"),
       image: images.groceriesLogo,
@@ -18,7 +20,7 @@ const HomeContainer = ({ navigation }: any) => {
       image: images.foodLogo,
     },
   ]);
-  const [arrAds, setArrAds] = useState([
+  const [arrAds, setArrAds] = useState<AdItem[]>([
     {
       image: images.banner,
     },
@@ -29,7 +31,7 @@ const HomeContainer = ({ navigation }: any) => {
       image: images.banner,
     },
   ]);
-  const [arrSubCategoryGroceries, setArrSubCategoryGroceries] = useState([
+  const [arrSubCategoryGroceries, setArrSubCategoryGroceries] = useState<SubCategory[]>([
     {
       image: images.riceG,
       name: "Rice",
@@ -63,7 +65,7 @@ const HomeContainer = ({ navigation }: any) => {
       name: "Beverages",
     },
   ]);
-  const [arrSubCategoryFood, setArrSubCategoryFood] = useState([
+  const [arrSubCategoryFood, setArrSubCategoryFood] = useState<SubCategory[]>([
     {
       image: images.food1,
       name: "Local & Regional ",
@@ -97,7 +99,7 @@ const HomeContainer = ({ navigation }: any) => {
       name: "Combo Meals & Family Packs",
     },
   ]);
-  const [arrBestProducts, setArrBestProducts] = useState([
+  const [arrBestProducts, setArrBestProducts] = useState<BestProduct[]>([
     {
       image: images.milkBP,
       name: "Dairy",
@@ -127,7 +129,7 @@ const HomeContainer = ({ navigation }: any) => {
       width: 65.98,
     },
   ]);
-  const [arrBestSellers, setArrBestSellers] = useState([
+  const [arrBestSellers, setArrBestSellers] = useState<Restaurant[]>([
     {
       restaurant_imgMain: [
         {
@@ -205,7 +207,8 @@ const HomeContainer = ({ navigation }: any) => {
   const [isGroceriesFoodSelected, setIsGroceriesFoodSelected] =
     useState<string>("Groceries");
 
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const flatListRef = useRef<FlatList>(null);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
   const onPressSearch = () => {
     navigation.navigate(ScreenNames.search);
@@ -215,10 +218,27 @@ const HomeContainer = ({ navigation }: any) => {
     setIsGroceriesFoodSelected(type);
   };
 
-  //handleOnScrollAds
-  const handleOnScrollAds = (event: any) => {
-    const offset = event.nativeEvent.contentOffset.x;
-    const index = Math.ceil(offset / ScreenDimensions.screenWidth);
+   // Auto scroll functionality
+   useEffect(() => {
+    const autoScroll = setInterval(() => {
+      if (flatListRef.current && arrAds.length > 0) {
+        const nextIndex = (currentIndex + 1) % arrAds.length;
+        flatListRef.current.scrollToIndex({
+          index: nextIndex,
+          animated: true,
+        });
+        setCurrentIndex(nextIndex);
+      }
+    }, 3000); // Change slide every 3 seconds
+
+    return () => clearInterval(autoScroll);
+  }, [currentIndex, arrAds]);
+
+  const handleOnScrollAds = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const scrollPosition = event.nativeEvent.contentOffset.x;
+    const index = Math.round(
+      scrollPosition / (ScreenDimensions.screenWidth - 40)
+    );
     setCurrentIndex(index);
   };
 
@@ -253,6 +273,8 @@ const HomeContainer = ({ navigation }: any) => {
       onPressGroceriesFood={onPressGroceriesFood}
       isGroceriesFoodSelected={isGroceriesFoodSelected}
       arrAds={arrAds}
+      flatListRef={flatListRef}
+      currentIndex={currentIndex}
       handleOnScrollAds={handleOnScrollAds}
       arrSubCategoryGroceries={arrSubCategoryGroceries}
       arrBestProducts={arrBestProducts}

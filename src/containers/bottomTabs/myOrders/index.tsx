@@ -1,17 +1,17 @@
-import { View, Text, StatusBar, TouchableOpacity, Image } from "react-native";
+import {  StatusBar,  } from "react-native";
 import React, { useEffect, useState } from "react";
 import MyOrdersComponent from "../../../components/bottomTabs/myOrders";
 import { useFocusEffect } from "@react-navigation/native";
-import { activityOpacity, hitSlop } from "../../../constants/GConstant";
-import { styles } from "./styles";
 import { images } from "../../../constants/Images";
 import { ScreenNames } from "../../../routers";
+import GlobalBackButton from "../../../global/GlobalBackButton";
+import { FilterDate, FilterOrderType, Order } from "../../../constants/utils/interfaces";
 
 const MyOrdersContainer = ({ navigation }: any) => {
   const [filterModal, setFilterModal] = useState(false);
   const [selectOrderType, setSelectOrderType] = useState<number>(0);
   const [selectOrderDate, setSelectOrderDate] = useState<number>(0);
-  const [arrOrderList, setArrOrderList] = useState([
+  const [arrOrderList, setArrOrderList] = useState<Order[]>([
     {
       order_number: "#12343235",
       total: "₹ 732.00",
@@ -148,7 +148,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
       ],
     },
   ]);
-  const [arrFilterOrderType, setArrFilterOrderType] = useState([
+  const [arrFilterOrderType, setArrFilterOrderType] = useState<FilterOrderType[]>([
     {
       id: 1,
       type: "Orders",
@@ -162,7 +162,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
       type: "Cancelled",
     },
   ]);
-  const [arrFilterDate, setArrFilterDate] = useState([
+  const [arrFilterDate, setArrFilterDate] = useState<FilterDate[]>([
     {
       id: 1,
       date: "Last 30 Days",
@@ -180,16 +180,19 @@ const MyOrdersContainer = ({ navigation }: any) => {
   const closeFilterModal=()=>{
     setFilterModal(false)
   }
+
   const handleSelectOrderType=(index:number)=>{
     console.log("index=>",index);
     
     setSelectOrderType(index)
   }
+
   const handleSelectOrderDate=(index:number)=>{
     console.log("index=>",index);
     
     setSelectOrderDate(index)
   }
+
   const handleNavigateOrderSummary=(status : string)=>{
    navigation.navigate(ScreenNames.orderSummary,{
     orderMainStatus:status
@@ -207,13 +210,11 @@ const MyOrdersContainer = ({ navigation }: any) => {
   const header = () => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity
-          activeOpacity={activityOpacity}
-          hitSlop={hitSlop}
+        <GlobalBackButton
           onPress={onPressFilter}
-        >
-          <Image style={styles.imgFilter} source={images.filterIconMyOreders} />
-        </TouchableOpacity>
+          isRight
+          rightImage={images.filterIconMyOreders}
+        />
       ),
     });
   };

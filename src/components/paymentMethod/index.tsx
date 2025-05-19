@@ -14,10 +14,11 @@ import { images } from "../../constants/Images";
 import { colors } from "../../constants/Colors";
 import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
+import { CardDetails } from "../../constants/utils/interfaces";
 
 interface PropsType {
   onPressAddNewCard: () => void;
-  arrCards: any[];
+  arrCards: CardDetails[];
   total: string;
   onPressPlaceOrder: () => void;
   isCodSelected: boolean;
@@ -30,7 +31,7 @@ interface PropsType {
 }
 
 const PaymentMethodComponent = (props: PropsType) => {
-  const renderItemCard = (item: any, index: number) => {
+  const renderItemCard = (item: CardDetails, index: number) => {
     return (
       <TouchableOpacity
         style={styles.btnCard}

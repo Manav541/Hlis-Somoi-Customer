@@ -4,6 +4,7 @@ import ViewAllBestSellersComponent from "../../components/viewAllBestSellers";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../routers";
+import { Restaurant } from "../../constants/utils/interfaces";
 
 const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
   const [arrAllBestSellers, setArrAllBestSellers] = useState(route?.params?.arrBestSellers || []);
@@ -14,7 +15,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
     setArrAllBestSellers(updatedList);
   };
 
-  const onPressRestaurant =(item: any)=>{
+  const onPressRestaurant =(item: Restaurant)=>{
     navigation.navigate(ScreenNames.restaurantDetail,{item:item})
   }
 

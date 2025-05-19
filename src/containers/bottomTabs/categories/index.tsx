@@ -1,12 +1,18 @@
 import { StatusBar } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import CategoriesComponent from "../../../components/bottomTabs/categories";
 import { images } from "../../../constants/Images";
 import { ScreenNames } from "../../../routers";
 import { useFocusEffect } from "@react-navigation/native";
+import {
+  Category,
+  FashionProduct,
+  GroceryProduct,
+  Restaurant,
+} from "../../../constants/utils/interfaces";
 
 const CategoriesContainer = ({ navigation }: any) => {
-  const [arrAllCategories, setArrAllCategories] = React.useState<any>([
+  const [arrAllCategories, setArrAllCategories] = useState<Category[]>([
     {
       image: images.groceriesC1,
       name: "Groceries",
@@ -692,6 +698,7 @@ const CategoriesContainer = ({ navigation }: any) => {
           width: 88,
         },
         {
+          mainCategoryTitle: "Groceries",
           subCategoryTitle: "Flour",
           product_imgMain: [
             {
@@ -1094,6 +1101,7 @@ const CategoriesContainer = ({ navigation }: any) => {
           width: 88,
         },
         {
+          mainCategoryTitle: "Groceries",
           subCategoryTitle: "Flour",
           product_imgMain: [
             {
@@ -1496,6 +1504,7 @@ const CategoriesContainer = ({ navigation }: any) => {
           width: 88,
         },
         {
+          mainCategoryTitle: "Groceries",
           subCategoryTitle: "Flour",
           product_imgMain: [
             {
@@ -1898,6 +1907,7 @@ const CategoriesContainer = ({ navigation }: any) => {
           width: 88,
         },
         {
+          mainCategoryTitle: "Groceries",
           subCategoryTitle: "Flour",
           product_imgMain: [
             {
@@ -2160,7 +2170,7 @@ const CategoriesContainer = ({ navigation }: any) => {
 
   const onPressMainCategories = (
     mainCategoryName: string,
-    arrSubCategory: any
+    arrSubCategory: (GroceryProduct | Restaurant | FashionProduct)[]
   ) => {
     navigation.navigate(ScreenNames.productListing, {
       mainCategoryName: mainCategoryName,

@@ -4,9 +4,10 @@ import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
+import { AddressItem } from "../../constants/utils/interfaces";
 
 interface PropsType {
-  arrManageAddress: any[];
+  arrManageAddress: AddressItem[];
   handleDelete: (index: number) => void;
   handleSetDefault: (index: number) => void;
   handleOnPressAddAddress: () => void;
@@ -17,7 +18,7 @@ const ManageAddressesComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: any;
+    item: AddressItem;
     index: number;
   }) => {
     return (

@@ -1,4 +1,4 @@
-import { View, Text, StatusBar } from "react-native";
+import { View, Text, StatusBar, ImageSourcePropType } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import RateAndReviewComponent from "../../components/rateAndReview";
 import { useFocusEffect } from "@react-navigation/native";
@@ -13,22 +13,23 @@ import {
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import { TextInput } from "react-native-gesture-handler";
 import { ScreenNames } from "../../routers";
+import { images } from "../../constants/Images";
 
 const RateAndReviewContainer = ({ navigation, route }: any) => {
   console.log("route?.params", route?.params);
-  const [product_img, setProduct_img] = useState("");
-  const [product_name, setProduct_name] = useState("");
-  const [product_price, setProduct_price] = useState("");
-  const [product_quantity, setProduct_quantity] = useState("");
-  const [product_weight, setProduct_weight] = useState("");
-  const [height, setHeight] = useState(0);
-  const [width, setWidth] = useState(0);
+  const [product_img, setProduct_img] = useState<ImageSourcePropType>(images.rice);
+  const [product_name, setProduct_name] = useState<string>(`India Gate Basmati ${"\n"}Rice`);
+  const [product_price, setProduct_price] = useState<string>("₹199");
+  const [product_quantity, setProduct_quantity] = useState<string>("1");
+  const [product_weight, setProduct_weight] = useState<string>("1 kg");
+  const [height, setHeight] = useState<number>(61.6);
+  const [width, setWidth] = useState<number>(42.3);
   const [product_rating, setProduct_rating] = useState(0);
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
 
   const [product_review, setproduct_review] = useState<string>("");
   const product_reviewRef = useRef<TextInput>(null);
-  const [product_reviewFocused, setproduct_reviewFocused] = useState(false);
+  const [product_reviewFocused, setproduct_reviewFocused] = useState<boolean>(false);
 
   const [isReviewSuccessModalVisible, setIsReviewSuccessModalVisible] =
     useState(false);

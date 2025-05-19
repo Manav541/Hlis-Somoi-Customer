@@ -48,6 +48,7 @@ interface PropsType {
   handleOnSelectCountry: (item: CountryDataType) => void;
   handleOnPressBackCountryModal: () => void;
   handleOnPressGuest: () => void;
+  onPressCMS: (page:string) => void;
 }
 
 const SignupComponent = (props: PropsType) => {
@@ -191,7 +192,7 @@ const SignupComponent = (props: PropsType) => {
             {/* Bottom View */}
             <View
               style={{
-                paddingBottom: PlatformVersion.isIOS ? insets.bottom + 10 : 20,
+                paddingBottom: PlatformVersion.isIOS ? insets.bottom +20 : 0,
               }}
             >
               {/* View Signup-Signin */}
@@ -237,7 +238,7 @@ const SignupComponent = (props: PropsType) => {
                 <Text style={styles.lblTermsCondition}>
                   {getTranslation("bysigningup")}{" "}
                   <Text
-                    onPress={() => {}}
+                    onPress={() => {props?.onPressCMS("termsConditions")}}
                     style={[
                       styles.lblTermsCondition,
                       styles.lblTermsConditionLine,
@@ -247,7 +248,7 @@ const SignupComponent = (props: PropsType) => {
                   </Text>{" "}
                   {getTranslation("andi")}{" "}
                   <Text
-                    onPress={() => {}}
+                    onPress={() => {props?.onPressCMS("privacyPolicy")}}
                     style={[
                       styles.lblTermsCondition,
                       styles.lblTermsConditionLine,

@@ -7,7 +7,7 @@ import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
 
 const DriverTrackingContainer = ({ navigation, route }: any) => {
-  const [driverProfile, setDriverProfile] = useState<any>();
+  const [driverProfile, setDriverProfile] = useState<string>("");
   const [driverName, setDriverName] = useState<string>("");
   const [driverMobileNumber, setDriverMobileNumber] = useState<string>("");
   const [delivertoName, setDelivertoName] = useState<string>("");

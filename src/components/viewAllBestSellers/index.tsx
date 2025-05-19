@@ -6,17 +6,18 @@ import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { fontsfamily } from "../../constants/FontFamily";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Restaurant } from "../../constants/utils/interfaces";
 
 interface PropsType {
-  arrAllBestSellers: any[];
+  arrAllBestSellers: Restaurant[];
   onPressFavourite: (index: number) => void;
-  onPressRestaurant:(item: any)=>void;
+  onPressRestaurant:(item: Restaurant)=>void;
 }
 
 const ViewAllBestSellersComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
 
-  const renderItemAllBestSellers = ({ item, index }: any) => {
+  const renderItemAllBestSellers = ({ item, index }: {item : Restaurant, index : number}) => {
     return (
       <TouchableOpacity
         style={styles.btnAllBestSellersItem}

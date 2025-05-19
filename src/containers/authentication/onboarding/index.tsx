@@ -10,7 +10,7 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 import {AsyncManager} from '../../../constants/utils/AsyncManager';
-import { MmkvManager } from '../../../constants/utils/MmkvManager';
+import {MmkvManager} from '../../../constants/utils/MmkvManager';
 
 interface OnboardingItem {
   image: ImageSourcePropType;

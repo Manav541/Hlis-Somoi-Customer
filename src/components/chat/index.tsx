@@ -15,11 +15,11 @@ import {images} from '../../constants/Images';
 import {constnatStyles} from '../../constants/Styles';
 import {activityOpacity, hitSlop} from '../../constants/GConstant';
 import {getTranslation} from '../../localization/i18n/i18n.config';
+import {styles} from './styles';
 import {DateFormatsManager} from '../../constants/utils/DateFormats';
-import { ChatMessage } from '../../constants/utils/interfaces';
-import { styles } from './styles';
 import FastImage from 'react-native-fast-image';
-
+import { ChatMessage } from '../../constants/utils/interfaces';
+ 
 interface PropsType {
   messagesList: ChatMessage[];
   messageValue: string;
@@ -30,10 +30,10 @@ interface PropsType {
   handleOnPressSendMessage: () => void;
   handleOnPressAttachment: () => void;
 }
-
+ 
 const ChatComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
-
+ 
   const renderItemMessages = ({
     item,
     index,
@@ -55,9 +55,9 @@ const ChatComponent = (props: PropsType) => {
           DateFormatsManager.DateFormats.YYYYMMDD,
         )
       : null;
-
+ 
     const shouldShowDateHeader = currentDate !== nextDate;
-
+ 
     return (
       <View style={{gap: 14}}>
         {/* View Time Line */}
@@ -73,7 +73,7 @@ const ChatComponent = (props: PropsType) => {
             <View style={styles.vwTimeLineInner} />
           </View>
         )}
-
+ 
         {/* View Message */}
         <View
           style={{alignItems: item.isSender ? 'flex-end' : 'flex-start'}}
@@ -94,7 +94,7 @@ const ChatComponent = (props: PropsType) => {
             {item?.type === 'text' && item?.text != '' && (
               <Text style={styles.lblMessage}>{item.text}</Text>
             )}
-
+ 
             {/* Image Message */}
             {item?.type === 'image' && item?.image != '' && (
               <TouchableOpacity
@@ -108,7 +108,7 @@ const ChatComponent = (props: PropsType) => {
                 />
               </TouchableOpacity>
             )}
-
+ 
             {/* Text Messsage Time - Status */}
             {item?.time && (
               <View style={{alignItems: 'center', flexDirection: 'row'}}>
@@ -141,15 +141,19 @@ const ChatComponent = (props: PropsType) => {
       </View>
     );
   };
-
+ 
   return (
-    <View style={styles.vwMain}>
+    <View
+      style={[
+        styles.vwMain,
+        {paddingBottom: PlatformVersion.isIOS ? insets.bottom + 10 : 10},
+      ]}>
       {/* View Chats Flatlist */}
       <KeyboardAvoidingView
         style={{flex: 1, gap: 10}}
         behavior={PlatformVersion.isIOS ? 'padding' : undefined}
         keyboardVerticalOffset={
-          PlatformVersion.isIOS ? (insets.bottom > 0 ? 100 : 65) : 90
+          PlatformVersion.isIOS ? (insets.bottom > 0 ? 110 : 75) : 80
         }>
         <View style={{flex: 1}}>
           <FlatList
@@ -160,17 +164,9 @@ const ChatComponent = (props: PropsType) => {
             renderItem={renderItemMessages}
           />
         </View>
-
+ 
         {/* Message Input */}
-        <View
-          style={{
-            paddingHorizontal: 20,
-            paddingBottom: props?.isMsgInputFocused
-              ? 10
-              : PlatformVersion.isIOS
-              ? insets.bottom + 20
-              : 20,
-          }}>
+        <View style={{paddingHorizontal: 20}}>
           <View style={styles.vwMessageInputSendBtn}>
             <View style={styles.vwMesssageInput}>
               {/* Emoji Button */}
@@ -180,7 +176,7 @@ const ChatComponent = (props: PropsType) => {
                 onPress={props.handleOnPressEmoji}>
                 <Image source={images.emojiIcon} style={constnatStyles.img24} />
               </TouchableOpacity>
-
+ 
               {/* Message Input */}
               <TextInput
                 value={props.messageValue}
@@ -198,7 +194,7 @@ const ChatComponent = (props: PropsType) => {
                 multiline
                 textAlignVertical="center"
               />
-
+ 
               {/* Send Button */}
               <TouchableOpacity
                 activeOpacity={activityOpacity}
@@ -208,12 +204,13 @@ const ChatComponent = (props: PropsType) => {
                 <Image source={images.sendIcon} style={constnatStyles.img24} />
               </TouchableOpacity>
             </View>
-
+ 
             {/* Attachment Button */}
             <TouchableOpacity
               activeOpacity={activityOpacity}
               onPress={props.handleOnPressAttachment}
-              hitSlop={hitSlop}>
+              hitSlop={hitSlop}
+              style={{marginBottom: 12}}>
               <Image
                 source={images.attachIcon}
                 style={constnatStyles.img24}
@@ -225,5 +222,5 @@ const ChatComponent = (props: PropsType) => {
     </View>
   );
 };
-
+ 
 export default ChatComponent;

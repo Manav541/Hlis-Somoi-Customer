@@ -7,13 +7,17 @@ import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
 import { useFocusEffect } from "@react-navigation/native";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { colors } from "../../constants/Colors";
 
 const ProductListingContainer = ({ navigation, route }: any) => {
+  const insets = useSafeAreaInsets();
   const mainCategoryName = route.params?.mainCategoryName;
   const [arrSubCategory, setArrSubCategory] = useState(
     route.params?.arrSubCategory
   );
-  const [isFilterModalVisible,setIsFilterModalVisible] = useState<boolean>(false);
+  const [isFilterModalVisible, setIsFilterModalVisible] =
+    useState<boolean>(false);
   const [subCategoryTitle, setSubCategoryTitle] = useState([
     {
       subIcon: images.allSubIcon,
@@ -59,6 +63,19 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       isSelected: false,
     },
   ]);
+  const [subCategoryFashionTitle, setSubCategoryFashionTitle] = useState([
+    {
+      subIcon: images.allSubIcon,
+      name: "All",
+      isSelected: true,
+    },
+    {
+      subIcon: images.tshirtIcon,
+      name: "T-shirt",
+      isSelected: false,
+    },
+  ]);
+
   const [range, setRange] = useState([150, 300]);
   const [rating, setRating] = useState(4);
 
@@ -67,18 +84,19 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   };
 
   const onPressCloseFilterModal = () => {
-    setIsFilterModalVisible(false)
-  }
+    setIsFilterModalVisible(false);
+  };
 
   const onPressApplyFilter = () => {
-    setIsFilterModalVisible(false)
-  }
-
+    setIsFilterModalVisible(false);
+  };
 
   const onPressSubCategoryTitle = (selectedIndex: number) => {
     const categoryArray =
       mainCategoryName.toLowerCase() === "food"
         ? subCategoryFoodTitle
+        : mainCategoryName.toLowerCase() === "fashion"
+        ? subCategoryFashionTitle
         : subCategoryTitle;
 
     const updated = categoryArray.map((item, index) => ({
@@ -88,13 +106,14 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
     if (mainCategoryName.toLowerCase() === "food") {
       setSubCategoryFoodTitle(updated);
+    } else if (mainCategoryName.toLowerCase() === "fashion") {
+      setSubCategoryFashionTitle(updated);
     } else {
       setSubCategoryTitle(updated);
     }
 
     const selectedTitle = updated[selectedIndex].name.toLowerCase();
 
-    
     if (selectedTitle === "all") {
       setArrSubCategory(route.params?.arrSubCategory);
     } else {
@@ -122,28 +141,40 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   };
 
   const onPressRestaurant = (item: any) => {
-    navigation.navigate(ScreenNames.restaurantDetail, { item : item });
+    navigation.navigate(ScreenNames.restaurantDetail, { item: item });
   };
   const onPressProduct = (item: any) => {
-    navigation.navigate(ScreenNames.productDetail, { item : item });
+    navigation.navigate(ScreenNames.productDetail, { item: item });
   };
 
-  const onPressFilter = ()=> {
-    setIsFilterModalVisible(true)
-  }
+  const onPressFilter = () => {
+    setIsFilterModalVisible(true);
+  };
 
   const header = () => {
     navigation.setOptions({
-      headerLeft: () => (
-        <GlobalBackButton onPress={() => navigation.goBack()} />
-      ),
-      headerTitle: () => (
-        <Text style={styles.txtHeaderTitle}>{mainCategoryName}</Text>
-      ),
-      headerRight: () => (
-        <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop} onPress={onPressFilter}>
-          <Image style={styles.imgSort} source={images.sort}/>
-        </TouchableOpacity>
+      header: () => (
+        <View
+          style={{
+            paddingTop: insets.top,
+            backgroundColor: colors.orange1c,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingBottom: 14,
+          }}
+        >
+          <GlobalBackButton onPress={() => navigation.goBack()} style={{ marginBottom: 0 }} />
+
+          <Text style={styles.txtHeaderTitle}>{mainCategoryName}</Text>
+
+          <GlobalBackButton
+            isRight
+            onPress={onPressFilter}
+            rightImage={images.sort}
+            style={{ marginBottom: 0 }}
+          />
+        </View>
       ),
     });
   };
@@ -164,6 +195,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       mainCategoryName={mainCategoryName}
       subCategoryTitle={subCategoryTitle}
       subCategoryFoodTitle={subCategoryFoodTitle}
+      subCategoryFashionTitle={subCategoryFashionTitle}
       onPressSubCategoryTitle={onPressSubCategoryTitle}
       arrSubCategory={arrSubCategory}
       handleQuantityChange={handleQuantityChange}

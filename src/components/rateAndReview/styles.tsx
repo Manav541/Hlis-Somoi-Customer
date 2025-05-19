@@ -30,6 +30,7 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     overflow: "hidden",
+    paddingVertical : 12.2
   },
   vwProductItemDetails: {
     flexDirection: "row",

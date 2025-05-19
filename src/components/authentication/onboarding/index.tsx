@@ -46,8 +46,10 @@ const OnboardingComponent = (props: PropsType) => {
         styles.vwMain,
         {
           paddingBottom: PlatformVersion.isIOS
-            ? insets.bottom + 10
-            : insets.bottom + 25,
+            ? insets.bottom > 0
+              ? insets.bottom + 10
+              : 20
+            : insets.bottom + 20,
         },
       ]}>
       <StatusBar barStyle={'light-content'} />
@@ -59,6 +61,7 @@ const OnboardingComponent = (props: PropsType) => {
         {/* View Onbording Flatlist */}
         <View>
           <FlatList
+            bounces={false}
             data={props.onboardingData}
             horizontal={true}
             scrollEnabled={false}

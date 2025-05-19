@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView, ImageSourcePropType } from "react-native";
 import React, { Ref } from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -12,7 +12,7 @@ import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
 
 interface PropsType {
-  product_img: any;
+  product_img: ImageSourcePropType;
   product_name: string;
   product_price: string;
   product_weight: string;

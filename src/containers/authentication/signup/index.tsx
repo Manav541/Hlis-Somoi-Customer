@@ -173,6 +173,10 @@ const SignupContainer = ({ navigation }: any) => {
           routes: [{name: ScreenNames.bottomTabsNavigation}],
         }),
       );
+  };
+
+  const onPressCMS = (page: string) => {
+    navigation.navigate(ScreenNames.cmsPage, { navigateFrom: page });
   }
 
   return (
@@ -209,6 +213,7 @@ const SignupContainer = ({ navigation }: any) => {
       handleOnSelectCountry={handleOnSelectCountry}
       handleOnPressBackCountryModal={handleOnPressBackCountryModal}
       handleOnPressGuest={handleOnPressGuest}
+      onPressCMS={onPressCMS}
     />
   );
 };

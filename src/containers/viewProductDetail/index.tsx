@@ -22,6 +22,13 @@ import ViewProductDetailComponent from "../../components/viewProductDetail";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { ScreenNames } from "../../routers";
 import { colors } from "../../constants/Colors";
+import {
+  FashionColor,
+  FashionSize,
+  RateProgress,
+  Review,
+  SimilarProduct,
+} from "../../constants/utils/interfaces";
 
 const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const itemData = route.params?.item;
@@ -48,6 +55,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       imgMain: images.fashionMainImg,
     },
   ];
+  
   const product_img = itemData?.product_img;
   const mainCategoryTitle = itemData?.mainCategoryTitle;
   const subCategoryTitle = itemData?.subCategoryTitle;
@@ -60,32 +68,32 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const product_price = itemData?.product_price;
   const product_distance = itemData?.product_distance;
   const product_deliverytime = itemData?.product_deliverytime;
-  const product_deliveryData=itemData?.product_deliveryData;
-  const product_highlight=itemData?.product_highlight;
-  const product_desc=itemData?.product_desc;
+  const product_deliveryData = itemData?.product_deliveryData;
+  const product_highlight = itemData?.product_highlight;
+  const product_desc = itemData?.product_desc;
 
-  const arrSimilarProduct = [
+  const arrSimilarProduct: SimilarProduct[] = [
     {
-      product_img : images.rice,
-      product_final_price:"₹499",
-      product_price:"₹600",
-      product_weight:"1kg",
+      product_img: images.rice,
+      product_final_price: "₹499",
+      product_price: "₹600",
+      product_weight: "1kg",
     },
     {
-      product_img : images.rice,
-      product_final_price:"₹499",
-      product_price:"₹600",
-      product_weight:"1kg",
+      product_img: images.rice,
+      product_final_price: "₹499",
+      product_price: "₹600",
+      product_weight: "1kg",
     },
     {
-      product_img : images.rice,
-      product_final_price:"₹499",
-      product_price:"₹600",
-      product_weight:"1kg",
+      product_img: images.rice,
+      product_final_price: "₹499",
+      product_price: "₹600",
+      product_weight: "1kg",
     },
-    
   ];
-  const [arrRateProgress, setArrRateProgress] = useState([
+
+  const [arrRateProgress, setArrRateProgress] = useState<RateProgress[]>([
     {
       rate_number: 5,
       rate_percentage: 60,
@@ -108,72 +116,72 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     },
   ]);
 
-  const [arrRevieews,setArrReviews] = useState([
+  const [arrRevieews, setArrReviews] = useState<Review[]>([
     {
-      review_personName : 'Jesus Loy',
-      review_rate : '4.5',
-      review_date: '12 Oct 2023',
-      review_description : 'Material is best but the overall look is too gud 😍 Test very good',
+      review_personName: "Jesus Loy",
+      review_rate: "4.5",
+      review_date: "12 Oct 2023",
+      review_description:
+        "Material is best but the overall look is too gud 😍 Test very good",
       review_image: images.rice,
-      type: 'image'
+      type: "image",
     },
     {
-      review_personName : 'Mike loy',
-      review_rate : '4.5',
-      review_date: '12 Oct 2023',
-      review_description : 'It is a long established fact that a reader will be distracted by the readable',
+      review_personName: "Mike loy",
+      review_rate: "4.5",
+      review_date: "12 Oct 2023",
+      review_description:
+        "It is a long established fact that a reader will be distracted by the readable",
       review_image: images.rice,
-      type: 'video'
-    },
-  ]);
-  
-  const [arrFashionSize,setArrFashionSize] = useState([
-    {
-      size : 'S',
-      isSelected : false
-    },
-    {
-      size : 'M',
-      isSelected : true
-    },
-    {
-      size : 'L',
-      isSelected : false
-    },
-    {
-      size : 'XL',
-      isSelected : false
-    },
-  ]);
-  
-  const [arrFashionColor,setArrFashionColor] = useState([
-    {
-      color : colors.brown08,
-      isSelected : false
-    },
-    {
-      color : colors.blue4e,
-      isSelected : true
-    },
-    {
-      color : colors.black,
-      isSelected : false
-    },
-    {
-      color : colors.brown46,
-      isSelected : false
-    },
-    {
-      color : colors.green9f,
-      isSelected : false
-    },
-    {
-      color : colors.grey72,
-      isSelected : false
+      type: "video",
     },
   ]);
 
+  const [arrFashionSize, setArrFashionSize] = useState<FashionSize[]>([
+    {
+      size: "S",
+      isSelected: false,
+    },
+    {
+      size: "M",
+      isSelected: true,
+    },
+    {
+      size: "L",
+      isSelected: false,
+    },
+    {
+      size: "XL",
+      isSelected: false,
+    },
+  ]);
 
+  const [arrFashionColor, setArrFashionColor] = useState<FashionColor[]>([
+    {
+      color: colors.brown08,
+      isSelected: false,
+    },
+    {
+      color: colors.blue4e,
+      isSelected: true,
+    },
+    {
+      color: colors.black,
+      isSelected: false,
+    },
+    {
+      color: colors.brown46,
+      isSelected: false,
+    },
+    {
+      color: colors.green9f,
+      isSelected: false,
+    },
+    {
+      color: colors.grey72,
+      isSelected: false,
+    },
+  ]);
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const totalRate = 4.5;
@@ -190,17 +198,19 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   };
 
   const onPressGoToCompareProduct = () => {
-    navigation.navigate(ScreenNames.compareProduct,{mainCategoryTitle : mainCategoryTitle});
+    navigation.navigate(ScreenNames.compareProduct, {
+      mainCategoryTitle: mainCategoryTitle,
+    });
   };
   const onPressBuyNow = () => {
     // navigation.navigate(ScreenNames.compareProduct);
   };
-  const onPressViewAll =()=>{
+  const onPressViewAll = () => {
     flashMessageWarning(getTranslation("underDevelopment"));
-  }
+  };
 
   const onPressSize = (selectedSize: string) => {
-    const updatedSizes = arrFashionSize.map(item => ({
+    const updatedSizes = arrFashionSize.map((item) => ({
       ...item,
       isSelected: item.size === selectedSize,
     }));
@@ -208,7 +218,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   };
 
   const onPressColor = (selectedColor: string) => {
-    const updatedColor = arrFashionColor.map(item => ({
+    const updatedColor = arrFashionColor.map((item) => ({
       ...item,
       isSelected: item.color === selectedColor,
     }));
@@ -277,15 +287,12 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       product_desc={product_desc}
       arrFashionSize={arrFashionSize}
       arrFashionColor={arrFashionColor}
-
       currentIndex={currentIndex}
       handleScroll={handleScroll}
-
       totalRate={totalRate}
       totalReviews={totalReviews}
       arrRateProgress={arrRateProgress}
       arrRevieews={arrRevieews}
-
       onPressGoToCompareProduct={onPressGoToCompareProduct}
       onPressBuyNow={onPressBuyNow}
       onPressSize={onPressSize}

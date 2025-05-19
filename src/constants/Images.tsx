@@ -98,6 +98,7 @@ export const images = {
   filterCheckbox: require("../assets/images/filterCheckbox.png"),
   dropdown: require("../assets/images/dropdown.png"),
   dashLine: require("../assets/images/dashLine.png"),
+  tshirtIcon :require("../assets/images/tshirtIcon.png"),
 
   // Product Detail
   shareIcon: require("../assets/images/shareIcon.png"),

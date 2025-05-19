@@ -4,9 +4,10 @@ import { styles } from "./styles";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
+import { CardDetails } from "../../constants/utils/interfaces";
 
 interface PropsType {
-  arrCards: any[];
+  arrCards: CardDetails[];
   handleOnPressAddCard: () => void;
   handleDelete: (index: number) => void;
 }

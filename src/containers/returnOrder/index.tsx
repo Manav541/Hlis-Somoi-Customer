@@ -8,10 +8,11 @@ import { cameraPermission, checkPermission, flashMessageWarning, galleryPermissi
 import { images } from "../../constants/Images";
 import { Asset } from "react-native-image-picker";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
+import { CancelOrderReason } from "../../constants/utils/interfaces";
 
 const ReturnOrderContainer = ({ navigation }: any) => {
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
-  const [arrReturnOrderReason, setArrReturnOrderReason] = useState([
+  const [arrReturnOrderReason, setArrReturnOrderReason] = useState<CancelOrderReason[]>([
     {
       reason: "Faulty item",
       isSelected: false,
@@ -32,7 +33,7 @@ const ReturnOrderContainer = ({ navigation }: any) => {
 
   const [otherReason, setOtherReason] = useState<string>("");
   const otherReasonRef = useRef<TextInput>(null);
-  const [otherReasonFocused, setOtherReasonFocused] = useState(false);
+  const [otherReasonFocused, setOtherReasonFocused] = useState<boolean>(false);
 
   const [isReturnSuccessModalVisible, setIsReturnSuccessModalVisible] =
     useState(false);
@@ -108,17 +109,17 @@ const ReturnOrderContainer = ({ navigation }: any) => {
   };
 
   const handleSelectReason = (index: number) => {
-    setArrReturnOrderReason((prev: any) =>
-      prev.map((item: any, i: number) => ({
+    setArrReturnOrderReason((prev: CancelOrderReason[]) =>
+      prev.map((item, i) => ({
         ...item,
-        isSelected: i === index, // only the tapped one is true
+        isSelected: i === index
       }))
     );
   };
 
   const onPressSubmit = () => {
     const selectedReason = arrReturnOrderReason.find(
-      (item: any) => item.isSelected
+      (item: CancelOrderReason) => item.isSelected
     );
 
     if (!selectedReason) {

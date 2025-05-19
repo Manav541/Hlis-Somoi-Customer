@@ -28,7 +28,7 @@ const BottomTabsNavigation = () => {
           headerStyle: {backgroundColor: colors.orange1c},
           headerTitleStyle: {
             fontSize: fontSize.size18,
-            fontFamily: fontsfamily.extrabold,
+            fontFamily: fontsfamily.bold,
             color: colors.blue4e,
             marginBottom : Platform.OS =="ios" ? 12 :0
           },

@@ -1,4 +1,4 @@
-import { Linking, StatusBar } from "react-native";
+import { ImageSourcePropType, Linking, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import OrderSummaryComponent from "../../components/orderSummary";
 import { useFocusEffect } from "@react-navigation/native";
@@ -6,6 +6,7 @@ import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { ScreenNames } from "../../routers";
+import { OrderDetail, OrderReviewProduct, OrderStatus } from "../../constants/utils/interfaces";
 
 const ONE_MIN = 60_000;
 
@@ -18,12 +19,13 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
   const [delivertoAddress, setDelivertoAddress] = useState<string>(
     "3465 Hanover Street, Locust Court Burbank New York, NY 10038"
   );
-  const defaultOrderStatus = [
+  const defaultOrderStatus:OrderStatus[] = [
     {
       status_icon: images.orderPlaced,
       status_icon1: images.orderPlacedUn,
       status_title: "Order Placed",
       status_date: "10/03/2025",
+      status_time: "10:00 am",
       status_isdone: true,
     },
     {
@@ -31,6 +33,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       status_icon1: images.orderConfirmedUn,
       status_title: "Order Confirmed",
       status_date: "17/03/2025",
+      status_time: "10:00 am",
       status_isdone: true,
     },
     {
@@ -38,6 +41,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       status_icon1: images.preparingUn,
       status_title: "Preparing",
       status_date: "17/03/2025",
+      status_time: "10:00 am",
       status_isdone: false,
     },
     {
@@ -45,6 +49,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       status_icon1: images.onTheWayUn,
       status_title: "On The Way",
       status_date: "17/03/2025",
+      status_time: "10:00 am",
       status_isdone: false,
     },
     {
@@ -52,6 +57,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       status_icon1: images.orderDeliveredUn,
       status_title: "Order Delivered",
       status_date: "17/03/2025",
+      status_time: "10:00 am",
       status_isdone: false,
     },
   ];
@@ -63,7 +69,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     status_icon1: images.orderReturnedUn,
     status_title: "Order pickup date & Time",
     status_date: "18/03/2025",
-    status_time: "- 10:00 am",
+    status_time: "10:00 am",
     status_isdone: false,
   };
 
@@ -72,10 +78,11 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     status_icon1: images.orderReturned,
     status_title: "Order Returned",
     status_date: "20/03/2025",
+    status_time: "10:00 am",
     status_isdone: false,
   };
 
-  const [arrProducts, setArrProducts] = useState([
+  const [arrProducts, setArrProducts] = useState<OrderReviewProduct[]>([
     {
       product_name: `India Gate Basmati ${"\n"}Rice`,
       product_img: images.rice,
@@ -99,7 +106,8 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       isRateReview: false,
     },
   ]);
-  const [arrOrderDetails, setArrOrderDetails] = useState<any[]>([
+
+  const [arrOrderDetails, setArrOrderDetails] = useState<OrderDetail[]>([
     {
       orderDetailTitle: getTranslation("itemTotal"),
       orderDetailValue: "2",
@@ -129,7 +137,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     arrOrderStatus[0].status_title
   );
   const [cancelDisabled, setCancelDisabled] = useState<boolean>(false);
-  const [driverProfile, setDriverProfile] = useState<any>(images.driverProfile);
+  const [driverProfile, setDriverProfile] = useState<ImageSourcePropType>(images.driverProfile);
   const [driverName, setDriverName] = useState<string>("Jaylon Carder");
   const [driverMobileNumber, setDriverMobileNumber] =
     useState<string>("9876543210");
@@ -167,7 +175,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     navigation.navigate(ScreenNames.returnOrder);
   };
 
-  const onPressRateReview = (item: any) => {
+  const onPressRateReview = (item: OrderReviewProduct) => {
     navigation.navigate(ScreenNames.rateAndReview, { item: item });
   };
 
@@ -212,7 +220,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
         index++;
         return updated;
       });
-    }, ONE_MIN);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, [orderMainStatus]);

@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, TextInput } from "react-native";
-import React from "react";
+import React, { Ref } from "react";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -8,16 +8,17 @@ import { colors } from "../../constants/Colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import GlobalButton from "../../global/GlobalButton";
 import GlobalTextInput from "../../global/GlobalTextInput";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   name: string;
-  nameRef: any;
+  nameRef: Ref<TextInput>;
   handleOnPressUpadte: () => void;
   handleOnChangeText: (text: string, type: string) => void;
   handleOnFocus: (type: string) => void;
   handleOnBlur: (type: string) => void;
   nameFocused: boolean;
-  profileImage: any;
+  profileImage: string;
   handleOnPressProfileImage: () => void;
 }
 
@@ -43,7 +44,7 @@ const EditProfileComponent = (props: PropsType) => {
           activeOpacity={activityOpacity}
           onPress={props.handleOnPressProfileImage}
         >
-          <Image
+          <FastImage
             style={
               props?.profileImage
                 ? styles.imgProfileBigIconUri

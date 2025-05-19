@@ -8,10 +8,9 @@ export const styles = StyleSheet.create({
     color: colors.blue4e,
     fontSize: fontSize.size18,
     fontFamily: fontsfamily.bold,
-  },
-  imgSort: {
-    height: 24,
-    width: 24,
-    marginRight: 20,
+    textAlign: "center",
+    position: "absolute",
+    left: 0,
+    right: 0,
   },
 });

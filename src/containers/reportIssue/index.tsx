@@ -17,7 +17,7 @@ const ReportIssueContainer = ({ navigation }: any) => {
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
   const [reportIssue, setReportIssue] = useState<string>("");
   const reportIssueRef = useRef<TextInput>(null);
-  const [reportIssueFocused, setReportIssueFocused] = useState(false);
+  const [reportIssueFocused, setReportIssueFocused] = useState<boolean>(false);
 
   // Image uplaod
   const handleOnPressUploadImages = () => {

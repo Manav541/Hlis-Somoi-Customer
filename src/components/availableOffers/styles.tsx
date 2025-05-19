@@ -43,6 +43,7 @@ export const styles = StyleSheet.create({
     color : colors.orange1c,
     fontSize : fontSize.size14,
     fontFamily : fontsfamily.bold,
+    letterSpacing : 4
   },
   lblOfferValidity:{
     color : colors.black,

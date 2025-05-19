@@ -14,9 +14,10 @@ import { images } from "../../constants/Images";
 import GlobalTextInput from "../../global/GlobalTextInput";
 import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
+import { CancelOrderReason } from "../../constants/utils/interfaces";
 
 interface PropsType {
-  arrCancelOrderReason: any[];
+  arrCancelOrderReason: CancelOrderReason[];
   otherReason: string;
   otherReasonRef: Ref<TextInput>;
   otherReasonFocused: boolean;
@@ -32,7 +33,7 @@ interface PropsType {
 }
 
 const CancelOrderComponent = (props: PropsType) => {
-  const renderItemCancelOrderReason = (item: any, index: number) => {
+  const renderItemCancelOrderReason = (item: CancelOrderReason, index: number) => {
     return (
       <View key={index}>
         <TouchableOpacity

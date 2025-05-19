@@ -6,12 +6,12 @@ import {
   Image,
   Text,
   Platform,
-  TextInput,
   FlatList,
-  ImageBackground,
   StyleSheet,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from "react-native";
-import React, { useRef, useEffect, useState } from "react";
+import React, { Ref } from "react";
 import { styles } from "./styles";
 import { images } from "../../../constants/Images";
 import { ScreenDimensions } from "../../../constants/utils/Dimensions";
@@ -19,17 +19,20 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { activityOpacity, hitSlop } from "../../../constants/GConstant";
 import { colors } from "../../../constants/Colors";
+import { AdItem, BestProduct, GroceriesFoodItem, Restaurant, SubCategory } from "../../../constants/utils/interfaces";
 
 interface PropsType {
-  arrGroceriesFood: any[];
+  arrGroceriesFood: GroceriesFoodItem[];
   onPressGroceriesFood: (type: string) => void;
   isGroceriesFoodSelected: string;
-  arrAds: any[];
-  handleOnScrollAds: (event: any) => void;
-  arrSubCategoryGroceries: any[];
-  arrBestProducts: any[];
-  arrSubCategoryFood: any[];
-  arrBestSellers: any[];
+  arrAds: AdItem[];
+  flatListRef: Ref<FlatList>;
+  currentIndex: number;
+  handleOnScrollAds: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  arrSubCategoryGroceries: SubCategory[];
+  arrBestProducts: BestProduct[];
+  arrSubCategoryFood: SubCategory[];
+  arrBestSellers: Restaurant[];
   handleSellAllCategories: () => void;
   handleSellAllBestSellers: () => void;
   onPressSearch: () => void;
@@ -42,35 +45,11 @@ const HomeComponent = (props: PropsType) => {
       ? props?.arrSubCategoryGroceries
       : props?.arrSubCategoryFood;
   const insets = useSafeAreaInsets();
-  const flatListRef = useRef<FlatList>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+ 
 
-  // Auto scroll functionality
-  useEffect(() => {
-    const autoScroll = setInterval(() => {
-      if (flatListRef.current && props.arrAds.length > 0) {
-        const nextIndex = (currentIndex + 1) % props.arrAds.length;
-        flatListRef.current.scrollToIndex({
-          index: nextIndex,
-          animated: true,
-        });
-        setCurrentIndex(nextIndex);
-      }
-    }, 3000); // Change slide every 3 seconds
+ 
 
-    return () => clearInterval(autoScroll);
-  }, [currentIndex, props.arrAds]);
-
-  const handleOnScroll = (event: any) => {
-    const scrollPosition = event.nativeEvent.contentOffset.x;
-    const index = Math.round(
-      scrollPosition / (ScreenDimensions.screenWidth - 40)
-    );
-    setCurrentIndex(index);
-    props.handleOnScrollAds(event);
-  };
-
-  const renderGroceriesFoodItem = (item: any, index: number) => {
+  const renderGroceriesFoodItem = (item: GroceriesFoodItem, index: number) => {
     return (
       <TouchableOpacity
         key={index}
@@ -83,7 +62,7 @@ const HomeComponent = (props: PropsType) => {
               : colors.white,
         }}
         activeOpacity={activityOpacity}
-        onPress={() => props?.onPressGroceriesFood(item?.type)}
+        onPress={() => props?.onPressGroceriesFood(item.type || '')}
       >
         <Image
           style={styles.imgGroceriesFood}
@@ -97,7 +76,7 @@ const HomeComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemAds = ({ item, index }: any) => {
+  const renderItemAds = ({ item, index }: {item :AdItem, index:number}) => {
     return (
       <TouchableOpacity
         key={index}
@@ -119,7 +98,7 @@ const HomeComponent = (props: PropsType) => {
               styles.vwDot,
               {
                 backgroundColor:
-                  index === currentIndex ? colors.blue4e : colors.greyd9,
+                  index === props?.currentIndex ? colors.blue4e : colors.greyd9,
               },
             ]}
           />
@@ -128,7 +107,7 @@ const HomeComponent = (props: PropsType) => {
     );
   };
 
-  const renderSubCategories = (item: any, index: number) => {
+  const renderSubCategories = (item: SubCategory, index: number) => {
     return (
       <TouchableOpacity
         key={index}
@@ -145,7 +124,7 @@ const HomeComponent = (props: PropsType) => {
     );
   };
 
-  const renderBestProducts = (item: any, index: number) => {
+  const renderBestProducts = (item: BestProduct, index: number) => {
     return (
       <TouchableOpacity
         style={styles.btnBestProducts}
@@ -184,18 +163,19 @@ const HomeComponent = (props: PropsType) => {
     );
   };
 
-  const renderBestSeller = ({ item, index }: any) => {
+  const renderBestSeller = ({ item, index }: {item : Restaurant,index : number}) => {
     return (
       <TouchableOpacity
         style={styles.btnBestSeller}
         activeOpacity={activityOpacity}
+        key={index}
       >
         <Image style={styles.imgBestSeller} source={item?.restaurant_img} />
 
         <View style={styles.vwBestSellerDetails}>
           <Text style={styles.lblBestSellerName}>{item?.restaurant_name}</Text>
           <View style={styles.vwRating}>
-            {renderStar(item?.restaurant_rating)}
+            {renderStar(item?.restaurant_ratings)}
             <Text style={styles.lblBestSellerReviews}>
               (+{item?.restaurant_reviews})
             </Text>
@@ -285,14 +265,14 @@ const HomeComponent = (props: PropsType) => {
           {/* Ads */}
           <View style={styles.vwAdds}>
             <FlatList
-              ref={flatListRef}
+              ref={props?.flatListRef}
               data={props.arrAds}
               horizontal
               showsHorizontalScrollIndicator={false}
               bounces={false}
               renderItem={renderItemAds}
               pagingEnabled={true}
-              onScroll={handleOnScroll}
+              onScroll={props?.handleOnScrollAds}
               contentContainerStyle={{ paddingRight: 20 }}
               snapToInterval={ScreenDimensions.screenWidth - 40}
               decelerationRate="fast"

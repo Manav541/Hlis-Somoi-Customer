@@ -27,6 +27,7 @@ interface PropsType {
   mainCategoryName: string;
   subCategoryTitle: any[];
   subCategoryFoodTitle: any[];
+  subCategoryFashionTitle: any[];
   onPressSubCategoryTitle: (index: number) => void;
   arrSubCategory: any[];
   handleQuantityChange: (index: number, type: "add" | "remove") => void;
@@ -242,7 +243,7 @@ const ProductListingComponent = (props: PropsType) => {
           data={
             props?.mainCategoryName === "Food"
               ? props?.subCategoryFoodTitle
-              : props?.subCategoryTitle
+              : props?.mainCategoryName === "Fashion" ? props?.subCategoryFashionTitle : props?.subCategoryTitle
           }
           horizontal
           bounces={false}

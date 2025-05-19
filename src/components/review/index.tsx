@@ -4,17 +4,18 @@ import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { RateProgress, Review } from "../../constants/utils/interfaces";
 
 interface PropsType {
   totalRate: number;
   totalReviews: string;
-  arrRateProgress: any[];
-  arrRevieews: any[];
+  arrRateProgress: RateProgress[];
+  arrRevieews: Review[];
   onPressViewAll: () => void;
 }
 
 const ReviewComponent = (props: PropsType) => {
-  const renderItemArrRateProgress = (item: any, index: number) => {
+  const renderItemArrRateProgress = (item: RateProgress, index: number) => {
     return (
       <View style={styles.vwRateProgressItem} key={index}>
         <View
@@ -48,7 +49,7 @@ const ReviewComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemArrReviews = (item: any, index: number) => {
+  const renderItemArrReviews = (item: Review, index: number) => {
     return (
       <View style={styles.vwReviewItem} key={index}>
         <Text style={styles.lblReviewName}>{item?.review_personName}</Text>

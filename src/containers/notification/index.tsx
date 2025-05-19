@@ -5,9 +5,10 @@ import GlobalBackButton from "../../global/GlobalBackButton";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
+import { NotificationGroup } from "../../constants/utils/interfaces";
 
 const NotificationContainer = ({ navigation }: any) => {
-  const [arrNotification, setArrNotification] = useState([
+  const [arrNotification, setArrNotification] = useState<NotificationGroup[]>([
     {
       titleMain: "Today",
       data: [

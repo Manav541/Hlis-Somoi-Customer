@@ -121,12 +121,13 @@ import { images } from "../../constants/Images";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
+import { RateProgress, Review } from "../../constants/utils/interfaces";
 
 const ReviewContainer = ({ navigation }: any) => {
   const totalRate = 4.5;
   const totalReviews = "1.5k";
   
-  const [arrRateProgress, setArrRateProgress] = useState([
+  const [arrRateProgress, setArrRateProgress] = useState<RateProgress[]>([
     {
       rate_number: 5,
       rate_percentage: 60,
@@ -149,7 +150,7 @@ const ReviewContainer = ({ navigation }: any) => {
     },
   ]);
   
-  const [arrRevieews,setArrReviews] = useState([
+  const [arrRevieews,setArrReviews] = useState<Review[]>([
     {
       review_personName : 'Jesus Loy',
       review_rate : '4.5',
@@ -166,7 +167,7 @@ const ReviewContainer = ({ navigation }: any) => {
       review_image: images.rice,
       type: 'video'
     },
-  ])
+  ]);
   
   const onPressViewAll =()=>{
     flashMessageWarning(getTranslation("underDevelopment"));

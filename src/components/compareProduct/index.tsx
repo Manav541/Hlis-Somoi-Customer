@@ -6,14 +6,21 @@ import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
+import { GroceryProduct } from "../../constants/utils/interfaces";
 
 interface PropsType {
-  arrCompareProducts: any[];
+  arrCompareProducts: GroceryProduct[];
 }
 
 const CompareProductComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
-  const renderItemCompareProducts = ({ item, index }: any) => {
+  const renderItemCompareProducts = ({
+    item,
+    index,
+  }: {
+    item: GroceryProduct;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         style={styles.btnCompareProducts}

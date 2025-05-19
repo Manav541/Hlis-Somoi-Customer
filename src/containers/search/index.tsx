@@ -72,11 +72,23 @@ const SearchContainer = ({ navigation }: any) => {
       )
     : [];
 
-  const renderHeader = () => {
-    return (
-      <View style={{ ...styles.vwHeader, paddingTop: insets.top }}>
-        <View style={styles.vwLeftHeader}>
-          <GlobalBackButton onPress={() => navigation.goBack()} />
+  const header = () => {
+    navigation.setOptions({
+      header: () => (
+        <View
+          style={{
+            paddingTop: insets.top,
+            backgroundColor: colors.orange1c,
+            flexDirection: "row",
+            alignItems: "center",
+            paddingBottom: 14,
+          }}
+        >
+          <GlobalBackButton
+            onPress={() => navigation.goBack()}
+            style={{ marginBottom: 0 }}
+          />
+
           <TextInput
             placeholder={getTranslation("searchPlaceholder") || ""}
             placeholderTextColor={colors.grey62}
@@ -86,23 +98,20 @@ const SearchContainer = ({ navigation }: any) => {
             onChangeText={onChangeSearch}
             keyboardType="default"
           />
+
+          <GlobalBackButton
+            isRight
+            onPress={onPressCloseSearch}
+            rightImage={images.closeSearch}
+            style={{ marginBottom: 0 }}
+          />
         </View>
-        <TouchableOpacity
-          activeOpacity={activityOpacity}
-          hitSlop={hitSlop}
-          onPress={onPressCloseSearch}
-        >
-          <Image style={styles.imgClose} source={images.closeSearch} />
-        </TouchableOpacity>
-      </View>
-    );
+      ),
+    });
   };
 
   useEffect(() => {
-    navigation.setOptions({
-      title: "",
-      header: () => renderHeader(),
-    });
+    header();
   }, [search]);
 
   useFocusEffect(

@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  ImageSourcePropType,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -17,6 +18,7 @@ import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GlobalButton from "../../global/GlobalButton";
 import { constnatStyles } from "../../constants/Styles";
+import { OrderDetail, OrderReviewProduct, OrderStatus } from "../../constants/utils/interfaces";
 
 interface PropsType {
   orderNumber: string;
@@ -25,13 +27,13 @@ interface PropsType {
   totalAmount: string;
   delivertoName: string;
   delivertoAddress: string;
-  arrOrderStatus: any[];
-  arrProducts: any[];
-  arrOrderDetails: any[];
+  arrOrderStatus: OrderStatus[];
+  arrProducts: OrderReviewProduct[];
+  arrOrderDetails: OrderDetail[];
   onPressCancelOrder: () => void;
   currentStatus: string;
   cancelDisabled: boolean;
-  driverProfile: any;
+  driverProfile: ImageSourcePropType;
   driverName: string;
   onPressTrackDriver: () => void;
   onPressChatDriver: () => void;
@@ -40,19 +42,19 @@ interface PropsType {
   cancelReason: string;
   cancelOrderDate: string;
   onPressReturnOrder: () => void;
-  onPressRateReview: (item: any) => void;
+  onPressRateReview: (item: OrderReviewProduct) => void;
   isEditReviewModalVisible: boolean;
-  onPressOpenEditReview: (item: any) => void;
+  onPressOpenEditReview: () => void;
   onPressEditReview: () => void;
   onPressDeleteReview: () => void;
-  onPressReportIssue:()=>void;
+  onPressReportIssue: () => void;
 }
 
 const OrderSummaryComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
   const rating = 4;
   const totalItems = props?.arrProducts?.length;
-  const renderItemOrderStatus = (item: any, index: number) => {
+  const renderItemOrderStatus = (item: OrderStatus, index: number) => {
     return (
       <View style={styles.vwOrderStatusItem} key={index}>
         <View
@@ -90,7 +92,9 @@ const OrderSummaryComponent = (props: PropsType) => {
                   DateFormatsManager.DateFormats.DDMMYYYY_SLASH
                 )}
               </Text>
-              <Text>{item?.status_time ?? ""}</Text>
+              {props?.orderMainStatus === "Request_return" && (
+                <Text>- {item?.status_time ?? ""}</Text>
+              )}
             </Text>
           )}
         </View>
@@ -98,7 +102,7 @@ const OrderSummaryComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemProducts = (item: any, index: number) => {
+  const renderItemProducts = (item: OrderReviewProduct, index: number) => {
     return (
       <View style={styles.vwProductsItems} key={index}>
         <View style={styles.vwProductImage}>
@@ -150,7 +154,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                 hitSlop={hitSlop}
                 onPress={() => {
                   item?.isRateReview
-                    ? props?.onPressOpenEditReview(item)
+                    ? props?.onPressOpenEditReview
                     : props?.onPressRateReview(item);
                 }}
               >
@@ -174,7 +178,7 @@ const OrderSummaryComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemOrderDetails = (item: any, index: number) => {
+  const renderItemOrderDetails = (item: OrderDetail, index: number) => {
     return (
       <View style={styles.vwOrderDetailsItem} key={index}>
         <Text style={styles.lblOrderDetailsTitle}>
@@ -230,7 +234,7 @@ const OrderSummaryComponent = (props: PropsType) => {
             ) : (
               <Text>
                 <Text>{getTranslation("yourOrderis")}</Text>
-                <Text>{" "}</Text>
+                <Text> </Text>
                 <Text>{props?.orderMainStatus}</Text>
               </Text>
             )}
@@ -292,7 +296,7 @@ const OrderSummaryComponent = (props: PropsType) => {
         <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
           <Text style={styles.lblItemsAdded}>
             <Text>{totalItems}</Text>
-            <Text>{" "}</Text>
+            <Text> </Text>
             <Text>{getTranslation("itemsadded")}</Text>
           </Text>
           <View style={{ gap: 10 }}>
@@ -304,7 +308,7 @@ const OrderSummaryComponent = (props: PropsType) => {
         {/* Deliver To name Address */}
         <Text style={styles.lblDelivertoName}>
           <Text>{getTranslation("deliverto")}</Text>
-          <Text>{" "}</Text>
+          <Text> </Text>
           <Text>{props?.delivertoName}</Text>
         </Text>
         <Text style={styles.lblDelivertoAddress}>
@@ -512,9 +516,9 @@ const OrderSummaryComponent = (props: PropsType) => {
               {getTranslation("yourReview")}
             </Text>
             <View style={{ flexDirection: "row" }}>
-              {[1, 2, 3, 4, 5].map((item: any,index : number) => (
+              {[1, 2, 3, 4, 5].map((item: number, index: number) => (
                 <Image
-                key={index}
+                  key={index}
                   style={styles.imgStarModal}
                   source={item <= rating ? images.starFilled : images.starEmpty}
                 />

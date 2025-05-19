@@ -4,10 +4,11 @@ import MyWishlistComponent from "../../components/myWishlist";
 import { images } from "../../constants/Images";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "react-native";
+import { WishlistItem } from "../../constants/utils/interfaces";
 
 const MyWishlistContainer = ({ navigation }: any) => {
   const [search, setSearch] = useState<string>("");
-  const [arrMyWhislist, setArrMyWishlist] = useState<any>([
+  const [arrMyWhislist, setArrMyWishlist] = useState<WishlistItem[]>([
     {
       product_img: images.rice,
       product_name: "India Gate Basmati Rice",
@@ -103,13 +104,13 @@ const MyWishlistContainer = ({ navigation }: any) => {
   };
 
   // Filter logic
-  const filteredWishlist = arrMyWhislist.filter((item: any) =>
+  const filteredWishlist = arrMyWhislist.filter((item: WishlistItem) =>
     item.product_name.toLowerCase().includes(search.toLowerCase())
   );
 
   //   Remove from wishlist
   const handleRemoveFromWishlist = (indexToRemove: number) => {
-    setArrMyWishlist((prev: any[]) =>
+    setArrMyWishlist((prev: WishlistItem[]) =>
       prev.filter((_, index) => index !== indexToRemove)
     );
   };

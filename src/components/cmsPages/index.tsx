@@ -4,16 +4,17 @@ import { styles } from "./styles";
 import { activityOpacity } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
+import { FaqArrProps } from "../../constants/utils/interfaces";
 
 interface PropsType {
   navigateFrom: string;
-  faqArr: any[];
+  faqArr: FaqArrProps[];
   handleOnPressFaq: (index: number) => void;
 }
 
 const CMSPageComponent = (props: PropsType) => {
 
-  const renderItemFaq = (item: any, index: number) => {
+  const renderItemFaq = (item: FaqArrProps, index: number) => {
     return (
       <View key={index} style={styles.vwFaq}>
         <TouchableOpacity

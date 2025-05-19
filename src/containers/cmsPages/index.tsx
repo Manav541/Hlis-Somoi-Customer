@@ -5,12 +5,9 @@ import { styles } from "./styles";
 import CMSPageComponent from "../../components/cmsPages";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { useFocusEffect } from "@react-navigation/native";
+import { FaqArrProps } from "../../constants/utils/interfaces";
 
-interface FaqArrProps {
-  faqTitle: string | null;
-  faqDesc: string | null;
-  isSelected: boolean;
-}
+
 
 const CMSPageContainer = ({ navigation, route }: any) => {
   const navigateFrom = route.params?.navigateFrom;

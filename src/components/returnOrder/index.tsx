@@ -16,9 +16,10 @@ import GlobalButton from "../../global/GlobalButton";
 import GlobalTextInput from "../../global/GlobalTextInput";
 import { colors } from "../../constants/Colors";
 import { Asset } from "react-native-image-picker";
+import { CancelOrderReason } from "../../constants/utils/interfaces";
 
 interface PropsType {
-  arrReturnOrderReason: any[];
+  arrReturnOrderReason: CancelOrderReason[];
   otherReason: string;
   otherReasonRef: Ref<TextInput>;
   otherReasonFocused: boolean;
@@ -38,7 +39,7 @@ interface PropsType {
 }
 
 const ReturnOrderComponent = (props: PropsType) => {
-  const renderItemReturnOrderReason = (item: any, index: number) => {
+  const renderItemReturnOrderReason = (item: CancelOrderReason, index: number) => {
     return (
       <View key={index}>
         <TouchableOpacity

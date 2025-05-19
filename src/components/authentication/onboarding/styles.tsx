@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   vwFlatlistMain: {
-    height: ScreenDimensions.screenHeight / 1.3,
+    height: ScreenDimensions.screenHeight / 1.2,
     backgroundColor: colors.blue4e,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
@@ -24,12 +24,12 @@ export const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 40,
     position: 'absolute',
-    top: ScreenDimensions.screenHeight / 1.68,
+    top: ScreenDimensions.screenHeight / 1.60,
   },
   btnGo: {
     alignSelf: 'center',
     position: 'absolute',
-    top: ScreenDimensions.screenHeight / 1.48,
+    top: ScreenDimensions.screenHeight / 1.40,
   },
   vwDots: {
     height: 2,

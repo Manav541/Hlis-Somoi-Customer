@@ -4,6 +4,7 @@ import PaymentMethodComponent from "../../components/paymentMethod";
 import { useFocusEffect } from "@react-navigation/native";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { ScreenNames } from "../../routers";
+import { CardDetails } from "../../constants/utils/interfaces";
 
 const PaymentMethodContainer = ({ navigation }: any) => {
   const onPressAddNewCard = () => {};
@@ -13,7 +14,7 @@ const PaymentMethodContainer = ({ navigation }: any) => {
   const [isSuccessModalVisible, setIsSuccessModalVisible] =
     useState<boolean>(false);
 
-  const [arrCards, setArrCards] = useState<any>([
+  const [arrCards, setArrCards] = useState<CardDetails[]>([
     {
       card_number: "4567890123453266",
       card_expirydate: "12/23",
@@ -34,17 +35,17 @@ const PaymentMethodContainer = ({ navigation }: any) => {
 
   const onPressCodSelect = () => {
     setIsCodSelected(true);
-    setArrCards((prev: any) =>
-      prev.map((card: any) => ({ ...card, isSelected: false }))
+    setArrCards((prev: CardDetails[]) =>
+      prev.map((card) => ({ ...card, isSelected: false }))
     );
   };
 
   const onPressCardSelect = (index: number) => {
     setIsCodSelected(false);
-    setArrCards((prev: any) =>
-      prev.map((card: any, i: number) => ({
+    setArrCards((prev: CardDetails[]) =>
+      prev.map((card, i) => ({
         ...card,
-        isSelected: i === index,
+        isSelected: i === index
       }))
     );
   };

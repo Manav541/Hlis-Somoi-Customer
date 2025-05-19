@@ -8,15 +8,16 @@ import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { images } from "../../constants/Images";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { GroceryProduct } from "../../constants/utils/interfaces";
 
 interface PropsType {
-  arrCompareProducts: any[];
-  onPressAdd: (item: any) => void;
+  arrCompareProducts: GroceryProduct[];
+  onPressAdd: (item: GroceryProduct) => void;
 }
 
 const AddCompareProductsComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
-  const renderArrSubCategory = ({ item, index }: any) => {
+  const renderArrSubCategory = ({ item, index }: {item : GroceryProduct, index:number}) => {
     return (
       <TouchableOpacity
         style={[
@@ -27,7 +28,7 @@ const AddCompareProductsComponent = (props: PropsType) => {
         ]}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
-        // onPress={() => props?.onPressProduct(item)}
+        key={index}
       >
         {/* Product Image and Favourite button */}
         <View style={styles.vwProductImgLike}>

@@ -16,16 +16,17 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import GlobalButton from "../../../global/GlobalButton";
 import { fontSize } from "../../../constants/FontSizes";
 import { fontsfamily } from "../../../constants/FontFamily";
+import { FilterDate, FilterOrderType, Order, OrderProduct } from "../../../constants/utils/interfaces";
 
 interface PropsType {
-  arrOrderList: any[];
+  arrOrderList: Order[];
   filterModal: boolean;
   selectOrderType: number;
   selectOrderDate: number;
   onPressFilter: () => void;
   closeFilterModal: () => void;
-  arrFilterDate: any;
-  arrFilterOrderType: any;
+  arrFilterDate: FilterDate[];
+  arrFilterOrderType: FilterOrderType[];
   handleSelectOrderType: (index: number) => void;
   handleSelectOrderDate: (index: number) => void;
   handleNavigateOrderSummary: (status : string) => void;
@@ -50,7 +51,7 @@ const statusTexts: { [key: string]: string } = {
 };
 
 const MyOrdersComponent = (props: PropsType) => {
-  const renderItemOrderList = ({ item, index }: any) => {
+  const renderItemOrderList = ({ item, index }: {item : Order, index:number}) => {
     return (
       <TouchableOpacity
         key={index}
@@ -80,7 +81,7 @@ const MyOrdersComponent = (props: PropsType) => {
             {item.arrProduct?.length} items
           </Text>
           <View style={styles.vwProductlist}>
-            {item.arrProduct?.map((product: any, productIndex: any) => (
+            {item.arrProduct?.map((product: OrderProduct, productIndex: number) => (
               <View style={styles.vwProductData} key={productIndex}>
                 <View style={styles.vwLeftProductData}>
                   <View style={styles.vwProductImage}>
@@ -139,6 +140,7 @@ const MyOrdersComponent = (props: PropsType) => {
       </TouchableOpacity>
     )
   }
+
   return (
     <View style={styles.vwMain}>
       <View style={styles.vwMainContainer}>
@@ -185,7 +187,7 @@ const MyOrdersComponent = (props: PropsType) => {
                 {getTranslation("filterbyOrderType")}
               </Text>
               <View style={{ gap: 16.5 }}>
-                {props.arrFilterOrderType?.map((item: any, index: number) => (
+                {props.arrFilterOrderType?.map((item: FilterOrderType, index: number) => (
                   <TouchableOpacity
                     key={index}
                     style={styles.btnArrItems}
@@ -213,7 +215,7 @@ const MyOrdersComponent = (props: PropsType) => {
                 {getTranslation("filterbyOrderDate")}
               </Text>
               <View style={{ gap: 16.5 }}>
-                {props.arrFilterDate?.map((item: any, index: number) => (
+                {props.arrFilterDate?.map((item: FilterDate, index: number) => (
                   <TouchableOpacity
                     key={index}
                     style={styles.btnArrItems}

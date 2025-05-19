@@ -17,6 +17,7 @@ import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { fontSize } from "../../constants/FontSizes";
 import { fontsfamily } from "../../constants/FontFamily";
 import GlobalButton from "../../global/GlobalButton";
+import { FashionColor, FashionSize, RateProgress, Review, SimilarProduct } from "../../constants/utils/interfaces";
 
 interface PropsType {
   product_imgMain: any[];
@@ -34,18 +35,18 @@ interface PropsType {
   product_distance: string;
   product_deliverytime: string;
   product_deliveryData: any[];
-  arrSimilarProduct: any[];
+  arrSimilarProduct: SimilarProduct[];
   product_highlight: any[];
   product_desc: string;
-  arrFashionSize: any[];
-  arrFashionColor: any[];
+  arrFashionSize: FashionSize[];
+  arrFashionColor: FashionColor[];
 
   currentIndex: number;
   handleScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   totalRate: number;
   totalReviews: string;
-  arrRateProgress: any[];
-  arrRevieews: any[];
+  arrRateProgress: RateProgress[];
+  arrRevieews: Review[];
   onPressGoToCompareProduct: () => void;
   onPressBuyNow: () => void;
   onPressSize: (selectedSize: string) => void;
@@ -111,7 +112,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemSimilarProducts = ({ item, index }: any) => {
+  const renderItemSimilarProducts = ({ item, index }: {item : SimilarProduct , index : number}) => {
     return (
       <TouchableOpacity
         key={index}
@@ -150,7 +151,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemArrRateProgress = (item: any, index: number) => {
+  const renderItemArrRateProgress = (item: RateProgress, index: number) => {
     return (
       <View style={styles.vwRateProgressItem} key={index}>
         <View
@@ -184,7 +185,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemArrReviews = (item: any, index: number) => {
+  const renderItemArrReviews = (item: Review, index: number) => {
     return (
       <View key={index}>
         <Text style={styles.lblReviewName}>{item?.review_personName}</Text>
@@ -224,7 +225,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemFashionSize = ({ item, index }: any) => {
+  const renderItemFashionSize = ({ item, index }: {item : FashionSize , index :number}) => {
     return (
       <TouchableOpacity
         style={
@@ -235,6 +236,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         onPress={() => props?.onPressSize(item?.size)}
+        key={index}
       >
         <Text style={{ ...styles.lblSize, fontSize: fontSize.size25 }}>
           {item?.size}
@@ -243,13 +245,14 @@ const ViewProductDetailComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemFashionColor = ({ item, index }: any) => {
+  const renderItemFashionColor = ({ item, index }: {item : FashionColor, index : number}) => {
     return (
       <TouchableOpacity
         style={{ ...styles.btnSize, backgroundColor: item?.color }}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         onPress={() => props?.onPressColor(item?.color)}
+        key={index}
       >
         {item?.isSelected && (
           <Image style={styles.imgSelectedDot} source={images.selectedDot} />
