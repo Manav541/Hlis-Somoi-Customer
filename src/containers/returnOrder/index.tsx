@@ -8,7 +8,8 @@ import { cameraPermission, checkPermission, flashMessageWarning, galleryPermissi
 import { images } from "../../constants/Images";
 import { Asset } from "react-native-image-picker";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
-import { CancelOrderReason } from "../../constants/utils/interfaces";
+import { CancelOrderReason } from "../../constants/interfaces";
+import { constnatStyles } from "../../constants/Styles";
 
 const ReturnOrderContainer = ({ navigation }: any) => {
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
@@ -157,6 +158,9 @@ const ReturnOrderContainer = ({ navigation }: any) => {
     navigation.setOptions({
       headerLeft: () => (
         <GlobalBackButton onPress={() => navigation.goBack()} />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.returnOrder}</Text>
       ),
     });
   };

@@ -4,7 +4,7 @@ import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
-import { RateProgress, Review } from "../../constants/utils/interfaces";
+import { RateProgress, Review } from "../../constants/interfaces";
 
 interface PropsType {
   totalRate: number;

@@ -6,19 +6,25 @@ import {
   TouchableOpacity,
   StatusBar,
   FlatList,
+  Platform,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { images } from "../../../constants/Images";
 import { activityOpacity, hitSlop } from "../../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Category, FashionProduct, GroceryProduct, Restaurant } from "../../../constants/utils/interfaces";
+import {
+  Category,
+  FashionProduct,
+  GroceryProduct,
+  Restaurant,
+} from "../../../constants/interfaces";
 
 interface PropsType {
   arrAllCategories: Category[];
   onPressMainCategories: (
     mainCategoryName: string,
-    arrSubCategory: (GroceryProduct | Restaurant | FashionProduct)[],
+    arrSubCategory: (GroceryProduct | Restaurant | FashionProduct)[]
   ) => void;
   handleOnPressNotifaicationIcon: () => void;
 }
@@ -26,7 +32,13 @@ interface PropsType {
 const CategoriesComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
 
-  const renderItemAllCategories = ({ item, index }: {item :Category,index :number}) => {
+  const renderItemAllCategories = ({
+    item,
+    index,
+  }: {
+    item: Category;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         style={styles.btnAllCategories}
@@ -45,11 +57,15 @@ const CategoriesComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
-      <View style={styles.vwContainer}>
+      <View
+        style={{
+          ...styles.vwContainer,
+          paddingTop: Platform.OS === "ios" ? insets.top : 40,
+        }}
+      >
         <View
           style={{
             ...styles.vwLocationNotification,
-            marginTop: insets.top ? insets.top : 50,
           }}
         >
           <TouchableOpacity
@@ -78,7 +94,7 @@ const CategoriesComponent = (props: PropsType) => {
           showsVerticalScrollIndicator={false}
           renderItem={renderItemAllCategories}
           numColumns={2}
-          contentContainerStyle={{ paddingTop: 37, gap: 20,paddingBottom:20 }}
+          contentContainerStyle={{ paddingTop: 37, gap: 20, paddingBottom: 20 }}
           columnWrapperStyle={{
             marginHorizontal: 20,
             justifyContent: "space-between",

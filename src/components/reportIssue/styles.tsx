@@ -33,6 +33,13 @@ export const styles = StyleSheet.create({
         marginHorizontal : 20,
         marginVertical : 20
     },
+    lblYourMessage:{
+        color : colors.white,
+        fontSize: fontSize.size16,
+        fontFamily:fontsfamily.semibold,
+        marginHorizontal : 20,
+        marginBottom : 15
+    },
     lblReturnOrderReason :{
         color : colors.white,
         fontSize: fontSize.size14,

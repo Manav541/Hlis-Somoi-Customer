@@ -11,10 +11,12 @@ import {
 } from "../../constants/GConstant";
 import { regex } from "../../constants/Regex";
 import { getTranslation } from "../../localization/i18n/i18n.config";
-import { StatusBar, TextInput } from "react-native";
+import { StatusBar, Text, TextInput } from "react-native";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import { Asset } from "react-native-image-picker";
 import { useFocusEffect } from "@react-navigation/native";
+import { constnatStyles } from "../../constants/Styles";
+import { ScreenNames } from "../../routers";
 
 const EditProfileContainer = ({ navigation }: any) => {
   const [profileImage, setProfileImage] = useState<string>("");
@@ -91,6 +93,9 @@ const EditProfileContainer = ({ navigation }: any) => {
             navigation.goBack();
           }}
         />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.editProfile}</Text>
       ),
     });
   };

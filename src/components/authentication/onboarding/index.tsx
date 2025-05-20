@@ -111,7 +111,7 @@ const OnboardingComponent = (props: PropsType) => {
       {/* View Next Button */}
       <View style={{marginHorizontal: 20}}>
         <GlobalButton
-          title={getTranslation('getStarted')}
+          title={getTranslation('startShopping')}
           onPress={props.handleOnPressGetStarted}
         />
       </View>

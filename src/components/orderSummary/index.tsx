@@ -18,7 +18,7 @@ import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GlobalButton from "../../global/GlobalButton";
 import { constnatStyles } from "../../constants/Styles";
-import { OrderDetail, OrderReviewProduct, OrderStatus } from "../../constants/utils/interfaces";
+import { OrderDetail, OrderReviewProduct, OrderStatus } from "../../constants/interfaces";
 
 interface PropsType {
   orderNumber: string;
@@ -154,7 +154,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                 hitSlop={hitSlop}
                 onPress={() => {
                   item?.isRateReview
-                    ? props?.onPressOpenEditReview
+                    ? props?.onPressOpenEditReview()
                     : props?.onPressRateReview(item);
                 }}
               >

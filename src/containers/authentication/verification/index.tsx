@@ -1,7 +1,7 @@
 import React, { RefObject, useEffect, useRef, useState } from "react";
 import VerificationComponent from "../../../components/authentication/verification";
 import GlobalBackButton from "../../../global/GlobalBackButton";
-import { AppState, Keyboard, TextInput } from "react-native";
+import { AppState, Keyboard, Text, TextInput } from "react-native";
 import { regex } from "../../../constants/Regex";
 import { OTPManager } from "../../../constants/utils/OTP";
 import {
@@ -12,6 +12,7 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
+import { constnatStyles } from "../../../constants/Styles";
 
 interface OtpArray {
   value: string;
@@ -19,6 +20,7 @@ interface OtpArray {
 }
 
 const VerificationContainer = ({ navigation, route }: any) => {
+  console.log("route?.params", route?.params);
   const [fullOtp, setFullOtp] = useState<string | number>("");
   const [otp, setOtp] = useState(60);
   const [resendOtp, setResendOtp] = useState(true);
@@ -107,37 +109,46 @@ const VerificationContainer = ({ navigation, route }: any) => {
   };
 
   const handleOnPressContinueUpdateSubmit = () => {
+    // Validate OTP
     if (fullOtp.toString().length !== 4) {
       flashMessageWarning(getTranslation("emptyOtp"));
+      return;
     } else if (fullOtp != 1234) {
       flashMessageWarning(getTranslation("invalidOtp"));
+      return;
     } else {
-      const clearedOtpArray = otpArray.map((item) => ({
+      // Clear OTP fields after successful validation
+      const clearedOtpArray = otpArray.map(item => ({
         ...item,
-        value: "",
+        value: ""
       }));
       setOtpArray(clearedOtpArray);
       setFullOtp("");
 
-      // flashMessageSucess(getTranslation("otpVerifiedSucessfully"));
-      MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
-      flashMessageSucess(getTranslation("signUpSuccess"));
-      navigation.navigate("Add Address", {
-        navigateFromManageAddress: false,
-      });
-      if (!navigateFromSignup) {
+      // Handle forgot password flow
+      if (navigateFromForgotPassword) {
+        navigation.navigate("Change Password", {
+          navigateFromForgotPassword
+        });
+      } 
+      // Handle signup flow
+      else if (navigateFromSignup) {
+        MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
+        flashMessageSucess(getTranslation("signUpSuccess"));
+        navigation.navigate("Add Address", {
+          navigateFromManageAddress: false
+        });
+      } 
+      // Handle default login flow
+      else {
         MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
         flashMessageSucess(getTranslation("loginSuccessfully"));
         navigation.dispatch(
           CommonActions.reset({
             index: 1,
-            routes: [{ name: ScreenNames.bottomTabsNavigation }],
+            routes: [{ name: ScreenNames.bottomTabsNavigation }]
           })
         );
-      } else if (navigateFromForgotPassword) {
-        navigation.navigate("Change Password", {
-          navigateFromForgotPassword: true,
-        });
       }
     }
   };
@@ -150,6 +161,9 @@ const VerificationContainer = ({ navigation, route }: any) => {
             navigation.goBack();
           }}
         />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.verification}</Text>
       ),
     });
   };

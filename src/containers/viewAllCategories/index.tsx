@@ -3,8 +3,10 @@ import GlobalBackButton from '../../global/GlobalBackButton';
 import ViewAllCategoriesComponenet from '../../components/viewAllCategories';
 import { images } from '../../constants/Images';
 import { useFocusEffect } from '@react-navigation/native';
-import { StatusBar } from 'react-native';
-import { SubCategory } from '../../constants/utils/interfaces';
+import { StatusBar, Text } from 'react-native';
+import { SubCategory } from '../../constants/interfaces';
+import { constnatStyles } from '../../constants/Styles';
+import { ScreenNames } from '../../routers';
 
 const ViewAllCategoriesContainer = ({navigation, route} : any) => {
     const [arrAllCategories, setArrAllCategories] = useState<SubCategory[]>([
@@ -42,6 +44,9 @@ const ViewAllCategoriesContainer = ({navigation, route} : any) => {
                 navigation.goBack();
               }}
             />
+          ),
+          headerTitle: () => (
+            <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.allCategories}</Text>
           ),
         });
       };

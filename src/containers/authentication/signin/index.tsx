@@ -1,14 +1,15 @@
 import React, {useEffect, useRef, useState} from 'react';
 import SignInComponent from '../../../components/authentication/signin';
-import {TextInput} from 'react-native-gesture-handler';
 import {flashMessageSucess, flashMessageWarning} from '../../../constants/GConstant';
 import {getTranslation} from '../../../localization/i18n/i18n.config';
 import {regex} from '../../../constants/Regex';
-import { CountryDataType } from '../../../constants/utils/interfaces';
+import { CountryDataType } from '../../../constants/interfaces';
 import { CountryData } from '../../../constants/utils/CountryData';
 import { MmkvManager } from '../../../constants/utils/MmkvManager';
 import { CommonActions } from '@react-navigation/native';
 import { ScreenNames } from '../../../routers';
+import { constnatStyles } from '../../../constants/Styles';
+import { Text, TextInput } from 'react-native';
 
 const SignInContainer = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -170,6 +171,9 @@ const SignInContainer = ({navigation}: any) => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => null,
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.signin}</Text>
+      ),
     });
   }, []);
 

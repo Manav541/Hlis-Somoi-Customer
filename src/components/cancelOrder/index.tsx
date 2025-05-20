@@ -14,7 +14,7 @@ import { images } from "../../constants/Images";
 import GlobalTextInput from "../../global/GlobalTextInput";
 import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
-import { CancelOrderReason } from "../../constants/utils/interfaces";
+import { CancelOrderReason } from "../../constants/interfaces";
 
 interface PropsType {
   arrCancelOrderReason: CancelOrderReason[];

@@ -25,6 +25,8 @@ export const images = {
   settingsUnFocus: require("../assets/images/settingsUnFocus.png"),
 
   // Home
+  g1: require("../assets/images/g1.png"),
+  f1 : require("../assets/images/f1.png"),
   linearBG: require("../assets/images/linearBG.png"),
   linearBG1: require("../assets/images/linearBG1.png"),
   groceriesLogo: require("../assets/images/groceriesLogo.png"),

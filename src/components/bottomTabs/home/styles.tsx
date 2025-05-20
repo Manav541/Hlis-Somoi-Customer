@@ -212,9 +212,10 @@ export const styles = StyleSheet.create({
   },
   btnGroceriesFood: {
     height: 122,
-    width: (ScreenDimensions.screenWidth - 20 * 2 - 20) / 2,
+    width: (ScreenDimensions.screenWidth - (20 * 2) - 19) / 2,
     borderRadius: 11.42,
     backgroundColor: colors.orange1c,
+    overflow: 'hidden', 
   },
   btnNotification: {
     justifyContent: "center",
@@ -242,10 +243,9 @@ export const styles = StyleSheet.create({
 
   // Image Styles
   imgGroceriesFood: {
-    height: 87.36,
-    width: (ScreenDimensions.screenWidth - 20 * 2 - 19) /2,
+    height:87.36,
+    width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
     borderRadius: 11.42,
-    overflow: "hidden",
   },
   imgLocation: {
     height: 24,

@@ -12,6 +12,7 @@ import {
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import { ScreenNames } from "../../routers";
 import ReportIssueComponent from "../../components/reportIssue";
+import { constnatStyles } from "../../constants/Styles";
 
 const ReportIssueContainer = ({ navigation }: any) => {
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
@@ -97,6 +98,9 @@ const ReportIssueContainer = ({ navigation }: any) => {
     navigation.setOptions({
       headerLeft: () => (
         <GlobalBackButton onPress={() => navigation.goBack()} />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.reportIssue}</Text>
       ),
     });
   };

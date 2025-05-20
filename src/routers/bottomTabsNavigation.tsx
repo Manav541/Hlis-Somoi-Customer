@@ -23,14 +23,13 @@ const BottomTabsNavigation = () => {
         options={{
           headerShown: headerShown,
           headerShadowVisible: false,
-          tabBarHideOnKeyboard: true,
+          // tabBarHideOnKeyboard: true,
           headerTitleAlign: 'center',
           headerStyle: {backgroundColor: colors.orange1c},
           headerTitleStyle: {
             fontSize: fontSize.size18,
             fontFamily: fontsfamily.bold,
             color: colors.blue4e,
-            marginBottom : Platform.OS =="ios" ? 12 :0
           },
         }}
       />

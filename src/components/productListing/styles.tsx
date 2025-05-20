@@ -12,10 +12,9 @@ export const styles = StyleSheet.create({
     paddingBottom : 30
   },
   vwSubCategoryContainer: {
-    gap: 12,
     marginTop: 17,
     marginLeft: 20,
-    paddingRight: 20,
+    paddingRight: 30,
     height: 35,
     marginBottom:18
   },
@@ -202,6 +201,7 @@ export const styles = StyleSheet.create({
     gap: 3,
     borderWidth: 1,
     borderColor: colors.greya7,
+    marginRight : 12
   },
   btnSubCategoryTitleSelected: {
     paddingHorizontal: 7,
@@ -211,6 +211,7 @@ export const styles = StyleSheet.create({
     height: 35,
     borderRadius: 50,
     gap: 3,
+    marginRight : 12
   },
   btnRedHeart: {
     height: 24,

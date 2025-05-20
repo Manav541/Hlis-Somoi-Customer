@@ -5,6 +5,7 @@ import GlobalBackButton from "../../global/GlobalBackButton";
 import { useFocusEffect } from "@react-navigation/native";
 import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
+import { constnatStyles } from "../../constants/Styles";
 
 const DriverTrackingContainer = ({ navigation, route }: any) => {
   const [driverProfile, setDriverProfile] = useState<string>("");
@@ -23,6 +24,9 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
     navigation.setOptions({
       headerLeft: () => (
         <GlobalBackButton onPress={() => navigation.goBack()} />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.driverTracking}</Text>
       ),
     });
   };

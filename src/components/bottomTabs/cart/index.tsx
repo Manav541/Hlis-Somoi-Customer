@@ -14,7 +14,7 @@ import { colors } from "../../../constants/Colors";
 import { activityOpacity, hitSlop } from "../../../constants/GConstant";
 import GlobalButton from "../../../global/GlobalButton";
 import { fontsfamily } from "../../../constants/FontFamily";
-import { GroceryProduct, OrderDetail } from "../../../constants/utils/interfaces";
+import { GroceryProduct, OrderDetail } from "../../../constants/interfaces";
 
 interface PropsType {
   couponCode: string;

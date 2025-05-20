@@ -16,7 +16,7 @@ import GlobalButton from "../../global/GlobalButton";
 import GlobalTextInput from "../../global/GlobalTextInput";
 import { colors } from "../../constants/Colors";
 import { Asset } from "react-native-image-picker";
-import { CancelOrderReason } from "../../constants/utils/interfaces";
+import { CancelOrderReason } from "../../constants/interfaces";
 
 interface PropsType {
   arrReturnOrderReason: CancelOrderReason[];

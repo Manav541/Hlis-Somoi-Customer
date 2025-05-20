@@ -4,7 +4,8 @@ import PaymentMethodComponent from "../../components/paymentMethod";
 import { useFocusEffect } from "@react-navigation/native";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { ScreenNames } from "../../routers";
-import { CardDetails } from "../../constants/utils/interfaces";
+import { CardDetails } from "../../constants/interfaces";
+import { constnatStyles } from "../../constants/Styles";
 
 const PaymentMethodContainer = ({ navigation }: any) => {
   const onPressAddNewCard = () => {};
@@ -71,6 +72,9 @@ const PaymentMethodContainer = ({ navigation }: any) => {
             navigation.goBack();
           }}
         />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.paymentMethod}</Text>
       ),
     });
   };

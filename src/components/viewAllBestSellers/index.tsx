@@ -6,7 +6,7 @@ import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { fontsfamily } from "../../constants/FontFamily";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Restaurant } from "../../constants/utils/interfaces";
+import { Restaurant } from "../../constants/interfaces";
 
 interface PropsType {
   arrAllBestSellers: Restaurant[];
@@ -81,7 +81,7 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
         bounces={false}
         showsVerticalScrollIndicator={false}
         renderItem={renderItemAllBestSellers}
-        contentContainerStyle={{ gap: 10, marginTop: 20,paddingBottom: insets.bottom ? insets.bottom  : 20 }}
+        contentContainerStyle={{  marginTop: 20,paddingBottom: insets.bottom ? insets.bottom  : 30 }}
       />
     </View>
   );

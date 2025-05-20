@@ -12,6 +12,7 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
+import { constnatStyles } from "../../../constants/Styles";
 
 const AddAddressContainer = ({ navigation, route }: any) => {
   const [address, setAddress] = useState("");
@@ -33,10 +34,8 @@ const AddAddressContainer = ({ navigation, route }: any) => {
 
   const handleOnSubmit = (type: string) => {
     if (type === "address") {
-      addressRef?.current?.focus();
-    } else if (type === "house") {
       houseRef?.current?.focus();
-    } else {
+    }  else {
       additionalDescriptionRef?.current?.focus();
     }
   };
@@ -116,6 +115,9 @@ const AddAddressContainer = ({ navigation, route }: any) => {
             }
           }}
         />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.addAddress}</Text>
       ),
     });
   };

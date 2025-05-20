@@ -41,6 +41,8 @@ interface PropsType {
   onPressRating: (index: number) => void;
   onPressCloseFilterModal: () => void;
   onPressApplyFilter: () => void;
+  isCheckInstantDelivery: boolean;
+  onPressInstantDelivery: () => void;
 }
 
 const ProductListingComponent = (props: PropsType) => {
@@ -243,7 +245,9 @@ const ProductListingComponent = (props: PropsType) => {
           data={
             props?.mainCategoryName === "Food"
               ? props?.subCategoryFoodTitle
-              : props?.mainCategoryName === "Fashion" ? props?.subCategoryFashionTitle : props?.subCategoryTitle
+              : props?.mainCategoryName === "Fashion"
+              ? props?.subCategoryFashionTitle
+              : props?.subCategoryTitle
           }
           horizontal
           bounces={false}
@@ -324,10 +328,16 @@ const ProductListingComponent = (props: PropsType) => {
                   <TouchableOpacity
                     activeOpacity={activityOpacity}
                     hitSlop={hitSlop}
+                    onPress={props?.onPressInstantDelivery}
                   >
                     <Image
                       style={styles.imgCheckBox}
-                      source={images.filterCheckbox}
+                      resizeMode="stretch"
+                      source={
+                        props?.isCheckInstantDelivery
+                          ? images.checkfill
+                          : images.filterCheckbox
+                      }
                     />
                   </TouchableOpacity>
                   <Text style={styles.lblAvailableInstantDeliveries}>
@@ -433,8 +443,12 @@ const ProductListingComponent = (props: PropsType) => {
                 </View>
               </View>
               {/* Filter Button */}
-              <View style={{marginTop : 15}}>
-                <GlobalButton title={getTranslation('applyFilters')} isOrange onPress={props?.onPressApplyFilter} />
+              <View style={{ marginTop: 15 }}>
+                <GlobalButton
+                  title={getTranslation("applyFilters")}
+                  isOrange
+                  onPress={props?.onPressApplyFilter}
+                />
               </View>
             </View>
           </View>

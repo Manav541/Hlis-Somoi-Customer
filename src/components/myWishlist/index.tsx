@@ -16,7 +16,7 @@ import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
-import { WishlistItem } from "../../constants/utils/interfaces";
+import { WishlistItem } from "../../constants/interfaces";
 
 interface PropsType {
   arrMyWhislist: WishlistItem[];

@@ -11,7 +11,7 @@ import GlobalButton from "../../../global/GlobalButton";
 import { PlatformVersion } from "../../../constants/utils/Platform";
 import { constnatStyles } from "../../../constants/Styles";
 import GlobalEmailPhoneButton from "../../../global/GlobalEmailPhoneButton";
-import { CountryDataType } from "../../../constants/utils/interfaces";
+import { CountryDataType } from "../../../constants/interfaces";
 import GlobalCountryModal from "../../../global/GlobalCountryModal";
 
 interface PropsType {

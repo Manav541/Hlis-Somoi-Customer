@@ -1,14 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SignupComponent from "../../../components/authentication/signup";
 import { regex } from "../../../constants/Regex";
-import { flashMessageSucess, flashMessageWarning } from "../../../constants/GConstant";
+import {
+  flashMessageSucess,
+  flashMessageWarning,
+} from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { CountryData } from "../../../constants/utils/CountryData";
-import { CountryDataType } from "../../../constants/utils/interfaces";
-import { TextInput } from "react-native-gesture-handler";
+import { CountryDataType } from "../../../constants/interfaces";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
+import { constnatStyles } from "../../../constants/Styles";
+import { Text, TextInput } from "react-native";
 
 const SignupContainer = ({ navigation }: any) => {
   const [name, setName] = useState("");
@@ -90,8 +94,7 @@ const SignupContainer = ({ navigation }: any) => {
       emailRef?.current?.focus();
     } else if (type === "email") {
       mobileNumberRef?.current?.focus();
-    }
-    else if (type === "mobileNumber") {
+    } else if (type === "mobileNumber") {
       passwordRef?.current?.focus();
     }
   };
@@ -132,6 +135,10 @@ const SignupContainer = ({ navigation }: any) => {
         flashMessageWarning(getTranslation("emptyEmail"));
       } else if (!regex.email.test(email)) {
         flashMessageWarning(getTranslation("invalidEmail"));
+      } else if (mobileNumber.trim() === "") {
+        flashMessageWarning(getTranslation("emptyMobileNumber"));
+      } else if (!regex.mobile.test(mobileNumber)) {
+        flashMessageWarning(getTranslation("invalidMobileNumber"));
       } else if (password.trim() === "") {
         flashMessageWarning(getTranslation("emptyPassword"));
       } else if (!regex.password.test(password)) {
@@ -139,9 +146,11 @@ const SignupContainer = ({ navigation }: any) => {
       } else {
         setName("");
         setEmail("");
+        setMobileNumber("");
         setPassword("");
         navigation.navigate("Verification", {
-          email: email.toLowerCase(),
+          countryCode: countryCode,
+          mobileNumber: mobileNumber,
           navigateFromSignup: true,
         });
       }
@@ -165,19 +174,28 @@ const SignupContainer = ({ navigation }: any) => {
     navigation.replace("Sign In");
   };
 
-  const handleOnPressGuest =()=>{
-    MmkvManager.setData(MmkvManager.Keys.isGuestUser, 'true');
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 1,
-          routes: [{name: ScreenNames.bottomTabsNavigation}],
-        }),
-      );
+  const handleOnPressGuest = () => {
+    MmkvManager.setData(MmkvManager.Keys.isGuestUser, "true");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: ScreenNames.bottomTabsNavigation }],
+      })
+    );
   };
 
   const onPressCMS = (page: string) => {
     navigation.navigate(ScreenNames.cmsPage, { navigateFrom: page });
-  }
+  };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null,
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.signup}</Text>
+      ),
+    });
+  }, []);
 
   return (
     <SignupComponent

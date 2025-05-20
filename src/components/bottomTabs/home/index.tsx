@@ -19,7 +19,13 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { activityOpacity, hitSlop } from "../../../constants/GConstant";
 import { colors } from "../../../constants/Colors";
-import { AdItem, BestProduct, GroceriesFoodItem, Restaurant, SubCategory } from "../../../constants/utils/interfaces";
+import {
+  AdItem,
+  BestProduct,
+  GroceriesFoodItem,
+  Restaurant,
+  SubCategory,
+} from "../../../constants/interfaces";
 
 interface PropsType {
   arrGroceriesFood: GroceriesFoodItem[];
@@ -45,30 +51,29 @@ const HomeComponent = (props: PropsType) => {
       ? props?.arrSubCategoryGroceries
       : props?.arrSubCategoryFood;
   const insets = useSafeAreaInsets();
- 
-
- 
 
   const renderGroceriesFoodItem = (item: GroceriesFoodItem, index: number) => {
     return (
       <TouchableOpacity
         key={index}
-        style={{
-          ...styles.btnGroceriesFood,
-         
-          backgroundColor:
-            props?.isGroceriesFoodSelected === item?.type
-              ? colors.orange1c
-              : colors.white,
-        }}
+        style={[
+          styles.btnGroceriesFood,
+          {
+            backgroundColor:
+              props?.isGroceriesFoodSelected === item?.type
+                ? colors.orange1c
+                : colors.white,
+          },
+        ]}
         activeOpacity={activityOpacity}
-        onPress={() => props?.onPressGroceriesFood(item.type || '')}
+        onPress={() => props?.onPressGroceriesFood(item.type || "")}
       >
-        <Image
-          style={styles.imgGroceriesFood}
-          source={item?.image}
-          resizeMode="cover"
-        />
+        
+          <Image
+            style={styles.imgGroceriesFood}
+            source={item?.image}
+            resizeMode="stretch"
+          />
         <View style={styles.vwType}>
           <Text style={styles.lblGroceriesFood}>{item?.type}</Text>
         </View>
@@ -76,7 +81,7 @@ const HomeComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemAds = ({ item, index }: {item :AdItem, index:number}) => {
+  const renderItemAds = ({ item, index }: { item: AdItem; index: number }) => {
     return (
       <TouchableOpacity
         key={index}
@@ -119,7 +124,7 @@ const HomeComponent = (props: PropsType) => {
           source={item?.image}
           resizeMode="cover"
         />
-        <Text style={styles.lblSubCategory}>{item?.name}</Text>
+        <Text style={styles.lblSubCategory} numberOfLines={2}>{item?.name}</Text>
       </TouchableOpacity>
     );
   };
@@ -163,7 +168,13 @@ const HomeComponent = (props: PropsType) => {
     );
   };
 
-  const renderBestSeller = ({ item, index }: {item : Restaurant,index : number}) => {
+  const renderBestSeller = ({
+    item,
+    index,
+  }: {
+    item: Restaurant;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         style={styles.btnBestSeller}
@@ -190,8 +201,9 @@ const HomeComponent = (props: PropsType) => {
     <View style={styles.vwMain}>
       <StatusBar
         barStyle={"light-content"}
-        backgroundColor={'transparent'}
-        translucent={false}/>
+        backgroundColor={"transparent"}
+        translucent={false}
+      />
       <View style={styles.vwMainContainer}>
         <Image
           style={{
@@ -203,7 +215,7 @@ const HomeComponent = (props: PropsType) => {
         <ScrollView
           style={StyleSheet.absoluteFillObject}
           contentContainerStyle={{
-            paddingTop: Platform.OS === "ios" ? insets.top : 30,
+            paddingTop: Platform.OS === "ios" ? insets.top : 40,
             overflow: "hidden",
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,
@@ -214,7 +226,9 @@ const HomeComponent = (props: PropsType) => {
           showsVerticalScrollIndicator={false}
         >
           {/* Groceries Food */}
-          <View style={{ flexDirection: "row", paddingHorizontal: 20, gap : 19 }}>
+          <View
+            style={{ flexDirection: "row", paddingHorizontal: 20, gap: 19 }}
+          >
             {props?.arrGroceriesFood.map((item, index) =>
               renderGroceriesFoodItem(item, index)
             )}
@@ -228,6 +242,7 @@ const HomeComponent = (props: PropsType) => {
                 <Image
                   style={styles.imgLocation}
                   source={images.locationIcon}
+                  resizeMode="stretch"
                 />
                 <Text style={styles.lblLocation}>
                   {getTranslation("ahmedabad")}
@@ -236,6 +251,7 @@ const HomeComponent = (props: PropsType) => {
               <Image
                 style={styles.imgLocation}
                 source={images.rightarrowBlue}
+                resizeMode="stretch"
               />
             </View>
             <TouchableOpacity
@@ -247,6 +263,7 @@ const HomeComponent = (props: PropsType) => {
               <Image
                 style={styles.imgLocation}
                 source={images.notificationIcon}
+                resizeMode="stretch"
               />
             </TouchableOpacity>
           </View>
@@ -273,7 +290,7 @@ const HomeComponent = (props: PropsType) => {
               renderItem={renderItemAds}
               pagingEnabled={true}
               onScroll={props?.handleOnScrollAds}
-              contentContainerStyle={{ paddingRight: 20 }}
+              // contentContainerStyle={{ paddingRight: 20 }}
               snapToInterval={ScreenDimensions.screenWidth - 40}
               decelerationRate="fast"
             />

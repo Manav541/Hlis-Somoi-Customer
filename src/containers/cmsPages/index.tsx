@@ -5,7 +5,8 @@ import { styles } from "./styles";
 import CMSPageComponent from "../../components/cmsPages";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { useFocusEffect } from "@react-navigation/native";
-import { FaqArrProps } from "../../constants/utils/interfaces";
+import { FaqArrProps } from "../../constants/interfaces";
+import { constnatStyles } from "../../constants/Styles";
 
 
 
@@ -46,7 +47,7 @@ const CMSPageContainer = ({ navigation, route }: any) => {
         <GlobalBackButton onPress={() => navigation.goBack()} />
       ),
       headerTitle: () => (
-        <Text style={styles.txtHeaderTitle}>
+        <Text style={constnatStyles.lblHeaderTitle}>
           {navigateFrom === "aboutUs"
             ? getTranslation("aboutUs")
             : navigateFrom === "termsConditions"

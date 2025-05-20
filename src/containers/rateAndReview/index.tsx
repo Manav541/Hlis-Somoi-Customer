@@ -14,6 +14,7 @@ import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import { TextInput } from "react-native-gesture-handler";
 import { ScreenNames } from "../../routers";
 import { images } from "../../constants/Images";
+import { constnatStyles } from "../../constants/Styles";
 
 const RateAndReviewContainer = ({ navigation, route }: any) => {
   console.log("route?.params", route?.params);
@@ -120,6 +121,9 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
     navigation.setOptions({
       headerLeft: () => (
         <GlobalBackButton onPress={() => navigation.goBack()} />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.rateAndReview}</Text>
       ),
     });
   };

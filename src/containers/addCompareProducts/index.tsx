@@ -2,10 +2,10 @@ import { View, Text, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import AddCompareProductsComponent from "../../components/addCompareProducts";
 import GlobalBackButton from "../../global/GlobalBackButton";
-import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { useFocusEffect } from "@react-navigation/native";
-import { GroceryProduct } from "../../constants/utils/interfaces";
+import { GroceryProduct } from "../../constants/interfaces";
+import { constnatStyles } from "../../constants/Styles";
 
 const AddCompareProductsContainer = ({ navigation, route }: any) => {
   const mainCategoryTitle = route.params?.mainCategoryTitle;
@@ -28,7 +28,7 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
         },
       ],
       product_img: images.rice,
-      product_name: `India Gate Basmati ${"\n"}Rice`,
+      product_name: `India Gate Basmati Rice`,
       product_price: "₹600",
       product_weight: "1 kg",
       product_final_price: "₹499",
@@ -228,7 +228,7 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
         <GlobalBackButton onPress={() => navigation.goBack()} />
       ),
       headerTitle: () => (
-        <Text style={styles.txtHeaderTitle}>{mainCategoryTitle}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>{mainCategoryTitle}</Text>
       ),
     });
   };

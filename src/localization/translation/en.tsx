@@ -56,6 +56,7 @@ export default {
   // Buttons
   next: "Next",
   getStarted: "Get Started",
+  startShopping: "Start Shopping",
   signup: "Sign Up",
   signin: "Sign In",
   continue: "Continue",
@@ -99,8 +100,8 @@ export default {
   resendOTP: "Resend OTP",
   resendIn: "Resend In",
   seconds: "Sec",
-  otpVerifiedSucessfully: "OTP Verified Sucessfully",
-  otpResendSuccessfully: "OTP Resend Successfully",
+  otpVerifiedSucessfully: "OTP verified sucessfully",
+  otpResendSuccessfully: "OTP resend successfully",
 
   // Forgot Password
   enterYourTitle: "Enter your",
@@ -252,6 +253,7 @@ export default {
   requestSendSuccessDesc : "Your return/exchange request has been received. We will inform you once the vendor approves the request.",
   uploadImagesVideo:"Upload Images/Video",
   uploadImages:"Upload Images",
+  yourMessage: "Your Message",
 
   // Setting
   setting: "Setting",

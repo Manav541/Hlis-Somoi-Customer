@@ -9,6 +9,8 @@ import {
 } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
+import { ScreenNames } from "../../routers";
+import { constnatStyles } from "../../constants/Styles";
 
 const AddNewCardContainer = ({ navigation }: any) => {
   const [cardNumebr, setCardNumber] = useState<string>("");
@@ -127,6 +129,9 @@ const AddNewCardContainer = ({ navigation }: any) => {
             navigation.goBack();
           }}
         />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.addNewCard}</Text>
       ),
     });
   };

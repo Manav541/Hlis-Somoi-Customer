@@ -3,8 +3,10 @@ import GlobalBackButton from "../../global/GlobalBackButton";
 import MyWishlistComponent from "../../components/myWishlist";
 import { images } from "../../constants/Images";
 import { useFocusEffect } from "@react-navigation/native";
-import { StatusBar } from "react-native";
-import { WishlistItem } from "../../constants/utils/interfaces";
+import { StatusBar, Text } from "react-native";
+import { WishlistItem } from "../../constants/interfaces";
+import { constnatStyles } from "../../constants/Styles";
+import { ScreenNames } from "../../routers";
 
 const MyWishlistContainer = ({ navigation }: any) => {
   const [search, setSearch] = useState<string>("");
@@ -123,6 +125,9 @@ const MyWishlistContainer = ({ navigation }: any) => {
             navigation.goBack();
           }}
         />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.myWishlist}</Text>
       ),
     });
   };

@@ -6,7 +6,7 @@ import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import {
   NotificationData,
   NotificationGroup,
-} from "../../constants/utils/interfaces";
+} from "../../constants/interfaces";
 
 interface PropsType {
   arrNotification: NotificationGroup[];
@@ -29,7 +29,6 @@ const NotificationComponent = (props: PropsType) => {
         key={index}
         onPress={props?.onPressNotification}
       >
-        <View style={styles.vwNotification}>
           <Image
             source={images.notificationBell}
             style={styles.imgNotificationBell}
@@ -41,7 +40,6 @@ const NotificationComponent = (props: PropsType) => {
             </View>
             <Text style={styles.lblNotificationDesc}>{item?.desc}</Text>
           </View>
-        </View>
       </TouchableOpacity>
     );
   };

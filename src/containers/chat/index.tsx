@@ -1,78 +1,80 @@
-import React, {useEffect, useState} from 'react';
-import ChatComponent from '../../components/chat';
-import GlobalBackButton from '../../global/GlobalBackButton';
-import {images} from '../../constants/Images';
-import {Linking} from 'react-native';
-import {Asset} from 'react-native-image-picker';
-import {ImagePickerManager} from '../../constants/utils/NativeImagePicker';
+import React, { useEffect, useState } from "react";
+import ChatComponent from "../../components/chat";
+import GlobalBackButton from "../../global/GlobalBackButton";
+import { images } from "../../constants/Images";
+import { Linking, Text } from "react-native";
+import { Asset } from "react-native-image-picker";
+import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import {
   cameraPermission,
   checkPermission,
   galleryPermission,
   messages,
-} from '../../constants/GConstant';
-import { ChatMessage } from '../../constants/utils/interfaces';
+} from "../../constants/GConstant";
+import { ChatMessage } from "../../constants/interfaces";
+import { styles } from "../availableOffers/styles";
+import { constnatStyles } from "../../constants/Styles";
 
-const ChatConatiner = ({navigation, route}: any) => {
+const ChatConatiner = ({ navigation, route }: any) => {
   const [messagesList, setMessagesList] = useState<ChatMessage[]>([
     {
-      text: '',
-      time: '2025-03-15T14:20:00Z',
+      text: "",
+      time: "2025-03-15T14:20:00Z",
       isSender: false,
-      type: 'image',
-      image: 'https://randomuser.me/api/portraits/men/32.jpg',
-      status: 'Delivered',
+      type: "image",
+      image: "https://randomuser.me/api/portraits/men/32.jpg",
+      status: "Delivered",
     },
     {
-      text: 'Look at above image like this.',
-      time: '2025-03-15T14:20:00Z',
+      text: "Look at above image like this.",
+      time: "2025-03-15T14:20:00Z",
       isSender: false,
-      type: 'text',
+      type: "text",
     },
     {
       text: "Of course, let me know if you're on your Of course, let me know if you're on your Of course, let me know if you're on your.",
-      time: '2025-03-15T14:21:00Z',
+      time: "2025-03-15T14:21:00Z",
       isSender: false,
-      type: 'text',
+      type: "text",
     },
     {
-      text: 'K, I’m on the way',
-      time: '2025-03-15T14:22:00Z',
+      text: "K, I’m on the way",
+      time: "2025-03-15T14:22:00Z",
       isSender: true,
-      status: 'Read',
-      type: 'text',
+      status: "Read",
+      type: "text",
     },
     {
-      text: 'Good morning',
-      time: '2025-03-17T06:45:00Z',
+      text: "Good morning",
+      time: "2025-03-17T06:45:00Z",
       isSender: false,
-      type: 'text',
+      type: "text",
     },
     {
-      text: 'How are you?',
-      time: '2025-03-17T06:45:00Z',
+      text: "How are you?",
+      time: "2025-03-17T06:45:00Z",
       isSender: false,
-      type: 'text',
+      type: "text",
     },
     {
-      text: 'Very Good Morning Very Good Morning Very Good Morning Very Good Morning.',
-      time: '2025-04-05T13:35:00.000Z',
+      text: "Very Good Morning Very Good Morning Very Good Morning Very Good Morning.",
+      time: "2025-04-05T13:35:00.000Z",
       isSender: true,
-      type: 'text',
-      image: 'https://randomuser.me/api/portraits/men/32.jpg',
-      status: 'Delivered',
+      type: "text",
+      image: "https://randomuser.me/api/portraits/men/32.jpg",
+      status: "Delivered",
     },
     {
-      text: '',
-      time: '2025-04-05T13:35:00.000Z',
+      text: "",
+      time: "2025-04-05T13:35:00.000Z",
       isSender: true,
-      type: 'image',
-      image: 'https://randomuser.me/api/portraits/men/32.jpg',
-      status: 'Delivered',
+      type: "image",
+      image: "https://randomuser.me/api/portraits/men/32.jpg",
+      status: "Delivered",
     },
   ]);
 
-  const [messageValue, setMessageValue] = useState('');
+  const [messageValue, setMessageValue] = useState("");
   const [isMsgInputFocused, setIsMsgInputFocused] = useState(false);
 
   const handleOnChangeText = (text: string) => {
@@ -80,9 +82,9 @@ const ChatConatiner = ({navigation, route}: any) => {
   };
 
   const handleOnFocusBlur = (type: string) => {
-    if (type === 'focus') {
+    if (type === "focus") {
       setIsMsgInputFocused(true);
-    } else if (type === 'blur') {
+    } else if (type === "blur") {
       setIsMsgInputFocused(false);
     }
   };
@@ -92,50 +94,50 @@ const ChatConatiner = ({navigation, route}: any) => {
       text: messageValue.trim(),
       time: new Date().toISOString(),
       isSender: true,
-      type: 'text',
-      image: '',
-      status: 'Read',
+      type: "text",
+      image: "",
+      status: "Read",
     };
-    if (messageValue.trim() !== '') {
+    if (messageValue.trim() !== "") {
       setMessagesList([...messagesList, messageObj]);
-      setMessageValue('');
+      setMessageValue("");
     }
   };
 
   const handleOnPressAttachment = () => {
     checkPermission(cameraPermission, messages.cameraPermission).then(
-      isAllow => {
+      (isAllow) => {
         if (isAllow) {
           checkPermission(galleryPermission, messages.galleryPermission).then(
-            isAllow => {
+            (isAllow) => {
               if (isAllow) {
-                ImagePickerManager.choosePickerOptions('photo')
+                ImagePickerManager.choosePickerOptions("photo")
                   .then((result: unknown) => {
                     const pickerResponse = result as Asset[];
-                    console.log('Response==>', result);
+                    console.log("Response==>", result);
                     if (pickerResponse[0].uri) {
                       const image = pickerResponse[0].uri;
                       const messageObj: ChatMessage = {
-                        text: '',
+                        text: "",
                         time: new Date().toISOString(),
                         isSender: true,
-                        type: 'image',
+                        type: "image",
                         image: image,
-                        status: 'Read',
+                        status: "Read",
                       };
                       setMessagesList([...messagesList, messageObj]);
                     } else {
-                      __DEV__ && console.log('No media selected or captured');
+                      __DEV__ && console.log("No media selected or captured");
                     }
                   })
                   .catch((error: string) => {
-                    __DEV__ && console.log('Error capturing media:', error);
+                    __DEV__ && console.log("Error capturing media:", error);
                   });
               }
-            },
+            }
           );
         }
-      },
+      }
     );
   };
 
@@ -150,7 +152,11 @@ const ChatConatiner = ({navigation, route}: any) => {
           }}
         />
       ),
-      headerTitle: route?.params?.driverName,
+      headerTitle: (
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {route?.params?.driverName}
+        </Text>
+      ),
       headerRight: () => (
         <GlobalBackButton
           onPress={() => {

@@ -5,7 +5,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import CancelOrderComponent from "../../components/cancelOrder";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { ScreenNames } from "../../routers";
-import { CancelOrderReason } from "../../constants/utils/interfaces";
+import { CancelOrderReason } from "../../constants/interfaces";
+import { constnatStyles } from "../../constants/Styles";
 
 const CancelOrderContainer = ({ navigation }: any) => {
   const [arrCancelOrderReason, setArrCancelOrderReason] = useState<CancelOrderReason[]>([
@@ -112,6 +113,9 @@ const CancelOrderContainer = ({ navigation }: any) => {
     navigation.setOptions({
       headerLeft: () => (
         <GlobalBackButton onPress={() => navigation.goBack()} />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.cancelOrder}</Text>
       ),
     });
   };

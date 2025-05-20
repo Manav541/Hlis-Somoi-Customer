@@ -33,7 +33,7 @@ const ForgotPasswordComponent = (props: PropsType) => {
           <Text style={styles.lblOtpTitle}>
             {getTranslation('enterYourTitle')}{' '}
             <Text style={{fontFamily: fontsfamily.semibold}}>
-              {getTranslation('email')}.{' '}
+              {getTranslation('emailId')}.{' '}
             </Text>
             {getTranslation('toGetTitle')}{' '}
             <Text style={{fontFamily: fontsfamily.semibold}}>

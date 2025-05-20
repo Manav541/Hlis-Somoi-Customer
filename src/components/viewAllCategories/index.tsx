@@ -2,7 +2,7 @@ import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
-import { SubCategory } from "../../constants/utils/interfaces";
+import { SubCategory } from "../../constants/interfaces";
 
 interface PropsType {
   arrAllCategories: SubCategory[];

@@ -6,18 +6,18 @@ import { ScreenDimensions } from "../../../constants/utils/Dimensions";
 import { ScreenNames } from "../../../routers";
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeScrollEvent, NativeSyntheticEvent, StatusBar } from "react-native";
-import { AdItem, BestProduct, GroceriesFoodItem, Restaurant, SubCategory } from "../../../constants/utils/interfaces";
+import { AdItem, BestProduct, GroceriesFoodItem, Restaurant, SubCategory } from "../../../constants/interfaces";
 import { FlatList } from "react-native-gesture-handler";
 
 const HomeContainer = ({ navigation }: any) => {
   const [arrGroceriesFood, setArrGroceriesFood] = useState<GroceriesFoodItem[]>([
     {
       type: getTranslation("groceries"),
-      image: images.groceriesLogo,
+      image: images.g1,
     },
     {
       type: getTranslation("food"),
-      image: images.foodLogo,
+      image: images.f1,
     },
   ]);
   const [arrAds, setArrAds] = useState<AdItem[]>([
@@ -262,6 +262,8 @@ const HomeContainer = ({ navigation }: any) => {
   useFocusEffect(
     React.useCallback(() => {
       StatusBar.setBarStyle('light-content');
+      StatusBar.setTranslucent(true);
+      StatusBar.setBackgroundColor("transparent");
       return () => {};
     }, [navigation]),
   );

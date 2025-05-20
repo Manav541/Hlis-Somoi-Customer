@@ -26,4 +26,9 @@ export const constnatStyles = StyleSheet.create({
     fontFamily: fontsfamily.semibold,
   },
   img24: {height: 24, width: 24},
+  lblHeaderTitle: {
+    color: colors.blue4e,
+    fontSize: fontSize.size18,
+    fontFamily: fontsfamily.bold,
+  },
 });

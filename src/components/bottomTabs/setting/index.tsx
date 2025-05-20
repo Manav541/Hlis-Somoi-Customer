@@ -12,7 +12,7 @@ import { images } from "../../../constants/Images";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { activityOpacity } from "../../../constants/GConstant";
 import GlobalSuccessModal from "../../../global/GlobalSuccessModal";
-import { SettingDataItem } from "../../../constants/utils/interfaces";
+import { SettingDataItem } from "../../../constants/interfaces";
 
 interface PropsType {
   arrSettingData: SettingDataItem[];

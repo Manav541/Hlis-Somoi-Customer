@@ -1,4 +1,4 @@
-import { ImageSourcePropType, Linking, StatusBar } from "react-native";
+import { ImageSourcePropType, Linking, StatusBar, Text } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import OrderSummaryComponent from "../../components/orderSummary";
 import { useFocusEffect } from "@react-navigation/native";
@@ -6,7 +6,8 @@ import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { ScreenNames } from "../../routers";
-import { OrderDetail, OrderReviewProduct, OrderStatus } from "../../constants/utils/interfaces";
+import { OrderDetail, OrderReviewProduct, OrderStatus } from "../../constants/interfaces";
+import { constnatStyles } from "../../constants/Styles";
 
 const ONE_MIN = 60_000;
 
@@ -274,6 +275,9 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     navigation.setOptions({
       headerLeft: () => (
         <GlobalBackButton onPress={() => navigation.goBack()} />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.orderSummary}</Text>
       ),
     });
   };

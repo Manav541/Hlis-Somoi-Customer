@@ -1,11 +1,12 @@
-import {  StatusBar,  } from "react-native";
+import {  StatusBar, Text,  } from "react-native";
 import React, { useEffect, useState } from "react";
 import MyOrdersComponent from "../../../components/bottomTabs/myOrders";
 import { useFocusEffect } from "@react-navigation/native";
 import { images } from "../../../constants/Images";
 import { ScreenNames } from "../../../routers";
 import GlobalBackButton from "../../../global/GlobalBackButton";
-import { FilterDate, FilterOrderType, Order } from "../../../constants/utils/interfaces";
+import { FilterDate, FilterOrderType, Order } from "../../../constants/interfaces";
+import { constnatStyles } from "../../../constants/Styles";
 
 const MyOrdersContainer = ({ navigation }: any) => {
   const [filterModal, setFilterModal] = useState(false);
@@ -215,6 +216,9 @@ const MyOrdersContainer = ({ navigation }: any) => {
           isRight
           rightImage={images.filterIconMyOreders}
         />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.myOrders}</Text>
       ),
     });
   };

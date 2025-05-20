@@ -91,6 +91,7 @@ const AddAddressComponent = (props: PropsType) => {
             <GlobalTextInput
               placeholder={getTranslation("additionalDescription")}
               isDescriptionField
+              isLastField
               value={props?.additionalDescription}
               reference={props.additionalDescriptionRef}
               secureTextEntry={false}

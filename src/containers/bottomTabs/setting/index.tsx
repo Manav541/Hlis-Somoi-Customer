@@ -9,8 +9,9 @@ import { images } from "../../../constants/Images";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
-import { Alert, ImageSourcePropType, Share, StatusBar } from "react-native";
-import { SettingDataItem } from "../../../constants/utils/interfaces";
+import { Alert, ImageSourcePropType, Share, StatusBar, Text } from "react-native";
+import { SettingDataItem } from "../../../constants/interfaces";
+import { constnatStyles } from "../../../constants/Styles";
 
 const SettingContainer = ({ navigation, route }: any) => {
   console.log("route ==>>> ", route?.params?.name);
@@ -18,6 +19,18 @@ const SettingContainer = ({ navigation, route }: any) => {
   const [name, setName] = useState<string>("Jhon Doe");
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
   const [isModalSignOutVisible, setIsModalSignOutVisible] = useState(false);
+  const [isGuestUser, setIsGuestUser] = useState(false); 
+
+  useEffect(() => {
+    MmkvManager.getData(MmkvManager.Keys.isGuestUser, (guestUser) => {
+      console.log("guestUser ==>>> ", guestUser);
+      if (guestUser === "true") {
+        setIsGuestUser(true);
+      }
+    });
+  }, []);
+
+  console.log("isGuestUser ==>>> ", isGuestUser);
 
   // Constants for common values
   const ICON_SIZE = {
@@ -223,6 +236,15 @@ const SettingContainer = ({ navigation, route }: any) => {
       return () => {};
     }, [navigation])
   );
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null,
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.settings}</Text>
+      ),
+    });
+  }, []);
 
   return (
     <SettingComponent

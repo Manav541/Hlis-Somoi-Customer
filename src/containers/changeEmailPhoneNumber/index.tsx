@@ -7,6 +7,7 @@ import { StatusBar, Text, TextInput } from "react-native";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { regex } from "../../constants/Regex";
 import { useFocusEffect } from "@react-navigation/native";
+import { constnatStyles } from "../../constants/Styles";
 
 const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
   const navigateFrom = route.params?.navigateFrom;
@@ -75,7 +76,7 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
         <GlobalBackButton onPress={() => navigation.goBack()} />
       ),
       headerTitle: () => (
-        <Text style={styles.txtHeaderTitle}>
+        <Text style={constnatStyles.lblHeaderTitle}>
           {navigateFrom === "ChangeEmail"
             ? getTranslation("changeEmail")
             : getTranslation("changePhoneNumber")}

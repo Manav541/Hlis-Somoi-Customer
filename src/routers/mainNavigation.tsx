@@ -32,7 +32,6 @@ const MainNavigation = (props: PropsType) => {
             fontSize: fontSize.size18,
             fontFamily: fontsfamily.bold,
             color: colors.blue4e,
-            marginBottom: Platform.OS == "ios" ? 12 : 0,
           },
           headerShadowVisible: false,
           gestureEnabled: gestureEnabled,

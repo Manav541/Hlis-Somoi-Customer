@@ -4,7 +4,7 @@ import { styles } from "./styles";
 import { activityOpacity } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
-import { FaqArrProps } from "../../constants/utils/interfaces";
+import { FaqArrProps } from "../../constants/interfaces";
 
 interface PropsType {
   navigateFrom: string;

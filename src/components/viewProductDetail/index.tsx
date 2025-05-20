@@ -17,7 +17,13 @@ import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { fontSize } from "../../constants/FontSizes";
 import { fontsfamily } from "../../constants/FontFamily";
 import GlobalButton from "../../global/GlobalButton";
-import { FashionColor, FashionSize, RateProgress, Review, SimilarProduct } from "../../constants/utils/interfaces";
+import {
+  FashionColor,
+  FashionSize,
+  RateProgress,
+  Review,
+  SimilarProduct,
+} from "../../constants/interfaces";
 
 interface PropsType {
   product_imgMain: any[];
@@ -38,6 +44,7 @@ interface PropsType {
   arrSimilarProduct: SimilarProduct[];
   product_highlight: any[];
   product_desc: string;
+  product_quantity: number;
   arrFashionSize: FashionSize[];
   arrFashionColor: FashionColor[];
 
@@ -48,10 +55,12 @@ interface PropsType {
   arrRateProgress: RateProgress[];
   arrRevieews: Review[];
   onPressGoToCompareProduct: () => void;
-  onPressBuyNow: () => void;
+  onPressBuyNow: (type: "add" | "remove") => void;
   onPressSize: (selectedSize: string) => void;
   onPressColor: (selectedColor: string) => void;
-  onPressViewAll:()=> void;
+  onPressViewAll: () => void;
+  onPressFavourite: () => void;
+  poduct_isFavourite: boolean;
 }
 
 const ViewProductDetailComponent = (props: PropsType) => {
@@ -86,8 +95,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
           }}
         >
           <Image
-            style={{ height: 21.75, width: 28,marginLeft : 18 }}
+            style={{ height: 21.75, width: 28, marginLeft: 18 }}
             source={item.deliveryDataImage}
+            resizeMode="stretch"
           />
           <Text style={styles.lblProductDeliveryData}>
             {item.deliveryDataTitle}
@@ -112,7 +122,13 @@ const ViewProductDetailComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemSimilarProducts = ({ item, index }: {item : SimilarProduct , index : number}) => {
+  const renderItemSimilarProducts = ({
+    item,
+    index,
+  }: {
+    item: SimilarProduct;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         key={index}
@@ -225,7 +241,13 @@ const ViewProductDetailComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemFashionSize = ({ item, index }: {item : FashionSize , index :number}) => {
+  const renderItemFashionSize = ({
+    item,
+    index,
+  }: {
+    item: FashionSize;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         style={
@@ -245,7 +267,13 @@ const ViewProductDetailComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemFashionColor = ({ item, index }: {item : FashionColor, index : number}) => {
+  const renderItemFashionColor = ({
+    item,
+    index,
+  }: {
+    item: FashionColor;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         style={{ ...styles.btnSize, backgroundColor: item?.color }}
@@ -318,7 +346,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
         <Text style={styles.lblProductName}>{props?.product_name}</Text>
 
         {/* Product Weight */}
-        <Text style={styles.lblProductWeight}>{props?.product_weight}</Text>
+        {props?.mainCategoryTitle === "Groceries" && (
+          <Text style={styles.lblProductWeight}>{props?.product_weight}</Text>
+        )}
 
         {/* Product rate review */}
         <View style={styles.vwProductRateReview}>
@@ -331,6 +361,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
               style={styles.imgDotGrey}
               source={images.dotOrange}
               tintColor={colors.greyd9}
+              resizeMode="stretch"
             />
             <TouchableOpacity
               activeOpacity={activityOpacity}
@@ -347,16 +378,32 @@ const ViewProductDetailComponent = (props: PropsType) => {
           </View>
         </View>
 
+        {/* Product Price */}
+        <View style={styles.vwProductPrice}>
+          <Text style={styles.lblProdcuctFinalPrice}>
+            {props?.product_final_price}
+          </Text>
+          <Text style={styles.lblProductPrice}>{props?.product_price}</Text>
+        </View>
+
         {/* Prodcut distance time */}
         <View style={styles.vwDistanceTime}>
-          <Image style={styles.imgDistance} source={images.distanceIcon} />
+          <Image
+            style={styles.imgDistance}
+            source={images.distanceIcon}
+            resizeMode="stretch"
+          />
           <Text style={styles.lblApproxDistanceTime}>
             {getTranslation("approxDistanceTime")}
           </Text>
           <Text style={styles.lblPoductDistance}>
             {props?.product_distance}
           </Text>
-          <Image style={styles.imgDotOrange} source={images.dotOrange} />
+          <Image
+            style={styles.imgDotOrange}
+            source={images.dotOrange}
+            resizeMode="stretch"
+          />
           <Text style={styles.lblProductDeliveryTime}>
             {props?.product_deliverytime}
           </Text>
@@ -481,20 +528,50 @@ const ViewProductDetailComponent = (props: PropsType) => {
           />
         </View>
       </ScrollView>
+
+      {/* Like buy Now */}
       <View style={styles.vwLikeBuyNow}>
         <TouchableOpacity
           style={styles.btnIsFavourite}
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
+          onPress={props?.onPressFavourite}
         >
-          <Image style={styles.imgRedHeart} source={images.redHeart} />
+          <Image
+            style={styles.imgRedHeart}
+            source={
+              props?.poduct_isFavourite ? images.redHeart : images.emptyHeart
+            }
+          />
         </TouchableOpacity>
-        <GlobalButton
-          isOrange
-          title={getTranslation("buyNow")}
-          flex={1}
-          onPress={props?.onPressBuyNow}
-        />
+        {props?.product_quantity === 0 ? (
+          <GlobalButton
+            isOrange
+            title={getTranslation("buyNow")}
+            flex={1}
+            onPress={() => props?.onPressBuyNow("add")}
+          />
+        ) : (
+          <View style={styles.vwBuyNow}>
+            <TouchableOpacity
+              onPress={() => props.onPressBuyNow("remove")}
+              hitSlop={hitSlop}
+              activeOpacity={activityOpacity}
+            >
+              <Image style={styles.imgAddMinus} source={images.minus} />
+            </TouchableOpacity>
+            <Text style={styles.lblProductQuantity}>
+              {props?.product_quantity}
+            </Text>
+            <TouchableOpacity
+              onPress={() => props.onPressBuyNow("add")}
+              hitSlop={hitSlop}
+              activeOpacity={activityOpacity}
+            >
+              <Image style={styles.imgAddMinus} source={images.add} />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </View>
   );

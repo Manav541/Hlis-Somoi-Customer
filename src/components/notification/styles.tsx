@@ -10,21 +10,14 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.blue4e,
     paddingHorizontal: 20,
   },
-  vwNotification: {
-    height: 56,
-    flexDirection: "row",
-    gap: 12,
-    flex : 1
-  },
   vwNotificationDetails: {
     flex : 1,
-    height: 56,
     justifyContent: "space-between",
   },
   vwNotificationTitleTime: {
-    height: 17,
     flexDirection: "row",
-    alignItems: "center",
+    marginBottom : 7,
+
   },
 
   // Text Styles
@@ -38,11 +31,13 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
     flex : 1,
+    alignSelf :'center'
   },
   lblNotificationTime: {
     color: colors.orange1c,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.regularGolosText,
+    alignSelf :'center'
   },
   lblNotificationDesc: {
     color: colors.greya7,
@@ -53,10 +48,11 @@ export const styles = StyleSheet.create({
 
   // TouchableOpacity Styles
   btnNotification: {
-    height: 76,
     borderBottomColor: colors.greyd9_50,
     borderBottomWidth: 1,
     flexDirection: "row",
+    paddingBottom : 20,
+    gap : 12
   },
 
   // Image Styles

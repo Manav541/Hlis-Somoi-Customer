@@ -1,10 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
 import ForgotPasswordComponent from '../../../components/authentication/forgotPassword';
 import GlobalBackButton from '../../../global/GlobalBackButton';
-import {TextInput} from 'react-native';
+import {Text, TextInput} from 'react-native';
 import {flashMessageWarning} from '../../../constants/GConstant';
 import {getTranslation} from '../../../localization/i18n/i18n.config';
 import {regex} from '../../../constants/Regex';
+import { constnatStyles } from '../../../constants/Styles';
+import { ScreenNames } from '../../../routers';
 
 const ForgotPasswordContainer = ({navigation, route}: any) => {
   const header = () => {
@@ -17,6 +19,9 @@ const ForgotPasswordContainer = ({navigation, route}: any) => {
         />
       ),
       headerRight: () => null,
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.forgotPassword}</Text>
+      ),
     });
   };
 

@@ -62,7 +62,7 @@ const RateAndReviewComponent = (props: PropsType) => {
   };
   return (
     <View style={styles.vwMain}>
-      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{paddingBottom : 20}} bounces={false} showsVerticalScrollIndicator={false}>
         <Text style={styles.lblTitle}>{getTranslation("rateReviewTitle")}</Text>
         {/* Product Details */}
         <View style={styles.vwProductsItems}>
@@ -111,9 +111,11 @@ const RateAndReviewComponent = (props: PropsType) => {
         <View
           style={{
             flexDirection: "row",
-            gap: 20,
-            marginHorizontal: 20,
+            marginHorizontal : 18,
             marginBottom: 21.29,
+            height : 58.11,
+            alignItems : 'center',
+            justifyContent : 'space-between'
           }}
         >
           {[0, 1, 2, 3, 4].map((index) => (

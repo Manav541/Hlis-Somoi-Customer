@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ChangePasswordComponent from "../../../components/authentication/changePassword";
 import GlobalBackButton from "../../../global/GlobalBackButton";
-import { BackHandler, TextInput } from "react-native";
+import { BackHandler, Text, TextInput } from "react-native";
 import {
   flashMessageSucess,
   flashMessageWarning,
@@ -9,6 +9,8 @@ import {
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { regex } from "../../../constants/Regex";
 import { CommonActions } from "@react-navigation/native";
+import { constnatStyles } from "../../../constants/Styles";
+import { ScreenNames } from "../../../routers";
 
 const ChangePasswordContainer = ({ navigation, route }: any) => {
   const { navigateFromForgotPassword } = route?.params;
@@ -117,6 +119,9 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
   const header = () => {
     navigation.setOptions({
       headerLeft: () => <GlobalBackButton onPress={handleOnBack} />,
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.changePassword}</Text>
+      ),
     });
   };
 

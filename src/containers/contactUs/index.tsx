@@ -3,10 +3,12 @@ import ContactUsComponent from "../../components/contactUs";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { TextInput } from "react-native-gesture-handler";
 import { regex } from "../../constants/Regex";
-import { flashMessageWarning } from "../../constants/GConstant";
+import { flashMessageSucess, flashMessageWarning } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
-import { StatusBar } from "react-native";
+import { StatusBar, Text } from "react-native";
+import { constnatStyles } from "../../constants/Styles";
+import { ScreenNames } from "../../routers";
 
 const ContactUsContainer = ({ navigation }: any) => {
   const [name, setName] = useState("");
@@ -19,10 +21,11 @@ const ContactUsContainer = ({ navigation }: any) => {
   const subjectRef = useRef<TextInput>(null);
   const descriptionRef = useRef<TextInput>(null);
 
-  const [nameFocused, setNameFocused] = useState(false);
-  const [emailFocused, setEmailFocused] = useState(false);
-  const [subjectFocused, setSubjectFocused] = useState(false);
-  const [descriptionFocused, setDescriptionFocused] = useState(false);
+  const [isNameFocused, setIsNameFocused] = useState<boolean>(false);
+  const [isEmailFocused, setIsEmailFocused] = useState<boolean>(false);
+  const [isSubjectFocused, setIsSubjectFocused] = useState<boolean>(false);
+  const [isDescriptionFocused, setIsDescriptionFocused] =
+    useState<boolean>(false);
 
   const handleOnSubmit = (type: string) => {
     if (type === "name") {
@@ -35,55 +38,67 @@ const ContactUsContainer = ({ navigation }: any) => {
   };
 
   const handleOnChangeText = (text: string, type: string) => {
-    if (type === "name") {
+    if (type === 'name') {
       if (regex.fullName.test(text)) {
         setName(text);
       }
-    } else if (type === "email") {
-      setEmail(text.replace(/\s/g, ""));
-    } else if (type === "subject") {
-      setSubject(text.replace(/\s/g, ""));
-    } else {
-      setDescription(text.replace(/\s/g, ""));
+    } else if (type === 'email') {
+      setEmail(text.replace(/\s/g, ''));
+    } else if (type === 'subject') {
+      setSubject(text);
+    } else if (type === 'description') {
+      setDescription(text);
     }
   };
 
   const handleOnFocus = (type: string) => {
-    if (type === "name") {
-      setNameFocused(true);
-    } else if (type === "email") {
-      setEmailFocused(true);
-    } else if (type === "subject") {
-      setSubjectFocused(true);
-    } else {
-      setDescriptionFocused(true);
+    if (type === 'name') {
+      setIsNameFocused(true);
+    } else if (type === 'email') {
+      setIsEmailFocused(true);
+    } else if (type === 'subject') {
+      setIsSubjectFocused(true);
+    } else if (type === 'description') {
+      setIsDescriptionFocused(true);
     }
   };
 
   const handleOnBlur = (type: string) => {
-    if (type === "name") {
-      setNameFocused(true);
-    } else if (type === "email") {
-      setEmailFocused(true);
-    } else if (type === "subject") {
-      setSubjectFocused(true);
-    } else {
-      setDescriptionFocused(true);
+    if (type === 'name') {
+      setIsNameFocused(false);
+    } else if (type === 'email') {
+      setIsEmailFocused(false);
+    } else if (type === 'subject') {
+      setIsSubjectFocused(false);
+    } else if (type === 'description') {
+      setIsDescriptionFocused(false);
     }
   };
 
   const handleOnPressSubmit = () => {
-    if (name.trim() == "") {
-      flashMessageWarning(getTranslation("emptyName"));
-    } else if (email.trim() == "") {
-      flashMessageWarning(getTranslation("emptyEmail"));
+    if (name.trim() === '') {
+      flashMessageWarning(getTranslation('emptyName'));
+    } else if (email.trim() === '') {
+      flashMessageWarning(getTranslation('emptyEmail'));
     } else if (!regex.email.test(email)) {
-      flashMessageWarning(getTranslation("invalidEmail"));
-    } else if (subject.trim() == "") {
-      flashMessageWarning(getTranslation("emptySubject"));
-    } else if (description.trim() == "") {
-      flashMessageWarning(getTranslation("emptyDesc"));
+      flashMessageWarning(getTranslation('invalidEmail'));
+    } else if (subject.trim() === '') {
+      flashMessageWarning(getTranslation('emptySubject'));
+    } else if (description.trim() === '') {
+      flashMessageWarning(getTranslation('emptyDescription'));
     } else {
+      setName('');
+      setEmail('');
+      setSubject('');
+      setDescription('');
+      setIsNameFocused(false);
+      setIsEmailFocused(false);
+      setIsSubjectFocused(false);
+      setIsDescriptionFocused(false);
+      nameRef.current?.blur();
+      emailRef.current?.blur();
+      subjectRef.current?.blur();
+      flashMessageSucess(getTranslation('contactusSuccessfully'));
     }
   };
 
@@ -95,6 +110,9 @@ const ContactUsContainer = ({ navigation }: any) => {
             navigation.goBack();
           }}
         />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.contactUs}</Text>
       ),
     });
   };
@@ -120,10 +138,10 @@ const ContactUsContainer = ({ navigation }: any) => {
       emailRef={emailRef}
       subjectRef={subjectRef}
       descriptionRef={descriptionRef}
-      nameFocused={nameFocused}
-      emailFocused={emailFocused}
-      subjectFocused={subjectFocused}
-      descriptionFocused={descriptionFocused}
+      isNameFocused={isNameFocused}
+      isEmailFocused={isEmailFocused}
+      isSubjectFocused={isSubjectFocused}
+      isDescriptionFocused={isDescriptionFocused}
       handleOnChangeText={handleOnChangeText}
       handleOnSubmit={handleOnSubmit}
       handleOnPressSubmit={handleOnPressSubmit}

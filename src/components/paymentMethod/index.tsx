@@ -14,7 +14,7 @@ import { images } from "../../constants/Images";
 import { colors } from "../../constants/Colors";
 import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
-import { CardDetails } from "../../constants/utils/interfaces";
+import { CardDetails } from "../../constants/interfaces";
 
 interface PropsType {
   onPressAddNewCard: () => void;

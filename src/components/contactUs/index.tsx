@@ -6,6 +6,9 @@ import { images } from "../../constants/Images";
 import GlobalTextInput from "../../global/GlobalTextInput";
 import GlobalButton from "../../global/GlobalButton";
 import { getTranslation } from "../../localization/i18n/i18n.config";
+import GlobalLogoTitle from "../../global/GlobalLogoTitle";
+import { PlatformVersion } from "../../constants/utils/Platform";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface PropsType {
   name: string;
@@ -18,10 +21,10 @@ interface PropsType {
   subjectRef: Ref<TextInput>;
   descriptionRef: Ref<TextInput>;
 
-  nameFocused: boolean;
-  emailFocused: boolean;
-  subjectFocused: boolean;
-  descriptionFocused: boolean;
+  isNameFocused: boolean;
+  isEmailFocused: boolean;
+  isSubjectFocused: boolean;
+  isDescriptionFocused: boolean;
 
   handleOnChangeText: (text: string, type: string) => void;
   handleOnSubmit: (type: string) => void;
@@ -32,101 +35,82 @@ interface PropsType {
 }
 
 const ContactUsComponent = (props: PropsType) => {
+  const insets = useSafeAreaInsets();
   return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={styles.vwMain}
-      showsVerticalScrollIndicator={false}
-      bounces={false}
-    >
-      <View style={{ flex: 1 }}>
-        <Image source={images.logoTitle} style={styles.imgLogo} />
+    <View style={styles.vwMain}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        showsVerticalScrollIndicator={false}
+        bounces={false}>
+        {/* Logo - Title */}
+        <GlobalLogoTitle style={{marginVertical: 30}} />
+
+        {/* View Inputs */}
         <View style={{gap: 10}}>
-        <GlobalTextInput
-          placeholder={getTranslation("name")}
-          value={props.name}
-          reference={props.nameRef}
-          secureTextEntry={false}
-          onChangeText={(text) => {
-            props.handleOnChangeText(text, "name");
-          }}
-          onSubmitEditing={() => {
-            props.handleOnSubmit("name");
-          }}
-          onBlur={() => {
-            props.handleOnBlur("name");
-          }}
-          onFocus={() => {
-            props.handleOnFocus("name");
-          }}
-          focusValue={props.nameFocused}
-        />
-        <GlobalTextInput
-          placeholder={getTranslation("email")}
-          isEmailField
-          value={props.email}
-          reference={props.emailRef}
-          onChangeText={(text) => {
-            props.handleOnChangeText(text, "email");
-          }}
-          onSubmitEditing={() => {
-            props.handleOnSubmit("email");
-          }}
-          onBlur={() => {
-            props.handleOnBlur("email");
-          }}
-          onFocus={() => {
-            props.handleOnFocus("email");
-          }}
-          focusValue={props.emailFocused}
-        />
-        <GlobalTextInput
-          placeholder={getTranslation("subject")}
-          value={props.subject}
-          reference={props.subjectRef}
-          onChangeText={(text) => {
-            props.handleOnChangeText(text, "subject");
-          }}
-          onSubmitEditing={() => {
-            props.handleOnSubmit("subject");
-          }}
-          onBlur={() => {
-            props.handleOnBlur("subject");
-          }}
-          onFocus={() => {
-            props.handleOnFocus("subject");
-          }}
-          focusValue={props.subjectFocused}
-        />
-        <GlobalTextInput
-          placeholder={getTranslation("description")}
-          value={props.description}
-          reference={props.descriptionRef}
-          onChangeText={(text) => {
-            props.handleOnChangeText(text, "description");
-          }}
-          onSubmitEditing={() => {
-            props.handleOnSubmit("description");
-          }}
-          onBlur={() => {
-            props.handleOnBlur("description");
-          }}
-          onFocus={() => {
-            props.handleOnFocus("description");
-          }}
-          focusValue={props.descriptionFocused}
-          isDescriptionField
-        />
-        
+          <GlobalTextInput
+            placeholder={getTranslation('name')}
+            value={props.name}
+            reference={props.nameRef}
+            focusValue={props.isNameFocused}
+            onChangeText={text => {
+              props?.handleOnChangeText(text, 'name');
+            }}
+            onSubmitEditing={() => props?.handleOnSubmit('name')}
+            onFocus={() => props?.handleOnFocus('name')}
+            onBlur={() => props?.handleOnBlur('name')}
+          />
+          <GlobalTextInput
+            placeholder={getTranslation('email')}
+            value={props.email}
+            reference={props.emailRef}
+            focusValue={props.isEmailFocused}
+            onChangeText={text => {
+              props?.handleOnChangeText(text, 'email');
+            }}
+            onSubmitEditing={() => props?.handleOnSubmit('email')}
+            onFocus={() => props?.handleOnFocus('email')}
+            onBlur={() => props?.handleOnBlur('email')}
+            isEmailField
+          />
+          <GlobalTextInput
+            placeholder={getTranslation('subject')}
+            value={props.subject}
+            reference={props.subjectRef}
+            focusValue={props.isSubjectFocused}
+            onChangeText={text => {
+              props?.handleOnChangeText(text, 'subject');
+            }}
+            onSubmitEditing={() => props?.handleOnSubmit('subject')}
+            onFocus={() => props?.handleOnFocus('subject')}
+            onBlur={() => props?.handleOnBlur('subject')}
+          />
+          <GlobalTextInput
+            isDescriptionField
+            placeholder={getTranslation('description')}
+            value={props.description}
+            reference={props.descriptionRef}
+            focusValue={props.isDescriptionFocused}
+            onChangeText={text => {
+              props?.handleOnChangeText(text, 'description');
+            }}
+            onSubmitEditing={() => props?.handleOnSubmit('description')}
+            onFocus={() => props?.handleOnFocus('description')}
+            onBlur={() => props?.handleOnBlur('description')}
+          />
         </View>
+      </KeyboardAwareScrollView>
+
+      <View
+        style={{
+          paddingBottom: PlatformVersion.isIOS ? insets.bottom + 20 : 20,
+        }}>
+        <GlobalButton
+          isOrange
+          title={getTranslation('submit')}
+          onPress={props?.handleOnPressSubmit}
+        />
       </View>
-      <View style={{marginTop : 20,marginBottom:38}}>
-      <GlobalButton
-        title={getTranslation("submit")}
-        isOrange={true}
-        onPress={props?.handleOnPressSubmit}
-      />
-      </View>
-    </KeyboardAwareScrollView>
+    </View>
   );
 };
 

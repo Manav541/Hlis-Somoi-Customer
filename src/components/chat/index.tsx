@@ -18,7 +18,7 @@ import {getTranslation} from '../../localization/i18n/i18n.config';
 import {styles} from './styles';
 import {DateFormatsManager} from '../../constants/utils/DateFormats';
 import FastImage from 'react-native-fast-image';
-import { ChatMessage } from '../../constants/utils/interfaces';
+import { ChatMessage } from '../../constants/interfaces';
  
 interface PropsType {
   messagesList: ChatMessage[];

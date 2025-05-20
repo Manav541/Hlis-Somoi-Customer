@@ -4,7 +4,8 @@ import ViewAllBestSellersComponent from "../../components/viewAllBestSellers";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../routers";
-import { Restaurant } from "../../constants/utils/interfaces";
+import { Restaurant } from "../../constants/interfaces";
+import { constnatStyles } from "../../constants/Styles";
 
 const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
   const [arrAllBestSellers, setArrAllBestSellers] = useState(route?.params?.arrBestSellers || []);
@@ -27,6 +28,9 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
             navigation.goBack();
           }}
         />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.allBestSellers}</Text>
       ),
     });
   };

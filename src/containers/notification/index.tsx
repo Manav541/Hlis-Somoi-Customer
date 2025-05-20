@@ -5,7 +5,9 @@ import GlobalBackButton from "../../global/GlobalBackButton";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
-import { NotificationGroup } from "../../constants/utils/interfaces";
+import { NotificationGroup } from "../../constants/interfaces";
+import { constnatStyles } from "../../constants/Styles";
+import { ScreenNames } from "../../routers";
 
 const NotificationContainer = ({ navigation }: any) => {
   const [arrNotification, setArrNotification] = useState<NotificationGroup[]>([
@@ -63,6 +65,9 @@ const NotificationContainer = ({ navigation }: any) => {
             navigation.goBack();
           }}
         />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.notification}</Text>
       ),
     });
   };

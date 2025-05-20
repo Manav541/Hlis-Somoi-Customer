@@ -8,7 +8,7 @@ import {
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar, Text, View } from "react-native";
-import { CardDetails } from "../../constants/utils/interfaces";
+import { CardDetails } from "../../constants/interfaces";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../constants/Colors";
 import { ScreenNames } from "../../routers";

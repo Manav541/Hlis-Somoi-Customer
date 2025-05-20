@@ -1,24 +1,24 @@
-import {StyleSheet} from 'react-native';
-import {colors} from '../../constants/Colors';
-import {fontsfamily} from '../../constants/FontFamily';
-import {fontSize} from '../../constants/FontSizes';
+import { StyleSheet } from "react-native";
+import { colors } from "../../constants/Colors";
+import { fontsfamily } from "../../constants/FontFamily";
+import { fontSize } from "../../constants/FontSizes";
 
 export const styles = StyleSheet.create({
   vwMain: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     gap: 7,
   },
   vwInner: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 10,
     marginRight: 16,
   },
-  vwDataMap: {gap: 5, paddingHorizontal: 10},
+  vwDataMap: { gap: 5, paddingHorizontal: 10 },
   scrollContainer: {
     flexGrow: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   searchInput: {
     margin: 0,
@@ -34,8 +34,8 @@ export const styles = StyleSheet.create({
     color: colors.black35,
   },
   btnCountry: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 10,
     flex: 1,
     paddingVertical: 10,

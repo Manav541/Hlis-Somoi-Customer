@@ -58,6 +58,7 @@ const ReportIssueComponent = (props:PropsType) => {
         <Text style={styles.lblReturnOrderDesc}>
           {getTranslation("reportTitle")}
         </Text>
+        <Text style={styles.lblYourMessage}>{getTranslation('yourMessage')}</Text>
         <View style={{ marginHorizontal: 20 }}>
           <GlobalTextInput
             isDescriptionField

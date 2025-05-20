@@ -9,7 +9,7 @@ import {
   FashionProduct,
   GroceryProduct,
   Restaurant,
-} from "../../../constants/utils/interfaces";
+} from "../../../constants/interfaces";
 
 const CategoriesContainer = ({ navigation }: any) => {
   const [arrAllCategories, setArrAllCategories] = useState<Category[]>([
@@ -2185,6 +2185,8 @@ const CategoriesContainer = ({ navigation }: any) => {
   useFocusEffect(
     React.useCallback(() => {
       StatusBar.setBarStyle("light-content");
+      StatusBar.setTranslucent(true);
+      StatusBar.setBackgroundColor("transparent");
       return () => {};
     }, [navigation])
   );

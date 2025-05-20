@@ -4,7 +4,7 @@ import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
-import { AddressItem } from "../../constants/utils/interfaces";
+import { AddressItem } from "../../constants/interfaces";
 
 interface PropsType {
   arrManageAddress: AddressItem[];

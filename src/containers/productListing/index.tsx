@@ -9,6 +9,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../constants/Colors";
+import { constnatStyles } from "../../constants/Styles";
 
 const ProductListingContainer = ({ navigation, route }: any) => {
   const insets = useSafeAreaInsets();
@@ -78,6 +79,11 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
   const [range, setRange] = useState([150, 300]);
   const [rating, setRating] = useState(4);
+  const [isCheckInstantDelivery, setIsCheckInstantDelivery] = useState(false);
+
+  const onPressInstantDelivery = () => {
+    setIsCheckInstantDelivery(!isCheckInstantDelivery);
+  };
 
   const onPressRating = (index: number) => {
     setRating(index + 1);
@@ -166,7 +172,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
         >
           <GlobalBackButton onPress={() => navigation.goBack()} style={{ marginBottom: 0 }} />
 
-          <Text style={styles.txtHeaderTitle}>{mainCategoryName}</Text>
+          <Text style={constnatStyles.lblHeaderTitle}>{mainCategoryName}</Text>
 
           <GlobalBackButton
             isRight
@@ -209,6 +215,9 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       onPressRating={onPressRating}
       onPressCloseFilterModal={onPressCloseFilterModal}
       onPressApplyFilter={onPressApplyFilter}
+
+      isCheckInstantDelivery={isCheckInstantDelivery}
+      onPressInstantDelivery={onPressInstantDelivery}
     />
   );
 };

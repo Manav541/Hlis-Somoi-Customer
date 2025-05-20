@@ -8,7 +8,8 @@ import {
 } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
-import { AddressItem } from "../../constants/utils/interfaces";
+import { AddressItem } from "../../constants/interfaces";
+import { constnatStyles } from "../../constants/Styles";
 
 const ManageAddressesContainer = ({ navigation, route }: any) => {
   const [arrManageAddress, setArrManageAddress] = useState<AddressItem[]>([
@@ -62,9 +63,9 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
           }}
         />
       ),
-      headerTitle: route.params?.navigateFromCart
+      headerTitle:<Text style={constnatStyles.lblHeaderTitle}>{route.params?.navigateFromCart
         ? getTranslation("changeLocation")
-        : getTranslation("manageAddress"),
+        : getTranslation("manageAddress")}</Text>,
     });
   };
 

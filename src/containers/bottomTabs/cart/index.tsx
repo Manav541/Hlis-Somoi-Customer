@@ -1,5 +1,5 @@
 import { View, Text, StatusBar } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CartComponent from "../../../components/bottomTabs/cart";
 import { useFocusEffect } from "@react-navigation/native";
 import { flashMessageWarning } from "../../../constants/GConstant";
@@ -9,7 +9,8 @@ import { ScreenNames } from "../../../routers";
 import {
   GroceryProduct,
   OrderDetail,
-} from "../../../constants/utils/interfaces";
+} from "../../../constants/interfaces";
+import { constnatStyles } from "../../../constants/Styles";
 
 const CartContainer = ({ navigation }: any) => {
   const [couponCode, setCouponCode] = useState<string>("");
@@ -217,6 +218,15 @@ const CartContainer = ({ navigation }: any) => {
       return () => {};
     }, [navigation])
   );
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => null,
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.cart}</Text>
+      ),
+    });
+  }, []);
 
   return (
     <CartComponent

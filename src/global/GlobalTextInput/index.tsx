@@ -29,6 +29,7 @@ interface PropsType {
   onPressCode?: () => void;
   maxLength?: number;
   isExpiryDateField?: boolean;
+  isBlueInput?: boolean;
 }
 
 const GlobalTextInput = (props: PropsType) => {
@@ -41,7 +42,13 @@ const GlobalTextInput = (props: PropsType) => {
         {
           height: props.isDescriptionField ? 121 : 52,
           borderRadius: props.isDescriptionField ? 20 : 100,
-          borderColor: props.focusValue == true ? colors.white : colors.greya7,
+          borderColor: props.isBlueInput
+            ? props.focusValue || props.value?.length > 0
+              ? colors.blue4e
+              : colors.greya7
+            : props.focusValue || props.value?.length > 0
+            ? colors.white
+            : colors.greya7,
         },
       ]}>
       {/* Country Code */}

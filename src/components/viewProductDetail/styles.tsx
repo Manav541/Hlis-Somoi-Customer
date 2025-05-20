@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
     bottom: 9,
     alignSelf: "center",
-    gap: 8,
+    gap: 3.39,
   },
   vwDot: {
     width: 5,
@@ -189,6 +189,16 @@ export const styles = StyleSheet.create({
     paddingTop : 10,
     paddingLeft : 10
   },
+  vwBuyNow :{
+    backgroundColor: colors.orange1c,
+    borderRadius: 200,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+    flexDirection: "row",
+    height: 52,
+    flex: 1,
+  },
 
   //   Text Styles
   lblCategoryTitle: {
@@ -350,6 +360,11 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size16,
     fontFamily: fontsfamily.medium,
   },
+  lblProductQuantity:{
+    color: colors.blue4e,
+    fontSize: fontSize.size18,
+    fontFamily: fontsfamily.semibold,
+  },
 
   //   Image Styles
   imgProduct_imgMain: {
@@ -433,7 +448,10 @@ export const styles = StyleSheet.create({
     right:16,
     bottom:16
   },
-
+  imgAddMinus :{
+    height: 30.86,
+    width: 30.86,
+  },
   //   TouchableOpacity Styles
   btnSimilarProduct: {
     backgroundColor: colors.creamee,

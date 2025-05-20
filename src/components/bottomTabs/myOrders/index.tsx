@@ -16,7 +16,7 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import GlobalButton from "../../../global/GlobalButton";
 import { fontSize } from "../../../constants/FontSizes";
 import { fontsfamily } from "../../../constants/FontFamily";
-import { FilterDate, FilterOrderType, Order, OrderProduct } from "../../../constants/utils/interfaces";
+import { FilterDate, FilterOrderType, Order, OrderProduct } from "../../../constants/interfaces";
 
 interface PropsType {
   arrOrderList: Order[];

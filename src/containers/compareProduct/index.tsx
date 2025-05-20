@@ -6,7 +6,8 @@ import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
 import { useFocusEffect } from "@react-navigation/native";
-import { GroceryProduct } from "../../constants/utils/interfaces";
+import { GroceryProduct } from "../../constants/interfaces";
+import { constnatStyles } from "../../constants/Styles";
 
 const CompareProductConteiner = ({ navigation, route }: any) => {
   const mainCategoryTitle = route.params?.mainCategoryTitle;
@@ -28,7 +29,7 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
         },
       ],
       product_img: images.rice,
-      product_name: `India Gate Basmati ${"\n"}Rice`,
+      product_name: `India Gate Basmati Rice`,
       product_price: "₹600",
       product_weight: "1 kg",
       product_final_price: "₹499",
@@ -96,17 +97,12 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
       headerLeft: () => (
         <GlobalBackButton onPress={() => navigation.goBack()} />
       ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.compareProduct}</Text>
+      ),
       headerRight: () => (
-        <TouchableOpacity
-          activeOpacity={activityOpacity}
-          hitSlop={hitSlop}
-          onPress={onPressAddButton}
-        >
-          <Image
-            style={{ height: 24, width: 24, marginRight: 20 }}
-            source={images.addCircle}
-          />
-        </TouchableOpacity>
+        <GlobalBackButton onPress={onPressAddButton} isRight rightImage={images.addCircle}/>
+       
       ),
     });
   };

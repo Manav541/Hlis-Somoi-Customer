@@ -87,6 +87,7 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: "hidden",
     backgroundColor: colors.white,
+    marginBottom : 10
   },
   btnFavourite: {
     height: 24,

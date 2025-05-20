@@ -6,7 +6,7 @@ import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
-import { GroceryProduct } from "../../constants/utils/interfaces";
+import { GroceryProduct } from "../../constants/interfaces";
 
 interface PropsType {
   arrCompareProducts: GroceryProduct[];
@@ -61,7 +61,7 @@ const CompareProductComponent = (props: PropsType) => {
         contentContainerStyle={{
           gap: 15,
           marginHorizontal: 20,
-          paddingBottom: PlatformVersion.isIOS ? insets.bottom : 20,
+          paddingBottom: PlatformVersion.isIOS ? insets.bottom+20 : 40,
         }}
       />
     </View>

@@ -8,7 +8,7 @@ import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { images } from "../../constants/Images";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { GroceryProduct } from "../../constants/utils/interfaces";
+import { GroceryProduct } from "../../constants/interfaces";
 
 interface PropsType {
   arrCompareProducts: GroceryProduct[];

@@ -121,7 +121,9 @@ import { images } from "../../constants/Images";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
-import { RateProgress, Review } from "../../constants/utils/interfaces";
+import { RateProgress, Review } from "../../constants/interfaces";
+import { constnatStyles } from "../../constants/Styles";
+import { ScreenNames } from "../../routers";
 
 const ReviewContainer = ({ navigation }: any) => {
   const totalRate = 4.5;
@@ -178,6 +180,9 @@ const ReviewContainer = ({ navigation }: any) => {
       navigation.setOptions({
         headerLeft: () => (
           <GlobalBackButton onPress={() => navigation.goBack()} />
+        ),
+        headerTitle: () => (
+          <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.review}</Text>
         ),
       });
     };

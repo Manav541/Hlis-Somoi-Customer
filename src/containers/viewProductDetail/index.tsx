@@ -28,10 +28,11 @@ import {
   RateProgress,
   Review,
   SimilarProduct,
-} from "../../constants/utils/interfaces";
+} from "../../constants/interfaces";
 
 const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const itemData = route.params?.item;
+  console.log("itemData", itemData);
   // const product_imgMain = itemData?.prodcut_imgMain;
   const product_imgMain = [
     {
@@ -71,6 +72,8 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const product_deliveryData = itemData?.product_deliveryData;
   const product_highlight = itemData?.product_highlight;
   const product_desc = itemData?.product_desc;
+  const [product_quantity,setProduct_Quantity] = useState(itemData?.product_quantity);
+  const [poduct_isFavourite,setPoduct_isFavourite] = useState(itemData?.isFavourite);
 
   const arrSimilarProduct: SimilarProduct[] = [
     {
@@ -202,8 +205,17 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       mainCategoryTitle: mainCategoryTitle,
     });
   };
-  const onPressBuyNow = () => {
-    // navigation.navigate(ScreenNames.compareProduct);
+
+  const onPressFavourite = () => {
+    setPoduct_isFavourite((prevFavourite:boolean) => !prevFavourite);
+  };
+
+  const onPressBuyNow = ( type: "add" | "remove") => {
+    if (type === "add") {
+      setProduct_Quantity((prevQuantity :number) => prevQuantity + 1);
+    } else if (type === "remove") {
+      setProduct_Quantity((prevQuantity:number) => prevQuantity > 0 ? prevQuantity - 1 : 0);
+    }
   };
   const onPressViewAll = () => {
     flashMessageWarning(getTranslation("underDevelopment"));
@@ -285,6 +297,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       arrSimilarProduct={arrSimilarProduct}
       product_highlight={product_highlight}
       product_desc={product_desc}
+      product_quantity={product_quantity}
       arrFashionSize={arrFashionSize}
       arrFashionColor={arrFashionColor}
       currentIndex={currentIndex}
@@ -298,6 +311,8 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       onPressSize={onPressSize}
       onPressColor={onPressColor}
       onPressViewAll={onPressViewAll}
+      onPressFavourite={onPressFavourite}
+      poduct_isFavourite={poduct_isFavourite}
     />
   );
 };

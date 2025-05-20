@@ -5,7 +5,9 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import AvailableOffersComponent from "../../components/availableOffers";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { useFocusEffect } from "@react-navigation/native";
-import { AvailableOfferItem } from "../../constants/utils/interfaces";
+import { AvailableOfferItem } from "../../constants/interfaces";
+import { ScreenNames } from "../../routers";
+import { constnatStyles } from "../../constants/Styles";
 
 const AvailableOffersContainer = ({ navigation }: any) => {
   const [arrAvailableOffers, setArrAvailableOffers] = useState<AvailableOfferItem[]>([
@@ -43,6 +45,9 @@ const AvailableOffersContainer = ({ navigation }: any) => {
             navigation.goBack();
           }}
         />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.availableOffers}</Text>
       ),
     });
   };
