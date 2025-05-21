@@ -12,73 +12,73 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   vwBestSellersItemDetails: {
-    marginHorizontal : 12.5,
-    marginTop : 14,
-    marginBottom : 10,
+    marginHorizontal: 12.5,
+    marginTop: 14,
+    marginBottom: 10,
   },
-  vwLocation:{
-    marginTop : 10,
-    flexDirection : 'row',
-    alignItems : 'center',
-    gap : 5,
-    height:22
+  vwLocation: {
+    marginTop: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    height: 22,
   },
-  vwTimeDistanceRating:{
-    flexDirection : 'row',
-    justifyContent : 'space-between',
-    alignItems : 'center',
-    height : 23,
-    marginTop: 5
+  vwTimeDistanceRating: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 23,
+    marginTop: 5,
   },
-  vwTimeDistance:{
-    flexDirection : 'row',
-    alignItems : 'center',
-    gap : 5
+  vwTimeDistance: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
   },
-  vwDistance:{
-    flexDirection : 'row',
-    alignItems : 'center',
-    gap : 5
+  vwDistance: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
   },
-  vwRating:{
-    backgroundColor : colors.orange1c,
-    height : 23,
-    width : 53,
-    gap : 4,
-    flexDirection : 'row',
-    alignItems : 'center',
-    borderRadius : 50,
-    paddingLeft : 6,
-    paddingRight : 7
+  vwRating: {
+    backgroundColor: colors.orange1c,
+    height: 23,
+    width: 53,
+    gap: 4,
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 50,
+    paddingLeft: 6,
+    paddingRight: 7,
   },
 
-   // Text Style
-   lblBestSellersItemName:{
-    color : colors.black35,
-    fontSize : fontSize.size14,
-    fontFamily : fontsfamily.bold,
-    lineHeight : 14
-   },
-   lblLocation:{
-    color : colors.black35,
-    fontSize : fontSize.size12,
-    fontFamily : fontsfamily.regularOutFit
-   },
-   lblTime:{
-    color : colors.black35,
-    fontSize : fontSize.size12,
-    fontFamily : fontsfamily.regularOutFit
-   },
-   lblDistance:{
-    color : colors.black35,
-    fontSize : fontSize.size12,
-    fontFamily : fontsfamily.mediumOutFit
-   },
-   lblRatings:{
-    color : colors.blue4e,
-    fontSize : fontSize.size14,
-    fontFamily : fontsfamily.regularOutFit
-   },
+  // Text Style
+  lblBestSellersItemName: {
+    color: colors.black35,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.bold,
+    lineHeight: 14,
+  },
+  lblLocation: {
+    color: colors.black35,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regularOutFit,
+  },
+  lblTime: {
+    color: colors.black35,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regularOutFit,
+  },
+  lblDistance: {
+    color: colors.black35,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.mediumOutFit,
+  },
+  lblRatings: {
+    color: colors.blue4e,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.regularOutFit,
+  },
 
   // TouchableOpacity Style
   btnAllBestSellersItem: {
@@ -87,7 +87,7 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: "hidden",
     backgroundColor: colors.white,
-    marginBottom : 10
+    marginBottom: 10,
   },
   btnFavourite: {
     height: 24,
@@ -114,28 +114,28 @@ export const styles = StyleSheet.create({
     height: 148,
     width: ScreenDimensions.screenWidth - 40,
   },
-  imgHeart : {
-    height : 14,
-    width : 14
+  imgHeart: {
+    height: 14,
+    width: 14,
   },
-  imgLocation:{
-    height : 22,
-    width : 22
+  imgLocation: {
+    height: 22,
+    width: 22,
   },
-  imgDot:{
-    height : 5,
-    width : 5,
+  imgDot: {
+    height: 5,
+    width: 5,
   },
-  imgStarBlue:{
-    height : 16,
-    width : 16
+  imgStarBlue: {
+    height: 16,
+    width: 16,
   },
-  imgLogo:{
-    height : 40.48,
-    width : 40.48,
-    borderRadius : 100,
-    position : 'absolute',
-    bottom : 70,
-    right : 13,
-  }
+  imgLogo: {
+    height: 40.48,
+    width: 40.48,
+    borderRadius: 100,
+    position: "absolute",
+    bottom: 70,
+    right: 13,
+  },
 });

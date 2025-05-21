@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -27,7 +28,13 @@ interface PropsType {
 
 const MyWishlistComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
-  const renderArrMyWhislist = ({ item, index }: { item: WishlistItem; index: number }) => {
+  const renderArrMyWhislist = ({
+    item,
+    index,
+  }: {
+    item: WishlistItem;
+    index: number;
+  }) => {
     return (
       <View
         style={[
@@ -57,15 +64,17 @@ const MyWishlistComponent = (props: PropsType) => {
 
         {/* Product Details */}
         <View style={styles.vwProductDetails}>
-          <View style={{height : 59}}>
-          <View style={{ height : 44}}>
-            <Text style={styles.lblProductName} numberOfLines={2}>
-              {item?.product_name}
-            </Text>
-          </View>
-          <View style={{height : 15}}>
-            <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
-          </View>
+          <View style={{ height: 59 }}>
+            <View style={{ height: 44 }}>
+              <Text style={styles.lblProductName} numberOfLines={2}>
+                {item?.product_name}
+              </Text>
+            </View>
+            <View style={{ height: 15 }}>
+              <Text style={styles.lblProductWeight}>
+                {item?.product_weight}
+              </Text>
+            </View>
           </View>
 
           <View style={styles.vwPriceRating}>
@@ -96,6 +105,11 @@ const MyWishlistComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View style={styles.vwSearch}>
         <Image style={styles.imgSearch} source={images.search} />
         <TextInput

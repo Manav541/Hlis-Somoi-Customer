@@ -16,6 +16,11 @@ export default {
   emptyPassword: "Please enter your password",
   emptySubject: "Please enter your subject",
   emptyDesc: "Please enter your description",
+  emptyNameCU: "Please enter name",
+  emptyEmailCU: "Please enter email",
+  emptySubjectCU: "Please enter subject",
+  emptyDescCU: "Please enter description",
+
   invalidPassword:
     "Password should be minimum 8 characters contains atleast one uppercase & lowercase alphabet, number & special character",
   profileDeleted: "Profile deleted successfully",
@@ -42,6 +47,9 @@ export default {
   loginSuccessfully: "Login Successfully",
   signUpSuccess: "Sign Up Successfully",
   addressAddedSucess: "Address added successfully",
+  emailUpdateSuccess: "Email updated successfully",
+  phoneNumberUpdateSuccess: "Phone number updated successfully",
+  emptyPfofileImage: "Please select profile image",
 
   // Onboarding
   onboardingTitle1: "Fast, Reliable, and Hassle-Free Deliveries",
@@ -77,7 +85,7 @@ export default {
   trackOrder: "Track Order",
   continueShopping: "Continue Shopping",
   reset: "Reset",
-  rateReview:"Rate & Review",
+  rateReview: "Rate & Review",
 
   // Signup-Signin
   email: "Email",
@@ -160,6 +168,7 @@ export default {
   enterCouponCode: "Enter Coupon Code",
   coupon_code_required: "Please enter coupon code",
   deliverto: "Deliver to :",
+  deliverto1: "Deliver to:",
   approxDeliveryTime: "Approx delivery time",
   orderDetails: "Order Details",
   itemTotal: "Item total",
@@ -216,43 +225,47 @@ export default {
   cancelOrderTime: "An order can be canceled within 1 minute.",
   reportIssueQue: "Report an issue?",
   reportIssueDesc: "Let us know about any problems",
-  requestforReturnQue:"Request for return?",
-  requestforReturnDesc:"Cancel your order by providing a reason.",
-  driverInfo:"Driver Info",
-  track:"Track",
-  yourOrderIsCancelled:"Your Order is Cancelled",
-  cancelOrderSelectedReason :"I want to Cancel due to product quality issues",
-  requestReturn :"You have requested for return the order.",
-  orderReturned:"Order Returned",
-  returnReason : "I want to return due to product quality issues",
-  refundDesc : "You will get refund  3-4 business day",
+  requestforReturnQue: "Request for return?",
+  requestforReturnDesc: "Cancel your order by providing a reason.",
+  driverInfo: "Driver Info",
+  track: "Track",
+  yourOrderIsCancelled: "Your Order is Cancelled",
+  cancelOrderSelectedReason: "I want to Cancel due to product quality issues",
+  requestReturn: "You have requested for return the order.",
+  orderReturned: "Order Returned",
+  returnReason: "I want to return due to product quality issues",
+  refundDesc: "You will get refund  3-4 business day",
 
   // Rate & Review
   rateReviewTitle: "Share your experience with the product",
-  feedBackTitle :"Thank You for Feedback",
+  feedBackTitle: "Thank You for Feedback",
   feedBackDesc: "Your review has been submitted.",
   yourReview: "Your Review",
-  edit : "Edit",
-  reviewDesc : "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-  reportTitle :"Report a Problem, We’re Here to Help",
+  edit: "Edit",
+  reviewDesc:
+    "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+  reportTitle: "Report a Problem, We’re Here to Help",
 
   // Chat Screen
-  messageTitle: 'Message',
+  messageTitle: "Message",
 
   // Cancel Order
-  cancelOrderHeader : "If the cancellation is made less than 24 hours before the booking time, the deposit will be forfeited and non-refundable.",
-  selectCancelOrderReason :"Select a reason for cancellation",
-  writehere:"Write here",
-  orderCancelled:"Order Cancelled",
-  orderCancelledSuccessDesc:"Your order has been successfully cancelled.",
-  ok:"Ok",
+  cancelOrderHeader:
+    "If the cancellation is made less than 24 hours before the booking time, the deposit will be forfeited and non-refundable.",
+  selectCancelOrderReason: "Select a reason for cancellation",
+  writehere: "Write here",
+  orderCancelled: "Order Cancelled",
+  orderCancelledSuccessDesc: "Your order has been successfully cancelled.",
+  ok: "Ok",
 
-  // Return Order 
-  ReturnOrderHeader : "Easily return or exchange items that are faulty or incorrect.",
+  // Return Order
+  ReturnOrderHeader:
+    "Easily return or exchange items that are faulty or incorrect.",
   requestSend: "Request Send",
-  requestSendSuccessDesc : "Your return/exchange request has been received. We will inform you once the vendor approves the request.",
-  uploadImagesVideo:"Upload Images/Video",
-  uploadImages:"Upload Images",
+  requestSendSuccessDesc:
+    "Your return/exchange request has been received. We will inform you once the vendor approves the request.",
+  uploadImagesVideo: "Upload Images/Video",
+  uploadImages: "Upload Images",
   yourMessage: "Your Message",
 
   // Setting
@@ -303,6 +316,7 @@ export default {
   //  -------------------------Contact Us Page------------------------
   subject: "Subject",
   description: "Description",
+  contactusSuccessfully: "Your request has been submitted!",
 
   // Manage Addresses
   changeLocation: "Change Location",

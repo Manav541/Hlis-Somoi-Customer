@@ -77,15 +77,15 @@ const ContactUsContainer = ({ navigation }: any) => {
 
   const handleOnPressSubmit = () => {
     if (name.trim() === '') {
-      flashMessageWarning(getTranslation('emptyName'));
+      flashMessageWarning(getTranslation('emptyNameCU'));
     } else if (email.trim() === '') {
-      flashMessageWarning(getTranslation('emptyEmail'));
+      flashMessageWarning(getTranslation('emptyEmailCU'));
     } else if (!regex.email.test(email)) {
       flashMessageWarning(getTranslation('invalidEmail'));
     } else if (subject.trim() === '') {
-      flashMessageWarning(getTranslation('emptySubject'));
+      flashMessageWarning(getTranslation('emptySubjectCU'));
     } else if (description.trim() === '') {
-      flashMessageWarning(getTranslation('emptyDescription'));
+      flashMessageWarning(getTranslation('emptyDescCU'));
     } else {
       setName('');
       setEmail('');
@@ -99,6 +99,7 @@ const ContactUsContainer = ({ navigation }: any) => {
       emailRef.current?.blur();
       subjectRef.current?.blur();
       flashMessageSucess(getTranslation('contactusSuccessfully'));
+      navigation.goBack();
     }
   };
 

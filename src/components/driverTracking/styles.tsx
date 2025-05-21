@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: 8,
     paddingHorizontal: 12,
-    height : 66
+    height: 66,
   },
 
   // Text styles
@@ -36,15 +36,15 @@ export const styles = StyleSheet.create({
     color: colors.blue4e,
     fontSize: fontSize.size16,
     fontFamily: fontsfamily.semibold,
-    flex : 1,
-    marginHorizontal : 12
+    flex: 1,
+    marginHorizontal: 12,
   },
   lblDeliverToAddress: {
     color: colors.greya7,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regular,
     lineHeight: 16,
-    marginTop : 7
+    marginTop: 7,
   },
 
   // Image styles
@@ -64,8 +64,8 @@ export const styles = StyleSheet.create({
     width: 42,
     borderRadius: 42 / 2,
   },
-  imgChat :{
-    height : 27,
-    width : 27
+  imgChat: {
+    height: 27,
+    width: 27,
   },
 });

@@ -15,7 +15,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
   const [arrOrderList, setArrOrderList] = useState<Order[]>([
     {
       order_number: "#12343235",
-      total: "₹ 732.00",
+      total: "$ 732.00",
       items_Count: 2,
       status: "Confirmed",
       date: "10 Mar, 2025",
@@ -23,7 +23,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
         {
           product_name: `Fortune Premium Mustard ${"\n"}Oil`,
           product_img: images.oil,
-          price: "₹199",
+          price: "$199",
           quantity: 1,
           unit: "500 ml",
           height: 46.69,
@@ -32,7 +32,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
         {
           product_name: `India Gate Basmati ${"\n"}Rice`,
           product_img: images.rice,
-          price: "₹499",
+          price: "$499",
           quantity: 1,
           unit: "1 kg",
           height: 40.74,
@@ -42,7 +42,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
     },
     {
       order_number: "#12343236",
-      total: "₹ 732.00",
+      total: "$ 732.00",
       items_Count: 2,
       status: "Delivered",
       date: "10 Mar, 2025",
@@ -50,7 +50,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
         {
           product_name: `Fortune Premium Mustard ${"\n"}Oil`,
           product_img: images.oil,
-          price: "₹199",
+          price: "$199",
           quantity: 1,
           unit: "500 ml",
           height: 46.69,
@@ -59,7 +59,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
         {
           product_name: `India Gate Basmati ${"\n"}Rice`,
           product_img: images.rice,
-          price: "₹499",
+          price: "$499",
           quantity: 1,
           unit: "1 kg",
           height: 40.74,
@@ -69,7 +69,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
     },
     {
       order_number: "#12343237",
-      total: "₹ 732.00",
+      total: "$ 732.00",
       items_Count: 2,
       status: "Request_return",
       date: "10 Mar, 2025",
@@ -77,7 +77,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
         {
           product_name: `Fortune Premium Mustard ${"\n"}Oil`,
           product_img: images.oil,
-          price: "₹199",
+          price: "$199",
           quantity: 1,
           unit: "500 ml",
           height: 46.69,
@@ -86,7 +86,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
         {
           product_name: `India Gate Basmati ${"\n"}Rice`,
           product_img: images.rice,
-          price: "₹499",
+          price: "$499",
           quantity: 1,
           unit: "1 kg",
           height: 40.74,
@@ -96,7 +96,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
     },
     {
       order_number: "#12343238",
-      total: "₹ 732.00",
+      total: "$ 732.00",
       items_Count: 2,
       status: "Returned",
       date: "10 Mar, 2025",
@@ -104,7 +104,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
         {
           product_name: `Fortune Premium Mustard ${"\n"}Oil`,
           product_img: images.oil,
-          price: "₹199",
+          price: "$199",
           quantity: 1,
           unit: "500 ml",
           height: 46.69,
@@ -113,7 +113,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
         {
           product_name: `India Gate Basmati ${"\n"}Rice`,
           product_img: images.rice,
-          price: "₹499",
+          price: "$499",
           quantity: 1,
           unit: "1 kg",
           height: 40.74,
@@ -123,7 +123,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
     },
     {
       order_number: "#12343239",
-      total: "₹ 732.00",
+      total: "$ 732.00",
       items_Count: 2,
       status: "Cancelled",
       date: "10 Mar, 2025",
@@ -131,7 +131,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
         {
           product_name: `Fortune Premium Mustard ${"\n"}Oil`,
           product_img: images.oil,
-          price: "₹199",
+          price: "$199",
           quantity: 1,
           unit: "500 ml",
           height: 46.69,
@@ -140,7 +140,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
         {
           product_name: `India Gate Basmati ${"\n"}Rice`,
           product_img: images.rice,
-          price: "₹499",
+          price: "$499",
           quantity: 1,
           unit: "1 kg",
           height: 40.74,

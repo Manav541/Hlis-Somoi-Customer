@@ -1,4 +1,11 @@
-import { View, Text, TouchableOpacity, Image, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  StatusBar,
+} from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
@@ -8,9 +15,11 @@ import { AddressItem } from "../../constants/interfaces";
 
 interface PropsType {
   arrManageAddress: AddressItem[];
-  handleDelete: (index: number) => void;
+  handleOnPressDelete: (index: number) => void;
   handleSetDefault: (index: number) => void;
   handleOnPressAddAddress: () => void;
+  handleOnPressEditAddress: (index: number) => void;
+  navigateFromCart: boolean;
 }
 
 const ManageAddressesComponent = (props: PropsType) => {
@@ -47,21 +56,28 @@ const ManageAddressesComponent = (props: PropsType) => {
           <View style={styles.vwLine} />
 
           {/* Edit/Delete Buttons */}
-          <View style={{ flexDirection: "row", gap: 15 }}>
-            <TouchableOpacity activeOpacity={activityOpacity}>
-              <Image style={styles.imgEditDelete} source={images.edit} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={activityOpacity}
-              onPress={() => props.handleDelete(index)}
-            >
-              <Image
-                source={images.delete}
-                resizeMode="stretch"
-                style={styles.imgEditDelete}
-              />
-            </TouchableOpacity>
-          </View>
+          {!props.navigateFromCart && (
+            <View style={{ flexDirection: "row", gap: 15 }}>
+              <TouchableOpacity
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={() => props.handleOnPressEditAddress(index)}
+              >
+                <Image style={styles.imgEditDelete} source={images.edit} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={() => props.handleOnPressDelete(index)}
+              >
+                <Image
+                  source={images.delete}
+                  resizeMode="stretch"
+                  style={styles.imgEditDelete}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </View>
     );
@@ -69,6 +85,11 @@ const ManageAddressesComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <TouchableOpacity
         style={styles.btnAddAddress}
         activeOpacity={activityOpacity}

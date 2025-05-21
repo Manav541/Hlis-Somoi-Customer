@@ -1,14 +1,23 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native'
-import React, { Ref } from 'react'
-import { Asset } from 'react-native-image-picker';
-import { activityOpacity, hitSlop } from '../../constants/GConstant';
-import { images } from '../../constants/Images';
-import { styles } from './styles';
-import GlobalButton from '../../global/GlobalButton';
-import { getTranslation } from '../../localization/i18n/i18n.config';
-import { colors } from '../../constants/Colors';
-import { ScrollView } from 'react-native-gesture-handler';
-import GlobalTextInput from '../../global/GlobalTextInput';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  StatusBar,
+} from "react-native";
+import React, { Ref } from "react";
+import { Asset } from "react-native-image-picker";
+import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { images } from "../../constants/Images";
+import { styles } from "./styles";
+import GlobalButton from "../../global/GlobalButton";
+import { getTranslation } from "../../localization/i18n/i18n.config";
+import { colors } from "../../constants/Colors";
+import { ScrollView } from "react-native-gesture-handler";
+import GlobalTextInput from "../../global/GlobalTextInput";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface PropsType {
   reportIssue: string;
@@ -26,13 +35,14 @@ interface PropsType {
   handleOnPressDeleteUploadedImage: (index: number) => void;
 }
 
-const ReportIssueComponent = (props:PropsType) => {
-  const renderUploadImageVideo = (item: any, index: number) => {
+const ReportIssueComponent = (props: PropsType) => {
+  const insets = useSafeAreaInsets();
+  const renderUploadImageVideo = (item : any, index : number) => {
     return (
       <View style={styles.vwUploadImageVideosItem} key={index}>
         <Image
           style={styles.imgUpload}
-          source={{uri: item?.uri}}
+          source={{ uri: item?.uri }}
           resizeMode="stretch"
         />
         <TouchableOpacity
@@ -43,13 +53,18 @@ const ReportIssueComponent = (props:PropsType) => {
             props?.handleOnPressDeleteUploadedImage(index);
           }}
         >
-          <Image style={styles.imgAdd} source={images.closeImage}/>
+          <Image style={styles.imgAdd} source={images.closeImage} />
         </TouchableOpacity>
       </View>
     );
   };
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <ScrollView
         style={{ flexGrow: 1 }}
         bounces={false}
@@ -58,7 +73,9 @@ const ReportIssueComponent = (props:PropsType) => {
         <Text style={styles.lblReturnOrderDesc}>
           {getTranslation("reportTitle")}
         </Text>
-        <Text style={styles.lblYourMessage}>{getTranslation('yourMessage')}</Text>
+        <Text style={styles.lblYourMessage}>
+          {getTranslation("yourMessage")}
+        </Text>
         <View style={{ marginHorizontal: 20 }}>
           <GlobalTextInput
             isDescriptionField
@@ -84,6 +101,7 @@ const ReportIssueComponent = (props:PropsType) => {
           <Text style={styles.lblUploadImageVideo}>
             {getTranslation("uploadImages")}
           </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={{ flexDirection: "row", gap: 9.02 }}>
             <TouchableOpacity
               style={styles.btnUploadImageVideo}
@@ -98,14 +116,20 @@ const ReportIssueComponent = (props:PropsType) => {
               />
             </TouchableOpacity>
             {props?.multiImagesArray?.length > 0 && (
-            <View style={{ flexDirection: "row", gap: 9.02 }}>
+              <View style={{ flexDirection: "row", gap: 9.02 }}>
               {props?.multiImagesArray.map(renderUploadImageVideo)}
             </View>
             )}
           </View>
+          </ScrollView>
         </View>
       </ScrollView>
-      <View style={{ marginHorizontal: 20, marginBottom: 40 }}>
+      <View
+        style={{
+          marginHorizontal: 20,
+          marginBottom: insets.bottom ? insets.bottom : 20,
+        }}
+      >
         <GlobalButton
           isOrange
           title={getTranslation("submit")}
@@ -113,7 +137,7 @@ const ReportIssueComponent = (props:PropsType) => {
         />
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default ReportIssueComponent
+export default ReportIssueComponent;

@@ -7,6 +7,7 @@ import { Asset } from "react-native-image-picker";
 import {
   cameraPermission,
   checkPermission,
+  flashMessageWarning,
   galleryPermission,
   messages,
 } from "../../constants/GConstant";
@@ -20,7 +21,7 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
   console.log("route?.params", route?.params);
   const [product_img, setProduct_img] = useState<ImageSourcePropType>(images.rice);
   const [product_name, setProduct_name] = useState<string>(`India Gate Basmati ${"\n"}Rice`);
-  const [product_price, setProduct_price] = useState<string>("₹199");
+  const [product_price, setProduct_price] = useState<string>("$199");
   const [product_quantity, setProduct_quantity] = useState<string>("1");
   const [product_weight, setProduct_weight] = useState<string>("1 kg");
   const [height, setHeight] = useState<number>(61.6);
@@ -104,14 +105,19 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
   };
 
   const onPressSubmit = () => {
+    // Validate rating
+    if (product_rating === 0) {
+      flashMessageWarning("Please select a rating");
+      return;
+    }
+
+    // If rating is valid, show success modal
     setIsReviewSuccessModalVisible(true);
   };
 
   const onPressOkReturn = () => {
     setIsReviewSuccessModalVisible(false);
-    navigation.navigate(ScreenNames.bottomTabsNavigation, {
-      screen: ScreenNames.myOrders,
-    });
+    navigation.goBack()
   };
 
   const onPressRating = (index: number) => {

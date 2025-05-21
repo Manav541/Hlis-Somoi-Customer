@@ -1,4 +1,11 @@
-import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+} from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
@@ -11,18 +18,24 @@ import { Restaurant } from "../../constants/interfaces";
 interface PropsType {
   arrAllBestSellers: Restaurant[];
   onPressFavourite: (index: number) => void;
-  onPressRestaurant:(item: Restaurant)=>void;
+  onPressRestaurant: (item: Restaurant) => void;
 }
 
 const ViewAllBestSellersComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
 
-  const renderItemAllBestSellers = ({ item, index }: {item : Restaurant, index : number}) => {
+  const renderItemAllBestSellers = ({
+    item,
+    index,
+  }: {
+    item: Restaurant;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         style={styles.btnAllBestSellersItem}
         activeOpacity={activityOpacity}
-        onPress={()=>props?.onPressRestaurant(item)}
+        onPress={() => props?.onPressRestaurant(item)}
       >
         <Image style={styles.imgBestSellers} source={item?.restaurant_img} />
         <TouchableOpacity
@@ -37,7 +50,9 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
           />
         </TouchableOpacity>
         <View style={styles.vwBestSellersItemDetails}>
-          <Text style={styles.lblBestSellersItemName}>{item?.restaurant_name}</Text>
+          <Text style={styles.lblBestSellersItemName}>
+            {item?.restaurant_name}
+          </Text>
           <View style={styles.vwLocation}>
             <Image
               style={styles.imgLocation}
@@ -60,7 +75,9 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
               </Text>
               <View style={styles.vwDistance}>
                 <Image style={styles.imgDot} source={images.dotOrange} />
-                <Text style={styles.lblDistance}>{item?.restaurant_distance}</Text>
+                <Text style={styles.lblDistance}>
+                  {item?.restaurant_distance}
+                </Text>
               </View>
             </View>
             <View style={styles.vwRating}>
@@ -68,23 +85,31 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
               <Image style={styles.imgStarBlue} source={images.starBlue} />
             </View>
           </View>
-          <Image style={styles.imgLogo} source={item?.restaurant_logo}/>
+          <Image style={styles.imgLogo} source={item?.restaurant_logo} />
         </View>
       </TouchableOpacity>
     );
   };
-  
+
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <FlatList
         data={props?.arrAllBestSellers}
         bounces={false}
         showsVerticalScrollIndicator={false}
         renderItem={renderItemAllBestSellers}
-        contentContainerStyle={{  marginTop: 20,paddingBottom: insets.bottom ? insets.bottom  : 30 }}
+        contentContainerStyle={{
+          marginTop: 20,
+          paddingBottom: insets.bottom ? insets.bottom : 30,
+        }}
       />
     </View>
   );
 };
 
-export default ViewAllBestSellersComponent; 
+export default ViewAllBestSellersComponent;

@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     marginTop: 16,
     justifyContent: "space-between",
   },
-  vwLine :{
+  vwLine: {
     height: 17,
     width: 1,
     backgroundColor: "#D9D9D9",
@@ -74,8 +74,8 @@ export const styles = StyleSheet.create({
     width: 24,
     alignSelf: "center",
   },
-  imgEditDelete:{
-    height : 28,
-    width : 28
-  }
+  imgEditDelete: {
+    height: 28,
+    width: 28,
+  },
 });

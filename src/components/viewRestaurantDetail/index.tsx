@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -179,6 +180,11 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
       bounces={false}
       showsVerticalScrollIndicator={false}
     >
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View style={styles.vwImgMainLogo}>
         <FlatList
           data={props?.restaurant_imgMain}
@@ -247,11 +253,15 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
         </View>
         <View style={styles.vwRestaurantReview}>
           <Image style={styles.imgDotGrey} source={images.dotOrange} />
-          <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop} onPress={props?.onPressReview}>
-          <Text style={styles.lblRestaurant_reviews}>
-            {props?.restaurant_reviews}{" "}
-            <Text style={styles.lblReviews}>{getTranslation("reviews")}</Text>
-          </Text>
+          <TouchableOpacity
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={props?.onPressReview}
+          >
+            <Text style={styles.lblRestaurant_reviews}>
+              {props?.restaurant_reviews}{" "}
+              <Text style={styles.lblReviews}>{getTranslation("reviews")}</Text>
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

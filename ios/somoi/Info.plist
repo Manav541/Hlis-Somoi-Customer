@@ -5,7 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>somoi</string>
+	<string>Somoi</string>
+	<key>UIUserInterfaceStyle</key>
+    <string>Light</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Would like to use your camera to take picture for your profile?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

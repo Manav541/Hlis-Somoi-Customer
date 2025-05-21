@@ -43,6 +43,7 @@ const BottomTabsNavigation = () => {
       screenOptions={{
         tabBarHideOnKeyboard: true,
       }}>
+        
       {handleBottomTabsScreens(
         ScreenNames.home,
         MyScreens.HomeContainer,

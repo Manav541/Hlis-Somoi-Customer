@@ -1,4 +1,13 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, ImageSourcePropType } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  ImageSourcePropType,
+  FlatList,
+  StatusBar,
+} from "react-native";
 import React, { Ref } from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -10,6 +19,7 @@ import { Asset } from "react-native-image-picker";
 import { TextInput } from "react-native-gesture-handler";
 import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface PropsType {
   product_img: ImageSourcePropType;
@@ -39,9 +49,10 @@ interface PropsType {
 }
 
 const RateAndReviewComponent = (props: PropsType) => {
-  const renderUploadImageVideo = (item: any, index: number) => {
+  const insets = useSafeAreaInsets();
+  const renderUploadImageVideo = (item : any , index :number) => {
     return (
-      <View style={styles.vwUploadImageVideosItem}>
+      <View style={styles.vwUploadImageVideosItem} key={index}>
         <Image
           style={styles.imgUpload}
           source={{ uri: item?.uri }}
@@ -62,7 +73,16 @@ const RateAndReviewComponent = (props: PropsType) => {
   };
   return (
     <View style={styles.vwMain}>
-      <ScrollView contentContainerStyle={{paddingBottom : 20}} bounces={false} showsVerticalScrollIndicator={false}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 20 }}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={styles.lblTitle}>{getTranslation("rateReviewTitle")}</Text>
         {/* Product Details */}
         <View style={styles.vwProductsItems}>
@@ -111,11 +131,11 @@ const RateAndReviewComponent = (props: PropsType) => {
         <View
           style={{
             flexDirection: "row",
-            marginHorizontal : 18,
+            marginHorizontal: 18,
             marginBottom: 21.29,
-            height : 58.11,
-            alignItems : 'center',
-            justifyContent : 'space-between'
+            height: 58.11,
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
           {[0, 1, 2, 3, 4].map((index) => (
@@ -163,6 +183,7 @@ const RateAndReviewComponent = (props: PropsType) => {
           <Text style={styles.lblUploadImageVideo}>
             {getTranslation("uploadImagesVideo")}
           </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={{ flexDirection: "row", gap: 9.02 }}>
             <TouchableOpacity
               style={styles.btnUploadImageVideo}
@@ -182,9 +203,15 @@ const RateAndReviewComponent = (props: PropsType) => {
               </View>
             )}
           </View>
+          </ScrollView>
         </View>
       </ScrollView>
-      <View style={{ marginHorizontal: 20, marginBottom: 40 }}>
+      <View
+        style={{
+          marginHorizontal: 20,
+          marginBottom: insets.bottom ? insets.bottom : 20,
+        }}
+      >
         <GlobalButton
           isOrange
           title={getTranslation("submit")}

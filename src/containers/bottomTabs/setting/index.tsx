@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import SettingComponent from "../../../components/bottomTabs/setting";
 import {
+  appName,
   flashMessageSucess,
   flashMessageWarning,
+  showConfirmForGuest,
 } from "../../../constants/GConstant";
 import { images } from "../../../constants/Images";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
@@ -20,15 +22,18 @@ const SettingContainer = ({ navigation, route }: any) => {
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
   const [isModalSignOutVisible, setIsModalSignOutVisible] = useState(false);
   const [isGuestUser, setIsGuestUser] = useState(false); 
+  const [isSharing, setIsSharing] = useState<boolean>(true);
+ 
+
 
   useEffect(() => {
     MmkvManager.getData(MmkvManager.Keys.isGuestUser, (guestUser) => {
-      console.log("guestUser ==>>> ", guestUser);
+      // console.log("guestUser ==>>> ", guestUser);
       if (guestUser === "true") {
         setIsGuestUser(true);
       }
     });
-  }, []);
+  }, [isGuestUser]);
 
   console.log("isGuestUser ==>>> ", isGuestUser);
 
@@ -47,9 +52,12 @@ const SettingContainer = ({ navigation, route }: any) => {
     navigation.navigate(ScreenNames.changeEmailPhoneNumber, { navigateFrom: type });
 
   const handleOnShareApp = async () => {
+    if (!isSharing) return;
+ 
+    setIsSharing(false);
     try {
       const result = await Share.share({
-        message: 'Somoi',
+        message: `${appName} App`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -63,7 +71,13 @@ const SettingContainer = ({ navigation, route }: any) => {
     } catch (error: any) {
       Alert.alert(error.message);
     }
+ 
+    setTimeout(() => {
+      setIsSharing(true);
+    }, 1000);
   };
+
+  
 
   const arrSettingData: SettingDataItem[] = [
     {
@@ -133,6 +147,8 @@ const SettingContainer = ({ navigation, route }: any) => {
         {
           icon: images.shareAppIcon,
           title: getTranslation("shareApp"),
+          disabled: !isSharing,
+          
           ...ICON_SIZE,
           onPress() {
             handleOnShareApp();

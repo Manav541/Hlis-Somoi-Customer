@@ -199,10 +199,10 @@ const HomeComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
-      <StatusBar
-        barStyle={"light-content"}
+       <StatusBar
+        translucent
         backgroundColor={"transparent"}
-        translucent={false}
+        barStyle={"light-content"}
       />
       <View style={styles.vwMainContainer}>
         <Image
@@ -215,7 +215,7 @@ const HomeComponent = (props: PropsType) => {
         <ScrollView
           style={StyleSheet.absoluteFillObject}
           contentContainerStyle={{
-            paddingTop: Platform.OS === "ios" ? insets.top : 40,
+            paddingTop:  insets.top ? insets.top + 20 : 40,
             overflow: "hidden",
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,

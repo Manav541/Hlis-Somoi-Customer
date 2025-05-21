@@ -57,10 +57,15 @@ const CategoriesComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"light-content"}
+      />
       <View
         style={{
           ...styles.vwContainer,
-          paddingTop: Platform.OS === "ios" ? insets.top : 40,
+          paddingTop:  insets.top ? insets.top + 20 : 40,
         }}
       >
         <View
@@ -94,7 +99,8 @@ const CategoriesComponent = (props: PropsType) => {
           showsVerticalScrollIndicator={false}
           renderItem={renderItemAllCategories}
           numColumns={2}
-          contentContainerStyle={{ paddingTop: 37, gap: 20, paddingBottom: 20 }}
+          style={{marginTop: 10}}
+          contentContainerStyle={{paddingTop : 27,  gap: 20, paddingBottom: 20 }}
           columnWrapperStyle={{
             marginHorizontal: 20,
             justifyContent: "space-between",

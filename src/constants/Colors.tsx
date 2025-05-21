@@ -26,5 +26,6 @@ export const colors = {
   black1d : "#01041D",
   black1c :"#1C1C1C",
   black50: '#00000050',
-  greyda:"#DADADA"
+  greyda:"#DADADA",
+  green2b :"#0B802B",
 };

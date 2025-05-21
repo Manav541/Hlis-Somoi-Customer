@@ -1,14 +1,13 @@
 import { View, Text, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import PaymentMethodComponent from "../../components/paymentMethod";
-import { useFocusEffect } from "@react-navigation/native";
+import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { ScreenNames } from "../../routers";
 import { CardDetails } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 
 const PaymentMethodContainer = ({ navigation }: any) => {
-  const onPressAddNewCard = () => {};
   const [total, setTotal] = useState<string>("$ 732");
   const [orderNumber, setOrderNumber] = useState<string>("#123456789");
   const [isCodSelected, setIsCodSelected] = useState<boolean>(false);
@@ -46,7 +45,7 @@ const PaymentMethodContainer = ({ navigation }: any) => {
     setArrCards((prev: CardDetails[]) =>
       prev.map((card, i) => ({
         ...card,
-        isSelected: i === index
+        isSelected: i === index,
       }))
     );
   };
@@ -55,14 +54,45 @@ const PaymentMethodContainer = ({ navigation }: any) => {
     setIsSuccessModalVisible(true);
   };
 
-  const onPressTrackOrder=()=>{
+  const onPressTrackOrder = () => {
     setIsSuccessModalVisible(false);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          {
+            name: ScreenNames.bottomTabsNavigation,
+            state: {
+              routes: [{ name: ScreenNames.myOrders }],
+              index: 0,
+            },
+          },
+        ],
+      })
+    );
   };
 
-  const onPressContinueShopping =()=>{
+  const onPressContinueShopping = () => {
     setIsSuccessModalVisible(false);
-    navigation.replace(ScreenNames.bottomTabsNavigation)
-  }
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          {
+            name: ScreenNames.bottomTabsNavigation,
+            state: {
+              routes: [{ name: ScreenNames.home }],
+              index: 0,
+            },
+          },
+        ],
+      })
+    );
+  };
+
+  const onPressAddNewCard = () => {
+    navigation.navigate(ScreenNames.addNewCard);
+  };
 
   const header = () => {
     navigation.setOptions({
@@ -74,7 +104,9 @@ const PaymentMethodContainer = ({ navigation }: any) => {
         />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.paymentMethod}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.paymentMethod}
+        </Text>
       ),
     });
   };

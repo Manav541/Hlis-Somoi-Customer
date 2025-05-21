@@ -1,7 +1,7 @@
 import { View, Text, StatusBar, TextInput } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import GlobalBackButton from "../../global/GlobalBackButton";
-import { useFocusEffect } from "@react-navigation/native";
+import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import CancelOrderComponent from "../../components/cancelOrder";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { ScreenNames } from "../../routers";
@@ -9,7 +9,9 @@ import { CancelOrderReason } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 
 const CancelOrderContainer = ({ navigation }: any) => {
-  const [arrCancelOrderReason, setArrCancelOrderReason] = useState<CancelOrderReason[]>([
+  const [arrCancelOrderReason, setArrCancelOrderReason] = useState<
+    CancelOrderReason[]
+  >([
     {
       reason: "Change of mind",
       isSelected: false,
@@ -39,8 +41,9 @@ const CancelOrderContainer = ({ navigation }: any) => {
   const [isCancelSuccessModalVisible, setIsCancelSuccessModalVisible] =
     useState(false);
 
-    const [finalCancelReason, setFinalCancelReason] = useState<string>("");
+    
 
+  const [finalCancelReason, setFinalCancelReason] = useState<string>("");
 
   const handleOnChangeText = (text: string, type: string) => {
     if (type === "otherReason") {
@@ -49,9 +52,11 @@ const CancelOrderContainer = ({ navigation }: any) => {
   };
 
   const handleOnFocus = (type: string) => {
+    if(selectedReason === "Other (please specify)"){
     if (type === "otherReason") {
       setOtherReasonFocused(true);
     }
+  }
   };
 
   const handleOnBlur = (type: string) => {
@@ -64,23 +69,29 @@ const CancelOrderContainer = ({ navigation }: any) => {
     otherReasonRef?.current?.focus();
   };
 
+  // Add this state at the top with other state declarations
+  const [selectedReason, setSelectedReason] = useState<string>("");
+
   const handleSelectReason = (index: number) => {
+    const reason = arrCancelOrderReason[index].reason;
+    console.log('resadon', reason)
+    setSelectedReason(reason);
     setArrCancelOrderReason((prev) =>
       prev.map((item, i) => ({
         ...item,
-        isSelected: i === index, // only the tapped one is true
+        isSelected: i === index,
       }))
     );
   };
 
   const onPressSubmit = () => {
     const selectedReason = arrCancelOrderReason.find((item) => item.isSelected);
-  
+
     if (!selectedReason) {
       flashMessageWarning("Please select a reason for cancellation.");
       return;
     }
-  
+
     if (
       selectedReason.reason === "Other (please specify)" &&
       !otherReason.trim()
@@ -89,24 +100,34 @@ const CancelOrderContainer = ({ navigation }: any) => {
       otherReasonRef?.current?.focus();
       return;
     }
-  
+
     // ✅ Set final reason
     const reasonToSubmit =
       selectedReason.reason === "Other (please specify)"
         ? otherReason.trim()
         : selectedReason.reason;
-  
+
     setFinalCancelReason(reasonToSubmit);
     setIsCancelSuccessModalVisible(true);
   };
-  
 
   const onPressOkCancel = () => {
-    
     setIsCancelSuccessModalVisible(false);
-    navigation.navigate(ScreenNames.bottomTabsNavigation, {
-      screen: ScreenNames.myOrders,
-    });
+    setOtherReason("");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          {
+            name: ScreenNames.bottomTabsNavigation,
+            state: {
+              routes: [{ name: ScreenNames.myOrders }],
+              index: 0,
+            },
+          },
+        ],
+      })
+    );
   };
 
   const header = () => {
@@ -115,7 +136,9 @@ const CancelOrderContainer = ({ navigation }: any) => {
         <GlobalBackButton onPress={() => navigation.goBack()} />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.cancelOrder}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.cancelOrder}
+        </Text>
       ),
     });
   };
@@ -144,6 +167,7 @@ const CancelOrderContainer = ({ navigation }: any) => {
       isCancelSuccessModalVisible={isCancelSuccessModalVisible}
       onPressSubmit={onPressSubmit}
       onPressOkCancel={onPressOkCancel}
+      selectedReason={selectedReason}
     />
   );
 };

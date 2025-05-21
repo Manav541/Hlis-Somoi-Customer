@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  StatusBar,
+} from "react-native";
 import React, { Ref, RefObject } from "react";
 import { constnatStyles } from "../../../constants/Styles";
 import GlobalLogoTitle from "../../../global/GlobalLogoTitle";
@@ -30,12 +36,18 @@ interface PropsType {
 const VerificationComponent = (props: PropsType) => {
   return (
     <View style={constnatStyles.vwOrangeBgParent}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View style={constnatStyles.vwBlueBgWithRadius}>
         <GlobalLogoTitle style={styles.vwLogoTitle} />
         <Text style={styles.lblTitle}>{getTranslation("enterYouOTPDesc")}</Text>
         <Text style={styles.lblTitle}>
           {props?.emailFromRoute
-            ? props.emailFromRoute : props?.countryCode + props?.mobileNumber}
+            ? props.emailFromRoute
+            : props?.countryCode + props?.mobileNumber}
         </Text>
 
         {/* View OTP Field */}

@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
   vwSetAsDefault: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop : 12
+    marginTop: 12,
   },
 
   //   Text styles
@@ -36,12 +36,12 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.bold,
     marginBottom: 12,
   },
-  lblSetAsDefault:{
+  lblSetAsDefault: {
     fontSize: fontSize.size14,
     color: colors.greya7,
     fontFamily: fontsfamily.regular,
   },
-//   Image styles
+  //   Image styles
   imgCheck: {
     width: 24,
     height: 24,

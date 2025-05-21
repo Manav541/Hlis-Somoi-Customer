@@ -1,4 +1,4 @@
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, StatusBar } from "react-native";
 import React, { Ref } from "react";
 import { constnatStyles } from "../../constants/Styles";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -8,24 +8,40 @@ import { fontsfamily } from "../../constants/FontFamily";
 import GlobalTextInput from "../../global/GlobalTextInput";
 import GlobalButton from "../../global/GlobalButton";
 import { styles } from "./styles";
+import GlobalCountryModal from "../../global/GlobalCountryModal";
+import { CountryDataType } from "../../constants/interfaces";
 
 interface PropsType {
   email: string;
   emailRef: Ref<TextInput | null>;
   emailFocused: boolean;
-  phoneNumber: string;
-  phoneNumberRef: Ref<TextInput | null>;
-  phoneFocused: boolean;
-  handleOnChangeText: (text: string) => void;
-  handleOnFocus: () => void;
-  handleOnBlur: () => void;
+  mobileNumber: string;
+  mobileNumberRef: Ref<TextInput>;
+  mobileNumberFocused: boolean;
+  handleOnChangeText: (text: string, type: string) => void;
+  handleOnFocus: (type: string) => void;
+  handleOnBlur: (type: string) => void;
   handleOnPressSubmit: () => void;
   navigateFrom: string;
+
+  countryCode: string;
+  countryArray: CountryDataType[];
+  countryModal: boolean;
+  searchCountry: string;
+  handleOnPressCountryCode: () => void;
+  handleOnChangeSearchCountry: (text: string) => void;
+  handleOnSelectCountry: (item: CountryDataType) => void;
+  handleOnPressBackCountryModal: () => void;
 }
 
 const ChangeEmailPhoneNumberComponenet = (props: PropsType) => {
   return (
     <View style={constnatStyles.vwOrangeBgParent}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View style={constnatStyles.vwBlueBgWithRadius}>
         <KeyboardAwareScrollView
           contentContainerStyle={{ flexGrow: 1 }}
@@ -54,18 +70,52 @@ const ChangeEmailPhoneNumberComponenet = (props: PropsType) => {
 
           {/* View Input-Button */}
           <View style={{ gap: 20, marginTop: 20 }}>
-            <GlobalTextInput
-              value={props.email}
-              reference={props.emailRef}
-              onChangeText={props.handleOnChangeText}
-              focusValue={props.emailFocused}
-              placeholder={getTranslation("email")}
-              isEmailField
-              isLastField
-              onFocus={props.handleOnFocus}
-              onBlur={props.handleOnBlur}
-              onSubmitEditing={() => {}}
-            />
+            {props?.navigateFrom === "ChangeEmail" ? (
+              <GlobalTextInput
+                placeholder={getTranslation("email")}
+                isEmailField
+                value={props.email}
+                reference={props.emailRef}
+                onChangeText={(text) => {
+                  props.handleOnChangeText(text, "email");
+                }}
+                onSubmitEditing={() => {
+                  // props.handleOnSubmit("email");
+                }}
+                onBlur={() => {
+                  props.handleOnBlur("email");
+                }}
+                onFocus={() => {
+                  props.handleOnFocus("email");
+                }}
+                focusValue={props.emailFocused}
+                isLastField
+              />
+            ) : (
+              <GlobalTextInput
+                isPhoneField
+                maxLength={10}
+                placeholder={getTranslation("mobileNumber")}
+                value={props.mobileNumber}
+                reference={props.mobileNumberRef}
+                onChangeText={(text) => {
+                  props.handleOnChangeText(text, "mobileNumber");
+                }}
+                onSubmitEditing={() => {
+                  // props.handleOnSubmit("mobileNumber");
+                }}
+                onFocus={() => {
+                  props.handleOnFocus("mobileNumber");
+                }}
+                onBlur={() => {
+                  props.handleOnBlur("mobileNumber");
+                }}
+                focusValue={props.mobileNumberFocused}
+                countryCode={props.countryCode}
+                onPressCode={props.handleOnPressCountryCode}
+                isLastField
+              />
+            )}
 
             {/* Submit Button */}
             <GlobalButton
@@ -80,6 +130,15 @@ const ChangeEmailPhoneNumberComponenet = (props: PropsType) => {
           </View>
         </KeyboardAwareScrollView>
       </View>
+      {/* Country Modal */}
+      <GlobalCountryModal
+        countryArray={props.countryArray}
+        onPressBack={props.handleOnPressBackCountryModal}
+        onPressData={props.handleOnSelectCountry}
+        onChangeText={props.handleOnChangeSearchCountry}
+        searchVal={props.searchCountry}
+        visible={props.countryModal}
+      />
     </View>
   );
 };

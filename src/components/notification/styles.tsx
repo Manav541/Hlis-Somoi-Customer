@@ -11,13 +11,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   vwNotificationDetails: {
-    flex : 1,
+    flex: 1,
     justifyContent: "space-between",
   },
   vwNotificationTitleTime: {
     flexDirection: "row",
-    marginBottom : 7,
-
+    marginBottom: 7,
   },
 
   // Text Styles
@@ -30,20 +29,20 @@ export const styles = StyleSheet.create({
     color: colors.white,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
-    flex : 1,
-    alignSelf :'center'
+    flex: 1,
+    alignSelf: "center",
   },
   lblNotificationTime: {
     color: colors.orange1c,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.regularGolosText,
-    alignSelf :'center'
+    alignSelf: "center",
   },
   lblNotificationDesc: {
     color: colors.greya7,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regular,
-    marginRight : 18
+    marginRight: 18,
   },
 
   // TouchableOpacity Styles
@@ -51,8 +50,8 @@ export const styles = StyleSheet.create({
     borderBottomColor: colors.greyd9_50,
     borderBottomWidth: 1,
     flexDirection: "row",
-    paddingBottom : 20,
-    gap : 12
+    paddingBottom: 20,
+    gap: 12,
   },
 
   // Image Styles

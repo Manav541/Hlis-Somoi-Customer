@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+} from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { activityOpacity } from "../../constants/GConstant";
@@ -13,7 +20,6 @@ interface PropsType {
 }
 
 const CMSPageComponent = (props: PropsType) => {
-
   const renderItemFaq = (item: FaqArrProps, index: number) => {
     return (
       <View key={index} style={styles.vwFaq}>
@@ -49,60 +55,65 @@ const CMSPageComponent = (props: PropsType) => {
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      bounces={false}
-      contentContainerStyle={[
-        styles.vwMain,
-       
-      ]}
-    >
-      {props?.navigateFrom === "aboutUs" ? (
-        <View style={{ marginTop: 16, gap: 10,marginBottom : 10 }}>
-          <Text style={styles.lblCMSData}>
-            {getTranslation("faqDescription")}
-          </Text>
-          <Text style={styles.lblCMSData}>
-            {getTranslation("faqDescription")}
-          </Text>
-          <Text style={styles.lblCMSData}>
-            {getTranslation("faqDescription")}
-          </Text>
-          <Text style={styles.lblCMSData}>
-            {getTranslation("faqDescription")}
-          </Text>
-          <Text style={styles.lblCMSData}>
-            {getTranslation("faqDescription")}
-          </Text>
-        </View>
-      ) : props?.navigateFrom === "termsConditions" ? (
-        <View style={{ marginTop: 16, gap: 10 }}>
-          <Text style={styles.lblCMSData}>
-            {getTranslation("faqDescription")}
-          </Text>
-          <Text style={styles.lblCMSData}>
-            {getTranslation("faqDescription")}
-          </Text>
-          <Text style={styles.lblCMSData}>
-            {getTranslation("faqDescription")}
-          </Text>
-        </View>
-      ) : props?.navigateFrom === "faq" ? (
-        <View>{props.faqArr.map(renderItemFaq)}</View>
-      ) : (
-        <View style={{ marginTop: 16, gap: 10 }}>
-          <Text style={styles.lblCMSData}>
-            {getTranslation("faqDescription")}
-          </Text>
-          <Text style={styles.lblCMSData}>
-            {getTranslation("faqDescription")}
-          </Text>
-          <Text style={styles.lblCMSData}>
-            {getTranslation("faqDescription")}
-          </Text>
-        </View>
-      )}
-    </ScrollView>
+    <View style={{ flex: 1 }}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+        contentContainerStyle={[styles.vwMain]}
+      >
+        {props?.navigateFrom === "aboutUs" ? (
+          <View style={{ marginTop: 16, gap: 10, marginBottom: 10 }}>
+            <Text style={styles.lblCMSData}>
+              {getTranslation("faqDescription")}
+            </Text>
+            <Text style={styles.lblCMSData}>
+              {getTranslation("faqDescription")}
+            </Text>
+            <Text style={styles.lblCMSData}>
+              {getTranslation("faqDescription")}
+            </Text>
+            <Text style={styles.lblCMSData}>
+              {getTranslation("faqDescription")}
+            </Text>
+            <Text style={styles.lblCMSData}>
+              {getTranslation("faqDescription")}
+            </Text>
+          </View>
+        ) : props?.navigateFrom === "termsConditions" ? (
+          <View style={{ marginTop: 16, gap: 10 }}>
+            <Text style={styles.lblCMSData}>
+              {getTranslation("faqDescription")}
+            </Text>
+            <Text style={styles.lblCMSData}>
+              {getTranslation("faqDescription")}
+            </Text>
+            <Text style={styles.lblCMSData}>
+              {getTranslation("faqDescription")}
+            </Text>
+          </View>
+        ) : props?.navigateFrom === "faq" ? (
+          <View>{props.faqArr.map(renderItemFaq)}</View>
+        ) : (
+          <View style={{ marginTop: 16, gap: 10 }}>
+            <Text style={styles.lblCMSData}>
+              {getTranslation("faqDescription")}
+            </Text>
+            <Text style={styles.lblCMSData}>
+              {getTranslation("faqDescription")}
+            </Text>
+            <Text style={styles.lblCMSData}>
+              {getTranslation("faqDescription")}
+            </Text>
+          </View>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 

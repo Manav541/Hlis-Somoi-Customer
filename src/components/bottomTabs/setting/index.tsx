@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   ImageSourcePropType,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -42,6 +43,7 @@ const SettingComponent = (props: PropsType) => {
                   borderBottomWidth: subIndex !== item.subArr.length - 1 ? 1 : 0,
                 },
               ]}
+              disabled={subItem?.disabled}
               onPress={subItem?.onPress}
             >
               <View>
@@ -60,6 +62,11 @@ const SettingComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View style={styles.vwSettingView}>
         <ScrollView
         style={{borderBottomLeftRadius : 10, borderBottomRightRadius : 10}}

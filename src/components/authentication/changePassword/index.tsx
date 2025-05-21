@@ -1,4 +1,4 @@
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, StatusBar } from "react-native";
 import React, { Ref } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import GlobalLogoTitle from "../../../global/GlobalLogoTitle";
@@ -33,6 +33,11 @@ interface PropsType {
 const ChangePasswordComponent = (props: PropsType) => {
   return (
     <View style={constnatStyles.vwOrangeBgParent}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View style={constnatStyles.vwBlueBgWithRadius}>
         <KeyboardAwareScrollView
           contentContainerStyle={{ flexGrow: 1 }}
@@ -55,7 +60,10 @@ const ChangePasswordComponent = (props: PropsType) => {
                 focusValue={props.oldPasswordFocused}
                 reference={props.oldPasswordRef}
                 onSubmitEditing={() => {
-                  if (props.newPasswordRef && 'current' in props.newPasswordRef) {
+                  if (
+                    props.newPasswordRef &&
+                    "current" in props.newPasswordRef
+                  ) {
                     props.newPasswordRef.current?.focus();
                   }
                 }}

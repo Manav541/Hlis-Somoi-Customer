@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -30,6 +31,7 @@ interface PropsType {
   totalPrice: string;
   onPressChangeDeliveryAddress: () => void;
   onPressPlaceOrder: () => void;
+  handleQuantityChange: (index: number, type: "add" | "remove") => void;
 }
 
 const CartComponent = (props: PropsType) => {
@@ -40,6 +42,7 @@ const CartComponent = (props: PropsType) => {
           <Image
             style={{ height: item?.height, width: item?.width }}
             source={item?.product_img}
+            resizeMode="stretch"
           />
         </View>
         <View style={styles.vwOrderProductItemDetail}>
@@ -48,26 +51,41 @@ const CartComponent = (props: PropsType) => {
             <Text style={styles.lblProductPrice}>
               {item?.product_final_price}
             </Text>
-            <Image style={styles.imgBlueDot} source={images.dotOrange} />
+            <Image
+              style={styles.imgBlueDot}
+              source={images.dotOrange}
+              resizeMode="stretch"
+              tintColor={colors.blue4e}
+            />
             <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
           </View>
         </View>
         <View style={styles.vwProductQuantity}>
-          <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop}>
+          <TouchableOpacity
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={() => props?.handleQuantityChange(index, "remove")}
+          >
             <Image
               style={styles.imgPlusMinus}
               source={images.minus}
               tintColor={colors.black35}
+              resizeMode="stretch"
             />
           </TouchableOpacity>
           <Text style={styles.lblProductQuantity}>
             {item?.product_quantity}
           </Text>
-          <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop}>
+          <TouchableOpacity
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={() => props?.handleQuantityChange(index, "add")}
+          >
             <Image
               style={styles.imgPlusMinus}
               source={images.add}
               tintColor={colors.black35}
+              resizeMode="stretch"
             />
           </TouchableOpacity>
         </View>
@@ -89,6 +107,11 @@ const CartComponent = (props: PropsType) => {
   };
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View style={styles.vwMainContent}>
         <ScrollView
           bounces={false}
@@ -98,7 +121,11 @@ const CartComponent = (props: PropsType) => {
           }}
         >
           <View style={styles.vwOfferDetail}>
-            <Image style={styles.imgTickCircle} source={images.tickCircle} />
+            <Image
+              style={styles.imgTickCircle}
+              source={images.tickCircle}
+              resizeMode="stretch"
+            />
             <Text style={styles.lblOfferDetails}>
               <Text
                 style={{
@@ -125,6 +152,7 @@ const CartComponent = (props: PropsType) => {
             <Image
               style={styles.imgApplyCouponCode}
               source={images.discountIcon}
+              resizeMode="stretch"
             />
             <Text style={styles.lbkApplyCouponCode}>
               {getTranslation("applyCouponCode")}
@@ -170,6 +198,7 @@ const CartComponent = (props: PropsType) => {
                   selectionColor={colors.blue4e}
                   onChangeText={props?.onChangeCouponCode}
                   keyboardType="default"
+                  autoCapitalize="characters"
                 />
               </View>
               <TouchableOpacity
@@ -187,9 +216,11 @@ const CartComponent = (props: PropsType) => {
           <View style={styles.vwArrOrderProducts}>
             {props?.arrOrderProduts?.map(renderItemOrderProduct)}
           </View>
+
+          {/* Delivert To Name */}
           <View style={styles.vwDelivertoChange}>
             <Text style={styles.lblDeliverToName}>
-              {getTranslation("deliverto") + " " + props?.deliverToName}
+              {getTranslation("deliverto1") + " " + props?.deliverToName}
             </Text>
             <TouchableOpacity
               activeOpacity={activityOpacity}
@@ -205,7 +236,11 @@ const CartComponent = (props: PropsType) => {
 
           <View style={styles.vwApproxTime}>
             <View style={styles.vwImgApproxTime}>
-              <Image style={styles.imgBoy} source={images.boyRide} />
+              <Image
+                style={styles.imgBoy}
+                source={images.boyRide}
+                resizeMode="stretch"
+              />
               <Text style={styles.lblApproxTime}>
                 {getTranslation("approxDeliveryTime")}
               </Text>

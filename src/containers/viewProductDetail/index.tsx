@@ -17,7 +17,7 @@ import {
   hitSlop,
 } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
-import { useFocusEffect } from "@react-navigation/native";
+import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import ViewProductDetailComponent from "../../components/viewProductDetail";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { ScreenNames } from "../../routers";
@@ -78,20 +78,20 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const arrSimilarProduct: SimilarProduct[] = [
     {
       product_img: images.rice,
-      product_final_price: "₹499",
-      product_price: "₹600",
+      product_final_price: "$499",
+      product_price: "$600",
       product_weight: "1kg",
     },
     {
       product_img: images.rice,
-      product_final_price: "₹499",
-      product_price: "₹600",
+      product_final_price: "$499",
+      product_price: "$600",
       product_weight: "1kg",
     },
     {
       product_img: images.rice,
-      product_final_price: "₹499",
-      product_price: "₹600",
+      product_final_price: "$499",
+      product_price: "$600",
       product_weight: "1kg",
     },
   ];
@@ -157,6 +157,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       size: "XL",
       isSelected: false,
     },
+    
   ]);
 
   const [arrFashionColor, setArrFashionColor] = useState<FashionColor[]>([
@@ -184,6 +185,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       color: colors.grey72,
       isSelected: false,
     },
+    
   ]);
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -237,6 +239,25 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     setArrFashionColor(updatedColor);
   };
 
+  const onPressAddToCart = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          {
+            name: ScreenNames.bottomTabsNavigation,
+            state: {
+              routes: [
+                { name: ScreenNames.cart }
+              ],
+              index: 0
+            }
+          }
+        ]
+      })
+    );
+  };
+
   const header = () => {
     navigation.setOptions({
       title: "",
@@ -258,8 +279,9 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
           >
             <Image style={styles.imgButton} source={images.shareIcon} />
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop}>
+          <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop} onPress={onPressAddToCart}>
             <Image style={styles.imgButton} source={images.cartBagIcon} />
+            <View style={styles.vwBedge}><Text style={styles.lblBedge}>2</Text></View>
           </TouchableOpacity>
         </View>
       ),

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { MyScreens, ScreenNames } from ".";
-import { Platform, StatusBar } from "react-native";
+import { Platform, StatusBar, View } from "react-native";
 import { colors } from "../constants/Colors";
 import { fontSize } from "../constants/FontSizes";
 import { fontsfamily } from "../constants/FontFamily";
@@ -41,6 +41,7 @@ const MainNavigation = (props: PropsType) => {
   };
 
   return (
+    <View style={{backgroundColor : colors.blue4e, flex : 1}}>
     <NavigationContainer>
       <StatusBar
         translucent
@@ -239,6 +240,7 @@ const MainNavigation = (props: PropsType) => {
         )}
       </Stack.Navigator>
     </NavigationContainer>
+    </View>
   );
 };
 

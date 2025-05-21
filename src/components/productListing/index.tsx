@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   Modal,
+  StatusBar,
 } from "react-native";
 import React, { useState } from "react";
 import { styles } from "./styles";
@@ -109,6 +110,9 @@ const ProductListingComponent = (props: PropsType) => {
               source={item?.isFavourite ? images.redHeart : images.emptyHeart}
             />
           </TouchableOpacity>
+          {index === 0 && (
+            <Text style={styles.lblInStock}>{getTranslation("inStock")}</Text>
+          )}
         </View>
 
         {/* Product Details */}
@@ -240,6 +244,11 @@ const ProductListingComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View>
         <FlatList
           data={
@@ -300,6 +309,11 @@ const ProductListingComponent = (props: PropsType) => {
         transparent
         animationType="fade"
       >
+        <StatusBar
+        translucent
+        backgroundColor={colors.black50}
+        barStyle={"dark-content"}
+      />
         <View style={styles.vwFilterModal}>
           <View style={styles.vwFilterModalContainer}>
             <View style={styles.vwFilterTitleClose}>

@@ -28,7 +28,6 @@ export interface NotificationGroup {
   data: NotificationData[];
 }
 
-
 // Home Tab
 export interface GroceriesFoodItem {
   type: string | null;
@@ -143,7 +142,7 @@ export interface Category {
 }
 
 export interface FashionSize {
-  size: 'S' | 'M' | 'L' | 'XL';
+  size: "S" | "M" | "L" | "XL";
   isSelected: boolean;
 }
 
@@ -173,7 +172,12 @@ export interface Order {
   order_number: string;
   total: string;
   items_Count: number;
-  status: 'Confirmed' | 'Delivered' | 'Request_return' | 'Returned' | 'Cancelled';
+  status:
+    | "Confirmed"
+    | "Delivered"
+    | "Request_return"
+    | "Returned"
+    | "Cancelled";
   date: string;
   arrProduct: OrderProduct[];
 }
@@ -228,7 +232,7 @@ export interface Review {
   review_date: string;
   review_description: string;
   review_image: ImageSourcePropType;
-  type: 'image' | 'video';
+  type: "image" | "video";
 }
 
 // Order Details
@@ -244,6 +248,7 @@ export interface SettingSubItem {
   height: number;
   width: number;
   onPress: () => void;
+  disabled?: boolean;
 }
 
 export interface SettingDataItem {
@@ -257,7 +262,7 @@ export interface CardDetails {
   card_expirydate: string;
   card_holdername: string;
   card_cvv: string;
-  card_type: 'visa' | 'mastercard';
+  card_type: "visa" | "mastercard";
   isSelected: boolean;
 }
 
@@ -296,5 +301,3 @@ export interface FaqArrProps {
   faqDesc: string | null;
   isSelected: boolean;
 }
-
-

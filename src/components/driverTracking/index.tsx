@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   ImageSourcePropType,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -23,13 +24,21 @@ interface PropsType {
 }
 
 const DriverTrackingComponent = (props: PropsType) => {
-  const insets = useSafeAreaInsets()
+  const insets = useSafeAreaInsets();
   return (
     <ImageBackground style={styles.imgMap} source={images.map}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <Image style={styles.imgMapDirections} source={images.mapDirection} />
-      <View style={{...styles.vwDriverDetails,
-        paddingBottom: PlatformVersion.isIOS ? insets.bottom + 20 : 20
-      }}>
+      <View
+        style={{
+          ...styles.vwDriverDetails,
+          paddingBottom: PlatformVersion.isIOS ? insets.bottom + 20 : 20,
+        }}
+      >
         <Text style={styles.lblDriverInfo}>{getTranslation("driverInfo")}</Text>
         <View style={styles.vwDriverInfo}>
           <Image

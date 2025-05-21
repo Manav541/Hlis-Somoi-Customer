@@ -1,4 +1,4 @@
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, StatusBar } from "react-native";
 import React, { Ref } from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -33,113 +33,122 @@ interface PropsType {
 const AddNewCardComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
   return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={styles.vwMain}
-      bounces={false}
-      showsVerticalScrollIndicator={false}
-    >
-      <View>
-        <Text style={styles.lblAddCardHeading}>
-          {getTranslation("AddCardHeading")}
-        </Text>
-        <View style={styles.vwAddCard}>
-          <View style={{ gap: 10, flex: 1 }}>
-            <GlobalTextInput
-              placeholder={getTranslation("cardNumber")}
-              value={props?.cardNumber}
-              reference={props.cardNumberRef}
-              secureTextEntry={false}
-              onChangeText={(text) => {
-                props.handleOnChangeText(text, "cardNumber");
-              }}
-              onSubmitEditing={() => {
-                props.handleOnSubmit("cardNumber");
-              }}
-              onBlur={() => {
-                props.handleOnBlur("cardNumber");
-              }}
-              onFocus={() => {
-                props.handleOnFocus("cardNumber");
-              }}
-              focusValue={props.cardNumberFocused}
-            />
+    <View style={styles.vwMain1}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.vwMain}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+      >
+        <View>
+          <Text style={styles.lblAddCardHeading}>
+            {getTranslation("AddCardHeading")}
+          </Text>
+          <View style={styles.vwAddCard}>
+            <View style={{ gap: 10, flex: 1 }}>
+              <GlobalTextInput
+                placeholder={getTranslation("cardNumber")}
+                value={props?.cardNumber}
+                reference={props.cardNumberRef}
+                secureTextEntry={false}
+                onChangeText={(text) => {
+                  props.handleOnChangeText(text, "cardNumber");
+                }}
+                onSubmitEditing={() => {
+                  props.handleOnSubmit("cardNumber");
+                }}
+                onBlur={() => {
+                  props.handleOnBlur("cardNumber");
+                }}
+                onFocus={() => {
+                  props.handleOnFocus("cardNumber");
+                }}
+                focusValue={props.cardNumberFocused}
+                isNumberInputField
+              />
 
-            <GlobalTextInput
-              placeholder={getTranslation("cardHolderName")}
-              value={props?.cardHolderName}
-              reference={props.cardHolderNameRef}
-              secureTextEntry={false}
-              onChangeText={(text) => {
-                props.handleOnChangeText(text, "cardHolderName");
-              }}
-              onSubmitEditing={() => {
-                props.handleOnSubmit("cardHolderName");
-              }}
-              onBlur={() => {
-                props.handleOnBlur("cardHolderName");
-              }}
-              onFocus={() => {
-                props.handleOnFocus("cardHolderName");
-              }}
-              focusValue={props.cardHolderNameFocused}
-            />
+              <GlobalTextInput
+                placeholder={getTranslation("cardHolderName")}
+                value={props?.cardHolderName}
+                reference={props.cardHolderNameRef}
+                secureTextEntry={false}
+                onChangeText={(text) => {
+                  props.handleOnChangeText(text, "cardHolderName");
+                }}
+                onSubmitEditing={() => {
+                  props.handleOnSubmit("cardHolderName");
+                }}
+                onBlur={() => {
+                  props.handleOnBlur("cardHolderName");
+                }}
+                onFocus={() => {
+                  props.handleOnFocus("cardHolderName");
+                }}
+                focusValue={props.cardHolderNameFocused}
+              />
 
-            <GlobalTextInput
-              placeholder={getTranslation("expiryDate")}
-              value={props?.expiryDate}
-              reference={props.expiryDateRef}
-              secureTextEntry={false}
-              onChangeText={(text) => {
-                props.handleOnChangeText(text, "expiryDate");
-              }}
-              onSubmitEditing={() => {
-                props.handleOnSubmit("expiryDate");
-              }}
-              onBlur={() => {
-                props.handleOnBlur("expiryDate");
-              }}
-              onFocus={() => {
-                props.handleOnFocus("expiryDate");
-              }}
-              focusValue={props.expiryDateFocused}
-              isExpiryDateField={true}
-            />
-            <GlobalTextInput
-              placeholder={getTranslation("cvv")}
-              value={props?.cvv}
-              reference={props.cvvRef}
-              secureTextEntry={true}
-              onChangeText={(text) => {
-                props.handleOnChangeText(text, "cvv");
-              }}
-              onSubmitEditing={() => {
-                props.handleOnSubmit("cvv");
-              }}
-              onBlur={() => {
-                props.handleOnBlur("cvv");
-              }}
-              onFocus={() => {
-                props.handleOnFocus("cvv");
-              }}
-              focusValue={props.cvvFocused}
-              
-            />
+              <GlobalTextInput
+                placeholder={getTranslation("expiryDate")}
+                value={props?.expiryDate}
+                reference={props.expiryDateRef}
+                secureTextEntry={false}
+                onChangeText={(text) => {
+                  props.handleOnChangeText(text, "expiryDate");
+                }}
+                onSubmitEditing={() => {
+                  props.handleOnSubmit("expiryDate");
+                }}
+                onBlur={() => {
+                  props.handleOnBlur("expiryDate");
+                }}
+                onFocus={() => {
+                  props.handleOnFocus("expiryDate");
+                }}
+                focusValue={props.expiryDateFocused}
+                isExpiryDateField={true}
+              />
+              <GlobalTextInput
+                placeholder={getTranslation("cvv")}
+                value={props?.cvv}
+                reference={props.cvvRef}
+                secureTextEntry={true}
+                onChangeText={(text) => {
+                  props.handleOnChangeText(text, "cvv");
+                }}
+                onSubmitEditing={() => {
+                  props.handleOnSubmit("cvv");
+                }}
+                onBlur={() => {
+                  props.handleOnBlur("cvv");
+                }}
+                onFocus={() => {
+                  props.handleOnFocus("cvv");
+                }}
+                focusValue={props.cvvFocused}
+                isNumberInputField
+                isLastField
+              />
+            </View>
           </View>
         </View>
-      </View>
-      <View
-        style={{
-          marginHorizontal: 20,
-          paddingBottom: PlatformVersion.isIOS ? insets.bottom + 10 : 20,
-        }}
-      >
-        <GlobalButton
-          isOrange
-          title={getTranslation("add")}
-          onPress={props?.handleOnPressAdd}
-        />
-      </View>
-    </KeyboardAwareScrollView>
+        <View
+          style={{
+            marginHorizontal: 20,
+            paddingBottom: PlatformVersion.isIOS ? insets.bottom + 10 : 20,
+          }}
+        >
+          <GlobalButton
+            isOrange
+            title={getTranslation("add")}
+            onPress={props?.handleOnPressAdd}
+          />
+        </View>
+      </KeyboardAwareScrollView>
+    </View>
   );
 };
 

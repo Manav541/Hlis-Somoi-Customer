@@ -1,10 +1,13 @@
-import {StyleSheet} from 'react-native';
-import {colors} from '../../constants/Colors';
-import {fontSize} from '../../constants/FontSizes';
-import {fontsfamily} from '../../constants/FontFamily';
- 
+import { StyleSheet } from "react-native";
+import { colors } from "../../constants/Colors";
+import { fontSize } from "../../constants/FontSizes";
+import { fontsfamily } from "../../constants/FontFamily";
+
 export const styles = StyleSheet.create({
-  vwMain: {flex: 1, backgroundColor: colors.blue4e},
+  vwMain: {
+    flex: 1,
+    backgroundColor: colors.blue4e,
+  },
   flatlistContainer: {
     gap: 16,
     paddingHorizontal: 20,
@@ -16,17 +19,17 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     gap: 4,
-    maxWidth: '90%',
+    maxWidth: "90%",
   },
   vwMessageInputSendBtn: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: "row",
+    alignItems: "flex-end",
     gap: 20,
   },
   vwMesssageInput: {
     backgroundColor: colors.white,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: "row",
+    alignItems: "flex-end",
     maxHeight: 100,
     gap: 9,
     paddingLeft: 9,
@@ -35,18 +38,18 @@ export const styles = StyleSheet.create({
   },
   vwTimeLine: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 16,
   },
-  vwTimeLineInner: {flex: 1, height: 1, backgroundColor: colors.greya7},
+  vwTimeLineInner: { flex: 1, height: 1, backgroundColor: colors.greya7 },
   messageInput: {
     flex: 1,
     maxHeight: 100,
     paddingVertical: 14,
     margin: 0,
     padding: 0,
-    justifyContent: 'center',
+    justifyContent: "center",
     fontSize: fontSize.size14,
     color: colors.blue4e,
     fontFamily: fontsfamily.regular,
@@ -56,8 +59,8 @@ export const styles = StyleSheet.create({
     width: 47,
     borderRadius: 10,
     backgroundColor: colors.orange1c,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   lblMessage: {
     fontSize: fontSize.size14,

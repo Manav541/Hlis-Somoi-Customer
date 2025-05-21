@@ -2,7 +2,7 @@ import { View, Text, StatusBar, TextInput } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import ReturnOrderComponent from "../../components/returnOrder";
 import GlobalBackButton from "../../global/GlobalBackButton";
-import { useFocusEffect } from "@react-navigation/native";
+import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../routers";
 import { cameraPermission, checkPermission, flashMessageWarning, galleryPermission, messages } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
@@ -38,6 +38,7 @@ const ReturnOrderContainer = ({ navigation }: any) => {
 
   const [isReturnSuccessModalVisible, setIsReturnSuccessModalVisible] =
     useState(false);
+    const [selectedReason, setSelectedReason] = useState<string>("");
 
   const [finalReturnReason, setFinalReturnReason] = useState<string>("");
 
@@ -110,10 +111,13 @@ const ReturnOrderContainer = ({ navigation }: any) => {
   };
 
   const handleSelectReason = (index: number) => {
-    setArrReturnOrderReason((prev: CancelOrderReason[]) =>
+    const reason = arrReturnOrderReason[index].reason;
+    console.log('resadon', reason)
+    setSelectedReason(reason);
+    setArrReturnOrderReason((prev) =>
       prev.map((item, i) => ({
         ...item,
-        isSelected: i === index
+        isSelected: i === index,
       }))
     );
   };
@@ -149,9 +153,21 @@ const ReturnOrderContainer = ({ navigation }: any) => {
 
   const onPressOkReturn = () => {
     setIsReturnSuccessModalVisible(false);
-    navigation.navigate(ScreenNames.bottomTabsNavigation, {
-      screen: ScreenNames.myOrders,
-    });
+    setOtherReason("");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          {
+            name: ScreenNames.bottomTabsNavigation,
+            state: {
+              routes: [{ name: ScreenNames.myOrders }],
+              index: 0,
+            },
+          },
+        ],
+      })
+    );
   };
 
   const header = () => {
@@ -189,6 +205,7 @@ const ReturnOrderContainer = ({ navigation }: any) => {
       isReturnSuccessModalVisible={isReturnSuccessModalVisible}
       onPressSubmit={onPressSubmit}
       onPressOkReturn={onPressOkReturn}
+      selectedReason={selectedReason}
 
       multiImagesArray={multiImagesArray}
       handleOnPressUploadImages={handleOnPressUploadImages}

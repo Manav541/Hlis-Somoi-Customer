@@ -1,4 +1,11 @@
-import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+} from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -50,6 +57,11 @@ const CompareProductComponent = (props: PropsType) => {
   };
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <Text style={styles.lblTitle}>
         {getTranslation("similarProducttoCompare")}
       </Text>
@@ -61,7 +73,7 @@ const CompareProductComponent = (props: PropsType) => {
         contentContainerStyle={{
           gap: 15,
           marginHorizontal: 20,
-          paddingBottom: PlatformVersion.isIOS ? insets.bottom+20 : 40,
+          paddingBottom: PlatformVersion.isIOS ? insets.bottom + 20 : 40,
         }}
       />
     </View>

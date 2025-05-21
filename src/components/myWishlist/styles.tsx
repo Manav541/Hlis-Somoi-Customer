@@ -40,30 +40,28 @@ export const styles = StyleSheet.create({
     marginTop: 6,
     marginBottom: 7,
   },
-  vwPriceRating:{
-    height : 17,
-    flexDirection : 'row',
-    justifyContent : 'space-between',
-    marginTop : 7,
+  vwPriceRating: {
+    height: 17,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 7,
   },
-  vwPrice : {
-    flexDirection : 'row',
-    alignItems : 'center',
-    gap : 6,
+  vwPrice: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
   },
-  vwRating : {
-    flexDirection : 'row',
-    alignItems : 'center',
-    gap : 4
+  vwRating: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
   },
   vwNoData: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 40,
   },
-  
- 
 
   //   TextInput styles
   txtSearch: {
@@ -82,9 +80,9 @@ export const styles = StyleSheet.create({
     height: 14,
     width: 14,
   },
-  imgStar :{
-    height : 12.5,
-    width : 12.6,
+  imgStar: {
+    height: 12.5,
+    width: 12.6,
   },
 
   //   TouchableOpacity styles
@@ -118,7 +116,7 @@ export const styles = StyleSheet.create({
     color: colors.black35,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
-    lineHeight : 22
+    lineHeight: 22,
   },
   lblProductWeight: {
     color: colors.greya7,

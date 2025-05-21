@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -79,6 +86,11 @@ const ReviewComponent = (props: PropsType) => {
   };
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         bounces={false}

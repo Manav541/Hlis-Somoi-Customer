@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  StatusBar,
+} from "react-native";
 import React, { Ref } from "react";
 import GlobalLogoTitle from "../../../global/GlobalLogoTitle";
 import { styles } from "./styles";
@@ -52,6 +58,11 @@ const SignInComponent = (props: PropsType) => {
 
   return (
     <View style={constnatStyles.vwOrangeBgParent}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View style={constnatStyles.vwBlueBgWithRadius}>
         <KeyboardAwareScrollView
           contentContainerStyle={{ flexGrow: 1 }}

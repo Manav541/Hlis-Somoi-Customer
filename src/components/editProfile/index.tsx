@@ -1,4 +1,11 @@
-import { View, Text, TouchableOpacity, Image, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  StatusBar,
+} from "react-native";
 import React, { Ref } from "react";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
@@ -34,12 +41,17 @@ const EditProfileComponent = (props: PropsType) => {
         backgroundColor: colors.blue4e,
       }}
     >
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View style={{ flex: 1 }}>
         <TouchableOpacity
           style={{
             ...styles.btnProfileImage,
             borderWidth: props?.profileImage ? 4 : 1.51,
-            borderColor:  props?.profileImage ?colors.orange1c: colors.white,
+            borderColor: props?.profileImage ? colors.orange1c : colors.white,
           }}
           activeOpacity={activityOpacity}
           onPress={props.handleOnPressProfileImage}
@@ -56,9 +68,11 @@ const EditProfileComponent = (props: PropsType) => {
                 : images.profileBigIcon
             }
           />
-          {props?.profileImage && <Image style={styles.imgCamera} source={images.camera}/>}
+          {props?.profileImage && (
+            <Image style={styles.imgCamera} source={images.camera} />
+          )}
         </TouchableOpacity>
-        <View style={{marginTop : 30}}>
+        <View style={{ marginTop: 30 }}>
           <GlobalTextInput
             placeholder={getTranslation("name")}
             value={props.name}
@@ -75,6 +89,7 @@ const EditProfileComponent = (props: PropsType) => {
             }}
             focusValue={props.nameFocused}
             onSubmitEditing={() => {}}
+            isLastField
           />
         </View>
       </View>

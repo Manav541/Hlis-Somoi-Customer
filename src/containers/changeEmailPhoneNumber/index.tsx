@@ -8,37 +8,90 @@ import { flashMessageWarning } from "../../constants/GConstant";
 import { regex } from "../../constants/Regex";
 import { useFocusEffect } from "@react-navigation/native";
 import { constnatStyles } from "../../constants/Styles";
+import { CountryDataType } from "../../constants/interfaces";
+import { CountryData } from "../../constants/utils/CountryData";
 
 const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
   const navigateFrom = route.params?.navigateFrom;
   const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [mobileNumber, setMobileNumber] = useState<string>("");
+  const [countryCode, setCountryCode] = useState<string>("+91");
   const emailRef = useRef<TextInput | null>(null);
-  const phoneNumberRef = useRef<TextInput | null>(null);
+  const mobileNumberRef = useRef<TextInput>(null);
   const [emailFocused, setEmailFocused] = useState(false);
-  const [phoneFocused, setPhoneFocused] = useState(false);
+  const [mobileNumberFocused, setMobileNumberFocused] = useState(false);
 
-  const handleOnChangeText = (text: string) => {
+   // Country Code
+   const countryList: CountryDataType[] = CountryData;
+   const [countryArray, setCountryArray] =
+     useState<CountryDataType[]>(countryList);
+   const [countryModal, setCountryModal] = useState(false);
+   const [searchCountry, setSearchCountry] = useState("");
+
+   const handleOnPressCountryCode = () => {
+    setCountryModal(true);
+    setSearchCountry("");
+    setCountryArray(countryList);
+  };
+
+  const handleOnChangeSearchCountry = (text: string) => {
+    if (text.trim() === "") {
+      setSearchCountry("");
+      setCountryArray(countryList);
+    } else {
+      const filtered = countryList.filter(
+        (item) =>
+          item.dial_code.toLowerCase().includes(text.toLowerCase()) ||
+          item.name.toLowerCase().includes(text.toLowerCase())
+      );
+      setSearchCountry(text);
+      setCountryArray(filtered);
+    }
+  };
+
+  const handleOnSelectCountry = (item: CountryDataType) => {
+    setCountryCode(item.dial_code);
+    setCountryModal(false);
+  };
+
+  const handleOnPressBackCountryModal = () => {
+    setCountryModal(false);
+  };
+
+  const handleOnChangeText = (text: string,type: string) => {
     if (navigateFrom === "ChangeEmail") {
+      if (type === "email") {
         setEmail(text.replace(/\s/g, ""));
+      }
       } else {
-        setPhoneNumber(text.replace(/\s/g, ""));
+        if (type === "mobileNumber") {
+          const onlyDigits = text.replace(/[^0-9]/g, "");
+          setMobileNumber(onlyDigits);
+        }
       }
   };
 
-  const handleOnFocus = () => {
+  const handleOnFocus = (type: string) => {
     if (navigateFrom === "ChangeEmail") {
+      if (type === "email") {
         setEmailFocused(true);
+      }
       } else {
-        setPhoneFocused(true);
+        if (type === "mobileNumber") {
+          setMobileNumberFocused(true);
+        }
       }
   };
 
-  const handleOnBlur = () => {
+  const handleOnBlur = (type: string) => {
     if (navigateFrom === "ChangeEmail") {
-        setEmailFocused(false);
+      if (type === "email") {
+        setEmailFocused(true);
+      }
       } else {
-        setPhoneFocused(false);
+        if (type === "mobileNumber") {
+          setMobileNumberFocused(true);
+        }
       }
   };
 
@@ -52,19 +105,20 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
           setEmail("");
           navigation.navigate("Verification", {
             email: email.toLowerCase(),
-            navigateFromForgotPassword: true,
+            navigateFromChangeEmailPhone: true,
           });
         }
       } else {
-        if (phoneNumber.trim() === "") {
+        if (mobileNumber.trim() === "") {
           flashMessageWarning(getTranslation("emptyPhone"));
-        } else if (!regex.mobile.test(phoneNumber)) {
+        } else if (!regex.mobile.test(mobileNumber)) {
           flashMessageWarning(getTranslation("invalidPhone"));
         } else {
-          setPhoneNumber("");
+          setMobileNumber("");
           navigation.navigate("Verification", {
-            phone: phoneNumber,
-            navigateFromForgotPassword: true,
+            countryCode: countryCode,
+            mobileNumber: mobileNumber,
+            navigateFromChangeEmailPhone: true,
           });
         }
       }
@@ -100,14 +154,23 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
       email={email}
       emailRef={emailRef}
       emailFocused={emailFocused}
-      phoneNumber={phoneNumber}
-      phoneNumberRef={phoneNumberRef}
-      phoneFocused={phoneFocused}
+      mobileNumber={mobileNumber}
+      mobileNumberRef={mobileNumberRef}
+      mobileNumberFocused={mobileNumberFocused}
       handleOnChangeText={handleOnChangeText}
       handleOnFocus={handleOnFocus}
       handleOnBlur={handleOnBlur}
       handleOnPressSubmit={handleOnPressSubmit}
       navigateFrom={navigateFrom}
+
+      countryCode={countryCode}
+      countryArray={countryArray}
+      countryModal={countryModal}
+      searchCountry={searchCountry}
+      handleOnPressCountryCode={handleOnPressCountryCode}
+      handleOnChangeSearchCountry={handleOnChangeSearchCountry}
+      handleOnSelectCountry={handleOnSelectCountry}
+      handleOnPressBackCountryModal={handleOnPressBackCountryModal}
     />
   );
 };

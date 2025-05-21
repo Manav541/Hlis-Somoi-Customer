@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   vwMain: {
     flex: 1,
     backgroundColor: colors.blue4e,
-    justifyContent : 'space-between',
+    justifyContent: "space-between",
   },
   vwImgMainLogo: {
     height: ScreenDimensions.screenHeight / 3,
@@ -99,7 +99,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 20,
-    marginHorizontal : 20,
+    marginHorizontal: 20,
   },
   vwVerticalLine: {
     height: 120,
@@ -168,28 +168,28 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     position: "absolute",
   },
-  vwGotoComapreButton:{
-    marginHorizontal : 20,
-    marginVertical : 40,
+  vwGotoComapreButton: {
+    marginHorizontal: 20,
+    marginVertical: 40,
   },
-  vwLikeBuyNow:{
-    flexDirection : 'row',
-    gap : 15,
-    alignItems : 'center',
-    marginHorizontal : 20,
-    marginBottom : 63,
-    marginTop : 8
+  vwLikeBuyNow: {
+    flexDirection: "row",
+    gap: 15,
+    alignItems: "center",
+    marginHorizontal: 20,
+    marginBottom: 34,
+    marginTop: 8,
   },
-  vwFashionSizeColor:{
-    marginHorizontal : 10,
-    backgroundColor : colors.whiteff,
-    borderRadius : 10,
-    height : 194,
-    marginTop : 20,
-    paddingTop : 10,
-    paddingLeft : 10
+  vwFashionSizeColor: {
+    marginHorizontal: 10,
+    backgroundColor: colors.whiteff,
+    borderRadius: 10,
+    height: 194,
+    marginTop: 20,
+    paddingTop: 10,
+    paddingLeft: 10,
   },
-  vwBuyNow :{
+  vwBuyNow: {
     backgroundColor: colors.orange1c,
     borderRadius: 200,
     justifyContent: "center",
@@ -350,17 +350,17 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.medium,
   },
-  lblSize:{
+  lblSize: {
     color: colors.blue4e,
     fontSize: fontSize.size16,
     fontFamily: fontsfamily.semibold,
   },
-  lblColor:{
+  lblColor: {
     color: colors.blue4e,
     fontSize: fontSize.size16,
     fontFamily: fontsfamily.medium,
   },
-  lblProductQuantity:{
+  lblProductQuantity: {
     color: colors.blue4e,
     fontSize: fontSize.size18,
     fontFamily: fontsfamily.semibold,
@@ -373,7 +373,7 @@ export const styles = StyleSheet.create({
     alignSelf: "flex-end",
     marginBottom: 35,
   },
-  imgProduct_imgMainF:{
+  imgProduct_imgMainF: {
     height: ScreenDimensions.screenHeight / 3,
     width: ScreenDimensions.screenWidth,
   },
@@ -429,26 +429,26 @@ export const styles = StyleSheet.create({
   imgReviewF: {
     width: 65,
     height: 65,
-    borderRadius : 5
+    borderRadius: 5,
   },
   imgRightOrangeArrow: {
     height: 16,
     width: 16,
   },
-  imgRedHeart:{
-    height : 24,
-    width : 24
+  imgRedHeart: {
+    height: 24,
+    width: 24,
   },
-  imgSelectedDot:{
-    height : 10,
-    width : 10,
-    position:'absolute',
-    top:16,
-    left:16,
-    right:16,
-    bottom:16
+  imgSelectedDot: {
+    height: 10,
+    width: 10,
+    position: "absolute",
+    top: 16,
+    left: 16,
+    right: 16,
+    bottom: 16,
   },
-  imgAddMinus :{
+  imgAddMinus: {
     height: 30.86,
     width: 30.86,
   },
@@ -464,27 +464,27 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     gap: 5,
     marginTop: 9,
-    marginHorizontal : 20
+    marginHorizontal: 20,
   },
   btnIsFavourite: {
-    height : 50,
-    width : 51,
-    borderRadius : 8,
-    justifyContent : 'center',
-    alignItems : 'center',
-    backgroundColor : colors.white
+    height: 50,
+    width: 51,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
   },
-  btnSize:{
-    height : 42,
-    width : 42,
-    alignItems : 'center',
-    justifyContent : 'center',
-    borderRadius : 10,
-    backgroundColor : colors.orange1c
+  btnSize: {
+    height: 42,
+    width: 42,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+    backgroundColor: colors.orange1c,
   },
-  btnColor:{
-    height : 42,
-    width : 42,
-    borderRadius : 10,
-  }
+  btnColor: {
+    height: 42,
+    width: 42,
+    borderRadius: 10,
+  },
 });

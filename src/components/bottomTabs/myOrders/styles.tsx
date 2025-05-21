@@ -64,6 +64,7 @@ export const styles = StyleSheet.create({
     height: 2.83,
     width: 2.83,
     backgroundColor: colors.blue4e,
+    borderRadius : 100
   },
   vwStatusDate: {
     marginHorizontal: 15,

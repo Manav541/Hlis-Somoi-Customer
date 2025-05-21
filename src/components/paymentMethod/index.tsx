@@ -5,6 +5,7 @@ import {
   Image,
   ScrollView,
   Modal,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -26,8 +27,8 @@ interface PropsType {
   onPressCardSelect: (index: number) => void;
   isSuccessModalVisible: boolean;
   orderNumber: string;
-  onPressTrackOrder:()=>void;
-  onPressContinueShopping:()=>void;
+  onPressTrackOrder: () => void;
+  onPressContinueShopping: () => void;
 }
 
 const PaymentMethodComponent = (props: PropsType) => {
@@ -74,6 +75,11 @@ const PaymentMethodComponent = (props: PropsType) => {
   };
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
         <Text style={styles.lblPaymentMethodDesc}>
           {getTranslation("paymentMethodsDesc")}
@@ -152,17 +158,17 @@ const PaymentMethodComponent = (props: PropsType) => {
 
       {/* Success Modal */}
       <GlobalSuccessModal
-      visible={props?.isSuccessModalVisible}
-      btnTitle={getTranslation('trackOrder')}
-      secondBtnTitle={getTranslation('continueShopping')}
-      isContinueShopping
-      title1={getTranslation('success')}
-      title={getTranslation('yourOrderisPlaced')}
-      subTitle={getTranslation('orderSuccessMSG')}
-      onPress={props?.onPressTrackOrder}
-      onPressSecondBtn={props?.onPressContinueShopping}
-      orderNumber={props?.orderNumber}
-       />
+        visible={props?.isSuccessModalVisible}
+        btnTitle={getTranslation("trackOrder")}
+        secondBtnTitle={getTranslation("continueShopping")}
+        isContinueShopping
+        title1={getTranslation("success")}
+        title={getTranslation("yourOrderisPlaced")}
+        subTitle={getTranslation("orderSuccessMSG")}
+        onPress={props?.onPressTrackOrder}
+        onPressSecondBtn={props?.onPressContinueShopping}
+        orderNumber={props?.orderNumber}
+      />
     </View>
   );
 };

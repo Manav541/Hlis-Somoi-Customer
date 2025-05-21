@@ -20,7 +20,6 @@ interface OtpArray {
 }
 
 const VerificationContainer = ({ navigation, route }: any) => {
-  console.log("route?.params", route?.params);
   const [fullOtp, setFullOtp] = useState<string | number>("");
   const [otp, setOtp] = useState(60);
   const [resendOtp, setResendOtp] = useState(true);
@@ -48,7 +47,8 @@ const VerificationContainer = ({ navigation, route }: any) => {
   const [emailFromRoute, setEmailFromRoute] = useState("");
   const [countryCode, setCountryCode] = useState<string>("");
   const [mobileNumber, setMobileNumber] = useState<string>("");
-  const { navigateFromSignup, navigateFromForgotPassword } = route?.params;
+  const { navigateFromSignup, navigateFromForgotPassword,navigateFromChangeEmailPhone } = route?.params;
+
 
   //handleOnChangeText
   const handleOnChangeText = (text: string, index: number) => {
@@ -139,6 +139,28 @@ const VerificationContainer = ({ navigation, route }: any) => {
           navigateFromManageAddress: false
         });
       } 
+      else if (navigateFromChangeEmailPhone){
+        if(route?.params?.email){
+          flashMessageSucess(getTranslation("emailUpdateSuccess"));
+        }
+        else if(route?.params?.mobileNumber){
+          flashMessageSucess(getTranslation("phoneNumberUpdateSuccess"));
+        }
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [
+              {
+                name: ScreenNames.bottomTabsNavigation,
+                state: {
+                  routes: [{ name: ScreenNames.settings }],
+                  index: 0,
+                },
+              },
+            ],
+          })
+        );
+      }
       // Handle default login flow
       else {
         MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");

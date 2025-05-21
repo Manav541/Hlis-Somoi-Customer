@@ -126,17 +126,17 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.white,
     paddingHorizontal: 16,
     paddingVertical: 20,
-    gap : 15
+    gap: 15,
   },
-  vwOrderReturned:{
+  vwOrderReturned: {
     flexDirection: "row",
     borderRadius: 10,
     backgroundColor: colors.white,
     paddingHorizontal: 16,
-    paddingVertical : 20,
-    marginBottom : 20,
-    gap  : 20,
-    flex : 1
+    paddingVertical: 20,
+    marginBottom: 20,
+    gap: 20,
+    flex: 1,
   },
 
   // Text styles
@@ -262,12 +262,14 @@ export const styles = StyleSheet.create({
     color: colors.greya7,
     fontFamily: fontsfamily.regular,
     fontSize: fontSize.size12,
+    marginRight : 20,
+    flex : 1
   },
-  lblRefundDesc:{
+  lblRefundDesc: {
     color: colors.green4f,
     fontFamily: fontsfamily.medium,
     fontSize: fontSize.size12,
-    marginTop : 5
+    marginTop: 5,
   },
   lblOrderDetails: {
     fontSize: fontSize.size16,
@@ -293,6 +295,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.semibold,
     color: colors.black35,
+    alignSelf : 'center'
   },
   lblDriverInfo: {
     fontSize: fontSize.size16,
@@ -336,7 +339,7 @@ export const styles = StyleSheet.create({
   imgRightArrow: {
     height: 20,
     width: 20,
-    alignSelf : 'center',
+    alignSelf: "center",
   },
   imgReportIssue: {
     height: 24,
@@ -419,42 +422,42 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.blue4e,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingHorizontal : 16,
-    paddingTop : 33
+    paddingHorizontal: 16,
+    paddingTop: 33,
   },
-  vwEditDeleteReview :{
-    flexDirection : 'row',
-    justifyContent : 'space-between',
-    alignItems : 'center',
-    gap : 10
+  vwEditDeleteReview: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 10,
   },
-  lblYourReview:{
-    color : colors.white,
-    fontSize : fontSize.size20,
-    fontFamily : fontsfamily.bold,
-    marginBottom : 36,
-    textAlign : 'center'
+  lblYourReview: {
+    color: colors.white,
+    fontSize: fontSize.size20,
+    fontFamily: fontsfamily.bold,
+    marginBottom: 36,
+    textAlign: "center",
   },
-  lblReviewDesc:{
-    color : colors.greya7,
-    fontSize : fontSize.size14,
-    fontFamily : fontsfamily.regular,
-    lineHeight : 20,
-    marginTop : 10,
-    marginBottom : 35.8,
-    marginRight : 31
+  lblReviewDesc: {
+    color: colors.greya7,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.regular,
+    lineHeight: 20,
+    marginTop: 10,
+    marginBottom: 35.8,
+    marginRight: 31,
   },
-  imgStarModal:{
-    height : 31.2,
-    width : 31.2,
-    marginRight : 6.98
+  imgStarModal: {
+    height: 31.2,
+    width: 31.2,
+    marginRight: 6.98,
   },
-  btnDelete :{
-    height : 50,
-    width : 50,
-    borderRadius : 8,
-    backgroundColor : colors.whiteff,
-    justifyContent : 'center',
-    alignItems : 'center'
+  btnDelete: {
+    height: 50,
+    width: 50,
+    borderRadius: 8,
+    backgroundColor: colors.whiteff,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

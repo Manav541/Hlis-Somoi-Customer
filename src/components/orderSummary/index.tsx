@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Modal,
   ImageSourcePropType,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -18,7 +19,11 @@ import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GlobalButton from "../../global/GlobalButton";
 import { constnatStyles } from "../../constants/Styles";
-import { OrderDetail, OrderReviewProduct, OrderStatus } from "../../constants/interfaces";
+import {
+  OrderDetail,
+  OrderReviewProduct,
+  OrderStatus,
+} from "../../constants/interfaces";
 
 interface PropsType {
   orderNumber: string;
@@ -92,9 +97,10 @@ const OrderSummaryComponent = (props: PropsType) => {
                   DateFormatsManager.DateFormats.DDMMYYYY_SLASH
                 )}
               </Text>
-              {props?.orderMainStatus === "Request_return" && (
-                <Text>- {item?.status_time ?? ""}</Text>
-              )}
+              {props?.orderMainStatus === "Request_return" &&
+                index === props?.arrOrderStatus.length - 1 && (
+                  <Text>- {item?.status_time ?? ""}</Text>
+                )}
             </Text>
           )}
         </View>
@@ -143,6 +149,7 @@ const OrderSummaryComponent = (props: PropsType) => {
             </View>
             {(props?.currentStatus === "Order Delivered" ||
               props?.orderMainStatus === "Cancelled" ||
+              props?.orderMainStatus === "Request_return" ||
               props?.orderMainStatus === "Returned" ||
               props?.orderMainStatus === "Delivered") && (
               <TouchableOpacity
@@ -159,7 +166,14 @@ const OrderSummaryComponent = (props: PropsType) => {
                 }}
               >
                 {item?.isRateReview ? (
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 2,
+                    }}
+                  >
                     <Image style={styles.imgStar} source={images.star} />
                     <Text style={styles.lblRateReview}>
                       {item?.product_rating}
@@ -193,6 +207,11 @@ const OrderSummaryComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <ScrollView
         contentContainerStyle={{ paddingBottom: 40 }}
         bounces={false}
@@ -263,14 +282,14 @@ const OrderSummaryComponent = (props: PropsType) => {
             </View>
           ) : (
             <View>
-              {props?.arrOrderStatus.map(renderItemOrderStatus)}{" "}
+              {props?.arrOrderStatus.map(renderItemOrderStatus)}
               {props?.orderMainStatus === "Returned" && (
                 <View style={styles.vwOrderReturned}>
                   <Image
                     style={styles.imgReportIssue}
                     source={images.returnIcon}
                   />
-                  <View>
+                  <View style={{ flex: 1, marginRight: 15 }}>
                     <Text style={styles.lblReportIssueQue}>
                       {getTranslation("orderReturned")}
                     </Text>
@@ -290,6 +309,7 @@ const OrderSummaryComponent = (props: PropsType) => {
             </View>
           )}
         </View>
+
         <View style={styles.vwLine} />
 
         {/* Products */}
@@ -343,7 +363,8 @@ const OrderSummaryComponent = (props: PropsType) => {
                   source={images.rightArrowGrey}
                 />
               </TouchableOpacity>
-            ) : !props?.cancelDisabled ? (
+            ) : !props?.cancelDisabled &&
+              props?.orderMainStatus === "Confirmed" ? (
               <TouchableOpacity
                 style={styles.btnCancelOrder}
                 activeOpacity={activityOpacity}
@@ -505,6 +526,11 @@ const OrderSummaryComponent = (props: PropsType) => {
         transparent
         animationType="fade"
       >
+        <StatusBar
+          translucent
+          backgroundColor={colors.black50}
+          barStyle={"dark-content"}
+        />
         <View style={styles.vwFilterModal}>
           <View
             style={{

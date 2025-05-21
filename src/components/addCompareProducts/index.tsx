@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
@@ -17,7 +17,13 @@ interface PropsType {
 
 const AddCompareProductsComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
-  const renderArrSubCategory = ({ item, index }: {item : GroceryProduct, index:number}) => {
+  const renderArrSubCategory = ({
+    item,
+    index,
+  }: {
+    item: GroceryProduct;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         style={[
@@ -82,6 +88,11 @@ const AddCompareProductsComponent = (props: PropsType) => {
   };
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <FlatList
         data={props?.arrCompareProducts}
         numColumns={2}

@@ -1,4 +1,11 @@
-import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  StatusBar,
+} from "react-native";
 import React, { Ref } from "react";
 import { styles } from "./styles";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -41,6 +48,11 @@ const AddAddressComponent = (props: PropsType) => {
       bounces={false}
       showsVerticalScrollIndicator={false}
     >
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View>
         <Text style={styles.lblAddAddressHeading}>
           {getTranslation("addAddressHeading")}
@@ -87,7 +99,7 @@ const AddAddressComponent = (props: PropsType) => {
               }}
               focusValue={props.houseFocused}
             />
-            
+
             <GlobalTextInput
               placeholder={getTranslation("additionalDescription")}
               isDescriptionField

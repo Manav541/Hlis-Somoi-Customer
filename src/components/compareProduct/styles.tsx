@@ -9,53 +9,53 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.blue4e,
   },
-  vwProductRate:{
-    flexDirection : 'row',
-    alignItems : 'center',
-    gap : 2,
-    marginTop : 2,
-    marginBottom : 3
+  vwProductRate: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 2,
+    marginTop: 2,
+    marginBottom: 3,
   },
-  vwPrice:{
-    flexDirection : 'row',
-    alignItems : 'center',
-    gap : 4.87,
+  vwPrice: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4.87,
   },
 
-//   Text Styles
+  //   Text Styles
   lblTitle: {
     color: colors.white,
     fontSize: fontSize.size16,
     fontFamily: fontsfamily.semibold,
     margin: 20,
   },
-  lblProductName:{
+  lblProductName: {
     color: colors.blue4e,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.semibold,
-    lineHeight : 19
+    lineHeight: 19,
   },
-  lblProductRate:{
+  lblProductRate: {
     color: colors.black13,
     fontSize: fontSize.size0742,
     fontFamily: fontsfamily.medium,
   },
-  lblProductFinalPrice:{
+  lblProductFinalPrice: {
     color: colors.blue4e,
     fontSize: fontSize.size11,
     fontFamily: fontsfamily.bold,
   },
-  lblProductPrice:{
+  lblProductPrice: {
     color: colors.greya7,
     fontSize: fontSize.size10,
     fontFamily: fontsfamily.regular,
-    textDecorationLine:"line-through"
+    textDecorationLine: "line-through",
   },
-  lblProductDesc:{
+  lblProductDesc: {
     color: colors.black35,
     fontSize: fontSize.size10,
     fontFamily: fontsfamily.regular,
-    marginTop : 5,
+    marginTop: 5,
   },
 
   // TouchableOpacity Styles
@@ -64,17 +64,18 @@ export const styles = StyleSheet.create({
     paddingLeft: 18,
     borderRadius: 10,
     backgroundColor: colors.whiteff,
-    flexDirection : 'row',
-    gap : 17,
+    flexDirection: "row",
+    gap: 17,
   },
 
-//   Image styles
-imgProduct : {
-    height : 91,
-    width : 62
-},
-imgStar:{
-    height : 7.73,
-    width : 7.79
-},
+  //   Image styles
+  imgProduct: {
+    height: 91,
+    width: 62,
+    alignSelf: "center",
+  },
+  imgStar: {
+    height: 7.73,
+    width: 7.79,
+  },
 });

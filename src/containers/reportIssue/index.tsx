@@ -6,6 +6,7 @@ import { Asset } from "react-native-image-picker";
 import {
   cameraPermission,
   checkPermission,
+  flashMessageWarning,
   galleryPermission,
   messages,
 } from "../../constants/GConstant";
@@ -89,9 +90,13 @@ const ReportIssueContainer = ({ navigation }: any) => {
   };
 
   const onPressSubmit = () => {
-    navigation.navigate(ScreenNames.bottomTabsNavigation, {
-      screen: ScreenNames.myOrders,
-    });
+    if (reportIssue === "") {
+      flashMessageWarning("Please specify your issue.");
+      reportIssueRef?.current?.focus();
+      return;
+    } else {
+      navigation.goBack();
+    }
   };
 
   const header = () => {
@@ -100,7 +105,9 @@ const ReportIssueContainer = ({ navigation }: any) => {
         <GlobalBackButton onPress={() => navigation.goBack()} />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.reportIssue}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.reportIssue}
+        </Text>
       ),
     });
   };

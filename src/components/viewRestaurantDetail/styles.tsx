@@ -6,10 +6,10 @@ import { fontsfamily } from "../../constants/FontFamily";
 
 export const styles = StyleSheet.create({
   // View Styles
-   vwMain: {
+  vwMain: {
     flex: 1,
     backgroundColor: colors.blue4e,
-    paddingBottom : 20
+    paddingBottom: 20,
   },
   vwImgMainLogo: {
     // height : 278,
@@ -297,70 +297,70 @@ export const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
-//   Modal
-vwFoodModalView: {
+  //   Modal
+  vwFoodModalView: {
     flex: 1,
     backgroundColor: "#00000088",
     justifyContent: "flex-end",
   },
-  vwFoodModalContainer:{
+  vwFoodModalContainer: {
     width: "100%",
     paddingHorizontal: 20,
     paddingTop: 20,
-    paddingBottom:37,
+    paddingBottom: 37,
     backgroundColor: colors.blue4e,
     borderTopStartRadius: 30,
     borderTopEndRadius: 30,
   },
-  vwFoodImgBG:{
-    height : 249,
-    borderRadius : 10,
-    backgroundColor : colors.whiteff,
-    justifyContent : "center",
-    alignItems : "center",
+  vwFoodImgBG: {
+    height: 249,
+    borderRadius: 10,
+    backgroundColor: colors.whiteff,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  vwFoodNameShare:{
-    flexDirection : "row",
-    justifyContent : "space-between",
-    alignItems : "center",
-    height : 24,
-    marginTop : 24
+  vwFoodNameShare: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 24,
+    marginTop: 24,
   },
-  vwAdditionalInfo:{
-    justifyContent : "space-between",
-    height : 36,
+  vwAdditionalInfo: {
+    justifyContent: "space-between",
+    height: 36,
   },
-  lblModalFoodName:{
-    color : colors.white,
-    fontSize : fontSize.size14,
-    fontFamily : fontsfamily.semibold,
+  lblModalFoodName: {
+    color: colors.white,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
   },
-  lblModalFoodDesc:{
-    color : colors.white,
-    fontSize : fontSize.size12,
-    fontFamily : fontsfamily.regular,
-    marginTop : 30,
-    marginBottom : 16
+  lblModalFoodDesc: {
+    color: colors.white,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regular,
+    marginTop: 30,
+    marginBottom: 16,
   },
-  lblModalFoodAdditionalInfo:{
-    color : colors.white,
-    fontSize : fontSize.size13,
-    fontFamily : fontsfamily.regular,
+  lblModalFoodAdditionalInfo: {
+    color: colors.white,
+    fontSize: fontSize.size13,
+    fontFamily: fontsfamily.regular,
   },
-  imgModalFood:{
-    height : 189,
-    width : 189
+  imgModalFood: {
+    height: 189,
+    width: 189,
   },
-  imgShareCartBag:{
-    height : 24,
-    width : 24,
+  imgShareCartBag: {
+    height: 24,
+    width: 24,
   },
-  btnModalAddToCart:{
-    height :52,
-    borderRadius : 200,
-    backgroundColor : colors.orange1c,
-    justifyContent : "center",
-    alignItems : "center",
-    marginTop : 33
+  btnModalAddToCart: {
+    height: 52,
+    borderRadius: 200,
+    backgroundColor: colors.orange1c,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 33,
   },
 });

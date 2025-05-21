@@ -1,4 +1,11 @@
-import { View, Text, TouchableOpacity, Image, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  StatusBar,
+} from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
@@ -36,7 +43,13 @@ const ManagePaymentMethodsComponent = (props: PropsType) => {
             {item?.card_number?.slice(-4)}
           </Text>
         </View>
-        <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop} onPress={() =>{props?.handleDelete(index)}}>
+        <TouchableOpacity
+          activeOpacity={activityOpacity}
+          hitSlop={hitSlop}
+          onPress={() => {
+            props?.handleDelete(index);
+          }}
+        >
           <Image style={styles.imgDeleteCard} source={images.deleteWhiteBg} />
         </TouchableOpacity>
       </View>
@@ -44,9 +57,14 @@ const ManagePaymentMethodsComponent = (props: PropsType) => {
   };
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <TouchableOpacity
         style={styles.btnAddCard}
-        activeOpacity={activityOpacity}        
+        activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         onPress={props?.handleOnPressAddCard}
       >

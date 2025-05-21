@@ -1,4 +1,11 @@
-import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
@@ -24,7 +31,11 @@ const SearchComponent = (props: PropsType) => {
           <Text style={styles.lblProductName}>{item?.product_name}</Text>
           <View style={styles.vwProductPriceWeight}>
             <Text style={styles.lblProductPrice}>{item?.product_price}</Text>
-            <Image style={styles.imgDot} tintColor={colors.blue4e} source={images.dotOrange}/>
+            <Image
+              style={styles.imgDot}
+              tintColor={colors.blue4e}
+              source={images.dotOrange}
+            />
             <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
           </View>
         </View>
@@ -32,10 +43,13 @@ const SearchComponent = (props: PropsType) => {
     );
   };
 
- 
-
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       {props.filteredProducts.length > 0 ? (
         <FlatList
           data={props.filteredProducts}
@@ -49,9 +63,16 @@ const SearchComponent = (props: PropsType) => {
         />
       ) : (
         <View style={styles.vwNoDataFound}>
-          <Image style={styles.imgNoDataFound} source={images.searchWithOrangeBG} />
-          <Text style={styles.lblNoDataFound}>{getTranslation('noResultsFound')}</Text>
-          <Text style={styles.lblNoDataFoundDesc}>{getTranslation('cantFindMatch')}</Text>
+          <Image
+            style={styles.imgNoDataFound}
+            source={images.searchWithOrangeBG}
+          />
+          <Text style={styles.lblNoDataFound}>
+            {getTranslation("noResultsFound")}
+          </Text>
+          <Text style={styles.lblNoDataFoundDesc}>
+            {getTranslation("cantFindMatch")}
+          </Text>
         </View>
       )}
     </View>

@@ -1,4 +1,11 @@
-import { View, Text, SectionList, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  SectionList,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+} from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
@@ -29,22 +36,27 @@ const NotificationComponent = (props: PropsType) => {
         key={index}
         onPress={props?.onPressNotification}
       >
-          <Image
-            source={images.notificationBell}
-            style={styles.imgNotificationBell}
-          />
-          <View style={styles.vwNotificationDetails}>
-            <View style={styles.vwNotificationTitleTime}>
-              <Text style={styles.lblNotificationTitle}>{item?.title}</Text>
-              <Text style={styles.lblNotificationTime}>{item?.time}</Text>
-            </View>
-            <Text style={styles.lblNotificationDesc}>{item?.desc}</Text>
+        <Image
+          source={images.notificationBell}
+          style={styles.imgNotificationBell}
+        />
+        <View style={styles.vwNotificationDetails}>
+          <View style={styles.vwNotificationTitleTime}>
+            <Text style={styles.lblNotificationTitle}>{item?.title}</Text>
+            <Text style={styles.lblNotificationTime}>{item?.time}</Text>
           </View>
+          <Text style={styles.lblNotificationDesc}>{item?.desc}</Text>
+        </View>
       </TouchableOpacity>
     );
   };
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <SectionList
         sections={props?.arrNotification}
         keyExtractor={(item, index) => `${item.title}_${index}`}

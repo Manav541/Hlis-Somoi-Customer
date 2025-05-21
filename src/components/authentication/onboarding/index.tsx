@@ -8,17 +8,17 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   StatusBar,
-} from 'react-native';
-import React, {RefObject} from 'react';
-import {colors} from '../../../constants/Colors';
-import {ScreenDimensions} from '../../../constants/utils/Dimensions';
-import GlobalButton from '../../../global/GlobalButton';
-import {getTranslation} from '../../../localization/i18n/i18n.config';
-import {styles} from './styles';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {PlatformVersion} from '../../../constants/utils/Platform';
-import {images} from '../../../constants/Images';
-import {activityOpacity} from '../../../constants/GConstant';
+} from "react-native";
+import React, { RefObject } from "react";
+import { colors } from "../../../constants/Colors";
+import { ScreenDimensions } from "../../../constants/utils/Dimensions";
+import GlobalButton from "../../../global/GlobalButton";
+import { getTranslation } from "../../../localization/i18n/i18n.config";
+import { styles } from "./styles";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { PlatformVersion } from "../../../constants/utils/Platform";
+import { images } from "../../../constants/Images";
+import { activityOpacity } from "../../../constants/GConstant";
 
 interface OnboardingItem {
   image: ImageSourcePropType;
@@ -32,7 +32,7 @@ interface PropsType {
   handleOnPressGo: () => void;
   onboardingRef: RefObject<FlatList | null>;
   handleOnScrollOnboarding: (
-    event: NativeSyntheticEvent<NativeScrollEvent>,
+    event: NativeSyntheticEvent<NativeScrollEvent>
   ) => void;
   handleOnPressGetStarted: () => void;
 }
@@ -51,13 +51,19 @@ const OnboardingComponent = (props: PropsType) => {
               : 20
             : insets.bottom + 20,
         },
-      ]}>
-      <StatusBar barStyle={'light-content'} />
+      ]}
+    >
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"light-content"}
+      />
       <View
         style={[
           styles.vwFlatlistMain,
-          {paddingTop: PlatformVersion.isIOS ? insets.top : insets.top + 20},
-        ]}>
+          { paddingTop: PlatformVersion.isIOS ? insets.top : insets.top + 20 },
+        ]}
+      >
         {/* View Onbording Flatlist */}
         <View>
           <FlatList
@@ -69,8 +75,8 @@ const OnboardingComponent = (props: PropsType) => {
             showsHorizontalScrollIndicator={false}
             onScroll={props.handleOnScrollOnboarding}
             ref={props.onboardingRef}
-            renderItem={({item, index}) => (
-              <View style={{width: ScreenDimensions.screenWidth}} key={index}>
+            renderItem={({ item, index }) => (
+              <View style={{ width: ScreenDimensions.screenWidth }} key={index}>
                 <Image source={item?.image} style={styles.image} />
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.description}>{item.desc}</Text>
@@ -103,15 +109,16 @@ const OnboardingComponent = (props: PropsType) => {
         <TouchableOpacity
           activeOpacity={activityOpacity}
           style={styles.btnGo}
-          onPress={props.handleOnPressGo}>
+          onPress={props.handleOnPressGo}
+        >
           <Image source={images.goBtn} style={styles.imageGo} />
         </TouchableOpacity>
       </View>
 
       {/* View Next Button */}
-      <View style={{marginHorizontal: 20}}>
+      <View style={{ marginHorizontal: 20 }}>
         <GlobalButton
-          title={getTranslation('startShopping')}
+          title={getTranslation("startShopping")}
           onPress={props.handleOnPressGetStarted}
         />
       </View>

@@ -1,6 +1,7 @@
 export const fontSize = {
   size07: 7,
   size0742:7.42,
+  size08_31:8.31,
   size10: 10,
   size11: 11,
   size12: 12,

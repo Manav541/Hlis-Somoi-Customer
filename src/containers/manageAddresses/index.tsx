@@ -12,6 +12,7 @@ import { AddressItem } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 
 const ManageAddressesContainer = ({ navigation, route }: any) => {
+  const navigateFromCart = route.params?.navigateFromCart;
   const [arrManageAddress, setArrManageAddress] = useState<AddressItem[]>([
     {
       title: "1181 North Bend River Road Lexington, KY 40507",
@@ -37,16 +38,23 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
     });
   };
 
-  const handleDelete = (index: number) => {
+  const handleOnPressDelete = (index: number) => {
     showConfirmAlert("Are you sure want to delete this address?", () => {
       const updatedData = [...arrManageAddress];
+      const isDefaultAddress = updatedData[index].default;
+
       updatedData.splice(index, 1);
+
+      if (isDefaultAddress && updatedData.length > 0) {
+        updatedData[0].default = true;
+      }
+
       setArrManageAddress(updatedData);
       flashMessageSucess(getTranslation("addressDeleted"));
     });
   };
 
-  const handleOnPressEditAddress = () => {
+  const handleOnPressEditAddress = (index: number) => {
     navigation.navigate("Add Address", { isNavigateFromManageAddress: true });
   };
 
@@ -63,9 +71,13 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
           }}
         />
       ),
-      headerTitle:<Text style={constnatStyles.lblHeaderTitle}>{route.params?.navigateFromCart
-        ? getTranslation("changeLocation")
-        : getTranslation("manageAddress")}</Text>,
+      headerTitle: (
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {navigateFromCart
+            ? getTranslation("changeLocation")
+            : getTranslation("manageAddress")}
+        </Text>
+      ),
     });
   };
 
@@ -84,8 +96,10 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
     <ManageAddressesComponent
       arrManageAddress={arrManageAddress}
       handleSetDefault={handleSetDefault}
-      handleDelete={handleDelete}
+      handleOnPressDelete={handleOnPressDelete}
       handleOnPressAddAddress={handleOnPressAddAddress}
+      handleOnPressEditAddress={handleOnPressEditAddress}
+      navigateFromCart={navigateFromCart}
     />
   );
 };

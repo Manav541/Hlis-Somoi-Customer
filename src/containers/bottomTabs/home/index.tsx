@@ -5,21 +5,33 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { ScreenDimensions } from "../../../constants/utils/Dimensions";
 import { ScreenNames } from "../../../routers";
 import { useFocusEffect } from "@react-navigation/native";
-import { NativeScrollEvent, NativeSyntheticEvent, StatusBar } from "react-native";
-import { AdItem, BestProduct, GroceriesFoodItem, Restaurant, SubCategory } from "../../../constants/interfaces";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StatusBar,
+} from "react-native";
+import {
+  AdItem,
+  BestProduct,
+  GroceriesFoodItem,
+  Restaurant,
+  SubCategory,
+} from "../../../constants/interfaces";
 import { FlatList } from "react-native-gesture-handler";
 
 const HomeContainer = ({ navigation }: any) => {
-  const [arrGroceriesFood, setArrGroceriesFood] = useState<GroceriesFoodItem[]>([
-    {
-      type: getTranslation("groceries"),
-      image: images.g1,
-    },
-    {
-      type: getTranslation("food"),
-      image: images.f1,
-    },
-  ]);
+  const [arrGroceriesFood, setArrGroceriesFood] = useState<GroceriesFoodItem[]>(
+    [
+      {
+        type: getTranslation("groceries"),
+        image: images.g1,
+      },
+      {
+        type: getTranslation("food"),
+        image: images.f1,
+      },
+    ]
+  );
   const [arrAds, setArrAds] = useState<AdItem[]>([
     {
       image: images.banner,
@@ -31,7 +43,9 @@ const HomeContainer = ({ navigation }: any) => {
       image: images.banner,
     },
   ]);
-  const [arrSubCategoryGroceries, setArrSubCategoryGroceries] = useState<SubCategory[]>([
+  const [arrSubCategoryGroceries, setArrSubCategoryGroceries] = useState<
+    SubCategory[]
+  >([
     {
       image: images.riceG,
       name: "Rice",
@@ -207,8 +221,8 @@ const HomeContainer = ({ navigation }: any) => {
   const [isGroceriesFoodSelected, setIsGroceriesFoodSelected] =
     useState<string>("Groceries");
 
-    const flatListRef = useRef<FlatList>(null);
-    const [currentIndex, setCurrentIndex] = useState(0);
+  const flatListRef = useRef<FlatList>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const onPressSearch = () => {
     navigation.navigate(ScreenNames.search);
@@ -218,8 +232,8 @@ const HomeContainer = ({ navigation }: any) => {
     setIsGroceriesFoodSelected(type);
   };
 
-   // Auto scroll functionality
-   useEffect(() => {
+  // Auto scroll functionality
+  useEffect(() => {
     const autoScroll = setInterval(() => {
       if (flatListRef.current && arrAds.length > 0) {
         const nextIndex = (currentIndex + 1) % arrAds.length;
@@ -234,7 +248,9 @@ const HomeContainer = ({ navigation }: any) => {
     return () => clearInterval(autoScroll);
   }, [currentIndex, arrAds]);
 
-  const handleOnScrollAds = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const handleOnScrollAds = (
+    event: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
     const scrollPosition = event.nativeEvent.contentOffset.x;
     const index = Math.round(
       scrollPosition / (ScreenDimensions.screenWidth - 40)
@@ -256,18 +272,15 @@ const HomeContainer = ({ navigation }: any) => {
 
   // handleOnPressNotifaicationIcon
   const handleOnPressNotifaicationIcon = () => {
-    navigation.navigate(ScreenNames.notification)
+    navigation.navigate(ScreenNames.notification);
   };
 
   useFocusEffect(
     React.useCallback(() => {
-      StatusBar.setBarStyle('light-content');
-      StatusBar.setTranslucent(true);
-      StatusBar.setBackgroundColor("transparent");
+      StatusBar.setBarStyle("light-content");
       return () => {};
-    }, [navigation]),
+    }, [navigation])
   );
-
 
   return (
     <HomeComponent

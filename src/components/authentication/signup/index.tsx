@@ -1,4 +1,4 @@
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, StatusBar } from "react-native";
 import React, { Ref } from "react";
 import { styles } from "./styles";
 import GlobalLogoTitle from "../../../global/GlobalLogoTitle";
@@ -47,8 +47,9 @@ interface PropsType {
   handleOnChangeSearchCountry: (text: string) => void;
   handleOnSelectCountry: (item: CountryDataType) => void;
   handleOnPressBackCountryModal: () => void;
+
   handleOnPressGuest: () => void;
-  onPressCMS: (page:string) => void;
+  onPressCMS: (page: string) => void;
 }
 
 const SignupComponent = (props: PropsType) => {
@@ -56,6 +57,11 @@ const SignupComponent = (props: PropsType) => {
 
   return (
     <View style={constnatStyles.vwOrangeBgParent}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View style={constnatStyles.vwBlueBgWithRadius}>
         <KeyboardAwareScrollView
           contentContainerStyle={{ flexGrow: 1 }}
@@ -192,7 +198,7 @@ const SignupComponent = (props: PropsType) => {
             {/* Bottom View */}
             <View
               style={{
-                paddingBottom: PlatformVersion.isIOS ? insets.bottom +20 : 0,
+                paddingBottom: PlatformVersion.isIOS ? insets.bottom + 20 : 0,
               }}
             >
               {/* View Signup-Signin */}
@@ -238,7 +244,9 @@ const SignupComponent = (props: PropsType) => {
                 <Text style={styles.lblTermsCondition}>
                   {getTranslation("bysigningup")}{" "}
                   <Text
-                    onPress={() => {props?.onPressCMS("termsConditions")}}
+                    onPress={() => {
+                      props?.onPressCMS("termsConditions");
+                    }}
                     style={[
                       styles.lblTermsCondition,
                       styles.lblTermsConditionLine,
@@ -248,7 +256,9 @@ const SignupComponent = (props: PropsType) => {
                   </Text>{" "}
                   {getTranslation("andi")}{" "}
                   <Text
-                    onPress={() => {props?.onPressCMS("privacyPolicy")}}
+                    onPress={() => {
+                      props?.onPressCMS("privacyPolicy");
+                    }}
                     style={[
                       styles.lblTermsCondition,
                       styles.lblTermsConditionLine,

@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  FlatList,
+  StatusBar,
 } from "react-native";
 import React, { Ref } from "react";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
@@ -17,12 +19,14 @@ import GlobalTextInput from "../../global/GlobalTextInput";
 import { colors } from "../../constants/Colors";
 import { Asset } from "react-native-image-picker";
 import { CancelOrderReason } from "../../constants/interfaces";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface PropsType {
   arrReturnOrderReason: CancelOrderReason[];
   otherReason: string;
   otherReasonRef: Ref<TextInput>;
   otherReasonFocused: boolean;
+  selectedReason: string;
 
   handleOnChangeText: (text: string, type: string) => void;
   handleOnFocus: (type: string) => void;
@@ -39,7 +43,11 @@ interface PropsType {
 }
 
 const ReturnOrderComponent = (props: PropsType) => {
-  const renderItemReturnOrderReason = (item: CancelOrderReason, index: number) => {
+  const insets = useSafeAreaInsets();
+  const renderItemReturnOrderReason = (
+    item: CancelOrderReason,
+    index: number
+  ) => {
     return (
       <View key={index}>
         <TouchableOpacity
@@ -61,12 +69,12 @@ const ReturnOrderComponent = (props: PropsType) => {
     );
   };
 
-  const renderUploadImageVideo = (item: any, index: number) => {
+  const renderUploadImageVideo = (item : any, index : number) => {
     return (
       <View style={styles.vwUploadImageVideosItem}>
         <Image
           style={styles.imgUpload}
-          source={{uri: item?.uri}}
+          source={{ uri: item?.uri }}
           resizeMode="stretch"
         />
         <TouchableOpacity
@@ -77,13 +85,19 @@ const ReturnOrderComponent = (props: PropsType) => {
             props?.handleOnPressDeleteUploadedImage(index);
           }}
         >
-          <Image style={styles.imgAdd} source={images.closeImage}/>
+          <Image style={styles.imgAdd} source={images.closeImage} />
         </TouchableOpacity>
       </View>
     );
   };
+
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <ScrollView
         style={{ flexGrow: 1 }}
         bounces={false}
@@ -95,31 +109,34 @@ const ReturnOrderComponent = (props: PropsType) => {
         <View style={styles.vwReturnOrder}>
           {props?.arrReturnOrderReason.map(renderItemReturnOrderReason)}
         </View>
-        <View style={{ marginHorizontal: 20 }}>
-          <GlobalTextInput
-            isDescriptionField
-            value={props?.otherReason}
-            isLastField
-            placeholder={getTranslation("writehere")}
-            reference={props.otherReasonRef}
-            onChangeText={(text) => {
-              props.handleOnChangeText(text, "otherReason");
-            }}
-            onBlur={() => {
-              props.handleOnBlur("otherReason");
-            }}
-            onFocus={() => {
-              props.handleOnFocus("otherReason");
-            }}
-            onSubmitEditing={() => props?.handleOnSubmit("otherReason")}
-            focusValue={props.otherReasonFocused}
-          />
-        </View>
-        {/* Upload Image and Videos */}
-        <View style={styles.vwUploadImageVideos}>
-          <Text style={styles.lblUploadImageVideo}>
-            {getTranslation("uploadImagesVideo")}
-          </Text>
+        {props?.selectedReason === "Other (please specify)" && (
+          <>
+            <View style={{ marginHorizontal: 20 }}>
+              <GlobalTextInput
+                isDescriptionField
+                value={props?.otherReason}
+                isLastField
+                placeholder={getTranslation("writehere")}
+                reference={props.otherReasonRef}
+                onChangeText={(text) => {
+                  props.handleOnChangeText(text, "otherReason");
+                }}
+                onBlur={() => {
+                  props.handleOnBlur("otherReason");
+                }}
+                onFocus={() => {
+                  props.handleOnFocus("otherReason");
+                }}
+                onSubmitEditing={() => props?.handleOnSubmit("otherReason")}
+                focusValue={props.otherReasonFocused}
+              />
+            </View>
+            {/* Upload Image and Videos */}
+            <View style={styles.vwUploadImageVideos}>
+              <Text style={styles.lblUploadImageVideo}>
+                {getTranslation("uploadImagesVideo")}
+              </Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={{ flexDirection: "row", gap: 9.02 }}>
             <TouchableOpacity
               style={styles.btnUploadImageVideo}
@@ -134,14 +151,22 @@ const ReturnOrderComponent = (props: PropsType) => {
               />
             </TouchableOpacity>
             {props?.multiImagesArray?.length > 0 && (
-            <View style={{ flexDirection: "row", gap: 9.02 }}>
+              <View style={{ flexDirection: "row", gap: 9.02 }}>
               {props?.multiImagesArray.map(renderUploadImageVideo)}
             </View>
             )}
           </View>
-        </View>
+          </ScrollView>
+            </View>
+          </>
+        )}
       </ScrollView>
-      <View style={{ marginHorizontal: 20, marginBottom: 40 }}>
+      <View
+        style={{
+          marginHorizontal: 20,
+          marginBottom: insets.bottom ? insets.bottom : 20,
+        }}
+      >
         <GlobalButton
           isOrange
           title={getTranslation("submit")}

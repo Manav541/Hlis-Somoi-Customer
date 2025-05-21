@@ -1,12 +1,15 @@
-import {StyleSheet} from 'react-native';
-import {colors} from '../../../constants/Colors';
-import {fontSize} from '../../../constants/FontSizes';
-import {fontsfamily} from '../../../constants/FontFamily';
+import { StyleSheet } from "react-native";
+import { colors } from "../../../constants/Colors";
+import { fontSize } from "../../../constants/FontSizes";
+import { fontsfamily } from "../../../constants/FontFamily";
 
 export const styles = StyleSheet.create({
-  vwLogotTitle: {marginTop: 31, marginBottom: 21},
+  vwLogotTitle: {
+    marginTop: 31,
+    marginBottom: 21,
+  },
   lblOtpTitle: {
-    textAlign: 'center',
+    textAlign: "center",
     marginHorizontal: 42,
     color: colors.white,
     fontSize: fontSize.size14,

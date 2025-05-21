@@ -76,7 +76,10 @@ const EditProfileContainer = ({ navigation }: any) => {
   };
 
   const handleOnPressUpadte = () => {
-    if (name.trim() == "") {
+    if (profileImage == "") {
+      flashMessageWarning(getTranslation("emptyPfofileImage"));
+    }
+    else if (name.trim() == "") {
       flashMessageWarning(getTranslation("emptyName"));
     } else {
       navigation.setParams({ profileImage, name });

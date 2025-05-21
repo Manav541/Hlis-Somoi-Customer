@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  StatusBar,
+} from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -55,6 +61,11 @@ const AvailableOffersComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <FlatList
         data={props.arrAvailableOffers}
         contentContainerStyle={{ gap: 15 }}

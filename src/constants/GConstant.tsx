@@ -36,10 +36,33 @@ export const showConfirmAlert = (
   );
 };
 
+export const showConfirmForGuest = (
+  message: string,
+  onConfirm: () => void,
+  cancelText: string = 'Cancel',
+  confirmText: string = 'Sign In'
+) => {
+  Alert.alert(
+    appName,
+    message,
+    [
+      {
+        text: cancelText,
+        style: 'cancel',
+      },
+      {
+        text: confirmText,
+        onPress: onConfirm,
+      },
+    ],
+    { cancelable: true }
+  );
+};
+
 // Buttons
 export const activityOpacity = 0.8;
 export const hitSlop = 10;
-export const rupeeSymbol = '₹';
+export const rupeeSymbol = '$';
 
 // Flash Messages
 export const flashMessageSucess = (message: string | null) => {

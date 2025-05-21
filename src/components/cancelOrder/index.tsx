@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  StatusBar,
 } from "react-native";
 import React, { Ref } from "react";
 import { styles } from "./styles";
@@ -15,6 +16,7 @@ import GlobalTextInput from "../../global/GlobalTextInput";
 import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
 import { CancelOrderReason } from "../../constants/interfaces";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface PropsType {
   arrCancelOrderReason: CancelOrderReason[];
@@ -30,10 +32,15 @@ interface PropsType {
   isCancelSuccessModalVisible: boolean;
   onPressSubmit: () => void;
   onPressOkCancel: () => void;
+  selectedReason: string;
 }
 
 const CancelOrderComponent = (props: PropsType) => {
-  const renderItemCancelOrderReason = (item: CancelOrderReason, index: number) => {
+  const insets = useSafeAreaInsets();
+  const renderItemCancelOrderReason = (
+    item: CancelOrderReason,
+    index: number
+  ) => {
     return (
       <View key={index}>
         <TouchableOpacity
@@ -56,6 +63,11 @@ const CancelOrderComponent = (props: PropsType) => {
   };
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <ScrollView
         style={{ flexGrow: 1 }}
         bounces={false}
@@ -70,28 +82,35 @@ const CancelOrderComponent = (props: PropsType) => {
         <View style={styles.vwCancelOrder}>
           {props?.arrCancelOrderReason.map(renderItemCancelOrderReason)}
         </View>
-        <View style={{ marginHorizontal: 20 }}>
-          <GlobalTextInput
-            isDescriptionField
-            value={props?.otherReason}
-            isLastField
-            placeholder={getTranslation("writehere")}
-            reference={props.otherReasonRef}
-            onChangeText={(text) => {
-              props.handleOnChangeText(text, "otherReason");
-            }}
-            onBlur={() => {
-              props.handleOnBlur("otherReason");
-            }}
-            onFocus={() => {
-              props.handleOnFocus("otherReason");
-            }}
-            onSubmitEditing={() => props?.handleOnSubmit("otherReason")}
-            focusValue={props.otherReasonFocused}
-          />
-        </View>
+        {props?.selectedReason === "Other (please specify)" && (
+          <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
+            <GlobalTextInput
+              isDescriptionField
+              value={props?.otherReason}
+              isLastField
+              placeholder={getTranslation("writehere")}
+              reference={props.otherReasonRef}
+              onChangeText={(text) => {
+                props.handleOnChangeText(text, "otherReason");
+              }}
+              onBlur={() => {
+                props.handleOnBlur("otherReason");
+              }}
+              onFocus={() => {
+                props.handleOnFocus("otherReason");
+              }}
+              onSubmitEditing={() => props?.handleOnSubmit("otherReason")}
+              focusValue={props.otherReasonFocused}
+            />
+          </View>
+        )}
       </ScrollView>
-      <View style={{ marginHorizontal: 20, marginBottom: 40 }}>
+      <View
+        style={{
+          marginHorizontal: 20,
+          marginBottom: insets.bottom ? insets.bottom : 20,
+        }}
+      >
         <GlobalButton
           isOrange
           title={getTranslation("submit")}

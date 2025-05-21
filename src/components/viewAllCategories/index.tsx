@@ -1,4 +1,11 @@
-import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+} from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
@@ -30,6 +37,11 @@ const ViewAllCategoriesComponenet = (props: PropsType) => {
   };
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <FlatList
         data={props?.arrAllCategories}
         bounces={false}

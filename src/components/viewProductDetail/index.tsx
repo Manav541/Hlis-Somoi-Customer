@@ -7,6 +7,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -24,6 +25,7 @@ import {
   Review,
   SimilarProduct,
 } from "../../constants/interfaces";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface PropsType {
   product_imgMain: any[];
@@ -64,6 +66,7 @@ interface PropsType {
 }
 
 const ViewProductDetailComponent = (props: PropsType) => {
+  const insets = useSafeAreaInsets();
   const renderDots = () => {
     return (
       <View style={styles.vwDotsContainer}>
@@ -291,6 +294,11 @@ const ViewProductDetailComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
         <View
           style={
@@ -317,7 +325,11 @@ const ViewProductDetailComponent = (props: PropsType) => {
                       : styles.imgProduct_imgMain
                   }
                   source={item.imgMain}
-                  resizeMode="contain"
+                  resizeMode={
+                    props?.mainCategoryTitle === "Fashion"
+                      ? "stretch"
+                      : "contain"
+                  }
                 />
               );
             }}
@@ -424,6 +436,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
                   gap: 14,
                   marginTop: 10,
                   marginBottom: 20,
+                  paddingRight: 14,
                 }}
               />
             </View>
@@ -436,7 +449,11 @@ const ViewProductDetailComponent = (props: PropsType) => {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 renderItem={renderItemFashionColor}
-                contentContainerStyle={{ gap: 15, marginTop: 10 }}
+                contentContainerStyle={{
+                  gap: 15,
+                  marginTop: 10,
+                  paddingRight: 15,
+                }}
               />
             </View>
           </View>
@@ -530,7 +547,12 @@ const ViewProductDetailComponent = (props: PropsType) => {
       </ScrollView>
 
       {/* Like buy Now */}
-      <View style={styles.vwLikeBuyNow}>
+      <View
+        style={{
+          ...styles.vwLikeBuyNow,
+          marginBottom: insets.bottom ? insets.bottom : 20,
+        }}
+      >
         <TouchableOpacity
           style={styles.btnIsFavourite}
           activeOpacity={activityOpacity}

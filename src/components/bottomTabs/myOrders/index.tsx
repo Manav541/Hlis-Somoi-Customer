@@ -6,17 +6,27 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { colors } from "../../../constants/Colors";
-import { activityOpacity, hitSlop, rupeeSymbol } from "../../../constants/GConstant";
+import {
+  activityOpacity,
+  hitSlop,
+  rupeeSymbol,
+} from "../../../constants/GConstant";
 import { images } from "../../../constants/Images";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import GlobalButton from "../../../global/GlobalButton";
 import { fontSize } from "../../../constants/FontSizes";
 import { fontsfamily } from "../../../constants/FontFamily";
-import { FilterDate, FilterOrderType, Order, OrderProduct } from "../../../constants/interfaces";
+import {
+  FilterDate,
+  FilterOrderType,
+  Order,
+  OrderProduct,
+} from "../../../constants/interfaces";
 
 interface PropsType {
   arrOrderList: Order[];
@@ -29,7 +39,7 @@ interface PropsType {
   arrFilterOrderType: FilterOrderType[];
   handleSelectOrderType: (index: number) => void;
   handleSelectOrderDate: (index: number) => void;
-  handleNavigateOrderSummary: (status : string) => void;
+  handleNavigateOrderSummary: (status: string) => void;
   onPressApply: () => void;
   onPressReset: () => void;
 }
@@ -51,26 +61,32 @@ const statusTexts: { [key: string]: string } = {
 };
 
 const MyOrdersComponent = (props: PropsType) => {
-  const renderItemOrderList = ({ item, index }: {item : Order, index:number}) => {
+  const renderItemOrderList = ({
+    item,
+    index,
+  }: {
+    item: Order;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         key={index}
         activeOpacity={activityOpacity}
         style={styles.btnOrderItems}
-        onPress={()=>{
-          props.handleNavigateOrderSummary(item?.status)
+        onPress={() => {
+          props.handleNavigateOrderSummary(item?.status);
         }}
-        >
-          {/* Oreder Number Total Price */}
+      >
+        {/* Oreder Number Total Price */}
         <View style={styles.vwOrderNumberHeader}>
-          <View style={{justifyContent : 'space-between'}}>
-            <Text style={styles.lblOrderNumber}>{getTranslation('orderNumber')}</Text>
-            <Text style={styles.lblOrderNumberValue}>
-              {item.order_number}
+          <View style={{ justifyContent: "space-between" }}>
+            <Text style={styles.lblOrderNumber}>
+              {getTranslation("orderNumber")}
             </Text>
+            <Text style={styles.lblOrderNumberValue}>{item.order_number}</Text>
           </View>
-          <View style={{justifyContent : 'space-between'}}>
-            <Text style={styles.lblTotal}>{getTranslation('total')}</Text>
+          <View style={{ justifyContent: "space-between" }}>
+            <Text style={styles.lblTotal}>{getTranslation("total")}</Text>
             <Text style={styles.lblTotalValue}>{item.total}</Text>
           </View>
         </View>
@@ -81,51 +97,52 @@ const MyOrdersComponent = (props: PropsType) => {
             {item.arrProduct?.length} items
           </Text>
           <View style={styles.vwProductlist}>
-            {item.arrProduct?.map((product: OrderProduct, productIndex: number) => (
-              <View style={styles.vwProductData} key={productIndex}>
-                <View style={styles.vwLeftProductData}>
-                  <View style={styles.vwProductImage}>
-                    <Image
-                      source={product.product_img}
-                      style={{
-                        height: product.height,
-                        width: product.width,
-                      }}
-                      resizeMode="stretch"
-                    />
-                  </View>
-                  <View style={styles.vwProductName}>
-                    <Text style={styles.lblProductName}>
-                      {product.product_name}
-                    </Text>
-                    <View style={styles.vwPrice}>
-                      <Text style={styles.lblPrice}>
-                        {product.price}
+            {item.arrProduct?.map(
+              (product: OrderProduct, productIndex: number) => (
+                <View style={styles.vwProductData} key={productIndex}>
+                  <View style={styles.vwLeftProductData}>
+                    <View style={styles.vwProductImage}>
+                      <Image
+                        source={product.product_img}
+                        style={{
+                          height: product.height,
+                          width: product.width,
+                        }}
+                        resizeMode="stretch"
+                      />
+                    </View>
+                    <View style={styles.vwProductName}>
+                      <Text style={styles.lblProductName}>
+                        {product.product_name}
                       </Text>
-                      <View style={styles.vwDot} />
-                      <Text style={styles.lblUnit}>{product.unit}</Text>
+                      <View style={styles.vwPrice}>
+                        <Text style={styles.lblPrice}>{product.price}</Text>
+                        <View style={styles.vwDot} />
+                        <Text style={styles.lblUnit}>{product.unit}</Text>
+                      </View>
                     </View>
                   </View>
-                </View>
 
-                <Text style={styles.lblQuantity}>
-                  QTY{' '}
-                  <Text style={styles.lblQuantityCount}>
-                    {product.quantity}
+                  <Text style={styles.lblQuantity}>
+                    QTY{" "}
+                    <Text style={styles.lblQuantityCount}>
+                      {product.quantity}
+                    </Text>
                   </Text>
-                </Text>
-              </View>
-            ))}
+                </View>
+              )
+            )}
           </View>
           <View style={styles.vwStatusDate}>
             <View>
               <Text
                 style={{
-                  color: statusColors[item.status] || colors.black35, 
+                  color: statusColors[item.status] || colors.black35,
                   fontSize: fontSize.size14,
                   fontFamily: fontsfamily.semibold,
-                }}>
-                {statusTexts[item.status] || 'Status Unknown'}
+                }}
+              >
+                {statusTexts[item.status] || "Status Unknown"}
               </Text>
 
               <Text style={styles.lblOrderDate}>on {item.date}</Text>
@@ -138,16 +155,20 @@ const MyOrdersComponent = (props: PropsType) => {
           </View>
         </View>
       </TouchableOpacity>
-    )
-  }
+    );
+  };
 
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent
+        backgroundColor={"transparent"}
+        barStyle={"dark-content"}
+      />
       <View style={styles.vwMainContainer}>
-
-      <FlatList
+        <FlatList
           data={props.arrOrderList}
-          contentContainerStyle={{ paddingTop: 20,paddingBottom : 20, gap : 12}}
+          contentContainerStyle={{ paddingTop: 20, paddingBottom: 20, gap: 12 }}
           keyExtractor={(item, index) =>
             item.order_number?.toString() ?? index.toString()
           }
@@ -155,7 +176,6 @@ const MyOrdersComponent = (props: PropsType) => {
           bounces={false}
           renderItem={renderItemOrderList}
         />
-
       </View>
 
       {/* Filter Modal */}
@@ -165,6 +185,11 @@ const MyOrdersComponent = (props: PropsType) => {
         visible={props?.filterModal}
         onRequestClose={props.closeFilterModal}
       >
+        <StatusBar
+          translucent
+          backgroundColor={colors.black50}
+          barStyle={"dark-content"}
+        />
         <View style={styles.vwFilterModal}>
           <View style={styles.vwFilterModalContainer}>
             <View style={styles.vwFilterClose}>
@@ -178,6 +203,7 @@ const MyOrdersComponent = (props: PropsType) => {
                   source={images.closeSearch}
                   style={styles.imgClose}
                   tintColor={colors.orange1c}
+                  resizeMode="stretch"
                 />
               </TouchableOpacity>
             </View>
@@ -187,26 +213,28 @@ const MyOrdersComponent = (props: PropsType) => {
                 {getTranslation("filterbyOrderType")}
               </Text>
               <View style={{ gap: 16.5 }}>
-                {props.arrFilterOrderType?.map((item: FilterOrderType, index: number) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={styles.btnArrItems}
-                    activeOpacity={activityOpacity}
-                    onPress={() => {
-                      props.handleSelectOrderType(index);
-                    }}
-                  >
-                    <Image
-                      style={styles.imgRadioButton}
-                      source={
-                        props.selectOrderType == index
-                          ? images.radioButtonSelected
-                          : images.radioButtonUnSelected
-                      }
-                    />
-                    <Text style={styles.lblRadioLabel}>{item.type}</Text>
-                  </TouchableOpacity>
-                ))}
+                {props.arrFilterOrderType?.map(
+                  (item: FilterOrderType, index: number) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={styles.btnArrItems}
+                      activeOpacity={activityOpacity}
+                      onPress={() => {
+                        props.handleSelectOrderType(index);
+                      }}
+                    >
+                      <Image
+                        style={styles.imgRadioButton}
+                        source={
+                          props.selectOrderType == index
+                            ? images.radioButtonSelected
+                            : images.radioButtonUnSelected
+                        }
+                      />
+                      <Text style={styles.lblRadioLabel}>{item.type}</Text>
+                    </TouchableOpacity>
+                  )
+                )}
               </View>
             </View>
 
