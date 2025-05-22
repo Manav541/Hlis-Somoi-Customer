@@ -30,6 +30,7 @@ import PaymentMethodContainer from "../containers/paymentMethod";
 import ProductListingContainer from "../containers/productListing";
 import RateAndReviewContainer from "../containers/rateAndReview";
 import ReportIssueContainer from "../containers/reportIssue";
+import ReturnExchangeItemListContainer from "../containers/returnExchangeItemList";
 import ReturnOrderContainer from "../containers/returnOrder";
 import ReviewContainer from "../containers/review";
 import SearchContainer from "../containers/search";
@@ -69,6 +70,7 @@ export const ScreenNames = {
   // My Orders
   orderSummary : "Order Summary",
   cancelOrder:"Cancel Order",
+  returnExchangeItemList:"Item List",
   returnOrder:"Return Order",
   rateAndReview : "Rate & Review",
   reportIssue : "Report Issue", 
@@ -138,6 +140,7 @@ export const MyScreens = {
   // My Orders
   OrderSummaryContainer,
   CancelOrderContainer,
+  ReturnExchangeItemListContainer,
   ReturnOrderContainer,
   RateAndReviewContainer,
   ReportIssueContainer,

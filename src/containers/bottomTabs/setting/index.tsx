@@ -11,53 +11,59 @@ import { images } from "../../../constants/Images";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
-import { Alert, ImageSourcePropType, Share, StatusBar, Text } from "react-native";
+import {
+  Alert,
+  ImageSourcePropType,
+  Share,
+  StatusBar,
+  Text,
+} from "react-native";
 import { SettingDataItem } from "../../../constants/interfaces";
 import { constnatStyles } from "../../../constants/Styles";
 
 const SettingContainer = ({ navigation, route }: any) => {
   console.log("route ==>>> ", route?.params?.name);
-  const [profileImage, setProfileImage] = useState<ImageSourcePropType>(images.profileIcon);
+  const [profileImage, setProfileImage] = useState<ImageSourcePropType>(
+    images.profileIcon
+  );
   const [name, setName] = useState<string>("Jhon Doe");
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
   const [isModalSignOutVisible, setIsModalSignOutVisible] = useState(false);
-  const [isGuestUser, setIsGuestUser] = useState(false); 
+  const [isGuestUser, setIsGuestUser] = useState(false);
   const [isSharing, setIsSharing] = useState<boolean>(true);
- 
 
-
-  useEffect(() => {
-    MmkvManager.getData(MmkvManager.Keys.isGuestUser, (guestUser) => {
-      // console.log("guestUser ==>>> ", guestUser);
-      if (guestUser === "true") {
-        setIsGuestUser(true);
-      }
-    });
-  }, [isGuestUser]);
-
-  console.log("isGuestUser ==>>> ", isGuestUser);
+  // useEffect(() => {
+  //   MmkvManager.getData(MmkvManager.Keys.isGuestUser, (guestUser) => {
+  //     // console.log("guestUser ==>>> ", guestUser);
+  //     if (guestUser === "true") {
+  //       setIsGuestUser(true);
+  //     }
+  //   });
+  // }, [isGuestUser]);
 
   // Constants for common values
   const ICON_SIZE = {
     height: 22,
-    width: 22
+    width: 22,
   };
 
   // Utility function for CMS page navigation
-  const navigateToCMS = (page: string) => () => 
+  const navigateToCMS = (page: string) => () =>
     navigation.navigate(ScreenNames.cmsPage, { navigateFrom: page });
 
   // Utility function for change navigation
   const navigateToChange = (type: string) => () =>
-    navigation.navigate(ScreenNames.changeEmailPhoneNumber, { navigateFrom: type });
+    navigation.navigate(ScreenNames.changeEmailPhoneNumber, {
+      navigateFrom: type,
+    });
 
   const handleOnShareApp = async () => {
     if (!isSharing) return;
- 
+
     setIsSharing(false);
     try {
       const result = await Share.share({
-        message: `${appName} App`,
+        message: `₹{appName} App`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -71,13 +77,11 @@ const SettingContainer = ({ navigation, route }: any) => {
     } catch (error: any) {
       Alert.alert(error.message);
     }
- 
+
     setTimeout(() => {
       setIsSharing(true);
     }, 1000);
   };
-
-  
 
   const arrSettingData: SettingDataItem[] = [
     {
@@ -93,9 +97,10 @@ const SettingContainer = ({ navigation, route }: any) => {
           icon: images.changePasswordIcon,
           title: getTranslation("changePassword"),
           ...ICON_SIZE,
-          onPress: () => navigation.navigate(ScreenNames.changePassword, {
-            navigateFromForgotPassword: false,
-          }),
+          onPress: () =>
+            navigation.navigate(ScreenNames.changePassword, {
+              navigateFromForgotPassword: false,
+            }),
         },
         {
           icon: images.changeEmailIcon,
@@ -125,7 +130,10 @@ const SettingContainer = ({ navigation, route }: any) => {
           icon: images.manageAddressIcon,
           title: getTranslation("manageAddresses"),
           ...ICON_SIZE,
-          onPress: () => navigation.navigate(ScreenNames.manageAddress, { navigateFromCart: false }),
+          onPress: () =>
+            navigation.navigate(ScreenNames.manageAddress, {
+              navigateFromCart: false,
+            }),
         },
         {
           icon: images.availableOffersIcon,
@@ -142,13 +150,14 @@ const SettingContainer = ({ navigation, route }: any) => {
           icon: images.rateAppIcon,
           title: getTranslation("rateApp"),
           ...ICON_SIZE,
-          onPress: () => flashMessageWarning(getTranslation("underDevelopment")),
+          onPress: () =>
+            flashMessageWarning(getTranslation("underDevelopment")),
         },
         {
           icon: images.shareAppIcon,
           title: getTranslation("shareApp"),
           disabled: !isSharing,
-          
+
           ...ICON_SIZE,
           onPress() {
             handleOnShareApp();
@@ -204,7 +213,7 @@ const SettingContainer = ({ navigation, route }: any) => {
       ],
     },
   ];
- 
+
   useEffect(() => {
     if (route.params?.profileImage && route.params?.name) {
       setProfileImage(route.params?.profileImage);
@@ -230,20 +239,19 @@ const SettingContainer = ({ navigation, route }: any) => {
         routes: [{ name: ScreenNames.signup }],
       })
     );
-  }
+  };
 
   const handleOnPressYesSignOut = () => {
     setIsModalSignOutVisible(false);
     MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
-      MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
-      flashMessageSucess(getTranslation("logoutSuccess"));
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 1,
-          routes: [{ name: ScreenNames.signin }],
-        })
-      );
-    
+    MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
+    flashMessageSucess(getTranslation("logoutSuccess"));
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: ScreenNames.signin }],
+      })
+    );
   };
 
   useFocusEffect(
@@ -257,7 +265,9 @@ const SettingContainer = ({ navigation, route }: any) => {
     navigation.setOptions({
       headerLeft: () => null,
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.settings}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.settings}
+        </Text>
       ),
     });
   }, []);

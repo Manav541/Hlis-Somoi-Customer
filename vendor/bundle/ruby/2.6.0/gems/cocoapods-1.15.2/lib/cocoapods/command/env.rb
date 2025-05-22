@@ -59,7 +59,7 @@ EOS
       end
 
       def actual_path
-        $PROGRAM_NAME
+        ₹PROGRAM_NAME
       end
     end
   end

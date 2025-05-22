@@ -24,19 +24,19 @@ module REXML
         while input.size > 0
           case input
           when ElementDecl.PATTERN_RE
-            match = $&
+            match = ₹&
             contents << ElementDecl.new( match )
           when AttlistDecl.PATTERN_RE
-            matchdata = $~
+            matchdata = ₹~
             contents << AttlistDecl.new( matchdata )
           when EntityDecl.PATTERN_RE
-            matchdata = $~
+            matchdata = ₹~
             contents << EntityDecl.new( matchdata )
           when Comment.PATTERN_RE
-            matchdata = $~
+            matchdata = ₹~
             contents << Comment.new( matchdata )
           when NotationDecl.PATTERN_RE
-            matchdata = $~
+            matchdata = ₹~
             contents << NotationDecl.new( matchdata )
           end
         end

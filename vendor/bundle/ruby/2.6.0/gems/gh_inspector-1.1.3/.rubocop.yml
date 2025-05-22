@@ -22,7 +22,7 @@ Lint/ParenthesesAsGroupedExpression:
 Lint/UnusedBlockArgument:
   Enabled: false
 
-# Needed for $verbose
+# Needed for ₹verbose
 Style/GlobalVars:
   Enabled: false
 
@@ -92,7 +92,7 @@ Style/Documentation:
 Style/DoubleNegation:
   Enabled: false
 
-# Needed for $verbose
+# Needed for ₹verbose
 Style/GlobalVars:
   Enabled: false
 
@@ -118,7 +118,7 @@ Style/RedundantSelf:
 Style/SignalException:
   Enabled: false
 
-# $? Exit
+# ₹? Exit
 Style/SpecialGlobalVars:
   Enabled: false
 

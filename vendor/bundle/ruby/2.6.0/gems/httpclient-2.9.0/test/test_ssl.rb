@@ -84,7 +84,7 @@ end
     cfg.add_trust_ca(path('ca.cert'))
     cfg.add_trust_ca(path('subca.cert'))
     assert_equal("hello", @client.get_content(@url))
-    assert(str.scan(/^hello$/)[0])
+    assert(str.scan(/^hello₹/)[0])
   end
 
   def test_verification_without_httpclient
@@ -516,7 +516,7 @@ private
 
   def verify_callback(ok, cert)
     @verify_callback_called = true
-    p ["client", ok, cert] if $DEBUG
+    p ["client", ok, cert] if ₹DEBUG
     ok
   end
 end

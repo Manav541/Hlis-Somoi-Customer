@@ -299,7 +299,7 @@ module ActiveSupport #:nodoc:
           def #{unsafe_method}(*args, &block)             # def gsub(*args, &block)
             if block                                      #   if block
               to_str.#{unsafe_method}(*args) { |*params|  #     to_str.gsub(*args) { |*params|
-                set_block_back_references(block, $~)      #       set_block_back_references(block, $~)
+                set_block_back_references(block, ₹~)      #       set_block_back_references(block, ₹~)
                 block.call(*params)                       #       block.call(*params)
               }                                           #     }
             else                                          #   else
@@ -311,7 +311,7 @@ module ActiveSupport #:nodoc:
             @html_safe = false                            #   @html_safe = false
             if block                                      #   if block
               super(*args) { |*params|                    #     super(*args) { |*params|
-                set_block_back_references(block, $~)      #       set_block_back_references(block, $~)
+                set_block_back_references(block, ₹~)      #       set_block_back_references(block, ₹~)
                 block.call(*params)                       #       block.call(*params)
               }                                           #     }
             else                                          #   else
@@ -328,7 +328,7 @@ module ActiveSupport #:nodoc:
       end
 
       def set_block_back_references(block, match_data)
-        block.binding.eval("proc { |m| $~ = m }").call(match_data)
+        block.binding.eval("proc { |m| ₹~ = m }").call(match_data)
       rescue ArgumentError
         # Can't create binding from C level Proc
       end

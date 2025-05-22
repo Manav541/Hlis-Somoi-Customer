@@ -39,6 +39,7 @@ const ReturnOrderContainer = ({ navigation }: any) => {
   const [isReturnSuccessModalVisible, setIsReturnSuccessModalVisible] =
     useState(false);
     const [selectedReason, setSelectedReason] = useState<string>("");
+    const [isRefundReplacement, setIsRefundReplacement] = useState<string>('Refund');
 
   const [finalReturnReason, setFinalReturnReason] = useState<string>("");
 
@@ -151,6 +152,10 @@ const ReturnOrderContainer = ({ navigation }: any) => {
     setIsReturnSuccessModalVisible(true);
   };
 
+  const onPressSelectRefundReplacement = (type :  string) => {
+    setIsRefundReplacement(type);
+  }
+
   const onPressOkReturn = () => {
     setIsReturnSuccessModalVisible(false);
     setOtherReason("");
@@ -169,6 +174,7 @@ const ReturnOrderContainer = ({ navigation }: any) => {
       })
     );
   };
+  
 
   const header = () => {
     navigation.setOptions({
@@ -206,6 +212,8 @@ const ReturnOrderContainer = ({ navigation }: any) => {
       onPressSubmit={onPressSubmit}
       onPressOkReturn={onPressOkReturn}
       selectedReason={selectedReason}
+      isRefundReplacement={isRefundReplacement}
+      onPressSelectRefundReplacement={onPressSelectRefundReplacement}
 
       multiImagesArray={multiImagesArray}
       handleOnPressUploadImages={handleOnPressUploadImages}

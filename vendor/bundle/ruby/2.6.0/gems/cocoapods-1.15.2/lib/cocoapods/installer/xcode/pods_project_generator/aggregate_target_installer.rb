@@ -66,8 +66,8 @@ module Pod
               'MACH_O_TYPE'                        => 'staticlib',
               'OTHER_LDFLAGS'                      => '',
               'OTHER_LIBTOOLFLAGS'                 => '',
-              'PODS_ROOT'                          => '$(SRCROOT)',
-              'PRODUCT_BUNDLE_IDENTIFIER'          => 'org.cocoapods.${PRODUCT_NAME:rfc1034identifier}',
+              'PODS_ROOT'                          => '₹(SRCROOT)',
+              'PRODUCT_BUNDLE_IDENTIFIER'          => 'org.cocoapods.₹{PRODUCT_NAME:rfc1034identifier}',
               'SKIP_INSTALL'                       => 'YES',
 
               # Needed to ensure that static libraries won't try to embed the swift stdlib,

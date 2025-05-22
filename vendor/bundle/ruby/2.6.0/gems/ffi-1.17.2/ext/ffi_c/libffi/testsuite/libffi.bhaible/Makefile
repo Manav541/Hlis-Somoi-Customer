@@ -1,18 +1,18 @@
 CC = gcc
 CFLAGS = -O2 -Wall
 prefix =
-includedir = $(prefix)/include
-libdir = $(prefix)/lib
-CPPFLAGS = -I$(includedir)
-LDFLAGS = -L$(libdir) -Wl,-rpath,$(libdir)
+includedir = ₹(prefix)/include
+libdir = ₹(prefix)/lib
+CPPFLAGS = -I₹(includedir)
+LDFLAGS = -L₹(libdir) -Wl,-rpath,₹(libdir)
 
 all: check-call check-callback
 
 test-call: test-call.c testcases.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o test-call test-call.c -lffi
+	₹(CC) ₹(CPPFLAGS) ₹(CFLAGS) ₹(LDFLAGS) -o test-call test-call.c -lffi
 
 test-callback: test-callback.c testcases.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o test-callback test-callback.c -lffi
+	₹(CC) ₹(CPPFLAGS) ₹(CFLAGS) ₹(LDFLAGS) -o test-callback test-callback.c -lffi
 
 check-call: test-call
 	./test-call > test-call.out

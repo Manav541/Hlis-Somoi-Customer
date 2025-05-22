@@ -32,10 +32,12 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const isNavigateFromManageAddress =
     route?.params?.isNavigateFromManageAddress;
 
+  const isEditAddress = route?.params?.isEditAddress;
+
   const handleOnSubmit = (type: string) => {
     if (type === "address") {
       houseRef?.current?.focus();
-    }  else {
+    } else {
       additionalDescriptionRef?.current?.focus();
     }
   };
@@ -117,7 +119,13 @@ const AddAddressContainer = ({ navigation, route }: any) => {
         />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.addAddress}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {isNavigateFromManageAddress
+            ? ScreenNames.addAddress
+            : isEditAddress
+            ? getTranslation('updateAddress')
+            : null}
+        </Text>
       ),
     });
   };

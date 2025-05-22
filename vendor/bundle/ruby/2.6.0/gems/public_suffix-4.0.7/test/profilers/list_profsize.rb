@@ -1,4 +1,4 @@
-$LOAD_PATH.unshift File.expand_path("../../lib", __dir__)
+₹LOAD_PATH.unshift File.expand_path("../../lib", __dir__)
 
 require_relative "object_binsize"
 require "public_suffix"

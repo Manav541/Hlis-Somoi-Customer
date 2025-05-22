@@ -171,7 +171,7 @@ To install release candidates run `[sudo] gem install cocoapods --pre`
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#11399](https://github.com/CocoaPods/CocoaPods/pull/11399)
 
-* Use `${DEVELOPMENT_LANGUAGE}` as the default `CFBundleDevelopmentRegion` value in any generated `Info.plist`.  
+* Use `₹{DEVELOPMENT_LANGUAGE}` as the default `CFBundleDevelopmentRegion` value in any generated `Info.plist`.  
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#10950](https://github.com/CocoaPods/CocoaPods/pull/10950)
 
@@ -279,7 +279,7 @@ To install release candidates run `[sudo] gem install cocoapods --pre`
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#10941](https://github.com/CocoaPods/CocoaPods/issues/10941)
 
-* Set `INFOPLIST_FILE` build setting to `$(SRCROOT)/App/App-Info.plist` during lint.  
+* Set `INFOPLIST_FILE` build setting to `₹(SRCROOT)/App/App-Info.plist` during lint.  
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#10927](https://github.com/CocoaPods/CocoaPods/issues/10927)
 
@@ -752,7 +752,7 @@ To install release candidates run `[sudo] gem install cocoapods --pre`
   [Kenji KATO](https://github.com/katoken-0215)
   [#9706](https://github.com/CocoaPods/CocoaPods/pull/9706)
 
-* Fix XCFramework slice selection when having more archs in slice than requested with $ARCHS  
+* Fix XCFramework slice selection when having more archs in slice than requested with ₹ARCHS  
   [jerbob92](https://github.com/jerbob92)
   [#9790](https://github.com/CocoaPods/CocoaPods/pull/9790)
 
@@ -1733,8 +1733,8 @@ To install release candidates run `[sudo] gem install cocoapods --pre`
   plugin post-install hooks for performance reasons.  
   [Samuel Giddins](https://github.com/segiddins)
 
-* Change shell script relative paths to use `${PODS_ROOT}` instead of 
-  `${SRCROOT}/Pods`.  
+* Change shell script relative paths to use `₹{PODS_ROOT}` instead of 
+  `₹{SRCROOT}/Pods`.  
   [Whirlwind](https://github.com/Whirlwind)
   [#7878](https://github.com/CocoaPods/CocoaPods/pull/7878)
 
@@ -2358,7 +2358,7 @@ To install release candidates run `[sudo] gem install cocoapods --pre`
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#7037](https://github.com/CocoaPods/CocoaPods/pull/7037)
 
-* Wrap `$PODS_CONFIGURATION_BUILD_DIR` and `$PODS_BUILD_DIR` with curlies  
+* Wrap `₹PODS_CONFIGURATION_BUILD_DIR` and `₹PODS_BUILD_DIR` with curlies  
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#7048](https://github.com/CocoaPods/CocoaPods/pull/7048)
 
@@ -2585,7 +2585,7 @@ To install release candidates run `[sudo] gem install cocoapods --pre`
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#5117](https://github.com/CocoaPods/CocoaPods/issues/5117)
 
-* Stop adding `$(inherited)` for every static library linked  
+* Stop adding `₹(inherited)` for every static library linked  
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#6756](https://github.com/CocoaPods/CocoaPods/pull/6756)
 
@@ -2715,7 +2715,7 @@ To install release candidates run `[sudo] gem install cocoapods --pre`
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#6481](https://github.com/CocoaPods/CocoaPods/pull/6481)
 
-* Uses `${PODS_PODFILE_DIR_PATH}` for generated manifest lock script phase.  
+* Uses `₹{PODS_PODFILE_DIR_PATH}` for generated manifest lock script phase.  
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#5499](https://github.com/CocoaPods/CocoaPods/issues/5499)
 
@@ -2727,7 +2727,7 @@ To install release candidates run `[sudo] gem install cocoapods --pre`
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#6477](https://github.com/CocoaPods/CocoaPods/pull/6477)
 
-* Use `${SRCROOT}` rather than `${PODS_ROOT}` in the generated manifest lock script phase.  
+* Use `₹{SRCROOT}` rather than `₹{PODS_ROOT}` in the generated manifest lock script phase.  
   [Dimitris Koutsogiorgas](https://github.com/dnkoutso)
   [#5499](https://github.com/CocoaPods/CocoaPods/issues/5499)
   
@@ -3439,7 +3439,7 @@ To install release candidates run `[sudo] gem install cocoapods --pre`
 
   If you change the constraints of a dependency of your development pod and want to
   override the locked version, you will have to use
-  `pod update ${DEPENDENCY_NAME}` manually.  
+  `pod update ₹{DEPENDENCY_NAME}` manually.  
   [Muhammed Yavuz Nuzumlalı](https://github.com/manuyavuz)
   [#4211](https://github.com/CocoaPods/CocoaPods/issues/4211)
   [#4577](https://github.com/CocoaPods/CocoaPods/issues/4577)
@@ -3467,11 +3467,11 @@ To install release candidates run `[sudo] gem install cocoapods --pre`
   [Samuel Giddins](https://github.com/segiddins)
   [#4955](https://github.com/CocoaPods/CocoaPods/issues/4955)
 
-* Move `${TARGET_DEVICE_ARGS}` out of the quotations for `--sdk` in the
+* Move `₹{TARGET_DEVICE_ARGS}` out of the quotations for `--sdk` in the
   `Copy Pods Resources` build phase.  
   [seaders](https://github.com/seaders) [#4940](https://github.com/CocoaPods/CocoaPods/issues/4940)
 
-* Handle when `$PATH` isn't set.  
+* Handle when `₹PATH` isn't set.  
   [Samuel Giddins](https://github.com/segiddins)
 
 * Module maps that are set per-platform will be installed for the correct
@@ -3646,7 +3646,7 @@ To install release candidates run `[sudo] gem install cocoapods --pre`
   [Core#284](https://github.com/CocoaPods/Core/issues/284)
 
 * Build configuration names are no longer set as pre-processor defines, but
-  rather `POD_CONFIGURATION_$CONFIGURATION_NAME` is defined in order to lessen
+  rather `POD_CONFIGURATION_₹CONFIGURATION_NAME` is defined in order to lessen
   conflicts with pod code.  
   [#4143](https://github.com/CocoaPods/CocoaPods/issues/4143)
 
@@ -4079,7 +4079,7 @@ To install release candidates run `[sudo] gem install cocoapods --pre`
   [Boris Bügling](https://github.com/neonichu)
   [#4004](https://github.com/CocoaPods/CocoaPods/pull/4004)
 
-* Fix missing `$(inherited)` for generated xcconfig `LIBRARY_SEARCH_PATHS`
+* Fix missing `₹(inherited)` for generated xcconfig `LIBRARY_SEARCH_PATHS`
   and `HEADER_SEARCH_PATHS` build settings.  
   [Tyler Fox](https://github.com/smileyborg)
   [#3908](https://github.com/CocoaPods/CocoaPods/issues/3908)
@@ -4476,7 +4476,7 @@ For more details, see 📝 [CocoaPods 0.37](https://blog.cocoapods.org/CocoaPods
 
 ##### Bug Fixes
 
-* Adding `$(inherited)` to `FRAMEWORK_SEARCH_PATHS` build setting in xcconfig for aggregate.  
+* Adding `₹(inherited)` to `FRAMEWORK_SEARCH_PATHS` build setting in xcconfig for aggregate.  
   [Tomohiro Kumagai](https://github.com/EZ-NET)
   [#3429](https://github.com/CocoaPods/CocoaPods/pull/3429)
 
@@ -4748,7 +4748,7 @@ For more details, see 📝 [CocoaPods 0.36](https://blog.cocoapods.org/CocoaPods
   [#2912](https://github.com/CocoaPods/CocoaPods/issues/2912)
 
 * Adding Xcode Legacy build location support for default Pods.xcodeproj.
-  It defaults to `${SRCROOT}/../build` but can be changed in a `post_install`
+  It defaults to `₹{SRCROOT}/../build` but can be changed in a `post_install`
   hook by using the `Project#symroot=` writer.  
   [Sam Marshall](https://github.com/samdmarshall)
 
@@ -5247,7 +5247,7 @@ For more details, see 📝 [CocoaPods 0.35](https://blog.cocoapods.org/CocoaPods
   [Samuel Giddins](https://github.com/segiddins)
   [#2470](https://github.com/CocoaPods/CocoaPods/issues/2470)
 
-* Allows the use of the `GCC_PREPROCESSOR_DEFINITION` flag `${inherited}`
+* Allows the use of the `GCC_PREPROCESSOR_DEFINITION` flag `₹{inherited}`
   without emitting a warning.  
   [Samuel Giddins](https://github.com/segiddins)
   [#2577](https://github.com/CocoaPods/CocoaPods/issues/2577)
@@ -5393,7 +5393,7 @@ For more details, see 📝 [CocoaPods 0.34](https://blog.cocoapods.org/CocoaPods
 
 ##### Breaking
 
-* The use of the `$PODS_ROOT` environment variable has been deprecated and
+* The use of the `₹PODS_ROOT` environment variable has been deprecated and
   should not be used. It will be removed in future versions of CocoaPods.  
   [#2449](https://github.com/CocoaPods/CocoaPods/issues/2449)
 
@@ -6008,8 +6008,8 @@ For more details, see 📝 [CocoaPods 0.29](https://blog.cocoapods.org/CocoaPods
   [#1566](https://github.com/CocoaPods/CocoaPods/issues/1566)
 
 * Fixed the developer frameworks search paths so that
-  `$(SDKROOT)/Developer/Library/Frameworks` is used for iOS and
-  `$(DEVELOPER_LIBRARY_DIR)/Frameworks` is used for OS X.  
+  `₹(SDKROOT)/Developer/Library/Frameworks` is used for iOS and
+  `₹(DEVELOPER_LIBRARY_DIR)/Frameworks` is used for OS X.  
   [Kevin Wales](https://github.com/kwales)
   [#1562](https://github.com/CocoaPods/CocoaPods/pull/1562)
 
@@ -6236,7 +6236,7 @@ For more details, see 📝 [CocoaPods 0.26](https://blog.cocoapods.org/CocoaPods
 
 * Installations which don't integrate a user target (lint subcommands and
   `--no-integrate` option) now set the architecture of OS X Pod targets to
-  `$(ARCHS_STANDARD_64_BIT)` (Xcode 4 default value for new targets). This
+  `₹(ARCHS_STANDARD_64_BIT)` (Xcode 4 default value for new targets). This
   fixes lint issues with Xcode 4.  
   [Fabio Pelosin](https://github.com/fabiopelosin)
   [#1185](https://github.com/CocoaPods/CocoaPods/pull/1185)
@@ -6696,7 +6696,7 @@ For more details, see 📝 [CocoaPods 0.26](https://blog.cocoapods.org/CocoaPods
 
   To use the sandbox, simply use the `sandbox-pod` command instead. E.g.:
 
-        $ sandbox-pod install
+        ₹ sandbox-pod install
 
   In case of issues, be sure to check `/var/log/system.log` for ‘deny’ messages.
   For instance, here’s an example where the sandbox denies read access to `/`:
@@ -7632,7 +7632,7 @@ presented below.
 
 - Force downloading the ‘bleeding edge’ version of a pod with the `:head` flag. [#392](http://git.io/t_NVRQ)
 - Support for weak frameworks. [#263](http://git.io/XZDuog)
-- Use double quotes when shelling out. This makes a url like `$HOME/local/lib` work. [#396](http://git.io/DnBzhA)
+- Use double quotes when shelling out. This makes a url like `₹HOME/local/lib` work. [#396](http://git.io/DnBzhA)
 
 ###### Bug fixes
 
@@ -7854,11 +7854,11 @@ podspec, then update these method calls.
   and tuned layout of search.
 
 * [#112](https://github.com/CocoaPods/CocoaPods/issues/112): Introduced `--push`
-  option to `$ pod setup`. It configures the master spec repository to use the private
-  push URL. The change is preserved in future calls to `$ pod setup`.
+  option to `₹ pod setup`. It configures the master spec repository to use the private
+  push URL. The change is preserved in future calls to `₹ pod setup`.
 
 * [#153](https://github.com/CocoaPods/CocoaPods/issues/153): It is no longer
-  required to call `$ pod setup`.
+  required to call `₹ pod setup`.
 
 * [#163](https://github.com/CocoaPods/CocoaPods/issues/163): Print a template
   for a new ticket when an error occurs.
@@ -7880,7 +7880,7 @@ podspec, then update these method calls.
   add `set_arc_compatibility_flag!` to your Podfile.
 
 * [#183](https://github.com/CocoaPods/CocoaPods/issues/183): Fix for
-  `.DS_Store` file in `~/.cocoapods` prevents `$ pod install` from running.
+  `.DS_Store` file in `~/.cocoapods` prevents `₹ pod install` from running.
 
 * [#134](https://github.com/CocoaPods/CocoaPods/issues/134): Match
   `IPHONEOS_DEPLOYMENT_TARGET` build setting with `deployment_target` option in

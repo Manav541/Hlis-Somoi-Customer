@@ -14,11 +14,11 @@ gem 'base64'
 
 And then execute:
 
-    $ bundle install
+    ₹ bundle install
 
 Or install it yourself as:
 
-    $ gem install base64
+    ₹ gem install base64
 
 ## Usage
 

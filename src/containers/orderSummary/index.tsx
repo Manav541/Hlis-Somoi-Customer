@@ -6,7 +6,11 @@ import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { ScreenNames } from "../../routers";
-import { OrderDetail, OrderReviewProduct, OrderStatus } from "../../constants/interfaces";
+import {
+  OrderDetail,
+  OrderReviewProduct,
+  OrderStatus,
+} from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 
 const ONE_MIN = 60_000;
@@ -20,7 +24,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
   const [delivertoAddress, setDelivertoAddress] = useState<string>(
     "3465 Hanover Street, Locust Court Burbank New York, NY 10038"
   );
-  const defaultOrderStatus:OrderStatus[] = [
+  const defaultOrderStatus: OrderStatus[] = [
     {
       status_icon: images.orderPlaced,
       status_icon1: images.orderPlacedUn,
@@ -94,6 +98,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       width: 42.3,
       product_rating: "4.5",
       isRateReview: true,
+      isSelected: false
     },
     {
       product_name: `Fortune Premium Mustard ${"\n"}Oil`,
@@ -105,6 +110,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       width: 47.52,
       product_rating: "4.5",
       isRateReview: false,
+      isSelected: false
     },
   ]);
 
@@ -138,7 +144,9 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     arrOrderStatus[0].status_title
   );
   const [cancelDisabled, setCancelDisabled] = useState<boolean>(false);
-  const [driverProfile, setDriverProfile] = useState<ImageSourcePropType>(images.driverProfile);
+  const [driverProfile, setDriverProfile] = useState<ImageSourcePropType>(
+    images.driverProfile
+  );
   const [driverName, setDriverName] = useState<string>("Jaylon Carder");
   const [driverMobileNumber, setDriverMobileNumber] =
     useState<string>("9876543210");
@@ -151,29 +159,39 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
   const [isEditReviewModalVisible, setIsEditReviewModalVisible] =
     useState<boolean>(false);
 
-    const onPressOpenEditReview = () => {
-      setIsEditReviewModalVisible(true);
-    };
+  const onPressOpenEditReview = () => {
+    setIsEditReviewModalVisible(true);
+  };
 
-    const onPressEditReview = () => {
-      setIsEditReviewModalVisible(false);
-      navigation.navigate(ScreenNames.rateAndReview);
-    };
+  const onPressCloseEditReviewModal = () => {
+    setIsEditReviewModalVisible(false);
+  };
 
-    const onPressDeleteReview = () => {
-      setIsEditReviewModalVisible(false);
-    };
+  const onPressEditReview = () => {
+    setIsEditReviewModalVisible(false);
+    navigation.navigate(ScreenNames.rateAndReview);
+  };
 
-    const onPressReportIssue =() =>{
-      navigation.navigate(ScreenNames.reportIssue)
-    }
+  const onPressDeleteReview = () => {
+    setArrProducts((prevProducts) =>
+      prevProducts.map((product) => ({
+        ...product,
+        isRateReview: false,
+      }))
+    );
+    setIsEditReviewModalVisible(false);
+  };
+
+  const onPressReportIssue = () => {
+    navigation.navigate(ScreenNames.reportIssue);
+  };
 
   const onPressCancelOrder = () => {
     navigation.navigate(ScreenNames.cancelOrder);
   };
 
   const onPressReturnOrder = () => {
-    navigation.navigate(ScreenNames.returnOrder);
+    navigation.navigate(ScreenNames.returnExchangeItemList,{arrProducts : arrProducts});
   };
 
   const onPressRateReview = (item: OrderReviewProduct) => {
@@ -277,7 +295,9 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
         <GlobalBackButton onPress={() => navigation.goBack()} />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.orderSummary}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.orderSummary}
+        </Text>
       ),
     });
   };
@@ -325,6 +345,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       onPressRateReview={onPressRateReview}
       isEditReviewModalVisible={isEditReviewModalVisible}
       onPressOpenEditReview={onPressOpenEditReview}
+      onPressCloseEditReviewModal={onPressCloseEditReviewModal}
       onPressEditReview={onPressEditReview}
       onPressDeleteReview={onPressDeleteReview}
       onPressReportIssue={onPressReportIssue}

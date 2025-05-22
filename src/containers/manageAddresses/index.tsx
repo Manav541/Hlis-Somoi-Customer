@@ -55,7 +55,7 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
   };
 
   const handleOnPressEditAddress = (index: number) => {
-    navigation.navigate("Add Address", { isNavigateFromManageAddress: true });
+    navigation.navigate("Add Address", { isNavigateFromManageAddress: true, isEditAddress: true });
   };
 
   const handleOnPressAddAddress = () => {
@@ -71,7 +71,7 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
           }}
         />
       ),
-      headerTitle: (
+      headerTitle: () => (
         <Text style={constnatStyles.lblHeaderTitle}>
           {navigateFromCart
             ? getTranslation("changeLocation")

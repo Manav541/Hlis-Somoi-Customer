@@ -7,6 +7,7 @@ import {
   Modal,
   ImageSourcePropType,
   StatusBar,
+  TouchableWithoutFeedback,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -50,6 +51,7 @@ interface PropsType {
   onPressRateReview: (item: OrderReviewProduct) => void;
   isEditReviewModalVisible: boolean;
   onPressOpenEditReview: () => void;
+  onPressCloseEditReviewModal: () => void;
   onPressEditReview: () => void;
   onPressDeleteReview: () => void;
   onPressReportIssue: () => void;
@@ -525,52 +527,64 @@ const OrderSummaryComponent = (props: PropsType) => {
         visible={props?.isEditReviewModalVisible}
         transparent
         animationType="fade"
+        onRequestClose={props?.onPressCloseEditReviewModal}
       >
         <StatusBar
           translucent
           backgroundColor={colors.black50}
           barStyle={"dark-content"}
         />
-        <View style={styles.vwFilterModal}>
-          <View
-            style={{
-              ...styles.vwFilterModalContainer,
-              paddingBottom: PlatformVersion.isIOS ? insets.bottom + 20 : 20,
-            }}
-          >
-            <Text style={styles.lblYourReview}>
-              {getTranslation("yourReview")}
-            </Text>
-            <View style={{ flexDirection: "row" }}>
-              {[1, 2, 3, 4, 5].map((item: number, index: number) => (
-                <Image
-                  key={index}
-                  style={styles.imgStarModal}
-                  source={item <= rating ? images.starFilled : images.starEmpty}
-                />
-              ))}
-            </View>
-            <Text style={styles.lblReviewDesc}>
-              {getTranslation("reviewDesc")}
-            </Text>
-            <View style={styles.vwEditDeleteReview}>
-              <GlobalButton
-                isOrange
-                title={getTranslation("edit")}
-                flex={1}
-                onPress={props?.onPressEditReview}
-              />
-              <TouchableOpacity
-                style={styles.btnDelete}
-                activeOpacity={activityOpacity}
-                hitSlop={hitSlop}
-                onPress={props?.onPressDeleteReview}
+        <TouchableWithoutFeedback onPress={props?.onPressCloseEditReviewModal}>
+          <View style={styles.vwFilterModal}>
+            <TouchableWithoutFeedback>
+              <View
+                style={{
+                  ...styles.vwFilterModalContainer,
+                  paddingBottom: PlatformVersion.isIOS
+                    ? insets.bottom + 20
+                    : 20,
+                }}
               >
-                <Image style={constnatStyles.img24} source={images.delete1} />
-              </TouchableOpacity>
-            </View>
+                <Text style={styles.lblYourReview}>
+                  {getTranslation("yourReview")}
+                </Text>
+                <View style={{ flexDirection: "row" }}>
+                  {[1, 2, 3, 4, 5].map((item: number, index: number) => (
+                    <Image
+                      key={index}
+                      style={styles.imgStarModal}
+                      source={
+                        item <= rating ? images.starFilled : images.starEmpty
+                      }
+                    />
+                  ))}
+                </View>
+                <Text style={styles.lblReviewDesc}>
+                  {getTranslation("reviewDesc")}
+                </Text>
+                <View style={styles.vwEditDeleteReview}>
+                  <GlobalButton
+                    isOrange
+                    title={getTranslation("edit")}
+                    flex={1}
+                    onPress={props?.onPressEditReview}
+                  />
+                  <TouchableOpacity
+                    style={styles.btnDelete}
+                    activeOpacity={activityOpacity}
+                    hitSlop={hitSlop}
+                    onPress={props?.onPressDeleteReview}
+                  >
+                    <Image
+                      style={constnatStyles.img24}
+                      source={images.delete1}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
     </View>
   );

@@ -98,7 +98,7 @@ ffi_call_pa32:
 	   we need to give it a place to put the result.  */
 	ldw -52(%r3), %ret0                     /* %ret0 <- rvalue */
 	ldw -56(%r3), %r22                      /* %r22 <- function to call */
-	bl $$dyncall, %r31                      /* Call the user function */
+	bl ₹₹dyncall, %r31                      /* Call the user function */
 	copy %r31, %rp
 
 	/* Prepare to store the result; we need to recover flags and rvalue.  */

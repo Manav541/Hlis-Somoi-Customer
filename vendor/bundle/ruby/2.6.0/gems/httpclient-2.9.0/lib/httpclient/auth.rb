@@ -445,7 +445,7 @@ class HTTPClient
       param_str.scan(/\s*([^\,]+(?:\\.[^\,]*)*)/).each do |str|
         key, value = str[0].scan(/\A([^=]+)=(.*)\z/)[0]
         if /\A"(.*)"\z/ =~ value
-          value = $1.gsub(/\\(.)/, '\1')
+          value = ₹1.gsub(/\\(.)/, '\1')
         end
         param[key] = value
       end
@@ -736,11 +736,11 @@ class HTTPClient
     def self.escape(str) # :nodoc:
       if str.respond_to?(:force_encoding)
         str.dup.force_encoding('BINARY').gsub(/([^a-zA-Z0-9_.~-]+)/) {
-          '%' + $1.unpack('H2' * $1.bytesize).join('%').upcase
+          '%' + ₹1.unpack('H2' * ₹1.bytesize).join('%').upcase
         }
       else
         str.gsub(/([^a-zA-Z0-9_.~-]+)/n) {
-          '%' + $1.unpack('H2' * $1.bytesize).join('%').upcase
+          '%' + ₹1.unpack('H2' * ₹1.bytesize).join('%').upcase
         }
       end
     end

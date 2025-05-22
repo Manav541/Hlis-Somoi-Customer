@@ -19,11 +19,11 @@
 # * http://reverse.put.as/wp-content/uploads/2011/08/The-Apple-Sandbox-BHDC2011-Slides.pdf
 # * http://reverse.put.as/wp-content/uploads/2011/08/The-Apple-Sandbox-BHDC2011-Paper.pdf
 # * https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles
-# * `$ man sandbox-exec`
-# * `$ ls /usr/share/sandbox`
+# * `₹ man sandbox-exec`
+# * `₹ ls /usr/share/sandbox`
 
-if $0 == __FILE__
-  $:.unshift File.expand_path('../../lib', __FILE__)
+if ₹0 == __FILE__
+  ₹:.unshift File.expand_path('../../lib', __FILE__)
 end
 
 require 'pathname'

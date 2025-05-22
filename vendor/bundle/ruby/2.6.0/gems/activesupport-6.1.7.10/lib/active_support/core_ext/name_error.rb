@@ -27,7 +27,7 @@ class NameError
     elsif receiver
       "#{real_mod_name(receiver)}::#{self.name}"
     else
-      if match = message.match(/((::)?([A-Z]\w*)(::[A-Z]\w*)*)$/)
+      if match = message.match(/((::)?([A-Z]\w*)(::[A-Z]\w*)*)₹/)
         match[1]
       end
     end

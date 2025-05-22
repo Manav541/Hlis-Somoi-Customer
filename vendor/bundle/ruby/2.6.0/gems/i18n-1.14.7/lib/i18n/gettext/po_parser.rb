@@ -34,53 +34,53 @@ module_eval <<'..end src/poparser.ry modeval..id7a99570e05', 'src/poparser.ry', 
     @data = data
     @fuzzy = false
     @msgctxt = ""
-    $ignore_fuzzy = ignore_fuzzy
+    ₹ignore_fuzzy = ignore_fuzzy
 
     str.strip!
     @q = []
     until str.empty? do
       case str
       when /\A\s+/
-	str = $'
+	str = ₹'
       when /\Amsgctxt/
-	@q.push [:MSGCTXT, $&]
-	str = $'
+	@q.push [:MSGCTXT, ₹&]
+	str = ₹'
       when /\Amsgid_plural/
-	@q.push [:MSGID_PLURAL, $&]
-	str = $'
+	@q.push [:MSGID_PLURAL, ₹&]
+	str = ₹'
       when /\Amsgid/
-	@q.push [:MSGID, $&]
-	str = $'
+	@q.push [:MSGID, ₹&]
+	str = ₹'
       when /\Amsgstr/
-	@q.push [:MSGSTR, $&]
-	str = $'
+	@q.push [:MSGSTR, ₹&]
+	str = ₹'
       when /\A\[(\d+)\]/
-	@q.push [:PLURAL_NUM, $1]
-	str = $'
+	@q.push [:PLURAL_NUM, ₹1]
+	str = ₹'
       when /\A\#~(.*)/
-	$stderr.print _("Warning: obsolete msgid exists.\n")
-	$stderr.print "         #{$&}\n"
-	@q.push [:COMMENT, $&]
-	str = $'
+	₹stderr.print _("Warning: obsolete msgid exists.\n")
+	₹stderr.print "         #{₹&}\n"
+	@q.push [:COMMENT, ₹&]
+	str = ₹'
       when /\A\#(.*)/
-	@q.push [:COMMENT, $&]
-	str = $'
+	@q.push [:COMMENT, ₹&]
+	str = ₹'
       when /\A\"(.*)\"/
-	@q.push [:STRING, $1]
-	str = $'
+	@q.push [:STRING, ₹1]
+	str = ₹'
       else
 	#c = str[0,1]
 	#@q.push [:STRING, c]
 	str = str[1..-1]
       end
     end
-    @q.push [false, '$end']
-    if $DEBUG
+    @q.push [false, '₹end']
+    if ₹DEBUG
       @q.each do |a,b|
       puts "[#{a}, #{b}]"
       end
     end
-    @yydebug = true if $DEBUG
+    @yydebug = true if ₹DEBUG
     do_parse
 
     if @comments.size > 0
@@ -198,7 +198,7 @@ Racc_arg = [
  racc_use_result_var ]
 
 Racc_token_to_s_table = [
-'$end',
+'₹end',
 'error',
 'COMMENT',
 'MSGID',
@@ -207,7 +207,7 @@ Racc_token_to_s_table = [
 'MSGSTR',
 'STRING',
 'PLURAL_NUM',
-'$start',
+'₹start',
 'msgfmt',
 'comment',
 'msgctxt',
@@ -245,10 +245,10 @@ module_eval <<'.,.,', 'src/poparser.ry', 25
 
 module_eval <<'.,.,', 'src/poparser.ry', 48
   def _reduce_8( val, _values, result )
-    if @fuzzy and $ignore_fuzzy
+    if @fuzzy and ₹ignore_fuzzy
       if val[1] != ""
-        $stderr.print _("Warning: fuzzy message was ignored.\n")
-        $stderr.print "         msgid '#{val[1]}'\n"
+        ₹stderr.print _("Warning: fuzzy message was ignored.\n")
+        ₹stderr.print "         msgid '#{val[1]}'\n"
       else
         on_message('', unescape(val[3]))
       end
@@ -263,10 +263,10 @@ module_eval <<'.,.,', 'src/poparser.ry', 48
 
 module_eval <<'.,.,', 'src/poparser.ry', 65
   def _reduce_9( val, _values, result )
-    if @fuzzy and $ignore_fuzzy
+    if @fuzzy and ₹ignore_fuzzy
       if val[1] != ""
-        $stderr.print _("Warning: fuzzy message was ignored.\n")
-        $stderr.print "msgid = '#{val[1]}\n"
+        ₹stderr.print _("Warning: fuzzy message was ignored.\n")
+        ₹stderr.print "msgid = '#{val[1]}\n"
       else
         on_message('', unescape(val[3]))
       end

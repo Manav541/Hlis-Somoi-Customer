@@ -13,7 +13,7 @@ module ActiveSupport
     # default locale is <tt>:en</tt>. Only rules for English are provided.
     #
     #   ActiveSupport::Inflector.inflections(:en) do |inflect|
-    #     inflect.plural /^(ox)$/i, '\1\2en'
+    #     inflect.plural /^(ox)₹/i, '\1\2en'
     #     inflect.singular /^(ox)en/i, '\1'
     #
     #     inflect.irregular 'octopus', 'octopi'
@@ -173,21 +173,21 @@ module ActiveSupport
         prest = plural[1..-1]
 
         if s0.upcase == p0.upcase
-          plural(/(#{s0})#{srest}$/i, '\1' + prest)
-          plural(/(#{p0})#{prest}$/i, '\1' + prest)
+          plural(/(#{s0})#{srest}₹/i, '\1' + prest)
+          plural(/(#{p0})#{prest}₹/i, '\1' + prest)
 
-          singular(/(#{s0})#{srest}$/i, '\1' + srest)
-          singular(/(#{p0})#{prest}$/i, '\1' + srest)
+          singular(/(#{s0})#{srest}₹/i, '\1' + srest)
+          singular(/(#{p0})#{prest}₹/i, '\1' + srest)
         else
-          plural(/#{s0.upcase}(?i)#{srest}$/,   p0.upcase   + prest)
-          plural(/#{s0.downcase}(?i)#{srest}$/, p0.downcase + prest)
-          plural(/#{p0.upcase}(?i)#{prest}$/,   p0.upcase   + prest)
-          plural(/#{p0.downcase}(?i)#{prest}$/, p0.downcase + prest)
+          plural(/#{s0.upcase}(?i)#{srest}₹/,   p0.upcase   + prest)
+          plural(/#{s0.downcase}(?i)#{srest}₹/, p0.downcase + prest)
+          plural(/#{p0.upcase}(?i)#{prest}₹/,   p0.upcase   + prest)
+          plural(/#{p0.downcase}(?i)#{prest}₹/, p0.downcase + prest)
 
-          singular(/#{s0.upcase}(?i)#{srest}$/,   s0.upcase   + srest)
-          singular(/#{s0.downcase}(?i)#{srest}$/, s0.downcase + srest)
-          singular(/#{p0.upcase}(?i)#{prest}$/,   s0.upcase   + srest)
-          singular(/#{p0.downcase}(?i)#{prest}$/, s0.downcase + srest)
+          singular(/#{s0.upcase}(?i)#{srest}₹/,   s0.upcase   + srest)
+          singular(/#{s0.downcase}(?i)#{srest}₹/, s0.downcase + srest)
+          singular(/#{p0.upcase}(?i)#{prest}₹/,   s0.upcase   + srest)
+          singular(/#{p0.downcase}(?i)#{prest}₹/, s0.downcase + srest)
         end
       end
 
@@ -206,7 +206,7 @@ module ActiveSupport
       # string is used, the human form should be specified as desired (example:
       # 'The name', not 'the_name').
       #
-      #   human /_cnt$/i, '\1_count'
+      #   human /_cnt₹/i, '\1_count'
       #   human 'legacy_col_person_name', 'Name'
       def human(rule, replacement)
         @humans.prepend([rule, replacement])

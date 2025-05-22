@@ -14,11 +14,11 @@ gem 'nkf'
 
 And then execute:
 
-    $ bundle install
+    ₹ bundle install
 
 Or install it yourself as:
 
-    $ gem install nkf
+    ₹ gem install nkf
 
 ## Usage
 

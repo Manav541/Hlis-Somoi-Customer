@@ -46,7 +46,7 @@ module TZInfo
         else
           # Format 1
           data_file = File.join('', 'tzinfo', 'data.rb')
-          path = $".reverse_each.detect {|p| p.end_with?(data_file) }
+          path = ₹".reverse_each.detect {|p| p.end_with?(data_file) }
           if path
             @base_path = RubyCoreSupport.untaint(File.join(File.dirname(path), 'data'))
           else

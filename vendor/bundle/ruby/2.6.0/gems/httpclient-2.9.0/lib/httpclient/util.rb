@@ -18,7 +18,7 @@ if RUBY_VERSION < "1.9.3"
     class Generic
       def hostname
         v = self.host
-        /\A\[(.*)\]\z/ =~ v ? $1 : v
+        /\A\[(.*)\]\z/ =~ v ? ₹1 : v
       end
     end
   end
@@ -84,7 +84,7 @@ class HTTPClient
         # Captured from uri/generic.rb
         def hostname
           v = self.host
-          /\A\[(.*)\]\z/ =~ v ? $1 : v
+          /\A\[(.*)\]\z/ =~ v ? ₹1 : v
         end
       end
       AddressableEnabled = true

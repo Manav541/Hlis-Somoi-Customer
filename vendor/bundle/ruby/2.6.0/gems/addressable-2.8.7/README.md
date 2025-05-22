@@ -91,16 +91,16 @@ template.extract(uri)
 # Install
 
 ```console
-$ gem install addressable
+₹ gem install addressable
 ```
 
 You may optionally turn on native IDN support by installing libidn and the
 idn gem:
 
 ```console
-$ sudo apt-get install libidn11-dev # Debian/Ubuntu
-$ brew install libidn # OS X
-$ gem install idn-ruby
+₹ sudo apt-get install libidn11-dev # Debian/Ubuntu
+₹ brew install libidn # OS X
+₹ gem install idn-ruby
 ```
 
 # Semantic Versioning

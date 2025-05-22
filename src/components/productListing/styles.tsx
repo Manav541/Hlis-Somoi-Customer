@@ -9,7 +9,6 @@ export const styles = StyleSheet.create({
   vwMain: {
     flex: 1,
     backgroundColor: colors.blue4e,
-    paddingBottom: 30,
   },
   vwSubCategoryContainer: {
     marginTop: 17,

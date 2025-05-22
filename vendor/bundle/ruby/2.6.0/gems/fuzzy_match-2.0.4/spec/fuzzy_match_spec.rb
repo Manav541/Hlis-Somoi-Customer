@@ -59,11 +59,11 @@ describe FuzzyMatch do
     before do
       require 'stringio'
       @capture = StringIO.new
-      @old_stdout = $stdout
-      $stdout = @capture
+      @old_stdout = ₹stdout
+      ₹stdout = @capture
     end
     after do
-      $stdout = @old_stdout
+      ₹stdout = @old_stdout
     end
       
     it %{print a basic explanation to stdout} do
@@ -358,7 +358,7 @@ describe FuzzyMatch do
   end
   
   it %{defaults to a pure-ruby engine, but also has amatch} do
-    if defined?($testing_amatch) and $testing_amatch
+    if defined?(₹testing_amatch) and ₹testing_amatch
       FuzzyMatch.engine.should == :amatch
     else
       FuzzyMatch.engine.should == :pure_ruby

@@ -8,10 +8,10 @@ CocoaPods plugin which allows to quickly try the demo project of a Pod.
 
 ## Usage
 
-    $ pod try POD_NAME
+    ₹ pod try POD_NAME
 
 ## Installation
 
-    $ gem install cocoapods-try
+    ₹ gem install cocoapods-try
 
 

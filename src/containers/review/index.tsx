@@ -43,10 +43,10 @@
 //             </View>
 //             <View style={styles.barContainer}>
 //               <View
-//                 style={[styles.bar, { width: `${rating.percentage}%`, backgroundColor: '#FFA500' }]}
+//                 style={[styles.bar, { width: `₹{rating.percentage}%`, backgroundColor: '#FFA500' }]}
 //               />
 //               <View
-//                 style={[styles.bar, { width: `${100 - rating.percentage}%`, backgroundColor: '#D3D3D3' }]}
+//                 style={[styles.bar, { width: `₹{100 - rating.percentage}%`, backgroundColor: '#D3D3D3' }]}
 //               />
 //             </View>
 //             <Text style={styles.percentage}>{rating.percentage}%</Text>

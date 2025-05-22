@@ -1,4 +1,4 @@
-// !$*UTF8*$!
+// !₹*UTF8*₹!
 {
 	archiveVersion = 1;
 	classes = {
@@ -78,7 +78,7 @@
 		DB13B1641849DF1E0010F42D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			dstPath = "include/$(PRODUCT_NAME)";
+			dstPath = "include/₹(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
 				FDB52FD01F614A8B00AA92E6 /* ffi.h in CopyFiles */,
@@ -95,7 +95,7 @@
 		FDB52FC11F6144FA00AA92E6 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			dstPath = "include/$(PRODUCT_NAME)";
+			dstPath = "include/₹(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
 				FDB52FD51F614AE200AA92E6 /* ffi.h in CopyFiles */,
@@ -110,7 +110,7 @@
 		FDB52FE11F6156E000AA92E6 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
+			dstPath = "include/₹(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
 				FDB52FE21F6156FA00AA92E6 /* ffi.h in CopyFiles */,
@@ -599,7 +599,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"₹(inherited)",
 					darwin_common/include,
 				);
 				ONLY_ACTIVE_ARCH = YES;
@@ -627,7 +627,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"₹(inherited)",
 					darwin_common/include,
 				);
 			};
@@ -650,7 +650,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-					"$(inherited)",
+					"₹(inherited)",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -659,7 +659,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"₹(inherited)",
 					darwin_ios/include,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -692,7 +692,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"₹(inherited)",
 					darwin_ios/include,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -729,7 +729,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-					"$(inherited)",
+					"₹(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -739,7 +739,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"₹(inherited)",
 					darwin_osx/include,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
@@ -780,7 +780,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"₹(inherited)",
 					darwin_osx/include,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
@@ -806,7 +806,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-					"$(inherited)",
+					"₹(inherited)",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -815,7 +815,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"₹(inherited)",
 					darwin_ios/include,
 				);
 				PRODUCT_NAME = ffi;
@@ -846,7 +846,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"₹(inherited)",
 					darwin_ios/include,
 				);
 				PRODUCT_NAME = ffi;
@@ -882,7 +882,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-					"$(inherited)",
+					"₹(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -892,7 +892,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"₹(inherited)",
 					darwin_osx/include,
 				);
 				MACH_O_TYPE = staticlib;
@@ -933,7 +933,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					"₹(inherited)",
 					darwin_osx/include,
 				);
 				MACH_O_TYPE = staticlib;

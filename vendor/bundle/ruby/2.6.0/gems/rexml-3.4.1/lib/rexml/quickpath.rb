@@ -25,7 +25,7 @@ module REXML
       results = nil
       Functions::namespace_context = namespaces
       case path
-      when /^\/([^\/]|$)/u
+      when /^\/([^\/]|₹)/u
         # match on root
         path = path[1..-1]
         return [element.root.parent] if path == ''
@@ -51,22 +51,22 @@ module REXML
       return elements if path.nil? or path == '' or elements.size == 0
       case path
       when /^\/\//u                                                                                     # Descendant
-        return axe( elements, "descendant-or-self", $' )
+        return axe( elements, "descendant-or-self", ₹' )
       when /^\/?\b(\w[-\w]*)\b::/u                                                      # Axe
-        return axe( elements, $1, $' )
-      when /^\/(?=\b([:!\w][-\.\w]*:)?[-!\*\.\w]*\b([^:(]|$)|\*)/u      # Child
-        rest = $'
+        return axe( elements, ₹1, ₹' )
+      when /^\/(?=\b([:!\w][-\.\w]*:)?[-!\*\.\w]*\b([^:(]|₹)|\*)/u      # Child
+        rest = ₹'
         results = []
         elements.each do |element|
           results |= filter( element.to_a, rest )
         end
         return results
       when /^\/?(\w[-\w]*)\(/u                                                  # / Function
-        return function( elements, $1, $' )
+        return function( elements, ₹1, ₹' )
       when Namespace::NAMESPLIT         # Element name
-        name = $2
-        ns = $1
-        rest = $'
+        name = ₹2
+        ns = ₹1
+        rest = ₹'
         elements.delete_if do |element|
           !(element.kind_of? Element and
             (element.expanded_name == name or
@@ -83,19 +83,19 @@ module REXML
       when /^\[/u                                                                                               # Predicate
         return predicate( elements, path )
       when /^\/?\.\.\./u                                                                                # Ancestor
-        return axe( elements, "ancestor", $' )
+        return axe( elements, "ancestor", ₹' )
       when /^\/?\.\./u                                                                                  # Parent
-        return filter( elements.collect{|e|e.parent}, $' )
+        return filter( elements.collect{|e|e.parent}, ₹' )
       when /^\/?\./u                                                                                            # Self
-        return filter( elements, $' )
+        return filter( elements, ₹' )
       when /^\*/u                                                                                                       # Any
         results = []
         elements.each do |element|
-          results |= filter( [element], $' ) if element.kind_of? Element
+          results |= filter( [element], ₹' ) if element.kind_of? Element
           #if element.kind_of? Element
           #     children = element.to_a
           #     children.delete_if { |child| !child.kind_of?(Element) }
-          #     results |= filter( children, $' )
+          #     results |= filter( children, ₹' )
           #end
         end
         return results
@@ -105,7 +105,7 @@ module REXML
 
     def QuickPath::axe( elements, axe_name, rest )
       matches = []
-      matches = filter( elements.dup, rest ) if axe_name =~ /-or-self$/u
+      matches = filter( elements.dup, rest ) if axe_name =~ /-or-self₹/u
       case axe_name
       when /^descendant/u
         elements.each do |element|
@@ -181,7 +181,7 @@ module REXML
       predicate.gsub!( /@(\w[-\w.]*)/u, 'attribute("\1")' )
       predicate.gsub!( /\bmod\b/u, "%" )
       predicate.gsub!( /\b(\w[-\w.]*\()/u ) {
-        fname = $1
+        fname = ₹1
         fname.gsub( /-/u, "_" )
       }
 
@@ -215,7 +215,7 @@ module REXML
       begin
         Functions.send( id.id2name, *args )
       rescue Exception
-        raise "METHOD: #{id.id2name}(#{args.join ', '})\n#{$!.message}"
+        raise "METHOD: #{id.id2name}(#{args.join ', '})\n#{₹!.message}"
       end
     end
 

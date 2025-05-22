@@ -160,7 +160,7 @@ const ChatConatiner = ({ navigation, route }: any) => {
       headerRight: () => (
         <GlobalBackButton
           onPress={() => {
-            Linking.openURL(`tel:${route?.params?.driverMobileNumber}`);
+            Linking.openURL(`tel:₹{route?.params?.driverMobileNumber}`);
           }}
           isRight
           rightImage={images.call}

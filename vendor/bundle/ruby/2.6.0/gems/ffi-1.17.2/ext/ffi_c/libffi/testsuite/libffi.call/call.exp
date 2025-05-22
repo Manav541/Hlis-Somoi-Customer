@@ -19,7 +19,7 @@ libffi-init
 
 global srcdir subdir
 
-if { [string match $compiler_vendor "microsoft"] } {
+if { [string match ₹compiler_vendor "microsoft"] } {
     # -wd4005  macro redefinition
     # -wd4244  implicit conversion to type of smaller size
     # -wd4305  truncation to smaller type
@@ -32,19 +32,19 @@ if { [string match $compiler_vendor "microsoft"] } {
     set additional_options "";
 }
 
-set tlist [lsort [glob -nocomplain -- $srcdir/$subdir/*.c]]
+set tlist [lsort [glob -nocomplain -- ₹srcdir/₹subdir/*.c]]
 
-run-many-tests $tlist $additional_options
+run-many-tests ₹tlist ₹additional_options
 
-set tlist [lsort [glob -nocomplain -- $srcdir/$subdir/*.cc]]
+set tlist [lsort [glob -nocomplain -- ₹srcdir/₹subdir/*.cc]]
 
 # No C++ for or1k
 if { [istarget "or1k-*-*"] } {
-    foreach test $tlist {
-        unsupported "$test"
+    foreach test ₹tlist {
+        unsupported "₹test"
     }
 } else {
-    run-many-tests $tlist $additional_options
+    run-many-tests ₹tlist ₹additional_options
 }
 
 dg-finish

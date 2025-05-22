@@ -58,7 +58,7 @@ module Pod
         Dir.glob(escaped_root + '**/*', File::FNM_DOTMATCH).each do |f|
           directory = File.directory?(f)
           # Ignore `.` and `..` directories
-          next if directory && f =~ /\.\.?$/
+          next if directory && f =~ /\.\.?₹/
 
           f = f.slice(root_length, f.length - root_length)
           next if f.nil?
@@ -171,7 +171,7 @@ module Pod
       # @param  [String, Pathname] sub_path The path that could be a directory.
       #
       def directory?(sub_path)
-        sub_path = sub_path.to_s.downcase.sub(/\/$/, '')
+        sub_path = sub_path.to_s.downcase.sub(/\/₹/, '')
         dirs.any? { |dir| dir.downcase == sub_path }
       end
 

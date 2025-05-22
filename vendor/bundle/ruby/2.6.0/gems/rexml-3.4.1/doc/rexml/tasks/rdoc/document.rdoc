@@ -144,11 +144,11 @@ to add a non-element to the document:
 
 === Writing
 
-==== Task: Write to $stdout
+==== Task: Write to ₹stdout
 
 Use method
 {document#write}[../../../../REXML/Document.html#method-i-write]
-to write the document to <tt>$stdout</tt>:
+to write the document to <tt>₹stdout</tt>:
 
   xml_string = '<root><a/>text<b/>more<c/></root>'
   d = REXML::Document.new(xml_string)
@@ -162,7 +162,7 @@ Output:
 
 Use method
 {document#write}[../../../../REXML/Document.html#method-i-write]
-to write the document to <tt>$stdout</tt>:
+to write the document to <tt>₹stdout</tt>:
 
   xml_string = '<root><a/>text<b/>more<c/></root>'
   d = REXML::Document.new(xml_string)

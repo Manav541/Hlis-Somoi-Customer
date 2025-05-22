@@ -62,7 +62,7 @@ export const showConfirmForGuest = (
 // Buttons
 export const activityOpacity = 0.8;
 export const hitSlop = 10;
-export const rupeeSymbol = '$';
+export const rupeeSymbol = '₹';
 
 // Flash Messages
 export const flashMessageSucess = (message: string | null) => {
@@ -119,9 +119,9 @@ export const toggleLoader = (showLoader: boolean) => {
 
 // Camera-Gallery Permissions
 export const messages = {
-  cameraPermission: `Allow ${appName} to use your camera for your profile picture and documents?`,
-  galleryPermission: `Allow ${appName} to use your gallery for your profile picture and documents?`,
-  documentPermission: `Allow ${appName} to use your documents?`,
+  cameraPermission: `Allow ₹{appName} to use your camera for your profile picture and documents?`,
+  galleryPermission: `Allow ₹{appName} to use your gallery for your profile picture and documents?`,
+  documentPermission: `Allow ₹{appName} to use your documents?`,
 };
 export const cameraPermission = Platform.select({
   ios: PERMISSIONS.IOS.CAMERA,

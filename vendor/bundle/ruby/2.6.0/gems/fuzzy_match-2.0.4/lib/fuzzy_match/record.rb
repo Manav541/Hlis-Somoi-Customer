@@ -4,7 +4,7 @@ class FuzzyMatch
     # "Foo's" is one word
     # "North-west" is just one word
     # "Bolivia," is just Bolivia
-    WORD_BOUNDARY = %r{\W*(?:\s+|$)}
+    WORD_BOUNDARY = %r{\W*(?:\s+|₹)}
     EMPTY = [].freeze
     BLANK = ''.freeze
 

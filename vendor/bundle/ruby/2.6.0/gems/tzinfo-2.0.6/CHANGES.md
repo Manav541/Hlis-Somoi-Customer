@@ -694,7 +694,7 @@
 * Updated to tzdata version 2009f
   (<https://mm.icann.org/pipermail/tz/2009-April/015544.html>).
 * Untaint the timezone module filename after validation to allow use
-  with `$SAFE == 1` (e.g. under mod_ruby). Thanks to Dmitry Borodaenko for
+  with `₹SAFE == 1` (e.g. under mod_ruby). Thanks to Dmitry Borodaenko for
   the suggestion. Closes #25349.
 
 

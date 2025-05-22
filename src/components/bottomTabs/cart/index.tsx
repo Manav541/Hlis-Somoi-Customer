@@ -134,7 +134,7 @@ const CartComponent = (props: PropsType) => {
                   fontFamily: fontsfamily.semibold,
                 }}
               >
-                Save $101
+                Save ₹101
               </Text>{" "}
               including{" "}
               <Text
@@ -143,7 +143,7 @@ const CartComponent = (props: PropsType) => {
                   fontFamily: fontsfamily.semibold,
                 }}
               >
-                $5
+                ₹5
               </Text>{" "}
               through free delivery!
             </Text>
@@ -173,7 +173,7 @@ const CartComponent = (props: PropsType) => {
                       color: colors.green86,
                     }}
                   >
-                    $10
+                    ₹10
                   </Text>{" "}
                   on your order.
                 </Text>

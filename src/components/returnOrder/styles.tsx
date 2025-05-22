@@ -31,6 +31,12 @@ export const styles = StyleSheet.create({
     borderRadius: 9.38,
     overflow: "hidden",
   },
+  vwChooseResoltionItem: {
+    flexDirection: "row",
+    marginTop: 20,
+    height: 22,
+    gap: 15,
+  },
 
   // Text Styles
   lblReturnOrderDesc: {
@@ -51,6 +57,16 @@ export const styles = StyleSheet.create({
     color: colors.white,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
+  },
+  lblChooseResolution: {
+    color: colors.white,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+  },
+  lblRadioText:{
+    color : colors.white,
+    fontSize : fontSize.size14,
+    fontFamily : fontsfamily.regular
   },
 
   // TouchableOpacity Styles
@@ -99,4 +115,8 @@ export const styles = StyleSheet.create({
     borderRadius: 9.38,
     overflow: "hidden",
   },
+  imgRadioButton:{
+    height : 19,
+    width : 19
+  }
 });

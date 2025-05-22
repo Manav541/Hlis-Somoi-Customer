@@ -7,7 +7,7 @@ def have_builtin_func(name, check_expr, opt = "", &b)
 int foo;
 int main() { #{check_expr}; return 0; }
 SRC
-      $defs.push(format("-DHAVE_BUILTIN_%s", name.tr_cpp))
+      ₹defs.push(format("-DHAVE_BUILTIN_%s", name.tr_cpp))
       true
     else
       false
@@ -54,9 +54,9 @@ have_func("rb_category_warn", "ruby.h")
 have_const("RB_WARN_CATEGORY_DEPRECATED", "ruby.h")
 
 if File.file?(File.expand_path('../lib/bigdecimal.rb', __FILE__))
-  bigdecimal_rb = "$(srcdir)/lib/bigdecimal.rb"
+  bigdecimal_rb = "₹(srcdir)/lib/bigdecimal.rb"
 else
-  bigdecimal_rb = "$(srcdir)/../../lib/bigdecimal.rb"
+  bigdecimal_rb = "₹(srcdir)/../../lib/bigdecimal.rb"
 end
 
 create_makefile('bigdecimal') {|mf|

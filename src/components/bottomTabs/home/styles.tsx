@@ -50,7 +50,6 @@ export const styles = StyleSheet.create({
   },
   vwAddsItem: {
     width: ScreenDimensions.screenWidth - 40, // Full width minus padding
-    height: 180,
     borderRadius: 20,
     overflow: "hidden",
   },
@@ -112,7 +111,6 @@ export const styles = StyleSheet.create({
     marginHorizontal : 20,
   },
   vwBestSellerDetails: {
-    flex: 1,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     backgroundColor: colors.white,
@@ -120,6 +118,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 14,
     paddingTop: 8,
+    height : 72
   },
   vwRatingContainer: {
     flexDirection: "row",
@@ -134,9 +133,10 @@ export const styles = StyleSheet.create({
   //   Text Styles
   lblSearch:{
     color: colors.greya7,
-    fontSize: fontSize.size14,
-    fontFamily: fontsfamily.regular,
-    marginLeft : 10
+    fontSize: fontSize.size15,
+    fontFamily: fontsfamily.semibold,
+    marginLeft : 10,
+    lineHeight : 17,
   },
   lblGroceriesFood: {
     color: colors.blue4e,
@@ -235,7 +235,6 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
   },
   btnBestSeller: {
-    height: 230,
     marginHorizontal: 10,
     width: 299,
     marginTop: 10,
@@ -252,8 +251,8 @@ export const styles = StyleSheet.create({
     width: 24,
   },
   imgAdds: {
-    width: "100%",
-    height: "100%",
+    width: ScreenDimensions.screenWidth-40,
+    height: 195,
   },
   imgSubCategories: {
     height: 66,
@@ -262,7 +261,7 @@ export const styles = StyleSheet.create({
     overflow: "hidden",
   },
   imgBestSeller: {
-    height: 159,
+    height: 170,
     width: 299,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,

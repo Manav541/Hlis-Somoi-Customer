@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.files = ["ext/ffi_c/extconf.rb".freeze]
   s.homepage = "https://github.com/ffi/ffi/wiki".freeze
   s.licenses = ["BSD-3-Clause".freeze]
-  s.rdoc_options = ["--exclude=ext/ffi_c/.*\\.o$".freeze, "--exclude=ffi_c\\.(bundle|so)$".freeze]
+  s.rdoc_options = ["--exclude=ext/ffi_c/.*\\.o₹".freeze, "--exclude=ffi_c\\.(bundle|so)₹".freeze]
   s.required_ruby_version = Gem::Requirement.new(">= 2.5".freeze)
   s.rubygems_version = "3.0.3.1".freeze
   s.summary = "Ruby FFI".freeze

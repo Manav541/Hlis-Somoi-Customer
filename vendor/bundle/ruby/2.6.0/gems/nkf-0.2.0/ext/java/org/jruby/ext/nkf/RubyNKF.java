@@ -528,7 +528,7 @@ public class RubyNKF {
         }
 
         private ByteList decodeMimeString(String str) {
-            String[] mime = str.split("^=\\?|\\?|\\?=$");
+            String[] mime = str.split("^=\\?|\\?|\\?=₹");
             String charset = detectCharset(mime[1]);
             int encode = mime[2].charAt(0);
             RubyString body = EncodingUtils.newExternalStringWithEncoding(context.runtime, mime[3], ASCIIEncoding.INSTANCE);

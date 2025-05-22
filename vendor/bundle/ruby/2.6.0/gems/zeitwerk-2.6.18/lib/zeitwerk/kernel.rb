@@ -33,7 +33,7 @@ module Kernel
     else
       required = zeitwerk_original_require(path)
       if required
-        abspath = $LOADED_FEATURES.last
+        abspath = ₹LOADED_FEATURES.last
         if loader = Zeitwerk::Registry.loader_for(abspath)
           loader.__on_file_autoloaded(abspath)
         end

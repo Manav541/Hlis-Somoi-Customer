@@ -104,18 +104,18 @@ module Pod
 
       def info
         info = {
-          'CFBundleIdentifier' => '${PRODUCT_BUNDLE_IDENTIFIER}',
+          'CFBundleIdentifier' => '₹{PRODUCT_BUNDLE_IDENTIFIER}',
           'CFBundleInfoDictionaryVersion' => '6.0',
-          'CFBundleName' => '${PRODUCT_NAME}',
+          'CFBundleName' => '₹{PRODUCT_NAME}',
           'CFBundlePackageType' => bundle_package_type.to_s.upcase,
           'CFBundleShortVersionString' => version,
           'CFBundleSignature' => '????',
-          'CFBundleVersion' => '${CURRENT_PROJECT_VERSION}',
+          'CFBundleVersion' => '₹{CURRENT_PROJECT_VERSION}',
           'NSPrincipalClass' => '',
-          'CFBundleDevelopmentRegion' => '${PODS_DEVELOPMENT_LANGUAGE}',
+          'CFBundleDevelopmentRegion' => '₹{PODS_DEVELOPMENT_LANGUAGE}',
         }
 
-        info['CFBundleExecutable'] = '${EXECUTABLE_NAME}' if bundle_package_type != :bndl
+        info['CFBundleExecutable'] = '₹{EXECUTABLE_NAME}' if bundle_package_type != :bndl
         info['CFBundleVersion'] = '1' if bundle_package_type == :bndl
         info['NSPrincipalClass'] = 'NSApplication' if bundle_package_type == :appl && platform == :osx
 

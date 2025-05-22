@@ -43,6 +43,10 @@ interface PropsType {
   handleSellAllBestSellers: () => void;
   onPressSearch: () => void;
   handleOnPressNotifaicationIcon: () => void;
+  onPressLocation: () => void;
+  onPressRestaurant: (item: Restaurant) => void;
+  onPressSubCategories:()=>void;
+  onPressBestProducts:()=>void;
 }
 
 const HomeComponent = (props: PropsType) => {
@@ -68,12 +72,11 @@ const HomeComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         onPress={() => props?.onPressGroceriesFood(item.type || "")}
       >
-        
-          <Image
-            style={styles.imgGroceriesFood}
-            source={item?.image}
-            resizeMode="stretch"
-          />
+        <Image
+          style={styles.imgGroceriesFood}
+          source={item?.image}
+          resizeMode="stretch"
+        />
         <View style={styles.vwType}>
           <Text style={styles.lblGroceriesFood}>{item?.type}</Text>
         </View>
@@ -88,7 +91,11 @@ const HomeComponent = (props: PropsType) => {
         style={styles.vwAddsItem}
         activeOpacity={activityOpacity}
       >
-        <Image style={styles.imgAdds} source={item?.image} resizeMode="cover" />
+        <Image
+          style={styles.imgAdds}
+          source={item?.image}
+          resizeMode="stretch"
+        />
       </TouchableOpacity>
     );
   };
@@ -118,13 +125,16 @@ const HomeComponent = (props: PropsType) => {
         key={index}
         style={styles.btnSubCategories}
         activeOpacity={activityOpacity}
+        onPress={() => props?.onPressSubCategories()}
       >
         <Image
           style={styles.imgSubCategories}
           source={item?.image}
           resizeMode="cover"
         />
-        <Text style={styles.lblSubCategory} numberOfLines={2}>{item?.name}</Text>
+        <Text style={styles.lblSubCategory} numberOfLines={2}>
+          {item?.name}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -135,6 +145,7 @@ const HomeComponent = (props: PropsType) => {
         style={styles.btnBestProducts}
         key={index}
         activeOpacity={activityOpacity}
+        onPress={() => props?.onPressBestProducts()}
       >
         <View style={styles.vwBestProductsImage}>
           <Image
@@ -180,8 +191,9 @@ const HomeComponent = (props: PropsType) => {
         style={styles.btnBestSeller}
         activeOpacity={activityOpacity}
         key={index}
+        onPress={() => props?.onPressRestaurant(item)}
       >
-        <Image style={styles.imgBestSeller} source={item?.restaurant_img} />
+        <Image style={styles.imgBestSeller} source={item?.restaurant_img} resizeMode="stretch" />
 
         <View style={styles.vwBestSellerDetails}>
           <Text style={styles.lblBestSellerName}>{item?.restaurant_name}</Text>
@@ -199,7 +211,7 @@ const HomeComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
-       <StatusBar
+      <StatusBar
         translucent
         backgroundColor={"transparent"}
         barStyle={"light-content"}
@@ -215,7 +227,7 @@ const HomeComponent = (props: PropsType) => {
         <ScrollView
           style={StyleSheet.absoluteFillObject}
           contentContainerStyle={{
-            paddingTop:  insets.top ? insets.top + 20 : 40,
+            paddingTop: insets.top ? insets.top + 20 : 40,
             overflow: "hidden",
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,
@@ -237,7 +249,12 @@ const HomeComponent = (props: PropsType) => {
           {/* Location Notification */}
 
           <View style={styles.vwLocationNotification}>
-            <View style={styles.vwLocationWithArrow}>
+            <TouchableOpacity
+              style={styles.vwLocationWithArrow}
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={props?.onPressLocation}
+            >
               <View style={styles.vwLocation}>
                 <Image
                   style={styles.imgLocation}
@@ -253,7 +270,7 @@ const HomeComponent = (props: PropsType) => {
                 source={images.rightarrowBlue}
                 resizeMode="stretch"
               />
-            </View>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnNotification}
               activeOpacity={activityOpacity}
@@ -290,7 +307,6 @@ const HomeComponent = (props: PropsType) => {
               renderItem={renderItemAds}
               pagingEnabled={true}
               onScroll={props?.handleOnScrollAds}
-              // contentContainerStyle={{ paddingRight: 20 }}
               snapToInterval={ScreenDimensions.screenWidth - 40}
               decelerationRate="fast"
             />
@@ -332,7 +348,7 @@ const HomeComponent = (props: PropsType) => {
               </View>
             </View>
           ) : (
-            <View style={{ marginBottom: 10, marginTop: 30 }}>
+            <View style={{ marginBottom: 35, marginTop: 30 }}>
               <View style={styles.vwBestSellerSeeAll}>
                 <Text style={styles.lblBestProducts}>
                   {getTranslation("bestSellers")}
@@ -354,7 +370,7 @@ const HomeComponent = (props: PropsType) => {
                 horizontal
                 bounces={false}
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: 16 }}
+                contentContainerStyle={{ paddingHorizontal: 16}}
                 initialScrollIndex={1}
                 getItemLayout={(data, index) => ({
                   length: 299,

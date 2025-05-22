@@ -282,7 +282,7 @@ module Zeitwerk::Loader::Config
     end
   end
 
-  # Logs to `$stdout`, handy shortcut for debugging.
+  # Logs to `₹stdout`, handy shortcut for debugging.
   #
   # @sig () -> void
   def log!

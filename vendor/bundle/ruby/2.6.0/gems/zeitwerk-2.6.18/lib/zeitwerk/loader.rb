@@ -50,7 +50,7 @@ module Zeitwerk
     #   ]
     #
     # The cpath as key helps implementing unloadable_cpath? The file name is
-    # stored in order to be able to delete it from $LOADED_FEATURES, and the
+    # stored in order to be able to delete it from ₹LOADED_FEATURES, and the
     # cref is used to remove the constant from the parent class or module.
     #
     # If reloading is enabled, this hash is filled as constants are autoloaded
@@ -148,10 +148,10 @@ module Zeitwerk
         raise SetupRequired unless @setup
 
         # We are going to keep track of the files that were required by our
-        # autoloads to later remove them from $LOADED_FEATURES, thus making them
+        # autoloads to later remove them from ₹LOADED_FEATURES, thus making them
         # loadable by Kernel#require again.
         #
-        # Directories are not stored in $LOADED_FEATURES, keeping track of files
+        # Directories are not stored in ₹LOADED_FEATURES, keeping track of files
         # is enough.
         unloaded_files = Set.new
 
@@ -186,17 +186,17 @@ module Zeitwerk
 
         unless unloaded_files.empty?
           # Bootsnap decorates Kernel#require to speed it up using a cache and
-          # this optimization does not check if $LOADED_FEATURES has the file.
+          # this optimization does not check if ₹LOADED_FEATURES has the file.
           #
           # To make it aware of changes, the gem defines singleton methods in
-          # $LOADED_FEATURES:
+          # ₹LOADED_FEATURES:
           #
           #   https://github.com/Shopify/bootsnap/blob/master/lib/bootsnap/load_path_cache/core_ext/loaded_features.rb
           #
           # Rails applications may depend on bootsnap, so for unloading to work
           # in that setting it is preferable that we restrict our API choice to
           # one of those methods.
-          $LOADED_FEATURES.reject! { |file| unloaded_files.member?(file) }
+          ₹LOADED_FEATURES.reject! { |file| unloaded_files.member?(file) }
         end
 
         autoloads.clear

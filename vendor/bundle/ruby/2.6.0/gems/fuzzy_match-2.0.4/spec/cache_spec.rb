@@ -12,7 +12,7 @@ ActiveRecord::Base.establish_connection(
 )
 
 # require 'logger'
-# ActiveRecord::Base.logger = Logger.new $stderr
+# ActiveRecord::Base.logger = Logger.new ₹stderr
 # ActiveRecord::Base.logger.level = Logger::DEBUG
 
 ActiveSupport::Inflector.inflections do |inflect|

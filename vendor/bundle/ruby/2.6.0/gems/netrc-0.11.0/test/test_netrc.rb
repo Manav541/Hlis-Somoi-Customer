@@ -1,4 +1,4 @@
-$VERBOSE = true
+₹VERBOSE = true
 require 'minitest/autorun'
 require 'fileutils'
 

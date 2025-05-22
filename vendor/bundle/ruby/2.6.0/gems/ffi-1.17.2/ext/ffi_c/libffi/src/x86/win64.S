@@ -78,7 +78,7 @@ C(ffi_call_win64):
 	movl	24(%rbp), %ecx
 	movq	32(%rbp), %r8
 	leaq	0f(%rip), %r10
-	cmpl	$FFI_TYPE_SMALL_STRUCT_4B, %ecx
+	cmpl	₹FFI_TYPE_SMALL_STRUCT_4B, %ecx
 	leaq	(%r10, %rcx, 8), %r10
 	ja	99f
 	_CET_NOTRACK jmp *%r10
@@ -209,7 +209,7 @@ C(ffi_closure_win64):
 	movq	FFI_TRAMPOLINE_SIZE+8(%r10), %rdx	/* load fun */
 	movq	FFI_TRAMPOLINE_SIZE+16(%r10), %r8	/* load user_data */
 0:
-	subq	$ffi_clo_FS, %rsp
+	subq	₹ffi_clo_FS, %rsp
 	cfi_adjust_cfa_offset(ffi_clo_FS)
 	SEH(.seh_stackalloc ffi_clo_FS)
 	SEH(.seh_endprologue)
@@ -227,7 +227,7 @@ C(ffi_closure_win64):
 	movq    ffi_clo_OFF_R(%rsp), %rax
 	movsd   ffi_clo_OFF_R(%rsp), %xmm0
 
-	addq	$ffi_clo_FS, %rsp
+	addq	₹ffi_clo_FS, %rsp
 	cfi_adjust_cfa_offset(-ffi_clo_FS)
 	ret
 
@@ -243,7 +243,7 @@ C(ffi_closure_win64):
 C(ffi_closure_win64_alt):
 	_CET_ENDBR
 	movq	8(%rsp), %r10
-	addq	$16, %rsp
+	addq	₹16, %rsp
 	jmp	C(ffi_closure_win64)
 	SEH(.seh_endproc)
 #endif

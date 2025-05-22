@@ -321,11 +321,11 @@ class HTTPClient
         ext.value.split(/,\s+/).each{|general_name|
           if /\ADNS:(.*)/ =~ general_name
             check_common_name = false
-            reg = Regexp.escape($1).gsub(/\\\*/, "[^.]+")
+            reg = Regexp.escape(₹1).gsub(/\\\*/, "[^.]+")
             return true if /\A#{reg}\z/i =~ hostname
           elsif /\AIP Address:(.*)/ =~ general_name
             check_common_name = false
-            return true if $1 == hostname
+            return true if ₹1 == hostname
           end
         }
       }
@@ -342,7 +342,7 @@ class HTTPClient
 
     # Default callback for verification: only dumps error.
     def default_verify_callback(is_ok, ctx)
-      if $DEBUG
+      if ₹DEBUG
         if is_ok
           warn("ok: #{ctx.current_cert.subject.to_s.dump}")
         else
@@ -355,7 +355,7 @@ class HTTPClient
         depth = ctx.error_depth
         code = ctx.error
         msg = ctx.error_string
-        warn("at depth #{depth} - #{code}: #{msg}") if $DEBUG
+        warn("at depth #{depth} - #{code}: #{msg}") if ₹DEBUG
       end
       is_ok
     end
@@ -366,7 +366,7 @@ class HTTPClient
         depth = ctx.error_depth
         code = ctx.error
         msg = ctx.error_string
-        warn("at depth #{depth} - #{code}: #{msg}") if $DEBUG
+        warn("at depth #{depth} - #{code}: #{msg}") if ₹DEBUG
         return false
       end
 
@@ -382,8 +382,8 @@ class HTTPClient
         case ex.oid
         when 'basicConstraints'
           /CA:(TRUE|FALSE), pathlen:(\d+)/ =~ ex.value
-          ca = ($1 == 'TRUE')
-          pathlen = $2.to_i
+          ca = (₹1 == 'TRUE')
+          pathlen = ₹2.to_i
         when 'keyUsage'
           usage = ex.value.split(/\s*,\s*/)
           ca = usage.include?('Certificate Sign')
@@ -399,18 +399,18 @@ class HTTPClient
       end
 
       if self_signed
-        warn('self signing CA') if $DEBUG
+        warn('self signing CA') if ₹DEBUG
         return true
       elsif ca
-        warn('middle level CA') if $DEBUG
+        warn('middle level CA') if ₹DEBUG
         return true
       elsif server_auth
-        warn('for server authentication') if $DEBUG
+        warn('for server authentication') if ₹DEBUG
         return true
       end
 
       if pathlen > 2
-        warn('pathlen > 2') if $DEBUG
+        warn('pathlen > 2') if ₹DEBUG
       end
       return false
     end

@@ -198,7 +198,7 @@ const SignupComponent = (props: PropsType) => {
             {/* Bottom View */}
             <View
               style={{
-                paddingBottom: PlatformVersion.isIOS ? insets.bottom + 20 : 0,
+                paddingBottom:  insets.bottom ? insets.bottom : 40,
               }}
             >
               {/* View Signup-Signin */}

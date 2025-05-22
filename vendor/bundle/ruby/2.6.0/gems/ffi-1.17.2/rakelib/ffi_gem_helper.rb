@@ -21,7 +21,7 @@ class FfiGemHelper < Bundler::GemHelper
   end
 
   def headline
-    '([^\w]*)(\d+\.\d+\.\d+(?:\.\w+)?)([^\w]+)([2Y][0Y][0-9Y][0-9Y]-[0-1M][0-9M]-[0-3D][0-9D])([^\w]*|$)'
+    '([^\w]*)(\d+\.\d+\.\d+(?:\.\w+)?)([^\w]+)([2Y][0Y][0-9Y][0-9Y]-[0-1M][0-9M]-[0-3D][0-9D])([^\w]*|₹)'
   end
 
   def reldate
@@ -31,8 +31,8 @@ class FfiGemHelper < Bundler::GemHelper
   def update_history
     hin = File.read(hfile)
     hout = hin.sub(/#{headline}/) do
-      raise "#{hfile} isn't up-to-date for version #{version}" unless $2==version.to_s
-      $1 + $2 + $3 + reldate + $5
+      raise "#{hfile} isn't up-to-date for version #{version}" unless ₹2==version.to_s
+      ₹1 + ₹2 + ₹3 + reldate + ₹5
     end
     if hout != hin
       Bundler.ui.confirm "Updating #{hfile} for release."

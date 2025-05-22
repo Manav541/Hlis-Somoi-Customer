@@ -161,11 +161,11 @@ module I18n
       def capture(stream)
         begin
           stream = stream.to_s
-          eval "$#{stream} = StringIO.new"
+          eval "₹#{stream} = StringIO.new"
           yield
-          result = eval("$#{stream}").string
+          result = eval("₹#{stream}").string
         ensure
-          eval("$#{stream} = #{stream.upcase}")
+          eval("₹#{stream} = #{stream.upcase}")
         end
 
         result

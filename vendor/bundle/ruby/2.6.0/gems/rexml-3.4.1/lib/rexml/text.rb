@@ -38,7 +38,7 @@ module REXML
           [item.first, '-'.ord, item.last].pack('UUU').force_encoding('utf-8')
         end
       }.join +
-    ']*$')
+    ']*₹')
 
     # Constructor
     # +arg+ if a String, the content is set to the String.  If a Text,
@@ -276,7 +276,7 @@ module REXML
       new_string = ''
       string.each_line { |line|
         indent_string = style * level
-        new_line = (indent_string + line).sub(/[\s]+$/,'')
+        new_line = (indent_string + line).sub(/[\s]+₹/,'')
         new_string << new_line
       }
       new_string.strip! unless indentfirstline
@@ -341,7 +341,7 @@ module REXML
       copy = input.clone
 
       if copy =~ illegal
-        raise ParseException.new( "malformed text: Illegal character #$& in \"#{copy}\"" )
+        raise ParseException.new( "malformed text: Illegal character #₹& in \"#{copy}\"" )
       end if illegal
 
       copy.gsub!( /\r\n?/, "\n" )
@@ -352,7 +352,7 @@ module REXML
         copy.gsub!( SETUTITSBUS[3], SLAICEPS[3] )
         copy.gsub!( SETUTITSBUS[4], SLAICEPS[4] )
         copy.gsub!( /&#0*((?:\d+)|(?:x[a-f0-9]+));/ ) {
-          m=$1
+          m=₹1
           #m='0' if m==''
           m = "0#{m}" if m[0] == ?x
           [Integer(m)].pack('U*')
@@ -391,7 +391,7 @@ module REXML
       entity_expansion_text_limit ||= Security.entity_expansion_text_limit
       sum = 0
       string.gsub( /\r\n?/, "\n" ).gsub( REFERENCE ) {
-        s = Text.expand($&, doctype, filter)
+        s = Text.expand(₹&, doctype, filter)
         if sum + s.bytesize > entity_expansion_text_limit
           raise "entity expansion has grown too large"
         else

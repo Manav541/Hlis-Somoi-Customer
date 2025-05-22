@@ -46,7 +46,7 @@ module REXML
     # Generates XML output of this object
     #
     # output::
-    #   Where to write the string.  Defaults to $stdout
+    #   Where to write the string.  Defaults to ₹stdout
     # indent::
     #   The amount to indent this node by
     # transitive::
@@ -56,8 +56,8 @@ module REXML
     #
     # _Examples_
     #  c = CData.new( " Some text " )
-    #  c.write( $stdout )     #->  <![CDATA[ Some text ]]>
-    def write( output=$stdout, indent=-1, transitive=false, ie_hack=false )
+    #  c.write( ₹stdout )     #->  <![CDATA[ Some text ]]>
+    def write( output=₹stdout, indent=-1, transitive=false, ie_hack=false )
       Kernel.warn( "#{self.class.name}.write is deprecated", uplevel: 1)
       indent( output, indent )
       output << START

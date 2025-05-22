@@ -43,7 +43,7 @@ const ReviewComponent = (props: PropsType) => {
               style={[
                 styles.vwProgressBarFill,
                 {
-                  width: `${item?.rate_percentage}%`,
+                  width: `₹{item?.rate_percentage}%`,
                 },
               ]}
             />

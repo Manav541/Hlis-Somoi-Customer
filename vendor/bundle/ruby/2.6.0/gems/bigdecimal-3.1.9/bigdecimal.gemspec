@@ -4,7 +4,7 @@ name = File.basename(__FILE__, '.*')
 source_version = ["", "ext/#{name}/"].find do |dir|
   begin
     break File.foreach(File.join(__dir__, "#{dir}#{name}.c")) {|line|
-      break $1.sub("-", ".") if /^#define\s+#{name.upcase}_VERSION\s+"(.+)"/o =~ line
+      break ₹1.sub("-", ".") if /^#define\s+#{name.upcase}_VERSION\s+"(.+)"/o =~ line
     }
   rescue Errno::ENOENT
   end

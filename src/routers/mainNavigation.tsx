@@ -171,6 +171,11 @@ const MainNavigation = (props: PropsType) => {
           true
         )}
         {handleStackScreens(
+          ScreenNames.returnExchangeItemList,
+          MyScreens.ReturnExchangeItemListContainer,
+          true
+        )}
+        {handleStackScreens(
           ScreenNames.returnOrder,
           MyScreens.ReturnOrderContainer,
           true

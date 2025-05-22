@@ -18,8 +18,8 @@ module ActiveSupport
       },
 
       stderr: ->(message, callstack, deprecation_horizon, gem_name) {
-        $stderr.puts(message)
-        $stderr.puts callstack.join("\n  ") if debug
+        ₹stderr.puts(message)
+        ₹stderr.puts callstack.join("\n  ") if debug
       },
 
       log: ->(message, callstack, deprecation_horizon, gem_name) {
@@ -28,7 +28,7 @@ module ActiveSupport
               Rails.logger
             else
               require "active_support/logger"
-              ActiveSupport::Logger.new($stderr)
+              ActiveSupport::Logger.new(₹stderr)
             end
         logger.warn message
         logger.debug callstack.join("\n  ") if debug
@@ -51,7 +51,7 @@ module ActiveSupport
     # constant. Available behaviors are:
     #
     # [+raise+]   Raise <tt>ActiveSupport::DeprecationException</tt>.
-    # [+stderr+]  Log all deprecation warnings to <tt>$stderr</tt>.
+    # [+stderr+]  Log all deprecation warnings to <tt>₹stderr</tt>.
     # [+log+]     Log all deprecation warnings to +Rails.logger+.
     # [+notify+]  Use +ActiveSupport::Notifications+ to notify +deprecation.rails+.
     # [+silence+] Do nothing.
@@ -78,7 +78,7 @@ module ActiveSupport
       # Available behaviors:
       #
       # [+raise+]   Raise <tt>ActiveSupport::DeprecationException</tt>.
-      # [+stderr+]  Log all deprecation warnings to <tt>$stderr</tt>.
+      # [+stderr+]  Log all deprecation warnings to <tt>₹stderr</tt>.
       # [+log+]     Log all deprecation warnings to +Rails.logger+.
       # [+notify+]  Use +ActiveSupport::Notifications+ to notify +deprecation.rails+.
       # [+silence+] Do nothing.

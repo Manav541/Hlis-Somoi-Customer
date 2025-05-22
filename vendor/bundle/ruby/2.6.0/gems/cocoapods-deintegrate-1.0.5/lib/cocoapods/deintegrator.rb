@@ -2,8 +2,8 @@ module Pod
   class Deintegrator
     include Config::Mixin
 
-    FRAMEWORK_NAMES = /^(libPods.*\.a)|(Pods.*\.framework)$/i
-    XCCONFIG_NAMES = /^Pods.*\.xcconfig$/i
+    FRAMEWORK_NAMES = /^(libPods.*\.a)|(Pods.*\.framework)₹/i
+    XCCONFIG_NAMES = /^Pods.*\.xcconfig₹/i
 
     def deintegrate_project(project)
       UI.section("Deintegrating #{UI.path project.path}") do
@@ -80,7 +80,7 @@ module Pod
 
     def deintegrate_shell_script_phase(target, phase_name)
       phases = target.shell_script_build_phases.select do |phase|
-        phase.name && phase.name =~ /#{Regexp.escape(phase_name)}\z$/
+        phase.name && phase.name =~ /#{Regexp.escape(phase_name)}\z₹/
       end
 
       unless phases.empty?
@@ -128,7 +128,7 @@ module Pod
       pod_files = groups.flat_map do |group|
         group.files.select do |obj|
           obj.name =~ XCCONFIG_NAMES ||
-            obj.path =~ /^(libPods.*\.a)|(Pods_.*\.framework)$/i
+            obj.path =~ /^(libPods.*\.a)|(Pods_.*\.framework)₹/i
         end
       end
 

@@ -6,6 +6,8 @@ import {
   StatusBar,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  Alert,
+  Share,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import GlobalBackButton from "../../global/GlobalBackButton";
@@ -13,6 +15,7 @@ import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import {
   activityOpacity,
+  appName,
   flashMessageWarning,
   hitSlop,
 } from "../../constants/GConstant";
@@ -56,7 +59,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       imgMain: images.fashionMainImg,
     },
   ];
-  
+
   const product_img = itemData?.product_img;
   const mainCategoryTitle = itemData?.mainCategoryTitle;
   const subCategoryTitle = itemData?.subCategoryTitle;
@@ -72,26 +75,31 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const product_deliveryData = itemData?.product_deliveryData;
   const product_highlight = itemData?.product_highlight;
   const product_desc = itemData?.product_desc;
-  const [product_quantity,setProduct_Quantity] = useState(itemData?.product_quantity);
-  const [poduct_isFavourite,setPoduct_isFavourite] = useState(itemData?.isFavourite);
+  const [product_quantity, setProduct_Quantity] = useState(
+    itemData?.product_quantity
+  );
+  const [poduct_isFavourite, setPoduct_isFavourite] = useState(
+    itemData?.isFavourite
+  );
+  const [isSharing, setIsSharing] = useState<boolean>(true);
 
   const arrSimilarProduct: SimilarProduct[] = [
     {
       product_img: images.rice,
-      product_final_price: "$499",
-      product_price: "$600",
+      product_final_price: "₹499",
+      product_price: "₹600",
       product_weight: "1kg",
     },
     {
       product_img: images.rice,
-      product_final_price: "$499",
-      product_price: "$600",
+      product_final_price: "₹499",
+      product_price: "₹600",
       product_weight: "1kg",
     },
     {
       product_img: images.rice,
-      product_final_price: "$499",
-      product_price: "$600",
+      product_final_price: "₹499",
+      product_price: "₹600",
       product_weight: "1kg",
     },
   ];
@@ -157,7 +165,6 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       size: "XL",
       isSelected: false,
     },
-    
   ]);
 
   const [arrFashionColor, setArrFashionColor] = useState<FashionColor[]>([
@@ -185,7 +192,6 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       color: colors.grey72,
       isSelected: false,
     },
-    
   ]);
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -198,8 +204,30 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     setCurrentIndex(index);
   };
 
-  const onPressShare = () => {
-    flashMessageWarning(getTranslation("underDevelopment"));
+  const onPressShare = async () => {
+    if (!isSharing) return;
+
+    setIsSharing(false);
+    try {
+      const result = await Share.share({
+        message: `${appName} App`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error: any) {
+      Alert.alert(error.message);
+    }
+
+    setTimeout(() => {
+      setIsSharing(true);
+    }, 1000);
   };
 
   const onPressGoToCompareProduct = () => {
@@ -209,14 +237,16 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   };
 
   const onPressFavourite = () => {
-    setPoduct_isFavourite((prevFavourite:boolean) => !prevFavourite);
+    setPoduct_isFavourite((prevFavourite: boolean) => !prevFavourite);
   };
 
-  const onPressBuyNow = ( type: "add" | "remove") => {
+  const onPressBuyNow = (type: "add" | "remove") => {
     if (type === "add") {
-      setProduct_Quantity((prevQuantity :number) => prevQuantity + 1);
+      setProduct_Quantity((prevQuantity: number) => prevQuantity + 1);
     } else if (type === "remove") {
-      setProduct_Quantity((prevQuantity:number) => prevQuantity > 0 ? prevQuantity - 1 : 0);
+      setProduct_Quantity((prevQuantity: number) =>
+        prevQuantity > 0 ? prevQuantity - 1 : 0
+      );
     }
   };
   const onPressViewAll = () => {
@@ -247,13 +277,11 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
           {
             name: ScreenNames.bottomTabsNavigation,
             state: {
-              routes: [
-                { name: ScreenNames.cart }
-              ],
-              index: 0
-            }
-          }
-        ]
+              routes: [{ name: ScreenNames.cart }],
+              index: 0,
+            },
+          },
+        ],
       })
     );
   };
@@ -279,9 +307,15 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
           >
             <Image style={styles.imgButton} source={images.shareIcon} />
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop} onPress={onPressAddToCart}>
+          <TouchableOpacity
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={onPressAddToCart}
+          >
             <Image style={styles.imgButton} source={images.cartBagIcon} />
-            <View style={styles.vwBedge}><Text style={styles.lblBedge}>2</Text></View>
+            <View style={styles.vwBedge}>
+              <Text style={styles.lblBedge}>2</Text>
+            </View>
           </TouchableOpacity>
         </View>
       ),

@@ -47,7 +47,7 @@ const VerificationComponent = (props: PropsType) => {
         <Text style={styles.lblTitle}>
           {props?.emailFromRoute
             ? props.emailFromRoute
-            : props?.countryCode + props?.mobileNumber}
+            : props?.countryCode + ' ' + props?.mobileNumber}
         </Text>
 
         {/* View OTP Field */}

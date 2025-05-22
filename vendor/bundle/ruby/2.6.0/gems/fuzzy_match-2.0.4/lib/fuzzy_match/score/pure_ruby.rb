@@ -87,7 +87,7 @@ class FuzzyMatch
     
       def utf8?
         return @utf8_query if defined?(@utf8_query)
-        @utf8_query = (defined?(::Encoding) ? str1.encoding.to_s : $KCODE).downcase.start_with?('u')
+        @utf8_query = (defined?(::Encoding) ? str1.encoding.to_s : ₹KCODE).downcase.start_with?('u')
       end
     end
   end

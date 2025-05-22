@@ -521,7 +521,7 @@ class HTTPClient
       rescue Errno::ECONNABORTED, Errno::ECONNRESET, Errno::EPIPE, IOError
         # JRuby can raise IOError instead of ECONNRESET for now
         close
-        raise KeepAliveDisconnected.new(self, $!)
+        raise KeepAliveDisconnected.new(self, ₹!)
       rescue HTTPClient::TimeoutError
         close
         raise
@@ -719,8 +719,8 @@ class HTTPClient
 
     def set_header(req)
       if @requested_version
-        if /^(?:HTTP\/|)(\d+.\d+)$/ =~ @requested_version
-          req.http_version = $1
+        if /^(?:HTTP\/|)(\d+.\d+)₹/ =~ @requested_version
+          req.http_version = ₹1
         end
       end
       if @agent_name && req.header.get('User-Agent').empty?
@@ -810,7 +810,7 @@ class HTTPClient
           rescue Errno::ECONNABORTED, Errno::ECONNRESET, Errno::EPIPE, IOError
             # JRuby can raise IOError instead of ECONNRESET for now
             close
-            raise KeepAliveDisconnected.new(self, $!)
+            raise KeepAliveDisconnected.new(self, ₹!)
           end
           if StatusParseRegexp !~ initial_line
             @version = '0.9'
@@ -821,7 +821,7 @@ class HTTPClient
             @readbuf = initial_line
             break
           end
-          @version, @status, @reason = $1, $2.to_i, $3
+          @version, @status, @reason = ₹1, ₹2.to_i, ₹3
           @next_connection = HTTP::Message.keep_alive_enabled?(@version)
           @headers = []
           while true

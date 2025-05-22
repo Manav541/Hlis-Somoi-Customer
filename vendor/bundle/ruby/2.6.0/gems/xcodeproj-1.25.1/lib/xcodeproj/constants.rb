@@ -271,27 +271,27 @@ module Xcodeproj
         'DYLIB_COMPATIBILITY_VERSION'       => '1',
         'DYLIB_CURRENT_VERSION'             => '1',
         'DYLIB_INSTALL_NAME_BASE'           => '@rpath',
-        'INSTALL_PATH'                      => '$(LOCAL_LIBRARY_DIR)/Frameworks',
-        'PRODUCT_NAME'                      => '$(TARGET_NAME:c99extidentifier)',
+        'INSTALL_PATH'                      => '₹(LOCAL_LIBRARY_DIR)/Frameworks',
+        'PRODUCT_NAME'                      => '₹(TARGET_NAME:c99extidentifier)',
         'SKIP_INSTALL'                      => 'YES',
         'VERSION_INFO_PREFIX'               => '',
         'VERSIONING_SYSTEM'                 => 'apple-generic',
       }.freeze,
       [:ios, :framework] => {
-        'LD_RUNPATH_SEARCH_PATHS'           => '$(inherited) @executable_path/Frameworks @loader_path/Frameworks',
+        'LD_RUNPATH_SEARCH_PATHS'           => '₹(inherited) @executable_path/Frameworks @loader_path/Frameworks',
         'TARGETED_DEVICE_FAMILY'            => '1,2',
       }.freeze,
       [:osx, :framework] => {
         'COMBINE_HIDPI_IMAGES'              => 'YES',
-        'LD_RUNPATH_SEARCH_PATHS'           => '$(inherited) @executable_path/../Frameworks @loader_path/Frameworks',
+        'LD_RUNPATH_SEARCH_PATHS'           => '₹(inherited) @executable_path/../Frameworks @loader_path/Frameworks',
       }.freeze,
       [:watchos, :framework] => {
         'APPLICATION_EXTENSION_API_ONLY'    => 'YES',
-        'LD_RUNPATH_SEARCH_PATHS'           => '$(inherited) @executable_path/Frameworks @loader_path/Frameworks',
+        'LD_RUNPATH_SEARCH_PATHS'           => '₹(inherited) @executable_path/Frameworks @loader_path/Frameworks',
         'TARGETED_DEVICE_FAMILY'            => '4',
       }.freeze,
       [:tvos, :framework] => {
-        'LD_RUNPATH_SEARCH_PATHS'           => '$(inherited) @executable_path/Frameworks @loader_path/Frameworks',
+        'LD_RUNPATH_SEARCH_PATHS'           => '₹(inherited) @executable_path/Frameworks @loader_path/Frameworks',
         'TARGETED_DEVICE_FAMILY'            => '3',
       }.freeze,
       [:framework, :swift] => {
@@ -327,12 +327,12 @@ module Xcodeproj
         'ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME'  => 'AccentColor',
       }.freeze,
       [:ios, :application] => {
-        'LD_RUNPATH_SEARCH_PATHS'           => '$(inherited) @executable_path/Frameworks',
+        'LD_RUNPATH_SEARCH_PATHS'           => '₹(inherited) @executable_path/Frameworks',
         'TARGETED_DEVICE_FAMILY'            => '1,2',
       }.freeze,
       [:osx, :application] => {
         'COMBINE_HIDPI_IMAGES'              => 'YES',
-        'LD_RUNPATH_SEARCH_PATHS'           => '$(inherited) @executable_path/../Frameworks',
+        'LD_RUNPATH_SEARCH_PATHS'           => '₹(inherited) @executable_path/../Frameworks',
       }.freeze,
       [:watchos, :application] => {
         'SKIP_INSTALL'                      => 'YES',
@@ -340,7 +340,7 @@ module Xcodeproj
       }.freeze,
       [:tvos, :application] => {
         'ASSETCATALOG_COMPILER_APPICON_NAME' => 'App Icon & Top Shelf Image',
-        'LD_RUNPATH_SEARCH_PATHS'           => '$(inherited) @executable_path/Frameworks',
+        'LD_RUNPATH_SEARCH_PATHS'           => '₹(inherited) @executable_path/Frameworks',
         'TARGETED_DEVICE_FAMILY'            => '3',
       }.freeze,
       [:tvos, :application, :swift] => {
@@ -358,7 +358,7 @@ module Xcodeproj
       }.freeze,
       [:osx, :bundle] => {
         'COMBINE_HIDPI_IMAGES'              => 'YES',
-        'INSTALL_PATH'                      => '$(LOCAL_LIBRARY_DIR)/Bundles',
+        'INSTALL_PATH'                      => '₹(LOCAL_LIBRARY_DIR)/Bundles',
         'SDKROOT'                           => 'macosx',
       }.freeze,
     }.freeze
@@ -408,7 +408,7 @@ module Xcodeproj
         'GCC_WARN_UNUSED_FUNCTION'                => 'YES',
         'GCC_WARN_UNUSED_VARIABLE'                => 'YES',
         'MTL_FAST_MATH'                           => 'YES',
-        'PRODUCT_NAME'                            => '$(TARGET_NAME)',
+        'PRODUCT_NAME'                            => '₹(TARGET_NAME)',
         'SWIFT_VERSION'                           => '5.0',
       },
       :release => {
@@ -423,7 +423,7 @@ module Xcodeproj
         'ENABLE_TESTABILITY'                  => 'YES',
         'GCC_DYNAMIC_NO_PIC'                  => 'NO',
         'GCC_OPTIMIZATION_LEVEL'              => '0',
-        'GCC_PREPROCESSOR_DEFINITIONS'        => ['DEBUG=1', '$(inherited)'],
+        'GCC_PREPROCESSOR_DEFINITIONS'        => ['DEBUG=1', '₹(inherited)'],
         'MTL_ENABLE_DEBUG_INFO'               => 'INCLUDE_SOURCE',
         'ONLY_ACTIVE_ARCH'                    => 'YES',
         'SWIFT_ACTIVE_COMPILATION_CONDITIONS' => 'DEBUG',
@@ -461,8 +461,8 @@ module Xcodeproj
     # @return [Array] The keywords Xcode use to identify a build setting can
     #                 inherit values from a previous precedence level
     INHERITED_KEYWORDS = %w(
-      $(inherited)
-      ${inherited}
+      ₹(inherited)
+      ₹{inherited}
     ).freeze
 
     # @return [Hash] Possible types for a scheme's 'ExecutionAction' node

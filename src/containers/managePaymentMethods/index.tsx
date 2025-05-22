@@ -13,6 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../constants/Colors";
 import { ScreenNames } from "../../routers";
 import { styles } from "./styles";
+import { constnatStyles } from "../../constants/Styles";
 
 const ManagePaymentMethodsContainer = ({ navigation, route }: any) => {
   console.log("route", route.params?.newCardData);
@@ -57,21 +58,40 @@ const ManagePaymentMethodsContainer = ({ navigation, route }: any) => {
             backgroundColor: colors.orange1c,
             paddingBottom: 14,
             flexDirection: "row",
+            alignItems  : 'center',
           }}
         >
           <GlobalBackButton
             onPress={() => navigation.goBack()}
             style={{ marginBottom: 0 }}
           />
+          <View style={{flex : 1, justifyContent : 'center', alignItems : 'center', marginLeft : -10}}>
 
-          <Text style={{...styles.txtHeaderTitle,top : insets.top}}>
+          <Text style={{...styles.txtHeaderTitle,}}>
             {ScreenNames.managePaymentMethods}
           </Text>
+          </View>
         </View>
       ),
     });
   };
 
+  // const header = () => {
+  //   navigation.setOptions({
+  //     headerLeft: () => (
+  //       <GlobalBackButton
+  //         onPress={() => {
+  //           navigation.goBack();
+  //         }}
+  //       />
+  //     ),
+  //     headerTitle: () => (
+  //       <Text style={{...constnatStyles.lblHeaderTitle, textAlign:'center'}}>
+  //         {ScreenNames.managePaymentMethods}
+  //       </Text>
+  //     ),
+  //   });
+  // };
   useEffect(() => {
     header();
   }, []);

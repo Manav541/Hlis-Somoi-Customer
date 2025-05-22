@@ -1,8 +1,8 @@
-import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
+import { View, Text, TouchableOpacity, Image, StatusBar, Alert, Share } from "react-native";
 import React, { useEffect, useState } from "react";
 import ViewRestaurantDetailComponent from "../../components/viewRestaurantDetail";
 import GlobalBackButton from "../../global/GlobalBackButton";
-import { activityOpacity, flashMessageWarning, hitSlop } from "../../constants/GConstant";
+import { activityOpacity, appName, flashMessageWarning, hitSlop } from "../../constants/GConstant";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { colors } from "../../constants/Colors";
@@ -23,6 +23,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   const restaurant_distance = itemData?.restaurant_distance;
   const restaurant_reviews = itemData?.restaurant_reviews;
   const restaurant_deliverytime = itemData?.restaurant_deliverytime;
+  const [isSharing, setIsSharing] = useState<boolean>(true);
 
   const [arrSubCategoryType, setArrSubCategoryType] = useState([
     {
@@ -67,7 +68,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     {
       food_img: images.burger,
       food_name: "Crispy Veggie Burger",
-      food_price: "$200",
+      food_price: "₹200",
       food_rate: "4.5",
       food_quantity: 0,
       food_description:
@@ -79,7 +80,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     {
       food_img: images.burger,
       food_name: "Crispy Chicken Burger",
-      food_price: "$100",
+      food_price: "₹100",
       food_rate: "4.5",
       food_quantity: 0,
       food_description:
@@ -91,7 +92,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     {
       food_img: images.burger,
       food_name: "Crispy Veggie Burger",
-      food_price: "$200",
+      food_price: "₹200",
       food_rate: "4.5",
       food_quantity: 0,
       food_description:
@@ -103,7 +104,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     {
       food_img: images.burger,
       food_name: "Crispy Chicken Burger",
-      food_price: "$100",
+      food_price: "₹100",
       food_rate: "4.5",
       food_quantity: 0,
       food_description:
@@ -115,7 +116,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     {
       food_img: images.burger,
       food_name: "Crispy Veggie Burger",
-      food_price: "$200",
+      food_price: "₹200",
       food_rate: "4.5",
       food_quantity: 0,
       food_description:
@@ -127,7 +128,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     {
       food_img: images.burger,
       food_name: "Crispy Chicken Burger",
-      food_price: "$100",
+      food_price: "₹100",
       food_rate: "4.5",
       food_quantity: 0,
       food_description:
@@ -204,8 +205,30 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     navigation.navigate(ScreenNames.review);
   };
 
-  const onPressShare = () => {
-    flashMessageWarning(getTranslation("underDevelopment"));
+  const onPressShare = async () => {
+    if (!isSharing) return;
+
+    setIsSharing(false);
+    try {
+      const result = await Share.share({
+        message: `${appName} App`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error: any) {
+      Alert.alert(error.message);
+    }
+
+    setTimeout(() => {
+      setIsSharing(true);
+    }, 1000);
   };
 
   const header = () => {

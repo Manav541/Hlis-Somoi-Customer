@@ -142,7 +142,7 @@
 
 ##### Bug Fixes
 
-* Add support for unquoted strings that contain a `$`.  
+* Add support for unquoted strings that contain a `₹`.  
   [Danielle Tomlinson](https://github.com/dantoml)
   [CocoaPods#6101](https://github.com/CocoaPods/CocoaPods/issues/6101)
 

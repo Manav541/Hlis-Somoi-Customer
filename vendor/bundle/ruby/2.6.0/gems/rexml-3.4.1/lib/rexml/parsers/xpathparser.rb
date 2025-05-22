@@ -292,8 +292,8 @@ module REXML
               path = path[1..-1]
               # Goto Nodetest
             elsif path =~ AXIS
-              parsed_not_abberviated << $1.tr('-','_').intern
-              path = $'
+              parsed_not_abberviated << ₹1.tr('-','_').intern
+              path = ₹'
               # Goto Nodetest
             else
               parsed_not_abberviated << :child
@@ -346,41 +346,41 @@ module REXML
         case path
         when PREFIX_WILDCARD
           prefix = nil
-          name = $1
-          path = $'
+          name = ₹1
+          path = ₹'
           parsed << :qname
           parsed << prefix
           parsed << name
         when /^\*/
-          path = $'
+          path = ₹'
           parsed << :any
         when NODE_TYPE
-          type = $1
-          path = $'
+          type = ₹1
+          path = ₹'
           parsed << type.tr('-', '_').intern
         when PI
-          path = $'
+          path = ₹'
           literal = nil
           if path =~ /^\s*\)/
-            path = $'
+            path = ₹'
           else
             path =~ LITERAL
-            literal = $1
-            path = $'
+            literal = ₹1
+            path = ₹'
             raise ParseException.new("Missing ')' after processing instruction") if path[0] != ?)
             path = path[1..-1]
           end
           parsed << :processing_instruction
           parsed << (literal || '')
         when LOCAL_NAME_WILDCARD
-          prefix = $1
-          path = $'
+          prefix = ₹1
+          path = ₹'
           parsed << :namespace
           parsed << prefix
         when QNAME
-          prefix = $1
-          name = $2
-          path = $'
+          prefix = ₹1
+          name = ₹2
+          path = ₹'
           prefix = "" unless prefix
           parsed << :qname
           parsed << prefix
@@ -422,7 +422,7 @@ module REXML
         if rest != path
           while rest =~ /^\s*( or )/
             n = [ :or, n, [] ]
-            rest = AndExpr( $', n[-1] )
+            rest = AndExpr( ₹', n[-1] )
           end
         end
         if parsed.size == 0 and n.size != 0
@@ -441,7 +441,7 @@ module REXML
         if rest != path
           while rest =~ /^\s*( and )/
             n = [ :and, n, [] ]
-            rest = EqualityExpr( $', n[-1] )
+            rest = EqualityExpr( ₹', n[-1] )
           end
         end
         if parsed.size == 0 and n.size != 0
@@ -459,12 +459,12 @@ module REXML
         rest = RelationalExpr( path, n )
         if rest != path
           while rest =~ /^\s*(!?=)\s*/
-            if $1[0] == ?!
+            if ₹1[0] == ?!
               n = [ :neq, n, [] ]
             else
               n = [ :eq, n, [] ]
             end
-            rest = RelationalExpr( $', n[-1] )
+            rest = RelationalExpr( ₹', n[-1] )
           end
         end
         if parsed.size == 0 and n.size != 0
@@ -482,14 +482,14 @@ module REXML
         rest = AdditiveExpr( path, n )
         if rest != path
           while rest =~ /^\s*([<>]=?)\s*/
-            if $1[0] == ?<
+            if ₹1[0] == ?<
               sym = "lt"
             else
               sym = "gt"
             end
-            sym << "eq" if $1[-1] == ?=
+            sym << "eq" if ₹1[-1] == ?=
             n = [ sym.intern, n, [] ]
-            rest = AdditiveExpr( $', n[-1] )
+            rest = AdditiveExpr( ₹', n[-1] )
           end
         end
         if parsed.size == 0 and n.size != 0
@@ -507,12 +507,12 @@ module REXML
         rest = MultiplicativeExpr( path, n )
         if rest != path
           while rest =~ /^\s*(\+|-)\s*/
-            if $1[0] == ?+
+            if ₹1[0] == ?+
               n = [ :plus, n, [] ]
             else
               n = [ :minus, n, [] ]
             end
-            rest = MultiplicativeExpr( $', n[-1] )
+            rest = MultiplicativeExpr( ₹', n[-1] )
           end
         end
         if parsed.size == 0 and n.size != 0
@@ -530,14 +530,14 @@ module REXML
         rest = UnaryExpr( path, n )
         if rest != path
           while rest =~ /^\s*(\*| div | mod )\s*/
-            if $1[0] == ?*
+            if ₹1[0] == ?*
               n = [ :mult, n, [] ]
-            elsif $1.include?( "div" )
+            elsif ₹1.include?( "div" )
               n = [ :div, n, [] ]
             else
               n = [ :mod, n, [] ]
             end
-            rest = UnaryExpr( $', n[-1] )
+            rest = UnaryExpr( ₹', n[-1] )
           end
         end
         if parsed.size == 0 and n.size != 0
@@ -552,8 +552,8 @@ module REXML
       #| UnionExpr
       def UnaryExpr path, parsed
         path =~ /^(\-*)/
-        path = $'
-        if $1 and (($1.size % 2) != 0)
+        path = ₹'
+        if ₹1 and ((₹1.size % 2) != 0)
           mult = -1
         else
           mult = 1
@@ -574,7 +574,7 @@ module REXML
         if rest != path
           while rest =~ /^\s*(\|)\s*/
             n = [ :union, n, [] ]
-            rest = PathExpr( $', n[-1] )
+            rest = PathExpr( ₹', n[-1] )
           end
         end
         if parsed.size == 0 and n.size != 0
@@ -620,33 +620,33 @@ module REXML
       #| LITERAL
       #| NUMBER
       #| FunctionCall
-      VARIABLE_REFERENCE  = /^\$(#{NAME_STR})/u
+      VARIABLE_REFERENCE  = /^\₹(#{NAME_STR})/u
       NUMBER              = /^(\d*\.?\d+)/
-      NT        = /^comment|text|processing-instruction|node$/
+      NT        = /^comment|text|processing-instruction|node₹/
       def PrimaryExpr path, parsed
         case path
         when VARIABLE_REFERENCE
-          varname = $1
-          path = $'
+          varname = ₹1
+          path = ₹'
           parsed << :variable
           parsed << varname
           #arry << @variables[ varname ]
         when /^(\w[-\w]*)(?:\()/
-          fname = $1
-          tmp = $'
+          fname = ₹1
+          tmp = ₹'
           return path if fname =~ NT
           path = tmp
           parsed << :function
           parsed << fname
           path = FunctionCall(path, parsed)
         when NUMBER
-          varname = $1.nil? ? $2 : $1
-          path = $'
+          varname = ₹1.nil? ? ₹2 : ₹1
+          path = ₹'
           parsed << :literal
           parsed << (varname.include?('.') ? varname.to_f : varname.to_i)
         when LITERAL
-          varname = $1.nil? ? $2 : $1
-          path = $'
+          varname = ₹1.nil? ? ₹2 : ₹1
+          path = ₹'
           parsed << :literal
           parsed << varname
         when /^\(/                                               #/

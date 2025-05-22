@@ -123,7 +123,7 @@ module Pod
       end
 
       UI.print " -> #{a_spec ? a_spec.name : file.basename}\r" unless config.silent?
-      $stdout.flush
+      ₹stdout.flush
 
       perform_linting
       perform_extensive_analysis(a_spec) if a_spec && !quick
@@ -594,7 +594,7 @@ module Pod
                                                                                                              '1.0.0',
                                                                                                              Platform.new(consumer.platform_name),
                                                                                                              :appl,
-                                                                                                             :build_setting_value => '$(SRCROOT)/App/App-Info.plist')
+                                                                                                             :build_setting_value => '₹(SRCROOT)/App/App-Info.plist')
       Pod::Generator::AppTargetHelper.add_swift_version(app_target, derived_swift_version)
       app_target.build_configurations.each do |config|
         # Lint will fail if a AppIcon is set but no image is found with such name
@@ -602,7 +602,7 @@ module Pod
         config.build_settings.delete('ASSETCATALOG_COMPILER_APPICON_NAME')
         # Ensure this is set generally but we have seen an issue with ODRs:
         # see: https://github.com/CocoaPods/CocoaPods/issues/10933
-        config.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'org.cocoapods.${PRODUCT_NAME:rfc1034identifier}'
+        config.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'org.cocoapods.₹{PRODUCT_NAME:rfc1034identifier}'
       end
       app_project.save
       app_project.recreate_user_schemes
@@ -648,7 +648,7 @@ module Pod
         pod_target = pod_target_installation_result.target
         native_target = pod_target_installation_result.native_target
         native_target.build_configuration_list.build_configurations.each do |build_configuration|
-          (build_configuration.build_settings['OTHER_CFLAGS'] ||= '$(inherited)') << ' -Wincomplete-umbrella'
+          (build_configuration.build_settings['OTHER_CFLAGS'] ||= '₹(inherited)') << ' -Wincomplete-umbrella'
           if pod_target.uses_swift?
             # The Swift version for the target being validated can be overridden by `--swift-version` or the
             # `.swift-version` file so we always use the derived Swift version.

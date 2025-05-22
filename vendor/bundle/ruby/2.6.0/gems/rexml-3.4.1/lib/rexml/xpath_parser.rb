@@ -809,7 +809,7 @@ module REXML
         return b
       when 'true', 'false'
         return Functions::boolean( b )
-      when /^\d+(\.\d+)?$/, Numeric
+      when /^\d+(\.\d+)?₹/, Numeric
         return Functions::number( b )
       else
         return Functions::string( b )

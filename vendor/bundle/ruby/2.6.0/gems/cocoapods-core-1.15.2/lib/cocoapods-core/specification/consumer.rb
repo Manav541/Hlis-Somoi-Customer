@@ -46,7 +46,7 @@ module Pod
       #         the name of the attribute.
       #
       # @macro  [attach]
-      #         @!method $1
+      #         @!method ₹1
       #
       def self.spec_attr_accessor(name)
         define_method(name) do

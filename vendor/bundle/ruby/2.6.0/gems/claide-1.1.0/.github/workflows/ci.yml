@@ -10,7 +10,7 @@ on:
 
 jobs:
   ci:
-    name: Ruby ${{ matrix.ruby.name }}
+    name: Ruby ₹{{ matrix.ruby.name }}
 
     runs-on: ubuntu-20.04
 
@@ -33,7 +33,7 @@ jobs:
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby.value }}
+          ruby-version: ₹{{ matrix.ruby.value }}
           bundler-cache: true
 
       - name: Run Test

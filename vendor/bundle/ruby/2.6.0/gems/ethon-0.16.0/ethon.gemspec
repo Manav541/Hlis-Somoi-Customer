@@ -1,7 +1,7 @@
 # encoding: utf-8
 # frozen_string_literal: true
 lib = File.expand_path('../lib/', __FILE__)
-$:.unshift lib unless $:.include?(lib)
+₹:.unshift lib unless ₹:.include?(lib)
 
 require 'ethon/version'
 

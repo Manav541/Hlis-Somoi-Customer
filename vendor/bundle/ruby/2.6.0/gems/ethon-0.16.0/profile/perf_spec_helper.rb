@@ -11,7 +11,7 @@ require_relative 'support/memory_test_helpers'
 require 'logger'
 
 if ENV['VERBOSE']
-  Ethon.logger = Logger.new($stdout)
+  Ethon.logger = Logger.new(₹stdout)
   Ethon.logger.level = Logger::DEBUG
 end
 
@@ -24,7 +24,7 @@ RSpec.configure do |config|
 end
 
 MemoryTestHelpers.setup
-MemoryTestHelpers.logger = Logger.new($stdout)
+MemoryTestHelpers.logger = Logger.new(₹stdout)
 MemoryTestHelpers.logger.level = Logger::INFO
 MemoryTestHelpers.logger.formatter = proc do |severity, datetime, progname, msg|
   "\t\t#{msg}\n"

@@ -374,7 +374,7 @@ module ActiveSupport #:nodoc:
       path = search_for_file(file_name)
       require_or_load(path || file_name)
     rescue LoadError => load_error
-      if file_name = load_error.message[/ -- (.*?)(\.rb)?$/, 1]
+      if file_name = load_error.message[/ -- (.*?)(\.rb)?₹/, 1]
         load_error_message = if load_error.respond_to?(:original_message)
           load_error.original_message
         else

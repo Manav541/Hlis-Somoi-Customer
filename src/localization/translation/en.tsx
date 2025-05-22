@@ -44,12 +44,13 @@ export default {
   invalidCvv: "Please enter valid CVV",
   deleteCardSuccess: "Card deleted successfully",
   profileUpdatedSucess: "Profile updated successfully",
-  loginSuccessfully: "Login Successfully",
-  signUpSuccess: "Sign Up Successfully",
+  loginSuccessfully: "Login successfully",
+  signUpSuccess: "Sign up successfully",
   addressAddedSucess: "Address added successfully",
   emailUpdateSuccess: "Email updated successfully",
   phoneNumberUpdateSuccess: "Phone number updated successfully",
   emptyPfofileImage: "Please select profile image",
+  offerCodeCopySuccess:"Offer code copied successfully",
 
   // Onboarding
   onboardingTitle1: "Fast, Reliable, and Hassle-Free Deliveries",
@@ -225,7 +226,7 @@ export default {
   cancelOrderTime: "An order can be canceled within 1 minute.",
   reportIssueQue: "Report an issue?",
   reportIssueDesc: "Let us know about any problems",
-  requestforReturnQue: "Request for return?",
+  requestforReturnQue: "Request a Return or Exchange",
   requestforReturnDesc: "Cancel your order by providing a reason.",
   driverInfo: "Driver Info",
   track: "Track",
@@ -235,6 +236,9 @@ export default {
   orderReturned: "Order Returned",
   returnReason: "I want to return due to product quality issues",
   refundDesc: "You will get refund  3-4 business day",
+  chooseResolution:"Choose Resolution",
+  refund:"Refund",
+  replacement:"Replacement",
 
   // Rate & Review
   rateReviewTitle: "Share your experience with the product",
@@ -320,6 +324,7 @@ export default {
 
   // Manage Addresses
   changeLocation: "Change Location",
+  updateAddress : "Update Address",
   manageAddress: "Manage Address",
   addaNewAddress: "Add a New Address",
   setAsDefault: "Set as Default",

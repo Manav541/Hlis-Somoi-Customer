@@ -127,7 +127,7 @@ module Xcodeproj
                       when '<absolute>'
                         Pathname.new('/'.freeze)
                       else
-                        Pathname.new("${#{object.source_tree}}")
+                        Pathname.new("₹{#{object.source_tree}}")
                       end
             folder ||= Pathname.new('')
             if object.path
@@ -157,7 +157,7 @@ module Xcodeproj
             when '<absolute>'
               nil
             else
-              Pathname.new("${#{object.source_tree}}")
+              Pathname.new("₹{#{object.source_tree}}")
             end
           end
 

@@ -91,7 +91,7 @@ module Typhoeus
         set_read_callback(read_callback_body) if !read_callback_body.nil?
       rescue Ethon::Errors::InvalidOption => e
         help = provide_help(e.message.match(/:\s(\w+)/)[1])
-        raise $!, "#{$!}#{help}", $!.backtrace
+        raise ₹!, "#{₹!}#{help}", ₹!.backtrace
       end
       set_callback
       easy

@@ -28,10 +28,10 @@ const CartContainer = ({ navigation }: any) => {
         },
       ],
       product_img: images.rice,
-      product_name: `India Gate Basmati ${"\n"}Rice`,
-      product_price: "$600",
+      product_name: `India Gate Basmati ₹{"\n"}Rice`,
+      product_price: "₹600",
       product_weight: "1 kg",
-      product_final_price: "$499",
+      product_final_price: "₹499",
       product_rating: "4.5",
       product_review: 250,
       isFavourite: true,
@@ -96,9 +96,9 @@ const CartContainer = ({ navigation }: any) => {
       ],
       product_img: images.oil,
       product_name: "Fortune Premium Mustard Oil",
-      product_price: "$600",
+      product_price: "₹600",
       product_weight: "500 ml",
-      product_final_price: "$499",
+      product_final_price: "₹499",
       product_rating: "4.5",
       isFavourite: false,
       product_quantity: 2,
@@ -162,15 +162,15 @@ const CartContainer = ({ navigation }: any) => {
     },
     {
       orderDetailTitle: getTranslation("subTotal"),
-      orderDetailValue: "$698",
+      orderDetailValue: "₹698",
     },
     {
       orderDetailTitle: getTranslation("tax"),
-      orderDetailValue: "$34",
+      orderDetailValue: "₹34",
     },
     {
       orderDetailTitle: getTranslation("discount"),
-      orderDetailValue: "-$10.00",
+      orderDetailValue: "-₹10.00",
     },
     {
       orderDetailTitle: getTranslation("delivery"),
@@ -182,7 +182,7 @@ const CartContainer = ({ navigation }: any) => {
     },
   ]);
 
-  const [totalPrice, setTotalPrice] = useState<string>("$723");
+  const [totalPrice, setTotalPrice] = useState<string>("₹723");
 
   const handleQuantityChange = (index: number, type: "add" | "remove") => {
     const updated = [...arrOrderProduts];

@@ -98,7 +98,7 @@ module REXML
       ENTITY_START = /\A\s*<!ENTITY/
       ELEMENTDECL_START = /\A\s*<!ELEMENT/um
       ELEMENTDECL_PATTERN = /\A\s*(<!ELEMENT.*?)>/um
-      SYSTEMENTITY = /\A\s*(%.*?;)\s*$/um
+      SYSTEMENTITY = /\A\s*(%.*?;)\s*₹/um
       ENUMERATION = "\\(\\s*#{NMTOKEN}(?:\\s*\\|\\s*#{NMTOKEN})*\\s*\\)"
       NOTATIONTYPE = "NOTATION\\s+\\(\\s*#{NAME}(?:\\s*\\|\\s*#{NAME})*\\s*\\)"
       ENUMERATEDTYPE = "(?:(?:#{NOTATIONTYPE})|(?:#{ENUMERATION}))"
@@ -113,7 +113,7 @@ module REXML
       TEXT_PATTERN = /\A([^<]*)/um
 
       # Entity constants
-      PUBIDCHAR = "\x20\x0D\x0Aa-zA-Z0-9\\-()+,./:=?;!*@$_%#"
+      PUBIDCHAR = "\x20\x0D\x0Aa-zA-Z0-9\\-()+,./:=?;!*@₹_%#"
       SYSTEMLITERAL = %Q{((?:"[^"]*")|(?:'[^']*'))}
       PUBIDLITERAL = %Q{("[#{PUBIDCHAR}']*"|'[#{PUBIDCHAR}]*')}
       EXTERNALID = "(?:(?:(SYSTEM)\\s+#{SYSTEMLITERAL})|(?:(PUBLIC)\\s+#{PUBIDLITERAL}\\s+#{SYSTEMLITERAL}))"
@@ -391,7 +391,7 @@ module REXML
                   val = attdef[4] if val == "#FIXED "
                   pairs[attdef[0]] = val
                   if attdef[0] =~ /^xmlns:(.*)/
-                    @namespaces[$1] = val
+                    @namespaces[₹1] = val
                   end
                 end
               end
@@ -534,7 +534,7 @@ module REXML
           raise
         rescue => error
           raise REXML::ParseException.new( "Exception parsing",
-            @source, self, (error ? error : $!) )
+            @source, self, (error ? error : ₹!) )
         end
         return [ :dummy ]
       end
@@ -576,7 +576,7 @@ module REXML
         matches = rv.scan( REFERENCE_RE )
         return rv if matches.size == 0
         rv.gsub!( Private::CHARACTER_REFERENCES ) {
-          m=$1
+          m=₹1
           if m.start_with?("x")
             code_point = Integer(m[1..-1], 16)
           else

@@ -137,7 +137,7 @@ class String
     sep = options[:separator] || /\s+/
     sep = Regexp.escape(sep.to_s) unless Regexp === sep
     if self =~ /\A((?>.+?#{sep}){#{words_count - 1}}.+?)#{sep}.*/m
-      $1 + (options[:omission] || "...")
+      ₹1 + (options[:omission] || "...")
     else
       dup
     end

@@ -162,7 +162,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       header: () => (
         <View
           style={{
-            paddingTop: insets.top,
+            paddingTop: insets.top + 20,
             backgroundColor: colors.orange1c,
             flexDirection: "row",
             alignItems: "center",
@@ -170,7 +170,10 @@ const ProductListingContainer = ({ navigation, route }: any) => {
             paddingBottom: 14,
           }}
         >
-          <GlobalBackButton onPress={() => navigation.goBack()} style={{ marginBottom: 0 }} />
+          <GlobalBackButton
+            onPress={() => navigation.goBack()}
+            style={{ marginBottom: 0 }}
+          />
 
           <Text style={constnatStyles.lblHeaderTitle}>{mainCategoryName}</Text>
 
@@ -215,7 +218,6 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       onPressRating={onPressRating}
       onPressCloseFilterModal={onPressCloseFilterModal}
       onPressApplyFilter={onPressApplyFilter}
-
       isCheckInstantDelivery={isCheckInstantDelivery}
       onPressInstantDelivery={onPressInstantDelivery}
     />

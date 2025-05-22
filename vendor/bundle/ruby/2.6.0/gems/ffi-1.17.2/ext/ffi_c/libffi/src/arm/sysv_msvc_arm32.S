@@ -36,28 +36,28 @@
 
         ; 8 byte aligned AREA to support 8 byte aligned jump tables
         MACRO
-        NESTED_ENTRY_FFI $FuncName, $AreaName, $ExceptHandler
+        NESTED_ENTRY_FFI ₹FuncName, ₹AreaName, ₹ExceptHandler
 
         ; compute the function's labels
-        __DeriveFunctionLabels $FuncName
+        __DeriveFunctionLabels ₹FuncName
 
         ; determine the area we will put the function into
 __FuncArea   SETS    "|.text|"
-        IF "$AreaName" != ""
-__FuncArea   SETS    "$AreaName"
+        IF "₹AreaName" != ""
+__FuncArea   SETS    "₹AreaName"
         ENDIF
 
         ; set up the exception handler itself
 __FuncExceptionHandler SETS ""
-        IF "$ExceptHandler" != ""
-__FuncExceptionHandler SETS    "|$ExceptHandler|"
+        IF "₹ExceptHandler" != ""
+__FuncExceptionHandler SETS    "|₹ExceptHandler|"
         ENDIF
 
         ; switch to the specified area, jump tables require 8 byte alignment
-        AREA    $__FuncArea,CODE,CODEALIGN,ALIGN=3,READONLY
+        AREA    ₹__FuncArea,CODE,CODEALIGN,ALIGN=3,READONLY
 
         ; export the function name
-        __ExportProc $FuncName
+        __ExportProc ₹FuncName
 
         ; flush any pending literal pool stuff
         ROUT
@@ -68,8 +68,8 @@ __FuncExceptionHandler SETS    "|$ExceptHandler|"
         MEND
 
 ;        MACRO
-;        TABLE_ENTRY $Type, $Table
-;$Type_$Table
+;        TABLE_ENTRY ₹Type, ₹Table
+;₹Type_₹Table
 ;        MEND
 
 #define E(index,table) return_##index##_##table

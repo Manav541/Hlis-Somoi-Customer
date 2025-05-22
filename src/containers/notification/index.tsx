@@ -16,7 +16,7 @@ const NotificationContainer = ({ navigation }: any) => {
       data: [
         {
           title: "Payment Successful!",
-          desc: "Your payment of $49.99 for order #123456 has been processed successfully.",
+          desc: "Your payment of ₹49.99 for order #123456 has been processed successfully.",
           time: "01:00 PM",
         },
         {

@@ -17,13 +17,13 @@ gem 'molinillo', :git => 'https://github.com/CocoaPods/Molinillo'
 And then execute:
 
 ```bash
-$ bundle install
+₹ bundle install
 ```
 
 Or install it yourself as:
 
 ```bash
-$ gem install molinillo
+₹ gem install molinillo
 ```
 
 ## Usage

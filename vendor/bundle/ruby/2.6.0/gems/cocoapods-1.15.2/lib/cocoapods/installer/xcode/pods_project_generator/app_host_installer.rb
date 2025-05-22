@@ -86,7 +86,7 @@ module Pod
                                                                              app_target_label, product_basename)
             app_host_target.build_configurations.each do |configuration|
               configuration.build_settings['PRODUCT_NAME'] = product_basename
-              configuration.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'org.cocoapods.${PRODUCT_NAME:rfc1034identifier}'
+              configuration.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'org.cocoapods.₹{PRODUCT_NAME:rfc1034identifier}'
               if platform == :osx
                 configuration.build_settings['CODE_SIGN_IDENTITY'] = ''
               elsif platform == :ios

@@ -5,6 +5,6 @@ if RUBY_ENGINE == 'truffleruby'
   File.write('Makefile', dummy_makefile("").join)
 else
   append_cflags("-std=c99")
-  $defs << "-DJSON_GENERATOR"
+  ₹defs << "-DJSON_GENERATOR"
   create_makefile 'json/ext/generator'
 end

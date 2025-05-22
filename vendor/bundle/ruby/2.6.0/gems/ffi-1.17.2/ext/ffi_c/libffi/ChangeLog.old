@@ -125,8 +125,8 @@ From the old ChangeLog.libffi-3.1 file...
 
 2014-02-28  Marcin Wojdyr  <wojdyr@gmail.com>
 
-	* libffi.pc.in (toolexeclibdir): use -L${toolexeclibdir} instead
-	of -L${libdir}.
+	* libffi.pc.in (toolexeclibdir): use -L₹{toolexeclibdir} instead
+	of -L₹{libdir}.
 
 2014-02-28  Paulo Pizarro  <paulo.pizarro@gmail.com>
 
@@ -2990,7 +2990,7 @@ From the old ChangeLog.libffi-3.1 file...
 	(ffi_closure_N32): New function.
 	(.eh_frame): New section
 	* src/mips/o32.S: Clean up comments.
-	(ffi_closure_O32): Pass ffi_closure parameter in $12.
+	(ffi_closure_O32): Pass ffi_closure parameter in ₹12.
 	* src/mips/ffi.c: Use FFI_MIPS_N32 instead of
 	_MIPS_SIM == _ABIN32 throughout.
 	(FFI_MIPS_STOP_HERE): New, use in place of
@@ -3399,7 +3399,7 @@ From the old ChangeLog.libffi-3.1 file...
 
 	PR libffi/23935
 	* include/Makefile.am: Install both ffi.h and ffitarget.h in
-	$(libdir)/gcc/$(target_alias)/$(gcc_version)/include.
+	₹(libdir)/gcc/₹(target_alias)/₹(gcc_version)/include.
 	* aclocal.m4: Regenerated for automake 1.9.6.
 	* Makefile.in: Regenerated.
 	* include/Makefile.in: Regenerated.
@@ -5223,7 +5223,7 @@ From the old ChangeLog.libffi-3.1 file...
 
 	* configure.in: Adjust command to source config-ml.in to account
 	for changes to the libffi_basedir definition.
-	(libffi_basedir): Remove ${srcdir} from value and include trailing
+	(libffi_basedir): Remove ₹{srcdir} from value and include trailing
 	slash if nonempty.
 
 	* configure: Regenerate.
@@ -5858,7 +5858,7 @@ From the old ChangeLog.libffi-3.1 file...
 	* configure: Rebuilt.
 	* Makefile.am: Add v9.S to SPARC files.
 	* Makefile.in: Likewise.
-	(LINK): Surround $(CCLD) into double quotes, so that multilib
+	(LINK): Surround ₹(CCLD) into double quotes, so that multilib
 	compiles work correctly.
 
 2000-04-04  Alexandre Petit-Bianco  <apbianco@cygnus.com>
@@ -5918,7 +5918,7 @@ From the old ChangeLog.libffi-3.1 file...
 
 1999-12-31  Tom Tromey  <tromey@cygnus.com>
 
-	* Makefile.am (INCLUDES): Added -I$(top_srcdir)/src.
+	* Makefile.am (INCLUDES): Added -I₹(top_srcdir)/src.
 
 1999-09-01  Tom Tromey  <tromey@cygnus.com>
 
@@ -6266,7 +6266,7 @@ From the old ChangeLog.libffi file....
 
 2008-04-03  Anthony Green  <green@redhat.com>
 
-	* libffi.pc.in (Libs): Add -L${libdir}.
+	* libffi.pc.in (Libs): Add -L₹{libdir}.
 	* configure.ac: Bump version to 3.0.5.
 	* configure, doc/stamp-vti, doc/version.texi: Rebuilt.
 	* libtool-version: Increment revision.
@@ -6501,7 +6501,7 @@ From the old ChangeLog.libffi file....
 
 2008-02-14  Anthony Green  <green@redhat.com>
 
-	* Makefile.am (AM_CFLAGS): Don't compile with -D$(TARGET).
+	* Makefile.am (AM_CFLAGS): Don't compile with -D₹(TARGET).
 	(lib_LTLIBRARIES): Define.
 	(toolexeclib_LIBRARIES): Undefine.
 	* Makefile.in: Rebuilt.
@@ -6619,7 +6619,7 @@ Mon Aug  9 18:33:38 1999  Rainer Orth  <ro@TechFak.Uni-Bielefeld.DE>
 
 	* include/Makefile.in: Rebuilt.
 	* Makefile.in: Rebuilt
-	* Makefile.am (toolexeclibdir): Add $(MULTISUBDIR) even for native
+	* Makefile.am (toolexeclibdir): Add ₹(MULTISUBDIR) even for native
 	builds.
 	Use USE_LIBDIR.
 
@@ -6686,8 +6686,8 @@ Sun Feb 22 00:50:41 1998  Geoff Keating  <geoffk@ozemail.com.au>
 1998-02-14  Andreas Schwab  <schwab@issan.informatik.uni-dortmund.de>
 
 	* configure.in: Add m68k config bits.  Change AC_CANONICAL_SYSTEM
-	to AC_CANONICAL_HOST, this is not a compiler.  Use $host instead
-	of $target.  Remove AC_CHECK_SIZEOF(char), we already know the
+	to AC_CANONICAL_HOST, this is not a compiler.  Use ₹host instead
+	of ₹target.  Remove AC_CHECK_SIZEOF(char), we already know the
 	result.  Fix argument of AC_ARG_ENABLE.
 	* configure, fficonfig.h.in: Rebuilt.
 
@@ -6841,7 +6841,7 @@ Mon Oct  7 11:00:28 1996  Anthony Green  <green@hoser.cygnus.com>
 
 Fri Oct  4 10:19:55 1996  Anthony Green  <green@hoser.cygnus.com>
 
-	* configure.in: -D$TARGET is no longer used as a compiler switch.
+	* configure.in: -D₹TARGET is no longer used as a compiler switch.
 	It is now inserted into ffi.h at configure time.
 	* configure: Rebuilt.
 
@@ -7061,7 +7061,7 @@ Sun Feb 22 00:52:18 1998  Geoff Keating  <geoffk@ozemail.com.au>
 	* m68k/ffi.c, m68k/sysv.S: New files.
 	* Makefile.am: Add bits for m68k port.  Add kludge to work around
 	automake deficiency.
-	(test): Don't require "." in $PATH.
+	(test): Don't require "." in ₹PATH.
 	* Makefile.in: Rebuilt.
 
 Wed Feb 11 07:36:50 1998  Anthony Green  <green@hoser.cygnus.com>
@@ -7111,7 +7111,7 @@ Tue Oct 29 13:07:19 1996  Anthony Green  <green@rtl.cygnus.com>
 	* Makefile.am (VPATH): Fixed VPATH def'n so automake won't
 	strip it out. 
 	Moved distdir hack from libffi to automake. 
-	(ffitest): Added missing -c for $(COMPILE) (change in automake).
+	(ffitest): Added missing -c for ₹(COMPILE) (change in automake).
 	* Makefile.in: Rebuilt.
 	
 Tue Oct 15 13:08:20 1996  Anthony Green  <green@hoser.cygnus.com>

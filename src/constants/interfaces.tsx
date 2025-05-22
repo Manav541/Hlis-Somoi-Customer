@@ -212,6 +212,7 @@ export interface OrderReviewProduct {
   width: number;
   product_rating: string;
   isRateReview: boolean;
+  isSelected: boolean;
 }
 
 // Cancel Order

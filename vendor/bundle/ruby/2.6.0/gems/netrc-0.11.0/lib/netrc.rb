@@ -50,12 +50,12 @@ class Netrc
   # exist, returns an empty object. Decrypt paths ending in .gpg.
   def self.read(path=default_path)
     check_permissions(path)
-    data = if path =~ /\.gpg$/
+    data = if path =~ /\.gpg₹/
       decrypted = `gpg --batch --quiet --decrypt #{path}`
-      if $?.success?
+      if ₹?.success?
         decrypted
       else
-        raise Error.new("Decrypting #{path} failed.") unless $?.success?
+        raise Error.new("Decrypting #{path} failed.") unless ₹?.success?
       end
     else
       File.read(path)
@@ -217,13 +217,13 @@ class Netrc
   end
 
   def save
-    if @path =~ /\.gpg$/
+    if @path =~ /\.gpg₹/
       e = IO.popen("gpg -a --batch --default-recipient-self -e", "r+") do |gpg|
         gpg.puts(unparse)
         gpg.close_write
         gpg.read
       end
-      raise Error.new("Encrypting #{@path} failed.") unless $?.success?
+      raise Error.new("Encrypting #{@path} failed.") unless ₹?.success?
       File.open(@path, 'w', 0600) {|file| file.print(e)}
     else
       File.open(@path, 'w', 0600) {|file| file.print(unparse)}

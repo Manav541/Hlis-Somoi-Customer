@@ -16,7 +16,7 @@ Tasks on this page:
   - {Task: Add an Element Child}[#label-Task-3A+Add+an+Element+Child]
   - {Task: Add a Non-Element Child}[#label-Task-3A+Add+a+Non-Element+Child]
 - {Writing}[#label-Writing]
-  - {Task: Write to $stdout}[#label-Task-3A+Write+to+-24stdout]
+  - {Task: Write to ₹stdout}[#label-Task-3A+Write+to+-24stdout]
   - {Task: Write to IO Stream}[#label-Task-3A+Write+to+IO+Stream]
   - {Task: Write with No Indentation}[#label-Task-3A+Write+with+No+Indentation]
   - {Task: Write with Specified Indentation}[#label-Task-3A+Write+with+Specified+Indentation]

@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-$:.unshift File.expand_path('../lib', __FILE__)
+₹:.unshift File.expand_path('../lib', __FILE__)
 require File.expand_path('../lib/claide/gem_version', __FILE__)
 
 Gem::Specification.new do |s|

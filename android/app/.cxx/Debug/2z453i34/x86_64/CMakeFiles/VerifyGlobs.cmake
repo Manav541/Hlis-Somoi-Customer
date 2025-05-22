@@ -7,7 +7,32 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/
 set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
+  message("-- GLOB mismatch!")
+  file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
+endif()
+
+# react_codegen_SRCS at /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/CMakeLists.txt:9 (file)
+file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/*.cpp")
+set(OLD_GLOB
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/rnclipboard-generated.cpp"
+  )
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
+  message("-- GLOB mismatch!")
+  file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
+endif()
+
+# react_codegen_SRCS at /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/CMakeLists.txt:9 (file)
+file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/react/renderer/components/rnclipboard/*.cpp")
+set(OLD_GLOB
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/react/renderer/components/rnclipboard/ComponentDescriptors.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/react/renderer/components/rnclipboard/EventEmitters.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/react/renderer/components/rnclipboard/Props.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/react/renderer/components/rnclipboard/ShadowNodes.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/react/renderer/components/rnclipboard/States.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/react/renderer/components/rnclipboard/rnclipboardJSI-generated.cpp"
+  )
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -17,7 +42,7 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/
 set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-date-picker/android/build/generated/source/codegen/jni/RNDatePickerSpecs-generated.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -32,7 +57,7 @@ set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-date-picker/android/build/generated/source/codegen/jni/react/renderer/components/RNDatePickerSpecs/ShadowNodes.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-date-picker/android/build/generated/source/codegen/jni/react/renderer/components/RNDatePickerSpecs/States.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -42,7 +67,7 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/
 set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/rngesturehandler_codegen-generated.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -57,7 +82,7 @@ set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/react/renderer/components/rngesturehandler_codegen/States.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/react/renderer/components/rngesturehandler_codegen/rngesturehandler_codegenJSI-generated.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -67,7 +92,7 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/
 set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-image-picker/android/build/generated/source/codegen/jni/RNImagePickerSpec-generated.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -82,7 +107,7 @@ set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-image-picker/android/build/generated/source/codegen/jni/react/renderer/components/RNImagePickerSpec/ShadowNodes.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-image-picker/android/build/generated/source/codegen/jni/react/renderer/components/RNImagePickerSpec/States.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -92,7 +117,7 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/
 set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-localize/android/build/generated/source/codegen/jni/RNLocalizeSpec-generated.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -107,7 +132,7 @@ set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-localize/android/build/generated/source/codegen/jni/react/renderer/components/RNLocalizeSpec/ShadowNodes.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-localize/android/build/generated/source/codegen/jni/react/renderer/components/RNLocalizeSpec/States.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -117,7 +142,7 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/
 set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/android/build/generated/source/codegen/jni/RNMmkvSpec-generated.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -132,7 +157,7 @@ set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/android/build/generated/source/codegen/jni/react/renderer/components/RNMmkvSpec/ShadowNodes.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/android/build/generated/source/codegen/jni/react/renderer/components/RNMmkvSpec/States.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -142,7 +167,7 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/
 set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-permissions/android/build/generated/source/codegen/jni/RNPermissionsSpec-generated.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -157,7 +182,7 @@ set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-permissions/android/build/generated/source/codegen/jni/react/renderer/components/RNPermissionsSpec/ShadowNodes.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-permissions/android/build/generated/source/codegen/jni/react/renderer/components/RNPermissionsSpec/States.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -167,7 +192,7 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/
 set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/rnreanimated-generated.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -182,7 +207,7 @@ set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/react/renderer/components/rnreanimated/States.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/react/renderer/components/rnreanimated/rnreanimatedJSI-generated.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -191,7 +216,7 @@ endif()
 file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-safe-area-context/android/src/main/jni/*.cpp")
 set(OLD_GLOB
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -202,7 +227,7 @@ set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-safe-area-context/android/src/main/jni/../../../../common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-safe-area-context/android/src/main/jni/../../../../common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewState.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -212,7 +237,7 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/
 set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-safe-area-context/android/src/main/jni/../../../build/generated/source/codegen/jni/safeareacontext-generated.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -227,7 +252,7 @@ set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-safe-area-context/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/safeareacontext/States.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-safe-area-context/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/safeareacontext/safeareacontextJSI-generated.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -237,7 +262,7 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/
 set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-screens/android/src/main/jni/rnscreens.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -254,7 +279,7 @@ set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-screens/android/src/main/jni/../../../../common/cpp/react/renderer/components/rnscreens/RNSScreenStackHeaderSubviewState.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-screens/android/src/main/jni/../../../../common/cpp/react/renderer/components/rnscreens/RNSScreenState.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -263,7 +288,7 @@ endif()
 file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-screens/android/src/main/jni/../../../../common/cpp/react/renderer/components/rnscreens/utils/*.cpp")
 set(OLD_GLOB
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -278,7 +303,7 @@ set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-screens/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/rnscreens/States.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-screens/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/rnscreens/rnscreensJSI-generated.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()
@@ -289,7 +314,7 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/
 set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native/ReactAndroid/cmake-utils/default-app-setup/OnLoad.cpp"
   )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+if(NOT "₹{NEW_GLOB}" STREQUAL "₹{OLD_GLOB}")
   message("-- GLOB mismatch!")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/CMakeFiles/cmake.verify_globs")
 endif()

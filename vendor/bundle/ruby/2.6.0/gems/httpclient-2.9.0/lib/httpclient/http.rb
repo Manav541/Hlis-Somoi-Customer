@@ -149,7 +149,7 @@ module HTTP
         Status::INTERNAL => 'Internal Server Error',
       }
 
-      # $KCODE to charset mapping definition.
+      # ₹KCODE to charset mapping definition.
       CHARSET_MAP = {
         'NONE' => 'us-ascii',
         'EUC'  => 'euc-jp',
@@ -433,7 +433,7 @@ module HTTP
         if RUBY_VERSION > "1.9"
           CHARSET_MAP[@body_charset] || 'us-ascii'
         else
-          CHARSET_MAP[@body_charset || $KCODE] || 'us-ascii'
+          CHARSET_MAP[@body_charset || ₹KCODE] || 'us-ascii'
         end
       end
     end
@@ -807,19 +807,19 @@ module HTTP
       # See mime_type_handler=.
       def internal_mime_type(path)
         case path
-        when /\.txt$/i
+        when /\.txt₹/i
           'text/plain'
-        when /\.xml$/i
+        when /\.xml₹/i
           'text/xml'
-        when /\.(htm|html)$/i
+        when /\.(htm|html)₹/i
           'text/html'
-        when /\.doc$/i
+        when /\.doc₹/i
           'application/msword'
-        when /\.png$/i
+        when /\.png₹/i
           'image/png'
-        when /\.gif$/i
+        when /\.gif₹/i
           'image/gif'
-        when /\.(jpg|jpeg)$/i
+        when /\.(jpg|jpeg)₹/i
           'image/jpeg'
         else
           'application/octet-stream'
@@ -895,13 +895,13 @@ module HTTP
       if defined?(Encoding::ASCII_8BIT)
         def escape(str) # :nodoc:
           str.dup.force_encoding(Encoding::ASCII_8BIT).gsub(/([^ a-zA-Z0-9_.-]+)/) {
-            '%' + $1.unpack('H2' * $1.bytesize).join('%').upcase
+            '%' + ₹1.unpack('H2' * ₹1.bytesize).join('%').upcase
           }.tr(' ', '+')
         end
       else
         def escape(str) # :nodoc:
           str.gsub(/([^ a-zA-Z0-9_.-]+)/n) {
-            '%' + $1.unpack('H2' * $1.bytesize).join('%').upcase
+            '%' + ₹1.unpack('H2' * ₹1.bytesize).join('%').upcase
           }.tr(' ', '+')
         end
       end
@@ -923,7 +923,7 @@ module HTTP
       # from CGI.unescape
       def unescape(string)
         string.tr('+', ' ').gsub(/((?:%[0-9a-fA-F]{2})+)/n) do
-          [$1.delete('%')].pack('H*')
+          [₹1.delete('%')].pack('H*')
         end
       end
     end

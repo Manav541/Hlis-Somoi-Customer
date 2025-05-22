@@ -12,18 +12,33 @@ import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../constants/Colors";
+import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { GroceryProduct } from "../../constants/interfaces";
 
 interface PropsType {
-  arrProducts: any[];
-  filteredProducts: any[];
+  arrProducts: GroceryProduct[];
+  filteredProducts: GroceryProduct[];
+  onPressProduct: (item: GroceryProduct) => void;
 }
 
 const SearchComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
 
-  const renderItemSearch = ({ item, index }: any) => {
+  const renderItemSearch = ({
+    item,
+    index,
+  }: {
+    item: GroceryProduct;
+    index: number;
+  }) => {
     return (
-      <TouchableOpacity style={styles.btnProductItem}>
+      <TouchableOpacity
+        style={styles.btnProductItem}
+        activeOpacity={activityOpacity}
+        hitSlop={hitSlop}
+        key={index}
+        onPress={() => props.onPressProduct(item)}
+      >
         <View style={styles.vwProductImage}>
           <Image style={styles.imgProduct} source={item?.product_img} />
         </View>
@@ -35,6 +50,7 @@ const SearchComponent = (props: PropsType) => {
               style={styles.imgDot}
               tintColor={colors.blue4e}
               source={images.dotOrange}
+              resizeMode="stretch"
             />
             <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
           </View>

@@ -63,7 +63,7 @@ module I18n
             interpolate(locale, entry, values)
           end
         elsif entry.is_a?(String) && entry =~ I18n.reserved_keys_pattern
-          raise ReservedInterpolationKey.new($1.to_sym, entry)
+          raise ReservedInterpolationKey.new(₹1.to_sym, entry)
         end
         entry
       end

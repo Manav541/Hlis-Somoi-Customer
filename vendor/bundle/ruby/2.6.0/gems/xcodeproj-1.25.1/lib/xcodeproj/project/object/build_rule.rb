@@ -20,7 +20,7 @@ module Xcodeproj
         # @return [String] the discovered dependency file to use.
         #
         # @example
-        #   `$(DERIVED_FILES_DIR)/$(INPUT_FILE_NAME).d`.
+        #   `₹(DERIVED_FILES_DIR)/₹(INPUT_FILE_NAME).d`.
         #
         attribute :dependency_file, String
 

@@ -10,7 +10,7 @@ module ActiveSupport
         super
       end
 
-      instance_methods.each { |m| undef_method m unless /^__|^object_id$/.match?(m) }
+      instance_methods.each { |m| undef_method m unless /^__|^object_id₹/.match?(m) }
 
       # Don't give a deprecation warning on inspect since test/unit and error
       # logs rely on it for diagnostics.
@@ -137,7 +137,7 @@ module ActiveSupport
         @message = message
       end
 
-      instance_methods.each { |m| undef_method m unless /^__|^object_id$/.match?(m) }
+      instance_methods.each { |m| undef_method m unless /^__|^object_id₹/.match?(m) }
 
       # Don't give a deprecation warning on inspect since test/unit and error
       # logs rely on it for diagnostics.

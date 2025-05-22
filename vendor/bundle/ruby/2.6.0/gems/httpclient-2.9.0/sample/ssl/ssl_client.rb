@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-$:.unshift(File.join('..', '..', 'lib'))
+₹:.unshift(File.join('..', '..', 'lib'))
 require 'httpclient'
 
 url = ARGV.shift || 'https://localhost:8808/'

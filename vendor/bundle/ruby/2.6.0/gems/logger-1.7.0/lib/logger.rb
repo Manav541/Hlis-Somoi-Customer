@@ -6,7 +6,7 @@
 # License::
 #   You can redistribute it and/or modify it under the same terms of Ruby's
 #   license; either the dual license version in 2003, or any later version.
-# Revision:: $Id$
+# Revision:: ₹Id₹
 #
 # A simple system for logging messages.  See Logger for more documentation.
 
@@ -44,7 +44,7 @@ require_relative 'logger/errors'
 #   # Period-based rotated logging: daily (also allowed: 'weekly', 'monthly').
 #   logger = Logger.new('t.log', 'daily')
 #   # Log to an IO stream.
-#   logger = Logger.new($stdout)
+#   logger = Logger.new(₹stdout)
 #
 # Add entries (level, message) with Logger#add:
 #
@@ -96,7 +96,7 @@ require_relative 'logger/errors'
 #
 # Example:
 #
-#   logger = Logger.new($stdout)
+#   logger = Logger.new(₹stdout)
 #   logger.add(Logger::INFO, 'My message.', 'mung')
 #   # => I, [2022-05-07T17:21:46.536234 #20536]  INFO -- mung: My message.
 #
@@ -155,7 +155,7 @@ require_relative 'logger/errors'
 #
 # Example:
 #
-#   logger = Logger.new($stdout)
+#   logger = Logger.new(₹stdout)
 #   logger.add(Logger::INFO)
 #   # => I, [2022-05-07T17:04:32.318331 #20536]  INFO -- : nil
 #
@@ -165,7 +165,7 @@ require_relative 'logger/errors'
 #
 # The message is an optional argument to an entry method:
 #
-#   logger = Logger.new($stdout)
+#   logger = Logger.new(₹stdout)
 #   logger.add(Logger::INFO, 'My message')
 #   # => I, [2022-05-07T18:15:37.647581 #20536]  INFO -- : My message
 #
@@ -188,7 +188,7 @@ require_relative 'logger/errors'
 #
 # The program name is an optional argument to an entry method:
 #
-#   logger = Logger.new($stdout)
+#   logger = Logger.new(₹stdout)
 #   logger.add(Logger::INFO, 'My message', 'mung')
 #   # => I, [2022-05-07T18:17:38.084716 #20536]  INFO -- mung: My message
 #
@@ -214,7 +214,7 @@ require_relative 'logger/errors'
 #
 # These are the defined severities (least severe to most severe):
 #
-#   logger = Logger.new($stdout)
+#   logger = Logger.new(₹stdout)
 #   logger.add(Logger::DEBUG, 'Maximal debugging info')
 #   # => D, [2022-05-07T17:57:41.776220 #20536] DEBUG -- : Maximal debugging info
 #   logger.add(Logger::INFO, 'Non-error information')
@@ -231,7 +231,7 @@ require_relative 'logger/errors'
 # The default initial level setting is Logger::DEBUG, the lowest level,
 # which means that all entries are to be written, regardless of severity:
 #
-#   logger = Logger.new($stdout)
+#   logger = Logger.new(₹stdout)
 #   logger.level # => 0
 #   logger.add(0, "My message")
 #   # => D, [2022-05-11T15:10:59.773668 #20536] DEBUG -- : My message
@@ -239,15 +239,15 @@ require_relative 'logger/errors'
 # You can specify a different setting in a new logger
 # using keyword argument +level+ with an appropriate value:
 #
-#   logger = Logger.new($stdout, level: Logger::ERROR)
-#   logger = Logger.new($stdout, level: 'error')
-#   logger = Logger.new($stdout, level: :error)
+#   logger = Logger.new(₹stdout, level: Logger::ERROR)
+#   logger = Logger.new(₹stdout, level: 'error')
+#   logger = Logger.new(₹stdout, level: :error)
 #   logger.level # => 3
 #
 # With this level, entries with severity Logger::ERROR and higher
 # are written, while those with lower severities are not written:
 #
-#   logger = Logger.new($stdout, level: Logger::ERROR)
+#   logger = Logger.new(₹stdout, level: Logger::ERROR)
 #   logger.add(3)
 #   # => E, [2022-05-11T15:17:20.933362 #20536] ERROR -- : nil
 #   logger.add(2) # Silent.
@@ -368,7 +368,7 @@ require_relative 'logger/errors'
 # {Time#strftime}[https://docs.ruby-lang.org/en/master/Time.html#method-i-strftime].
 #
 class Logger
-  _, name, rev = %w$Id$
+  _, name, rev = %w₹Id₹
   if name
     name = name.chomp(",v")
   else
@@ -457,7 +457,7 @@ class Logger
   # {String#dump}[https://docs.ruby-lang.org/en/master/String.html#method-i-dump]
   # to escape the message string:
   #
-  #   logger = Logger.new($stdout, progname: 'mung')
+  #   logger = Logger.new(₹stdout, progname: 'mung')
   #   original_formatter = logger.formatter || Logger::Formatter.new
   #   logger.formatter = proc { |severity, time, progname, msg|
   #     original_formatter.call(severity, time, progname, msg.dump)
@@ -543,7 +543,7 @@ class Logger
   # - A string filepath: entries are to be written
   #   to the file at that path; if the file at that path exists,
   #   new entries are appended.
-  # - An IO stream (typically <tt>$stdout</tt>, <tt>$stderr</tt>. or
+  # - An IO stream (typically <tt>₹stdout</tt>, <tt>₹stderr</tt>. or
   #   an open file): entries are to be written to the given stream.
   # - +nil+ or +File::NULL+: no entries are to be written.
   #
@@ -560,7 +560,7 @@ class Logger
   # Examples:
   #
   #   Logger.new('t.log')
-  #   Logger.new($stdout)
+  #   Logger.new(₹stdout)
   #
   # The keyword options are:
   #
@@ -621,7 +621,7 @@ class Logger
   # - If +logdev+ is +nil+, reopens the current output stream.
   # - If +logdev+ is a filepath, opens the indicated file for append.
   # - If +logdev+ is an IO stream
-  #   (usually <tt>$stdout</tt>, <tt>$stderr</tt>, or an open File object),
+  #   (usually <tt>₹stdout</tt>, <tt>₹stderr</tt>, or an open File object),
   #   opens the stream for append.
   #
   # Example:
@@ -652,7 +652,7 @@ class Logger
   #
   # Examples:
   #
-  #   logger = Logger.new($stdout, progname: 'mung')
+  #   logger = Logger.new(₹stdout, progname: 'mung')
   #   logger.add(Logger::INFO)
   #   logger.add(Logger::ERROR, 'No good')
   #   logger.add(Logger::ERROR, 'No good', 'gnum')
@@ -698,7 +698,7 @@ class Logger
   # returns the number of characters written,
   # or +nil+ if no log device exists:
   #
-  #   logger = Logger.new($stdout)
+  #   logger = Logger.new(₹stdout)
   #   logger << 'My message.' # => 10
   #
   # Output:

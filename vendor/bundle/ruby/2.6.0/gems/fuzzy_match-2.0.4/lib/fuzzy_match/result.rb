@@ -39,7 +39,7 @@ ERB
     end
     
     def explain
-      $stdout.puts ::ERB.new(EXPLANATION, 0, '%<').result(binding)
+      ₹stdout.puts ::ERB.new(EXPLANATION, 0, '%<').result(binding)
     end
   end
 end

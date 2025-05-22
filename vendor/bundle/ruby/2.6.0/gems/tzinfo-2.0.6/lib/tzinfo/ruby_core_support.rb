@@ -7,7 +7,7 @@ module TZInfo
     class << self
       # Object#untaint is deprecated and becomes a no-op in Ruby >= 2.7. It has
       # been removed from Ruby 3.2.
-      if !Object.new.respond_to?(:untaint) || RUBY_VERSION =~ /\A(\d+)\.(\d+)(?:\.|\z)/ && ($1 == '2' && $2.to_i >= 7 || $1.to_i >= 3)
+      if !Object.new.respond_to?(:untaint) || RUBY_VERSION =~ /\A(\d+)\.(\d+)(?:\.|\z)/ && (₹1 == '2' && ₹2.to_i >= 7 || ₹1.to_i >= 3)
         # :nocov_functional_untaint:
 
         # Returns the supplied `Object`

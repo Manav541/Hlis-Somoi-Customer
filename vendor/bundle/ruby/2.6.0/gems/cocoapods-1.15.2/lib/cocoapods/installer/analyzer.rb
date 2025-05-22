@@ -506,14 +506,14 @@ module Pod
           client_root = target_inspection.client_root
           user_target_uuids = target_inspection.project_target_uuids
           user_build_configurations = target_inspection.build_configurations
-          archs = target_requires_64_bit ? ['$(ARCHS_STANDARD_64_BIT)'] : target_inspection.archs
+          archs = target_requires_64_bit ? ['₹(ARCHS_STANDARD_64_BIT)'] : target_inspection.archs
         else
           target_requires_64_bit = Analyzer.requires_64_bit_archs?(target_definition.platform, nil)
           user_project = nil
           client_root = config.installation_root.realpath
           user_target_uuids = []
           user_build_configurations = target_definition.build_configurations || Target::DEFAULT_BUILD_CONFIGURATIONS
-          archs = target_requires_64_bit ? ['$(ARCHS_STANDARD_64_BIT)'] : []
+          archs = target_requires_64_bit ? ['₹(ARCHS_STANDARD_64_BIT)'] : []
         end
         platform = target_definition.platform
         build_configurations = user_build_configurations.keys.concat(target_definition.all_whitelisted_configurations).uniq
@@ -802,7 +802,7 @@ module Pod
         if !target_inspections.empty?
           user_build_configurations = target_inspections.map(&:build_configurations).reduce({}, &:merge)
           archs = if target_requires_64_bit
-                    ['$(ARCHS_STANDARD_64_BIT)']
+                    ['₹(ARCHS_STANDARD_64_BIT)']
                   else
                     target_inspections.flat_map(&:archs).compact.uniq.sort
                   end
@@ -810,7 +810,7 @@ module Pod
           user_build_configurations = Target::DEFAULT_BUILD_CONFIGURATIONS.merge(
             target_definitions.map { |td| td.build_configurations || {} }.reduce({}, &:merge),
           )
-          archs = target_requires_64_bit ? ['$(ARCHS_STANDARD_64_BIT)'] : []
+          archs = target_requires_64_bit ? ['₹(ARCHS_STANDARD_64_BIT)'] : []
         end
         platform = determine_platform(specs, target_definitions, build_type)
         file_accessors = create_file_accessors(specs, platform)

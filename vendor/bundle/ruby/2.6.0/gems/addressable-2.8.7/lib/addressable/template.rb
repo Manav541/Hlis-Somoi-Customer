@@ -48,11 +48,11 @@ module Addressable
     varspec =
       "(?:(#{variable})(\\*|:\\d+)?)"
     VARNAME =
-      /^#{variable}$/
+      /^#{variable}₹/
     VARSPEC =
-      /^#{varspec}$/
+      /^#{varspec}₹/
     VARIABLE_LIST =
-      /^#{varspec}(?:,#{varspec})*$/
+      /^#{varspec}(?:,#{varspec})*₹/
     operator =
       "+#./;?&=,!@|"
     EXPRESSION =
@@ -556,7 +556,7 @@ module Addressable
     # @example
     #   class ExampleProcessor
     #     def self.validate(name, value)
-    #       return !!(value =~ /^[\w ]+$/) if name == "query"
+    #       return !!(value =~ /^[\w ]+₹/) if name == "query"
     #       return true
     #     end
     #

@@ -21,13 +21,13 @@ module REXML
         @namespace = ""
         @name = name
       elsif name =~ NAMESPLIT
-        if $1
-          @prefix = $1
+        if ₹1
+          @prefix = ₹1
         else
           @prefix = ""
           @namespace = ""
         end
-        @name = $2
+        @name = ₹2
       elsif name == ""
         @prefix = nil
         @namespace = nil

@@ -36,6 +36,8 @@ interface PropsType {
   isReturnSuccessModalVisible: boolean;
   onPressSubmit: () => void;
   onPressOkReturn: () => void;
+  isRefundReplacement: string;
+  onPressSelectRefundReplacement: (type: string) => void;
 
   multiImagesArray: Asset[];
   handleOnPressUploadImages: () => void;
@@ -69,7 +71,7 @@ const ReturnOrderComponent = (props: PropsType) => {
     );
   };
 
-  const renderUploadImageVideo = (item : any, index : number) => {
+  const renderUploadImageVideo = (item: any, index: number) => {
     return (
       <View style={styles.vwUploadImageVideosItem}>
         <Image
@@ -137,29 +139,77 @@ const ReturnOrderComponent = (props: PropsType) => {
                 {getTranslation("uploadImagesVideo")}
               </Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View style={{ flexDirection: "row", gap: 9.02 }}>
-            <TouchableOpacity
-              style={styles.btnUploadImageVideo}
-              activeOpacity={activityOpacity}
-              hitSlop={hitSlop}
-              onPress={props?.handleOnPressUploadImages}
-            >
-              <Image
-                style={styles.imgAdd}
-                tintColor={colors.black13}
-                source={images.add}
-              />
-            </TouchableOpacity>
-            {props?.multiImagesArray?.length > 0 && (
-              <View style={{ flexDirection: "row", gap: 9.02 }}>
-              {props?.multiImagesArray.map(renderUploadImageVideo)}
-            </View>
-            )}
-          </View>
-          </ScrollView>
+                <View style={{ flexDirection: "row", gap: 9.02 }}>
+                  <TouchableOpacity
+                    style={styles.btnUploadImageVideo}
+                    activeOpacity={activityOpacity}
+                    hitSlop={hitSlop}
+                    onPress={props?.handleOnPressUploadImages}
+                  >
+                    <Image
+                      style={styles.imgAdd}
+                      tintColor={colors.black13}
+                      source={images.add}
+                    />
+                  </TouchableOpacity>
+                  {props?.multiImagesArray?.length > 0 && (
+                    <View style={{ flexDirection: "row", gap: 9.02 }}>
+                      {props?.multiImagesArray.map(renderUploadImageVideo)}
+                    </View>
+                  )}
+                </View>
+              </ScrollView>
             </View>
           </>
         )}
+        {/* Choose refund or replace */}
+        <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
+          <Text style={styles.lblChooseResolution}>
+            {getTranslation("chooseResolution")}
+          </Text>
+          <View style={styles.vwChooseResoltionItem}>
+            <TouchableOpacity
+              style={{ flexDirection: "row", gap: 7 }}
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={() => {
+                props?.onPressSelectRefundReplacement("Refund");
+              }}
+            >
+              <Image
+                style={styles.imgRadioButton}
+                source={
+                  props?.isRefundReplacement === "Refund"
+                    ? images.radioButtonSelected
+                    : images.radioButtonUnSelected
+                }
+              />
+              <Text style={styles.lblRadioText}>
+                {getTranslation("refund")}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ flexDirection: "row", gap: 7 }}
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={() => {
+                props?.onPressSelectRefundReplacement("Replacement");
+              }}
+            >
+              <Image
+                style={styles.imgRadioButton}
+                source={
+                  props?.isRefundReplacement === "Replacement"
+                    ? images.radioButtonSelected
+                    : images.radioButtonUnSelected
+                }
+              />
+              <Text style={styles.lblRadioText}>
+                {getTranslation("replacement")}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </ScrollView>
       <View
         style={{

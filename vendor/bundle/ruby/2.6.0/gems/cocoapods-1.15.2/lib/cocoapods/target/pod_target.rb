@@ -409,27 +409,27 @@ module Pod
         file_accessors.each_with_object({}) do |file_accessor, hash|
           frameworks = file_accessor.vendored_dynamic_artifacts.map do |framework_path|
             relative_path_to_sandbox = framework_path.relative_path_from(sandbox.root)
-            framework_source = "${PODS_ROOT}/#{relative_path_to_sandbox}"
+            framework_source = "₹{PODS_ROOT}/#{relative_path_to_sandbox}"
             # Until this can be configured, assume the dSYM file uses the file name as the framework.
             # See https://github.com/CocoaPods/CocoaPods/issues/1698
             dsym_name = "#{framework_path.basename}.dSYM"
             dsym_path = Pathname.new("#{framework_path.dirname}/#{dsym_name}")
             dsym_source = if dsym_path.exist?
-                            "${PODS_ROOT}/#{relative_path_to_sandbox}.dSYM"
+                            "₹{PODS_ROOT}/#{relative_path_to_sandbox}.dSYM"
                           end
             dirname = framework_path.dirname
             bcsymbolmap_paths = if dirname.exist?
                                   Dir.chdir(dirname) do
                                     Dir.glob('*.bcsymbolmap').map do |bcsymbolmap_file_name|
                                       bcsymbolmap_path = dirname + bcsymbolmap_file_name
-                                      "${PODS_ROOT}/#{bcsymbolmap_path.relative_path_from(sandbox.root)}"
+                                      "₹{PODS_ROOT}/#{bcsymbolmap_path.relative_path_from(sandbox.root)}"
                                     end
                                   end
                                 end
             Xcode::FrameworkPaths.new(framework_source, dsym_source, bcsymbolmap_paths)
           end
           if file_accessor.spec.library_specification? && should_build? && build_as_dynamic_framework?
-            frameworks << Xcode::FrameworkPaths.new(build_product_path('${BUILT_PRODUCTS_DIR}'))
+            frameworks << Xcode::FrameworkPaths.new(build_product_path('₹{BUILT_PRODUCTS_DIR}'))
           end
           hash[file_accessor.spec.name] = frameworks
         end
@@ -470,7 +470,7 @@ module Pod
                              []
                            else
                              file_accessor.resources.map do |res|
-                               "${PODS_ROOT}/#{res.relative_path_from(sandbox.project_path.dirname)}"
+                               "₹{PODS_ROOT}/#{res.relative_path_from(sandbox.project_path.dirname)}"
                              end
                            end
           prefix = Pod::Target::BuildSettings::CONFIGURATION_BUILD_DIR_VARIABLE
@@ -974,7 +974,7 @@ module Pod
     # @param  [String] dir
     #         The directory (which might be a variable) relative to which
     #         the returned path should be. This must be used if the
-    #         $CONFIGURATION_BUILD_DIR is modified.
+    #         ₹CONFIGURATION_BUILD_DIR is modified.
     #
     # @return [String] The absolute path to the configuration build dir
     #
@@ -991,10 +991,10 @@ module Pod
       "#{configuration_build_dir(dir)}/#{product_name}"
     end
 
-    # @return [String] The source path of the root for this target relative to `$(PODS_ROOT)`
+    # @return [String] The source path of the root for this target relative to `₹(PODS_ROOT)`
     #
     def pod_target_srcroot
-      "${PODS_ROOT}/#{sandbox.pod_dir(pod_name).relative_path_from(sandbox.root)}"
+      "₹{PODS_ROOT}/#{sandbox.pod_dir(pod_name).relative_path_from(sandbox.root)}"
     end
 
     # @return [String] The version associated with this target

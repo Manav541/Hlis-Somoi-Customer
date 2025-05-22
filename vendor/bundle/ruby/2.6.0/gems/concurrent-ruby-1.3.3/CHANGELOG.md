@@ -537,7 +537,7 @@ Please see the [roadmap](https://github.com/ruby-concurrency/concurrent-ruby/iss
 * Renamed `NullThreadPool` to `PerThreadExecutor`
 * Deprecated `Channel` (we are planning a new implementation based on [Go](http://golangtutorials.blogspot.com/2011/06/channels-in-go.html))
 * Added gem-level [configuration](http://robots.thoughtbot.com/mygem-configure-block)
-* Deprecated `$GLOBAL_THREAD_POOL` in lieu of gem-level configuration
+* Deprecated `₹GLOBAL_THREAD_POOL` in lieu of gem-level configuration
 * Removed support for Ruby [1.9.2](https://www.ruby-lang.org/en/news/2013/12/17/maintenance-of-1-8-7-and-1-9-2/)
 * New `RubyThreadPoolExecutor` and `JavaThreadPoolExecutor` classes
 * All thread pools now extend the appropriate thread pool executor classes

@@ -129,7 +129,7 @@ export const styles = StyleSheet.create({
   vwLine: {
     height: 1,
     flex: 1,
-    backgroundColor: `${colors.greya7}30`,
+    backgroundColor: `₹{colors.greya7}30`,
     marginTop: 20,
     marginBottom: 10,
   },
@@ -163,7 +163,7 @@ export const styles = StyleSheet.create({
     height: 65,
     width: 65,
     borderRadius: 5,
-    backgroundColor: `${colors.black}17`,
+    backgroundColor: colors.black50,
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
@@ -238,11 +238,17 @@ export const styles = StyleSheet.create({
     color: colors.white,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.medium,
+    alignSelf: "center",
   },
   lblReviews: {
     color: colors.greya7,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.regularGolosText,
+  },
+  lblReviews1: {
+    color: colors.white,
+    fontSize: fontSize.size22,
+    fontFamily: fontsfamily.semiboldGolosText,
   },
   lblProdcuctFinalPrice: {
     color: colors.orange1c,
@@ -380,6 +386,7 @@ export const styles = StyleSheet.create({
   imgDotGrey: {
     height: 6,
     width: 6,
+    alignSelf :'center'
   },
   imgDotOrange: {
     height: 4,

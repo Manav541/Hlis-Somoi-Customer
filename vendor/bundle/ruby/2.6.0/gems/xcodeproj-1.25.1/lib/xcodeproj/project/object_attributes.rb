@@ -298,7 +298,7 @@ module Xcodeproj
           #   end
           #
           # @macro [attach] attribute
-          #   @!attribute [rw] $1
+          #   @!attribute [rw] ₹1
           #
           def attribute(name, klass, default_value = nil)
             attrb = AbstractObjectAttribute.new(:simple, name, self)
@@ -342,7 +342,7 @@ module Xcodeproj
           #   this relationship.
           #
           # @macro [attach] has_one
-          #   @!attribute [rw] $1
+          #   @!attribute [rw] ₹1
           #
           def has_one(singular_name, isas)
             isas = [isas] unless isas.is_a?(Array)
@@ -384,7 +384,7 @@ module Xcodeproj
           #   this relationship.
           #
           # @macro [attach] has_many
-          #   @!attribute [r] $1
+          #   @!attribute [r] ₹1
           #
           def has_many(plural_name, isas)
             isas = [isas] unless isas.is_a?(Array)
@@ -422,7 +422,7 @@ module Xcodeproj
           #   this relationship.
           #
           # @macro [attach] has_many
-          #   @!attribute [r] $1
+          #   @!attribute [r] ₹1
           #
           def has_many_references_by_keys(plural_name, classes_by_key)
             attrb = AbstractObjectAttribute.new(:references_by_keys, plural_name, self)

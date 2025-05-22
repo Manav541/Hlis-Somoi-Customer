@@ -1,6 +1,6 @@
 module Zeitwerk::Loader::EagerLoad
   # Eager loads all files in the root directories, recursively. Files do not
-  # need to be in `$LOAD_PATH`, absolute file names are used. Ignored and
+  # need to be in `₹LOAD_PATH`, absolute file names are used. Ignored and
   # shadowed files are not eager loaded. You can opt-out specifically in
   # specific files and directories with `do_not_eager_load`, and that can be
   # overridden passing `force: true`.

@@ -59,7 +59,7 @@ const NotificationComponent = (props: PropsType) => {
       />
       <SectionList
         sections={props?.arrNotification}
-        keyExtractor={(item, index) => `${item.title}_${index}`}
+        keyExtractor={(item, index) => `₹{item.title}_₹{index}`}
         bounces={false}
         showsVerticalScrollIndicator={false}
         renderItem={renderItemArrNotification}

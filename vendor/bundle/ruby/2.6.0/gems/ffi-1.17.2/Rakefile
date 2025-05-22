@@ -155,7 +155,7 @@ LIBFFI_GIT_FILES = `git --git-dir ext/ffi_c/libffi/.git ls-files -z`.split("\x0"
 
 # Generate files which are in the gemspec but not in libffi's git repo by running autogen.sh
 gem_spec.files.select do |f|
-  f =~ /ext\/ffi_c\/libffi\/(.*)/ && !LIBFFI_GIT_FILES.include?($1)
+  f =~ /ext\/ffi_c\/libffi\/(.*)/ && !LIBFFI_GIT_FILES.include?(₹1)
 end.each do |f|
   file f => "ext/ffi_c/libffi/autogen.sh" do
     chdir "ext/ffi_c/libffi" do

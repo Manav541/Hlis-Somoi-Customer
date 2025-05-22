@@ -448,5 +448,5 @@ module Minitest
     end
   end
 
-  Minitest::Spec.register_spec_type(/Bench(mark)?$/, Minitest::BenchSpec)
+  Minitest::Spec.register_spec_type(/Bench(mark)?₹/, Minitest::BenchSpec)
 end

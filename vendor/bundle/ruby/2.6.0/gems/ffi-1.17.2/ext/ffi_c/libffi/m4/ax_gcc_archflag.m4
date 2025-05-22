@@ -10,10 +10,10 @@
 #
 #   This macro tries to guess the "native" arch corresponding to the target
 #   architecture for use with gcc's -march=arch or -mtune=arch flags. If
-#   found, the cache variable $ax_cv_gcc_archflag is set to this flag and
-#   ACTION-SUCCESS is executed; otherwise $ax_cv_gcc_archflag is set to
+#   found, the cache variable ₹ax_cv_gcc_archflag is set to this flag and
+#   ACTION-SUCCESS is executed; otherwise ₹ax_cv_gcc_archflag is set to
 #   "unknown" and ACTION-FAILURE is executed. The default ACTION-SUCCESS is
-#   to add $ax_cv_gcc_archflag to the end of $CFLAGS.
+#   to add ₹ax_cv_gcc_archflag to the end of ₹CFLAGS.
 #
 #   PORTABLE? should be either [yes] (default) or [no]. In the former case,
 #   the flag is set to -mtune (or equivalent) so that the architecture is
@@ -24,7 +24,7 @@
 #   The user can specify --with-gcc-arch=<arch> in order to override the
 #   macro's choice of architecture, or --without-gcc-arch to disable this.
 #
-#   When cross-compiling, or if $CC is not gcc, then ACTION-FAILURE is
+#   When cross-compiling, or if ₹CC is not gcc, then ACTION-FAILURE is
 #   called unless the user specified --with-gcc-arch manually.
 #
 #   Requires macros: AX_CHECK_COMPILE_FLAG, AX_GCC_X86_CPUID
@@ -74,7 +74,7 @@ AC_REQUIRE([AC_PROG_SED])
 AC_REQUIRE([AX_COMPILER_VENDOR])
 
 AC_ARG_WITH(gcc-arch, [AS_HELP_STRING([--with-gcc-arch=<arch>], [use architecture <arch> for gcc -march/-mtune, instead of guessing])],
-	ax_gcc_arch=$withval, ax_gcc_arch=yes)
+	ax_gcc_arch=₹withval, ax_gcc_arch=yes)
 
 AC_MSG_CHECKING([for gcc architecture flag])
 AC_MSG_RESULT([])
@@ -82,18 +82,18 @@ AC_CACHE_VAL(ax_cv_gcc_archflag,
 [
 ax_cv_gcc_archflag="unknown"
 
-if test "$GCC" = yes; then
+if test "₹GCC" = yes; then
 
-if test "x$ax_gcc_arch" = xyes; then
+if test "x₹ax_gcc_arch" = xyes; then
 ax_gcc_arch=""
-if test "$cross_compiling" = no; then
-case $host_cpu in
+if test "₹cross_compiling" = no; then
+case ₹host_cpu in
   i[[3456]]86*|x86_64*|amd64*) # use cpuid codes
      AX_GCC_X86_CPUID(0)
      AX_GCC_X86_CPUID(1)
-     case $ax_cv_gcc_x86_cpuid_0 in
+     case ₹ax_cv_gcc_x86_cpuid_0 in
        *:756e6547:6c65746e:49656e69) # Intel
-          case $ax_cv_gcc_x86_cpuid_1 in
+          case ₹ax_cv_gcc_x86_cpuid_1 in
 	    *5[[4578]]?:*:*:*) ax_gcc_arch="pentium-mmx pentium" ;;
 	    *5[[123]]?:*:*:*) ax_gcc_arch=pentium ;;
 	    *0?61?:*:*:*|?61?:*:*:*|61?:*:*:*) ax_gcc_arch=pentiumpro ;;
@@ -120,7 +120,7 @@ case $host_cpu in
 	    *00??f??:*:*:*|??f??:*:*:*|?f??:*:*:*|f??:*:*:*) ax_gcc_arch="pentium4 pentiumpro" ;;
           esac ;;
        *:68747541:444d4163:69746e65) # AMD
-          case $ax_cv_gcc_x86_cpuid_1 in
+          case ₹ax_cv_gcc_x86_cpuid_1 in
 	    *5[[67]]?:*:*:*) ax_gcc_arch=k6 ;;
 	    *5[[8]]?:*:*:*) ax_gcc_arch="k6-2 k6" ;;
 	    *5[[9d]]?:*:*:*) ax_gcc_arch="k6-3 k6" ;;
@@ -146,7 +146,7 @@ case $host_cpu in
 	    *???f??:*:*:*) ax_gcc_arch="amdfam10 k8" ;;
           esac ;;
 	*:746e6543:736c7561:48727561) # IDT / VIA (Centaur)
-	   case $ax_cv_gcc_x86_cpuid_1 in
+	   case ₹ax_cv_gcc_x86_cpuid_1 in
 	     *54?:*:*:*) ax_gcc_arch=winchip-c6 ;;
 	     *5[[89]]?:*:*:*) ax_gcc_arch=winchip2 ;;
 	     *66?:*:*:*) ax_gcc_arch=winchip2 ;;
@@ -154,8 +154,8 @@ case $host_cpu in
 	     *6[[9adf]]?:*:*:*) ax_gcc_arch="c3-2 c3" ;;
 	   esac ;;
      esac
-     if test x"$ax_gcc_arch" = x; then # fallback
-	case $host_cpu in
+     if test x"₹ax_gcc_arch" = x; then # fallback
+	case ₹host_cpu in
 	  i586*) ax_gcc_arch=pentium ;;
 	  i686*) ax_gcc_arch=pentiumpro ;;
         esac
@@ -163,10 +163,10 @@ case $host_cpu in
      ;;
 
   sparc*)
-     AC_PATH_PROG([PRTDIAG], [prtdiag], [prtdiag], [$PATH:/usr/platform/`uname -i`/sbin/:/usr/platform/`uname -m`/sbin/])
-     cputype=`(((grep cpu /proc/cpuinfo | cut -d: -f2) ; ($PRTDIAG -v |grep -i sparc) ; grep -i cpu /var/run/dmesg.boot ) | head -n 1) 2> /dev/null`
-     cputype=`echo "$cputype" | tr -d ' -' | $SED 's/SPARCIIi/SPARCII/' |tr $as_cr_LETTERS $as_cr_letters`
-     case $cputype in
+     AC_PATH_PROG([PRTDIAG], [prtdiag], [prtdiag], [₹PATH:/usr/platform/`uname -i`/sbin/:/usr/platform/`uname -m`/sbin/])
+     cputype=`(((grep cpu /proc/cpuinfo | cut -d: -f2) ; (₹PRTDIAG -v |grep -i sparc) ; grep -i cpu /var/run/dmesg.boot ) | head -n 1) 2> /dev/null`
+     cputype=`echo "₹cputype" | tr -d ' -' | ₹SED 's/SPARCIIi/SPARCII/' |tr ₹as_cr_LETTERS ₹as_cr_letters`
+     case ₹cputype in
          *ultrasparciv*) ax_gcc_arch="ultrasparc4 ultrasparc3 ultrasparc v9" ;;
          *ultrasparciii*) ax_gcc_arch="ultrasparc3 ultrasparc v9" ;;
          *ultrasparc*) ax_gcc_arch="ultrasparc v9" ;;
@@ -187,39 +187,39 @@ case $host_cpu in
   alphaev79) ax_gcc_arch="ev79 ev7 ev69 ev68 ev67" ;;
 
   powerpc*)
-     cputype=`((grep cpu /proc/cpuinfo | head -n 1 | cut -d: -f2 | cut -d, -f1 | $SED 's/ //g') ; /usr/bin/machine ; /bin/machine; grep CPU /var/run/dmesg.boot | head -n 1 | cut -d" " -f2) 2> /dev/null`
-     cputype=`echo $cputype | $SED -e 's/ppc//g;s/ *//g'`
-     case $cputype in
+     cputype=`((grep cpu /proc/cpuinfo | head -n 1 | cut -d: -f2 | cut -d, -f1 | ₹SED 's/ //g') ; /usr/bin/machine ; /bin/machine; grep CPU /var/run/dmesg.boot | head -n 1 | cut -d" " -f2) 2> /dev/null`
+     cputype=`echo ₹cputype | ₹SED -e 's/ppc//g;s/ *//g'`
+     case ₹cputype in
        *750*) ax_gcc_arch="750 G3" ;;
-       *740[[0-9]]*) ax_gcc_arch="$cputype 7400 G4" ;;
-       *74[[4-5]][[0-9]]*) ax_gcc_arch="$cputype 7450 G4" ;;
-       *74[[0-9]][[0-9]]*) ax_gcc_arch="$cputype G4" ;;
+       *740[[0-9]]*) ax_gcc_arch="₹cputype 7400 G4" ;;
+       *74[[4-5]][[0-9]]*) ax_gcc_arch="₹cputype 7450 G4" ;;
+       *74[[0-9]][[0-9]]*) ax_gcc_arch="₹cputype G4" ;;
        *970*) ax_gcc_arch="970 G5 power4";;
        *POWER4*|*power4*|*gq*) ax_gcc_arch="power4 970";;
        *POWER5*|*power5*|*gr*|*gs*) ax_gcc_arch="power5 power4 970";;
-       603ev|8240) ax_gcc_arch="$cputype 603e 603";;
+       603ev|8240) ax_gcc_arch="₹cputype 603e 603";;
        *POWER7*) ax_gcc_arch="power7";;
        *POWER8*) ax_gcc_arch="power8";;
        *POWER9*) ax_gcc_arch="power9";;
        *POWER10*) ax_gcc_arch="power10";;
-       *) ax_gcc_arch=$cputype ;;
+       *) ax_gcc_arch=₹cputype ;;
      esac
-     ax_gcc_arch="$ax_gcc_arch powerpc"
+     ax_gcc_arch="₹ax_gcc_arch powerpc"
      ;;
   aarch64)
      cpuimpl=`grep 'CPU implementer' /proc/cpuinfo 2> /dev/null | cut -d: -f2 | tr -d " " | head -n 1`
      cpuarch=`grep 'CPU architecture' /proc/cpuinfo 2> /dev/null | cut -d: -f2 | tr -d " " | head -n 1`
      cpuvar=`grep 'CPU variant' /proc/cpuinfo 2> /dev/null | cut -d: -f2 | tr -d " " | head -n 1`
-     case $cpuimpl in
-       0x42) case $cpuarch in
-               8) case $cpuvar in
+     case ₹cpuimpl in
+       0x42) case ₹cpuarch in
+               8) case ₹cpuvar in
                     0x0) ax_gcc_arch="thunderx2t99 vulcan armv8.1-a armv8-a+lse armv8-a native" ;;
                   esac
                   ;;
              esac
              ;;
-       0x43) case $cpuarch in
-               8) case $cpuvar in
+       0x43) case ₹cpuarch in
+               8) case ₹cpuvar in
                     0x0) ax_gcc_arch="thunderx armv8-a native" ;;
                     0x1) ax_gcc_arch="thunderx+lse armv8.1-a armv8-a+lse armv8-a native" ;;
                   esac
@@ -232,36 +232,36 @@ esac
 fi # not cross-compiling
 fi # guess arch
 
-if test "x$ax_gcc_arch" != x -a "x$ax_gcc_arch" != xno; then
-if test "x[]m4_default([$1],yes)" = xyes; then # if we require portable code
+if test "x₹ax_gcc_arch" != x -a "x₹ax_gcc_arch" != xno; then
+if test "x[]m4_default([₹1],yes)" = xyes; then # if we require portable code
   flag_prefixes="-mtune="
-  if test "x$ax_cv_[]_AC_LANG_ABBREV[]_compiler_vendor" = xclang; then flag_prefixes="-march="; fi
-  # -mcpu=$arch and m$arch generate nonportable code on every arch except
+  if test "x₹ax_cv_[]_AC_LANG_ABBREV[]_compiler_vendor" = xclang; then flag_prefixes="-march="; fi
+  # -mcpu=₹arch and m₹arch generate nonportable code on every arch except
   # x86.  And some other arches (e.g. Alpha) don't accept -mtune.  Grrr.
-  case $host_cpu in i*86|x86_64*|amd64*) flag_prefixes="$flag_prefixes -mcpu= -m";; esac
+  case ₹host_cpu in i*86|x86_64*|amd64*) flag_prefixes="₹flag_prefixes -mcpu= -m";; esac
 else
   flag_prefixes="-march= -mcpu= -m"
 fi
-for flag_prefix in $flag_prefixes; do
-  for arch in $ax_gcc_arch; do
-    flag="$flag_prefix$arch"
-    AX_CHECK_COMPILE_FLAG($flag, [if test "x$ax_cv_[]_AC_LANG_ABBREV[]_compiler_vendor" = xclang; then
-      if test "x[]m4_default([$1],yes)" = xyes; then
-	if test "x$flag" = "x-march=$arch"; then flag=-mtune=$arch; fi
+for flag_prefix in ₹flag_prefixes; do
+  for arch in ₹ax_gcc_arch; do
+    flag="₹flag_prefix₹arch"
+    AX_CHECK_COMPILE_FLAG(₹flag, [if test "x₹ax_cv_[]_AC_LANG_ABBREV[]_compiler_vendor" = xclang; then
+      if test "x[]m4_default([₹1],yes)" = xyes; then
+	if test "x₹flag" = "x-march=₹arch"; then flag=-mtune=₹arch; fi
       fi
-    fi; ax_cv_gcc_archflag=$flag; break])
+    fi; ax_cv_gcc_archflag=₹flag; break])
   done
-  test "x$ax_cv_gcc_archflag" = xunknown || break
+  test "x₹ax_cv_gcc_archflag" = xunknown || break
 done
 fi
 
-fi # $GCC=yes
+fi # ₹GCC=yes
 ])
 AC_MSG_CHECKING([for gcc architecture flag])
-AC_MSG_RESULT($ax_cv_gcc_archflag)
-if test "x$ax_cv_gcc_archflag" = xunknown; then
-  m4_default([$3],:)
+AC_MSG_RESULT(₹ax_cv_gcc_archflag)
+if test "x₹ax_cv_gcc_archflag" = xunknown; then
+  m4_default([₹3],:)
 else
-  m4_default([$2], [CFLAGS="$CFLAGS $ax_cv_gcc_archflag"])
+  m4_default([₹2], [CFLAGS="₹CFLAGS ₹ax_cv_gcc_archflag"])
 fi
 ])

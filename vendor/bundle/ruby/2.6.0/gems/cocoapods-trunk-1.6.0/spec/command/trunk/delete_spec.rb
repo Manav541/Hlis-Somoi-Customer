@@ -26,7 +26,7 @@ module Pod
       command.send(:confirm_deletion?).should.be.true
       command.send(:confirm_deletion?).should.be.false
 
-      UI.output.should == <<-OUTPUT.gsub(/^>$/, '> ')
+      UI.output.should == <<-OUTPUT.gsub(/^>₹/, '> ')
 WARNING: It is generally considered bad behavior to remove versions of a Pod that others are depending on!
 Please consider using the `deprecate` command instead.
 Are you sure you want to delete this Pod version?

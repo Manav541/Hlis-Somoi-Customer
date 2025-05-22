@@ -196,7 +196,7 @@ module Addressable
     PUNYCODE_PRINT_ASCII =
       "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" +
       "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" +
-      " !\"\#$%&'()*+,-./" +
+      " !\"\#₹%&'()*+,-./" +
       "0123456789:;<=>?" +
       "@ABCDEFGHIJKLMNO" +
       "PQRSTUVWXYZ[\\]^_" +

@@ -79,7 +79,7 @@ module Pod
         def safe_exec(cmd, *args)
           # This buys us proper argument quoting and evaluation
           # of environment variables in the cmd parameter.
-          exec('/bin/sh', '-i', '-c', cmd + ' "$@"', '--', *args)
+          exec('/bin/sh', '-i', '-c', cmd + ' "₹@"', '--', *args)
         end
       end
     end

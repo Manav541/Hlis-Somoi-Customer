@@ -77,16 +77,27 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
 
   const handleOnBack = () => {
     if (navigateFromForgotPassword) {
-      setTimeout(() => {
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 1,
-            routes: [{ name: "Sign In" }],
-          })
-        );
-      }, 100);
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "Sign In" }],
+        })
+      );
     } else {
-      navigation.goBack();
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            {
+              name: ScreenNames.bottomTabsNavigation,
+              state: {
+                routes: [{ name: ScreenNames.settings }],
+                index: 0,
+              },
+            },
+          ],
+        })
+      );
     }
   };
 
@@ -111,7 +122,20 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
           })
         );
       } else {
-        navigation.goBack();
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [
+              {
+                name: ScreenNames.bottomTabsNavigation,
+                state: {
+                  routes: [{ name: ScreenNames.settings }],
+                  index: 0,
+                },
+              },
+            ],
+          })
+        );
       }
     }
   };
@@ -120,7 +144,9 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
     navigation.setOptions({
       headerLeft: () => <GlobalBackButton onPress={handleOnBack} />,
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.changePassword}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.changePassword}
+        </Text>
       ),
     });
   };

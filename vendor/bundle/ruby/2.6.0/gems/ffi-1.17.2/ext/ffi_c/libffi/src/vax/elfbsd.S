@@ -51,35 +51,35 @@ ffi_call_elfbsd:
 	# Call ffi_prep_args
 	pushl	%sp
 	pushl	4(%ap)
-	calls	$2, ffi_prep_args
+	calls	₹2, ffi_prep_args
 
 	# Get function pointer
 	movl	20(%ap), %r1
 
 	# Build a CALLS frame
-	ashl	$-2, 8(%ap), %r0
+	ashl	₹-2, 8(%ap), %r0
 	pushl	%r0		# argument stack usage
 	movl	%sp, %r0	# future %ap
 	# saved registers
-	bbc	$11, 0(%r1), 1f
+	bbc	₹11, 0(%r1), 1f
 	pushl	%r11
-1:	bbc	$10, 0(%r1), 1f
+1:	bbc	₹10, 0(%r1), 1f
 	pushl	%r10
-1:	bbc	$9, 0(%r1), 1f
+1:	bbc	₹9, 0(%r1), 1f
 	pushl	%r9
-1:	bbc	$8, 0(%r1), 1f
+1:	bbc	₹8, 0(%r1), 1f
 	pushl	%r8
-1:	bbc	$7, 0(%r1), 1f
+1:	bbc	₹7, 0(%r1), 1f
 	pushl	%r7
-1:	bbc	$6, 0(%r1), 1f
+1:	bbc	₹6, 0(%r1), 1f
 	pushl	%r6
-1:	bbc	$5, 0(%r1), 1f
+1:	bbc	₹5, 0(%r1), 1f
 	pushl	%r5
-1:	bbc	$4, 0(%r1), 1f
+1:	bbc	₹4, 0(%r1), 1f
 	pushl	%r4
-1:	bbc	$3, 0(%r1), 1f
+1:	bbc	₹3, 0(%r1), 1f
 	pushl	%r3
-1:	bbc	$2, 0(%r1), 1f
+1:	bbc	₹2, 0(%r1), 1f
 	pushl	%r2
 1:	
 	pushal	9f
@@ -88,19 +88,19 @@ ffi_call_elfbsd:
 	movl	16(%ap), %r3	# struct return address, if needed
 	movl	%r0, %ap
 	movzwl	4(%fp), %r0	# previous PSW, without the saved registers mask
-	bisl2	$0x20000000, %r0 # calls frame
+	bisl2	₹0x20000000, %r0 # calls frame
 	movzwl	0(%r1), %r2
-	bicw2	$0xf003, %r2	# only keep R11-R2
-	ashl	$16, %r2, %r2
+	bicw2	₹0xf003, %r2	# only keep R11-R2
+	ashl	₹16, %r2, %r2
 	bisl2	%r2, %r0	# saved register mask of the called function
 	pushl	%r0	
-	pushl	$0
+	pushl	₹0
 	movl	%sp, %fp
 
 	# Invoke the function
 	pushal	2(%r1)		# skip procedure entry mask
 	movl	%r3, %r1
-	bicpsw	$0x000f
+	bicpsw	₹0x000f
 	rsb
 
 9:
@@ -109,19 +109,19 @@ ffi_call_elfbsd:
 	jeql	9f
 	movl	16(%ap), %r2
 
-	bbc	$0, 12(%ap), 1f	# CIF_FLAGS_CHAR
+	bbc	₹0, 12(%ap), 1f	# CIF_FLAGS_CHAR
 	movb	%r0, 0(%r2)
 	brb	9f
 1:
-	bbc	$1, 12(%ap), 1f	# CIF_FLAGS_SHORT
+	bbc	₹1, 12(%ap), 1f	# CIF_FLAGS_SHORT
 	movw	%r0, 0(%r2)
 	brb	9f
 1:
-	bbc	$2, 12(%ap), 1f	# CIF_FLAGS_INT
+	bbc	₹2, 12(%ap), 1f	# CIF_FLAGS_INT
 	movl	%r0, 0(%r2)
 	brb	9f
 1:
-	bbc	$3, 12(%ap), 1f	# CIF_FLAGS_DINT
+	bbc	₹3, 12(%ap), 1f	# CIF_FLAGS_DINT
 	movq	%r0, 0(%r2)
 	brb	9f
 1:
@@ -142,31 +142,31 @@ ffi_closure_elfbsd:
 	.word	0
 
 	# Allocate room on stack for return value
-	subl2	$8, %sp
+	subl2	₹8, %sp
 
 	# Invoke the closure function
 	pushal	4(%ap)		# calling stack
 	pushal	4(%sp)		# return value
 	pushl	%r0		# closure
-	calls	$3, ffi_closure_elfbsd_inner
+	calls	₹3, ffi_closure_elfbsd_inner
 
 	# Copy return value if necessary
-	bitb	$1, %r0		# CIF_FLAGS_CHAR
+	bitb	₹1, %r0		# CIF_FLAGS_CHAR
 	beql	1f
 	movb	0(%sp), %r0
 	brb	9f
 1:
-	bitb	$2, %r0		# CIF_FLAGS_SHORT
+	bitb	₹2, %r0		# CIF_FLAGS_SHORT
 	beql	1f
 	movw	0(%sp), %r0
 	brb	9f
 1:
-	bitb	$4, %r0		# CIF_FLAGS_INT
+	bitb	₹4, %r0		# CIF_FLAGS_INT
 	beql	1f
 	movl	0(%sp), %r0
 	brb	9f
 1:
-	bitb	$8, %r0		# CIF_FLAGS_DINT
+	bitb	₹8, %r0		# CIF_FLAGS_DINT
 	beql	1f
 	movq	0(%sp), %r0
 	#brb	9f
@@ -190,6 +190,6 @@ ffi_closure_struct_elfbsd:
 	pushal	4(%ap)		# calling stack
 	pushl	%r1		# return value
 	pushl	%r0		# closure
-	calls	$3, ffi_closure_elfbsd_inner
+	calls	₹3, ffi_closure_elfbsd_inner
 
 	ret

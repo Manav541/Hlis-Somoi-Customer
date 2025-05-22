@@ -24,7 +24,7 @@ def libffi_tests(self, selenium, libffi_test):
                 throw e;
             }}
             if(e.status !== 0){{
-                throw new Error(`Terminated with nonzero status code ${{e.status}}: ` + e.message);
+                throw new Error(`Terminated with nonzero status code ₹{{e.status}}: ` + e.message);
             }}
         }}
         """

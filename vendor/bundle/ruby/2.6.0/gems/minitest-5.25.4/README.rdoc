@@ -163,7 +163,7 @@ Add benchmarks to your tests.
 Or add them to your specs. If you make benchmarks optional, you'll
 need to wrap your benchmarks in a conditional since the methods won't
 be defined. In minitest 5, the describe name needs to match
-<tt>/Bench(mark)?$/</tt>.
+<tt>/Bench(mark)?₹/</tt>.
 
   describe "Meme Benchmark" do
     if ENV["BENCH"] then

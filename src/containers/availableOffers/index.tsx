@@ -8,6 +8,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import { AvailableOfferItem } from "../../constants/interfaces";
 import { ScreenNames } from "../../routers";
 import { constnatStyles } from "../../constants/Styles";
+import Clipboard from "@react-native-clipboard/clipboard";
+import { flashMessageSucess } from "../../constants/GConstant";
 
 const AvailableOffersContainer = ({ navigation }: any) => {
   const [arrAvailableOffers, setArrAvailableOffers] = useState<AvailableOfferItem[]>([
@@ -15,7 +17,7 @@ const AvailableOffersContainer = ({ navigation }: any) => {
       title: "Welcome Offer",
       offer: "Extra 7% Off",
       offerDesc: "Your first order above",
-      offerPrice: "$150",
+      offerPrice: "₹150",
       offerCode: "SOMOIoff07",
       offerValidity: "8/31/2025",
     },
@@ -23,7 +25,7 @@ const AvailableOffersContainer = ({ navigation }: any) => {
       title: "Summer Offer",
       offer: "Flat 10% Off",
       offerDesc: "Your first order above",
-      offerPrice: "$250",
+      offerPrice: "₹250",
       offerCode: "SOMOIoff10",
       offerValidity: "8/31/2025",
     },
@@ -31,11 +33,16 @@ const AvailableOffersContainer = ({ navigation }: any) => {
       title: "Festive Offer",
       offer: "Extra 70% Off",
       offerDesc: "Your first order above",
-      offerPrice: "$1550",
+      offerPrice: "₹1550",
       offerCode: "SOMOIoff70",
       offerValidity: "8/31/2025",
     },
   ]);
+
+  const copyToClipboard = (offerCode:string) => {
+    Clipboard.setString(offerCode);
+    flashMessageSucess(getTranslation("offerCodeCopySuccess"));
+  };
 
   const header = () => {
     navigation.setOptions({
@@ -62,7 +69,7 @@ const AvailableOffersContainer = ({ navigation }: any) => {
     }, [navigation])
   );
 
-  return <AvailableOffersComponent arrAvailableOffers={arrAvailableOffers} />;
+  return <AvailableOffersComponent arrAvailableOffers={arrAvailableOffers} copyToClipboard={copyToClipboard} />;
 };
 
 export default AvailableOffersContainer;

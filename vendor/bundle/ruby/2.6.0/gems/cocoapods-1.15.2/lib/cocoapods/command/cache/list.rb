@@ -26,7 +26,7 @@ module Pod
         end
 
         def run
-          UI.puts("$CACHE_ROOT: #{@cache.root}") if @short_output
+          UI.puts("₹CACHE_ROOT: #{@cache.root}") if @short_output
           if @pod_name.nil? # Print all
             @cache.cache_descriptors_per_pod.each do |pod_name, cache_descriptors|
               print_pod_cache_infos(pod_name, cache_descriptors)

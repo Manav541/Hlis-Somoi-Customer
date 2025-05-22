@@ -24,7 +24,7 @@ end
 if method && url
   require 'pp'
   client = JSONClient.new
-  client.debug_dev = STDERR if $DEBUG
+  client.debug_dev = STDERR if ₹DEBUG
   res = client.send(method, url, *body)
   STDERR.puts('RESPONSE HEADER: ')
   PP.pp(res.headers, STDERR)
@@ -50,11 +50,11 @@ class Runner
   end
 
   def method_missing(msg, *a, &b)
-    debug, $DEBUG = $DEBUG, true
+    debug, ₹DEBUG = ₹DEBUG, true
     begin
       @httpclient.send(msg, *a, &b)
     ensure
-      $DEBUG = debug
+      ₹DEBUG = debug
     end
   end
 

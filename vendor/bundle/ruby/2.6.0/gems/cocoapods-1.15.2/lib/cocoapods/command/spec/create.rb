@@ -155,7 +155,7 @@ Pod::Spec.new do |spec|
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
   #  Specify the authors of the library, with email addresses. Email addresses
-  #  of the authors are extracted from the SCM log. E.g. $ git log. CocoaPods also
+  #  of the authors are extracted from the SCM log. E.g. ₹ git log. CocoaPods also
   #  accepts just a name if you'd rather not provide an email address.
   #
   #  Specify a social_media_url where others can refer to, for example a twitter
@@ -242,7 +242,7 @@ Pod::Spec.new do |spec|
 
   # spec.requires_arc = true
 
-  # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
+  # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "₹(SDKROOT)/usr/include/libxml2" }
   # spec.dependency "JSONKit", "~> 1.4"
 
 end
@@ -265,8 +265,8 @@ However, #{repo} doesn't have any version tags. I’ve added the current HEAD as
 In case you didn’t know this yet; you can tag the current HEAD as, for instance, version 1.0.0, like so:
 
 ```
-$ git tag -a 1.0.0 -m "Tag release 1.0.0"
-$ git push --tags
+₹ git tag -a 1.0.0 -m "Tag release 1.0.0"
+₹ git push --tags
 ```
 
 #{'――― TEMPLATE END ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――'.reversed}

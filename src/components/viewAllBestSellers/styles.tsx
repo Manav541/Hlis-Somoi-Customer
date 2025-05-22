@@ -12,12 +12,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   vwBestSellersItemDetails: {
-    marginHorizontal: 12.5,
-    marginTop: 14,
-    marginBottom: 10,
+    paddingHorizontal: 12.5,
+    paddingTop: 14,
+    paddingBottom: 10,
   },
   vwLocation: {
-    marginTop: 10,
+    marginTop: 5,
     flexDirection: "row",
     alignItems: "center",
     gap: 5,
@@ -47,6 +47,7 @@ export const styles = StyleSheet.create({
     gap: 4,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     borderRadius: 50,
     paddingLeft: 6,
     paddingRight: 7,
@@ -57,7 +58,7 @@ export const styles = StyleSheet.create({
     color: colors.black35,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.bold,
-    lineHeight: 14,
+    lineHeight: 22,
   },
   lblLocation: {
     color: colors.black35,
@@ -78,6 +79,7 @@ export const styles = StyleSheet.create({
     color: colors.blue4e,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.regularOutFit,
+    alignSelf :'center',
   },
 
   // TouchableOpacity Style
@@ -90,10 +92,10 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   btnFavourite: {
-    height: 24,
+    height: 22.3,
     width: 24,
     backgroundColor: colors.white,
-    borderRadius: 100,
+    borderRadius: 22,
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
@@ -104,8 +106,8 @@ export const styles = StyleSheet.create({
       width: 0,
       height: 4,
     },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    shadowOpacity: 0.07,
+    shadowRadius: 0.30,
     elevation: 4,
   },
 

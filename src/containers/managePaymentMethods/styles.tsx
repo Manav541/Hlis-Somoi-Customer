@@ -8,9 +8,6 @@ export const styles = StyleSheet.create({
     color: colors.blue4e,
     fontSize: fontSize.size18,
     fontFamily: fontsfamily.bold,
-    textAlign: "center",
-    position: "absolute",
-    left: 0,
-    right: 0,
+  
   },
 });

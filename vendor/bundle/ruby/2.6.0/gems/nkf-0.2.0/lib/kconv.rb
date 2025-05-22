@@ -2,7 +2,7 @@
 #
 # kconv.rb - Kanji Converter.
 #
-# $Id$
+# ₹Id₹
 #
 # ----
 #

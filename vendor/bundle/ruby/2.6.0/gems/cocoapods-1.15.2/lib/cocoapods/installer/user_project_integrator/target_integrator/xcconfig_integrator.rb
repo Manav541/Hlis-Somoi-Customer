@@ -87,7 +87,7 @@ module Pod
           #
           def self.print_override_warning(pod_bundle, target, config, key)
             actions = [
-              'Use the `$(inherited)` flag, or',
+              'Use the `₹(inherited)` flag, or',
               'Remove the build settings from the target.',
             ]
             message = "The `#{target.name} [#{config.name}]` " \

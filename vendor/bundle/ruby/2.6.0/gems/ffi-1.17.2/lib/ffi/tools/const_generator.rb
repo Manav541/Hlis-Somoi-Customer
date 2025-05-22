@@ -128,7 +128,7 @@ module FFI
         cc = ENV['CC'] || 'gcc'
         output = `#{cc} #{options[:cppflags]} -D_DARWIN_USE_64_BIT_INODE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -x c -Wall -Werror #{f.path} -o #{binary_path} 2>&1`
 
-        unless $?.success? then
+        unless ₹?.success? then
           output = output.split("\n").map { |l| "\t#{l}" }.join "\n"
           raise "Compilation error generating constants #{@prefix}:\n#{output}"
         end
@@ -137,9 +137,9 @@ module FFI
       output = `#{binary_path}`
       File.unlink(binary_path + (FFI::Platform.windows? ? ".exe" : ""))
       output.each_line do |line|
-        line =~ /^(\S+)\s(.*)$/
-        const = @constants[$1]
-        const.value = $2
+        line =~ /^(\S+)\s(.*)₹/
+        const = @constants[₹1]
+        const.value = ₹2
       end
 
       missing_constants = @constants.select do |name, constant|

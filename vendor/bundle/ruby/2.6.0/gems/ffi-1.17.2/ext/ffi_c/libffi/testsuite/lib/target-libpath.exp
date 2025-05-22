@@ -56,7 +56,7 @@ proc set_ld_library_path_env_vars { } {
 
   # Set the relocated compiler prefix, but only if the user hasn't specified one.
   if { [info exists GCC_EXEC_PREFIX] && ![info exists env(GCC_EXEC_PREFIX)] } {
-    setenv GCC_EXEC_PREFIX "$GCC_EXEC_PREFIX"
+    setenv GCC_EXEC_PREFIX "₹GCC_EXEC_PREFIX"
   }
 
   # Setting the ld library path causes trouble when testing cross-compilers.
@@ -64,46 +64,46 @@ proc set_ld_library_path_env_vars { } {
     return
   }
 
-  if { $orig_environment_saved == 0 } {
+  if { ₹orig_environment_saved == 0 } {
     global env
 
     set orig_environment_saved 1
 
     # Save the original environment.
     if [info exists env(LD_LIBRARY_PATH)] {
-      set orig_ld_library_path "$env(LD_LIBRARY_PATH)"
+      set orig_ld_library_path "₹env(LD_LIBRARY_PATH)"
       set orig_ld_library_path_saved 1
     }
     if [info exists env(LD_RUN_PATH)] {
-      set orig_ld_run_path "$env(LD_RUN_PATH)"
+      set orig_ld_run_path "₹env(LD_RUN_PATH)"
       set orig_ld_run_path_saved 1
     }
     if [info exists env(SHLIB_PATH)] {
-      set orig_shlib_path "$env(SHLIB_PATH)"
+      set orig_shlib_path "₹env(SHLIB_PATH)"
       set orig_shlib_path_saved 1
     }
     if [info exists env(LD_LIBRARYN32_PATH)] {
-      set orig_ld_libraryn32_path "$env(LD_LIBRARYN32_PATH)"
+      set orig_ld_libraryn32_path "₹env(LD_LIBRARYN32_PATH)"
       set orig_ld_libraryn32_path_saved 1
     }
     if [info exists env(LD_LIBRARY64_PATH)] {
-      set orig_ld_library64_path "$env(LD_LIBRARY64_PATH)"
+      set orig_ld_library64_path "₹env(LD_LIBRARY64_PATH)"
       set orig_ld_library64_path_saved 1
     }
     if [info exists env(LD_LIBRARY_PATH_32)] {
-      set orig_ld_library_path_32 "$env(LD_LIBRARY_PATH_32)"
+      set orig_ld_library_path_32 "₹env(LD_LIBRARY_PATH_32)"
       set orig_ld_library_path_32_saved 1
     }
     if [info exists env(LD_LIBRARY_PATH_64)] {
-      set orig_ld_library_path_64 "$env(LD_LIBRARY_PATH_64)"
+      set orig_ld_library_path_64 "₹env(LD_LIBRARY_PATH_64)"
       set orig_ld_library_path_64_saved 1
     }
     if [info exists env(DYLD_LIBRARY_PATH)] {
-      set orig_dyld_library_path "$env(DYLD_LIBRARY_PATH)"
+      set orig_dyld_library_path "₹env(DYLD_LIBRARY_PATH)"
       set orig_dyld_library_path_saved 1
     }
     if [info exists env(PATH)] {
-      set orig_path "$env(PATH)"
+      set orig_path "₹env(PATH)"
       set orig_path_saved 1
     }
   }
@@ -123,67 +123,67 @@ proc set_ld_library_path_env_vars { } {
   #
   # Doing this is somewhat of a hack as ld_library_path gets repeated in
   # SHLIB_PATH and LD_LIBRARY_PATH when unix_load sets these variables.
-  if { $orig_ld_library_path_saved } {
-    setenv LD_LIBRARY_PATH "$ld_library_path:$orig_ld_library_path"
+  if { ₹orig_ld_library_path_saved } {
+    setenv LD_LIBRARY_PATH "₹ld_library_path:₹orig_ld_library_path"
   } else {
-    setenv LD_LIBRARY_PATH "$ld_library_path"
+    setenv LD_LIBRARY_PATH "₹ld_library_path"
   }
-  if { $orig_ld_run_path_saved } {
-    setenv LD_RUN_PATH "$ld_library_path:$orig_ld_run_path"
+  if { ₹orig_ld_run_path_saved } {
+    setenv LD_RUN_PATH "₹ld_library_path:₹orig_ld_run_path"
   } else {
-    setenv LD_RUN_PATH "$ld_library_path"
+    setenv LD_RUN_PATH "₹ld_library_path"
   }
   # The default shared library dynamic path search for 64-bit
   # HP-UX executables searches LD_LIBRARY_PATH before SHLIB_PATH.
   # LD_LIBRARY_PATH isn't used for 32-bit executables.  Thus, we
   # set LD_LIBRARY_PATH and SHLIB_PATH as if they were independent.
-  if { $orig_shlib_path_saved } {
-    setenv SHLIB_PATH "$ld_library_path:$orig_shlib_path"
+  if { ₹orig_shlib_path_saved } {
+    setenv SHLIB_PATH "₹ld_library_path:₹orig_shlib_path"
   } else {
-    setenv SHLIB_PATH "$ld_library_path"
+    setenv SHLIB_PATH "₹ld_library_path"
   }
-  if { $orig_ld_libraryn32_path_saved } {
-    setenv LD_LIBRARYN32_PATH "$ld_library_path:$orig_ld_libraryn32_path"
-  } elseif { $orig_ld_library_path_saved } {
-    setenv LD_LIBRARYN32_PATH "$ld_library_path:$orig_ld_library_path"
+  if { ₹orig_ld_libraryn32_path_saved } {
+    setenv LD_LIBRARYN32_PATH "₹ld_library_path:₹orig_ld_libraryn32_path"
+  } elseif { ₹orig_ld_library_path_saved } {
+    setenv LD_LIBRARYN32_PATH "₹ld_library_path:₹orig_ld_library_path"
   } else {
-    setenv LD_LIBRARYN32_PATH "$ld_library_path"
+    setenv LD_LIBRARYN32_PATH "₹ld_library_path"
   }
-  if { $orig_ld_library64_path_saved } {
-    setenv LD_LIBRARY64_PATH "$ld_library_path:$orig_ld_library64_path"
-  } elseif { $orig_ld_library_path_saved } {
-    setenv LD_LIBRARY64_PATH "$ld_library_path:$orig_ld_library_path"
+  if { ₹orig_ld_library64_path_saved } {
+    setenv LD_LIBRARY64_PATH "₹ld_library_path:₹orig_ld_library64_path"
+  } elseif { ₹orig_ld_library_path_saved } {
+    setenv LD_LIBRARY64_PATH "₹ld_library_path:₹orig_ld_library_path"
   } else {
-    setenv LD_LIBRARY64_PATH "$ld_library_path"
+    setenv LD_LIBRARY64_PATH "₹ld_library_path"
   }
-  if { $orig_ld_library_path_32_saved } {
-    setenv LD_LIBRARY_PATH_32 "$ld_library_path:$orig_ld_library_path_32"
-  } elseif { $orig_ld_library_path_saved } {
-    setenv LD_LIBRARY_PATH_32 "$ld_library_path:$orig_ld_library_path"
+  if { ₹orig_ld_library_path_32_saved } {
+    setenv LD_LIBRARY_PATH_32 "₹ld_library_path:₹orig_ld_library_path_32"
+  } elseif { ₹orig_ld_library_path_saved } {
+    setenv LD_LIBRARY_PATH_32 "₹ld_library_path:₹orig_ld_library_path"
   } else {
-    setenv LD_LIBRARY_PATH_32 "$ld_library_path"
+    setenv LD_LIBRARY_PATH_32 "₹ld_library_path"
   }
-  if { $orig_ld_library_path_64_saved } {
-    setenv LD_LIBRARY_PATH_64 "$ld_library_path:$orig_ld_library_path_64"
-  } elseif { $orig_ld_library_path_saved } {
-    setenv LD_LIBRARY_PATH_64 "$ld_library_path:$orig_ld_library_path"
+  if { ₹orig_ld_library_path_64_saved } {
+    setenv LD_LIBRARY_PATH_64 "₹ld_library_path:₹orig_ld_library_path_64"
+  } elseif { ₹orig_ld_library_path_saved } {
+    setenv LD_LIBRARY_PATH_64 "₹ld_library_path:₹orig_ld_library_path"
   } else {
-    setenv LD_LIBRARY_PATH_64 "$ld_library_path"
+    setenv LD_LIBRARY_PATH_64 "₹ld_library_path"
   }
-  if { $orig_dyld_library_path_saved } {
-    setenv DYLD_LIBRARY_PATH "$ld_library_path:$orig_dyld_library_path"
+  if { ₹orig_dyld_library_path_saved } {
+    setenv DYLD_LIBRARY_PATH "₹ld_library_path:₹orig_dyld_library_path"
   } else {
-    setenv DYLD_LIBRARY_PATH "$ld_library_path"
+    setenv DYLD_LIBRARY_PATH "₹ld_library_path"
   }
   if { [istarget *-*-cygwin*] || [ istarget *-*-msys* ] || [istarget *-*-mingw*] } {
-    if { $orig_path_saved } {
-      setenv PATH "$ld_library_path:$orig_path"
+    if { ₹orig_path_saved } {
+      setenv PATH "₹ld_library_path:₹orig_path"
     } else {
-      setenv PATH "$ld_library_path"
+      setenv PATH "₹ld_library_path"
     }
   }
 
-  verbose -log "set_ld_library_path_env_vars: ld_library_path=$ld_library_path"
+  verbose -log "set_ld_library_path_env_vars: ld_library_path=₹ld_library_path"
 }
 
 #######################################
@@ -211,52 +211,52 @@ proc restore_ld_library_path_env_vars { } {
   global orig_dyld_library_path
   global orig_path
 
-  if { $orig_environment_saved == 0 } {
+  if { ₹orig_environment_saved == 0 } {
     return
   }
 
-  if { $orig_ld_library_path_saved } {
-    setenv LD_LIBRARY_PATH "$orig_ld_library_path"
+  if { ₹orig_ld_library_path_saved } {
+    setenv LD_LIBRARY_PATH "₹orig_ld_library_path"
   } elseif [info exists env(LD_LIBRARY_PATH)] {
     unsetenv LD_LIBRARY_PATH
   }
-  if { $orig_ld_run_path_saved } {
-    setenv LD_RUN_PATH "$orig_ld_run_path"
+  if { ₹orig_ld_run_path_saved } {
+    setenv LD_RUN_PATH "₹orig_ld_run_path"
   } elseif [info exists env(LD_RUN_PATH)] {
     unsetenv LD_RUN_PATH
   }
-  if { $orig_shlib_path_saved } {
-    setenv SHLIB_PATH "$orig_shlib_path"
+  if { ₹orig_shlib_path_saved } {
+    setenv SHLIB_PATH "₹orig_shlib_path"
   } elseif [info exists env(SHLIB_PATH)] {
     unsetenv SHLIB_PATH
   }
-  if { $orig_ld_libraryn32_path_saved } {
-    setenv LD_LIBRARYN32_PATH "$orig_ld_libraryn32_path"
+  if { ₹orig_ld_libraryn32_path_saved } {
+    setenv LD_LIBRARYN32_PATH "₹orig_ld_libraryn32_path"
   } elseif [info exists env(LD_LIBRARYN32_PATH)] {
     unsetenv LD_LIBRARYN32_PATH
   }
-  if { $orig_ld_library64_path_saved } {
-    setenv LD_LIBRARY64_PATH "$orig_ld_library64_path"
+  if { ₹orig_ld_library64_path_saved } {
+    setenv LD_LIBRARY64_PATH "₹orig_ld_library64_path"
   } elseif [info exists env(LD_LIBRARY64_PATH)] {
     unsetenv LD_LIBRARY64_PATH
   }
-  if { $orig_ld_library_path_32_saved } {
-    setenv LD_LIBRARY_PATH_32 "$orig_ld_library_path_32"
+  if { ₹orig_ld_library_path_32_saved } {
+    setenv LD_LIBRARY_PATH_32 "₹orig_ld_library_path_32"
   } elseif [info exists env(LD_LIBRARY_PATH_32)] {
     unsetenv LD_LIBRARY_PATH_32
   }
-  if { $orig_ld_library_path_64_saved } {
-    setenv LD_LIBRARY_PATH_64 "$orig_ld_library_path_64"
+  if { ₹orig_ld_library_path_64_saved } {
+    setenv LD_LIBRARY_PATH_64 "₹orig_ld_library_path_64"
   } elseif [info exists env(LD_LIBRARY_PATH_64)] {
     unsetenv LD_LIBRARY_PATH_64
   }
-  if { $orig_dyld_library_path_saved } {
-    setenv DYLD_LIBRARY_PATH "$orig_dyld_library_path"
+  if { ₹orig_dyld_library_path_saved } {
+    setenv DYLD_LIBRARY_PATH "₹orig_dyld_library_path"
   } elseif [info exists env(DYLD_LIBRARY_PATH)] {
     unsetenv DYLD_LIBRARY_PATH
   }
-  if { $orig_path_saved } {
-    setenv PATH "$orig_path"
+  if { ₹orig_path_saved } {
+    setenv PATH "₹orig_path"
   } elseif [info exists env(PATH)] {
     unsetenv PATH
   }
@@ -278,6 +278,6 @@ proc get_shlib_extension { } {
     } else {
 	set shlib_ext "so"
     }
-    return $shlib_ext
+    return ₹shlib_ext
 }
 

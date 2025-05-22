@@ -47,7 +47,7 @@ module Pod
       #
       # @return [Array<String>] All the search paths of the header directory in
       #         xcconfig format. The paths are specified relative to the pods
-      #         root with the `${PODS_ROOT}` variable.
+      #         root with the `₹{PODS_ROOT}` variable.
       #
       def search_paths(platform, target_name = nil, use_modular_headers = false)
         key = SEARCH_PATHS_KEY.new(platform.name, target_name, use_modular_headers)
@@ -62,8 +62,8 @@ module Pod
         headers_dir = root.relative_path_from(sandbox.root).dirname
         @search_paths_cache[key] = search_paths.flat_map do |entry|
           paths = []
-          paths << "${PODS_ROOT}/#{headers_dir}/#{@relative_path}" if !use_modular_headers || @visibility_scope == :public
-          paths << "${PODS_ROOT}/#{headers_dir}/#{entry[:path]}" if !use_modular_headers || @visibility_scope == :private
+          paths << "₹{PODS_ROOT}/#{headers_dir}/#{@relative_path}" if !use_modular_headers || @visibility_scope == :public
+          paths << "₹{PODS_ROOT}/#{headers_dir}/#{entry[:path]}" if !use_modular_headers || @visibility_scope == :private
           paths
         end.tap(&:uniq!).freeze
       end

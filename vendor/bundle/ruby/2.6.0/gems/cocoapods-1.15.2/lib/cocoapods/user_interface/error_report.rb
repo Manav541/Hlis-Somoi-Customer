@@ -184,7 +184,7 @@ EOS
         end
 
         def original_command
-          "#{$PROGRAM_NAME} #{ARGV.join(' ')}"
+          "#{₹PROGRAM_NAME} #{ARGV.join(' ')}"
         end
 
         private

@@ -1,4 +1,4 @@
-// !$*UTF8*$!
+// !₹*UTF8*₹!
 {
 	archiveVersion = 1;
 	classes = {
@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0018DEEB09A84367B640A219 /* PublicSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 534D0BCF9B034B95AA5B4D33 /* PublicSans-SemiBold.ttf */; };
 		037C55BA56454BD8A6841C95 /* Outfit-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9C2B666F3184E9BBF6641AE /* Outfit-Bold.ttf */; };
-		038AFDD21CA6CF7A6B2A4F5F /* libPods-somoi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BADA5361FC43F6AD6F25C14 /* libPods-somoi.a */; };
 		0425E081948963979B818710 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		045D840CB5864D94B086EF03 /* PublicSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DBE09CF21CA4EDDADE328EB /* PublicSans-BoldItalic.ttf */; };
 		072D278E0ECE42DF8C30447E /* Montserrat-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D3E9C36EE69F4384BD3A058F /* Montserrat-ExtraLight.ttf */; };
@@ -22,6 +21,7 @@
 		38BCED23FD484CF6A001B2B8 /* Outfit-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F0C6B32BA1A5416BAB249268 /* Outfit-Regular.ttf */; };
 		3A2599FC2B904E7E87508897 /* Montserrat-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67E4BDEE60C94CC2A1F476A2 /* Montserrat-BlackItalic.ttf */; };
 		3A342E8BD0C1413ABF9BCCDD /* Montserrat-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D81A15C78C3C49E1BEF360C3 /* Montserrat-Italic.ttf */; };
+		403CC58506CD9C1A50F483E7 /* libPods-somoi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BD6F411ED5BF78AD95A9184A /* libPods-somoi.a */; };
 		4C8DD5C2E1B14A58AC2FD306 /* PublicSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 99F72DD2C0844D85BD0505CF /* PublicSans-LightItalic.ttf */; };
 		50C39DF4CB5041DB971C3AF2 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B5B932FD9264E8EB065B35E /* Montserrat-SemiBold.ttf */; };
 		51CCAFD8823948E5A2C84D5A /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E8AF3B9C878941ED88F47889 /* Montserrat-Bold.ttf */; };
@@ -67,7 +67,6 @@
 
 /* Begin PBXFileReference section */
 		0253614AA1C04C15890309A7 /* Montserrat-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ThinItalic.ttf"; path = "../src/assets/fonts/Montserrat-ThinItalic.ttf"; sourceTree = "<group>"; };
-		09701E2EC3512B6B7977642C /* Pods-somoi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-somoi.release.xcconfig"; path = "Target Support Files/Pods-somoi/Pods-somoi.release.xcconfig"; sourceTree = "<group>"; };
 		0F52D05CDD2246139D863860 /* Outfit-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Thin.ttf"; path = "../src/assets/fonts/Outfit-Thin.ttf"; sourceTree = "<group>"; };
 		130337FC03D74416BFD0E734 /* PublicSans-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ExtraLight.ttf"; path = "../src/assets/fonts/PublicSans-ExtraLight.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* somoi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = somoi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,7 +79,6 @@
 		346949939FA74D30ADB5B530 /* GolosText-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Regular.ttf"; path = "../src/assets/fonts/GolosText-Regular.ttf"; sourceTree = "<group>"; };
 		3869488AD7444DCB922C1814 /* Montserrat-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLightItalic.ttf"; path = "../src/assets/fonts/Montserrat-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		3B5B932FD9264E8EB065B35E /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../src/assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
-		3BADA5361FC43F6AD6F25C14 /* libPods-somoi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-somoi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FDBF8AF6F114770AF69A026 /* Outfit-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-ExtraLight.ttf"; path = "../src/assets/fonts/Outfit-ExtraLight.ttf"; sourceTree = "<group>"; };
 		48711BC0B1A24BCDBE8D7A8E /* PublicSans-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Black.ttf"; path = "../src/assets/fonts/PublicSans-Black.ttf"; sourceTree = "<group>"; };
 		4D5AB6F92E2B443A847C7ABE /* PublicSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ExtraBold.ttf"; path = "../src/assets/fonts/PublicSans-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -96,6 +94,7 @@
 		71D84ADAA10447D08785203A /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		72FCC452B28F46B38EDD2A49 /* PublicSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Bold.ttf"; path = "../src/assets/fonts/PublicSans-Bold.ttf"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = somoi/AppDelegate.swift; sourceTree = "<group>"; };
+		784BEA0443E15071935109BF /* Pods-somoi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-somoi.release.xcconfig"; path = "Target Support Files/Pods-somoi/Pods-somoi.release.xcconfig"; sourceTree = "<group>"; };
 		80E383F2FAEA4D70A92C6905 /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.ttf"; path = "../src/assets/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = somoi/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A4A6E0BBF5C4478A8E6895B /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../src/assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
@@ -109,10 +108,12 @@
 		A9D8B94FF2194A9EA6625294 /* GolosText-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Black.ttf"; path = "../src/assets/fonts/GolosText-Black.ttf"; sourceTree = "<group>"; };
 		B8812C406626489DB4F452D7 /* Montserrat-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Black.ttf"; path = "../src/assets/fonts/Montserrat-Black.ttf"; sourceTree = "<group>"; };
 		B90E4A75D1CE45C2AD36AF72 /* Outfit-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-ExtraBold.ttf"; path = "../src/assets/fonts/Outfit-ExtraBold.ttf"; sourceTree = "<group>"; };
+		BD6F411ED5BF78AD95A9184A /* libPods-somoi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-somoi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C40A48B9A55743DDA7A94338 /* PublicSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/PublicSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		C8AE68975E514880B4A0C3B2 /* PublicSans-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-BlackItalic.ttf"; path = "../src/assets/fonts/PublicSans-BlackItalic.ttf"; sourceTree = "<group>"; };
 		C9C2B666F3184E9BBF6641AE /* Outfit-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Bold.ttf"; path = "../src/assets/fonts/Outfit-Bold.ttf"; sourceTree = "<group>"; };
 		CDB5AE0938744E8CAF7100E1 /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBoldItalic.ttf"; path = "../src/assets/fonts/Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		CDFB3AE09885C980A37994B3 /* Pods-somoi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-somoi.debug.xcconfig"; path = "Target Support Files/Pods-somoi/Pods-somoi.debug.xcconfig"; sourceTree = "<group>"; };
 		D3E9C36EE69F4384BD3A058F /* Montserrat-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLight.ttf"; path = "../src/assets/fonts/Montserrat-ExtraLight.ttf"; sourceTree = "<group>"; };
 		D44306EF4D7E476D892B79C1 /* GolosText-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-ExtraBold.ttf"; path = "../src/assets/fonts/GolosText-ExtraBold.ttf"; sourceTree = "<group>"; };
 		D6CA5A296EA54581BA4352C9 /* PublicSans-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-MediumItalic.ttf"; path = "../src/assets/fonts/PublicSans-MediumItalic.ttf"; sourceTree = "<group>"; };
@@ -124,7 +125,6 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EEFFCEB543E249AB82811EC2 /* PublicSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Regular.ttf"; path = "../src/assets/fonts/PublicSans-Regular.ttf"; sourceTree = "<group>"; };
 		F0C6B32BA1A5416BAB249268 /* Outfit-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Regular.ttf"; path = "../src/assets/fonts/Outfit-Regular.ttf"; sourceTree = "<group>"; };
-		F380B5F4BEAA802200C5003C /* Pods-somoi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-somoi.debug.xcconfig"; path = "Target Support Files/Pods-somoi/Pods-somoi.debug.xcconfig"; sourceTree = "<group>"; };
 		F8D4C5D953C94B97B5C3D737 /* Montserrat-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-MediumItalic.ttf"; path = "../src/assets/fonts/Montserrat-MediumItalic.ttf"; sourceTree = "<group>"; };
 		FD3457C8EE8B4263A3502BBE /* Outfit-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Light.ttf"; path = "../src/assets/fonts/Outfit-Light.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,7 +134,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				038AFDD21CA6CF7A6B2A4F5F /* libPods-somoi.a in Frameworks */,
+				403CC58506CD9C1A50F483E7 /* libPods-somoi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,7 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				3BADA5361FC43F6AD6F25C14 /* libPods-somoi.a */,
+				BD6F411ED5BF78AD95A9184A /* libPods-somoi.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -253,8 +253,8 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F380B5F4BEAA802200C5003C /* Pods-somoi.debug.xcconfig */,
-				09701E2EC3512B6B7977642C /* Pods-somoi.release.xcconfig */,
+				CDFB3AE09885C980A37994B3 /* Pods-somoi.debug.xcconfig */,
+				784BEA0443E15071935109BF /* Pods-somoi.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -266,13 +266,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "somoi" */;
 			buildPhases = (
-				C2123A9AE710F02985490E7F /* [CP] Check Pods Manifest.lock */,
+				94588D05CBCFBA32C296D1B9 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				E4CE8240AD3F20CE350DB15D /* [CP] Embed Pods Frameworks */,
-				BAB8E8E3695AA6D7E44C21E3 /* [CP] Copy Pods Resources */,
+				3EE5F5BB269383659F31E564 /* [CP] Embed Pods Frameworks */,
+				5521477584AAEF61F4C76D25 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -385,34 +385,51 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/.xcode.env.local",
-				"$(SRCROOT)/.xcode.env",
+				"₹(SRCROOT)/.xcode.env.local",
+				"₹(SRCROOT)/.xcode.env",
 			);
 			name = "Bundle React Native code and images";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"₹REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"₹REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"₹WITH_ENVIRONMENT ₹REACT_NATIVE_XCODE\"\n";
 		};
-		BAB8E8E3695AA6D7E44C21E3 /* [CP] Copy Pods Resources */ = {
+		3EE5F5BB269383659F31E564 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-somoi/Pods-somoi-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"₹{PODS_ROOT}/Target Support Files/Pods-somoi/Pods-somoi-frameworks-₹{CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-somoi/Pods-somoi-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"₹{PODS_ROOT}/Target Support Files/Pods-somoi/Pods-somoi-frameworks-₹{CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-somoi/Pods-somoi-resources.sh\"\n";
+			shellScript = "\"₹{PODS_ROOT}/Target Support Files/Pods-somoi/Pods-somoi-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C2123A9AE710F02985490E7F /* [CP] Check Pods Manifest.lock */ = {
+		5521477584AAEF61F4C76D25 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"₹{PODS_ROOT}/Target Support Files/Pods-somoi/Pods-somoi-resources-₹{CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"₹{PODS_ROOT}/Target Support Files/Pods-somoi/Pods-somoi-resources-₹{CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"₹{PODS_ROOT}/Target Support Files/Pods-somoi/Pods-somoi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		94588D05CBCFBA32C296D1B9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -420,35 +437,18 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"₹{PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"₹{PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-somoi-checkManifestLockResult.txt",
+				"₹(DERIVED_FILE_DIR)/Pods-somoi-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E4CE8240AD3F20CE350DB15D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-somoi/Pods-somoi-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-somoi/Pods-somoi-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-somoi/Pods-somoi-frameworks.sh\"\n";
+			shellScript = "diff \"₹{PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"₹{PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ ₹? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"₹{SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -467,7 +467,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F380B5F4BEAA802200C5003C /* Pods-somoi.debug.xcconfig */;
+			baseConfigurationReference = CDFB3AE09885C980A37994B3 /* Pods-somoi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -476,16 +476,16 @@
 				INFOPLIST_FILE = somoi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
+					"₹(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
-					"$(inherited)",
+					"₹(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.₹(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = somoi;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -500,7 +500,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 09701E2EC3512B6B7977642C /* Pods-somoi.release.xcconfig */;
+			baseConfigurationReference = 784BEA0443E15071935109BF /* Pods-somoi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -508,16 +508,16 @@
 				INFOPLIST_FILE = somoi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
+					"₹(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
-					"$(inherited)",
+					"₹(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.₹(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = somoi;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -569,7 +569,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-					"$(inherited)",
+					"₹(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -581,17 +581,17 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
-					"$(inherited)",
+					"₹(inherited)",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"\"$(SDKROOT)/usr/lib/swift\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(inherited)\"",
+					"\"₹(SDKROOT)/usr/lib/swift\"",
+					"\"₹(TOOLCHAIN_DIR)/usr/lib/swift/₹(PLATFORM_NAME)\"",
+					"\"₹(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
+					"₹(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
@@ -599,12 +599,12 @@
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
 				OTHER_LDFLAGS = (
-					"$(inherited)",
+					"₹(inherited)",
 					" ",
 				);
-				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				REACT_NATIVE_PATH = "₹{PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "₹(inherited) DEBUG";
 				USE_HERMES = true;
 			};
 			name = Debug;
@@ -654,16 +654,16 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
-					"$(inherited)",
+					"₹(inherited)",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"\"$(SDKROOT)/usr/lib/swift\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(inherited)\"",
+					"\"₹(SDKROOT)/usr/lib/swift\"",
+					"\"₹(TOOLCHAIN_DIR)/usr/lib/swift/₹(PLATFORM_NAME)\"",
+					"\"₹(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
+					"₹(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
@@ -671,10 +671,10 @@
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
 				OTHER_LDFLAGS = (
-					"$(inherited)",
+					"₹(inherited)",
 					" ",
 				);
-				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				REACT_NATIVE_PATH = "₹{PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;

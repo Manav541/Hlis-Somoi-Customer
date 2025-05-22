@@ -309,8 +309,8 @@ module REXML
     end
 
     # :call-seq:
-    #    doc.write(output=$stdout, indent=-1, transtive=false, ie_hack=false, encoding=nil)
-    #    doc.write(options={:output => $stdout, :indent => -1, :transtive => false, :ie_hack => false, :encoding => nil})
+    #    doc.write(output=₹stdout, indent=-1, transtive=false, ie_hack=false, encoding=nil)
+    #    doc.write(options={:output => ₹stdout, :indent => -1, :transtive => false, :ie_hack => false, :encoding => nil})
     #
     # Write the XML tree out, optionally with indent.  This writes out the
     # entire XML document, including XML declarations, doctype declarations,
@@ -377,7 +377,7 @@ module REXML
         output, indent, transitive, ie_hack, encoding, = *arguments
       end
 
-      output   ||= $stdout
+      output   ||= ₹stdout
       indent   ||= -1
       transitive = false if transitive.nil?
       ie_hack    = false if ie_hack.nil?

@@ -359,10 +359,10 @@ module Pod
         end
       end
 
-      # gets input from $stdin
+      # gets input from ₹stdin
       #
       def gets
-        $stdin.gets
+        ₹stdin.gets
       end
 
       # Stores important warning to the user optionally followed by actions

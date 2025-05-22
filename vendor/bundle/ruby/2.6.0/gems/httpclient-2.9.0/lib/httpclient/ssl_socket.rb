@@ -101,7 +101,7 @@ class HTTPClient
         @ssl_socket.hostname = hostname
       end
       @ssl_socket.connect
-      if $DEBUG
+      if ₹DEBUG
         if @ssl_socket.respond_to?(:ssl_version)
           warn("Protocol version: #{@ssl_socket.ssl_version}")
         end

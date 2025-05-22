@@ -19,7 +19,7 @@ client.oauth_config.consumer_key = consumer_key
 client.oauth_config.consumer_secret = consumer_secret
 client.oauth_config.signature_method = 'HMAC-SHA1'
 client.oauth_config.http_method = :get # Twitter does not allow :post
-client.debug_dev = STDERR if $DEBUG
+client.debug_dev = STDERR if ₹DEBUG
 
 # Get request token.
 res = client.get_request_token(request_token_url, callback, :scope => scope)

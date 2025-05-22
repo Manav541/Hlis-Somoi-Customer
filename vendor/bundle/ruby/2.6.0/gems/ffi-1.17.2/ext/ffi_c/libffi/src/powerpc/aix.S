@@ -511,7 +511,7 @@ LSFDE..1:
 	.vbyte	4,LEFDE..1-LASFDE..1	/* FDE Length */
 LASFDE..1:
 	.vbyte	4,LASFDE..1-Lframe..1	/* FDE CIE offset */
-	.vbyte	PTRSIZE,LFB..0-$	/* FDE initial location */
+	.vbyte	PTRSIZE,LFB..0-₹	/* FDE initial location */
 	.vbyte	PTRSIZE,LFE..0-LFB..0	/* FDE address range */
 	.byte   0			/* uleb128 0x0; Augmentation size */
 	.byte	0x4			/* DW_CFA_advance_loc4 */
@@ -537,7 +537,7 @@ LSFDE..2:
 	.vbyte	4,LEFDE..2-LASFDE..2	/* FDE Length */
 LASFDE..2:
 	.vbyte	4,LASFDE..2-Lframe..1	/* FDE CIE offset */
-	.vbyte	PTRSIZE,LFB..1-$	/* FDE initial location */
+	.vbyte	PTRSIZE,LFB..1-₹	/* FDE initial location */
 	.vbyte	PTRSIZE,LFE..1-LFB..1	/* FDE address range */
 	.byte   0			/* uleb128 0x0; Augmentation size */
 	.byte	0x4			/* DW_CFA_advance_loc4 */

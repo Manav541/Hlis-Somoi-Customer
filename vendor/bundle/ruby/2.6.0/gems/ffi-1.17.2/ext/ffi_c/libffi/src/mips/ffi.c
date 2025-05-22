@@ -331,9 +331,9 @@ calc_n32_return_struct_flags(int soft_float, ffi_type *arg)
 
   /* Returning structures under n32 is a tricky thing.
      A struct with only one or two floating point fields 
-     is returned in $f0 (and $f2 if necessary). Any other
-     struct results at most 128 bits are returned in $2
-     (the first 64 bits) and $3 (remainder, if necessary).
+     is returned in ₹f0 (and ₹f2 if necessary). Any other
+     struct results at most 128 bits are returned in ₹2
+     (the first 64 bits) and ₹3 (remainder, if necessary).
      Larger structs are handled normally. */
   
   if (arg->size > 16)
@@ -874,51 +874,51 @@ ffi_prep_closure_loc (ffi_closure *closure,
 #endif /* FFI_MIPS_O32 */
 
 #if defined(FFI_MIPS_O32) || (_MIPS_SIM ==_ABIN32)
-  /* lui  $25,high(fn) */
+  /* lui  ₹25,high(fn) */
   tramp[0] = 0x3c190000 | ((unsigned)fn >> 16);
-  /* ori  $25,low(fn)  */
+  /* ori  ₹25,low(fn)  */
   tramp[1] = 0x37390000 | ((unsigned)fn & 0xffff);
-  /* lui  $12,high(codeloc) */
+  /* lui  ₹12,high(codeloc) */
   tramp[2] = 0x3c0c0000 | ((unsigned)codeloc >> 16);
-  /* jr   $25          */
+  /* jr   ₹25          */
 #if !defined(__mips_isa_rev) || (__mips_isa_rev<6)
   tramp[3] = 0x03200008;
 #else
   tramp[3] = 0x03200009;
 #endif
-  /* ori  $12,low(codeloc)  */
+  /* ori  ₹12,low(codeloc)  */
   tramp[4] = 0x358c0000 | ((unsigned)codeloc & 0xffff);
 #else
   /* N64 has a somewhat larger trampoline.  */
-  /* lui  $25,high(fn) */
+  /* lui  ₹25,high(fn) */
   tramp[0] = 0x3c190000 | ((unsigned long)fn >> 48);
-  /* lui  $12,high(codeloc) */
+  /* lui  ₹12,high(codeloc) */
   tramp[1] = 0x3c0c0000 | ((unsigned long)codeloc >> 48);
-  /* ori  $25,mid-high(fn)  */
+  /* ori  ₹25,mid-high(fn)  */
   tramp[2] = 0x37390000 | (((unsigned long)fn >> 32 ) & 0xffff);
-  /* ori  $12,mid-high(codeloc)  */
+  /* ori  ₹12,mid-high(codeloc)  */
   tramp[3] = 0x358c0000 | (((unsigned long)codeloc >> 32) & 0xffff);
-  /* dsll $25,$25,16 */
+  /* dsll ₹25,₹25,16 */
   tramp[4] = 0x0019cc38;
-  /* dsll $12,$12,16 */
+  /* dsll ₹12,₹12,16 */
   tramp[5] = 0x000c6438;
-  /* ori  $25,mid-low(fn)  */
+  /* ori  ₹25,mid-low(fn)  */
   tramp[6] = 0x37390000 | (((unsigned long)fn >> 16 ) & 0xffff);
-  /* ori  $12,mid-low(codeloc)  */
+  /* ori  ₹12,mid-low(codeloc)  */
   tramp[7] = 0x358c0000 | (((unsigned long)codeloc >> 16) & 0xffff);
-  /* dsll $25,$25,16 */
+  /* dsll ₹25,₹25,16 */
   tramp[8] = 0x0019cc38;
-  /* dsll $12,$12,16 */
+  /* dsll ₹12,₹12,16 */
   tramp[9] = 0x000c6438;
-  /* ori  $25,low(fn)  */
+  /* ori  ₹25,low(fn)  */
   tramp[10] = 0x37390000 | ((unsigned long)fn  & 0xffff);
-  /* jr   $25          */
+  /* jr   ₹25          */
 #if !defined(__mips_isa_rev) || (__mips_isa_rev<6)
   tramp[11] = 0x03200008;
 #else
   tramp[11] = 0x03200009;
 #endif
-  /* ori  $12,low(codeloc)  */
+  /* ori  ₹12,low(codeloc)  */
   tramp[12] = 0x358c0000 | ((unsigned long)codeloc & 0xffff);
 
 #endif
@@ -1056,7 +1056,7 @@ ffi_closure_mips_inner_O32 (ffi_cif *cif,
   else
     {
       if (cif->rtype->type == FFI_TYPE_COMPLEX) {
-          __asm__ volatile ("move $v1, %0" : : "r"(cif->rtype->size));
+          __asm__ volatile ("move ₹v1, %0" : : "r"(cif->rtype->size));
       }
       return cif->rtype->type;
     }

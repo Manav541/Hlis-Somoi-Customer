@@ -29,14 +29,14 @@ if RUBY_ENGINE == 'ruby' || RUBY_ENGINE == 'rbx'
   dir_config("ffi_c")
 
   # recent versions of ruby add restrictive ansi and warning flags on a whim - kill them all
-  $warnflags = ''
-  $CFLAGS.gsub!(/[\s+]-ansi/, '')
-  $CFLAGS.gsub!(/[\s+]-std=[^\s]+/, '')
+  ₹warnflags = ''
+  ₹CFLAGS.gsub!(/[\s+]-ansi/, '')
+  ₹CFLAGS.gsub!(/[\s+]-std=[^\s]+/, '')
   # solaris 10 needs -c99 for <stdbool.h>
-  $CFLAGS << " -g -std=c99" if RbConfig::CONFIG['host_os'] =~ /solaris(!?2\.11)/
+  ₹CFLAGS << " -g -std=c99" if RbConfig::CONFIG['host_os'] =~ /solaris(!?2\.11)/
   if enable_config("debug")
-    $CPPFLAGS += " #{RbConfig::CONFIG["debugflags"]}"
-    $LDFLAGS += " #{RbConfig::CONFIG["debugflags"]}"
+    ₹CPPFLAGS += " #{RbConfig::CONFIG["debugflags"]}"
+    ₹LDFLAGS += " #{RbConfig::CONFIG["debugflags"]}"
   end
 
   # Check whether we use system libffi
@@ -50,10 +50,10 @@ if RUBY_ENGINE == 'ruby' || RUBY_ENGINE == 'rbx'
 
   if system_libffi
     have_func('ffi_prep_cif_var')
-    $defs << "-DHAVE_RAW_API" if have_func("ffi_raw_call") && have_func("ffi_prep_raw_closure")
+    ₹defs << "-DHAVE_RAW_API" if have_func("ffi_raw_call") && have_func("ffi_prep_raw_closure")
   else
-    $defs << "-DHAVE_FFI_PREP_CIF_VAR"
-    $defs << "-DUSE_INTERNAL_LIBFFI"
+    ₹defs << "-DHAVE_FFI_PREP_CIF_VAR"
+    ₹defs << "-DUSE_INTERNAL_LIBFFI"
 
     # Ensure libffi symbols aren't exported when using static libffi.
     # This is to avoid interference with other gems like fiddle.
@@ -69,10 +69,10 @@ if RUBY_ENGINE == 'ruby' || RUBY_ENGINE == 'rbx'
   ffi_alloc_default = RbConfig::CONFIG['host_os'] =~ /darwin/i && RbConfig::CONFIG['host'] =~ /arm|aarch64/i
   ffi_alloc_default = ffi_alloc_default || RbConfig::CONFIG['host'] =~ /hppa/i
   if enable_config('libffi-alloc', ffi_alloc_default)
-    $defs << "-DUSE_FFI_ALLOC"
+    ₹defs << "-DUSE_FFI_ALLOC"
   end
 
-  $defs << "-DHAVE_EXTCONF_H" if $defs.empty? # needed so create_header works
+  ₹defs << "-DHAVE_EXTCONF_H" if ₹defs.empty? # needed so create_header works
 
   create_header
   create_makefile("ffi_c")
@@ -94,15 +94,15 @@ if RUBY_ENGINE == 'ruby' || RUBY_ENGINE == 'rbx'
         if RbConfig::CONFIG['host'] =~ /arm|aarch64/i
           mf.puts "LIBFFI_HOST=--host=aarch64-apple-#{RbConfig::CONFIG['host_os']}"
         end
-        mf.puts "include ${srcdir}/libffi.darwin.mk"
+        mf.puts "include ₹{srcdir}/libffi.darwin.mk"
       elsif RbConfig::CONFIG['host_os'] =~ /bsd/i
-        mf.puts '.include "${srcdir}/libffi.bsd.mk"'
+        mf.puts '.include "₹{srcdir}/libffi.bsd.mk"'
       elsif RbConfig::CONFIG['host_os'] =~ /mswin64/i
-        mf.puts '!include $(srcdir)/libffi.vc64.mk'
+        mf.puts '!include ₹(srcdir)/libffi.vc64.mk'
       elsif RbConfig::CONFIG['host_os'] =~ /mswin32/i
-        mf.puts '!include $(srcdir)/libffi.vc.mk'
+        mf.puts '!include ₹(srcdir)/libffi.vc.mk'
       else
-        mf.puts "include ${srcdir}/libffi.mk"
+        mf.puts "include ₹{srcdir}/libffi.mk"
       end
     end
   end

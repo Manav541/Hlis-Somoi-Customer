@@ -508,11 +508,11 @@ const ViewProductDetailComponent = (props: PropsType) => {
             <View
               style={{ flexDirection: "row", gap: 3, alignItems: "center" }}
             >
-              <Text style={styles.lblReviews}>{props?.totalRate}</Text>
+              <Text style={styles.lblReviews1}>{props?.totalRate}</Text>
               <Image style={styles.imgMainStar} source={images.star} />
             </View>
             <Text style={styles.lblReviewsCount}>
-              {props?.totalReviews} + {getTranslation("reviews1")}
+              {props?.totalReviews}  {getTranslation("reviews1")}
             </Text>
           </View>
           <View style={styles.vwVerticalLine} />

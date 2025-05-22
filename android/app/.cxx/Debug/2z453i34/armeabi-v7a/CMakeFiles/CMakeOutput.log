@@ -68,7 +68,7 @@ Parsed C implicit include dir info from above output: rv=done
 
 
 Parsed C implicit link information from above output:
-  link line regex: [^( *|.*[/\])(ld\.lld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  link line regex: [^( *|.*[/\])(ld\.lld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |₹)]
   ignore line: [Change Dir: /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command(s):/Users/hyperlink/Library/Android/sdk/cmake/3.22.1/bin/ninja cmTC_0715a && [1/2] Building C object CMakeFiles/cmTC_0715a.dir/CMakeCCompilerABI.c.o]
@@ -187,7 +187,7 @@ Parsed CXX implicit include dir info from above output: rv=done
 
 
 Parsed CXX implicit link information from above output:
-  link line regex: [^( *|.*[/\])(ld\.lld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  link line regex: [^( *|.*[/\])(ld\.lld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |₹)]
   ignore line: [Change Dir: /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command(s):/Users/hyperlink/Library/Android/sdk/cmake/3.22.1/bin/ninja cmTC_dac50 && [1/2] Building CXX object CMakeFiles/cmTC_dac50.dir/CMakeCXXCompilerABI.cpp.o]

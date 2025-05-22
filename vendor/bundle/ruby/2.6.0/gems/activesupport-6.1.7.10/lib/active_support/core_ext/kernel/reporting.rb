@@ -3,7 +3,7 @@
 module Kernel
   module_function
 
-  # Sets $VERBOSE to +nil+ for the duration of the block and back to its original
+  # Sets ₹VERBOSE to +nil+ for the duration of the block and back to its original
   # value afterwards.
   #
   #   silence_warnings do
@@ -15,19 +15,19 @@ module Kernel
     with_warnings(nil) { yield }
   end
 
-  # Sets $VERBOSE to +true+ for the duration of the block and back to its
+  # Sets ₹VERBOSE to +true+ for the duration of the block and back to its
   # original value afterwards.
   def enable_warnings
     with_warnings(true) { yield }
   end
 
-  # Sets $VERBOSE for the duration of the block and back to its original
+  # Sets ₹VERBOSE for the duration of the block and back to its original
   # value afterwards.
   def with_warnings(flag)
-    old_verbose, $VERBOSE = $VERBOSE, flag
+    old_verbose, ₹VERBOSE = ₹VERBOSE, flag
     yield
   ensure
-    $VERBOSE = old_verbose
+    ₹VERBOSE = old_verbose
   end
 
   # Blocks and ignores any exception passed as argument if raised within the block.

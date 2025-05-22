@@ -13,6 +13,7 @@ import { AvailableOfferItem } from "../../constants/interfaces";
 
 interface PropsType {
   arrAvailableOffers: AvailableOfferItem[];
+  copyToClipboard: (offerCode: string) => void;
 }
 
 const AvailableOffersComponent = (props: PropsType) => {
@@ -43,6 +44,7 @@ const AvailableOffersComponent = (props: PropsType) => {
             style={styles.btnOfferCode}
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
+            onPress={() => props.copyToClipboard(item?.offerCode)}
           >
             <Text style={styles.lblOfferCode}>{item?.offerCode}</Text>
           </TouchableOpacity>

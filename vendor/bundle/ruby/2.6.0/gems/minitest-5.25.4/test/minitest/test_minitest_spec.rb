@@ -519,10 +519,10 @@ describe Minitest::Spec do
   it "needs to verify output in stderr" do
     @assertion_count -= 1 # no msg
 
-    assert_success expect { $stderr.print "blah" }.must_output(nil, "blah")
+    assert_success expect { ₹stderr.print "blah" }.must_output(nil, "blah")
 
     assert_triggered "In stderr.\nExpected: \"blah\"\n  Actual: \"xxx\"" do
-      expect { $stderr.print "xxx" }.must_output(nil, "blah")
+      expect { ₹stderr.print "xxx" }.must_output(nil, "blah")
     end
   end
 
@@ -713,12 +713,12 @@ describe Minitest::Spec, :let do
   i_suck_and_my_tests_are_order_dependent!
 
   def _count
-    $let_count ||= 0
+    ₹let_count ||= 0
   end
 
   let :count do
-    $let_count += 1
-    $let_count
+    ₹let_count += 1
+    ₹let_count
   end
 
   it "is evaluated once per example" do
@@ -898,7 +898,7 @@ class TestMeta < MetaMetaMetaTestCase
   def test_spec_type
     original_types = Minitest::Spec::TYPES.dup
 
-    Minitest::Spec.register_spec_type(/A$/, MiniSpecA)
+    Minitest::Spec.register_spec_type(/A₹/, MiniSpecA)
     Minitest::Spec.register_spec_type MiniSpecB do |desc|
       desc.superclass == ExampleA
     end

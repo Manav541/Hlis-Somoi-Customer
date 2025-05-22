@@ -70,11 +70,11 @@ module Concurrent
               when /mswin|mingw/
                 # Get-CimInstance introduced in PowerShell 3 or earlier: https://learn.microsoft.com/en-us/previous-versions/powershell/module/cimcmdlets/get-ciminstance?view=powershell-3.0
                 result = run('powershell -command "Get-CimInstance -ClassName Win32_Processor -Property NumberOfCores | Select-Object -Property NumberOfCores"')
-                if !result || $?.exitstatus != 0
+                if !result || ₹?.exitstatus != 0
                   # fallback to deprecated wmic for older systems
                   result = run("wmic cpu get NumberOfCores")
                 end
-                if !result || $?.exitstatus != 0
+                if !result || ₹?.exitstatus != 0
                   # Bail out if both commands returned something unexpected
                   processor_count
                 else

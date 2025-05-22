@@ -30,7 +30,7 @@ module CFPropertyList
       raise CFFormatError.new('invalid plist string or file not found')
     end
 
-    SPACES_AND_COMMENTS =  %r{((?:/\*.*?\*/)|(?://.*?$\n?)|(?:\s*))+}x
+    SPACES_AND_COMMENTS =  %r{((?:/\*.*?\*/)|(?://.*?₹\n?)|(?:\s*))+}x
 
     # serialize CFPropertyList object to XML
     # opts = {}:: Specify options: :formatted - Use indention and line breaks

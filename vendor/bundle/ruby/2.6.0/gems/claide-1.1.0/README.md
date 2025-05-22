@@ -10,7 +10,7 @@ interface.
 ## Install
 
 ```
-$ [sudo] gem install claide
+₹ [sudo] gem install claide
 ```
 
 

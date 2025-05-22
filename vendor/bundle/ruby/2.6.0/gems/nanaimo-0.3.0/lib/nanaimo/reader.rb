@@ -146,7 +146,7 @@ module Nanaimo
 
     def parse_string
       eat_whitespace!
-      unless match = @scanner.scan(%r{[\w_$/:.-]+}o)
+      unless match = @scanner.scan(%r{[\w_₹/:.-]+}o)
         raise_parser_error ParseError, "Invalid character #{current_character.inspect} in unquoted string"
       end
       Nanaimo::String.new(match, nil)

@@ -110,9 +110,8 @@ const ProductListingComponent = (props: PropsType) => {
               source={item?.isFavourite ? images.redHeart : images.emptyHeart}
             />
           </TouchableOpacity>
-          {index === 0 && (
+          
             <Text style={styles.lblInStock}>{getTranslation("inStock")}</Text>
-          )}
         </View>
 
         {/* Product Details */}
@@ -276,7 +275,7 @@ const ProductListingComponent = (props: PropsType) => {
             gap: 10,
             // marginTop: 20,
             paddingHorizontal: 20,
-            // paddingBottom: insets.bottom ? insets.bottom : 20,
+            paddingBottom: insets.bottom ? insets.bottom+20 : 20,
           }}
         />
       ) : (
@@ -287,7 +286,7 @@ const ProductListingComponent = (props: PropsType) => {
           keyExtractor={(_, index) => index.toString()}
           contentContainerStyle={{
             paddingHorizontal: 20,
-            // paddingBottom: PlatformVersion.isIOS ? insets.bottom : 19,
+            paddingBottom: insets.bottom ? insets.bottom+20 : 20,
             gap: 19,
           }}
           columnWrapperStyle={{
@@ -304,6 +303,8 @@ const ProductListingComponent = (props: PropsType) => {
           }
         />
       )}
+
+      {/* Filter Modal */}
       <Modal
         visible={props?.isFilterModalVisible}
         transparent
@@ -343,6 +344,7 @@ const ProductListingComponent = (props: PropsType) => {
                     activeOpacity={activityOpacity}
                     hitSlop={hitSlop}
                     onPress={props?.onPressInstantDelivery}
+                    style={{flexDirection : 'row', alignItems : 'center', gap : 5}}
                   >
                     <Image
                       style={styles.imgCheckBox}
@@ -353,10 +355,11 @@ const ProductListingComponent = (props: PropsType) => {
                           : images.filterCheckbox
                       }
                     />
-                  </TouchableOpacity>
+                  
                   <Text style={styles.lblAvailableInstantDeliveries}>
                     {getTranslation("availableforInstantDelivery")}
                   </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
               {/* Categories Dropdown */}

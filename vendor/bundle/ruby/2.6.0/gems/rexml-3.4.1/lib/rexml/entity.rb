@@ -6,7 +6,7 @@ require_relative 'xmltokens'
 module REXML
   class Entity < Child
     include XMLTokens
-    PUBIDCHAR = "\x20\x0D\x0Aa-zA-Z0-9\\-()+,./:=?;!*@$_%#"
+    PUBIDCHAR = "\x20\x0D\x0Aa-zA-Z0-9\\-()+,./:=?;!*@₹_%#"
     SYSTEMLITERAL = %Q{((?:"[^"]*")|(?:'[^']*'))}
     PUBIDLITERAL = %Q{("[#{PUBIDCHAR}']*"|'[#{PUBIDCHAR}]*')}
     EXTERNALID = "(?:(?:(SYSTEM)\\s+#{SYSTEMLITERAL})|(?:(PUBLIC)\\s+#{PUBIDLITERAL}\\s+#{SYSTEMLITERAL}))"

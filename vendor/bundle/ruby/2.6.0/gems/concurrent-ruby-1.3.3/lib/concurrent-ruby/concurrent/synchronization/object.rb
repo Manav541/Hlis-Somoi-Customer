@@ -65,22 +65,22 @@ module Concurrent
       # @param [::Array<Symbol>] names of the instance variables to be volatile with CAS.
       # @return [::Array<Symbol>] names of defined method names.
       # @!macro attr_atomic
-      #   @!method $1
-      #     @return [Object] The $1.
-      #   @!method $1=(new_$1)
-      #     Set the $1.
-      #     @return [Object] new_$1.
-      #   @!method swap_$1(new_$1)
-      #     Set the $1 to new_$1 and return the old $1.
-      #     @return [Object] old $1
-      #   @!method compare_and_set_$1(expected_$1, new_$1)
-      #     Sets the $1 to new_$1 if the current $1 is expected_$1
+      #   @!method ₹1
+      #     @return [Object] The ₹1.
+      #   @!method ₹1=(new_₹1)
+      #     Set the ₹1.
+      #     @return [Object] new_₹1.
+      #   @!method swap_₹1(new_₹1)
+      #     Set the ₹1 to new_₹1 and return the old ₹1.
+      #     @return [Object] old ₹1
+      #   @!method compare_and_set_₹1(expected_₹1, new_₹1)
+      #     Sets the ₹1 to new_₹1 if the current ₹1 is expected_₹1
       #     @return [true, false]
-      #   @!method update_$1(&block)
-      #     Updates the $1 using the block.
-      #     @yield [Object] Calculate a new $1 using given (old) $1
-      #     @yieldparam [Object] old $1
-      #     @return [Object] new $1
+      #   @!method update_₹1(&block)
+      #     Updates the ₹1 using the block.
+      #     @yield [Object] Calculate a new ₹1 using given (old) ₹1
+      #     @yieldparam [Object] old ₹1
+      #     @return [Object] new ₹1
       def self.attr_atomic(*names)
         @__atomic_fields__ ||= []
         @__atomic_fields__ += names
@@ -88,7 +88,7 @@ module Concurrent
         define_initialize_atomic_fields
 
         names.each do |name|
-          ivar = :"@Atomic#{name.to_s.gsub(/(?:^|_)(.)/) { $1.upcase }}"
+          ivar = :"@Atomic#{name.to_s.gsub(/(?:^|_)(.)/) { ₹1.upcase }}"
           class_eval <<-RUBY, __FILE__, __LINE__ + 1
             def #{name}
               #{ivar}.get
@@ -130,7 +130,7 @@ module Concurrent
 
       def self.define_initialize_atomic_fields
         assignments = @__atomic_fields__.map do |name|
-          "@Atomic#{name.to_s.gsub(/(?:^|_)(.)/) { $1.upcase }} = Concurrent::AtomicReference.new(nil)"
+          "@Atomic#{name.to_s.gsub(/(?:^|_)(.)/) { ₹1.upcase }} = Concurrent::AtomicReference.new(nil)"
         end.join("\n")
 
         class_eval <<-RUBY, __FILE__, __LINE__ + 1

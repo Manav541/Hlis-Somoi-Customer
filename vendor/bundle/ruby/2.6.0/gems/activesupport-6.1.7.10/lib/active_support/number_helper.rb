@@ -46,15 +46,15 @@ module ActiveSupport
     #   number_to_phone(1235551234, country_code: 1, extension: 1343, delimiter: '.')
     #   # => "+1.123.555.1234 x 1343"
     #
-    #   number_to_phone(75561234567, pattern: /(\d{1,4})(\d{4})(\d{4})$/, area_code: true)
+    #   number_to_phone(75561234567, pattern: /(\d{1,4})(\d{4})(\d{4})₹/, area_code: true)
     #   # => "(755) 6123-4567"
-    #   number_to_phone(13312345678, pattern: /(\d{3})(\d{4})(\d{4})$/)
+    #   number_to_phone(13312345678, pattern: /(\d{3})(\d{4})(\d{4})₹/)
     #   # => "133-1234-5678"
     def number_to_phone(number, options = {})
       NumberToPhoneConverter.convert(number, options)
     end
 
-    # Formats a +number+ into a currency string (e.g., $13.65). You
+    # Formats a +number+ into a currency string (e.g., ₹13.65). You
     # can customize the format in the +options+ hash.
     #
     # The currency unit and number formatting of the current locale will be used
@@ -74,7 +74,7 @@ module ActiveSupport
     # * <tt>:round_mode</tt> - Determine how rounding is performed
     #   (defaults to :default. See BigDecimal::mode)
     # * <tt>:unit</tt> - Sets the denomination of the currency
-    #   (defaults to "$").
+    #   (defaults to "₹").
     # * <tt>:separator</tt> - Sets the separator between the units
     #   (defaults to ".").
     # * <tt>:delimiter</tt> - Sets the thousands delimiter (defaults
@@ -93,26 +93,26 @@ module ActiveSupport
     #
     # ==== Examples
     #
-    #   number_to_currency(1234567890.50)                # => "$1,234,567,890.50"
-    #   number_to_currency(1234567890.506)               # => "$1,234,567,890.51"
-    #   number_to_currency(1234567890.506, precision: 3) # => "$1,234,567,890.506"
+    #   number_to_currency(1234567890.50)                # => "₹1,234,567,890.50"
+    #   number_to_currency(1234567890.506)               # => "₹1,234,567,890.51"
+    #   number_to_currency(1234567890.506, precision: 3) # => "₹1,234,567,890.506"
     #   number_to_currency(1234567890.506, locale: :fr)  # => "1 234 567 890,51 €"
-    #   number_to_currency('123a456')                    # => "$123a456"
+    #   number_to_currency('123a456')                    # => "₹123a456"
     #
     #   number_to_currency("123a456", raise: true)       # => InvalidNumberError
     #
     #   number_to_currency(-0.456789, precision: 0)
-    #   # => "$0"
+    #   # => "₹0"
     #   number_to_currency(-1234567890.50, negative_format: '(%u%n)')
-    #   # => "($1,234,567,890.50)"
+    #   # => "(₹1,234,567,890.50)"
     #   number_to_currency(1234567890.50, unit: '&pound;', separator: ',', delimiter: '')
     #   # => "&pound;1234567890,50"
     #   number_to_currency(1234567890.50, unit: '&pound;', separator: ',', delimiter: '', format: '%n %u')
     #   # => "1234567890,50 &pound;"
     #   number_to_currency(1234567890.50, strip_insignificant_zeros: true)
-    #   # => "$1,234,567,890.5"
+    #   # => "₹1,234,567,890.5"
     #   number_to_currency(1234567890.50, precision: 0, round_mode: :up)
-    #   # => "$1,234,567,891"
+    #   # => "₹1,234,567,891"
     def number_to_currency(number, options = {})
       NumberToCurrencyConverter.convert(number, options)
     end

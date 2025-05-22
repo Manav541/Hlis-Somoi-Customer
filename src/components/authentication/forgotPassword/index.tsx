@@ -66,7 +66,7 @@ const ForgotPasswordComponent = (props: PropsType) => {
             {/* Submit Button */}
             <GlobalButton
               isOrange
-              title={getTranslation("submit")}
+              title={getTranslation("sent")}
               onPress={props.handleOnPressSubmit}
             />
           </View>

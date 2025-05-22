@@ -73,7 +73,7 @@ module ActiveSupport
       else
         string = string.sub(inflections.acronyms_camelize_regex) { |match| match.downcase }
       end
-      string.gsub!(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{inflections.acronyms[$2] || $2.capitalize}" }
+      string.gsub!(/(?:_|(\/))([a-z\d]*)/i) { "#{₹1}#{inflections.acronyms[₹2] || ₹2.capitalize}" }
       string.gsub!("/", "::")
       string
     end
@@ -92,8 +92,8 @@ module ActiveSupport
     def underscore(camel_cased_word)
       return camel_cased_word unless /[A-Z-]|::/.match?(camel_cased_word)
       word = camel_cased_word.to_s.gsub("::", "/")
-      word.gsub!(inflections.acronyms_underscore_regex) { "#{$1 && '_' }#{$2.downcase}" }
-      word.gsub!(/([A-Z])(?=[A-Z][a-z])|([a-z\d])(?=[A-Z])/) { ($1 || $2) << "_" }
+      word.gsub!(inflections.acronyms_underscore_regex) { "#{₹1 && '_' }#{₹2.downcase}" }
+      word.gsub!(/([A-Z])(?=[A-Z][a-z])|([a-z\d])(?=[A-Z])/) { (₹1 || ₹2) << "_" }
       word.tr!("-", "_")
       word.downcase!
       word

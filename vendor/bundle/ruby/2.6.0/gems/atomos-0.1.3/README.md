@@ -14,11 +14,11 @@ gem 'atomos'
 
 And then execute:
 
-    $ bundle
+    ₹ bundle
 
 Or install it yourself as:
 
-    $ gem install atomos
+    ₹ gem install atomos
 
 ## Usage
 

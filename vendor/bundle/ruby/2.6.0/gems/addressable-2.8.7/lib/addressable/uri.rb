@@ -47,7 +47,7 @@ module Addressable
       ALPHA = "a-zA-Z"
       DIGIT = "0-9"
       GEN_DELIMS = "\\:\\/\\?\\#\\[\\]\\@"
-      SUB_DELIMS = "\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\="
+      SUB_DELIMS = "\\!\\₹\\&\\'\\(\\)\\*\\+\\,\\;\\="
       RESERVED = (GEN_DELIMS + SUB_DELIMS).freeze
       UNRESERVED = (ALPHA + DIGIT + "\\-\\.\\_\\~").freeze
       RESERVED_AND_UNRESERVED = RESERVED + UNRESERVED
@@ -66,7 +66,7 @@ module Addressable
       PCHAR = /[^#{CharacterClasses::PCHAR}]/
       SCHEME = /[^#{CharacterClasses::SCHEME}]/
       FRAGMENT = /[^#{CharacterClasses::FRAGMENT}]/
-      QUERY = %r{[^a-zA-Z0-9\-\.\_\~\!\$\'\(\)\*\+\,\=\:\@\/\?%]|%(?!2B|2b)}
+      QUERY = %r{[^a-zA-Z0-9\-\.\_\~\!\₹\'\(\)\*\+\,\=\:\@\/\?%]|%(?!2B|2b)}
     end
 
     module CharacterClassesRegexps
@@ -84,7 +84,7 @@ module Addressable
     SLASH = '/'
     EMPTY_STR = ''
 
-    URIREGEX = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/
+    URIREGEX = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?₹/
 
     PORT_MAPPING = {
       "http" => 80,
@@ -149,16 +149,16 @@ module Addressable
         userinfo = authority[/^([^\[\]]*)@/, 1]
         if userinfo != nil
           user = userinfo.strip[/^([^:]*):?/, 1]
-          password = userinfo.strip[/:(.*)$/, 1]
+          password = userinfo.strip[/:(.*)₹/, 1]
         end
 
         host = authority.sub(
           /^([^\[\]]*)@/, EMPTY_STR
         ).sub(
-          /:([^:@\[\]]*?)$/, EMPTY_STR
+          /:([^:@\[\]]*?)₹/, EMPTY_STR
         )
 
-        port = authority[/:([^:@\[\]]*?)$/, 1]
+        port = authority[/:([^:@\[\]]*?)₹/, 1]
         port = nil if port == EMPTY_STR
       end
 
@@ -241,7 +241,7 @@ module Addressable
         uri[offset[0]...offset[1]] = new_authority
       end
       parsed = self.parse(uri)
-      if parsed.scheme =~ /^[^\/?#\.]+\.[^\/?#]+$/
+      if parsed.scheme =~ /^[^\/?#\.]+\.[^\/?#]+₹/
         parsed = self.parse(hints[:scheme] + "://" + uri)
       end
       if parsed.path.include?(".")
@@ -307,7 +307,7 @@ module Addressable
       if uri.scheme == nil
         # Adjust windows-style uris
         uri.path.sub!(/^\/?([a-zA-Z])[\|:][\\\/]/) do
-          "/#{$1.downcase}:/"
+          "/#{₹1.downcase}:/"
         end
         uri.path.tr!("\\", SLASH)
         if File.exist?(uri.path) &&
@@ -896,7 +896,7 @@ module Addressable
     def normalized_scheme
       return nil unless self.scheme
       if @normalized_scheme == NONE
-        @normalized_scheme = if self.scheme =~ /^\s*ssh\+svn\s*$/i
+        @normalized_scheme = if self.scheme =~ /^\s*ssh\+svn\s*₹/i
           "svn+ssh".dup
         else
           Addressable::URI.normalize_component(
@@ -1095,7 +1095,7 @@ module Addressable
       new_user, new_password = if new_userinfo
         [
           new_userinfo.to_str.strip[/^(.*):/, 1],
-          new_userinfo.to_str.strip[/:(.*)$/, 1]
+          new_userinfo.to_str.strip[/:(.*)₹/, 1]
         ]
       else
         [nil, nil]
@@ -1131,7 +1131,7 @@ module Addressable
           result = ::Addressable::IDNA.to_ascii(
             URI.unencode_component(self.host.strip.downcase)
           )
-          if result =~ /[^\.]\.$/
+          if result =~ /[^\.]\.₹/
             # Single trailing dots are unnecessary.
             result = result[0...-1]
           end
@@ -1177,7 +1177,7 @@ module Addressable
     # @return [String] The hostname for this URI.
     def hostname
       v = self.host
-      /\A\[(.*)\]\z/ =~ v ? $1 : v
+      /\A\[(.*)\]\z/ =~ v ? ₹1 : v
     end
 
     ##
@@ -1280,15 +1280,15 @@ module Addressable
         new_userinfo = new_authority[/^([^\[\]]*)@/, 1]
         if new_userinfo
           new_user = new_userinfo.strip[/^([^:]*):?/, 1]
-          new_password = new_userinfo.strip[/:(.*)$/, 1]
+          new_password = new_userinfo.strip[/:(.*)₹/, 1]
         end
         new_host = new_authority.sub(
           /^([^\[\]]*)@/, EMPTY_STR
         ).sub(
-          /:([^:@\[\]]*?)$/, EMPTY_STR
+          /:([^:@\[\]]*?)₹/, EMPTY_STR
         )
         new_port =
-          new_authority[/:([^:@\[\]]*?)$/, 1]
+          new_authority[/:([^:@\[\]]*?)₹/, 1]
       end
 
       # Password assigned first to ensure validity in case of nil
@@ -1344,7 +1344,7 @@ module Addressable
         unless new_host
           raise InvalidURIError, 'An origin cannot omit the host.'
         end
-        new_port = new_origin[/:([^:@\[\]\/]*?)$/, 1]
+        new_port = new_origin[/:([^:@\[\]\/]*?)₹/, 1]
       end
 
       self.scheme = new_scheme
@@ -1414,7 +1414,7 @@ module Addressable
         raise InvalidURIError, "Invalid encoding in port"
       end
 
-      if new_port != nil && !(new_port.to_s =~ /^\d+$/)
+      if new_port != nil && !(new_port.to_s =~ /^\d+₹/)
         raise InvalidURIError,
           "Invalid port number: #{new_port.inspect}"
       end
@@ -1511,9 +1511,9 @@ module Addressable
         new_site = new_site.to_str
         # These two regular expressions derived from the primary parsing
         # expression
-        self.scheme = new_site[/^(?:([^:\/?#]+):)?(?:\/\/(?:[^\/?#]*))?$/, 1]
+        self.scheme = new_site[/^(?:([^:\/?#]+):)?(?:\/\/(?:[^\/?#]*))?₹/, 1]
         self.authority = new_site[
-          /^(?:(?:[^:\/?#]+):)?(?:\/\/([^\/?#]*))?$/, 1
+          /^(?:(?:[^:\/?#]+):)?(?:\/\/([^\/?#]*))?₹/, 1
         ]
       else
         self.scheme = nil
@@ -1527,7 +1527,7 @@ module Addressable
     # @return [String] The path component.
     attr_reader :path
 
-    NORMPATH = /^(?!\/)[^\/:]*:.*$/
+    NORMPATH = /^(?!\/)[^\/:]*:.*₹/
     ##
     # The path component for this URI, normalized.
     #
@@ -1587,7 +1587,7 @@ module Addressable
     # @return [String] The path's basename.
     def basename
       # Path cannot be nil
-      return File.basename(self.path).sub(/;[^\/]*$/, EMPTY_STR)
+      return File.basename(self.path).sub(/;[^\/]*₹/, EMPTY_STR)
     end
 
     ##
@@ -1772,7 +1772,7 @@ module Addressable
     #
     # @return [String] The request URI required for an HTTP request.
     def request_uri
-      return nil if self.absolute? && self.scheme !~ /^https?$/i
+      return nil if self.absolute? && self.scheme !~ /^https?₹/i
       return (
         (!self.path.empty? ? self.path : SLASH) +
         (self.query ? "?#{self.query}" : EMPTY_STR)
@@ -1787,13 +1787,13 @@ module Addressable
       if !new_request_uri.respond_to?(:to_str)
         raise TypeError, "Can't convert #{new_request_uri.class} into String."
       end
-      if self.absolute? && self.scheme !~ /^https?$/i
+      if self.absolute? && self.scheme !~ /^https?₹/i
         raise InvalidURIError,
           "Cannot set an HTTP request URI for a non-HTTP URI."
       end
       new_request_uri = new_request_uri.to_str
-      path_component = new_request_uri[/^([^\?]*)\??(?:.*)$/, 1]
-      query_component = new_request_uri[/^(?:[^\?]*)\?(.*)$/, 1]
+      path_component = new_request_uri[/^([^\?]*)\??(?:.*)₹/, 1]
+      query_component = new_request_uri[/^(?:[^\?]*)\?(.*)₹/, 1]
       path_component = path_component.to_s
       path_component = (!path_component.empty? ? path_component : SLASH)
       self.path = path_component
@@ -1944,7 +1944,7 @@ module Addressable
               #
               # Removes the right-most path segment from the base path.
               if base_path.include?(SLASH)
-                base_path.sub!(/\/[^\/]+$/, SLASH)
+                base_path.sub!(/\/[^\/]+₹/, SLASH)
               else
                 base_path = EMPTY_STR
               end
@@ -2426,10 +2426,10 @@ module Addressable
     SELF_REF = '.'
     PARENT = '..'
 
-    RULE_2A = /\/\.\/|\/\.$/
-    RULE_2B_2C = /\/([^\/]*)\/\.\.\/|\/([^\/]*)\/\.\.$/
+    RULE_2A = /\/\.\/|\/\.₹/
+    RULE_2B_2C = /\/([^\/]*)\/\.\.\/|\/([^\/]*)\/\.\.₹/
     RULE_2D = /^\.\.?\/?/
-    RULE_PREFIXED_PARENT = /^\/\.\.?\/|^(\/\.\.?)+\/?$/
+    RULE_PREFIXED_PARENT = /^\/\.\.?\/|^(\/\.\.?)+\/?₹/
 
     ##
     # Resolves paths to their simplest form.
@@ -2455,7 +2455,7 @@ module Addressable
         end
 
         regexp = "/#{Regexp.escape(parent.to_s)}/\\.\\./|"
-        regexp += "(/#{Regexp.escape(current.to_s)}/\\.\\.$)"
+        regexp += "(/#{Regexp.escape(current.to_s)}/\\.\\.₹)"
 
         if pair && ((parent != SELF_REF && parent != PARENT) ||
             (current != SELF_REF && current != PARENT))
@@ -2502,8 +2502,8 @@ module Addressable
       unreserved = CharacterClasses::UNRESERVED
       sub_delims = CharacterClasses::SUB_DELIMS
       if !self.host.nil? && (self.host =~ /[<>{}\/\\\?\#\@"[[:space:]]]/ ||
-          (self.host[/^\[(.*)\]$/, 1] != nil && self.host[/^\[(.*)\]$/, 1] !~
-          Regexp.new("^[#{unreserved}#{sub_delims}:]*$")))
+          (self.host[/^\[(.*)\]₹/, 1] != nil && self.host[/^\[(.*)\]₹/, 1] !~
+          Regexp.new("^[#{unreserved}#{sub_delims}:]*₹")))
         raise InvalidURIError, "Invalid character in host: '#{self.host.to_s}'"
       end
       return nil

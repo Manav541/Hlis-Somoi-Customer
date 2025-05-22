@@ -580,7 +580,7 @@
 *   Support added for a `round_mode` parameter, in all number helpers. (See: `BigDecimal::mode`.)
 
     ```ruby
-    number_to_currency(1234567890.50, precision: 0, round_mode: :half_down) # => "$1,234,567,890"
+    number_to_currency(1234567890.50, precision: 0, round_mode: :half_down) # => "₹1,234,567,890"
     number_to_percentage(302.24398923423, precision: 5, round_mode: :down) # => "302.24398%"
     number_to_rounded(389.32314, precision: 0, round_mode: :ceil) # => "390"
     number_to_human_size(483989, precision: 2, round_mode: :up) # => "480 KB"

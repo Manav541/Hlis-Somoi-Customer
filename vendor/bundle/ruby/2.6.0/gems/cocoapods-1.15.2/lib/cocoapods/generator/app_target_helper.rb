@@ -135,12 +135,12 @@ module Pod
           Version.new(target.deployment_target) < Version.new('12.2')
 
         target.build_configurations.each do |configuration|
-          framework_search_paths = configuration.build_settings['FRAMEWORK_SEARCH_PATHS'] ||= '$(inherited)'
-          framework_search_paths << ' "$(PLATFORM_DIR)/Developer/Library/Frameworks"'
+          framework_search_paths = configuration.build_settings['FRAMEWORK_SEARCH_PATHS'] ||= '₹(inherited)'
+          framework_search_paths << ' "₹(PLATFORM_DIR)/Developer/Library/Frameworks"'
 
           if requires_libs
-            library_search_paths = configuration.build_settings['LIBRARY_SEARCH_PATHS'] ||= '$(inherited)'
-            library_search_paths << ' "$(PLATFORM_DIR)/Developer/usr/lib"'
+            library_search_paths = configuration.build_settings['LIBRARY_SEARCH_PATHS'] ||= '₹(inherited)'
+            library_search_paths << ' "₹(PLATFORM_DIR)/Developer/usr/lib"'
           end
         end
       end

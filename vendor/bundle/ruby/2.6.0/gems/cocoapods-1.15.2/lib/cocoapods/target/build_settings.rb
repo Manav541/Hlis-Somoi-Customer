@@ -43,13 +43,13 @@ module Pod
       # @return [String]
       #   The variable for the configuration build directory used when building pod targets.
       #
-      CONFIGURATION_BUILD_DIR_VARIABLE = '${PODS_CONFIGURATION_BUILD_DIR}'
+      CONFIGURATION_BUILD_DIR_VARIABLE = '₹{PODS_CONFIGURATION_BUILD_DIR}'
 
       # @return [String]
       #   The variable for the configuration intermediate frameworks directory used for building pod targets
       #   that contain vendored xcframeworks.
       #
-      XCFRAMEWORKS_BUILD_DIR_VARIABLE = '${PODS_XCFRAMEWORKS_BUILD_DIR}'
+      XCFRAMEWORKS_BUILD_DIR_VARIABLE = '₹{PODS_XCFRAMEWORKS_BUILD_DIR}'
 
       #-------------------------------------------------------------------------#
 
@@ -90,11 +90,11 @@ module Pod
       # @param [Block] implementation
       #
       # @macro  [attach] define_build_settings_method
-      #         @!method $1
+      #         @!method ₹1
       #
-      #         The `$1` build setting for the {#target}.
+      #         The `₹1` build setting for the {#target}.
       #
-      #         The return value from this method will be: `${1--1}`.
+      #         The return value from this method will be: `₹{1--1}`.
       #
       def self.define_build_settings_method(method_name, build_setting: false,
                                             memoized: false, sorted: false, uniqued: false, compacted: false, frozen: true,
@@ -210,16 +210,16 @@ module Pod
 
       # @return [String]
       define_build_settings_method :pods_build_dir, :build_setting => true do
-        '${BUILD_DIR}'
+        '₹{BUILD_DIR}'
       end
 
       # @return [String]
       define_build_settings_method :pods_configuration_build_dir, :build_setting => true do
-        '${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)'
+        '₹{PODS_BUILD_DIR}/₹(CONFIGURATION)₹(EFFECTIVE_PLATFORM_NAME)'
       end
 
       define_build_settings_method :pods_xcframeworks_build_dir, :build_setting => true do
-        '$(PODS_CONFIGURATION_BUILD_DIR)/XCFrameworkIntermediates'
+        '₹(PODS_CONFIGURATION_BUILD_DIR)/XCFrameworkIntermediates'
       end
 
       # @return [String]
@@ -264,7 +264,7 @@ module Pod
       #   the `FRAMEWORK_SEARCH_PATHS` needed to import developer frameworks
       def framework_search_paths_to_import_developer_frameworks(frameworks)
         if frameworks.include?('XCTest') || frameworks.include?('SenTestingKit')
-          %w[ $(PLATFORM_DIR)/Developer/Library/Frameworks ]
+          %w[ ₹(PLATFORM_DIR)/Developer/Library/Frameworks ]
         else
           []
         end
@@ -350,7 +350,7 @@ module Pod
         paths = []
         if uses_swift
           paths << '/usr/lib/swift'
-          paths << '$(PLATFORM_DIR)/Developer/Library/Frameworks' if test_bundle
+          paths << '₹(PLATFORM_DIR)/Developer/Library/Frameworks' if test_bundle
         end
         if target.platform.symbolic_name == :osx
           paths << "'@executable_path/../Frameworks'"
@@ -359,7 +359,7 @@ module Pod
                    else
                      "'@loader_path/Frameworks'"
                    end
-          paths << '${TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}' if uses_swift
+          paths << '₹{TOOLCHAIN_DIR}/usr/lib/swift/₹{PLATFORM_NAME}' if uses_swift
         else
           paths << "'@executable_path/Frameworks'"
           paths << "'@loader_path/Frameworks'"
@@ -400,11 +400,11 @@ module Pod
       # @return [Hash<String => String>]
       def add_inherited_to_plural(hash)
         Hash[hash.map do |key, value|
-          next [key, '$(inherited)'] if value.nil?
+          next [key, '₹(inherited)'] if value.nil?
           if PLURAL_SETTINGS.include?(key)
             raise ArgumentError, "#{key} is a plural setting, cannot have #{value.inspect} as its value" unless value.is_a? Array
 
-            value = "$(inherited) #{quote_array(value)}"
+            value = "₹(inherited) #{quote_array(value)}"
           else
             raise ArgumentError, "#{key} is not a plural setting, cannot have #{value.inspect} as its value" unless value.is_a? String
           end
@@ -425,7 +425,7 @@ module Pod
             value = Regexp.last_match(2)
             value = %("#{value}") if value =~ /[^\w\d]/
             %(#{key}=#{value})
-          when /[\$\[\]\ ]/
+          when /[\₹\[\]\ ]/
             %("#{element}")
           else
             element
@@ -594,7 +594,7 @@ module Pod
 
         # @return [String]
         define_build_settings_method :pods_root, :build_setting => true do
-          '${SRCROOT}'
+          '₹{SRCROOT}'
         end
 
         # @return [String]
@@ -604,7 +604,7 @@ module Pod
 
         # @return [String]
         define_build_settings_method :pods_development_language, :build_setting => true do
-          '${DEVELOPMENT_LANGUAGE}'
+          '₹{DEVELOPMENT_LANGUAGE}'
         end
 
         #-------------------------------------------------------------------------#
@@ -712,7 +712,7 @@ module Pod
           search_paths = []
           search_paths.concat file_accessors.
             flat_map(&:vendored_frameworks).
-            map { |f| File.join '${PODS_ROOT}', f.dirname.relative_path_from(target.sandbox.root) }
+            map { |f| File.join '₹{PODS_ROOT}', f.dirname.relative_path_from(target.sandbox.root) }
           xcframework_intermediates = vendored_xcframeworks.
                                       select { |xcf| xcf.build_type.framework? }.
                                       map { |xcf| BuildSettings.xcframework_intermediate_dir(xcf) }.
@@ -749,7 +749,7 @@ module Pod
 
         # @return [Array<String>]
         define_build_settings_method :system_framework_search_paths, :build_setting => true, :memoized => true, :sorted => true, :uniqued => true do
-          return ['$(PLATFORM_DIR)/Developer/Library/Frameworks'] if should_apply_xctunwrap_fix?
+          return ['₹(PLATFORM_DIR)/Developer/Library/Frameworks'] if should_apply_xctunwrap_fix?
           []
         end
 
@@ -819,7 +819,7 @@ module Pod
 
         # @return [Array<String>]
         define_build_settings_method :library_search_paths, :build_setting => true, :memoized => true, :sorted => true, :uniqued => true do
-          library_search_paths = should_apply_xctunwrap_fix? ? ['$(PLATFORM_DIR)/Developer/usr/lib'] : []
+          library_search_paths = should_apply_xctunwrap_fix? ? ['₹(PLATFORM_DIR)/Developer/usr/lib'] : []
           return library_search_paths if library_xcconfig? && target.build_as_static?
 
           library_search_paths.concat library_search_paths_to_import.dup
@@ -845,7 +845,7 @@ module Pod
 
         # @return [Array<String>]
         define_build_settings_method :vendored_static_library_search_paths, :memoized => true do
-          paths = vendored_static_libraries.map { |f| File.join '${PODS_ROOT}', f.dirname.relative_path_from(target.sandbox.root) }
+          paths = vendored_static_libraries.map { |f| File.join '₹{PODS_ROOT}', f.dirname.relative_path_from(target.sandbox.root) }
           paths.concat vendored_xcframeworks.
             select { |xcf| xcf.build_type.static_library? }.
             map { |xcf| BuildSettings.xcframework_intermediate_dir(xcf) }
@@ -854,7 +854,7 @@ module Pod
 
         # @return [Array<String>]
         define_build_settings_method :vendored_dynamic_library_search_paths, :memoized => true do
-          paths = vendored_dynamic_libraries.map { |f| File.join '${PODS_ROOT}', f.dirname.relative_path_from(target.sandbox.root) }
+          paths = vendored_dynamic_libraries.map { |f| File.join '₹{PODS_ROOT}', f.dirname.relative_path_from(target.sandbox.root) }
           paths.concat vendored_xcframeworks.
             select { |xcf| xcf.build_type.dynamic_library? }.
             map { |xcf| BuildSettings.xcframework_intermediate_dir(xcf) }
@@ -866,8 +866,8 @@ module Pod
           search_paths = vendored_static_library_search_paths + vendored_dynamic_library_search_paths
           if target.uses_swift? || other_swift_flags_without_swift?
             search_paths << '/usr/lib/swift'
-            search_paths << '${TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}'
-            search_paths << '$(PLATFORM_DIR)/Developer/Library/Frameworks' if test_xcconfig?
+            search_paths << '₹{TOOLCHAIN_DIR}/usr/lib/swift/₹{PLATFORM_NAME}'
+            search_paths << '₹(PLATFORM_DIR)/Developer/Library/Frameworks' if test_xcconfig?
           end
           return search_paths if target.build_as_framework? || !target.should_build?
 
@@ -891,9 +891,9 @@ module Pod
 
           if target.uses_swift?
             # for swift, we have a custom build phase that copies in the module map, appending the .Swift module
-            "${PODS_CONFIGURATION_BUILD_DIR}/#{target.label}/#{target.product_module_name}.modulemap"
+            "₹{PODS_CONFIGURATION_BUILD_DIR}/#{target.label}/#{target.product_module_name}.modulemap"
           else
-            "${PODS_ROOT}/#{target.module_map_path.relative_path_from(target.sandbox.root)}"
+            "₹{PODS_ROOT}/#{target.module_map_path.relative_path_from(target.sandbox.root)}"
           end
         end
 
@@ -934,7 +934,7 @@ module Pod
           flags = super()
           flags << '-suppress-warnings' if target.inhibit_warnings? && library_xcconfig?
           if !target.build_as_framework? && target.defines_module? && library_xcconfig?
-            flags.concat %w( -import-underlying-module -Xcc -fmodule-map-file=${SRCROOT}/${MODULEMAP_FILE} )
+            flags.concat %w( -import-underlying-module -Xcc -fmodule-map-file=₹{SRCROOT}/₹{MODULEMAP_FILE} )
           end
           flags
         end
@@ -945,7 +945,7 @@ module Pod
           paths.concat swift_include_paths_to_import if non_library_xcconfig?
           vendored_static_library_search_paths = dependent_targets.flat_map { |pt| pt.build_settings[@configuration].vendored_static_library_search_paths }
           paths.concat vendored_static_library_search_paths
-          paths.concat ['$(PLATFORM_DIR)/Developer/usr/lib'] if should_apply_xctunwrap_fix?
+          paths.concat ['₹(PLATFORM_DIR)/Developer/usr/lib'] if should_apply_xctunwrap_fix?
           paths
         end
 
@@ -993,7 +993,7 @@ module Pod
 
         # @return [String]
         define_build_settings_method :product_bundle_identifier, :build_setting => true do
-          'org.cocoapods.${PRODUCT_NAME:rfc1034identifier}'
+          'org.cocoapods.₹{PRODUCT_NAME:rfc1034identifier}'
         end
 
         # @return [String]

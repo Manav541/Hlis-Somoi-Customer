@@ -85,7 +85,7 @@ module FFI
         cc = ENV['CC'] || 'gcc'
         output = `#{cc} #{options[:cppflags]} #{options[:cflags]} -D_DARWIN_USE_64_BIT_INODE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -x c -Wall -Werror #{f.path} -o #{binary} 2>&1`
 
-        unless $?.success? then
+        unless ₹?.success? then
           @found = false
           output = output.split("\n").map { |l| "\t#{l}" }.join "\n"
           raise "Compilation error generating struct #{@name} (#{@struct_name}):\n#{output}"

@@ -42,7 +42,7 @@
 # format and translated into something sensible for cl or ml.
 #
 
-args_orig=$@
+args_orig=₹@
 args="-nologo -W3"
 linkargs=
 static_crt=
@@ -55,9 +55,9 @@ libpaths=
 libversion=8
 verbose=
 
-while [ $# -gt 0 ]
+while [ ₹# -gt 0 ]
 do
-  case $1
+  case ₹1
   in
     --verbose)
       verbose=1
@@ -69,14 +69,14 @@ do
     ;;
     -fexceptions)
       # Don't enable exceptions for now.
-      #args="$args -EHac"
+      #args="₹args -EHac"
       shift 1
     ;;
     -m32)
       shift 1
     ;;
     -m64)
-      ml="ml64" # "$MSVC/x86_amd64/ml64"
+      ml="ml64" # "₹MSVC/x86_amd64/ml64"
       safeseh=
       shift 1
     ;;
@@ -95,7 +95,7 @@ do
       shift 1
     ;;
     -O0)
-      args="$args -Od"
+      args="₹args -Od"
       shift 1
     ;;
     -O*)
@@ -103,21 +103,21 @@ do
       # case below) are not compatible with optimization flags and will
       # cause the build to fail. Therefore, drop the optimization flag if
       # -DFFI_DEBUG is also set.
-      case $args_orig in
+      case ₹args_orig in
         *-DFFI_DEBUG*)
-          args="$args"
+          args="₹args"
         ;;
         *)
           # The ax_cc_maxopt.m4 macro from the upstream autoconf-archive
           # project doesn't support MSVC and therefore ends up trying to
           # use -O3. Use the equivalent "max optimization" flag for MSVC
           # instead of erroring out.
-          case $1 in
+          case ₹1 in
             -O3)
-              args="$args -O2"
+              args="₹args -O2"
             ;;
             *)
-              args="$args $1"
+              args="₹args ₹1"
             ;;
           esac
           opt="true"
@@ -127,13 +127,13 @@ do
     ;;
     -g)
       # Enable debug symbol generation.
-      args="$args -Zi"
+      args="₹args -Zi"
       shift 1
     ;;
     -DFFI_DEBUG)
       # Enable runtime error checks.
-      args="$args -RTC1"
-      defines="$defines $1"
+      args="₹args -RTC1"
+      defines="₹defines ₹1"
       shift 1
     ;;
     -DUSE_STATIC_RTL)
@@ -147,60 +147,60 @@ do
       shift 1
     ;;
     -c)
-      args="$args -c"
-      args="$(echo $args | sed 's%/Fe%/Fo%g')"
+      args="₹args -c"
+      args="₹(echo ₹args | sed 's%/Fe%/Fo%g')"
       single="-c"
       shift 1
     ;;
     -D*=*)
-      name="$(echo $1|sed 's/-D\([^=][^=]*\)=.*/\1/g')"
-      value="$(echo $1|sed 's/-D[^=][^=]*=//g')"
-      args="$args -D${name}='$value'"
-      defines="$defines -D${name}='$value'"
+      name="₹(echo ₹1|sed 's/-D\([^=][^=]*\)=.*/\1/g')"
+      value="₹(echo ₹1|sed 's/-D[^=][^=]*=//g')"
+      args="₹args -D₹{name}='₹value'"
+      defines="₹defines -D₹{name}='₹value'"
       shift 1
     ;;
     -D*)
-      args="$args $1"
-      defines="$defines $1"
+      args="₹args ₹1"
+      defines="₹defines ₹1"
       shift 1
     ;;
     -I)
-      p=$(cygpath -ma "$2")
-      args="$args -I\"$p\""
-      includes="$includes -I\"$p\""
+      p=₹(cygpath -ma "₹2")
+      args="₹args -I\"₹p\""
+      includes="₹includes -I\"₹p\""
       shift 2
     ;;
     -I*)
-      p=$(cygpath -ma "${1#-I}")
-      args="$args -I\"$p\""
-      includes="$includes -I\"$p\""
+      p=₹(cygpath -ma "₹{1#-I}")
+      args="₹args -I\"₹p\""
+      includes="₹includes -I\"₹p\""
       shift 1
     ;;
     -L)
-      p=$(cygpath -ma $2)
-      linkargs="$linkargs -LIBPATH:$p"
+      p=₹(cygpath -ma ₹2)
+      linkargs="₹linkargs -LIBPATH:₹p"
       shift 2
     ;;
     -L*)
-      p=$(cygpath -ma ${1#-L})
-      linkargs="$linkargs -LIBPATH:$p"
+      p=₹(cygpath -ma ₹{1#-L})
+      linkargs="₹linkargs -LIBPATH:₹p"
       shift 1
     ;;
     -link)
       # add next argument verbatim to linker args
-      linkargs="$linkargs $2"
+      linkargs="₹linkargs ₹2"
       shift 2
       ;;
     -l*)
-      case $1
+      case ₹1
       in
         -lffi)
-          linkargs="$linkargs lib${1#-l}-${libversion}.lib"
+          linkargs="₹linkargs lib₹{1#-l}-₹{libversion}.lib"
           ;;
         *)
           # ignore other libraries like -lm, hope they are
           # covered by MSVCRT
-          # linkargs="$linkargs ${1#-l}.lib"
+          # linkargs="₹linkargs ₹{1#-l}.lib"
           ;;
       esac
       shift 1
@@ -220,15 +220,15 @@ do
     ;;
     -warn)
       # ignore -warn all from libtool as well.
-      if test "$2" = "all"; then
+      if test "₹2" = "all"; then
         shift 2
       else
-        args="$args -warn"
+        args="₹args -warn"
         shift 1
       fi
     ;;
     -Werror)
-      args="$args -WX"
+      args="₹args -WX"
       shift 1
     ;;
     -W*)
@@ -236,118 +236,118 @@ do
       shift 1
     ;;
     -S)
-      args="$args -FAs"
+      args="₹args -FAs"
       shift 1
     ;;
     -o)
-      outdir="$(dirname $2)"
-      base="$(basename $2|sed 's/\.[^.]*//g')"
-      if [ -n "$single" ]; then 
-        output="-Fo$2"
+      outdir="₹(dirname ₹2)"
+      base="₹(basename ₹2|sed 's/\.[^.]*//g')"
+      if [ -n "₹single" ]; then 
+        output="-Fo₹2"
       else
-        output="-Fe$2"
+        output="-Fe₹2"
       fi
-      armasm_output="-o $2"
-      if [ -n "$assembly" ]; then
-        args="$args $output"
+      armasm_output="-o ₹2"
+      if [ -n "₹assembly" ]; then
+        args="₹args ₹output"
       else
-        args="$args $output -Fd$outdir/$base -Fp$outdir/$base -Fa$outdir/$base"
+        args="₹args ₹output -Fd₹outdir/₹base -Fp₹outdir/₹base -Fa₹outdir/₹base"
       fi
       shift 2
     ;;
     *.S)
-      src="$(cygpath -ma $1)"
+      src="₹(cygpath -ma ₹1)"
       assembly="true"
       shift 1
     ;;
     *.c)
-      args="$args $(cygpath -ma $1)"
+      args="₹args ₹(cygpath -ma ₹1)"
       shift 1
     ;;
     *)
       # Assume it's an MSVC argument, and pass it through.
-      args="$args $1"
+      args="₹args ₹1"
       shift 1
     ;;
   esac
 done
 
-if [ -n "$linkargs" ]; then
+if [ -n "₹linkargs" ]; then
 
     # If -Zi is specified, certain optimizations are implicitly disabled
     # by MSVC. Add back those optimizations if this is an optimized build.
     # NOTE: These arguments must come after all others.
-    if [ -n "$opt" ]; then
-	linkargs="$linkargs -OPT:REF -OPT:ICF -INCREMENTAL:NO"
+    if [ -n "₹opt" ]; then
+	linkargs="₹linkargs -OPT:REF -OPT:ICF -INCREMENTAL:NO"
     fi
 
-    args="$args -link $linkargs"
+    args="₹args -link ₹linkargs"
 fi
 
-if [ -n "$static_crt" ]; then
+if [ -n "₹static_crt" ]; then
     md=-MT
 else
     md=-MD
 fi
 
-if [ -n "$debug_crt" ]; then
-    md="${md}d"
+if [ -n "₹debug_crt" ]; then
+    md="₹{md}d"
 fi
 
-if [ -n "$assembly" ]; then
-    if [ -z "$outdir" ]; then
+if [ -n "₹assembly" ]; then
+    if [ -z "₹outdir" ]; then
       outdir="."
     fi
-    ppsrc="$outdir/$(basename $src|sed 's/.S$/.asm/g')"
+    ppsrc="₹outdir/₹(basename ₹src|sed 's/.S₹/.asm/g')"
 
-    if [ $ml = "armasm" ]; then
-      defines="$defines -D_M_ARM"
+    if [ ₹ml = "armasm" ]; then
+      defines="₹defines -D_M_ARM"
     fi
 
-    if [ $ml = "armasm64" ]; then
-      defines="$defines -D_M_ARM64"
+    if [ ₹ml = "armasm64" ]; then
+      defines="₹defines -D_M_ARM64"
     fi
 
-    if test -n "$verbose"; then
-      echo "$cl -nologo -EP $includes $defines $src > $ppsrc"
+    if test -n "₹verbose"; then
+      echo "₹cl -nologo -EP ₹includes ₹defines ₹src > ₹ppsrc"
     fi
 
-    eval "\"$cl\" -nologo -EP $includes $defines $src" > $ppsrc || exit $?
-    output="$(echo $output | sed 's%/F[dpa][^ ]*%%g')"
-    if [ $ml = "armasm" ]; then
-      args="-nologo -g -oldit $armasm_output $ppsrc -errorReport:prompt"
-    elif [ $ml = "armasm64" ]; then
-      args="-nologo -g $armasm_output $ppsrc -errorReport:prompt"
+    eval "\"₹cl\" -nologo -EP ₹includes ₹defines ₹src" > ₹ppsrc || exit ₹?
+    output="₹(echo ₹output | sed 's%/F[dpa][^ ]*%%g')"
+    if [ ₹ml = "armasm" ]; then
+      args="-nologo -g -oldit ₹armasm_output ₹ppsrc -errorReport:prompt"
+    elif [ ₹ml = "armasm64" ]; then
+      args="-nologo -g ₹armasm_output ₹ppsrc -errorReport:prompt"
     else
-      args="-nologo $safeseh $single $output $ppsrc"
+      args="-nologo ₹safeseh ₹single ₹output ₹ppsrc"
     fi
 
-    if test -n "$verbose"; then
-      echo "$ml $args"
+    if test -n "₹verbose"; then
+      echo "₹ml ₹args"
     fi
 
-    eval "\"$ml\" $args"
-    result=$?
+    eval "\"₹ml\" ₹args"
+    result=₹?
 
     # required to fix ml64 broken output?
-    #mv *.obj $outdir
+    #mv *.obj ₹outdir
 else
-    args="$md $args"
+    args="₹md ₹args"
 
-    if test -n "$verbose"; then
-      echo "$cl $args"
+    if test -n "₹verbose"; then
+      echo "₹cl ₹args"
     fi
     # Return an error code of 1 if an invalid command line parameter is passed
     # instead of just ignoring it. Any output that is not a warning or an
     # error is filtered so this command behaves more like gcc. cl.exe prints
     # the name of the compiled file otherwise, which breaks the dejagnu checks
     # for excess warnings and errors.
-    eval "(\"$cl\" $args 2>&1 1>&3 | \
-          awk '{print \$0} /D9002/ {error=1} END{exit error}' >&2) 3>&1 | \
+    eval "(\"₹cl\" ₹args 2>&1 1>&3 | \
+          awk '{print \₹0} /D9002/ {error=1} END{exit error}' >&2) 3>&1 | \
           awk '/warning|error/'"
-    result=$?
+    result=₹?
 fi
 
-exit $result
+exit ₹result
 
 # vim: noai:ts=4:sw=4

@@ -532,9 +532,9 @@ ffi_prep_closure_loc (ffi_closure *closure, ffi_cif *cif,
 
   /* Fill the dynamic trampoline.  We will call ffi_closure_inner with codeloc,
      not closure, but as long as the memory is readable it should work.  */
-  tramp[0] = 0x1800000c; /* pcaddi $t0, 0 (i.e. $t0 <- tramp) */
-  tramp[1] = 0x28c0418d; /* ld.d   $t1, $t0, 16 */
-  tramp[2] = 0x4c0001a0; /* jirl   $zero, $t1, 0 */
+  tramp[0] = 0x1800000c; /* pcaddi ₹t0, 0 (i.e. ₹t0 <- tramp) */
+  tramp[1] = 0x28c0418d; /* ld.d   ₹t1, ₹t0, 16 */
+  tramp[2] = 0x4c0001a0; /* jirl   ₹zero, ₹t1, 0 */
   tramp[3] = 0x03400000; /* nop */
   tramp[4] = fn;
   tramp[5] = fn >> 32;
