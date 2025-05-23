@@ -12,7 +12,7 @@ import { styles } from "./styles";
 import { images } from "../../../constants/Images";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { colors } from "../../../constants/Colors";
-import { activityOpacity, hitSlop } from "../../../constants/GConstant";
+import { activityOpacity, hitSlop, rupeeSymbol } from "../../../constants/GConstant";
 import GlobalButton from "../../../global/GlobalButton";
 import { fontsfamily } from "../../../constants/FontFamily";
 import { GroceryProduct, OrderDetail } from "../../../constants/interfaces";
@@ -49,7 +49,7 @@ const CartComponent = (props: PropsType) => {
           <Text style={styles.lblProductName}>{item?.product_name}</Text>
           <View style={styles.vwProductPriceWeight}>
             <Text style={styles.lblProductPrice}>
-              {item?.product_final_price}
+              {rupeeSymbol+item?.product_final_price}
             </Text>
             <Image
               style={styles.imgBlueDot}
@@ -134,7 +134,7 @@ const CartComponent = (props: PropsType) => {
                   fontFamily: fontsfamily.semibold,
                 }}
               >
-                Save ₹101
+                Save $101
               </Text>{" "}
               including{" "}
               <Text
@@ -143,7 +143,7 @@ const CartComponent = (props: PropsType) => {
                   fontFamily: fontsfamily.semibold,
                 }}
               >
-                ₹5
+                $5
               </Text>{" "}
               through free delivery!
             </Text>
@@ -173,7 +173,7 @@ const CartComponent = (props: PropsType) => {
                       color: colors.green86,
                     }}
                   >
-                    ₹10
+                    $10
                   </Text>{" "}
                   on your order.
                 </Text>
@@ -260,7 +260,7 @@ const CartComponent = (props: PropsType) => {
               <View style={styles.vwLine} />
               <View style={styles.vwTotal}>
                 <Text style={styles.lblTotal}>{getTranslation("total")}</Text>
-                <Text style={styles.lblTotal}>{props?.totalPrice}</Text>
+                <Text style={styles.lblTotal}>{rupeeSymbol+props?.totalPrice}</Text>
               </View>
             </View>
           </View>

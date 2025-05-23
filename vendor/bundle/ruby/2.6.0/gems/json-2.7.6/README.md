@@ -33,17 +33,17 @@ for the latter.
 
 Install the gem and add to the application's Gemfile by executing:
 
-    ₹ bundle add json
+    $ bundle add json
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    ₹ gem install json
+    $ gem install json
 
 
 There is also a pure ruby json only variant of the gem, that can be installed
 with:
 
-    ₹ gem install json_pure
+    $ gem install json_pure
 
 ## Usage
 

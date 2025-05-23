@@ -3,7 +3,7 @@
 # wcat for http-access2
 # Copyright (C) 2001 TAKAHASHI Masayoshi
 
-₹:.unshift(File.join('..', 'lib'))
+$:.unshift(File.join('..', 'lib'))
 require 'httpclient'
 
 if ENV['HTTP_PROXY']

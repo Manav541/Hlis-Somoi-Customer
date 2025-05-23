@@ -19,7 +19,7 @@ The API reference can be found [here](http://www.rubydoc.info/gems/xcodeproj).
 Xcodeproj itself installs through RubyGems, the Ruby package manager. Install it
 by performing the following command:
 
-    ₹ [sudo] gem install xcodeproj
+    $ [sudo] gem install xcodeproj
 
 ## Quickstart
 

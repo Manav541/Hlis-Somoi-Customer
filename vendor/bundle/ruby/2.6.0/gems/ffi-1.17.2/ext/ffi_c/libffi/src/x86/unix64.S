@@ -115,7 +115,7 @@ L(UW2):
 	/* cfi_restore(%rbp) */
 
 	/* The first byte of the flags contains the FFI_TYPE.  */
-	cmpb	₹UNIX64_RET_LAST, %cl
+	cmpb	$UNIX64_RET_LAST, %cl
 	movzbl	%cl, %r10d
 	leaq	L(store_table)(%rip), %r11
 	ja	L(sa)
@@ -203,13 +203,13 @@ E(L(store_table), UNIX64_RET_ST_RAX_RDX)
 	movq	%rdx, 8(%rsi)
 L(s2):
 	movq	%rax, (%rsi)
-	shrl	₹UNIX64_SIZE_SHIFT, %ecx
+	shrl	$UNIX64_SIZE_SHIFT, %ecx
 	rep movsb
 	ret
 	.balign 8
 L(s3):
 	movq	%xmm0, (%rsi)
-	shrl	₹UNIX64_SIZE_SHIFT, %ecx
+	shrl	$UNIX64_SIZE_SHIFT, %ecx
 	rep movsb
 	ret
 
@@ -252,7 +252,7 @@ ENDF(C(ffi_call_unix64))
 C(ffi_closure_unix64_sse):
 L(UW5):
 	_CET_ENDBR
-	subq	₹ffi_closure_FS, %rsp
+	subq	$ffi_closure_FS, %rsp
 L(UW6):
 	/* cfi_adjust_cfa_offset(ffi_closure_FS) */
 
@@ -276,7 +276,7 @@ ENDF(C(ffi_closure_unix64_sse))
 C(ffi_closure_unix64):
 L(UW8):
 	_CET_ENDBR
-	subq	₹ffi_closure_FS, %rsp
+	subq	$ffi_closure_FS, %rsp
 L(UW9):
 	/* cfi_adjust_cfa_offset(ffi_closure_FS) */
 L(sse_entry1):
@@ -303,12 +303,12 @@ L(do_closure):
 	call	PLT(C(ffi_closure_unix64_inner))
 
 	/* Deallocate stack frame early; return value is now in redzone.  */
-	addq	₹ffi_closure_FS, %rsp
+	addq	$ffi_closure_FS, %rsp
 L(UW10):
 	/* cfi_adjust_cfa_offset(-ffi_closure_FS) */
 
 	/* The first byte of the return value contains the FFI_TYPE.  */
-	cmpb	₹UNIX64_RET_LAST, %al
+	cmpb	$UNIX64_RET_LAST, %al
 	movzbl	%al, %r10d
 	leaq	L(load_table)(%rip), %r11
 	ja	L(la)
@@ -406,7 +406,7 @@ ENDF(C(ffi_closure_unix64))
 C(ffi_go_closure_unix64_sse):
 L(UW12):
 	_CET_ENDBR
-	subq	₹ffi_closure_FS, %rsp
+	subq	$ffi_closure_FS, %rsp
 L(UW13):
 	/* cfi_adjust_cfa_offset(ffi_closure_FS) */
 
@@ -430,7 +430,7 @@ ENDF(C(ffi_go_closure_unix64_sse))
 C(ffi_go_closure_unix64):
 L(UW15):
 	_CET_ENDBR
-	subq	₹ffi_closure_FS, %rsp
+	subq	$ffi_closure_FS, %rsp
 L(UW16):
 	/* cfi_adjust_cfa_offset(ffi_closure_FS) */
 L(sse_entry2):
@@ -464,7 +464,7 @@ C(ffi_closure_unix64_sse_alt):
 	/* See the comments above trampoline_code_table. */
 	_CET_ENDBR
 	movq	8(%rsp), %r10			/* Load closure in r10 */
-	addq	₹16, %rsp			/* Restore the stack */
+	addq	$16, %rsp			/* Restore the stack */
 	jmp	C(ffi_closure_unix64_sse)
 ENDF(C(ffi_closure_unix64_sse_alt))
 
@@ -476,7 +476,7 @@ C(ffi_closure_unix64_alt):
 	/* See the comments above trampoline_code_table. */
 	_CET_ENDBR
 	movq	8(%rsp), %r10			/* Load closure in r10 */
-	addq	₹16, %rsp			/* Restore the stack */
+	addq	$16, %rsp			/* Restore the stack */
 	jmp	C(ffi_closure_unix64)
 	ENDF(C(ffi_closure_unix64_alt))
 
@@ -526,7 +526,7 @@ C(ffi_closure_unix64_alt):
 C(trampoline_code_table):
 	.rept	UNIX64_TRAMP_MAP_SIZE / UNIX64_TRAMP_SIZE
 	_CET_ENDBR
-	subq	₹16, %rsp			/* Make space on the stack */
+	subq	$16, %rsp			/* Make space on the stack */
 	movq	%r10, (%rsp)			/* Save %r10 on stack */
 #ifdef __ILP32__
 	movl	X86_DATA_OFFSET(%rip), %r10d	/* Copy data into %r10 */

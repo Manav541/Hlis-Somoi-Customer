@@ -39,7 +39,7 @@ module Pod
     # @return [REST::response]
     #
     def self.validate_url(url, user_agent = nil)
-      return nil unless url =~ /^#{URI.regexp}₹/
+      return nil unless url =~ /^#{URI.regexp}$/
 
       begin
         url = get_actual_url(url, user_agent)

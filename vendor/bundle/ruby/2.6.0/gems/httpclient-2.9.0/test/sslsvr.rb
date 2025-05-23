@@ -61,5 +61,5 @@ while server.status != :Running
   end
 end
 STDOUT.sync = true
-puts ₹₹
+puts $$
 t.join

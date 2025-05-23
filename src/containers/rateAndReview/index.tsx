@@ -20,8 +20,8 @@ import { constnatStyles } from "../../constants/Styles";
 const RateAndReviewContainer = ({ navigation, route }: any) => {
   console.log("route?.params", route?.params);
   const [product_img, setProduct_img] = useState<ImageSourcePropType>(images.rice);
-  const [product_name, setProduct_name] = useState<string>(`India Gate Basmati ₹{"\n"}Rice`);
-  const [product_price, setProduct_price] = useState<string>("₹199");
+  const [product_name, setProduct_name] = useState<string>(`India Gate Basmati ${"\n"}Rice`);
+  const [product_price, setProduct_price] = useState<string>("199");
   const [product_quantity, setProduct_quantity] = useState<string>("1");
   const [product_weight, setProduct_weight] = useState<string>("1 kg");
   const [height, setHeight] = useState<number>(61.6);
@@ -83,25 +83,27 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
   };
 
   const handleOnChangeText = (text: string, type: string) => {
-    if (type === "product_review") {
-      setproduct_review(text.replace(/\s/g, ""));
+    if (type === "description") {
+      setproduct_review(text);
     }
   };
 
   const handleOnFocus = (type: string) => {
-    if (type === "product_review") {
+    if (type === "description") {
       setproduct_reviewFocused(true);
     }
   };
 
   const handleOnBlur = (type: string) => {
-    if (type === "product_review") {
+    if (type === "description") {
       setproduct_reviewFocused(true);
     }
   };
 
   const handleOnSubmit = (type: string) => {
+    if (type === "description") {
     product_reviewRef?.current?.focus();
+    }
   };
 
   const onPressSubmit = () => {

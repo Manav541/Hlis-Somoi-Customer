@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.blue4e,
     paddingHorizontal: 20,
   },
-  vwFaq: { borderBottomWidth: 1, borderBottomColor: `₹{colors.greya7}50` },
+  vwFaq: { borderBottomWidth: 1, borderBottomColor: `${colors.greya7}50` },
   btnTitle: {
     flexDirection: "row",
     alignItems: "center",

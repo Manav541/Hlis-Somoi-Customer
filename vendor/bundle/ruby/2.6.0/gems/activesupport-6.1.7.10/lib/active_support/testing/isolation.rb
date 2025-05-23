@@ -85,12 +85,12 @@ module ActiveSupport
               test_opts = "-n#{self.class.name}##{name}"
 
               load_path_args = []
-              ₹-I.each do |p|
+              $-I.each do |p|
                 load_path_args << "-I"
                 load_path_args << File.expand_path(p)
               end
 
-              child = IO.popen([env, Gem.ruby, *load_path_args, ₹0, *ORIG_ARGV, test_opts])
+              child = IO.popen([env, Gem.ruby, *load_path_args, $0, *ORIG_ARGV, test_opts])
 
               begin
                 Process.wait(child.pid)

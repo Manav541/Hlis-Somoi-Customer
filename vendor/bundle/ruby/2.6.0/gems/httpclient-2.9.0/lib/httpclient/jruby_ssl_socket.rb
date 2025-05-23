@@ -571,7 +571,7 @@ unless defined?(SSLSocket)
       @ssl_socket.startHandshake
       ssl_session = @ssl_socket.getSession
       @peer_cert = JavaCertificate.new(ssl_session.getPeerCertificates.first)
-      if ₹DEBUG
+      if $DEBUG
         warn("Protocol version: #{ssl_session.getProtocol}")
         warn("Cipher: #{@ssl_socket.getSession.getCipherSuite}")
       end

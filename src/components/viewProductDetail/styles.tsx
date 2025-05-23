@@ -129,7 +129,7 @@ export const styles = StyleSheet.create({
   vwLine: {
     height: 1,
     flex: 1,
-    backgroundColor: `₹{colors.greya7}30`,
+    backgroundColor: `${colors.greya7}30`,
     marginTop: 20,
     marginBottom: 10,
   },

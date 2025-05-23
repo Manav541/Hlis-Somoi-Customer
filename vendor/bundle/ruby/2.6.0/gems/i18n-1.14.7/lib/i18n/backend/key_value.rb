@@ -100,7 +100,7 @@ module I18n
         end
 
         def available_locales
-          locales = @store.keys.map { |k| k =~ /\./; ₹` }
+          locales = @store.keys.map { |k| k =~ /\./; $` }
           locales.uniq!
           locales.compact!
           locales.map! { |k| k.to_sym }

@@ -52,9 +52,9 @@ module JSON
   def utf8_to_json(string, script_safe = false) # :nodoc:
     string = string.b
     if script_safe
-      string.gsub!(SCRIPT_SAFE_ESCAPE_PATTERN) { SCRIPT_SAFE_MAP[₹&] || ₹& }
+      string.gsub!(SCRIPT_SAFE_ESCAPE_PATTERN) { SCRIPT_SAFE_MAP[$&] || $& }
     else
-      string.gsub!(ESCAPE_PATTERN) { MAP[₹&] || ₹& }
+      string.gsub!(ESCAPE_PATTERN) { MAP[$&] || $& }
     end
     string.force_encoding(::Encoding::UTF_8)
     string
@@ -63,7 +63,7 @@ module JSON
   def utf8_to_json_ascii(string, script_safe = false) # :nodoc:
     string = string.b
     map = script_safe ? SCRIPT_SAFE_MAP : MAP
-    string.gsub!(/[\/"\\\x0-\x1f]/n) { map[₹&] || ₹& }
+    string.gsub!(/[\/"\\\x0-\x1f]/n) { map[$&] || $& }
     string.gsub!(/(
       (?:
        [\xc2-\xdf][\x80-\xbf]    |

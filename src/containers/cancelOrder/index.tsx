@@ -41,26 +41,24 @@ const CancelOrderContainer = ({ navigation }: any) => {
   const [isCancelSuccessModalVisible, setIsCancelSuccessModalVisible] =
     useState(false);
 
-    
-
   const [finalCancelReason, setFinalCancelReason] = useState<string>("");
 
   const handleOnChangeText = (text: string, type: string) => {
-    if (type === "otherReason") {
-      setOtherReason(text.replace(/\s/g, ""));
+    if (type === "description") {
+      setOtherReason(text);
     }
   };
 
   const handleOnFocus = (type: string) => {
-    if(selectedReason === "Other (please specify)"){
-    if (type === "otherReason") {
-      setOtherReasonFocused(true);
+    if (selectedReason === "Other (please specify)") {
+      if (type === "description") {
+        setOtherReasonFocused(true);
+      }
     }
-  }
   };
 
   const handleOnBlur = (type: string) => {
-    if (type === "otherReason") {
+    if (type === "description") {
       setOtherReasonFocused(true);
     }
   };
@@ -74,7 +72,7 @@ const CancelOrderContainer = ({ navigation }: any) => {
 
   const handleSelectReason = (index: number) => {
     const reason = arrCancelOrderReason[index].reason;
-    console.log('resadon', reason)
+    console.log("resadon", reason);
     setSelectedReason(reason);
     setArrCancelOrderReason((prev) =>
       prev.map((item, i) => ({

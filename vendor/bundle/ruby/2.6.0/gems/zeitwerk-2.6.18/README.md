@@ -87,7 +87,7 @@ Zeitwerk also supports code reloading, which can be useful during web applicatio
 
 The gem is designed to allow any project, gem dependency, or application to have its own independent loader. Multiple loaders can coexist in the same process, each managing its own project tree and operating independently of each other. Each loader has its own configuration, inflector, and optional logger.
 
-Internally, Zeitwerk exclusively uses absolute file names when issuing `require` calls, eliminating the need for costly file system lookups in `₹LOAD_PATH`. Technically, the directories managed by Zeitwerk don't even need to be in `₹LOAD_PATH`.
+Internally, Zeitwerk exclusively uses absolute file names when issuing `require` calls, eliminating the need for costly file system lookups in `$LOAD_PATH`. Technically, the directories managed by Zeitwerk don't even need to be in `$LOAD_PATH`.
 
 Furthermore, Zeitwerk performs a single scan of the project tree at most, lazily descending into subdirectories only when their namespaces are used.
 
@@ -812,7 +812,7 @@ The inflectors that ship with Zeitwerk are deterministic and simple. But you can
 class MyInflector < Zeitwerk::Inflector
   def camelize(basename, abspath)
     if basename =~ /\Ahtml_(.*)/
-      "HTML" + super(₹1, abspath)
+      "HTML" + super($1, abspath)
     else
       super
     end
@@ -1003,7 +1003,7 @@ Technically, though, the objects themselves are still alive, but if everything i
 
 Zeitwerk is silent by default, but you can ask loaders to trace their activity. Logging is meant just for troubleshooting, shouldn't normally be enabled.
 
-The `log!` method is a quick shortcut to let the loader log to `₹stdout`:
+The `log!` method is a quick shortcut to let the loader log to `$stdout`:
 
 ```
 loader.log!
@@ -1019,7 +1019,7 @@ loader.logger = ->(msg) { ... }
 as well as anything that responds to `debug`:
 
 ```ruby
-loader.logger = Logger.new(₹stderr)
+loader.logger = Logger.new($stderr)
 loader.logger = Rails.logger
 ```
 
@@ -1152,7 +1152,7 @@ loader.setup
 <a id="markdown-shadowed-files" name="shadowed-files"></a>
 ### Shadowed files
 
-In Ruby, if you have several files called `foo.rb` in different directories of `₹LOAD_PATH` and execute
+In Ruby, if you have several files called `foo.rb` in different directories of `$LOAD_PATH` and execute
 
 ```ruby
 require "foo"
@@ -1398,7 +1398,7 @@ The test suite passes on Windows with codepage `Windows-1252` if all the involve
 
 2. Think the mere existence of a file is effectively like writing a `require` call for them, which is executed on demand (autoload) or upfront (eager load).
 
-3. In that line, if two loaders manage files that translate to the same constant in the same namespace, the first one wins, the rest are ignored. Similar to what happens with `require` and `₹LOAD_PATH`, only the first occurrence matters.
+3. In that line, if two loaders manage files that translate to the same constant in the same namespace, the first one wins, the rest are ignored. Similar to what happens with `require` and `$LOAD_PATH`, only the first occurrence matters.
 
 4. Projects that reopen a namespace defined by some dependency have to ensure said namespace is loaded before setup. That is, the project has to make sure it reopens, rather than defines, the namespace. This is often accomplished by loading (e.g., `require`-ing) the dependency.
 

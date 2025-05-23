@@ -63,7 +63,7 @@ const SettingContainer = ({ navigation, route }: any) => {
     setIsSharing(false);
     try {
       const result = await Share.share({
-        message: `₹{appName} App`,
+        message: `${appName} App`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {

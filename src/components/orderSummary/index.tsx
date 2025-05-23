@@ -15,7 +15,7 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { colors } from "../../constants/Colors";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
 import { images } from "../../constants/Images";
-import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GlobalButton from "../../global/GlobalButton";
@@ -131,12 +131,13 @@ const OrderSummaryComponent = (props: PropsType) => {
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Text style={styles.lblProductPrice}>
-                  {item?.product_price}
+                  {rupeeSymbol+item?.product_price}
                 </Text>
                 <Image
                   style={styles.imgDot}
                   source={images.dotOrange}
                   tintColor={colors.blue4e}
+                  resizeMode="stretch"
                 />
                 <Text style={styles.lblProductWeight}>
                   {item?.product_weight}
@@ -234,7 +235,7 @@ const OrderSummaryComponent = (props: PropsType) => {
           </View>
           <View style={{ alignSelf: "flex-end" }}>
             <Text style={styles.lblTotal}>{getTranslation("total")}</Text>
-            <Text style={styles.lblTotalAmount}>{props?.totalAmount}</Text>
+            <Text style={styles.lblTotalAmount}>{rupeeSymbol+ " "+ props?.totalAmount}</Text>
           </View>
         </View>
 
@@ -516,7 +517,7 @@ const OrderSummaryComponent = (props: PropsType) => {
             <View style={styles.vwLineFull} />
             <View style={styles.vwTotal}>
               <Text style={styles.lblTotalBold}>{getTranslation("total")}</Text>
-              <Text style={styles.lblTotalBold}>{props?.totalAmount}</Text>
+              <Text style={styles.lblTotalBold}>{rupeeSymbol+" "+props?.totalAmount}</Text>
             </View>
           </View>
         </View>

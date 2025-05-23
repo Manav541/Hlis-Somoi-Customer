@@ -12,11 +12,11 @@ gem 'mutex_m'
 
 And then execute:
 
-    ₹ bundle
+    $ bundle
 
 Or install it yourself as:
 
-    ₹ gem install mutex_m
+    $ gem install mutex_m
 
 ## Usage
 

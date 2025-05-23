@@ -386,7 +386,7 @@ module Pod
           #
           def resource_output_paths(resource_input_paths)
             resource_input_paths.map do |resource_input_path|
-              base_path = '₹{TARGET_BUILD_DIR}/₹{UNLOCALIZED_RESOURCES_FOLDER_PATH}'
+              base_path = '${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}'
               extname = File.extname(resource_input_path)
               basename = extname == '.xcassets' ? 'Assets' : File.basename(resource_input_path)
               output_extension = Target.output_extension_for_resource(extname)
@@ -426,12 +426,12 @@ module Pod
           #
           def embed_frameworks_output_paths(framework_paths, xcframeworks)
             paths = framework_paths.map do |framework_path|
-              "₹{TARGET_BUILD_DIR}/₹{FRAMEWORKS_FOLDER_PATH}/#{File.basename(framework_path.source_path)}"
+              "${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/#{File.basename(framework_path.source_path)}"
             end.uniq
             # Static xcframeworks are not copied to the build dir
             # so only include dynamic artifacts that will be copied to the build folder
             xcframework_paths = xcframeworks.select { |xcf| xcf.build_type.dynamic_framework? }.map do |xcframework|
-              "₹{TARGET_BUILD_DIR}/₹{FRAMEWORKS_FOLDER_PATH}/#{xcframework.name}.framework"
+              "${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/#{xcframework.name}.framework"
             end
             paths + xcframework_paths
           end
@@ -726,16 +726,16 @@ module Pod
             phase = TargetIntegrator.create_or_update_shell_script_build_phase(native_target, BUILD_PHASE_PREFIX + phase_name)
             native_target.build_phases.unshift(phase).uniq! unless native_target.build_phases.first == phase
             phase.shell_script = <<-SH.strip_heredoc
-              diff "₹{PODS_PODFILE_DIR_PATH}/Podfile.lock" "₹{PODS_ROOT}/Manifest.lock" > /dev/null
-              if [ ₹? != 0 ] ; then
+              diff "${PODS_PODFILE_DIR_PATH}/Podfile.lock" "${PODS_ROOT}/Manifest.lock" > /dev/null
+              if [ $? != 0 ] ; then
                   # print error to STDERR
                   echo "error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation." >&2
                   exit 1
               fi
               # This output is used by Xcode 'outputs' to avoid re-running this script phase.
-              echo "SUCCESS" > "₹{SCRIPT_OUTPUT_FILE_0}"
+              echo "SUCCESS" > "${SCRIPT_OUTPUT_FILE_0}"
             SH
-            phase.input_paths = %w(₹{PODS_PODFILE_DIR_PATH}/Podfile.lock ₹{PODS_ROOT}/Manifest.lock)
+            phase.input_paths = %w(${PODS_PODFILE_DIR_PATH}/Podfile.lock ${PODS_ROOT}/Manifest.lock)
             phase.output_paths = [target.check_manifest_lock_script_output_file_path]
           end
         end

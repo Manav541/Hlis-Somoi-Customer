@@ -79,11 +79,11 @@ module Pod
     # @!group Legacy Xcode build root
     #-------------------------------------------------------------------------#
 
-    LEGACY_BUILD_ROOT = '₹{SRCROOT}/../build'
+    LEGACY_BUILD_ROOT = '${SRCROOT}/../build'
 
     # @param [String] symroot
     #        The build root that is used when Xcode is configured to not use the
-    #        workspace’s build root. Defaults to `₹{SRCROOT}/../build`.
+    #        workspace’s build root. Defaults to `${SRCROOT}/../build`.
     #
     # @return [void]
     #
@@ -374,7 +374,7 @@ module Pod
     def add_build_configuration(name, type)
       build_configuration = super
       settings = build_configuration.build_settings
-      definitions = settings['GCC_PREPROCESSOR_DEFINITIONS'] || ['₹(inherited)']
+      definitions = settings['GCC_PREPROCESSOR_DEFINITIONS'] || ['$(inherited)']
       defines = [defininition_for_build_configuration(name)]
       defines << 'DEBUG' if type == :debug
       defines.each do |define|

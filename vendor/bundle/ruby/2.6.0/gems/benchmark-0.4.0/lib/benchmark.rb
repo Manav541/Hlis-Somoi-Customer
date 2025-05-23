@@ -2,7 +2,7 @@
 #--
 # benchmark.rb - a performance benchmarking library
 #
-# ₹Id₹
+# $Id$
 #
 # Created by Gotoken (gotoken@notwork.org).
 #
@@ -168,8 +168,8 @@ module Benchmark
   #
 
   def benchmark(caption = "", label_width = nil, format = nil, *labels) # :yield: report
-    sync = ₹stdout.sync
-    ₹stdout.sync = true
+    sync = $stdout.sync
+    $stdout.sync = true
     label_width ||= 0
     label_width += 1
     format ||= FORMAT
@@ -187,7 +187,7 @@ module Benchmark
     }
     report.list
   ensure
-    ₹stdout.sync = sync unless sync.nil?
+    $stdout.sync = sync unless sync.nil?
   end
 
 
@@ -258,8 +258,8 @@ module Benchmark
     job = Job.new(width)
     yield(job)
     width = job.width + 1
-    sync = ₹stdout.sync
-    ₹stdout.sync = true
+    sync = $stdout.sync
+    $stdout.sync = true
 
     # rehearsal
     puts 'Rehearsal '.ljust(width+CAPTION.length,'-')
@@ -279,7 +279,7 @@ module Benchmark
       Benchmark.measure(label, &item).tap { |res| print res }
     }
   ensure
-    ₹stdout.sync = sync unless sync.nil?
+    $stdout.sync = sync unless sync.nil?
   end
 
   #
@@ -515,13 +515,13 @@ module Benchmark
     #
     def format(format = nil, *args)
       str = (format || FORMAT).dup
-      str.gsub!(/(%[-+.\d]*)n/) { "#{₹1}s" % label }
-      str.gsub!(/(%[-+.\d]*)u/) { "#{₹1}f" % utime }
-      str.gsub!(/(%[-+.\d]*)y/) { "#{₹1}f" % stime }
-      str.gsub!(/(%[-+.\d]*)U/) { "#{₹1}f" % cutime }
-      str.gsub!(/(%[-+.\d]*)Y/) { "#{₹1}f" % cstime }
-      str.gsub!(/(%[-+.\d]*)t/) { "#{₹1}f" % total }
-      str.gsub!(/(%[-+.\d]*)r/) { "(#{₹1}f)" % real }
+      str.gsub!(/(%[-+.\d]*)n/) { "#{$1}s" % label }
+      str.gsub!(/(%[-+.\d]*)u/) { "#{$1}f" % utime }
+      str.gsub!(/(%[-+.\d]*)y/) { "#{$1}f" % stime }
+      str.gsub!(/(%[-+.\d]*)U/) { "#{$1}f" % cutime }
+      str.gsub!(/(%[-+.\d]*)Y/) { "#{$1}f" % cstime }
+      str.gsub!(/(%[-+.\d]*)t/) { "#{$1}f" % total }
+      str.gsub!(/(%[-+.\d]*)r/) { "(#{$1}f)" % real }
       format ? str % args : str
     end
 

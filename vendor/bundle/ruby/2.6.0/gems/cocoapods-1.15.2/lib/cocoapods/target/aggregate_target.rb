@@ -307,7 +307,7 @@ module Pod
             resource_paths = pod_target.resource_paths.values_at(*library_specs).flatten
 
             if pod_target.build_as_static_framework?
-              built_product_dir = Pathname.new(pod_target.build_product_path('₹{BUILT_PRODUCTS_DIR}'))
+              built_product_dir = Pathname.new(pod_target.build_product_path('${BUILT_PRODUCTS_DIR}'))
               resource_paths = resource_paths.map do |resource_path|
                 extname = File.extname(resource_path)
                 if self.class.resource_extension_compilable?(extname)
@@ -419,7 +419,7 @@ module Pod
     # @return [String] The output file path fo the check manifest lock script.
     #
     def check_manifest_lock_script_output_file_path
-      "₹(DERIVED_FILE_DIR)/#{label}-checkManifestLockResult.txt"
+      "$(DERIVED_FILE_DIR)/#{label}-checkManifestLockResult.txt"
     end
 
     # @return [Pathname] The relative path of the Pods directory from user project's directory.
@@ -428,11 +428,11 @@ module Pod
       sandbox.root.relative_path_from(client_root)
     end
 
-    # @return [String] The xcconfig path of the root from the `₹(SRCROOT)`
+    # @return [String] The xcconfig path of the root from the `$(SRCROOT)`
     #         variable of the user's project.
     #
     def relative_pods_root
-      "₹{SRCROOT}/#{relative_pods_root_path}"
+      "${SRCROOT}/#{relative_pods_root_path}"
     end
 
     # @return [String] The path of the Podfile directory relative to the
@@ -440,9 +440,9 @@ module Pod
     #
     def podfile_dir_relative_path
       podfile_path = target_definition.podfile.defined_in_file
-      return "₹{SRCROOT}/#{podfile_path.relative_path_from(client_root).dirname}" unless podfile_path.nil?
+      return "${SRCROOT}/#{podfile_path.relative_path_from(client_root).dirname}" unless podfile_path.nil?
       # Fallback to the standard path if the Podfile is not represented by a file.
-      '₹{PODS_ROOT}/..'
+      '${PODS_ROOT}/..'
     end
 
     # @param  [String] config_name The build configuration name to get the xcconfig for
@@ -457,42 +457,42 @@ module Pod
     #         root of the Pods project.
     #
     def copy_resources_script_relative_path
-      "₹{PODS_ROOT}/#{relative_to_pods_root(copy_resources_script_path)}"
+      "${PODS_ROOT}/#{relative_to_pods_root(copy_resources_script_path)}"
     end
 
     # @return [String] The path of the copy resources script input file list
     #         relative to the root of the Pods project.
     #
     def copy_resources_script_input_files_relative_path
-      "₹{PODS_ROOT}/#{relative_to_pods_root(copy_resources_script_input_files_path('₹{CONFIGURATION}'))}"
+      "${PODS_ROOT}/#{relative_to_pods_root(copy_resources_script_input_files_path('${CONFIGURATION}'))}"
     end
 
     # @return [String] The path of the copy resources script output file list
     #         relative to the root of the Pods project.
     #
     def copy_resources_script_output_files_relative_path
-      "₹{PODS_ROOT}/#{relative_to_pods_root(copy_resources_script_output_files_path('₹{CONFIGURATION}'))}"
+      "${PODS_ROOT}/#{relative_to_pods_root(copy_resources_script_output_files_path('${CONFIGURATION}'))}"
     end
 
     # @return [String] The path of the embed frameworks relative to the
     #         root of the Pods project.
     #
     def embed_frameworks_script_relative_path
-      "₹{PODS_ROOT}/#{relative_to_pods_root(embed_frameworks_script_path)}"
+      "${PODS_ROOT}/#{relative_to_pods_root(embed_frameworks_script_path)}"
     end
 
     # @return [String] The path of the embed frameworks script input file list
     #         relative to the root of the Pods project.
     #
     def embed_frameworks_script_input_files_relative_path
-      "₹{PODS_ROOT}/#{relative_to_pods_root(embed_frameworks_script_input_files_path('₹{CONFIGURATION}'))}"
+      "${PODS_ROOT}/#{relative_to_pods_root(embed_frameworks_script_input_files_path('${CONFIGURATION}'))}"
     end
 
     # @return [String] The path of the embed frameworks script output file list
     #         relative to the root of the Pods project.
     #
     def embed_frameworks_script_output_files_relative_path
-      "₹{PODS_ROOT}/#{relative_to_pods_root(embed_frameworks_script_output_files_path('₹{CONFIGURATION}'))}"
+      "${PODS_ROOT}/#{relative_to_pods_root(embed_frameworks_script_output_files_path('${CONFIGURATION}'))}"
     end
 
     # @return [String] The path of the prepare artifacts script relative to the
@@ -503,7 +503,7 @@ module Pod
     # @todo Remove in 2.0
     #
     def prepare_artifacts_script_relative_path
-      "₹{PODS_ROOT}/#{relative_to_pods_root(prepare_artifacts_script_path)}"
+      "${PODS_ROOT}/#{relative_to_pods_root(prepare_artifacts_script_path)}"
     end
 
     # @return [String] The path of the prepare artifacts script input file list
@@ -514,7 +514,7 @@ module Pod
     # @todo Remove in 2.0
     #
     def prepare_artifacts_script_input_files_relative_path
-      "₹{PODS_ROOT}/#{relative_to_pods_root(prepare_artifacts_script_input_files_path('₹{CONFIGURATION}'))}"
+      "${PODS_ROOT}/#{relative_to_pods_root(prepare_artifacts_script_input_files_path('${CONFIGURATION}'))}"
     end
 
     # @return [String] The path of the prepare artifacts script output file list
@@ -525,7 +525,7 @@ module Pod
     # @todo Remove in 2.0
     #
     def prepare_artifacts_script_output_files_relative_path
-      "₹{PODS_ROOT}/#{relative_to_pods_root(prepare_artifacts_script_output_files_path('₹{CONFIGURATION}'))}"
+      "${PODS_ROOT}/#{relative_to_pods_root(prepare_artifacts_script_output_files_path('${CONFIGURATION}'))}"
     end
 
     private
@@ -533,7 +533,7 @@ module Pod
     # @!group Private Helpers
     #-------------------------------------------------------------------------#
 
-    # Computes the relative path of a sandboxed file from the `₹(PODS_ROOT)`
+    # Computes the relative path of a sandboxed file from the `$(PODS_ROOT)`
     # variable of the Pods's project.
     #
     # @param  [Pathname] path

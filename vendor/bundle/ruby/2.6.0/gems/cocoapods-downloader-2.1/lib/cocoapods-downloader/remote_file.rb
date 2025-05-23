@@ -58,17 +58,17 @@ module Pod
 
       def type_with_url(url)
         case URI.parse(url).path
-        when /\.zip₹/
+        when /\.zip$/
           :zip
-        when /\.(tgz|tar\.gz)₹/
+        when /\.(tgz|tar\.gz)$/
           :tgz
-        when /\.tar₹/
+        when /\.tar$/
           :tar
-        when /\.(tbz|tar\.bz2)₹/
+        when /\.(tbz|tar\.bz2)$/
           :tbz
-        when /\.(txz|tar\.xz)₹/
+        when /\.(txz|tar\.xz)$/
           :txz
-        when /\.dmg₹/
+        when /\.dmg$/
           :dmg
         end
       end

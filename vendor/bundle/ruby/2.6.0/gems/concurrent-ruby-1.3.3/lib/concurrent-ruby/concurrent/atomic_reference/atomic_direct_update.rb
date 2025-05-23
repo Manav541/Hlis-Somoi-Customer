@@ -25,7 +25,7 @@ module Concurrent
       old_value = get
       new_value = yield old_value
       unless compare_and_set(old_value, new_value)
-        if ₹VERBOSE
+        if $VERBOSE
           raise ConcurrentUpdateError, "Update failed"
         else
           raise ConcurrentUpdateError, "Update failed", ConcurrentUpdateError::CONC_UP_ERR_BACKTRACE

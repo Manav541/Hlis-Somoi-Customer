@@ -9,7 +9,7 @@ import { AvailableOfferItem } from "../../constants/interfaces";
 import { ScreenNames } from "../../routers";
 import { constnatStyles } from "../../constants/Styles";
 import Clipboard from "@react-native-clipboard/clipboard";
-import { flashMessageSucess } from "../../constants/GConstant";
+import { flashMessageSucess, rupeeSymbol } from "../../constants/GConstant";
 
 const AvailableOffersContainer = ({ navigation }: any) => {
   const [arrAvailableOffers, setArrAvailableOffers] = useState<AvailableOfferItem[]>([
@@ -17,7 +17,7 @@ const AvailableOffersContainer = ({ navigation }: any) => {
       title: "Welcome Offer",
       offer: "Extra 7% Off",
       offerDesc: "Your first order above",
-      offerPrice: "₹150",
+      offerPrice: rupeeSymbol+"150",
       offerCode: "SOMOIoff07",
       offerValidity: "8/31/2025",
     },
@@ -25,7 +25,7 @@ const AvailableOffersContainer = ({ navigation }: any) => {
       title: "Summer Offer",
       offer: "Flat 10% Off",
       offerDesc: "Your first order above",
-      offerPrice: "₹250",
+      offerPrice: rupeeSymbol+"250",
       offerCode: "SOMOIoff10",
       offerValidity: "8/31/2025",
     },
@@ -33,7 +33,7 @@ const AvailableOffersContainer = ({ navigation }: any) => {
       title: "Festive Offer",
       offer: "Extra 70% Off",
       offerDesc: "Your first order above",
-      offerPrice: "₹1550",
+      offerPrice: rupeeSymbol+"1550",
       offerCode: "SOMOIoff70",
       offerValidity: "8/31/2025",
     },

@@ -165,7 +165,7 @@ module JSON
         if scan(STRING)
           return '' if self[1].empty?
           string = self[1].gsub(%r{(?:\\[\\bfnrt"/]|(?:\\u(?:[A-Fa-f\d]{4}))+|\\[\x20-\xff])}n) do |c|
-            k = ₹&[1]
+            k = $&[1]
             if u = UNESCAPE_MAP.fetch(k) { k.chr }
               u
             else # \uXXXX

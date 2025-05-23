@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-₹LOAD_PATH.unshift(File.dirname(__FILE__))
-₹LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 
 require 'bundler'
 Bundler.setup
@@ -15,7 +15,7 @@ else
   require 'support/server'
 end
 
-# Ethon.logger = Logger.new(₹stdout).tap do |log|
+# Ethon.logger = Logger.new($stdout).tap do |log|
 #   log.level = Logger::DEBUG
 # end
 

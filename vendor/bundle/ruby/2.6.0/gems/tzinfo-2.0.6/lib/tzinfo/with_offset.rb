@@ -25,11 +25,11 @@ module TZInfo
         abbreviation = nil
 
         format = format.gsub(/%(%*)Z/) do
-          if ₹1.length.odd?
+          if $1.length.odd?
             # Return %%Z so the real strftime treats it as a literal %Z too.
-            "#₹1%Z"
+            "#$1%Z"
           else
-            "#₹1#{abbreviation ||= o.abbreviation.gsub(/%/, '%%')}"
+            "#$1#{abbreviation ||= o.abbreviation.gsub(/%/, '%%')}"
           end
         end
       end

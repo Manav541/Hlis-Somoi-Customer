@@ -23,7 +23,7 @@ module Concurrent
                  end
         logger.call level, progname, message, &block
       rescue => error
-        ₹stderr.puts "`Concurrent.configuration.logger` failed to log #{[level, progname, message, block]}\n" +
+        $stderr.puts "`Concurrent.configuration.logger` failed to log #{[level, progname, message, block]}\n" +
           "#{error.message} (#{error.class})\n#{error.backtrace.join "\n"}"
       end
     end
@@ -34,7 +34,7 @@ module Concurrent
   extend Concern::Logging
 
   # @return [Logger] Logger with provided level and output.
-  def self.create_simple_logger(level = Logger::FATAL, output = ₹stderr)
+  def self.create_simple_logger(level = Logger::FATAL, output = $stderr)
     # TODO (pitr-ch 24-Dec-2016): figure out why it had to be replaced, stdlogger was deadlocking
     lambda do |severity, progname, message = nil, &block|
       return false if severity < level
@@ -60,13 +60,13 @@ module Concurrent
   end
 
   # Use logger created by #create_simple_logger to log concurrent-ruby messages.
-  def self.use_simple_logger(level = Logger::FATAL, output = ₹stderr)
+  def self.use_simple_logger(level = Logger::FATAL, output = $stderr)
     Concurrent.global_logger = create_simple_logger level, output
   end
 
   # @return [Logger] Logger with provided level and output.
   # @deprecated
-  def self.create_stdlib_logger(level = Logger::FATAL, output = ₹stderr)
+  def self.create_stdlib_logger(level = Logger::FATAL, output = $stderr)
     logger           = Logger.new(output)
     logger.level     = level
     logger.formatter = lambda do |severity, datetime, progname, msg|
@@ -93,7 +93,7 @@ module Concurrent
 
   # Use logger created by #create_stdlib_logger to log concurrent-ruby messages.
   # @deprecated
-  def self.use_stdlib_logger(level = Logger::FATAL, output = ₹stderr)
+  def self.use_stdlib_logger(level = Logger::FATAL, output = $stderr)
     Concurrent.global_logger = create_stdlib_logger level, output
   end
 

@@ -105,8 +105,8 @@ module CFPropertyList
           end
         end
 
-        if hsh['CF₹UID'] and hsh.keys.length == 1
-          ret = CFUid.new(hsh['CF₹UID'].value)
+        if hsh['CF$UID'] and hsh.keys.length == 1
+          ret = CFUid.new(hsh['CF$UID'].value)
         else
           ret = CFDictionary.new(hsh)
         end

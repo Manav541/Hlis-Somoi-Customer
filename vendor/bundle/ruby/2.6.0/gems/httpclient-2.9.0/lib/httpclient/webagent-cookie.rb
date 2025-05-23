@@ -178,8 +178,8 @@ class WebAgent
         return
         ## raise ArgumentError 'invalid cookie value'
       end
-      @name = ₹1.strip
-      @value = normalize_cookie_value(₹3)
+      @name = $1.strip
+      @value = normalize_cookie_value($3)
       cookie_elem.each{|pair|
         key, value = pair.split(/=/, 2)  ## value may nil
         key.strip!
@@ -209,7 +209,7 @@ class WebAgent
 
     def normalize_cookie_value(value)
       if value
-        value = value.strip.sub(/\A"(.*)"\z/) { ₹1 }
+        value = value.strip.sub(/\A"(.*)"\z/) { $1 }
         value = nil if value.empty?
       end
       value

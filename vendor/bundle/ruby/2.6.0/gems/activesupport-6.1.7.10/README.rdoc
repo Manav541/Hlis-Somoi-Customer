@@ -11,7 +11,7 @@ You can read more about the extensions in the {Active Support Core Extensions}[h
 
 The latest version of Active Support can be installed with RubyGems:
 
-  ₹ gem install activesupport
+  $ gem install activesupport
 
 Source code can be downloaded as part of the Rails project on GitHub:
 

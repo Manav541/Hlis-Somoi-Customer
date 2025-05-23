@@ -10,7 +10,7 @@ gem 'gh_inspector'
 
 And then execute:
 
-    ₹ bundle
+    $ bundle
 
 ## Usage
 

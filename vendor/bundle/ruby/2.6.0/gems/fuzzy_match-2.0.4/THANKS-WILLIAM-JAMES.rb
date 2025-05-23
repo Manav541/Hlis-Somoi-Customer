@@ -24,7 +24,7 @@ Benchmark.bmbm do |x|
 end
 
 # results:
-# ₹ ruby foo.rb 
+# $ ruby foo.rb 
 # Rehearsal -------------------------------------------------
 # native          0.720000   0.000000   0.720000 (  0.729319)
 # william-james   3.620000   0.010000   3.630000 (  3.629198)

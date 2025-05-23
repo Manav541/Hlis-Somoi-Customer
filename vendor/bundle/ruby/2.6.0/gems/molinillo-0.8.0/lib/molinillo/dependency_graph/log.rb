@@ -17,10 +17,10 @@ module Molinillo
       end
 
       # @!macro [new] action
-      #   {include:DependencyGraph#₹0}
+      #   {include:DependencyGraph#$0}
       #   @param [Graph] graph the graph to perform the action on
-      #   @param (see DependencyGraph#₹0)
-      #   @return (see DependencyGraph#₹0)
+      #   @param (see DependencyGraph#$0)
+      #   @return (see DependencyGraph#$0)
 
       # @macro action
       def tag(graph, tag)

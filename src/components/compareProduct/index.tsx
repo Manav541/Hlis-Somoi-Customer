@@ -10,7 +10,7 @@ import React from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { images } from "../../constants/Images";
-import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { GroceryProduct } from "../../constants/interfaces";
@@ -44,9 +44,9 @@ const CompareProductComponent = (props: PropsType) => {
           </View>
           <View style={styles.vwPrice}>
             <Text style={styles.lblProductFinalPrice}>
-              {item?.product_final_price}
+              {rupeeSymbol+item?.product_final_price}
             </Text>
-            <Text style={styles.lblProductPrice}>{item?.product_price}</Text>
+            <Text style={styles.lblProductPrice}>{rupeeSymbol+item?.product_price}</Text>
           </View>
           <Text style={styles.lblProductDesc} numberOfLines={4}>
             {item?.product_desc}

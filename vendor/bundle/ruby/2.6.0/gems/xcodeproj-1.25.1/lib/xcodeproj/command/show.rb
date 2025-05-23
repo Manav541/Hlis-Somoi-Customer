@@ -48,7 +48,7 @@ module Xcodeproj
         pretty_print.each do |key, value|
           section = key.green
           yaml = value.to_yaml
-          yaml.gsub!(/^---₹/, '')
+          yaml.gsub!(/^---$/, '')
           yaml.gsub!(/^-/, "\n-")
           yaml.prepend(section)
           sections << yaml

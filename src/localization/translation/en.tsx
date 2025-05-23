@@ -51,6 +51,8 @@ export default {
   phoneNumberUpdateSuccess: "Phone number updated successfully",
   emptyPfofileImage: "Please select profile image",
   offerCodeCopySuccess:"Offer code copied successfully",
+  addressRequired: "Please select address",
+  houseRequired: "Please enter house no/building/sreet/area",
 
   // Onboarding
   onboardingTitle1: "Fast, Reliable, and Hassle-Free Deliveries",
@@ -239,6 +241,7 @@ export default {
   chooseResolution:"Choose Resolution",
   refund:"Refund",
   replacement:"Replacement",
+  selectProductItem : "Please select item that you want to return or exchange.",
 
   // Rate & Review
   rateReviewTitle: "Share your experience with the product",

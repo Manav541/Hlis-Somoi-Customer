@@ -26,7 +26,7 @@ module HexDump
       # omit duplicate line
       if /^(#{regex_quote_n(raw)})+/n =~ str[offset .. -1]
         result << sprintf("%08x  ...", offset)
-        offset += ₹&.length
+        offset += $&.length
         # should print at the end
         if offset == str.length
           result << sprintf("%08x  %-36s  %s", offset-16, data, text)

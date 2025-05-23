@@ -120,7 +120,7 @@ module ActiveSupport #:nodoc:
       #   "ÉL QUE SE ENTERÓ".mb_chars.titleize.to_s    # => "Él Que Se Enteró"
       #   "日本語".mb_chars.titleize.to_s               # => "日本語"
       def titleize
-        chars(downcase.to_s.gsub(/\b('?\S)/u) { ₹1.upcase })
+        chars(downcase.to_s.gsub(/\b('?\S)/u) { $1.upcase })
       end
       alias_method :titlecase, :titleize
 

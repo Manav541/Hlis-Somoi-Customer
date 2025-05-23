@@ -79,7 +79,7 @@ module FFI
 
         # strip off the starting typedef and ending ;
         type.gsub!(/^(.*typedef\s*)/, "")
-        type.gsub!(/\s*;\s*₹/, "")
+        type.gsub!(/\s*;\s*$/, "")
 
         parts = type.split(/\s+/)
         def_type   = parts.join(" ")

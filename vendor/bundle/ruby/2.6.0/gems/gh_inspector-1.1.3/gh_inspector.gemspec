@@ -1,6 +1,6 @@
 
 lib = File.expand_path('../lib', __FILE__)
-₹LOAD_PATH.unshift(lib) unless ₹LOAD_PATH.include?(lib)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'gh_inspector/version'
 
 Gem::Specification.new do |spec|

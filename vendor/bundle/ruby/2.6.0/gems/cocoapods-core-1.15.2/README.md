@@ -22,7 +22,7 @@ files.
 ## Installation
 
 ```
-₹ [sudo] gem install cocoapods-core
+$ [sudo] gem install cocoapods-core
 ```
 
 The `cocoapods-core` gem requires Ruby 2.6.0 or later.

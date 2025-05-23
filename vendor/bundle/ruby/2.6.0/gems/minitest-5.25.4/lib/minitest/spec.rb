@@ -136,7 +136,7 @@ class Minitest::Spec < Minitest::Test
     #
     # Eg:
     #
-    #     register_spec_type(/Controller₹/, Minitest::Spec::Rails)
+    #     register_spec_type(/Controller$/, Minitest::Spec::Rails)
     #
     # or:
     #

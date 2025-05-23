@@ -305,7 +305,7 @@ class TestAuth < Test::Unit::TestCase
 
   def test_digest_auth_with_querystring
     c = HTTPClient.new
-    c.debug_dev = STDERR if ₹DEBUG
+    c.debug_dev = STDERR if $DEBUG
     c.set_auth("http://localhost:#{serverport}/", 'admin', 'admin')
     assert_equal('digest_auth OKbar=baz', c.get_content("http://localhost:#{serverport}/digest_auth/foo?bar=baz"))
   end

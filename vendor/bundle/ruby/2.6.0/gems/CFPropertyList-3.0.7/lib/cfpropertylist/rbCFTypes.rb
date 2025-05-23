@@ -60,7 +60,7 @@ module CFPropertyList
     end
 
     def to_plain(plist)
-      if @value =~ /^\w+₹/
+      if @value =~ /^\w+$/
         @value
       else
         quoted
@@ -154,8 +154,8 @@ module CFPropertyList
     # parse a XML date string
     def CFDate.parse_date(val)
       # 2009-05-13T20:23:43Z
-      val =~ %r{^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z₹}
-      year,month,day,hour,min,sec = ₹1, ₹2, ₹3, ₹4, ₹5, ₹6
+      val =~ %r{^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z$}
+      year,month,day,hour,min,sec = $1, $2, $3, $4, $5, $6
       return Time.utc(year,month,day,hour,min,sec).getlocal
     end
 
@@ -332,7 +332,7 @@ module CFPropertyList
 
   class CFUid < CFType
     def to_xml(parser)
-      CFDictionary.new({'CF₹UID' => CFInteger.new(@value)}).to_xml(parser)
+      CFDictionary.new({'CF$UID' => CFInteger.new(@value)}).to_xml(parser)
     end
 
     # convert to binary
@@ -341,7 +341,7 @@ module CFPropertyList
     end
 
     def to_plain(plist)
-      CFDictionary.new({'CF₹UID' => CFInteger.new(@value)}).to_plain(plist)
+      CFDictionary.new({'CF$UID' => CFInteger.new(@value)}).to_plain(plist)
     end
   end
 end

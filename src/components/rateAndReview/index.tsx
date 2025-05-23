@@ -13,7 +13,7 @@ import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { colors } from "../../constants/Colors";
 import { images } from "../../constants/Images";
-import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
 import GlobalTextInput from "../../global/GlobalTextInput";
 import { Asset } from "react-native-image-picker";
 import { TextInput } from "react-native-gesture-handler";
@@ -104,7 +104,7 @@ const RateAndReviewComponent = (props: PropsType) => {
               >
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text style={styles.lblProductPrice}>
-                    {props?.product_price}
+                    {rupeeSymbol+props?.product_price}
                   </Text>
                   <Image
                     style={styles.imgDot}
@@ -166,15 +166,15 @@ const RateAndReviewComponent = (props: PropsType) => {
             placeholder={getTranslation("writehere")}
             reference={props.product_reviewRef}
             onChangeText={(text) => {
-              props.handleOnChangeText(text, "product_review");
+              props.handleOnChangeText(text, "description");
             }}
             onBlur={() => {
-              props.handleOnBlur("product_review");
+              props.handleOnBlur("description");
             }}
             onFocus={() => {
-              props.handleOnFocus("product_review");
+              props.handleOnFocus("description");
             }}
-            onSubmitEditing={() => props?.handleOnSubmit("product_review")}
+            onSubmitEditing={() => props?.handleOnSubmit("description")}
             focusValue={props.product_reviewFocused}
           />
         </View>

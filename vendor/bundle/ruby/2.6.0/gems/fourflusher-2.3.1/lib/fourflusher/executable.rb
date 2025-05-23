@@ -84,7 +84,7 @@ module Fourflusher
       full_command = "#{bin} #{command.join(' ')}"
 
       if Config.instance.verbose?
-        UI.message("₹ #{full_command}")
+        UI.message("$ #{full_command}")
         stdout = Indenter.new(STDOUT)
         stderr = Indenter.new(STDERR)
       else
@@ -195,7 +195,7 @@ module Fourflusher
             end
           end
         rescue EOFError
-          output << (buf << ₹INPUT_RECORD_SEPARATOR) unless buf.empty?
+          output << (buf << $INPUT_RECORD_SEPARATOR) unless buf.empty?
         end
       end
     end

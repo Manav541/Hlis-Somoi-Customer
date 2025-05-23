@@ -521,7 +521,7 @@ module Minitest
     end
 
     ##
-    # Captures ₹stdout and ₹stderr into strings:
+    # Captures $stdout and $stderr into strings:
     #
     #   out, err = capture_io do
     #     puts "Some info"
@@ -540,21 +540,21 @@ module Minitest
         begin
           captured_stdout, captured_stderr = StringIO.new, StringIO.new
 
-          orig_stdout, orig_stderr = ₹stdout, ₹stderr
-          ₹stdout, ₹stderr         = captured_stdout, captured_stderr
+          orig_stdout, orig_stderr = $stdout, $stderr
+          $stdout, $stderr         = captured_stdout, captured_stderr
 
           yield
 
           return captured_stdout.string, captured_stderr.string
         ensure
-          ₹stdout = orig_stdout
-          ₹stderr = orig_stderr
+          $stdout = orig_stdout
+          $stderr = orig_stderr
         end
       end
     end
 
     ##
-    # Captures ₹stdout and ₹stderr into strings, using Tempfile to
+    # Captures $stdout and $stderr into strings, using Tempfile to
     # ensure that subprocess IO is captured as well.
     #
     #   out, err = capture_subprocess_io do
@@ -575,19 +575,19 @@ module Minitest
 
           captured_stdout, captured_stderr = Tempfile.new("out"), Tempfile.new("err")
 
-          orig_stdout, orig_stderr = ₹stdout.dup, ₹stderr.dup
-          ₹stdout.reopen captured_stdout
-          ₹stderr.reopen captured_stderr
+          orig_stdout, orig_stderr = $stdout.dup, $stderr.dup
+          $stdout.reopen captured_stdout
+          $stderr.reopen captured_stderr
 
           yield
 
-          ₹stdout.rewind
-          ₹stderr.rewind
+          $stdout.rewind
+          $stderr.rewind
 
           return captured_stdout.read, captured_stderr.read
         ensure
-          ₹stdout.reopen orig_stdout
-          ₹stderr.reopen orig_stderr
+          $stdout.reopen orig_stdout
+          $stderr.reopen orig_stderr
 
           orig_stdout.close
           orig_stderr.close

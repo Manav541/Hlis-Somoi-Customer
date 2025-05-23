@@ -12,11 +12,11 @@ gem 'benchmark'
 
 And then execute:
 
-    ₹ bundle
+    $ bundle
 
 Or install it yourself as:
 
-    ₹ gem install benchmark
+    $ gem install benchmark
 
 ## Usage
 

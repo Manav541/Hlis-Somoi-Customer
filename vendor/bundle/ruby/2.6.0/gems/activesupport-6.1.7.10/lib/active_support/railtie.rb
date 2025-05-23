@@ -69,7 +69,7 @@ module ActiveSupport
         begin
           app.credentials.key
         rescue ActiveSupport::EncryptedFile::MissingKeyError => error
-          ₹stderr.puts error.message
+          $stderr.puts error.message
           exit 1
         end
       end

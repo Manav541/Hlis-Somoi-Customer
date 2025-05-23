@@ -4,7 +4,13 @@ import ReturnOrderComponent from "../../components/returnOrder";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../routers";
-import { cameraPermission, checkPermission, flashMessageWarning, galleryPermission, messages } from "../../constants/GConstant";
+import {
+  cameraPermission,
+  checkPermission,
+  flashMessageWarning,
+  galleryPermission,
+  messages,
+} from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { Asset } from "react-native-image-picker";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
@@ -13,7 +19,9 @@ import { constnatStyles } from "../../constants/Styles";
 
 const ReturnOrderContainer = ({ navigation }: any) => {
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
-  const [arrReturnOrderReason, setArrReturnOrderReason] = useState<CancelOrderReason[]>([
+  const [arrReturnOrderReason, setArrReturnOrderReason] = useState<
+    CancelOrderReason[]
+  >([
     {
       reason: "Faulty item",
       isSelected: false,
@@ -38,27 +46,28 @@ const ReturnOrderContainer = ({ navigation }: any) => {
 
   const [isReturnSuccessModalVisible, setIsReturnSuccessModalVisible] =
     useState(false);
-    const [selectedReason, setSelectedReason] = useState<string>("");
-    const [isRefundReplacement, setIsRefundReplacement] = useState<string>('Refund');
+  const [selectedReason, setSelectedReason] = useState<string>("");
+  const [isRefundReplacement, setIsRefundReplacement] =
+    useState<string>("Refund");
 
   const [finalReturnReason, setFinalReturnReason] = useState<string>("");
 
   // Image uplaod
   const handleOnPressUploadImages = () => {
     checkPermission(cameraPermission, messages.cameraPermission).then(
-      isAllow => {
+      (isAllow) => {
         if (isAllow) {
           checkPermission(galleryPermission, messages.galleryPermission).then(
-            isAllow => {
+            (isAllow) => {
               if (isAllow) {
                 const isMultiSelection = true;
                 ImagePickerManager.choosePickerOptions(
-                  'photo',
-                  isMultiSelection,
+                  "photo",
+                  isMultiSelection
                 )
                   .then((result: unknown) => {
                     const pickerResponse = result as Asset[];
-                    console.log('Response==>', result);
+                    console.log("Response==>", result);
                     if (pickerResponse) {
                       if (multiImagesArray.length == 0) {
                         setMultiImagesArray(pickerResponse);
@@ -69,17 +78,17 @@ const ReturnOrderContainer = ({ navigation }: any) => {
                         ]);
                       }
                     } else {
-                      __DEV__ && console.log('No media selected or captured');
+                      __DEV__ && console.log("No media selected or captured");
                     }
                   })
                   .catch((error: string) => {
-                    __DEV__ && console.log('Error capturing media:', error);
+                    __DEV__ && console.log("Error capturing media:", error);
                   });
               }
-            },
+            }
           );
         }
-      },
+      }
     );
   };
 
@@ -90,19 +99,19 @@ const ReturnOrderContainer = ({ navigation }: any) => {
   };
 
   const handleOnChangeText = (text: string, type: string) => {
-    if (type === "otherReason") {
-      setOtherReason(text.replace(/\s/g, ""));
+    if (type === "description") {
+      setOtherReason(text);
     }
   };
 
   const handleOnFocus = (type: string) => {
-    if (type === "otherReason") {
+    if (type === "description") {
       setOtherReasonFocused(true);
     }
   };
 
   const handleOnBlur = (type: string) => {
-    if (type === "otherReason") {
+    if (type === "description") {
       setOtherReasonFocused(true);
     }
   };
@@ -113,7 +122,7 @@ const ReturnOrderContainer = ({ navigation }: any) => {
 
   const handleSelectReason = (index: number) => {
     const reason = arrReturnOrderReason[index].reason;
-    console.log('resadon', reason)
+    console.log("resadon", reason);
     setSelectedReason(reason);
     setArrReturnOrderReason((prev) =>
       prev.map((item, i) => ({
@@ -152,9 +161,9 @@ const ReturnOrderContainer = ({ navigation }: any) => {
     setIsReturnSuccessModalVisible(true);
   };
 
-  const onPressSelectRefundReplacement = (type :  string) => {
+  const onPressSelectRefundReplacement = (type: string) => {
     setIsRefundReplacement(type);
-  }
+  };
 
   const onPressOkReturn = () => {
     setIsReturnSuccessModalVisible(false);
@@ -174,7 +183,6 @@ const ReturnOrderContainer = ({ navigation }: any) => {
       })
     );
   };
-  
 
   const header = () => {
     navigation.setOptions({
@@ -182,7 +190,9 @@ const ReturnOrderContainer = ({ navigation }: any) => {
         <GlobalBackButton onPress={() => navigation.goBack()} />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.returnOrder}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.returnOrder}
+        </Text>
       ),
     });
   };
@@ -214,7 +224,6 @@ const ReturnOrderContainer = ({ navigation }: any) => {
       selectedReason={selectedReason}
       isRefundReplacement={isRefundReplacement}
       onPressSelectRefundReplacement={onPressSelectRefundReplacement}
-
       multiImagesArray={multiImagesArray}
       handleOnPressUploadImages={handleOnPressUploadImages}
       handleOnPressDeleteUploadedImage={handleOnPressDeleteUploadedImage}

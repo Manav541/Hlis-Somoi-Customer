@@ -3,11 +3,11 @@
  *
  *  original nkf2.x is maintained at http://sourceforge.jp/projects/nkf/
  *
- *  ₹Id₹
+ *  $Id$
  *
  */
 
-#define RUBY_NKF_REVISION "₹Revision₹"
+#define RUBY_NKF_REVISION "$Revision$"
 #define RUBY_NKF_VERSION NKF_VERSION " (" NKF_RELEASE_DATE ")"
 #define NKF_GEM_VERSION "0.2.0"
 
@@ -324,7 +324,7 @@ rb_nkf_guess(VALUE obj, VALUE src)
  *  Assume broken JIS-Kanji input, which lost ESC.
  *  Useful when your site is using old B-News Nihongo patch.
  *
- *  [-B1] allows any char after ESC-( or ESC-₹.
+ *  [-B1] allows any char after ESC-( or ESC-$.
  *
  *  [-B2] forces ASCII after NL.
  *

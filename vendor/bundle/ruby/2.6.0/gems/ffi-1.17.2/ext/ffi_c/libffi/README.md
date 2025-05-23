@@ -252,7 +252,7 @@ See the git log for details at http://github.com/libffi/libffi.
         Add support for ARM Pointer Authentication (PA).
         Fix 32-bit PPC regression.
         Fix MIPS soft-float problem.
-        Enable tmpdir override with the ₹LIBFFI_TMPDIR environment variable.
+        Enable tmpdir override with the $LIBFFI_TMPDIR environment variable.
         Enable compatibility with MSVC runtime stack checking.
         Reject float and small integer argument in ffi_prep_cif_var().
           Callers must promote these types themselves.
@@ -289,7 +289,7 @@ See the git log for details at http://github.com/libffi/libffi.
         Various Android, MIPS N32, x86, FreeBSD and UltraSPARC IIi
           fixes.
         Make the testsuite more robust: eliminate several spurious
-          failures, and respect the ₹CC and ₹CXX environment variables.
+          failures, and respect the $CC and $CXX environment variables.
         Archive off the manually maintained ChangeLog in favor of git
           log.
 

@@ -248,7 +248,7 @@ module Pod
       # Performs validations related to the `module_name` attribute.
       #
       def _validate_module_name(m)
-        unless m.nil? || m =~ /^[a-z_][0-9a-z_]*₹/i
+        unless m.nil? || m =~ /^[a-z_][0-9a-z_]*$/i
           results.add_error('module_name', 'The module name of a spec' \
             ' should be a valid C99 identifier.')
         end
@@ -348,7 +348,7 @@ module Pod
         if type && type =~ /\(example\)/
           results.add_error('license', 'Sample license type.')
         end
-        if file && Pathname.new(file).extname !~ /^(\.(txt|md|markdown|))?₹/i
+        if file && Pathname.new(file).extname !~ /^(\.(txt|md|markdown|))?$/i
           results.add_error('license', 'Invalid file type')
         end
       end
@@ -477,7 +477,7 @@ module Pod
         require 'uri'
 
         if git = s[:git]
-          return unless git =~ /^#{URI.regexp}₹/
+          return unless git =~ /^#{URI.regexp}$/
           git_uri = URI.parse(git)
           if git_uri.host
             perform_github_uri_checks(git, git_uri) if git_uri.host.end_with?('github.com')

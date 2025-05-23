@@ -10,6 +10,7 @@ import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../constants/Colors";
 import { constnatStyles } from "../../constants/Styles";
+import { CategoryItem, SubCategoryData, SubCategoryItem } from "../../constants/interfaces";
 
 const ProductListingContainer = ({ navigation, route }: any) => {
   const insets = useSafeAreaInsets();
@@ -77,9 +78,136 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     },
   ]);
 
+  // Filer Modal
   const [range, setRange] = useState([150, 300]);
   const [rating, setRating] = useState(4);
   const [isCheckInstantDelivery, setIsCheckInstantDelivery] = useState(false);
+
+  // Category Dropdown
+  const [openCategory, setOpenCategory] = useState<boolean>(false);
+  const [categoryValue, setCategoryValue] = useState<string>("");
+  const [categoryItems, setCategoryItems] = useState<CategoryItem[]>([
+    { label: "Groceries", value: "groceries" },
+    { label: "Food", value: "food" },
+    { label: "Fruits & Vegetables", value: "fruits & vegetables" },
+    { label: "Beauty & Personal Care", value: "beauty & personal care" },
+    {
+      label: "Electronics & Accessories ",
+      value: "electronics & accessories ",
+    },
+    { label: "Household Essentials", value: "household essentials" },
+    { label: "Fashion", value: "fashion" },
+  ]);
+
+  // Sub Category Dropdown
+  const [openSubCategory, setOpenSubCategory] = useState<boolean>(false);
+  const [subCategoryValue, setSubCategoryValue] = useState<string>("");
+  const [subCategoryItems, setSubCategoryItems] = useState<SubCategoryData[]>([
+    {
+      category: "groceries",
+      subCategory: [
+        {
+          label: "Rice",
+          value: "rice",
+        },
+        {
+          label: "Flour",
+          value: "flour",
+        },
+        {
+          label: "Cooking Oil",
+          value: "cooking oil",
+        },
+        {
+          label: "Milk",
+          value: "milk",
+        },
+      ],
+    },
+    {
+      category: "food",
+      subCategory: [
+        {
+          label: "Local & Regional Cuisine",
+          value: "local & regional cuisine",
+        },
+        {
+          label: "Fast Food & Snacks",
+          value: "fast food & snacks",
+        },
+      ],
+    },
+    {
+      category: "fruits & vegetables",
+      subCategory: [
+        {
+          label: "Rice",
+          value: "rice",
+        },
+        {
+          label: "Flour",
+          value: "flour",
+        },
+      ],
+    },
+    {
+      category: "beauty & personal care",
+      subCategory: [
+        {
+          label: "Rice",
+          value: "rice",
+        },
+        {
+          label: "Flour",
+          value: "flour",
+        },
+      ],
+    },
+    {
+      category: "electronics & accessories ",
+      subCategory: [
+        {
+          label: "Rice",
+          value: "rice",
+        },
+        {
+          label: "Flour",
+          value: "flour",
+        },
+      ],
+    },
+    {
+      category: "household essentials",
+      subCategory: [
+        {
+          label: "Rice",
+          value: "rice",
+        },
+        {
+          label: "Flour",
+          value: "flour",
+        },
+      ],
+    },
+    {
+      category: "fashion",
+      subCategory: [
+        {
+          label: "T-shirt",
+          value: "t-shirt",
+        },
+      ],
+    },
+  ]);
+  const [filteredSubCategories, setFilteredSubCategories] = useState<SubCategoryItem[]>([]);
+
+  useEffect(() => {
+    if (categoryValue) {
+      const found = subCategoryItems.find(item => item.category === categoryValue);
+      setFilteredSubCategories(found?.subCategory || []);
+      setSubCategoryValue(""); 
+    }
+  }, [categoryValue]);
 
   const onPressInstantDelivery = () => {
     setIsCheckInstantDelivery(!isCheckInstantDelivery);
@@ -91,6 +219,11 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
   const onPressCloseFilterModal = () => {
     setIsFilterModalVisible(false);
+    setCategoryValue("");
+    setSubCategoryValue("");
+    setRating(4);
+    setRange([150, 300]);
+    setIsCheckInstantDelivery(false);
   };
 
   const onPressApplyFilter = () => {
@@ -220,6 +353,22 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       onPressApplyFilter={onPressApplyFilter}
       isCheckInstantDelivery={isCheckInstantDelivery}
       onPressInstantDelivery={onPressInstantDelivery}
+      // Category Dropdown
+      openCategory={openCategory}
+      setOpenCategory={setOpenCategory}
+      categoryValue={categoryValue}
+      setCategoryValue={setCategoryValue}
+      categoryItems={categoryItems}
+      setCategoryItems={setCategoryItems}
+      // Sub Category Dropdown
+      openSubCategory={openSubCategory}
+      setOpenSubCategory={setOpenSubCategory}
+      subCategoryValue={subCategoryValue}
+      setSubCategoryValue={setSubCategoryValue}
+      subCategoryItems={subCategoryItems}
+      setSubCategoryItems={setSubCategoryItems}
+      filteredSubCategories={filteredSubCategories}
+      setFilteredSubCategories={setFilteredSubCategories}
     />
   );
 };

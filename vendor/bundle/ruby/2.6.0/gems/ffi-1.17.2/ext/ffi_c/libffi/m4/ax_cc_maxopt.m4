@@ -64,34 +64,34 @@ AC_REQUIRE([AX_COMPILER_VENDOR])
 AC_REQUIRE([AC_CANONICAL_HOST])
 
 AC_ARG_ENABLE(portable-binary, [AS_HELP_STRING([--enable-portable-binary], [disable compiler optimizations that would produce unportable binaries])],
-	acx_maxopt_portable=₹enableval, acx_maxopt_portable=no)
+	acx_maxopt_portable=$enableval, acx_maxopt_portable=no)
 
 # Try to determine "good" native compiler flags if none specified via CFLAGS
-if test "x₹ac_test_CFLAGS" = "x"; then
-  case ₹ax_cv_c_compiler_vendor in
-    dec) CFLAGS="₹CFLAGS -newc -w0 -O5 -ansi_alias -ansi_args -fp_reorder -tune host"
-	 if test "x₹acx_maxopt_portable" = xno; then
-           CFLAGS="₹CFLAGS -arch host"
+if test "x$ac_test_CFLAGS" = "x"; then
+  case $ax_cv_c_compiler_vendor in
+    dec) CFLAGS="$CFLAGS -newc -w0 -O5 -ansi_alias -ansi_args -fp_reorder -tune host"
+	 if test "x$acx_maxopt_portable" = xno; then
+           CFLAGS="$CFLAGS -arch host"
          fi;;
 
-    sun) CFLAGS="₹CFLAGS -native -fast -xO5 -dalign"
-	 if test "x₹acx_maxopt_portable" = xyes; then
-	   CFLAGS="₹CFLAGS -xarch=generic"
+    sun) CFLAGS="$CFLAGS -native -fast -xO5 -dalign"
+	 if test "x$acx_maxopt_portable" = xyes; then
+	   CFLAGS="$CFLAGS -xarch=generic"
          fi;;
 
-    hp)  CFLAGS="₹CFLAGS +Oall +Optrs_ansi +DSnative"
-	 if test "x₹acx_maxopt_portable" = xyes; then
-	   CFLAGS="₹CFLAGS +DAportable"
+    hp)  CFLAGS="$CFLAGS +Oall +Optrs_ansi +DSnative"
+	 if test "x$acx_maxopt_portable" = xyes; then
+	   CFLAGS="$CFLAGS +DAportable"
 	 fi;;
 
-    ibm) if test "x₹acx_maxopt_portable" = xno; then
+    ibm) if test "x$acx_maxopt_portable" = xno; then
            xlc_opt="-qarch=auto -qtune=auto"
 	 else
            xlc_opt="-qtune=auto"
 	 fi
-         AX_CHECK_COMPILE_FLAG(₹xlc_opt,
-		CFLAGS="₹CFLAGS -O3 -qansialias -w ₹xlc_opt",
-               [CFLAGS="₹CFLAGS -O3 -qansialias -w"
+         AX_CHECK_COMPILE_FLAG($xlc_opt,
+		CFLAGS="$CFLAGS -O3 -qansialias -w $xlc_opt",
+               [CFLAGS="$CFLAGS -O3 -qansialias -w"
                 echo "******************************************************"
                 echo "*  You seem to have the IBM  C compiler.  It is      *"
                 echo "*  recommended for best performance that you use:    *"
@@ -104,18 +104,18 @@ if test "x₹ac_test_CFLAGS" = "x"; then
                 echo "******************************************************"])
          ;;
 
-    intel) CFLAGS="₹CFLAGS -O3 -ansi_alias"
-	if test "x₹acx_maxopt_portable" = xno; then
+    intel) CFLAGS="$CFLAGS -O3 -ansi_alias"
+	if test "x$acx_maxopt_portable" = xno; then
 	  icc_archflag=unknown
 	  icc_flags=""
-	  case ₹host_cpu in
+	  case $host_cpu in
 	    i686*|x86_64*)
               # icc accepts gcc assembly syntax, so these should work:
 	      AX_GCC_X86_CPUID(0)
               AX_GCC_X86_CPUID(1)
-	      case ₹ax_cv_gcc_x86_cpuid_0 in # see AX_GCC_ARCHFLAG
+	      case $ax_cv_gcc_x86_cpuid_0 in # see AX_GCC_ARCHFLAG
                 *:756e6547:6c65746e:49656e69) # Intel
-                  case ₹ax_cv_gcc_x86_cpuid_1 in
+                  case $ax_cv_gcc_x86_cpuid_1 in
 		    *0?6[[78ab]]?:*:*:*|?6[[78ab]]?:*:*:*|6[[78ab]]?:*:*:*) icc_flags="-xK" ;;
 		    *0?6[[9d]]?:*:*:*|?6[[9d]]?:*:*:*|6[[9d]]?:*:*:*|*1?65?:*:*:*) icc_flags="-xSSE2 -xB -xK" ;;
 		    *0?6e?:*:*:*|?6e?:*:*:*|6e?:*:*:*) icc_flags="-xSSE3 -xP -xO -xB -xK" ;;
@@ -130,50 +130,50 @@ if test "x₹ac_test_CFLAGS" = "x"; then
                   esac ;;
               esac ;;
           esac
-          if test "x₹icc_flags" != x; then
-            for flag in ₹icc_flags; do
-              AX_CHECK_COMPILE_FLAG(₹flag, [icc_archflag=₹flag; break])
+          if test "x$icc_flags" != x; then
+            for flag in $icc_flags; do
+              AX_CHECK_COMPILE_FLAG($flag, [icc_archflag=$flag; break])
             done
           fi
           AC_MSG_CHECKING([for icc architecture flag])
-	  AC_MSG_RESULT(₹icc_archflag)
-          if test "x₹icc_archflag" != xunknown; then
-            CFLAGS="₹CFLAGS ₹icc_archflag"
+	  AC_MSG_RESULT($icc_archflag)
+          if test "x$icc_archflag" != xunknown; then
+            CFLAGS="$CFLAGS $icc_archflag"
           fi
         fi
 	;;
 
     nvhpc)
      # default optimization flags for nvhpc
-     CFLAGS="₹CFLAGS -O3"
+     CFLAGS="$CFLAGS -O3"
      ;;
 
     gnu)
      # default optimization flags for gcc on all systems
-     CFLAGS="₹CFLAGS -O3 -fomit-frame-pointer"
+     CFLAGS="$CFLAGS -O3 -fomit-frame-pointer"
 
      # -malign-double for x86 systems
      # LIBFFI_LOCAL: don't do this.
      # The testsuite doesn't use these flags and we'll get test failures.
-     # AX_CHECK_COMPILE_FLAG(-malign-double, CFLAGS="₹CFLAGS -malign-double")
+     # AX_CHECK_COMPILE_FLAG(-malign-double, CFLAGS="$CFLAGS -malign-double")
 
      #  -fstrict-aliasing for gcc-2.95+
      AX_CHECK_COMPILE_FLAG(-fstrict-aliasing,
-	CFLAGS="₹CFLAGS -fstrict-aliasing")
+	CFLAGS="$CFLAGS -fstrict-aliasing")
 
      # note that we enable "unsafe" fp optimization with other compilers, too
-     AX_CHECK_COMPILE_FLAG(-ffast-math, CFLAGS="₹CFLAGS -ffast-math")
+     AX_CHECK_COMPILE_FLAG(-ffast-math, CFLAGS="$CFLAGS -ffast-math")
 
-     AX_GCC_ARCHFLAG(₹acx_maxopt_portable)
+     AX_GCC_ARCHFLAG($acx_maxopt_portable)
      ;;
 
     microsoft)
      # default optimization flags for MSVC opt builds
-     CFLAGS="₹CFLAGS -O2"
+     CFLAGS="$CFLAGS -O2"
      ;;
   esac
 
-  if test -z "₹CFLAGS"; then
+  if test -z "$CFLAGS"; then
 	echo ""
 	echo "********************************************************"
         echo "* WARNING: Don't know the best CFLAGS for this system  *"
@@ -181,10 +181,10 @@ if test "x₹ac_test_CFLAGS" = "x"; then
 	echo "* (otherwise, a default of CFLAGS=-O3 will be used)    *"
 	echo "********************************************************"
 	echo ""
-        CFLAGS="₹CFLAGS -O3"
+        CFLAGS="$CFLAGS -O3"
   fi
 
-  AX_CHECK_COMPILE_FLAG(₹CFLAGS, [], [
+  AX_CHECK_COMPILE_FLAG($CFLAGS, [], [
 	echo ""
         echo "********************************************************"
         echo "* WARNING: The guessed CFLAGS don't seem to work with  *"

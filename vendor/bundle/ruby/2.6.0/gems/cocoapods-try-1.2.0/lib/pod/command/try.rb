@@ -165,7 +165,7 @@ module Pod
             " of the Pod: `#{dir}`"
         elsif projs.count == 1
           projs.first
-        elsif (workspaces = projs.grep(/(demo|example|sample).*\.xcworkspace₹/i)).count == 1
+        elsif (workspaces = projs.grep(/(demo|example|sample).*\.xcworkspace$/i)).count == 1
           workspaces.first
         elsif (projects = projs.grep(/demo|example|sample/i)).count == 1
           projects.first

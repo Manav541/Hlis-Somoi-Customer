@@ -1313,7 +1313,7 @@ All nodes and attributes are copied:
 
 == Writing the Document
 
-Write a document to an \IO stream (defaults to <tt>₹stdout</tt>)
+Write a document to an \IO stream (defaults to <tt>$stdout</tt>)
 with method REXML::Document#write:
 
   doc.write

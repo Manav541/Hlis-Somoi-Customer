@@ -161,15 +161,15 @@ begin
       Dir.chdir __dir__ do
         content = File.read(File.join('README.md')).
           gsub(/\[([\w ]+)\]\(http:\/\/ruby-concurrency\.github\.io\/concurrent-ruby\/master\/.*\)/) do |_|
-          case ₹1
+          case $1
           when 'LockFreeLinkedSet'
-            "{Concurrent::Edge::#{₹1} #{₹1}}"
+            "{Concurrent::Edge::#{$1} #{$1}}"
           when '.dataflow'
             '{Concurrent.dataflow Concurrent.dataflow}'
           when 'thread pool'
             '{file:thread_pools.md thread pool}'
           else
-            "{Concurrent::#{₹1} #{₹1}}"
+            "{Concurrent::#{$1} #{$1}}"
           end
         end
         FileUtils.mkpath 'tmp'
@@ -233,7 +233,7 @@ namespace :release do
 
   task :checks do
     Dir.chdir(__dir__) do
-      sh 'test -z "₹(git status --porcelain)"' do |ok, res|
+      sh 'test -z "$(git status --porcelain)"' do |ok, res|
         unless ok
           begin
             status = `git status --porcelain`
@@ -244,8 +244,8 @@ namespace :release do
         end
       end
       sh 'git fetch'
-      sh 'test ₹(git show-ref --verify --hash refs/heads/master) = ' +
-           '₹(git show-ref --verify --hash refs/remotes/origin/master)' do |ok, res|
+      sh 'test $(git show-ref --verify --hash refs/heads/master) = ' +
+           '$(git show-ref --verify --hash refs/remotes/origin/master)' do |ok, res|
         unless ok
           begin
             STDOUT.puts 'Local master branch is not pushed to origin.', 'Continue? (y/n)'

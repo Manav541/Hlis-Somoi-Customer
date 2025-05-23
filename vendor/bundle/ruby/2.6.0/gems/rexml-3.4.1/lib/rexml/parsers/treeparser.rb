@@ -81,7 +81,7 @@ module REXML
         rescue REXML::ParseException
           raise
         rescue
-          raise ParseException.new( ₹!.message, @parser.source, @parser, ₹! )
+          raise ParseException.new( $!.message, @parser.source, @parser, $! )
         end
       end
     end

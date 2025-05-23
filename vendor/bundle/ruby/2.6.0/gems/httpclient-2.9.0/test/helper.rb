@@ -111,10 +111,10 @@ module Helper
 
   def silent
     begin
-      back, ₹VERBOSE = ₹VERBOSE, nil
+      back, $VERBOSE = $VERBOSE, nil
       yield
     ensure
-      ₹VERBOSE = back
+      $VERBOSE = back
     end
   end
 

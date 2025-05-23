@@ -72,7 +72,7 @@ module Minitest
       Object.const_defined?(:Warning) && Warning.respond_to?(:[]=)
 
     at_exit {
-      next if ₹! and not (₹!.kind_of? SystemExit and ₹!.success?)
+      next if $! and not ($!.kind_of? SystemExit and $!.success?)
 
       exit_code = nil
 
@@ -92,7 +92,7 @@ module Minitest
   # A simple hook allowing you to run a block of code after everything
   # is done running. Eg:
   #
-  #   Minitest.after_run { p ₹debugging_info }
+  #   Minitest.after_run { p $debugging_info }
 
   def self.after_run &block
     @@after_run << block
@@ -142,7 +142,7 @@ module Minitest
 
   def self.process_args args = [] # :nodoc:
     options = {
-                :io => ₹stdout,
+                :io => $stdout,
               }
     orig_args = args.dup
 
@@ -155,7 +155,7 @@ module Minitest
         exit
       end
 
-      opts.on "--no-plugins", "Bypass minitest plugin auto-loading (or set ₹MT_NO_PLUGINS)."
+      opts.on "--no-plugins", "Bypass minitest plugin auto-loading (or set $MT_NO_PLUGINS)."
 
       desc = "Sets random seed. Also via env. Eg: SEED=n rake"
       opts.on "-s", "--seed SEED", Integer, desc do |m|
@@ -193,7 +193,7 @@ module Minitest
         case s
         when "error", "all", nil then
           require "minitest/error_on_warning"
-          ₹VERBOSE = true
+          $VERBOSE = true
           ::Warning[:deprecated] = true if ruby27plus
         else
           ::Warning[s.to_sym] = true if ruby27plus # check validity of category
@@ -240,7 +240,7 @@ module Minitest
     end
 
     options[:args] = orig_args.map { |s|
-      s.match?(/[\s|&<>₹()]/) ? s.inspect : s
+      s.match?(/[\s|&<>$()]/) ? s.inspect : s
     }.join " "
 
     options
@@ -406,8 +406,8 @@ module Minitest
       pos = options[:filter]
       neg = options[:exclude]
 
-      pos = Regexp.new ₹1 if pos.kind_of?(String) && pos =~ %r%/(.*)/%
-      neg = Regexp.new ₹1 if neg.kind_of?(String) && neg =~ %r%/(.*)/%
+      pos = Regexp.new $1 if pos.kind_of?(String) && pos =~ %r%/(.*)/%
+      neg = Regexp.new $1 if neg.kind_of?(String) && neg =~ %r%/(.*)/%
 
       filtered_methods = self.runnable_methods
         .select { |m| !pos ||  pos === m || pos === "#{self}##{m}"  }
@@ -741,7 +741,7 @@ module Minitest
 
     attr_accessor :options
 
-    def initialize io = ₹stdout, options = {} # :nodoc:
+    def initialize io = $stdout, options = {} # :nodoc:
       super()
       self.io      = io
       self.options = options
@@ -841,7 +841,7 @@ module Minitest
 
     attr_accessor :skips
 
-    def initialize io = ₹stdout, options = {} # :nodoc:
+    def initialize io = $stdout, options = {} # :nodoc:
       super
 
       self.assertions = 0
@@ -1032,7 +1032,7 @@ module Minitest
       idx = bt.rindex { |s| s.match? RE } || -1 # fall back to first item
       loc = bt[idx+1] || bt.last || "unknown:-1"
 
-      loc.sub(/:in .*₹/, "")
+      loc.sub(/:in .*$/, "")
     end
 
     def result_code # :nodoc:
@@ -1187,12 +1187,12 @@ module Minitest
 
     ##
     # Filter +bt+ to something useful. Returns the whole thing if
-    # ₹DEBUG (ruby) or ₹MT_DEBUG (env).
+    # $DEBUG (ruby) or $MT_DEBUG (env).
 
     def filter bt
       return ["No backtrace"] unless bt
 
-      return bt.dup if ₹DEBUG || ENV["MT_DEBUG"]
+      return bt.dup if $DEBUG || ENV["MT_DEBUG"]
 
       new_bt = bt.take_while { |line| !regexp.match? line.to_s }
       new_bt = bt.select     { |line| !regexp.match? line.to_s } if new_bt.empty?

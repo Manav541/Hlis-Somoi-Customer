@@ -12,7 +12,7 @@ import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../constants/Colors";
-import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
 import { GroceryProduct } from "../../constants/interfaces";
 
 interface PropsType {
@@ -45,7 +45,7 @@ const SearchComponent = (props: PropsType) => {
         <View style={styles.vwProductDetails}>
           <Text style={styles.lblProductName}>{item?.product_name}</Text>
           <View style={styles.vwProductPriceWeight}>
-            <Text style={styles.lblProductPrice}>{item?.product_price}</Text>
+            <Text style={styles.lblProductPrice}>{rupeeSymbol+item?.product_price}</Text>
             <Image
               style={styles.imgDot}
               tintColor={colors.blue4e}

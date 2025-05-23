@@ -121,15 +121,15 @@ const ReturnOrderComponent = (props: PropsType) => {
                 placeholder={getTranslation("writehere")}
                 reference={props.otherReasonRef}
                 onChangeText={(text) => {
-                  props.handleOnChangeText(text, "otherReason");
+                  props.handleOnChangeText(text, "description");
                 }}
                 onBlur={() => {
-                  props.handleOnBlur("otherReason");
+                  props.handleOnBlur("description");
                 }}
                 onFocus={() => {
-                  props.handleOnFocus("otherReason");
+                  props.handleOnFocus("description");
                 }}
-                onSubmitEditing={() => props?.handleOnSubmit("otherReason")}
+                onSubmitEditing={() => props?.handleOnSubmit("description")}
                 focusValue={props.otherReasonFocused}
               />
             </View>

@@ -26,12 +26,12 @@ module Concurrent
     #     (It might be prepended with other arguments, see the @yield section).
     #
     # @!macro promises.shortcut.on
-    #   Shortcut of {#₹0_on} with default `:io` executor supplied.
-    #   @see #₹0_on
+    #   Shortcut of {#$0_on} with default `:io` executor supplied.
+    #   @see #$0_on
     #
     # @!macro promises.shortcut.using
-    #   Shortcut of {#₹0_using} with default `:io` executor supplied.
-    #   @see #₹0_using
+    #   Shortcut of {#$0_using} with default `:io` executor supplied.
+    #   @see #$0_using
     #
     # @!macro promise.param.task-future
     #  @yieldreturn will become result of the returned Future.
@@ -499,8 +499,8 @@ module Concurrent
     private_constant :InternalStates
 
     # @!macro promises.shortcut.event-future
-    #   @see Event#₹0
-    #   @see Future#₹0
+    #   @see Event#$0
+    #   @see Future#$0
 
     # @!macro promises.param.timeout
     #   @param [Numeric] timeout the maximum time in second to wait.

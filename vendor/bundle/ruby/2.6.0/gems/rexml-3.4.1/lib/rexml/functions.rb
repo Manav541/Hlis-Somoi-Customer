@@ -219,7 +219,7 @@ module REXML
     # Kouhei fixed this too
     def Functions::substring_after( string, test )
       ruby_string = string(string)
-      return ₹1 if ruby_string =~ /#{test}(.*)/
+      return $1 if ruby_string =~ /#{test}(.*)/
       ""
     end
 
@@ -398,7 +398,7 @@ module REXML
         str = string(object)
         case str.strip
         when /\A\s*(-?(?:\d+(?:\.\d*)?|\.\d+))\s*\z/
-          ₹1.to_f
+          $1.to_f
         else
           Float::NAN
         end

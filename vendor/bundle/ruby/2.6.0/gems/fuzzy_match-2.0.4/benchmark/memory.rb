@@ -5,8 +5,8 @@ require 'memprof'
 require 'bundler'
 Bundler.setup
 require 'remote_table'
-₹LOAD_PATH.unshift(File.dirname(__FILE__))
-₹LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'fuzzy_match'
 
 # messily stolen from the bts example

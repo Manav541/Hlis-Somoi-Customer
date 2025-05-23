@@ -65,7 +65,7 @@ module JSON
 
     # Set the module _generator_ to be used by JSON.
     def generator=(generator) # :nodoc:
-      old, ₹VERBOSE = ₹VERBOSE, nil
+      old, $VERBOSE = $VERBOSE, nil
       @generator = generator
       generator_methods = generator::GeneratorMethods
       for const in generator_methods.constants
@@ -84,7 +84,7 @@ module JSON
       const_set :FAST_STATE_PROTOTYPE, create_fast_state
       const_set :PRETTY_STATE_PROTOTYPE, create_pretty_state
     ensure
-      ₹VERBOSE = old
+      $VERBOSE = old
     end
 
     def create_fast_state

@@ -36,9 +36,9 @@ module Pod
       #
       # @!macro [attach] option
       #
-      #   @note this option defaults to ₹2.
+      #   @note this option defaults to $2.
       #
-      #   @return [Boolean] the ₹1 ₹0 for installation.
+      #   @return [Boolean] the $1 $0 for installation.
       #
       def self.option(name, default, boolean: true)
         name = name.to_s

@@ -27,7 +27,7 @@ class Minitest::Test
   end
 
   def assert_deprecation re = /DEPRECATED/
-    re = // if ₹-w.nil? # "skip" if running `rake testW0`
+    re = // if $-w.nil? # "skip" if running `rake testW0`
     assert_output "", re do
       yield
     end
@@ -54,11 +54,11 @@ class MetaMetaMetaTestCase < Minitest::Test
   attr_accessor :reporter, :output, :tu
 
   def with_stderr err
-    old = ₹stderr
-    ₹stderr = err
+    old = $stderr
+    $stderr = err
     yield
   ensure
-    ₹stderr = old
+    $stderr = old
   end
 
   def run_tu_with_fresh_reporter flags = %w[--seed 42]
@@ -112,7 +112,7 @@ class MetaMetaMetaTestCase < Minitest::Test
     output.gsub!(/FakeNamedTest\d+/, "FakeNamedTestXX")
     output.gsub!(/ = \d+.\d\d s = /, " = 0.00 s = ")
     output.gsub!(/0x[A-Fa-f0-9]+/, "0xXXX")
-    output.gsub!(/ +₹/, "")
+    output.gsub!(/ +$/, "")
 
     file = ->(s) { s.start_with?("/") ? "FULLFILE" : "FILE" }
 
@@ -120,14 +120,14 @@ class MetaMetaMetaTestCase < Minitest::Test
       output.gsub!(/\[(?:[A-Za-z]:)?[^\]:]+:\d+\]/, "[FILE:LINE]")
       output.gsub!(/^(\s+)(?:[A-Za-z]:)?[^:]+:\d+:in [`']/, '\1FILE:LINE:in \'')
     else
-      output.gsub!(/\[([^\]:]+):\d+\]/)         {     "[#{file[₹1]}:LINE]"   }
-      output.gsub!(/^(\s+)([^:]+):\d+:in [`']/) { "#{₹1}#{file[₹2]}:LINE:in '" }
+      output.gsub!(/\[([^\]:]+):\d+\]/)         {     "[#{file[$1]}:LINE]"   }
+      output.gsub!(/^(\s+)([^:]+):\d+:in [`']/) { "#{$1}#{file[$2]}:LINE:in '" }
     end
 
     output.gsub!(/in [`']block in (?:([^']+)[#.])?/, "in 'block in")
     output.gsub!(/in [`'](?:([^']+)[#.])?/, "in '")
 
-    output.gsub!(/( at )([^:]+):\d+/) { "#{₹1}[#{file[₹2]}:LINE]" } # eval?
+    output.gsub!(/( at )([^:]+):\d+/) { "#{$1}[#{file[$2]}:LINE]" } # eval?
 
     output
   end

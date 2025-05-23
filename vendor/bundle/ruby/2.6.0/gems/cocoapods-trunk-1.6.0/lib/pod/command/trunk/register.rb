@@ -20,9 +20,9 @@ module Pod
 
               Examples:
 
-                  ₹ pod trunk register eloy@example.com 'Eloy Durán' --description='Personal Laptop'
-                  ₹ pod trunk register eloy@example.com --description='Work Laptop'
-                  ₹ pod trunk register eloy@example.com
+                  $ pod trunk register eloy@example.com 'Eloy Durán' --description='Personal Laptop'
+                  $ pod trunk register eloy@example.com --description='Work Laptop'
+                  $ pod trunk register eloy@example.com
         DESC
 
         self.arguments = [

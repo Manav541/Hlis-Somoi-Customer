@@ -12,14 +12,16 @@ import {
   OrderStatus,
 } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
+import { rupeeSymbol } from "../../constants/GConstant";
 
-const ONE_MIN = 60_000;
+const ONE_MIN = 60000;
 
 const OrderSummaryContainer = ({ navigation, route }: any) => {
+  const indexRef = useRef(0);
   const [orderNumber, setOrderNumber] = useState<string>("#12343235");
   const [orderPlacedDate, setOrderPlacedDate] = useState<string>("10/03/2025");
   const [orderPlacedTime, setOrderPlacedTime] = useState<string>("1:00 pm");
-  const [totalAmount, setTotalAmount] = useState<string>("$ 732.00");
+  const [totalAmount, setTotalAmount] = useState<string>("732.00");
   const [delivertoName, setDelivertoName] = useState<string>("John");
   const [delivertoAddress, setDelivertoAddress] = useState<string>(
     "3465 Hanover Street, Locust Court Burbank New York, NY 10038"
@@ -91,26 +93,26 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     {
       product_name: `India Gate Basmati ${"\n"}Rice`,
       product_img: images.rice,
-      product_price: "$199",
+      product_price: "199",
       product_quantity: 1,
       product_weight: "1 kg",
       height: 61.6,
       width: 42.3,
       product_rating: "4.5",
       isRateReview: true,
-      isSelected: false
+      isSelected: false,
     },
     {
       product_name: `Fortune Premium Mustard ${"\n"}Oil`,
       product_img: images.oil,
-      product_price: "$499",
+      product_price: "499",
       product_quantity: 1,
       product_weight: "500 ml",
       height: 66,
       width: 47.52,
       product_rating: "4.5",
       isRateReview: false,
-      isSelected: false
+      isSelected: false,
     },
   ]);
 
@@ -121,15 +123,15 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     },
     {
       orderDetailTitle: getTranslation("subTotal"),
-      orderDetailValue: "$698",
+      orderDetailValue: rupeeSymbol + "698",
     },
     {
       orderDetailTitle: getTranslation("tax"),
-      orderDetailValue: "$34",
+      orderDetailValue: rupeeSymbol + "34",
     },
     {
       orderDetailTitle: getTranslation("discount"),
-      orderDetailValue: "-$10.00",
+      orderDetailValue: "-" + rupeeSymbol + "10.00",
     },
     {
       orderDetailTitle: getTranslation("delivery"),
@@ -191,7 +193,9 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
   };
 
   const onPressReturnOrder = () => {
-    navigation.navigate(ScreenNames.returnExchangeItemList,{arrProducts : arrProducts});
+    navigation.navigate(ScreenNames.returnExchangeItemList, {
+      arrProducts: arrProducts,
+    });
   };
 
   const onPressRateReview = (item: OrderReviewProduct) => {
@@ -219,29 +223,64 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     Linking.openURL(`tel:${driverMobileNumber}`);
   };
 
-  // Satus update simulation
+  const header = () => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <GlobalBackButton onPress={() => navigation.goBack()} />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.orderSummary}
+        </Text>
+      ),
+    });
+  };
 
+  useEffect(() => {
+    header();
+    if (route?.params) {
+      console.log("route?.params", route?.params);
+      setOrderMainStatus(route?.params?.orderMainStatus);
+    } else {
+      setCancelReason("");
+    }
+  }, [route]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
+
+  // Status update simulation
   useEffect(() => {
     if (orderMainStatus !== "Confirmed") return;
 
-    let index = 0;
-    const interval = setInterval(() => {
-      setArrOrderStatus((prev) => {
-        if (index >= prev.length) {
-          clearInterval(interval);
-          return prev;
-        }
+    // Reset index when status changes to Confirmed
+    indexRef.current = 0;
 
-        const updated = prev.map((item, i) =>
-          i === index ? { ...item, status_isdone: true } : item
-        );
-        setCurrentStatus(updated[index].status_title);
-        index++;
-        return updated;
-      });
-    }, 10000);
+    // Combined timer and interval management
+    const timers = {
+      cancel: setTimeout(() => setCancelDisabled(true), ONE_MIN),
+      status: setInterval(() => {
+        if (indexRef.current >= defaultOrderStatus.length) return;
 
-    return () => clearInterval(interval);
+        setArrOrderStatus(prev => {
+          const updated = [...prev];
+          updated[indexRef.current].status_isdone = true;
+          setCurrentStatus(updated[indexRef.current].status_title);
+          indexRef.current++;
+          return updated;
+        });
+      }, ONE_MIN)
+    };
+
+    // Single cleanup function
+    return () => {
+      clearTimeout(timers.cancel);
+      clearInterval(timers.status);
+    };
   }, [orderMainStatus]);
 
   useEffect(() => {
@@ -282,42 +321,6 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       setArrOrderStatus(defaultOrderStatus);
     }
   }, [orderMainStatus]);
-
-  // Cancel button disabled simulation
-  useEffect(() => {
-    const timer = setTimeout(() => setCancelDisabled(true), ONE_MIN);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const header = () => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <GlobalBackButton onPress={() => navigation.goBack()} />
-      ),
-      headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>
-          {ScreenNames.orderSummary}
-        </Text>
-      ),
-    });
-  };
-
-  useEffect(() => {
-    header();
-    if (route?.params) {
-      console.log("route?.params", route?.params);
-      setOrderMainStatus(route?.params?.orderMainStatus);
-    } else {
-      setCancelReason("");
-    }
-  }, [route]);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      StatusBar.setBarStyle("dark-content");
-      return () => {};
-    }, [navigation])
-  );
 
   return (
     <OrderSummaryComponent

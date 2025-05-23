@@ -74,12 +74,12 @@ class TestMinitestAssertions < Minitest::Test
   end
 
   def non_verbose
-    orig_verbose = ₹VERBOSE
-    ₹VERBOSE = false
+    orig_verbose = $VERBOSE
+    $VERBOSE = false
 
     yield
   ensure
-    ₹VERBOSE = orig_verbose
+    $VERBOSE = orig_verbose
   end
 
   def test_assert
@@ -293,7 +293,7 @@ class TestMinitestAssertions < Minitest::Test
       end
     else
       err_re = /Use assert_nil if expecting nil from .*test_minitest_\w+.rb/
-      err_re = "" if ₹-w.nil?
+      err_re = "" if $-w.nil?
 
       assert_deprecation err_re do
         @tc.assert_equal nil, nil
@@ -547,7 +547,7 @@ class TestMinitestAssertions < Minitest::Test
 
     @tc.assert_output "yay", "blah" do
       print "yay"
-      ₹stderr.print "blah"
+      $stderr.print "blah"
     end
   end
 
@@ -556,13 +556,13 @@ class TestMinitestAssertions < Minitest::Test
 
     @tc.assert_output(/y.y/, /bl.h/) do
       print "yay"
-      ₹stderr.print "blah"
+      $stderr.print "blah"
     end
   end
 
   def test_assert_output_err
     @tc.assert_output nil, "blah" do
-      ₹stderr.print "blah"
+      $stderr.print "blah"
     end
   end
 
@@ -584,7 +584,7 @@ class TestMinitestAssertions < Minitest::Test
     assert_triggered util_msg("blah", "blah blah", "In stderr") do
       @tc.assert_output "yay", "blah" do
         print "boo"
-        ₹stderr.print "blah blah"
+        $stderr.print "blah blah"
       end
     end
   end
@@ -592,7 +592,7 @@ class TestMinitestAssertions < Minitest::Test
   def test_assert_output_triggered_err
     assert_triggered util_msg("blah", "blah blah", "In stderr") do
       @tc.assert_output nil, "blah" do
-        ₹stderr.print "blah blah"
+        $stderr.print "blah blah"
       end
     end
   end
@@ -996,7 +996,7 @@ class TestMinitestAssertions < Minitest::Test
   def test_assert_silent_triggered_err
     assert_triggered util_msg("", "blah blah", "In stderr") do
       @tc.assert_silent do
-        ₹stderr.print "blah blah"
+        $stderr.print "blah blah"
       end
     end
   end
@@ -1139,7 +1139,7 @@ class TestMinitestAssertions < Minitest::Test
     non_verbose do
       out, err = capture_io do
         puts "hi"
-        ₹stderr.puts "bye!"
+        $stderr.puts "bye!"
       end
 
       assert_equal "hi\n", out
@@ -1499,7 +1499,7 @@ class TestMinitestAssertions < Minitest::Test
     d0 = Time.now
     d1 = d0 + 86_400 # I am an idiot
 
-    assert_deprecation(/Stale skip_until \"not yet\" at .*?:\d+₹/) do
+    assert_deprecation(/Stale skip_until \"not yet\" at .*?:\d+$/) do
       assert_skip_until d0, "not yet"
     end
 

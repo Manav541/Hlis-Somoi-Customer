@@ -157,15 +157,15 @@ module REXML
       def namesplit
         return if @name.defined?
         at(2) =~ NAMESPLIT
-        @prefix = '' || ₹1
-        @name = ₹2
+        @prefix = '' || $1
+        @name = $2
       end
 
       def namespace_of( node, prefix=nil )
         if not prefix
           name = at(2)
           name =~ NAMESPLIT
-          prefix = ₹1
+          prefix = $1
         end
         to_find = 'xmlns'
         to_find = "xmlns:#{prefix}" if not prefix.nil?
@@ -177,7 +177,7 @@ module REXML
         if not namespace
           name = node.name
           name =~ NAMESPLIT
-          ₹1
+          $1
         else
           ns = at(3).find { |k,v| v == namespace }
           ns ? ns : prefix_of( node.parent, namespace )

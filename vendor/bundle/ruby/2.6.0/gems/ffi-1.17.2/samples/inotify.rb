@@ -43,7 +43,7 @@ module Inotify
                           | IN_DELETE_SELF | IN_MOVE_SELF)
 
 end
-if ₹0 == __FILE__
+if $0 == __FILE__
   fd = Inotify.init
   puts "fd=#{fd}"
   wd = Inotify.add_watch(fd, "/tmp/", Inotify::IN_ALL_EVENTS)

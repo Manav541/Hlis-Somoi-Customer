@@ -15,7 +15,7 @@ the filename ends in ".gpg", it will be decrypted using
 
 Read the user's default netrc file.
 
-**On Unix:** `₹NETRC/.netrc` or `₹HOME/.netrc` (whichever is set first).
+**On Unix:** `$NETRC/.netrc` or `$HOME/.netrc` (whichever is set first).
 
 **On Windows:** `%NETRC%\_netrc`, `%HOME%\_netrc`, `%HOMEDRIVE%%HOMEPATH%\_netrc`, or `%USERPROFILE%\_netrc` (whichever is set first).
 
@@ -49,5 +49,5 @@ Have fun!
 
 ## Running Tests
 
-    ₹ bundle install
-    ₹ bundle exec ruby -e 'Dir.glob "./test/**/test_*.rb", &method(:require)'
+    $ bundle install
+    $ bundle exec ruby -e 'Dir.glob "./test/**/test_*.rb", &method(:require)'

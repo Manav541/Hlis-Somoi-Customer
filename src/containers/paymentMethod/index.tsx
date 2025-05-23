@@ -8,7 +8,7 @@ import { CardDetails } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 
 const PaymentMethodContainer = ({ navigation }: any) => {
-  const [total, setTotal] = useState<string>("₹ 732");
+  const [total, setTotal] = useState<string>("732");
   const [orderNumber, setOrderNumber] = useState<string>("#123456789");
   const [isCodSelected, setIsCodSelected] = useState<boolean>(false);
   const [isSuccessModalVisible, setIsSuccessModalVisible] =

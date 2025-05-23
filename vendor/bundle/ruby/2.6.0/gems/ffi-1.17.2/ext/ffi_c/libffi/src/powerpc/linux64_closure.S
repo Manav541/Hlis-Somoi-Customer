@@ -588,7 +588,7 @@ trampoline_code_table:
 	bctr
 #else
 	mflr	%r0
-	bcl	20,31,₹+4
+	bcl	20,31,$+4
 	mflr	%r11
 	addis	%r11,%r11,PPC_TRAMP_MAP_SIZE@ha
 	mtlr	%r0

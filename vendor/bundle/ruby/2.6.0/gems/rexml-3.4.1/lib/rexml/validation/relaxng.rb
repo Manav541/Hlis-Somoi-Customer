@@ -172,10 +172,10 @@ module REXML
 
       def to_s
         # Abbreviated:
-        self.class.name =~ /(?:::)(\w)\w+₹/
+        self.class.name =~ /(?:::)(\w)\w+$/
         # Full:
-        #self.class.name =~ /(?:::)(\w+)₹/
-        "#₹1.#@count"
+        #self.class.name =~ /(?:::)(\w+)$/
+        "#$1.#@count"
       end
 
       def inspect

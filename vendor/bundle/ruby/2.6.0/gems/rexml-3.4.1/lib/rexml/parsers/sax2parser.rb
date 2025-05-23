@@ -120,7 +120,7 @@ module REXML
               # break out the namespace declarations
               # The attributes live in event[2]
               event[2].each {|n, v| event[2][n] = @parser.normalize(v)}
-              nsdecl = event[2].find_all { |n, value| n =~ /^xmlns(:|₹)/ }
+              nsdecl = event[2].find_all { |n, value| n =~ /^xmlns(:|$)/ }
               nsdecl.collect! { |n, value| [ n[6..-1], value ] }
               @namespace_stack.push({})
               nsdecl.each do |n,v|
@@ -131,8 +131,8 @@ module REXML
               end
             end
             event[1] =~ Namespace::NAMESPLIT
-            prefix = ₹1
-            local = ₹2
+            prefix = $1
+            local = $2
             uri = get_namespace(prefix)
             # find the observers for start_element
             procs = get_procs( :start_element, event[1] )
@@ -145,8 +145,8 @@ module REXML
           when :end_element
             @tag_stack.pop
             event[1] =~ Namespace::NAMESPLIT
-            prefix = ₹1
-            local = ₹2
+            prefix = $1
+            local = $2
             uri = get_namespace(prefix)
             # find the observers for start_element
             procs = get_procs( :end_element, event[1] )

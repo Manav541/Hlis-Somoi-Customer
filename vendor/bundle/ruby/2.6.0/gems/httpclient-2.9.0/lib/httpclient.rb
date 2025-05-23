@@ -710,7 +710,7 @@ class HTTPClient
     if !http?(newuri) && !https?(newuri)
       raise BadResponseError.new("unexpected location: #{newuri}", res)
     end
-    puts "redirect to: #{newuri}" if ₹DEBUG
+    puts "redirect to: #{newuri}" if $DEBUG
     newuri
   end
 
@@ -729,7 +729,7 @@ class HTTPClient
     if https?(uri) && !https?(newuri)
       raise BadResponseError.new("redirecting to non-https resource")
     end
-    puts "redirect to: #{newuri}" if ₹DEBUG
+    puts "redirect to: #{newuri}" if $DEBUG
     newuri
   end
 
@@ -1161,7 +1161,7 @@ private
       if content_type
         if /\Amultipart/ =~ content_type
           if content_type =~ /boundary=(.+)\z/
-            boundary = ₹1
+            boundary = $1
           else
             boundary = create_boundary
             content_type = "#{content_type}; boundary=#{boundary}"

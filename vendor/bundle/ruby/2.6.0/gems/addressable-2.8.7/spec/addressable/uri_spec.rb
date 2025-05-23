@@ -6059,7 +6059,7 @@ describe Addressable::URI, "when encoding a multibyte string" do
 
   it "should result in correct percent encoded sequence" do
     expect(Addressable::URI.encode_component(
-      "günther", /[^a-zA-Z0-9\:\/\?\#\[\]\@\!\₹\&\'\(\)\*\+\,\;\=\-\.\_\~]/
+      "günther", /[^a-zA-Z0-9\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\-\.\_\~]/
     )).to eq("g%C3%BCnther")
   end
 end
@@ -6079,7 +6079,7 @@ describe Addressable::URI, "when encoding a string with ASCII chars 0-15" do
 
   it "should result in correct percent encoded sequence" do
     expect(Addressable::URI.encode_component(
-      "one\ntwo", /[^a-zA-Z0-9\:\/\?\#\[\]\@\!\₹\&\'\(\)\*\+\,\;\=\-\.\_\~]/
+      "one\ntwo", /[^a-zA-Z0-9\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\-\.\_\~]/
     )).to eq("one%0Atwo")
   end
 end

@@ -1,8 +1,8 @@
 # frozen_string_literal: false
 #
 #   mutex_m.rb -
-#       ₹Release Version: 3.0₹
-#       ₹Revision: 1.7 ₹
+#       $Release Version: 3.0$
+#       $Revision: 1.7 $
 #       Original from mutex.rb
 #       by Keiju ISHITSUKA(keiju@ishitsuka.com)
 #       modified by matz

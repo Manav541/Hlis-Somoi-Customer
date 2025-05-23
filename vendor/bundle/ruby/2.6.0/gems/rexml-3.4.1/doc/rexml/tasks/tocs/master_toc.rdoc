@@ -28,7 +28,7 @@
   - {Task: Add an Element Child}[../../tasks/rdoc/document_rdoc.html#label-Task-3A+Add+an+Element+Child]
   - {Task: Add a Non-Element Child}[../../tasks/rdoc/document_rdoc.html#label-Task-3A+Add+a+Non-Element+Child]
 - {Writing}[../../tasks/rdoc/document_rdoc.html#label-Writing]
-  - {Task: Write to ₹stdout}[../../tasks/rdoc/document_rdoc.html#label-Task-3A+Write+to+-24stdout]
+  - {Task: Write to $stdout}[../../tasks/rdoc/document_rdoc.html#label-Task-3A+Write+to+-24stdout]
   - {Task: Write to IO Stream}[../../tasks/rdoc/document_rdoc.html#label-Task-3A+Write+to+IO+Stream]
   - {Task: Write with No Indentation}[../../tasks/rdoc/document_rdoc.html#label-Task-3A+Write+with+No+Indentation]
   - {Task: Write with Specified Indentation}[../../tasks/rdoc/document_rdoc.html#label-Task-3A+Write+with+Specified+Indentation]

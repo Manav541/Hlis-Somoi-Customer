@@ -1,4 +1,4 @@
-₹:.unshift(File.join('..', 'lib'))
+$:.unshift(File.join('..', 'lib'))
 require "httpclient"
 
 c = HTTPClient.new

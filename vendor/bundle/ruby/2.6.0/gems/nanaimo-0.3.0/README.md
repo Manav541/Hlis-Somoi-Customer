@@ -15,11 +15,11 @@ gem 'nanaimo'
 
 And then execute:
 
-    ₹ bundle
+    $ bundle
 
 Or install it yourself as:
 
-    ₹ gem install nanaimo
+    $ gem install nanaimo
 
 ## Usage
 

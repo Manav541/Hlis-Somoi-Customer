@@ -6,7 +6,7 @@ Removing all traces of CocoaPods from an Xcode project.
 ## Installation
 
 ```bash
-₹ [sudo] gem install cocoapods-deintegrate
+$ [sudo] gem install cocoapods-deintegrate
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ Running `pod deintegrate` will deintegrate your Xcode project from
 CocoaPods. Before running you should ensure you have a backup of your project.
 
 ```bash
-₹ pod deintegrate
+$ pod deintegrate
 Deintegrating Palaver.xcodeproj
 Deintegrating target Palaver
 Deleted 1 'Copy Pods Resources' build phases.

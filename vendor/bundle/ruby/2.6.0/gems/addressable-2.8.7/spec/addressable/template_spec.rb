@@ -501,7 +501,7 @@ class ExampleTwoProcessor
     return ".*"
   end
   def self.validate(name, value)
-    return !!(value =~ /^[\w ]+₹/) if name == "query"
+    return !!(value =~ /^[\w ]+$/) if name == "query"
     return true
   end
 

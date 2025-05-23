@@ -5,10 +5,10 @@
 
 # THIS TABLE IS SORTED.  KEEP IT THAT WAY.
 # Most of the time we can define all the variables all at once...
-case "₹{host}" in
+case "${host}" in
   aarch64*-*-cygwin* | aarch64*-*-msys* | aarch64*-*-mingw* | aarch64*-*-win* )
 	TARGET=ARM_WIN64; TARGETDIR=aarch64
-	if test "₹{ax_cv_c_compiler_vendor}" = "microsoft"; then
+	if test "${ax_cv_c_compiler_vendor}" = "microsoft"; then
 	  MSVC=1
 	fi
 	;;
@@ -32,7 +32,7 @@ case "₹{host}" in
 
   arm*-*-cygwin* | arm*-*-msys* | arm*-*-mingw* | arm*-*-win* )
 	TARGET=ARM_WIN32; TARGETDIR=arm
-	if test "₹{ax_cv_c_compiler_vendor}" = "microsoft"; then
+	if test "${ax_cv_c_compiler_vendor}" = "microsoft"; then
 	  MSVC=1
 	fi
 	;;
@@ -87,28 +87,28 @@ case "₹{host}" in
   i?86-*-cygwin* | i?86-*-msys* | i?86-*-mingw* | i?86-*-win* | i?86-*-os2* | i?86-*-interix* \
   | x86_64-*-cygwin* | x86_64-*-msys* | x86_64-*-mingw* | x86_64-*-win* )
 	TARGETDIR=x86
-	if test ₹ac_cv_sizeof_size_t = 4; then
+	if test $ac_cv_sizeof_size_t = 4; then
 	  TARGET=X86_WIN32
 	else
 	  TARGET=X86_WIN64
 	fi
-	if test "₹{ax_cv_c_compiler_vendor}" = "microsoft"; then
+	if test "${ax_cv_c_compiler_vendor}" = "microsoft"; then
 	  MSVC=1
 	fi
 	# All mingw/cygwin/win32 builds require -no-undefined for sharedlib.
 	# We must also check with_cross_host to decide if this is a native
 	# or cross-build and select where to install dlls appropriately.
-	if test -n "₹with_cross_host" &&
-	   test x"₹with_cross_host" != x"no"; then
-	  AM_LTLDFLAGS='-no-undefined -bindir "₹(toolexeclibdir)"';
+	if test -n "$with_cross_host" &&
+	   test x"$with_cross_host" != x"no"; then
+	  AM_LTLDFLAGS='-no-undefined -bindir "$(toolexeclibdir)"';
 	else
-	  AM_LTLDFLAGS='-no-undefined -bindir "₹(bindir)"';
+	  AM_LTLDFLAGS='-no-undefined -bindir "$(bindir)"';
 	fi
 	;;
 
   i?86-*-darwin* | x86_64-*-darwin* | i?86-*-ios | x86_64-*-ios)
 	TARGETDIR=x86
-	if test ₹ac_cv_sizeof_size_t = 4; then
+	if test $ac_cv_sizeof_size_t = 4; then
 	  TARGET=X86_DARWIN
 	else
 	  TARGET=X86_64
@@ -117,9 +117,9 @@ case "₹{host}" in
 
   i?86-*-* | x86_64-*-* | amd64-*)
 	TARGETDIR=x86
-	if test ₹ac_cv_sizeof_size_t = 4; then
+	if test $ac_cv_sizeof_size_t = 4; then
 	  echo 'int foo (void) { return __x86_64__; }' > conftest.c
-	  if ₹CC ₹CFLAGS -Werror -S conftest.c -o conftest.s > /dev/null 2>&1; then
+	  if $CC $CFLAGS -Werror -S conftest.c -o conftest.s > /dev/null 2>&1; then
 	    TARGET_X32=yes
 	    TARGET=X86_64
 	  else
@@ -217,7 +217,7 @@ case "₹{host}" in
 	;;
   powerpcspe-*-freebsd*)
 	TARGET=POWERPC_FREEBSD; TARGETDIR=powerpc
-	CFLAGS="₹CFLAGS -D__NO_FPRS__"
+	CFLAGS="$CFLAGS -D__NO_FPRS__"
 	;;
   powerpc64-*-freebsd* | powerpc64le-*-freebsd*)
 	TARGET=POWERPC; TARGETDIR=powerpc
@@ -272,16 +272,16 @@ case "₹{host}" in
 esac
 
 # ... but some of the cases above share configury.
-case "₹{TARGET}" in
+case "${TARGET}" in
   ARM_WIN32)
-	if test "₹MSVC" = 1; then
+	if test "$MSVC" = 1; then
 		SOURCES="ffi.c sysv_msvc_arm32.S"
 	else
 		SOURCES="ffi.c sysv.S"
 	fi
 	;;
   ARM_WIN64)
-	if test "₹MSVC" = 1; then
+	if test "$MSVC" = 1; then
 		SOURCES="ffi.c win64_armasm.S"
 	else
 		SOURCES="ffi.c sysv.S"
@@ -292,7 +292,7 @@ case "₹{TARGET}" in
 	;;
   POWERPC)
 	SOURCES="ffi.c ffi_sysv.c ffi_linux64.c sysv.S ppc_closure.S"
-	SOURCES="₹{SOURCES} linux64.S linux64_closure.S"
+	SOURCES="${SOURCES} linux64.S linux64_closure.S"
 	;;
   POWERPC_AIX)
 	SOURCES="ffi_darwin.c aix.S aix_closure.S"
@@ -304,21 +304,21 @@ case "₹{TARGET}" in
 	SOURCES="ffi.c ffi_sysv.c sysv.S ppc_closure.S"
 	;;
   X86 | X86_DARWIN | X86_FREEBSD | X86_WIN32)
-	if test "₹MSVC" = 1; then
+	if test "$MSVC" = 1; then
 		SOURCES="ffi.c sysv_intel.S"
 	else
 		SOURCES="ffi.c sysv.S"
 	fi
 	;;
   X86_64)
-	if test x"₹TARGET_X32" = xyes; then
+	if test x"$TARGET_X32" = xyes; then
 		SOURCES="ffi64.c unix64.S"
 	else
 		SOURCES="ffi64.c unix64.S ffiw64.c win64.S"
 	fi
 	;;
   X86_WIN64)
-	if test "₹MSVC" = 1; then
+	if test "$MSVC" = 1; then
 		SOURCES="ffiw64.c win64_intel.S"
 	else
 		SOURCES="ffiw64.c win64.S"
@@ -327,6 +327,6 @@ case "₹{TARGET}" in
 esac
 
 # If we failed to configure SOURCES, we can't do anything.
-if test -z "₹{SOURCES}"; then
+if test -z "${SOURCES}"; then
   UNSUPPORTED=1
 fi

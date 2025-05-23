@@ -224,7 +224,7 @@ module Pod
             settings['CODE_SIGN_IDENTITY[sdk=iphoneos*]'] = ''
             settings['CODE_SIGN_IDENTITY[sdk=watchos*]'] = ''
 
-            settings['SWIFT_ACTIVE_COMPILATION_CONDITIONS'] = '₹(inherited) '
+            settings['SWIFT_ACTIVE_COMPILATION_CONDITIONS'] = '$(inherited) '
 
             if target.swift_version
               settings['SWIFT_VERSION'] = target.swift_version
@@ -411,7 +411,7 @@ module Pod
                 # target_installer sets 'MACH_O_TYPE' for static frameworks ensure this does not propagate
                 # to test target.
                 configuration.build_settings.delete('MACH_O_TYPE')
-                # Use xcode default product module name, which is ₹(PRODUCT_NAME:c99extidentifier)
+                # Use xcode default product module name, which is $(PRODUCT_NAME:c99extidentifier)
                 # this gives us always valid name that is distinct from the parent spec module name
                 # which allow tests to use either import or @testable import to access the parent framework
                 configuration.build_settings.delete('PRODUCT_MODULE_NAME')
@@ -504,7 +504,7 @@ module Pod
                 # target_installer sets 'MACH_O_TYPE' for static frameworks ensure this does not propagate
                 # to app target.
                 configuration.build_settings.delete('MACH_O_TYPE')
-                # Use xcode default product module name, which is ₹(PRODUCT_NAME:c99extidentifier)
+                # Use xcode default product module name, which is $(PRODUCT_NAME:c99extidentifier)
                 # this gives us always valid name that is distinct from the parent spec module name
                 # which allow the app to use import to access the parent framework
                 configuration.build_settings.delete('PRODUCT_MODULE_NAME')
@@ -593,7 +593,7 @@ module Pod
                   # This is because the test target itself also does not set this configuration build dir and it expects
                   # all bundles to be copied from the default path.
                   unless file_accessor.spec.test_specification?
-                    configuration.build_settings['CONFIGURATION_BUILD_DIR'] = target.configuration_build_dir('₹(BUILD_DIR)/₹(CONFIGURATION)₹(EFFECTIVE_PLATFORM_NAME)')
+                    configuration.build_settings['CONFIGURATION_BUILD_DIR'] = target.configuration_build_dir('$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)')
                   end
 
                   # Set the 'IBSC_MODULE' build settings for resource bundles so that Storyboards and Xibs can load
@@ -871,20 +871,20 @@ module Pod
 
             build_phase = native_target.new_shell_script_build_phase('Create Symlinks to Header Folders')
             build_phase.shell_script = <<-eos.strip_heredoc
-              cd "₹CONFIGURATION_BUILD_DIR/₹WRAPPER_NAME" || exit 1
+              cd "$CONFIGURATION_BUILD_DIR/$WRAPPER_NAME" || exit 1
               if [ ! -d Versions ]; then
                 # Not a versioned framework, so no need to do anything
                 exit 0
               fi
 
-              public_path="₹{PUBLIC_HEADERS_FOLDER_PATH\#\₹CONTENTS_FOLDER_PATH/}"
-              if [ ! -f "₹public_path" ]; then
-                ln -fs "₹{PUBLIC_HEADERS_FOLDER_PATH\#₹WRAPPER_NAME/}" "₹public_path"
+              public_path="${PUBLIC_HEADERS_FOLDER_PATH\#\$CONTENTS_FOLDER_PATH/}"
+              if [ ! -f "$public_path" ]; then
+                ln -fs "${PUBLIC_HEADERS_FOLDER_PATH\#$WRAPPER_NAME/}" "$public_path"
               fi
 
-              private_path="₹{PRIVATE_HEADERS_FOLDER_PATH\#\₹CONTENTS_FOLDER_PATH/}"
-              if [ ! -f "₹private_path" ]; then
-                ln -fs "₹{PRIVATE_HEADERS_FOLDER_PATH\#\₹WRAPPER_NAME/}" "₹private_path"
+              private_path="${PRIVATE_HEADERS_FOLDER_PATH\#\$CONTENTS_FOLDER_PATH/}"
+              if [ ! -f "$private_path" ]; then
+                ln -fs "${PRIVATE_HEADERS_FOLDER_PATH\#\$WRAPPER_NAME/}" "$private_path"
               fi
             eos
           end
@@ -1045,7 +1045,7 @@ module Pod
 
           def add_header(file_accessor, build_file, public_headers, project_headers, private_headers, native_target)
             file_ref = build_file.file_ref
-            acl = if !target.build_as_framework? # Headers are already rooted at ₹{PODS_ROOT}/Headers/P*/[pod]/...
+            acl = if !target.build_as_framework? # Headers are already rooted at ${PODS_ROOT}/Headers/P*/[pod]/...
                     'Project'
                   elsif public_headers.include?(file_ref.real_path)
                     'Public'
@@ -1072,7 +1072,7 @@ module Pod
                 native_target.new_copy_files_build_phase(copy_phase_name)
               native_target.build_phases.move(copy_phase, compile_build_phase_index - 1) unless compile_build_phase_index.nil?
               copy_phase.symbol_dst_subfolder_spec = :products_directory
-              copy_phase.dst_path = "₹(#{acl.upcase}_HEADERS_FOLDER_PATH)/#{sub_dir}"
+              copy_phase.dst_path = "$(#{acl.upcase}_HEADERS_FOLDER_PATH)/#{sub_dir}"
               copy_phase.add_file_reference(file_ref, true)
             else
               build_file.settings ||= {}
@@ -1134,23 +1134,23 @@ module Pod
             relative_umbrella_header_path = target.umbrella_header_path.relative_path_from(target.sandbox.root)
 
             build_phase.shell_script = <<-SH.strip_heredoc
-              COMPATIBILITY_HEADER_PATH="₹{BUILT_PRODUCTS_DIR}/Swift Compatibility Header/₹{PRODUCT_MODULE_NAME}-Swift.h"
-              MODULE_MAP_PATH="₹{BUILT_PRODUCTS_DIR}/₹{PRODUCT_MODULE_NAME}.modulemap"
+              COMPATIBILITY_HEADER_PATH="${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h"
+              MODULE_MAP_PATH="${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap"
 
-              ditto "₹{DERIVED_SOURCES_DIR}/₹{PRODUCT_MODULE_NAME}-Swift.h" "₹{COMPATIBILITY_HEADER_PATH}"
-              ditto "₹{PODS_ROOT}/#{relative_module_map_path}" "₹{MODULE_MAP_PATH}"
-              ditto "₹{PODS_ROOT}/#{relative_umbrella_header_path}" "₹{BUILT_PRODUCTS_DIR}"
-              printf "\\n\\nmodule ₹{PRODUCT_MODULE_NAME}.Swift {\\n  header \\"₹{COMPATIBILITY_HEADER_PATH}\\"\\n  requires objc\\n}\\n" >> "₹{MODULE_MAP_PATH}"
+              ditto "${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h" "${COMPATIBILITY_HEADER_PATH}"
+              ditto "${PODS_ROOT}/#{relative_module_map_path}" "${MODULE_MAP_PATH}"
+              ditto "${PODS_ROOT}/#{relative_umbrella_header_path}" "${BUILT_PRODUCTS_DIR}"
+              printf "\\n\\nmodule ${PRODUCT_MODULE_NAME}.Swift {\\n  header \\"${COMPATIBILITY_HEADER_PATH}\\"\\n  requires objc\\n}\\n" >> "${MODULE_MAP_PATH}"
             SH
             build_phase.input_paths = %W(
-              ₹{DERIVED_SOURCES_DIR}/₹{PRODUCT_MODULE_NAME}-Swift.h
-              ₹{PODS_ROOT}/#{relative_module_map_path}
-              ₹{PODS_ROOT}/#{relative_umbrella_header_path}
+              ${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h
+              ${PODS_ROOT}/#{relative_module_map_path}
+              ${PODS_ROOT}/#{relative_umbrella_header_path}
             )
             build_phase.output_paths = %W(
-              ₹{BUILT_PRODUCTS_DIR}/₹{PRODUCT_MODULE_NAME}.modulemap
-              ₹{BUILT_PRODUCTS_DIR}/#{relative_umbrella_header_path.basename}
-              ₹{BUILT_PRODUCTS_DIR}/Swift\ Compatibility\ Header/₹{PRODUCT_MODULE_NAME}-Swift.h
+              ${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap
+              ${BUILT_PRODUCTS_DIR}/#{relative_umbrella_header_path.basename}
+              ${BUILT_PRODUCTS_DIR}/Swift\ Compatibility\ Header/${PRODUCT_MODULE_NAME}-Swift.h
             )
           end
 
@@ -1208,7 +1208,7 @@ module Pod
               dsym_paths.concat(target.xcframeworks.values.flatten.flat_map { |xcframework| xcframework_dsyms(xcframework.path) })
               dsym_paths.map do |dsym_path|
                 dsym_pathname = Pathname(dsym_path)
-                dsym_path = "₹{PODS_ROOT}/#{dsym_pathname.relative_path_from(target.sandbox.root)}" unless dsym_pathname.relative?
+                dsym_path = "${PODS_ROOT}/#{dsym_pathname.relative_path_from(target.sandbox.root)}" unless dsym_pathname.relative?
                 dsym_path
               end
             end

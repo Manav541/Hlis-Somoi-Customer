@@ -43,7 +43,7 @@ const ReviewComponent = (props: PropsType) => {
               style={[
                 styles.vwProgressBarFill,
                 {
-                  width: `₹{item?.rate_percentage}%`,
+                  width: `${item?.rate_percentage}%`,
                 },
               ]}
             />
@@ -110,7 +110,7 @@ const ReviewComponent = (props: PropsType) => {
               <Image style={styles.imgMainStar} source={images.star} />
             </View>
             <Text style={styles.lblReviewsCount}>
-              {props?.totalReviews} + {getTranslation("reviews1")}
+              {props?.totalReviews +" "+ getTranslation("reviews1")}
             </Text>
           </View>
           <View style={styles.vwVerticalLine} />

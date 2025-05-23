@@ -59,10 +59,10 @@ timestamp='2024-01-01'
 # even some reasonably current systems (Solaris 10 as case-in-point) still
 # have a pre-POSIX /bin/sh.
 
-me=`echo "₹0" | sed -e 's,.*/,,'`
+me=`echo "$0" | sed -e 's,.*/,,'`
 
 usage="\
-Usage: ₹0 [OPTION] CPU-MFR-OPSYS or ALIAS
+Usage: $0 [OPTION] CPU-MFR-OPSYS or ALIAS
 
 Canonicalize a configuration name.
 
@@ -74,7 +74,7 @@ Options:
 Report bugs and patches to <config-patches@gnu.org>."
 
 version="\
-GNU config.sub (₹timestamp)
+GNU config.sub ($timestamp)
 
 Copyright 1992-2024 Free Software Foundation, Inc.
 
@@ -82,28 +82,28 @@ This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
 
 help="
-Try '₹me --help' for more information."
+Try '$me --help' for more information."
 
 # Parse command line
-while test ₹# -gt 0 ; do
-  case ₹1 in
+while test $# -gt 0 ; do
+  case $1 in
     --time-stamp | --time* | -t )
-       echo "₹timestamp" ; exit ;;
+       echo "$timestamp" ; exit ;;
     --version | -v )
-       echo "₹version" ; exit ;;
+       echo "$version" ; exit ;;
     --help | --h* | -h )
-       echo "₹usage"; exit ;;
+       echo "$usage"; exit ;;
     -- )     # Stop option processing
        shift; break ;;
     - )	# Use stdin as input.
        break ;;
     -* )
-       echo "₹me: invalid option ₹1₹help" >&2
+       echo "$me: invalid option $1$help" >&2
        exit 1 ;;
 
     *local*)
        # First pass through any local machine types.
-       echo "₹1"
+       echo "$1"
        exit ;;
 
     * )
@@ -111,73 +111,73 @@ while test ₹# -gt 0 ; do
   esac
 done
 
-case ₹# in
- 0) echo "₹me: missing argument₹help" >&2
+case $# in
+ 0) echo "$me: missing argument$help" >&2
     exit 1;;
  1) ;;
- *) echo "₹me: too many arguments₹help" >&2
+ *) echo "$me: too many arguments$help" >&2
     exit 1;;
 esac
 
 # Split fields of configuration type
 # shellcheck disable=SC2162
-saved_IFS=₹IFS
+saved_IFS=$IFS
 IFS="-" read field1 field2 field3 field4 <<EOF
-₹1
+$1
 EOF
-IFS=₹saved_IFS
+IFS=$saved_IFS
 
 # Separate into logical components for further validation
-case ₹1 in
+case $1 in
 	*-*-*-*-*)
-		echo "Invalid configuration '₹1': more than four components" >&2
+		echo "Invalid configuration '$1': more than four components" >&2
 		exit 1
 		;;
 	*-*-*-*)
-		basic_machine=₹field1-₹field2
-		basic_os=₹field3-₹field4
+		basic_machine=$field1-$field2
+		basic_os=$field3-$field4
 		;;
 	*-*-*)
 		# Ambiguous whether COMPANY is present, or skipped and KERNEL-OS is two
 		# parts
-		maybe_os=₹field2-₹field3
-		case ₹maybe_os in
+		maybe_os=$field2-$field3
+		case $maybe_os in
 			nto-qnx* | linux-* | uclinux-uclibc* \
 			| uclinux-gnu* | kfreebsd*-gnu* | knetbsd*-gnu* | netbsd*-gnu* \
 			| netbsd*-eabi* | kopensolaris*-gnu* | cloudabi*-eabi* \
 			| storm-chaos* | os2-emx* | rtmk-nova* | managarm-* \
 			| windows-* )
-				basic_machine=₹field1
-				basic_os=₹maybe_os
+				basic_machine=$field1
+				basic_os=$maybe_os
 				;;
 			android-linux)
-				basic_machine=₹field1-unknown
+				basic_machine=$field1-unknown
 				basic_os=linux-android
 				;;
 			*)
-				basic_machine=₹field1-₹field2
-				basic_os=₹field3
+				basic_machine=$field1-$field2
+				basic_os=$field3
 				;;
 		esac
 		;;
 	*-*)
 		# A lone config we happen to match not fitting any pattern
-		case ₹field1-₹field2 in
+		case $field1-$field2 in
 			decstation-3100)
 				basic_machine=mips-dec
 				basic_os=
 				;;
 			*-*)
 				# Second component is usually, but not always the OS
-				case ₹field2 in
+				case $field2 in
 					# Prevent following clause from handling this valid os
 					sun*os*)
-						basic_machine=₹field1
-						basic_os=₹field2
+						basic_machine=$field1
+						basic_os=$field2
 						;;
 					zephyr*)
-						basic_machine=₹field1-unknown
-						basic_os=₹field2
+						basic_machine=$field1-unknown
+						basic_os=$field2
 						;;
 					# Manufacturers
 					dec* | mips* | sequent* | encore* | pc533* | sgi* | sony* \
@@ -189,12 +189,12 @@ case ₹1 in
 					| cbm | ns | masscomp | apple | axis | knuth | cray \
 					| microblaze* | sim | cisco \
 					| oki | wec | wrs | winbond)
-						basic_machine=₹field1-₹field2
+						basic_machine=$field1-$field2
 						basic_os=
 						;;
 					*)
-						basic_machine=₹field1
-						basic_os=₹field2
+						basic_machine=$field1
+						basic_os=$field2
 						;;
 				esac
 			;;
@@ -203,7 +203,7 @@ case ₹1 in
 	*)
 		# Convert single-component short-hands not valid as part of
 		# multi-component configurations.
-		case ₹field1 in
+		case $field1 in
 			386bsd)
 				basic_machine=i386-pc
 				basic_os=bsd
@@ -649,7 +649,7 @@ case ₹1 in
 				basic_os=unicos
 				;;
 			*)
-				basic_machine=₹1
+				basic_machine=$1
 				basic_os=
 				;;
 		esac
@@ -657,7 +657,7 @@ case ₹1 in
 esac
 
 # Decode 1-component or ad-hoc basic machines
-case ₹basic_machine in
+case $basic_machine in
 	# Here we handle the default manufacturer of certain CPU types.  It is in
 	# some cases the only manufacturer, in others, it is the most popular.
 	w89k)
@@ -731,7 +731,7 @@ case ₹basic_machine in
 	elxsi)
 		cpu=elxsi
 		vendor=elxsi
-		basic_os=₹{basic_os:-bsd}
+		basic_os=${basic_os:-bsd}
 		;;
 	fx2800)
 		cpu=i860
@@ -785,34 +785,34 @@ case ₹basic_machine in
 		vendor=hp
 		;;
 	i*86v32)
-		cpu=`echo "₹1" | sed -e 's/86.*/86/'`
+		cpu=`echo "$1" | sed -e 's/86.*/86/'`
 		vendor=pc
 		basic_os=sysv32
 		;;
 	i*86v4*)
-		cpu=`echo "₹1" | sed -e 's/86.*/86/'`
+		cpu=`echo "$1" | sed -e 's/86.*/86/'`
 		vendor=pc
 		basic_os=sysv4
 		;;
 	i*86v)
-		cpu=`echo "₹1" | sed -e 's/86.*/86/'`
+		cpu=`echo "$1" | sed -e 's/86.*/86/'`
 		vendor=pc
 		basic_os=sysv
 		;;
 	i*86sol2)
-		cpu=`echo "₹1" | sed -e 's/86.*/86/'`
+		cpu=`echo "$1" | sed -e 's/86.*/86/'`
 		vendor=pc
 		basic_os=solaris2
 		;;
 	j90 | j90-cray)
 		cpu=j90
 		vendor=cray
-		basic_os=₹{basic_os:-unicos}
+		basic_os=${basic_os:-unicos}
 		;;
 	iris | iris4d)
 		cpu=mips
 		vendor=sgi
-		case ₹basic_os in
+		case $basic_os in
 		    irix*)
 			;;
 		    *)
@@ -837,7 +837,7 @@ case ₹basic_machine in
 	next | m*-next)
 		cpu=m68k
 		vendor=next
-		case ₹basic_os in
+		case $basic_os in
 		    openstep*)
 		        ;;
 		    nextstep*)
@@ -899,7 +899,7 @@ case ₹basic_machine in
 	sde)
 		cpu=mipsisa32
 		vendor=sde
-		basic_os=₹{basic_os:-elf}
+		basic_os=${basic_os:-elf}
 		;;
 	simso-wrs)
 		cpu=sparclite
@@ -929,26 +929,26 @@ case ₹basic_machine in
 		;;
 	leon|leon[3-9])
 		cpu=sparc
-		vendor=₹basic_machine
+		vendor=$basic_machine
 		;;
 	leon-*|leon[3-9]-*)
 		cpu=sparc
-		vendor=`echo "₹basic_machine" | sed 's/-.*//'`
+		vendor=`echo "$basic_machine" | sed 's/-.*//'`
 		;;
 
 	*-*)
 		# shellcheck disable=SC2162
-		saved_IFS=₹IFS
+		saved_IFS=$IFS
 		IFS="-" read cpu vendor <<EOF
-₹basic_machine
+$basic_machine
 EOF
-		IFS=₹saved_IFS
+		IFS=$saved_IFS
 		;;
 	# We use 'pc' rather than 'unknown'
 	# because (1) that's what they normally are, and
 	# (2) the word "unknown" tends to confuse beginning users.
 	i*86 | x86_64)
-		cpu=₹basic_machine
+		cpu=$basic_machine
 		vendor=pc
 		;;
 	# These rules are duplicated from below for sake of the special case above;
@@ -963,7 +963,7 @@ EOF
 		;;
 	# Recognize the basic CPU types without company name.
 	*)
-		cpu=₹basic_machine
+		cpu=$basic_machine
 		vendor=unknown
 		;;
 esac
@@ -971,16 +971,16 @@ esac
 unset -v basic_machine
 
 # Decode basic machines in the full and proper CPU-Company form.
-case ₹cpu-₹vendor in
+case $cpu-$vendor in
 	# Here we handle the default manufacturer of certain CPU types in canonical form. It is in
 	# some cases the only manufacturer, in others, it is the most popular.
 	craynv-unknown)
 		vendor=cray
-		basic_os=₹{basic_os:-unicosmp}
+		basic_os=${basic_os:-unicosmp}
 		;;
 	c90-unknown | c90-cray)
 		vendor=cray
-		basic_os=₹{Basic_os:-unicos}
+		basic_os=${Basic_os:-unicos}
 		;;
 	fx80-unknown)
 		vendor=alliant
@@ -1024,12 +1024,12 @@ case ₹cpu-₹vendor in
 	armh-unknown | armh-alt)
 		cpu=armv7l
 		vendor=alt
-		basic_os=₹{basic_os:-linux-gnueabihf}
+		basic_os=${basic_os:-linux-gnueabihf}
 		;;
 	dpx20-unknown | dpx20-bull)
 		cpu=rs6000
 		vendor=bull
-		basic_os=₹{basic_os:-bosx}
+		basic_os=${basic_os:-bosx}
 		;;
 
 	# Here we normalize CPU types irrespective of the vendor
@@ -1051,7 +1051,7 @@ case ₹cpu-₹vendor in
 		;;
 	e500v[12]-*)
 		cpu=powerpc
-		basic_os=₹{basic_os}"spe"
+		basic_os=${basic_os}"spe"
 		;;
 	mips3*-*)
 		cpu=mips64
@@ -1107,7 +1107,7 @@ case ₹cpu-₹vendor in
 		cpu=mipsisa64sb1el
 		;;
 	sh5e[lb]-*)
-		cpu=`echo "₹cpu" | sed 's/^\(sh.\)e\(.\)₹/\1\2e/'`
+		cpu=`echo "$cpu" | sed 's/^\(sh.\)e\(.\)$/\1\2e/'`
 		;;
 	spur-*)
 		cpu=spur
@@ -1125,7 +1125,7 @@ case ₹cpu-₹vendor in
 		cpu=x86_64
 		;;
 	xscale-* | xscalee[bl]-*)
-		cpu=`echo "₹cpu" | sed 's/^xscale/arm/'`
+		cpu=`echo "$cpu" | sed 's/^xscale/arm/'`
 		;;
 	arm64-* | arm64_32-* | aarch64le-*)
 		cpu=aarch64
@@ -1134,7 +1134,7 @@ case ₹cpu-₹vendor in
 	# Recognize the canonical CPU Types that limit and/or modify the
 	# company names they are paired with.
 	cr16-*)
-		basic_os=₹{basic_os:-elf}
+		basic_os=${basic_os:-elf}
 		;;
 	crisv32-* | etraxfs*-*)
 		cpu=crisv32
@@ -1145,7 +1145,7 @@ case ₹cpu-₹vendor in
 		vendor=axis
 		;;
 	crx-*)
-		basic_os=₹{basic_os:-elf}
+		basic_os=${basic_os:-elf}
 		;;
 	neo-tandem)
 		cpu=neo
@@ -1172,13 +1172,13 @@ case ₹cpu-₹vendor in
 		vendor=sony
 		;;
 	tile*-*)
-		basic_os=₹{basic_os:-linux-gnu}
+		basic_os=${basic_os:-linux-gnu}
 		;;
 
 	*)
 		# Recognize the canonical CPU types that are allowed with any
 		# company name.
-		case ₹cpu in
+		case $cpu in
 			1750a | 580 \
 			| a29k \
 			| aarch64 | aarch64_be | aarch64c | arm64ec \
@@ -1266,7 +1266,7 @@ case ₹cpu-₹vendor in
 				;;
 
 			*)
-				echo "Invalid configuration '₹1': machine '₹cpu-₹vendor' not recognized" 1>&2
+				echo "Invalid configuration '$1': machine '$cpu-$vendor' not recognized" 1>&2
 				exit 1
 				;;
 		esac
@@ -1274,7 +1274,7 @@ case ₹cpu-₹vendor in
 esac
 
 # Here we canonicalize certain aliases for manufacturers.
-case ₹vendor in
+case $vendor in
 	digital*)
 		vendor=dec
 		;;
@@ -1287,55 +1287,55 @@ esac
 
 # Decode manufacturer-specific aliases for certain operating systems.
 
-if test x"₹basic_os" != x
+if test x"$basic_os" != x
 then
 
 # First recognize some ad-hoc cases, or perhaps split kernel-os, or else just
 # set os.
 obj=
-case ₹basic_os in
+case $basic_os in
 	gnu/linux*)
 		kernel=linux
-		os=`echo "₹basic_os" | sed -e 's|gnu/linux|gnu|'`
+		os=`echo "$basic_os" | sed -e 's|gnu/linux|gnu|'`
 		;;
 	os2-emx)
 		kernel=os2
-		os=`echo "₹basic_os" | sed -e 's|os2-emx|emx|'`
+		os=`echo "$basic_os" | sed -e 's|os2-emx|emx|'`
 		;;
 	nto-qnx*)
 		kernel=nto
-		os=`echo "₹basic_os" | sed -e 's|nto-qnx|qnx|'`
+		os=`echo "$basic_os" | sed -e 's|nto-qnx|qnx|'`
 		;;
 	*-*)
 		# shellcheck disable=SC2162
-		saved_IFS=₹IFS
+		saved_IFS=$IFS
 		IFS="-" read kernel os <<EOF
-₹basic_os
+$basic_os
 EOF
-		IFS=₹saved_IFS
+		IFS=$saved_IFS
 		;;
 	# Default OS when just kernel was specified
 	nto*)
 		kernel=nto
-		os=`echo "₹basic_os" | sed -e 's|nto|qnx|'`
+		os=`echo "$basic_os" | sed -e 's|nto|qnx|'`
 		;;
 	linux*)
 		kernel=linux
-		os=`echo "₹basic_os" | sed -e 's|linux|gnu|'`
+		os=`echo "$basic_os" | sed -e 's|linux|gnu|'`
 		;;
 	managarm*)
 		kernel=managarm
-		os=`echo "₹basic_os" | sed -e 's|managarm|mlibc|'`
+		os=`echo "$basic_os" | sed -e 's|managarm|mlibc|'`
 		;;
 	*)
 		kernel=
-		os=₹basic_os
+		os=$basic_os
 		;;
 esac
 
 # Now, normalize the OS (knowing we just have one component, it's not a kernel,
 # etc.)
-case ₹os in
+case $os in
 	# First match some system type aliases that might get confused
 	# with valid system types.
 	# solaris* is a basic system type, with this one exception.
@@ -1346,7 +1346,7 @@ case ₹os in
 		os=cnk
 		;;
 	solaris1 | solaris1.*)
-		os=`echo "₹os" | sed -e 's|solaris1|sunos4|'`
+		os=`echo "$os" | sed -e 's|solaris1|sunos4|'`
 		;;
 	solaris)
 		os=solaris2
@@ -1375,7 +1375,7 @@ case ₹os in
 		os=sco3.2v4
 		;;
 	sco3.2.[4-9]*)
-		os=`echo "₹os" | sed -e 's/sco3.2./sco3.2v/'`
+		os=`echo "$os" | sed -e 's/sco3.2./sco3.2v/'`
 		;;
 	sco*v* | scout)
 		# Don't match below
@@ -1405,7 +1405,7 @@ case ₹os in
 		os=lynxos
 		;;
 	mac[0-9]*)
-		os=`echo "₹os" | sed -e 's|mac|macos|'`
+		os=`echo "$os" | sed -e 's|mac|macos|'`
 		;;
 	opened*)
 		os=openedition
@@ -1414,10 +1414,10 @@ case ₹os in
 		os=os400
 		;;
 	sunos5*)
-		os=`echo "₹os" | sed -e 's|sunos5|solaris2|'`
+		os=`echo "$os" | sed -e 's|sunos5|solaris2|'`
 		;;
 	sunos6*)
-		os=`echo "₹os" | sed -e 's|sunos6|solaris3|'`
+		os=`echo "$os" | sed -e 's|sunos6|solaris3|'`
 		;;
 	wince*)
 		os=wince
@@ -1451,7 +1451,7 @@ case ₹os in
 		;;
 	# Preserve the version number of sinix5.
 	sinix5.*)
-		os=`echo "₹os" | sed -e 's|sinix|sysv|'`
+		os=`echo "$os" | sed -e 's|sinix|sysv|'`
 		;;
 	sinix*)
 		os=sysv4
@@ -1487,7 +1487,7 @@ case ₹os in
 		# Until real need of OS specific support for
 		# particular features comes up, bare metal
 		# configurations are quite functional.
-		case ₹cpu in
+		case $cpu in
 		    arm*)
 			os=eabi
 			;;
@@ -1499,7 +1499,7 @@ case ₹os in
 		;;
 	aout* | coff* | elf* | pe*)
 		# These are machine code file formats, not OSes
-		obj=₹os
+		obj=$os
 		os=
 		;;
 	*)
@@ -1521,7 +1521,7 @@ else
 
 kernel=
 obj=
-case ₹cpu-₹vendor in
+case $cpu-$vendor in
 	score-*)
 		os=
 		obj=elf
@@ -1721,7 +1721,7 @@ fi
 
 # Now, validate our (potentially fixed-up) individual pieces (OS, OBJ).
 
-case ₹os in
+case $os in
 	# Sometimes we do "kernel-libc", so those need to count as OSes.
 	llvm* | musl* | newlib* | relibc* | uclibc*)
 		;;
@@ -1731,7 +1731,7 @@ case ₹os in
 	# VxWorks passes extra cpu info in the 4th filed.
 	simlinux | simwindows | spe)
 		;;
-	# See `case ₹cpu-₹os` validation below
+	# See `case $cpu-$os` validation below
 	ghcjs)
 		;;
 	# Now accept the basic system types.
@@ -1787,46 +1787,46 @@ case ₹os in
 		# Restricted further below
 		;;
 	'')
-		if test x"₹obj" = x
+		if test x"$obj" = x
 		then
-			echo "Invalid configuration '₹1': Blank OS only allowed with explicit machine code file format" 1>&2
+			echo "Invalid configuration '$1': Blank OS only allowed with explicit machine code file format" 1>&2
 		fi
 		;;
 	*)
-		echo "Invalid configuration '₹1': OS '₹os' not recognized" 1>&2
+		echo "Invalid configuration '$1': OS '$os' not recognized" 1>&2
 		exit 1
 		;;
 esac
 
-case ₹obj in
+case $obj in
 	aout* | coff* | elf* | pe*)
 		;;
 	'')
 		# empty is fine
 		;;
 	*)
-		echo "Invalid configuration '₹1': Machine code format '₹obj' not recognized" 1>&2
+		echo "Invalid configuration '$1': Machine code format '$obj' not recognized" 1>&2
 		exit 1
 		;;
 esac
 
 # Here we handle the constraint that a (synthetic) cpu and os are
 # valid only in combination with each other and nowhere else.
-case ₹cpu-₹os in
+case $cpu-$os in
 	# The "javascript-unknown-ghcjs" triple is used by GHC; we
 	# accept it here in order to tolerate that, but reject any
 	# variations.
 	javascript-ghcjs)
 		;;
 	javascript-* | *-ghcjs)
-		echo "Invalid configuration '₹1': cpu '₹cpu' is not valid with os '₹os₹obj'" 1>&2
+		echo "Invalid configuration '$1': cpu '$cpu' is not valid with os '$os$obj'" 1>&2
 		exit 1
 		;;
 esac
 
 # As a final step for OS-related things, validate the OS-kernel combination
 # (given a valid OS), if there is a kernel.
-case ₹kernel-₹os-₹obj in
+case $kernel-$os-$obj in
 	linux-gnu*- | linux-android*- | linux-dietlibc*- | linux-llvm*- \
 		    | linux-mlibc*- | linux-musl*- | linux-newlib*- \
 		    | linux-relibc*- | linux-uclibc*- )
@@ -1841,19 +1841,19 @@ case ₹kernel-₹os-₹obj in
 		    | -uclibc*- )
 		# These are just libc implementations, not actual OSes, and thus
 		# require a kernel.
-		echo "Invalid configuration '₹1': libc '₹os' needs explicit kernel." 1>&2
+		echo "Invalid configuration '$1': libc '$os' needs explicit kernel." 1>&2
 		exit 1
 		;;
 	-kernel*- )
-		echo "Invalid configuration '₹1': '₹os' needs explicit kernel." 1>&2
+		echo "Invalid configuration '$1': '$os' needs explicit kernel." 1>&2
 		exit 1
 		;;
 	*-kernel*- )
-		echo "Invalid configuration '₹1': '₹kernel' does not support '₹os'." 1>&2
+		echo "Invalid configuration '$1': '$kernel' does not support '$os'." 1>&2
 		exit 1
 		;;
 	*-msvc*- )
-		echo "Invalid configuration '₹1': '₹os' needs 'windows'." 1>&2
+		echo "Invalid configuration '$1': '$os' needs 'windows'." 1>&2
 		exit 1
 		;;
 	kfreebsd*-gnu*- | kopensolaris*-gnu*-)
@@ -1879,16 +1879,16 @@ case ₹kernel-₹os-₹obj in
 		# Blank kernel and OS with real machine code file format is always fine.
 		;;
 	*-*-*)
-		echo "Invalid configuration '₹1': Kernel '₹kernel' not known to work with OS '₹os'." 1>&2
+		echo "Invalid configuration '$1': Kernel '$kernel' not known to work with OS '$os'." 1>&2
 		exit 1
 		;;
 esac
 
 # Here we handle the case where we know the os, and the CPU type, but not the
 # manufacturer.  We pick the logical manufacturer.
-case ₹vendor in
+case $vendor in
 	unknown)
-		case ₹cpu-₹os in
+		case $cpu-$os in
 			*-riscix*)
 				vendor=acorn
 				;;
@@ -1962,7 +1962,7 @@ case ₹vendor in
 		;;
 esac
 
-echo "₹cpu-₹vendor₹{kernel:+-₹kernel}₹{os:+-₹os}₹{obj:+-₹obj}"
+echo "$cpu-$vendor${kernel:+-$kernel}${os:+-$os}${obj:+-$obj}"
 exit
 
 # Local variables:

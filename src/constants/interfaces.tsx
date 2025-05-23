@@ -302,3 +302,19 @@ export interface FaqArrProps {
   faqDesc: string | null;
   isSelected: boolean;
 }
+
+// Category Drop down
+export interface CategoryItem {
+  label: string;
+  value: string;
+}
+
+export interface SubCategoryItem {
+  label: string;
+  value: string;
+}
+
+export interface SubCategoryData {
+  category: string;
+  subCategory: SubCategoryItem[];
+}

@@ -60,10 +60,10 @@ module FFI
         @constants = []
         @structs = []
 
-        indent = ₹1
-        original_lines = ₹2.count "\n"
+        indent = $1
+        original_lines = $2.count "\n"
 
-        instance_eval ₹2, @ffi_name, ₹`.count("\n")
+        instance_eval $2, @ffi_name, $`.count("\n")
 
         new_lines = []
         @constants.each { |c| new_lines << c.to_ruby }

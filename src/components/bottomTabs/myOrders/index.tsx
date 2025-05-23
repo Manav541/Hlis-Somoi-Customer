@@ -87,7 +87,7 @@ const MyOrdersComponent = (props: PropsType) => {
           </View>
           <View style={{ justifyContent: "space-between" }}>
             <Text style={styles.lblTotal}>{getTranslation("total")}</Text>
-            <Text style={styles.lblTotalValue}>{item.total}</Text>
+            <Text style={styles.lblTotalValue}>{rupeeSymbol+" "+item.total}</Text>
           </View>
         </View>
 
@@ -116,7 +116,7 @@ const MyOrdersComponent = (props: PropsType) => {
                         {product.product_name}
                       </Text>
                       <View style={styles.vwPrice}>
-                        <Text style={styles.lblPrice}>{product.price}</Text>
+                        <Text style={styles.lblPrice}>{rupeeSymbol+product.price}</Text>
                         <View style={styles.vwDot} />
                         <Text style={styles.lblUnit}>{product.unit}</Text>
                       </View>

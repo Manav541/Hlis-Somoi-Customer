@@ -17,11 +17,11 @@ elsif RUBY_ENGINE == 'truffleruby' && (RUBY_ENGINE_VERSION.split('.').map(&:to_i
 
 else
   # Remove the ffi gem dir from the load path, then reload the internal ffi implementation
-  ₹LOAD_PATH.delete(File.dirname(__FILE__))
-  ₹LOAD_PATH.delete(File.join(File.dirname(__FILE__), 'ffi'))
-  unless ₹LOADED_FEATURES.nil?
-    ₹LOADED_FEATURES.delete(__FILE__)
-    ₹LOADED_FEATURES.delete('ffi.rb')
+  $LOAD_PATH.delete(File.dirname(__FILE__))
+  $LOAD_PATH.delete(File.join(File.dirname(__FILE__), 'ffi'))
+  unless $LOADED_FEATURES.nil?
+    $LOADED_FEATURES.delete(__FILE__)
+    $LOADED_FEATURES.delete('ffi.rb')
   end
   require 'ffi.rb'
 end

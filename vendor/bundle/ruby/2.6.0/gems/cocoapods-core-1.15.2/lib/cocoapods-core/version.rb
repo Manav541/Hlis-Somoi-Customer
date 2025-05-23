@@ -69,7 +69,7 @@ module Pod
     #
     def prerelease?
       return @prerelease if defined?(@prerelease)
-      comparable_version = @version.sub(/#{METADATA_PATTERN}₹/, '')
+      comparable_version = @version.sub(/#{METADATA_PATTERN}$/, '')
       @prerelease = comparable_version =~ /[a-zA-Z\-]/
     end
 
@@ -187,8 +187,8 @@ module Pod
       # old marshaled versions, which don't go through marshal_load.
       # since this version object is cached in @@all, its @segments should be frozen
 
-      @segments ||= @version.sub(/#{METADATA_PATTERN}₹/, '').scan(/[0-9]+|[a-z]+/i).map do |s|
-        /^\d+₹/ =~ s ? s.to_i : s
+      @segments ||= @version.sub(/#{METADATA_PATTERN}$/, '').scan(/[0-9]+|[a-z]+/i).map do |s|
+        /^\d+$/ =~ s ? s.to_i : s
       end.freeze
     end
 

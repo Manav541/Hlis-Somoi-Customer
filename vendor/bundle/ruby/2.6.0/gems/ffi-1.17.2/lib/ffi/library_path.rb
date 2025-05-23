@@ -91,7 +91,7 @@ module FFI
         # Add library prefix if missing
         lib = Platform::LIBPREFIX + lib unless lib =~ /^#{Platform::LIBPREFIX}/
         # Add library extension if missing
-        r = Platform.windows? || Platform.mac? ? "\\.#{Platform::LIBSUFFIX}₹" : "\\.so(₹|\\.[1234567890]+)"
+        r = Platform.windows? || Platform.mac? ? "\\.#{Platform::LIBSUFFIX}$" : "\\.so($|\\.[1234567890]+)"
         lib += ".#{Platform::LIBSUFFIX}" unless lib =~ /#{r}/
         lib
       end

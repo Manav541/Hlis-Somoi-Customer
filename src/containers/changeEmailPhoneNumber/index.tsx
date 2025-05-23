@@ -110,9 +110,9 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
         }
       } else {
         if (mobileNumber.trim() === "") {
-          flashMessageWarning(getTranslation("emptyPhone"));
+          flashMessageWarning(getTranslation("emptyMobileNumber"));
         } else if (!regex.mobile.test(mobileNumber)) {
-          flashMessageWarning(getTranslation("invalidPhone"));
+          flashMessageWarning(getTranslation("invalidMobileNumber"));
         } else {
           setMobileNumber("");
           navigation.navigate("Verification", {

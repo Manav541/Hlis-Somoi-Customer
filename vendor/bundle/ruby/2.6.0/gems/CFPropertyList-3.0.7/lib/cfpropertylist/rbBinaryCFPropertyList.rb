@@ -350,7 +350,7 @@ module CFPropertyList
     end
     protected :read_binary_object
 
-    # Read an object type byte at position ₹pos, decode it and delegate to the correct reader function
+    # Read an object type byte at position $pos, decode it and delegate to the correct reader function
     def read_binary_object_at(fname,fd,pos)
       position = @offsets[pos]
       fd.seek(position,IO::SEEK_SET)

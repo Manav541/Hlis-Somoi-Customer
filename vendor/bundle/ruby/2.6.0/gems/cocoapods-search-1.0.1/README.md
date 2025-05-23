@@ -8,17 +8,17 @@ A CocoaPods plugin that allows you to search multiple pod spec repositories for 
 
 If you have CocoaPods, you already have cocoapods-search installed by default. If not, you can also install it as a seperate gem as followed.
 
-    ₹ gem install cocoapods-search
+    $ gem install cocoapods-search
 
 ## Usage
 
 Search for pods by using the pod search command as followed.
 
-    ₹ pod search QUERY
+    $ pod search QUERY
 
 e.g.
 
-	₹ pod search networkin
+	$ pod search networkin
 
 	-> ACSNetworking (0.0.1)
 	On the basis of AFNetworking encapsulation.
@@ -72,7 +72,7 @@ You can use the following options with the search command.
 
 e.g.
 
-	₹ pod search video --osx
+	$ pod search video --osx
 
 	-> AMCoreAudio (2.0.7)
 	AMCoreAudio is a Swift wrapper for Apple's CoreAudio framework

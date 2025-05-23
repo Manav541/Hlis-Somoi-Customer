@@ -82,7 +82,7 @@ module Xcodeproj
     def xcodebuild_available?
       if @xcodebuild_available.nil?
         `which xcodebuild 2>/dev/null`
-        @xcodebuild_available = ₹?.exitstatus.zero?
+        @xcodebuild_available = $?.exitstatus.zero?
       end
       @xcodebuild_available
     end

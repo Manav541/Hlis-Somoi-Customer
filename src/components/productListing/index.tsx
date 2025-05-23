@@ -7,7 +7,7 @@ import {
   Modal,
   StatusBar,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { styles } from "./styles";
 import { colors } from "../../constants/Colors";
 import {
@@ -23,6 +23,13 @@ import { fontsfamily } from "../../constants/FontFamily";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { fontSize } from "../../constants/FontSizes";
 import GlobalButton from "../../global/GlobalButton";
+import DropDownPicker from "react-native-dropdown-picker";
+import {
+  CategoryItem,
+  SubCategoryData,
+  SubCategoryItem,
+} from "../../constants/interfaces";
+import GlobalDropdown from "../../global/GlobalDropdown";
 
 interface PropsType {
   mainCategoryName: string;
@@ -44,9 +51,44 @@ interface PropsType {
   onPressApplyFilter: () => void;
   isCheckInstantDelivery: boolean;
   onPressInstantDelivery: () => void;
+
+  // Category Dropdown
+  openCategory: boolean;
+  setOpenCategory: React.Dispatch<React.SetStateAction<boolean>>;
+  categoryValue: string;
+  setCategoryValue: React.Dispatch<React.SetStateAction<string>>;
+  categoryItems: CategoryItem[];
+  setCategoryItems: React.Dispatch<React.SetStateAction<CategoryItem[]>>;
+
+  // Sub Category Dropdown
+  openSubCategory: boolean;
+  setOpenSubCategory: any;
+  subCategoryValue: string;
+  setSubCategoryValue: any;
+  subCategoryItems: SubCategoryData[];
+  setSubCategoryItems: any;
+  filteredSubCategories: SubCategoryItem[];
+  setFilteredSubCategories: any;
 }
 
 const ProductListingComponent = (props: PropsType) => {
+  const categoryDropdownStyle = useMemo(
+    () => ({
+      ...styles.btnDropdownCategories,
+      borderTopLeftRadius: props.openCategory ? 20 : 100,
+      borderTopRightRadius: props.openCategory ? 20 : 100,
+    }),
+    [props.openCategory]
+  );
+
+  const subCategoryDropdownStyle = useMemo(
+    () => ({
+      ...styles.btnDropdownCategories,
+      borderTopLeftRadius: props.openSubCategory ? 20 : 100,
+      borderTopRightRadius: props.openSubCategory ? 20 : 100,
+    }),
+    [props.openSubCategory]
+  );
   const insets = useSafeAreaInsets();
   const renderItemSubCategoryTitle = ({ item, index }: any) => {
     return (
@@ -110,32 +152,33 @@ const ProductListingComponent = (props: PropsType) => {
               source={item?.isFavourite ? images.redHeart : images.emptyHeart}
             />
           </TouchableOpacity>
-          
-            <Text style={styles.lblInStock}>{getTranslation("inStock")}</Text>
+
+          <Text style={styles.lblInStock}>{getTranslation("inStock")}</Text>
         </View>
 
         {/* Product Details */}
         <View style={styles.vwProductDetails}>
+          {/* name and weight */}
           <View style={{ height: 59 }}>
-            <View style={{ height: 44 }}>
-              <Text style={styles.lblProductName} numberOfLines={2}>
-                {item?.product_name}
-              </Text>
-            </View>
-            <View style={{ height: 15 }}>
-              <Text style={styles.lblProductWeight}>
-                {item?.product_weight}
-              </Text>
-            </View>
+            <Text style={styles.lblProductName} numberOfLines={2}>
+              {item?.product_name}
+            </Text>
+            <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
           </View>
 
+          {/* Price and Rating */}
           <View style={styles.vwPriceRating}>
+            {/* Price */}
             <View style={styles.vwPrice}>
               <Text style={styles.lblProductFinalPrice}>
-                {item?.product_final_price}
+                {rupeeSymbol + item?.product_final_price}
               </Text>
-              <Text style={styles.lblProductPrice}>{item?.product_price}</Text>
+              <Text style={styles.lblProductPrice}>
+                {rupeeSymbol + item?.product_price}
+              </Text>
             </View>
+
+            {/* Rating */}
             <View style={styles.vwProductRating}>
               <Image style={styles.imgStar} source={images.star} />
               <Text style={styles.lblProductRating}>
@@ -144,6 +187,7 @@ const ProductListingComponent = (props: PropsType) => {
             </View>
           </View>
         </View>
+
         {/* Add to cart */}
         {item.product_quantity === 0 ? (
           <TouchableOpacity
@@ -226,7 +270,7 @@ const ProductListingComponent = (props: PropsType) => {
               <View style={styles.vwDistance}>
                 <Image style={styles.imgDot} source={images.dotOrange} />
                 <Text style={styles.lblDistance}>
-                  {item?.restaurant_distance}
+                  {item?.restaurant_distance.toLowerCase()}
                 </Text>
               </View>
             </View>
@@ -275,7 +319,7 @@ const ProductListingComponent = (props: PropsType) => {
             gap: 10,
             // marginTop: 20,
             paddingHorizontal: 20,
-            paddingBottom: insets.bottom ? insets.bottom+20 : 20,
+            paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
           }}
         />
       ) : (
@@ -286,7 +330,7 @@ const ProductListingComponent = (props: PropsType) => {
           keyExtractor={(_, index) => index.toString()}
           contentContainerStyle={{
             paddingHorizontal: 20,
-            paddingBottom: insets.bottom ? insets.bottom+20 : 20,
+            paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
             gap: 19,
           }}
           columnWrapperStyle={{
@@ -311,10 +355,10 @@ const ProductListingComponent = (props: PropsType) => {
         animationType="fade"
       >
         <StatusBar
-        translucent
-        backgroundColor={colors.black50}
-        barStyle={"dark-content"}
-      />
+          translucent
+          backgroundColor={colors.black50}
+          barStyle={"dark-content"}
+        />
         <View style={styles.vwFilterModal}>
           <View style={styles.vwFilterModalContainer}>
             <View style={styles.vwFilterTitleClose}>
@@ -344,7 +388,11 @@ const ProductListingComponent = (props: PropsType) => {
                     activeOpacity={activityOpacity}
                     hitSlop={hitSlop}
                     onPress={props?.onPressInstantDelivery}
-                    style={{flexDirection : 'row', alignItems : 'center', gap : 5}}
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 5,
+                    }}
                   >
                     <Image
                       style={styles.imgCheckBox}
@@ -355,45 +403,49 @@ const ProductListingComponent = (props: PropsType) => {
                           : images.filterCheckbox
                       }
                     />
-                  
-                  <Text style={styles.lblAvailableInstantDeliveries}>
-                    {getTranslation("availableforInstantDelivery")}
-                  </Text>
+
+                    <Text style={styles.lblAvailableInstantDeliveries}>
+                      {getTranslation("availableforInstantDelivery")}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
+
               {/* Categories Dropdown */}
               <View style={styles.vwCategories}>
                 <Text style={styles.lblCategories}>
                   {getTranslation("categories")}
                 </Text>
-                <TouchableOpacity
-                  style={styles.btnDropdownCategories}
-                  activeOpacity={activityOpacity}
-                  hitSlop={hitSlop}
-                >
-                  <Text style={styles.lblDropdownCategories}>
-                    {getTranslation("select")}
-                  </Text>
-                  <Image style={styles.imgCheckBox} source={images.dropdown} />
-                </TouchableOpacity>
+                <GlobalDropdown
+                  open={props.openCategory}
+                  value={props.categoryValue}
+                  items={props.categoryItems}
+                  setOpen={props.setOpenCategory}
+                  setValue={props.setCategoryValue}
+                  setItems={props.setCategoryItems}
+                  placeholder={getTranslation("select") || ""}
+                  zIndex={5000}
+                />
               </View>
+
               {/* Sub Categories Dropdown */}
               <View style={styles.vwCategories}>
                 <Text style={styles.lblCategories}>
                   {getTranslation("subCategories")}
                 </Text>
-                <TouchableOpacity
-                  style={styles.btnDropdownCategories}
-                  activeOpacity={activityOpacity}
-                  hitSlop={hitSlop}
-                >
-                  <Text style={styles.lblDropdownCategories}>
-                    {getTranslation("select")}
-                  </Text>
-                  <Image style={styles.imgCheckBox} source={images.dropdown} />
-                </TouchableOpacity>
+                <GlobalDropdown
+                  open={props?.openSubCategory}
+                  value={props?.subCategoryValue}
+                  items={props?.filteredSubCategories}
+                  setOpen={props?.setOpenSubCategory}
+                  setValue={props?.setSubCategoryValue}
+                  setItems={props?.setFilteredSubCategories}
+                  placeholder={getTranslation("select") || ""}
+                  disabled={!props.categoryValue}
+                  zIndex={4000}
+                />
               </View>
+
               {/* Price Range */}
               <View style={styles.vwPricerange}>
                 <Text style={styles.lblCategories}>
@@ -433,7 +485,9 @@ const ProductListingComponent = (props: PropsType) => {
                   </Text>
                 </View>
               </View>
+
               {/* rating range */}
+
               <View style={styles.vwRatingRange}>
                 <Text style={styles.lblCategories}>
                   {getTranslation("ratingRange")}
@@ -460,7 +514,13 @@ const ProductListingComponent = (props: PropsType) => {
                 </View>
               </View>
               {/* Filter Button */}
-              <View style={{ marginTop: 15 }}>
+
+              <View
+                style={{
+                  marginTop: 15,
+                  marginBottom: insets.bottom ? insets.bottom : 10,
+                }}
+              >
                 <GlobalButton
                   title={getTranslation("applyFilters")}
                   isOrange

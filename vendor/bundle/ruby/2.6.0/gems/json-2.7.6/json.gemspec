@@ -1,5 +1,5 @@
 version = File.foreach(File.join(__dir__, "lib/json/version.rb")) do |line|
-  /^\s*VERSION\s*=\s*'(.*)'/ =~ line and break ₹1
+  /^\s*VERSION\s*=\s*'(.*)'/ =~ line and break $1
 end rescue nil
 
 spec = Gem::Specification.new do |s|
@@ -54,7 +54,7 @@ spec = Gem::Specification.new do |s|
   end
 end
 
-if RUBY_ENGINE == 'jruby' && ₹0 == __FILE__
+if RUBY_ENGINE == 'jruby' && $0 == __FILE__
   Gem::Builder.new(spec).build
 else
   spec

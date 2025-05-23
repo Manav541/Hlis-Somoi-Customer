@@ -26,13 +26,13 @@ module ActiveSupport
     #  # => "+1.123.555.1234 x 1343"
     #
     #  Currency:
-    #  1234567890.50.to_s(:currency)                     # => "₹1,234,567,890.50"
-    #  1234567890.506.to_s(:currency)                    # => "₹1,234,567,890.51"
-    #  1234567890.506.to_s(:currency, precision: 3)      # => "₹1,234,567,890.506"
-    #  1234567890.506.to_s(:currency, round_mode: :down) # => "₹1,234,567,890.50"
+    #  1234567890.50.to_s(:currency)                     # => "$1,234,567,890.50"
+    #  1234567890.506.to_s(:currency)                    # => "$1,234,567,890.51"
+    #  1234567890.506.to_s(:currency, precision: 3)      # => "$1,234,567,890.506"
+    #  1234567890.506.to_s(:currency, round_mode: :down) # => "$1,234,567,890.50"
     #  1234567890.506.to_s(:currency, locale: :fr)       # => "1 234 567 890,51 €"
     #  -1234567890.50.to_s(:currency, negative_format: '(%u%n)')
-    #  # => "(₹1,234,567,890.50)"
+    #  # => "($1,234,567,890.50)"
     #  1234567890.50.to_s(:currency, unit: '&pound;', separator: ',', delimiter: '')
     #  # => "&pound;1234567890,50"
     #  1234567890.50.to_s(:currency, unit: '&pound;', separator: ',', delimiter: '', format: '%n %u')

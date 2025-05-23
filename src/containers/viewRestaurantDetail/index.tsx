@@ -68,7 +68,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     {
       food_img: images.burger,
       food_name: "Crispy Veggie Burger",
-      food_price: "₹200",
+      food_price: "200",
       food_rate: "4.5",
       food_quantity: 0,
       food_description:
@@ -80,7 +80,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     {
       food_img: images.burger,
       food_name: "Crispy Chicken Burger",
-      food_price: "₹100",
+      food_price: "100",
       food_rate: "4.5",
       food_quantity: 0,
       food_description:
@@ -92,7 +92,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     {
       food_img: images.burger,
       food_name: "Crispy Veggie Burger",
-      food_price: "₹200",
+      food_price: "200",
       food_rate: "4.5",
       food_quantity: 0,
       food_description:
@@ -104,7 +104,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     {
       food_img: images.burger,
       food_name: "Crispy Chicken Burger",
-      food_price: "₹100",
+      food_price: "100",
       food_rate: "4.5",
       food_quantity: 0,
       food_description:
@@ -116,7 +116,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     {
       food_img: images.burger,
       food_name: "Crispy Veggie Burger",
-      food_price: "₹200",
+      food_price: "200",
       food_rate: "4.5",
       food_quantity: 0,
       food_description:
@@ -128,7 +128,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     {
       food_img: images.burger,
       food_name: "Crispy Chicken Burger",
-      food_price: "₹100",
+      food_price: "100",
       food_rate: "4.5",
       food_quantity: 0,
       food_description:

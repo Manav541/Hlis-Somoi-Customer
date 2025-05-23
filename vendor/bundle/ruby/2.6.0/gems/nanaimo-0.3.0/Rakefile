@@ -18,7 +18,7 @@ task :generate_nextstep_mappings do
   url = 'http://ftp.unicode.org/Public/MAPPINGS/VENDORS/NEXT/NEXTSTEP.TXT'
   mappings = Net::HTTP.get(URI(url))
                       .lines
-                      .grep(/^[^#₹]/)
+                      .grep(/^[^#$]/)
                       .map { |l| l.split("\t", 3) }
                       .reduce('') do |f, (ns, uc, cm)|
     f << "      #{ns} => #{uc}, #{cm}"

@@ -39,7 +39,7 @@ module ActiveSupport
           format: {
             format: "%u%n",
             negative_format: "-%u%n",
-            unit: "₹",
+            unit: "$",
             # These five are to override number.format and are optional
             separator: ".",
             delimiter: ",",

@@ -13,7 +13,7 @@ import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { fontsfamily } from "../../constants/FontFamily";
-import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
 import { colors } from "../../constants/Colors";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { fontSize } from "../../constants/FontSizes";
@@ -133,7 +133,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
           </View>
 
           <View style={styles.vwPriceRating}>
-            <Text style={styles.lblFoodFinalPrice}>{item?.food_price}</Text>
+            <Text style={styles.lblFoodFinalPrice}>{rupeeSymbol+item?.food_price}</Text>
             <View style={styles.vwFoodRating}>
               <Image style={styles.imgStarFood} source={images.star} />
               <Text style={styles.lblFoodRating}>{item?.food_rate}</Text>
@@ -237,7 +237,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
           <View style={styles.vwRestaurantDistance}>
             <Image style={styles.imgDot} source={images.dotOrange} />
             <Text style={styles.lblRestaurant_distance}>
-              {props?.restaurant_distance}
+              {props?.restaurant_distance.toLowerCase()}
             </Text>
           </View>
         </View>

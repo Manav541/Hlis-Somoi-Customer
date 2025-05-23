@@ -36,6 +36,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 7,
     marginTop: 6,
     marginBottom: 7,
+    justifyContent:'space-between'
   },
   vwPriceRating: {
     height: 17,
@@ -145,6 +146,7 @@ export const styles = StyleSheet.create({
     color: colors.greya7,
     fontSize: fontSize.size10,
     fontFamily: fontsfamily.semibold,
+    lineHeight : 15
   },
   lblProductFinalPrice: {
     color: colors.blue4e,
@@ -319,7 +321,6 @@ export const styles = StyleSheet.create({
   vwFilterModalContainer: {
     width: ScreenDimensions.screenWidth,
     paddingTop: 21,
-    paddingBottom: 34,
     backgroundColor: colors.blue4e,
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
@@ -430,6 +431,15 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 16,
     justifyContent: "space-between",
+    backgroundColor : colors.blue4e
+  },
+  btnDropdownCategoriesContainer: {
+    height: 52,
+    borderColor: colors.greya7,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor : colors.blue4e
   },
 
   // Slider Styles

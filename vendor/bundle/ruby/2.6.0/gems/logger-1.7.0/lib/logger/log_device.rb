@@ -150,7 +150,7 @@ class Logger
     rescue *@reraise_write_errors
       raise
     rescue
-      warn("log #{mesg} failed. #{₹!}")
+      warn("log #{mesg} failed. #{$!}")
     end
 
     def add_log_header(file)
@@ -192,7 +192,7 @@ class Logger
       rescue Errno::ENOENT
         # @filename file would not exist right after #rename and before #create_logfile
         if retry_limit <= 0
-          warn("log rotation inter-process lock failed. #{₹!}")
+          warn("log rotation inter-process lock failed. #{$!}")
         else
           sleep retry_sleep
           retry_limit -= 1
@@ -201,7 +201,7 @@ class Logger
         end
       end
     rescue
-      warn("log rotation inter-process lock failed. #{₹!}")
+      warn("log rotation inter-process lock failed. #{$!}")
     end
 
     def shift_log_age

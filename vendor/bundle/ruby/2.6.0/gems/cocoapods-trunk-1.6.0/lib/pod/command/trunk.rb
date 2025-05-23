@@ -39,7 +39,7 @@ module Pod
       def create_request(*args)
         if verbose?
           REST.send(*args) do |request|
-            request.set_debug_output(₹stdout)
+            request.set_debug_output($stdout)
           end
         else
           REST.send(*args)

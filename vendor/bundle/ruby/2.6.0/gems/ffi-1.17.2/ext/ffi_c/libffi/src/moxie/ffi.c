@@ -175,14 +175,14 @@ void ffi_closure_eabi (unsigned arg1, unsigned arg2, unsigned arg3,
 		       unsigned arg4, unsigned arg5, unsigned arg6)
 {
   /* This function is called by a trampoline.  The trampoline stows a
-     pointer to the ffi_closure object in ₹r12.  We must save this
+     pointer to the ffi_closure object in $r12.  We must save this
      pointer in a place that will persist while we do our work.  */
-  register ffi_closure *creg __asm__ ("₹r12");
+  register ffi_closure *creg __asm__ ("$r12");
   ffi_closure *closure = creg;
 
   /* Arguments that don't fit in registers are found on the stack
      at a fixed offset above the current frame pointer.  */
-  register char *frame_pointer __asm__ ("₹fp");
+  register char *frame_pointer __asm__ ("$fp");
 
   /* Pointer to a struct return value.  */
   void *struct_rvalue = (void *) arg1;
@@ -275,7 +275,7 @@ void ffi_closure_eabi (unsigned arg1, unsigned arg2, unsigned arg3,
       /* Allocate space for the return value and call the function.  */
       long long rvalue;
       (closure->fun) (cif, &rvalue, avalue, closure->user_data);
-      asm ("mov ₹r12, %0\n ld.l ₹r0, (₹r12)\n ldo.l ₹r1, 4(₹r12)" : : "r" (&rvalue));
+      asm ("mov $r12, %0\n ld.l $r0, ($r12)\n ldo.l $r1, 4($r12)" : : "r" (&rvalue));
     }
 }
 
@@ -295,7 +295,7 @@ ffi_prep_closure_loc (ffi_closure* closure,
 
   fn = (unsigned long) ffi_closure_eabi;
 
-  tramp[0] = 0x01e0; /* ldi.l ₹r12, .... */
+  tramp[0] = 0x01e0; /* ldi.l $r12, .... */
   tramp[1] = cls >> 16;
   tramp[2] = cls & 0xffff;
   tramp[3] = 0x1a00; /* jmpa .... */

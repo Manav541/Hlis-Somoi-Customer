@@ -56,7 +56,7 @@ module Pod
       full_command = "#{bin} #{command.join(' ')}"
 
       if Config.instance.verbose?
-        UI.message("₹ #{full_command}")
+        UI.message("$ #{full_command}")
         stdout = Indenter.new(STDOUT)
         stderr = Indenter.new(STDERR)
       else
@@ -203,7 +203,7 @@ module Pod
             end
           end
         rescue EOFError, IOError
-          output << (buf << ₹/) unless buf.empty?
+          output << (buf << $/) unless buf.empty?
         end
       end
     end

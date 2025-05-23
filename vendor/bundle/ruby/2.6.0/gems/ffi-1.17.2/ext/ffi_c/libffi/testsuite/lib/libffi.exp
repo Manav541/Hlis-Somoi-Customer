@@ -16,7 +16,7 @@
 
 proc load_gcc_lib { filename } {
     global srcdir
-    load_file ₹srcdir/lib/₹filename
+    load_file $srcdir/lib/$filename
 }
 
 load_lib dg.exp
@@ -26,7 +26,7 @@ load_gcc_lib wrapper.exp
 
 proc check_effective_target_gccbug { } {
     global has_gccbug
-    return ₹has_gccbug
+    return $has_gccbug
 }
 
 # Return 1 if the target matches the effective target 'arg', 0 otherwise.
@@ -42,17 +42,17 @@ proc is-effective-target { arg } {
 	# check_effective_target_* procs.
 	set et_index 0
     }
-    if { [info procs check_effective_target_₹{arg}] != [list] } {
-	set selected [check_effective_target_₹{arg}]
+    if { [info procs check_effective_target_${arg}] != [list] } {
+	set selected [check_effective_target_${arg}]
     } else {
-	error "unknown effective target keyword `₹arg'"
+	error "unknown effective target keyword `$arg'"
     }
-    verbose "is-effective-target: ₹arg ₹selected" 2
-    return ₹selected
+    verbose "is-effective-target: $arg $selected" 2
+    return $selected
 }
 
 proc is-effective-target-keyword { arg } {
-    if { [info procs check_effective_target_₹{arg}] != [list] } {
+    if { [info procs check_effective_target_${arg}] != [list] } {
 	return 1
     } else {
 	return 0
@@ -88,92 +88,92 @@ if { [info procs saved-dg-process-target] == [list] } {
     # Evaluate an operand within a selector expression.
     proc selector_opd { op } {
 	set selector "target"
-	lappend selector ₹op
-	set answer [ expr { [dg-process-target ₹selector] == "S" } ]
-	verbose "selector_opd: `₹op' ₹answer" 2
-	return ₹answer
+	lappend selector $op
+	set answer [ expr { [dg-process-target $selector] == "S" } ]
+	verbose "selector_opd: `$op' $answer" 2
+	return $answer
     }
 
     # Evaluate a target triplet list within a selector expression.
     # Unlike other operands, this needs to be expanded from a list to
     # the same string as "target".
     proc selector_list { op } {
-	set selector "target [join ₹op]"
-	set answer [ expr { [dg-process-target ₹selector] == "S" } ]
-	verbose "selector_list: `₹op' ₹answer" 2
-	return ₹answer
+	set selector "target [join $op]"
+	set answer [ expr { [dg-process-target $selector] == "S" } ]
+	verbose "selector_list: `$op' $answer" 2
+	return $answer
     }
 
     # Evaluate a selector expression.
     proc selector_expression { exp } {
-	if { [llength ₹exp] == 2 } {
-	    if [string match "!" [lindex ₹exp 0]] {
-		set op1 [lindex ₹exp 1]
-		set answer [expr { ! [selector_opd ₹op1] }]
+	if { [llength $exp] == 2 } {
+	    if [string match "!" [lindex $exp 0]] {
+		set op1 [lindex $exp 1]
+		set answer [expr { ! [selector_opd $op1] }]
 	    } else {
 		# Assume it's a list of target triplets.
-		set answer [selector_list ₹exp]
+		set answer [selector_list $exp]
 	    }
-	} elseif { [llength ₹exp] == 3 } {
-	    set op1 [lindex ₹exp 0]
-	    set opr [lindex ₹exp 1]
-	    set op2 [lindex ₹exp 2]
-	    if [string match "&&" ₹opr] {
-		set answer [expr { [selector_opd ₹op1] && [selector_opd ₹op2] }]
-	    } elseif [string match "||" ₹opr] {
-		set answer [expr { [selector_opd ₹op1] || [selector_opd ₹op2] }]
+	} elseif { [llength $exp] == 3 } {
+	    set op1 [lindex $exp 0]
+	    set opr [lindex $exp 1]
+	    set op2 [lindex $exp 2]
+	    if [string match "&&" $opr] {
+		set answer [expr { [selector_opd $op1] && [selector_opd $op2] }]
+	    } elseif [string match "||" $opr] {
+		set answer [expr { [selector_opd $op1] || [selector_opd $op2] }]
 	    } else {
 		# Assume it's a list of target triplets.
-		set answer [selector_list ₹exp]
+		set answer [selector_list $exp]
 	    }
 	} else {
 	    # Assume it's a list of target triplets.
-	    set answer [selector_list ₹exp]
+	    set answer [selector_list $exp]
 	}
 
-	verbose "selector_expression: `₹exp' ₹answer" 2
-	return ₹answer
+	verbose "selector_expression: `$exp' $answer" 2
+	return $answer
     }
 
     # Evaluate "target selector" or "xfail selector".
 
     proc dg-process-target-1 { args } {
-	verbose "dg-process-target-1: `₹args'" 2
+	verbose "dg-process-target-1: `$args'" 2
 
 	# Extract the 'what' keyword from the argument list.
-	set selector [string trim [lindex ₹args 0]]
-	if [regexp "^xfail " ₹selector] {
+	set selector [string trim [lindex $args 0]]
+	if [regexp "^xfail " $selector] {
 	    set what "xfail"
-	} elseif [regexp "^target " ₹selector] {
+	} elseif [regexp "^target " $selector] {
 	    set what "target"
 	} else {
-	    error "syntax error in target selector \"₹selector\""
+	    error "syntax error in target selector \"$selector\""
 	}
 
 	# Extract the rest of the list, which might be a keyword.
-	regsub "^₹{what}" ₹selector "" rest
-	set rest [string trim ₹rest]
+	regsub "^${what}" $selector "" rest
+	set rest [string trim $rest]
 
-	if [is-effective-target-keyword ₹rest] {
+	if [is-effective-target-keyword $rest] {
 	    # The selector is an effective target keyword.
-	    if [is-effective-target ₹rest] {
-		return [expr { ₹what == "xfail" ? "F" : "S" }]
+	    if [is-effective-target $rest] {
+		return [expr { $what == "xfail" ? "F" : "S" }]
 	    } else {
-		return [expr { ₹what == "xfail" ? "P" : "N" }]
+		return [expr { $what == "xfail" ? "P" : "N" }]
 	    }
 	}
 
-	if [string match "{*}" ₹rest] {
-	    if [selector_expression [lindex ₹rest 0]] {
-		return [expr { ₹what == "xfail" ? "F" : "S" }]
+	if [string match "{*}" $rest] {
+	    if [selector_expression [lindex $rest 0]] {
+		return [expr { $what == "xfail" ? "F" : "S" }]
 	    } else {
-		return [expr { ₹what == "xfail" ? "P" : "N" }]
+		return [expr { $what == "xfail" ? "P" : "N" }]
 	    }
 	}
 
 	# The selector is not an effective-target keyword, so process
 	# the list of target triplets.
-	return [saved-dg-process-target ₹selector]
+	return [saved-dg-process-target $selector]
     }
 
     # Intercept calls to the DejaGnu function.  In addition to
@@ -181,24 +181,24 @@ if { [info procs saved-dg-process-target] == [list] } {
     # "target selector1 xfail selector2".
 
     proc dg-process-target { args } {
-	verbose "replacement dg-process-target: `₹args'" 2
+	verbose "replacement dg-process-target: `$args'" 2
 
-	set selector [string trim [lindex ₹args 0]]
+	set selector [string trim [lindex $args 0]]
 
 	# If the argument list contains both 'target' and 'xfail',
 	# process 'target' and, if that succeeds, process 'xfail'.
-	if [regexp "^target .* xfail .*" ₹selector] {
-	    set xfail_index [string first "xfail" ₹selector]
-	    set xfail_selector [string range ₹selector ₹xfail_index end]
-	    set target_selector [string range ₹selector 0 [expr ₹xfail_index-1]]
-	    set target_selector [string trim ₹target_selector]
-	    if { [dg-process-target-1 ₹target_selector] == "N" } {
+	if [regexp "^target .* xfail .*" $selector] {
+	    set xfail_index [string first "xfail" $selector]
+	    set xfail_selector [string range $selector $xfail_index end]
+	    set target_selector [string range $selector 0 [expr $xfail_index-1]]
+	    set target_selector [string trim $target_selector]
+	    if { [dg-process-target-1 $target_selector] == "N" } {
 		return "N"
 	    }
-	    return [dg-process-target-1 ₹xfail_selector]
+	    return [dg-process-target-1 $xfail_selector]
 
 	}
-	return [dg-process-target-1 ₹selector]
+	return [dg-process-target-1 $selector]
     }
 }
 
@@ -216,9 +216,9 @@ proc libffi-dg-test-1 { target_compile prog do_what extra_tool_flags } {
     # would necessarily have the same assumption.
     upvar 2 dg-output-text output_match
 
-    if { [llength ₹output_match] > 1 } {
-	regsub -all "\n" [lindex ₹output_match 1] "\r?\n" x
-	set output_match [lreplace ₹output_match 1 1 ₹x]
+    if { [llength $output_match] > 1 } {
+	regsub -all "\n" [lindex $output_match 1] "\r?\n" x
+	set output_match [lreplace $output_match 1 1 $x]
     }
 
     if { [ istarget "wasm32-*-*" ] } {
@@ -231,56 +231,56 @@ proc libffi-dg-test-1 { target_compile prog do_what extra_tool_flags } {
     # Set up the compiler flags, based on what we're going to do.
 
     set options [list]
-    switch ₹do_what {
+    switch $do_what {
 	"compile" {
 	    set compile_type "assembly"
-	    set output_file "[file rootname [file tail ₹prog]].s"
+	    set output_file "[file rootname [file tail $prog]].s"
 	}
 	"link" {
 	    set compile_type "executable"
-	    set output_file "[file rootname [file tail ₹prog]]₹exec_suffix"
+	    set output_file "[file rootname [file tail $prog]]$exec_suffix"
 	    # The following line is needed for targets like the i960 where
 	    # the default output file is b.out.  Sigh.
 	}
 	"run" {
 	    set compile_type "executable"
-	    # FIXME: "./" is to cope with "." not being in ₹PATH.
+	    # FIXME: "./" is to cope with "." not being in $PATH.
 	    # Should this be handled elsewhere?
 	    # YES.
-	    set output_file "./[file rootname [file tail ₹prog]]₹exec_suffix"
+	    set output_file "./[file rootname [file tail $prog]]$exec_suffix"
 	    # This is the only place where we care if an executable was
 	    # created or not.  If it was, dg.exp will try to run it.
-	    remote_file build delete ₹output_file;
+	    remote_file build delete $output_file;
 	}
 	default {
-	    perror "₹do_what: not a valid dg-do keyword"
+	    perror "$do_what: not a valid dg-do keyword"
 	    return ""
 	}
     }
 
-    if { ₹extra_tool_flags != "" } {
-	lappend options "additional_flags=₹extra_tool_flags"
+    if { $extra_tool_flags != "" } {
+	lappend options "additional_flags=$extra_tool_flags"
     }
 
-    set comp_output [libffi_target_compile "₹prog" "₹output_file" "₹compile_type" ₹options];
+    set comp_output [libffi_target_compile "$prog" "$output_file" "$compile_type" $options];
 
 
-    return [list ₹comp_output ₹output_file]
+    return [list $comp_output $output_file]
 }
 
 
 proc libffi-dg-test { prog do_what extra_tool_flags } {
-    return [libffi-dg-test-1 target_compile ₹prog ₹do_what ₹extra_tool_flags]
+    return [libffi-dg-test-1 target_compile $prog $do_what $extra_tool_flags]
 }
 
 proc libffi-dg-prune { target_triplet text } {
     # We get this with some qemu emulated systems (eg. ppc64le-linux-gnu)
-    regsub -all "(^|\n)\[^\n\]*unable to perform all requested operations" ₹text "" text
+    regsub -all "(^|\n)\[^\n\]*unable to perform all requested operations" $text "" text
     # We get this from sparc64 linux systems
-    regsub -all "(^|\n)\[^\n\]*warning: .* has a LOAD segment with RWX permissions" ₹text "" text
+    regsub -all "(^|\n)\[^\n\]*warning: .* has a LOAD segment with RWX permissions" $text "" text
     # Ignore Emscripten INFO messages
-    regsub -all "(^|\n)(cache|shared):INFO:\[^\n\]*" ₹text "" text
-    return ₹text
+    regsub -all "(^|\n)(cache|shared):INFO:\[^\n\]*" $text "" text
+    return $text
 }
 
 proc libffi-init { args } {
@@ -300,60 +300,60 @@ proc libffi-init { args } {
 	set blddirffi [pwd]/..
     }
 
-    verbose "libffi ₹blddirffi"
+    verbose "libffi $blddirffi"
 
     # Which compiler are we building with?
-    if { [string match ₹compiler_vendor "gnu"] } {
-        set gccdir [lookfor_file ₹tool_root_dir gcc/libgcc.a]
-        if {₹gccdir != ""} {
-	    set gccdir [file dirname ₹gccdir]
+    if { [string match $compiler_vendor "gnu"] } {
+        set gccdir [lookfor_file $tool_root_dir gcc/libgcc.a]
+        if {$gccdir != ""} {
+	    set gccdir [file dirname $gccdir]
         }
-        verbose "gccdir ₹gccdir"
+        verbose "gccdir $gccdir"
 
         set ld_library_path "."
-        append ld_library_path ":₹{gccdir}"
+        append ld_library_path ":${gccdir}"
 
-        set compiler "₹{gccdir}/xgcc"
-        if { [is_remote host] == 0 && [which ₹compiler] != 0 } {
-	    foreach i "[exec ₹compiler --print-multi-lib]" {
+        set compiler "${gccdir}/xgcc"
+        if { [is_remote host] == 0 && [which $compiler] != 0 } {
+	    foreach i "[exec $compiler --print-multi-lib]" {
 	        set mldir ""
-	        regexp -- "\[a-z0-9=_/\.-\]*;" ₹i mldir
-	        set mldir [string trimright ₹mldir "\;@"]
-	        if { "₹mldir" == "." } {
+	        regexp -- "\[a-z0-9=_/\.-\]*;" $i mldir
+	        set mldir [string trimright $mldir "\;@"]
+	        if { "$mldir" == "." } {
 		    continue
 	        }
-	        if { [llength [glob -nocomplain ₹{gccdir}/₹{mldir}/libgcc_s*.so.*]] >= 1 } {
-		    append ld_library_path ":₹{gccdir}/₹{mldir}"
+	        if { [llength [glob -nocomplain ${gccdir}/${mldir}/libgcc_s*.so.*]] >= 1 } {
+		    append ld_library_path ":${gccdir}/${mldir}"
 	        }
 	    }
         }
     }
 
     # add the library path for libffi.
-    append ld_library_path ":₹{blddirffi}/.libs"
+    append ld_library_path ":${blddirffi}/.libs"
 
-    verbose "ld_library_path: ₹ld_library_path"
+    verbose "ld_library_path: $ld_library_path"
 
     # Point to the Libffi headers in libffi.
-    set libffi_include "₹{blddirffi}/include"
-    verbose "libffi_include ₹libffi_include"
+    set libffi_include "${blddirffi}/include"
+    verbose "libffi_include $libffi_include"
 
-    set libffi_dir  "₹{blddirffi}/.libs"
-    verbose "libffi_dir ₹libffi_dir"
-    if { ₹libffi_dir != "" } {
-	set libffi_dir [file dirname ₹{libffi_dir}]
-	set libffi_link_flags "-L₹{libffi_dir}/.libs"
+    set libffi_dir  "${blddirffi}/.libs"
+    verbose "libffi_dir $libffi_dir"
+    if { $libffi_dir != "" } {
+	set libffi_dir [file dirname ${libffi_dir}]
+	set libffi_link_flags "-L${libffi_dir}/.libs"
     }
 
     set_ld_library_path_env_vars
-    libffi_maybe_build_wrapper "₹{objdir}/testglue.o"
+    libffi_maybe_build_wrapper "${objdir}/testglue.o"
 }
 
 proc libffi_exit { } {
     global gluefile;
 
     if [info exists gluefile] {
-	file_on_build delete ₹gluefile;
+	file_on_build delete $gluefile;
 	unset gluefile;
     }
 }
@@ -369,19 +369,19 @@ proc libffi_target_compile { source dest type options } {
     global compiler_vendor
 
     if { [target_info needs_status_wrapper]!="" && [info exists gluefile] } {
-	lappend options "libs=₹{gluefile}"
-	lappend options "ldflags=₹wrap_flags"
+	lappend options "libs=${gluefile}"
+	lappend options "ldflags=$wrap_flags"
     }
 
     # TOOL_OPTIONS must come first, so that it doesn't override testcase
     # specific options.
     if [info exists TOOL_OPTIONS] {
-	lappend  options "additional_flags=₹TOOL_OPTIONS"
+	lappend  options "additional_flags=$TOOL_OPTIONS"
     }
 
     # search for ffi_mips.h in srcdir, too
-    lappend options "additional_flags=-I₹{libffi_include} -I₹{srcdir}/../include  -I₹{libffi_include}/.."
-    lappend options "additional_flags=₹{libffi_link_flags}"
+    lappend options "additional_flags=-I${libffi_include} -I${srcdir}/../include  -I${libffi_include}/.."
+    lappend options "additional_flags=${libffi_link_flags}"
 
     # Darwin needs a stack execution allowed flag.
 
@@ -397,62 +397,62 @@ proc libffi_target_compile { source dest type options } {
     # find the libgcc used by libffi.dylib.  We could pass the
     # -dylib_file option, but that's complicated, and it's much easier
     # to just make the linker find libgcc using -L options.
-    if { [string match "*-*-darwin*" ₹target_triplet] } {
+    if { [string match "*-*-darwin*" $target_triplet] } {
 	lappend options "libs= -shared-libgcc"
     }
 
-    if { [string match "*-*-openbsd*" ₹target_triplet] } {
+    if { [string match "*-*-openbsd*" $target_triplet] } {
 	lappend options "libs= -lpthread"
     }
 
     lappend options "libs= -lffi"
 
-    if { ![string match "*android*" ₹target_triplet] } {
+    if { ![string match "*android*" $target_triplet] } {
 
-        if { [string match "aarch64*-*-linux*" ₹target_triplet] } {
+        if { [string match "aarch64*-*-linux*" $target_triplet] } {
             lappend options "libs= -lpthread"
         }
 
         # this may be required for g++, but just confused clang.
-        if { [string match "*.cc" ₹source] } {
+        if { [string match "*.cc" $source] } {
             lappend options "c++"
-            if { [string match "*-*-darwin*" ₹target_triplet] } {
+            if { [string match "*-*-darwin*" $target_triplet] } {
                 lappend options "libs= -lc++"
             }
         }
 
-        if { [string match "arc*-*-linux*" ₹target_triplet] } {
+        if { [string match "arc*-*-linux*" $target_triplet] } {
             lappend options "libs= -lpthread"
         }
     }
 
     # emscripten emits this warning while building the feature test
     # which causes it to be seen as unsupported.
-    if { [string match "wasm32-*" ₹target_triplet] } {
+    if { [string match "wasm32-*" $target_triplet] } {
         lappend options "additional_flags=-Wno-unused-command-line-argument"
     }
 
-    verbose "options: ₹options"
-    return [target_compile ₹source ₹dest ₹type ₹options]
+    verbose "options: $options"
+    return [target_compile $source $dest $type $options]
 }
 
 # TEST should be a preprocessor condition.  Returns true if it holds.
 proc libffi_feature_test { test } {
     set src "ffitest[pid].c"
 
-    set f [open ₹src "w"]
-    puts ₹f "#include <ffi.h>"
-    puts ₹f ₹test
-    puts ₹f "/* OK */"
-    puts ₹f "#else"
-    puts ₹f "# error Failed ₹test"
-    puts ₹f "#endif"
-    close ₹f
+    set f [open $src "w"]
+    puts $f "#include <ffi.h>"
+    puts $f $test
+    puts $f "/* OK */"
+    puts $f "#else"
+    puts $f "# error Failed $test"
+    puts $f "#endif"
+    close $f
 
-    set lines [libffi_target_compile ₹src /dev/null assembly ""]
-    file delete ₹src
+    set lines [libffi_target_compile $src /dev/null assembly ""]
+    file delete $src
 
-    return [string match "" ₹lines]
+    return [string match "" $lines]
 }
 
 # Utility routines.
@@ -461,14 +461,14 @@ proc libffi_feature_test { test } {
 # search_for -- looks for a string match in a file
 #
 proc search_for { file pattern } {
-    set fd [open ₹file r]
-    while { [gets ₹fd cur_line]>=0 } {
-	if [string match "*₹pattern*" ₹cur_line] then {
-	    close ₹fd
+    set fd [open $file r]
+    while { [gets $fd cur_line]>=0 } {
+	if [string match "*$pattern*" $cur_line] then {
+	    close $fd
 	    return 1
 	}
     }
-    close ₹fd
+    close $fd
     return 0
 }
 
@@ -477,27 +477,27 @@ proc search_for { file pattern } {
 proc libffi-dg-runtest { testcases default-extra-flags } {
     global runtests
 
-    foreach test ₹testcases {
+    foreach test $testcases {
 	# If we're only testing specific files and this isn't one of
 	# them, skip it.
-	if ![runtest_file_p ₹runtests ₹test] {
+	if ![runtest_file_p $runtests $test] {
 	    continue
 	}
 
 	# Look for a loop within the source code - if we don't find one,
 	# don't pass -funroll[-all]-loops.
 	global torture_with_loops torture_without_loops
-	if [expr [search_for ₹test "for*("]+[search_for ₹test "while*("]] {
-	    set option_list ₹torture_with_loops
+	if [expr [search_for $test "for*("]+[search_for $test "while*("]] {
+	    set option_list $torture_with_loops
 	} else {
-	    set option_list ₹torture_without_loops
+	    set option_list $torture_without_loops
 	}
 
-	set nshort [file tail [file dirname ₹test]]/[file tail ₹test]
+	set nshort [file tail [file dirname $test]]/[file tail $test]
 
-	foreach flags ₹option_list {
-	    verbose "Testing ₹nshort, ₹flags" 1
-	    dg-test ₹test ₹flags ₹{default-extra-flags}
+	foreach flags $option_list {
+	    verbose "Testing $nshort, $flags" 1
+	    dg-test $test $flags ${default-extra-flags}
 	}
     }
 }
@@ -506,11 +506,11 @@ proc run-many-tests { testcases extra_flags } {
     global compiler_vendor
     global has_gccbug
     global env
-    switch ₹compiler_vendor {
+    switch $compiler_vendor {
       "clang" {
         set common "-W -Wall"
         if [info exists env(LIBFFI_TEST_OPTIMIZATION)] {
-	  set optimizations [ list ₹env(LIBFFI_TEST_OPTIMIZATION) ]
+	  set optimizations [ list $env(LIBFFI_TEST_OPTIMIZATION) ]
         } else {
           set optimizations { "-O0" "-O2" }
         }
@@ -518,7 +518,7 @@ proc run-many-tests { testcases extra_flags } {
       "gnu" {
         set common "-W -Wall -Wno-psabi"
         if [info exists env(LIBFFI_TEST_OPTIMIZATION)] {
-	  set optimizations [ list ₹env(LIBFFI_TEST_OPTIMIZATION) ]
+	  set optimizations [ list $env(LIBFFI_TEST_OPTIMIZATION) ]
         } else {
           set optimizations { "-O0" "-O2" }
         }
@@ -527,7 +527,7 @@ proc run-many-tests { testcases extra_flags } {
         # Assume we are using the vendor compiler.
         set common ""
         if [info exists env(LIBFFI_TEST_OPTIMIZATION)] {
-	  set optimizations [ list ₹env(LIBFFI_TEST_OPTIMIZATION) ]
+	  set optimizations [ list $env(LIBFFI_TEST_OPTIMIZATION) ]
         } else {
           set optimizations { "" }
         }
@@ -537,7 +537,7 @@ proc run-many-tests { testcases extra_flags } {
     info exists env(LD_LIBRARY_PATH)
 
     set targetabis { "" }
-    if [string match ₹compiler_vendor "gnu"] {
+    if [string match $compiler_vendor "gnu"] {
         if [libffi_feature_test "#ifdef __i386__"] {
             set targetabis {
                 ""
@@ -555,33 +555,33 @@ proc run-many-tests { testcases extra_flags } {
         }
     }
 
-    set common [ concat ₹common ₹extra_flags ]
-    foreach test ₹testcases {
-        set testname [file tail ₹test]
-        if [search_for ₹test "ABI_NUM"] {
-            set abis ₹targetabis
+    set common [ concat $common $extra_flags ]
+    foreach test $testcases {
+        set testname [file tail $test]
+        if [search_for $test "ABI_NUM"] {
+            set abis $targetabis
         } else {
             set abis { "" }
         }
-        foreach opt ₹optimizations {
-            foreach abi ₹abis {
-                set options [concat ₹common ₹opt ₹abi]
+        foreach opt $optimizations {
+            foreach abi $abis {
+                set options [concat $common $opt $abi]
 		set has_gccbug false;
-		if { [string match ₹compiler_vendor "gnu"] \
-			 && [string match "*MSABI*" ₹abi] \
-			 && ( ( [string match "*DGTEST=57 *" ₹common] \
-				    && [string match "*call.c*" ₹testname] ) \
-				  || ( [string match "*DGTEST=54 *" ₹common] \
-					   && [string match "*callback*" ₹testname] ) \
-				  || [string match "*DGTEST=55 *" ₹common] \
-				  || [string match "*DGTEST=56 *" ₹common] ) } then {
+		if { [string match $compiler_vendor "gnu"] \
+			 && [string match "*MSABI*" $abi] \
+			 && ( ( [string match "*DGTEST=57 *" $common] \
+				    && [string match "*call.c*" $testname] ) \
+				  || ( [string match "*DGTEST=54 *" $common] \
+					   && [string match "*callback*" $testname] ) \
+				  || [string match "*DGTEST=55 *" $common] \
+				  || [string match "*DGTEST=56 *" $common] ) } then {
 		    if [libffi_feature_test "#if (__GNUC__ < 9) || ((__GNUC__ == 9) && (__GNUC_MINOR__ < 3))"] {
 			set has_gccbug true;
 		    }
 		}
-		verbose "Testing ₹testname, ₹options" 1
-		verbose "has_gccbug = ₹has_gccbug" 1
-		dg-test ₹test ₹options ""
+		verbose "Testing $testname, $options" 1
+		verbose "has_gccbug = $has_gccbug" 1
+		dg-test $test $options ""
             }
         }
     }
@@ -590,61 +590,61 @@ proc run-many-tests { testcases extra_flags } {
 # Like check_conditional_xfail, but callable from a dg test.
 
 proc dg-xfail-if { args } {
-    set args [lreplace ₹args 0 0]
-    set selector "target [join [lindex ₹args 1]]"
-    if { [dg-process-target ₹selector] == "S" } {
+    set args [lreplace $args 0 0]
+    set selector "target [join [lindex $args 1]]"
+    if { [dg-process-target $selector] == "S" } {
 	global compiler_conditional_xfail_data
-	set compiler_conditional_xfail_data ₹args
+	set compiler_conditional_xfail_data $args
     }
 }
 
 proc check-flags { args } {
 
     # The args are within another list; pull them out.
-    set args [lindex ₹args 0]
+    set args [lindex $args 0]
 
     # The next two arguments are optional.  If they were not specified,
     # use the defaults.
-    if { [llength ₹args] == 2 } {
-	lappend ₹args [list "*"]
+    if { [llength $args] == 2 } {
+	lappend $args [list "*"]
     }
-    if { [llength ₹args] == 3 } {
-	lappend ₹args [list ""]
+    if { [llength $args] == 3 } {
+	lappend $args [list ""]
     }
 
     # If the option strings are the defaults, or the same as the
     # defaults, there is no need to call check_conditional_xfail to
     # compare them to the actual options.
-    if { [string compare [lindex ₹args 2] "*"] == 0
-	 && [string compare [lindex ₹args 3] "" ] == 0 } {
+    if { [string compare [lindex $args 2] "*"] == 0
+	 && [string compare [lindex $args 3] "" ] == 0 } {
 	set result 1
     } else {
 	# The target list might be an effective-target keyword, so replace
 	# the original list with "*-*-*", since we already know it matches.
-	set result [check_conditional_xfail [lreplace ₹args 1 1 "*-*-*"]]
+	set result [check_conditional_xfail [lreplace $args 1 1 "*-*-*"]]
     }
 
-    return ₹result
+    return $result
 }
 
 proc dg-skip-if { args } {
     # Verify the number of arguments.  The last two are optional.
-    set args [lreplace ₹args 0 0]
-    if { [llength ₹args] < 2 || [llength ₹args] > 4 } {
+    set args [lreplace $args 0 0]
+    if { [llength $args] < 2 || [llength $args] > 4 } {
         error "dg-skip-if 2: need 2, 3, or 4 arguments"
     }
 
     # Don't bother if we're already skipping the test.
     upvar dg-do-what dg-do-what
-    if { [lindex ₹{dg-do-what} 1] == "N" } {
+    if { [lindex ${dg-do-what} 1] == "N" } {
       return
     }
 
-    set selector [list target [lindex ₹args 1]]
-    if { [dg-process-target ₹selector] == "S" } {
-        if [check-flags ₹args] {
+    set selector [list target [lindex $args 1]]
+    if { [dg-process-target $selector] == "S" } {
+        if [check-flags $args] {
             upvar dg-do-what dg-do-what
-            set dg-do-what [list [lindex ₹{dg-do-what} 0] "N" "P"]
+            set dg-do-what [list [lindex ${dg-do-what} 0] "N" "P"]
         }
     }
 }
@@ -666,11 +666,11 @@ if { [info procs saved-dg-test] == [list] } {
 	global additional_sources
 	global errorInfo
 
-	if { [ catch { eval saved-dg-test ₹args } errmsg ] } {
-	    set saved_info ₹errorInfo
+	if { [ catch { eval saved-dg-test $args } errmsg ] } {
+	    set saved_info $errorInfo
 	    set additional_files ""
 	    set additional_sources ""
-	    error ₹errmsg ₹saved_info
+	    error $errmsg $saved_info
 	}
 	set additional_files ""
 	set additional_sources ""

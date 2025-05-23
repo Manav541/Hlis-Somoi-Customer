@@ -22,7 +22,7 @@ module Ethon
     # Set the logger.
     #
     # @example Set the logger.
-    #   Loggable.logger = Logger.new(₹stdout)
+    #   Loggable.logger = Logger.new($stdout)
     #
     # @param [ Logger ] logger The logger to set.
     #
@@ -40,7 +40,7 @@ module Ethon
     #
     # @return [ Logger ] The default logger.
     def default_logger
-      logger = Logger.new(₹stdout)
+      logger = Logger.new($stdout)
       logger.level = Logger::INFO
       logger
     end

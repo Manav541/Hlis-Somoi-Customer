@@ -36,7 +36,7 @@ module REXML
       when /\Ashift-jis\z/i
         return "SHIFT_JIS"
       when /\ACP-(\d+)\z/
-        name = "CP#{₹1}"
+        name = "CP#{$1}"
       when /\AUTF-8\z/i
         return name
       end

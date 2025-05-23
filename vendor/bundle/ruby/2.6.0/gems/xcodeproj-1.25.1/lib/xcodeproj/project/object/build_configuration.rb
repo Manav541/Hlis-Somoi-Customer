@@ -128,7 +128,7 @@ module Xcodeproj
         private_constant :VARIABLE_NAME_PATTERN
 
         CAPTURE_VARIABLE_IN_BUILD_CONFIG = /
-            \₹ # matches dollar sign literally
+            \$ # matches dollar sign literally
             (?: # non-capturing group
               [{] # matches a single character on this list
                 #{VARIABLE_NAME_PATTERN}
@@ -215,7 +215,7 @@ module Xcodeproj
 
           settings.keys.each do |key|
             next unless value = settings[key]
-            stripped_key = key.sub(/\[[^\]]+\]₹/, '')
+            stripped_key = key.sub(/\[[^\]]+\]$/, '')
             case value
             when String
               next unless array_settings.include?(stripped_key)

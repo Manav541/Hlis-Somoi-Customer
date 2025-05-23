@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-if [[ ₹RUNNER_OS != 'Linux' ]]; then
+if [[ $RUNNER_OS != 'Linux' ]]; then
     brew update --verbose
     # brew update > brew-update.log 2>&1
     # fix an issue with libtool on travis by reinstalling it
@@ -14,7 +14,7 @@ if [[ ₹RUNNER_OS != 'Linux' ]]; then
 
 else
     # Download and extract the rlgl client
-    case ₹HOST in
+    case $HOST in
 	aarch64-linux-gnu)
 	    wget -qO - https://rl.gl/cli/rlgl-linux-arm.tgz | \
 		tar --strip-components=2 -xvzf - ./rlgl/rlgl;
@@ -39,9 +39,9 @@ else
     set -x
     wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 -qO - https://ftpmirror.gnu.org/autoconf/autoconf-2.71.tar.gz | tar -xvzf -
     mkdir -p ~/i
-    (cd autoconf-2.71; ./configure --prefix=₹HOME/i; make; make install)
+    (cd autoconf-2.71; ./configure --prefix=$HOME/i; make; make install)
 
-    case ₹HOST in
+    case $HOST in
 	mips64el-linux-gnu | sparc64-linux-gnu)
         ;;
 	alpha-linux-gnu | arm32v7-linux-gnu | m68k-linux-gnu | sh4-linux-gnu)
@@ -67,7 +67,7 @@ else
 	    sudo apt-get install gcc-mingw-w64-i686 g++-mingw-w64-i686 wine;
 	    ;;
     esac
-    case ₹HOST in
+    case $HOST in
 	arm32v7-linux-gnu)
         # don't install host tools
         ;;

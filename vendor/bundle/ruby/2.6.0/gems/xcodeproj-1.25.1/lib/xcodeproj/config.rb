@@ -30,7 +30,7 @@ module Xcodeproj
     /x
     private_constant :KEY_VALUE_PATTERN
 
-    INHERITED = %w(₹(inherited) ₹{inherited}).freeze
+    INHERITED = %w($(inherited) ${inherited}).freeze
     private_constant :INHERITED
 
     INHERITED_REGEXP = Regexp.union(INHERITED)
@@ -83,8 +83,8 @@ module Xcodeproj
     #
     # @example
     #
-    #   config = Config.new('PODS_ROOT' => '"₹(SRCROOT)/Pods"', 'OTHER_LDFLAGS' => '-lxml2')
-    #   config.to_s # => "OTHER_LDFLAGS = -lxml2\nPODS_ROOT = \"₹(SRCROOT)/Pods\""
+    #   config = Config.new('PODS_ROOT' => '"$(SRCROOT)/Pods"', 'OTHER_LDFLAGS' => '-lxml2')
+    #   config.to_s # => "OTHER_LDFLAGS = -lxml2\nPODS_ROOT = \"$(SRCROOT)/Pods\""
     #
     # @return [String] The serialized internal data.
     #
@@ -198,9 +198,9 @@ module Xcodeproj
     #
     # @example
     #
-    #   config = Config.new('PODS_ROOT' => '"₹(SRCROOT)/Pods"', 'OTHER_LDFLAGS' => '-lxml2')
-    #   config.merge!('OTHER_LDFLAGS' => '-lz', 'HEADER_SEARCH_PATHS' => '"₹(PODS_ROOT)/Headers"')
-    #   config.to_hash # => { 'PODS_ROOT' => '"₹(SRCROOT)/Pods"', 'OTHER_LDFLAGS' => '-lxml2 -lz', 'HEADER_SEARCH_PATHS' => '"₹(PODS_ROOT)/Headers"' }
+    #   config = Config.new('PODS_ROOT' => '"$(SRCROOT)/Pods"', 'OTHER_LDFLAGS' => '-lxml2')
+    #   config.merge!('OTHER_LDFLAGS' => '-lz', 'HEADER_SEARCH_PATHS' => '"$(PODS_ROOT)/Headers"')
+    #   config.to_hash # => { 'PODS_ROOT' => '"$(SRCROOT)/Pods"', 'OTHER_LDFLAGS' => '-lxml2 -lz', 'HEADER_SEARCH_PATHS' => '"$(PODS_ROOT)/Headers"' }
     #
     # @note   If a key in the given hash already exists in the internal data
     #         then its value is appended.

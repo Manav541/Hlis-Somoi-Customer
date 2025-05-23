@@ -731,7 +731,7 @@ module Xcodeproj
         #
         attribute :build_working_directory, String
 
-        # @return [String] e.g "₹(ACTION)"
+        # @return [String] e.g "$(ACTION)"
         #
         attribute :build_arguments_string, String
 

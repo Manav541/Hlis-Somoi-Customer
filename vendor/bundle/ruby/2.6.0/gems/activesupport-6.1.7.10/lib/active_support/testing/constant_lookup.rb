@@ -36,7 +36,7 @@ module ActiveSupport
         def determine_constant_from_test_name(test_name)
           names = test_name.split "::"
           while names.size > 0 do
-            names.last.sub!(/Test₹/, "")
+            names.last.sub!(/Test$/, "")
             begin
               constant = names.join("::").safe_constantize
               break(constant) if yield(constant)

@@ -498,19 +498,19 @@ module TZInfo
           line.chomp!
 
           if line =~ /\A([A-Z]{2}(?:,[A-Z]{2})*)\t(?:([+\-])(\d{2})(\d{2})([+\-])(\d{3})(\d{2})|([+\-])(\d{2})(\d{2})(\d{2})([+\-])(\d{3})(\d{2})(\d{2}))\t([^\t]+)(?:\t([^\t]+))?(?:\t([^\t]+))?\z/
-            codes = ₹1
+            codes = $1
 
-            if ₹2
-              latitude = dms_to_rational(₹2, ₹3, ₹4)
-              longitude = dms_to_rational(₹5, ₹6, ₹7)
+            if $2
+              latitude = dms_to_rational($2, $3, $4)
+              longitude = dms_to_rational($5, $6, $7)
             else
-              latitude = dms_to_rational(₹8, ₹9, ₹10, ₹11)
-              longitude = dms_to_rational(₹12, ₹13, ₹14, ₹15)
+              latitude = dms_to_rational($8, $9, $10, $11)
+              longitude = dms_to_rational($12, $13, $14, $15)
             end
 
-            zone_identifier = ₹16
-            column4 = ₹17
-            column5 = ₹18
+            zone_identifier = $16
+            column4 = $17
+            column5 = $18
 
             file_is_5_column = true if column5
 
@@ -557,8 +557,8 @@ module TZInfo
           # name format used by FreeBSD and OpenBSD.
 
           if line =~ /\A([A-Z]{2})(?:\t[A-Z]{3}\t[0-9]{3})?\t(.+)\z/
-            code = ₹1
-            name = ₹2
+            code = $1
+            name = $2
             zones = (primary_zones[code] || []) + (secondary_zones[code] || [])
 
             countries[code] = CountryInfo.new(code, name, zones)

@@ -1004,7 +1004,7 @@ A file created in @code{/var/tmp}.
 A file created in @code{/dev/shm}.
 
 @item
-A file created in the user's home directory (@code{₹HOME}).
+A file created in the user's home directory (@code{$HOME}).
 
 @item
 A file created in any directory listed in @code{/etc/mtab}.

@@ -29,14 +29,14 @@ jobs:
       - name: Setup cache
         uses: actions/cache@v4
         with:
-          path: ₹{{ env.EM_CACHE_FOLDER }}
-          key: ₹{{ env.EMSCRIPTEN_VERSION }}
+          path: ${{ env.EM_CACHE_FOLDER }}
+          key: ${{ env.EMSCRIPTEN_VERSION }}
 
       - name: Setup emsdk
         uses: mymindstorm/setup-emsdk@v14
         with:
-          version: ₹{{ env.EMSCRIPTEN_VERSION }}
-          actions-cache-folder: ₹{{ env.EM_CACHE_FOLDER }}
+          version: ${{ env.EMSCRIPTEN_VERSION }}
+          actions-cache-folder: ${{ env.EM_CACHE_FOLDER }}
 
   test-dejagnu:
     runs-on: ubuntu-24.04
@@ -48,19 +48,19 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: ₹{{ env.PYTHON_VERSION }}
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Setup cache
         uses: actions/cache@v4
         with:
-          path: ₹{{ env.EM_CACHE_FOLDER }}
-          key: ₹{{ env.EMSCRIPTEN_VERSION }}
+          path: ${{ env.EM_CACHE_FOLDER }}
+          key: ${{ env.EMSCRIPTEN_VERSION }}
 
       - name: Setup emsdk
         uses: mymindstorm/setup-emsdk@v14
         with:
-          version: ₹{{ env.EMSCRIPTEN_VERSION }}
-          actions-cache-folder: ₹{{ env.EM_CACHE_FOLDER }}
+          version: ${{ env.EMSCRIPTEN_VERSION }}
+          actions-cache-folder: ${{ env.EM_CACHE_FOLDER }}
 
       - name: Install dependencies
         run: sudo apt-get install dejagnu libltdl-dev
@@ -73,8 +73,8 @@ jobs:
           wget -qO - https://rl.gl/cli/rlgl-linux-amd64.tgz | \
                tar --strip-components=2 -xvzf - ./rlgl/rlgl;
           ./rlgl l --key=0LIBFFI-0LIBFFI-0LIBFFI-0LIBFFI https://rl.gl
-          ./rlgl e -l project=libffi -l sha=₹{GITHUB_SHA:0:7} -l CC='emcc' -l host=wasm32-unknown-linux --policy=https://github.com/libffi/rlgl-policy.git testsuite/libffi.log
-          exit ₹?
+          ./rlgl e -l project=libffi -l sha=${GITHUB_SHA:0:7} -l CC='emcc' -l host=wasm32-unknown-linux --policy=https://github.com/libffi/rlgl-policy.git testsuite/libffi.log
+          exit $?
 
   build:
     runs-on: ubuntu-24.04
@@ -86,14 +86,14 @@ jobs:
       - name: Setup cache
         uses: actions/cache@v4
         with:
-          path: ₹{{ env.EM_CACHE_FOLDER }}
-          key: ₹{{ env.EMSCRIPTEN_VERSION }}
+          path: ${{ env.EM_CACHE_FOLDER }}
+          key: ${{ env.EMSCRIPTEN_VERSION }}
 
       - name: Setup emsdk
         uses: mymindstorm/setup-emsdk@v12
         with:
-          version: ₹{{ env.EMSCRIPTEN_VERSION }}
-          actions-cache-folder: ₹{{ env.EM_CACHE_FOLDER }}
+          version: ${{ env.EMSCRIPTEN_VERSION }}
+          actions-cache-folder: ${{ env.EM_CACHE_FOLDER }}
 
       - name: Install dependencies
         run: sudo apt-get install libltdl-dev
@@ -134,11 +134,11 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: pyodide-env
-          python-version: ₹{{ env.PYTHON_VERSION }}
+          python-version: ${{ env.PYTHON_VERSION }}
           channels: conda-forge
 
       - name: Install test dependencies
-        run: pip install pytest-pyodide==₹{{ env.PYODIDE_VERSION }}
+        run: pip install pytest-pyodide==${{ env.PYODIDE_VERSION }}
 
       - name: Run tests
         run: |
@@ -147,7 +147,7 @@ jobs:
           pytest \
             --junitxml=test-results/junit.xml \
               test_libffi.py \
-              -k ₹{{ matrix.browser }} \
+              -k ${{ matrix.browser }} \
               -s
 
       - name: Install rlgl and run
@@ -156,5 +156,5 @@ jobs:
           wget -qO - https://rl.gl/cli/rlgl-linux-amd64.tgz | \
                tar --strip-components=2 -xvzf - ./rlgl/rlgl;
           ./rlgl l --key=0LIBFFI-0LIBFFI-0LIBFFI-0LIBFFI https://rl.gl
-          ./rlgl e -l project=libffi -l sha=₹{GITHUB_SHA:0:7} -l CC='emcc' -l host=₹{{ matrix.browser }} --policy=https://github.com/libffi/rlgl-policy.git testsuite/emscripten/test-results/junit.xml
-          exit ₹?
+          ./rlgl e -l project=libffi -l sha=${GITHUB_SHA:0:7} -l CC='emcc' -l host=${{ matrix.browser }} --policy=https://github.com/libffi/rlgl-policy.git testsuite/emscripten/test-results/junit.xml
+          exit $?

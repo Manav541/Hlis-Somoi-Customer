@@ -138,7 +138,7 @@ const AddNewCardComponent = (props: PropsType) => {
         <View
           style={{
             marginHorizontal: 20,
-            paddingBottom: PlatformVersion.isIOS ? insets.bottom + 10 : 20,
+            paddingBottom: PlatformVersion.isIOS ? insets.bottom + 20 : 20,
           }}
         >
           <GlobalButton

@@ -54,22 +54,28 @@ const ManagePaymentMethodsContainer = ({ navigation, route }: any) => {
       header: () => (
         <View
           style={{
-            paddingTop: insets.top,
+            paddingTop: insets.top + 20,
             backgroundColor: colors.orange1c,
             paddingBottom: 14,
             flexDirection: "row",
-            alignItems  : 'center',
+            alignItems: "center",
           }}
         >
           <GlobalBackButton
             onPress={() => navigation.goBack()}
             style={{ marginBottom: 0 }}
           />
-          <View style={{flex : 1, justifyContent : 'center', alignItems : 'center', marginLeft : -10}}>
-
-          <Text style={{...styles.txtHeaderTitle,}}>
-            {ScreenNames.managePaymentMethods}
-          </Text>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              marginLeft: -10,
+            }}
+          >
+            <Text style={{ ...styles.txtHeaderTitle }}>
+              {ScreenNames.managePaymentMethods}
+            </Text>
           </View>
         </View>
       ),

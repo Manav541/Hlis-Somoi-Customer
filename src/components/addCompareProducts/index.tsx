@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
 import React from "react";
 import { styles } from "./styles";
-import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { FlatList } from "react-native-gesture-handler";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
@@ -62,9 +62,9 @@ const AddCompareProductsComponent = (props: PropsType) => {
           <View style={styles.vwPriceRating}>
             <View style={styles.vwPrice}>
               <Text style={styles.lblProductFinalPrice}>
-                {item?.product_final_price}
+                {rupeeSymbol+item?.product_final_price}
               </Text>
-              <Text style={styles.lblProductPrice}>{item?.product_price}</Text>
+              <Text style={styles.lblProductPrice}>{rupeeSymbol+item?.product_price}</Text>
             </View>
             <View style={styles.vwProductRating}>
               <Image style={styles.imgStar} source={images.star} />

@@ -125,7 +125,7 @@ L(UW1):
 L(UW2):
 	# cfi_rel_offset(%ebx, 8)
 
-	andl	₹X86_RET_TYPE_MASK, %ecx
+	andl	$X86_RET_TYPE_MASK, %ecx
 #ifdef __PIC__
 	call	C(__x86.get_pc_thunk.bx)
 L(pc1):
@@ -254,7 +254,7 @@ ENDF(ffi_call_i386)
 	call	ffi_closure_inner
 
 #define FFI_CLOSURE_MASK_AND_JUMP(N, UW)				\
-	andl	₹X86_RET_TYPE_MASK, %eax;				\
+	andl	$X86_RET_TYPE_MASK, %eax;				\
 	leal	L(C1(load_table,N))(, %eax, 8), %edx;			\
 	movl	closure_CF(%esp), %eax;		/* optimiztic load */	\
 	_CET_NOTRACK jmp *%edx
@@ -263,7 +263,7 @@ ENDF(ffi_call_i386)
 # if defined X86_DARWIN || defined HAVE_HIDDEN_VISIBILITY_ATTRIBUTE
 #  undef FFI_CLOSURE_MASK_AND_JUMP
 #  define FFI_CLOSURE_MASK_AND_JUMP(N, UW)				\
-	andl	₹X86_RET_TYPE_MASK, %eax;				\
+	andl	$X86_RET_TYPE_MASK, %eax;				\
 	call	C(__x86.get_pc_thunk.dx);				\
 L(C1(pc,N)):								\
 	leal	L(C1(load_table,N))-L(C1(pc,N))(%edx, %eax, 8), %edx;	\
@@ -277,11 +277,11 @@ L(C1(pc,N)):								\
 L(C1(UW,UWN)):								\
 	/* cfi_rel_offset(%ebx, 40); */					\
 	call	C(__x86.get_pc_thunk.bx);	/* load got register */	\
-	addl	₹C(_GLOBAL_OFFSET_TABLE_), %ebx;			\
+	addl	$C(_GLOBAL_OFFSET_TABLE_), %ebx;			\
 	call	ffi_closure_inner@PLT
 #  undef FFI_CLOSURE_MASK_AND_JUMP
 #  define FFI_CLOSURE_MASK_AND_JUMP(N, UWN)				\
-	andl	₹X86_RET_TYPE_MASK, %eax;				\
+	andl	$X86_RET_TYPE_MASK, %eax;				\
 	leal	L(C1(load_table,N))@GOTOFF(%ebx, %eax, 8), %edx;	\
 	movl	40(%esp), %ebx;			/* restore ebx */	\
 L(C1(UW,UWN)):								\
@@ -298,7 +298,7 @@ C(ffi_go_closure_EAX):
 L(UW6):
 	# cfi_startproc
 	_CET_ENDBR
-	subl	₹closure_FS, %esp
+	subl	$closure_FS, %esp
 L(UW7):
 	# cfi_def_cfa_offset(closure_FS + 4)
 	FFI_CLOSURE_SAVE_REGS
@@ -319,7 +319,7 @@ C(ffi_go_closure_ECX):
 L(UW9):
 	# cfi_startproc
 	_CET_ENDBR
-	subl	₹closure_FS, %esp
+	subl	$closure_FS, %esp
 L(UW10):
 	# cfi_def_cfa_offset(closure_FS + 4)
 	FFI_CLOSURE_SAVE_REGS
@@ -344,7 +344,7 @@ C(ffi_closure_i386):
 L(UW12):
 	# cfi_startproc
 	_CET_ENDBR
-	subl	₹closure_FS, %esp
+	subl	$closure_FS, %esp
 L(UW13):
 	# cfi_def_cfa_offset(closure_FS + 4)
 
@@ -389,17 +389,17 @@ E(L(load_table2), X86_RET_INT32)
 	/* fallthru */
 E(L(load_table2), X86_RET_VOID)
 L(e2):
-	addl	₹closure_FS, %esp
+	addl	$closure_FS, %esp
 L(UW16):
 	# cfi_adjust_cfa_offset(-closure_FS)
 	ret
 L(UW17):
 	# cfi_adjust_cfa_offset(closure_FS)
 E(L(load_table2), X86_RET_STRUCTPOP)
-	addl	₹closure_FS, %esp
+	addl	$closure_FS, %esp
 L(UW18):
 	# cfi_adjust_cfa_offset(-closure_FS)
-	ret	₹4
+	ret	$4
 L(UW19):
 	# cfi_adjust_cfa_offset(closure_FS)
 E(L(load_table2), X86_RET_STRUCTARG)
@@ -428,7 +428,7 @@ C(ffi_go_closure_STDCALL):
 L(UW21):
 	# cfi_startproc
 	_CET_ENDBR
-	subl	₹closure_FS, %esp
+	subl	$closure_FS, %esp
 L(UW22):
 	# cfi_def_cfa_offset(closure_FS + 4)
 	FFI_CLOSURE_SAVE_REGS
@@ -454,7 +454,7 @@ L(UW24):
 	# cfi_def_cfa(%esp, 8)
 	# cfi_offset(%eip, -8)
 	_CET_ENDBR
-	subl	₹closure_FS-4, %esp
+	subl	$closure_FS-4, %esp
 L(UW25):
 	# cfi_def_cfa_offset(closure_FS + 4)
 	FFI_CLOSURE_SAVE_REGS
@@ -477,7 +477,7 @@ C(ffi_closure_STDCALL):
 L(UW27):
 	# cfi_startproc
 	_CET_ENDBR
-	subl	₹closure_FS, %esp
+	subl	$closure_FS, %esp
 L(UW28):
 	# cfi_def_cfa_offset(closure_FS + 4)
 
@@ -495,7 +495,7 @@ L(do_closure_STDCALL):
 	FFI_CLOSURE_CALL_INNER(29)
 
 	movl	%eax, %ecx
-	shrl	₹X86_RET_POP_SHIFT, %ecx	/* isolate pop count */
+	shrl	$X86_RET_POP_SHIFT, %ecx	/* isolate pop count */
 	leal	closure_FS(%esp, %ecx), %ecx	/* compute popped esp */
 	movl	closure_FS(%esp), %edx		/* move return address */
 	movl	%edx, (%ecx)
@@ -581,7 +581,7 @@ C(ffi_closure_i386_alt):
 	/* See the comments above trampoline_code_table. */
 	_CET_ENDBR
 	movl	4(%esp), %eax			/* Load closure in eax */
-	add	₹8, %esp			/* Restore the stack */
+	add	$8, %esp			/* Restore the stack */
 	jmp	C(ffi_closure_i386)
 ENDF(C(ffi_closure_i386_alt))
 
@@ -592,7 +592,7 @@ C(ffi_closure_REGISTER_alt):
 	/* See the comments above trampoline_code_table. */
 	_CET_ENDBR
 	movl	(%esp), %eax			/* Restore eax */
-	add	₹4, %esp			/* Leave closure on stack */
+	add	$4, %esp			/* Leave closure on stack */
 	jmp	C(ffi_closure_REGISTER)
 ENDF(C(ffi_closure_REGISTER_alt))
 
@@ -603,7 +603,7 @@ C(ffi_closure_STDCALL_alt):
 	/* See the comments above trampoline_code_table. */
 	_CET_ENDBR
 	movl	4(%esp), %eax			/* Load closure in eax */
-	add	₹8, %esp			/* Restore the stack */
+	add	$8, %esp			/* Restore the stack */
 	jmp	C(ffi_closure_STDCALL)
 ENDF(C(ffi_closure_STDCALL_alt))
 
@@ -644,7 +644,7 @@ ENDF(C(ffi_closure_STDCALL_alt))
 C(trampoline_code_table):
 	.rept	X86_TRAMP_MAP_SIZE / X86_TRAMP_SIZE
 	_CET_ENDBR
-	sub	₹8, %esp
+	sub	$8, %esp
 	movl	%eax, (%esp)			/* Save %eax on stack */
 	call	1f				/* Get next PC into %eax */
 	movl	X86_DATA_OFFSET(%eax), %eax	/* Copy data into %eax */
@@ -672,7 +672,7 @@ C(ffi_closure_raw_SYSV):
 L(UW32):
 	# cfi_startproc
 	_CET_ENDBR
-	subl	₹raw_closure_S_FS, %esp
+	subl	$raw_closure_S_FS, %esp
 L(UW33):
 	# cfi_def_cfa_offset(raw_closure_S_FS + 4)
 	movl	%ebx, raw_closure_S_FS-4(%esp)
@@ -690,7 +690,7 @@ L(UW34):
 	call	*FFI_TRAMPOLINE_SIZE+4(%eax)		/* call cl->fun */
 
 	movl	20(%ebx), %eax				/* load cif->flags */
-	andl	₹X86_RET_TYPE_MASK, %eax
+	andl	$X86_RET_TYPE_MASK, %eax
 #ifdef __PIC__
 	call	C(__x86.get_pc_thunk.bx)
 L(pc4):
@@ -735,17 +735,17 @@ E(L(load_table4), X86_RET_INT32)
 	/* fallthru */
 E(L(load_table4), X86_RET_VOID)
 L(e4):
-	addl	₹raw_closure_S_FS, %esp
+	addl	$raw_closure_S_FS, %esp
 L(UW36):
 	# cfi_adjust_cfa_offset(-raw_closure_S_FS)
 	ret
 L(UW37):
 	# cfi_adjust_cfa_offset(raw_closure_S_FS)
 E(L(load_table4), X86_RET_STRUCTPOP)
-	addl	₹raw_closure_S_FS, %esp
+	addl	$raw_closure_S_FS, %esp
 L(UW38):
 	# cfi_adjust_cfa_offset(-raw_closure_S_FS)
-	ret	₹4
+	ret	$4
 L(UW39):
 	# cfi_adjust_cfa_offset(raw_closure_S_FS)
 E(L(load_table4), X86_RET_STRUCTARG)
@@ -789,7 +789,7 @@ L(UW43):
 L(UW44):
 	# cfi_adjust_cfa_offset(4)
 	# cfi_rel_offset(%eip, 0)
-	subl	₹raw_closure_T_FS, %esp
+	subl	$raw_closure_T_FS, %esp
 L(UW45):
 	# cfi_adjust_cfa_offset(raw_closure_T_FS)
 	movl	%ebx, raw_closure_T_FS-4(%esp)
@@ -807,7 +807,7 @@ L(UW46):
 	call	*FFI_TRAMPOLINE_SIZE+4(%eax)		/* call cl->fun */
 
 	movl	20(%ebx), %eax				/* load cif->flags */
-	andl	₹X86_RET_TYPE_MASK, %eax
+	andl	$X86_RET_TYPE_MASK, %eax
 #ifdef __PIC__
 	call	C(__x86.get_pc_thunk.bx)
 L(pc5):
@@ -852,18 +852,18 @@ E(L(load_table5), X86_RET_INT32)
 	/* fallthru */
 E(L(load_table5), X86_RET_VOID)
 L(e5):
-	addl	₹raw_closure_T_FS, %esp
+	addl	$raw_closure_T_FS, %esp
 L(UW48):
 	# cfi_adjust_cfa_offset(-raw_closure_T_FS)
 	/* Remove the extra %ecx argument we pushed.  */
-	ret	₹4
+	ret	$4
 L(UW49):
 	# cfi_adjust_cfa_offset(raw_closure_T_FS)
 E(L(load_table5), X86_RET_STRUCTPOP)
-	addl	₹raw_closure_T_FS, %esp
+	addl	$raw_closure_T_FS, %esp
 L(UW50):
 	# cfi_adjust_cfa_offset(-raw_closure_T_FS)
-	ret	₹8
+	ret	$8
 L(UW51):
 	# cfi_adjust_cfa_offset(raw_closure_T_FS)
 E(L(load_table5), X86_RET_STRUCTARG)
@@ -942,9 +942,9 @@ ENDF(C(__x86.get_pc_thunk.dx))
    link-time fails).
    To avoid this, we compute the symbol difference with a .set directive and
    then substitute this value.  */
-# define LEN(N, P)	.set Llen₹N₹P,L(N)-L(P); .long Llen₹N₹P
+# define LEN(N, P)	.set Llen$N$P,L(N)-L(P); .long Llen$N$P
 /* Note, this assume DW_CFA_advance_loc1 fits into 7 bits.  */
-# define ADV(N, P)	.set Ladv₹N₹P,L(N)-L(P); .byte 2, Ladv₹N₹P
+# define ADV(N, P)	.set Ladv$N$P,L(N)-L(P); .byte 2, Ladv$N$P
 /* For historical reasons, the EH reg numbers for SP and FP are swapped from
    the DWARF ones for 32b Darwin.  */
 # define SP 5

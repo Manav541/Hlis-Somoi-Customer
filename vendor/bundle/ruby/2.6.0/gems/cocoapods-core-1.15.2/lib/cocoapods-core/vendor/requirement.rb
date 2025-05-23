@@ -103,10 +103,10 @@ module Pod::Vendor
         raise BadRequirementError, "Illformed requirement [#{obj.inspect}]"
       end
 
-      if ₹1 == ">=" && ₹2 == "0"
+      if $1 == ">=" && $2 == "0"
         DefaultRequirement
       else
-        [₹1 || "=", Gem::Version.new(₹2)]
+        [$1 || "=", Gem::Version.new($2)]
       end
     end
 

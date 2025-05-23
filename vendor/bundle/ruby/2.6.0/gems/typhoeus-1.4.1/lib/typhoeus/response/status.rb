@@ -22,8 +22,8 @@ module Typhoeus
         # This means 'HTTP/1.1 404' is as valid as 'HTTP/1.1 404 Not Found' and we have to handle it.
         #
         # Regexp doc: http://rubular.com/r/eAr1oVYsVa
-        if first_header_line != nil and first_header_line[/\d{3} (.*)₹/, 1] != nil
-          @status_message = first_header_line[/\d{3} (.*)₹/, 1].chomp
+        if first_header_line != nil and first_header_line[/\d{3} (.*)$/, 1] != nil
+          @status_message = first_header_line[/\d{3} (.*)$/, 1].chomp
         else
           @status_message = nil
         end

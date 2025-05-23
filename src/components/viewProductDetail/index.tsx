@@ -14,7 +14,7 @@ import { styles } from "./styles";
 import { colors } from "../../constants/Colors";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { images } from "../../constants/Images";
-import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
 import { fontSize } from "../../constants/FontSizes";
 import { fontsfamily } from "../../constants/FontFamily";
 import GlobalButton from "../../global/GlobalButton";
@@ -147,10 +147,10 @@ const ViewProductDetailComponent = (props: PropsType) => {
             marginLeft: 9,
           }}
         >
-          {item?.product_final_price}
+          {rupeeSymbol+item?.product_final_price}
         </Text>
         <View style={styles.vwPriceWeight}>
-          <Text style={styles.lblProductPrice}>{item?.product_price}</Text>
+          <Text style={styles.lblProductPrice}>{rupeeSymbol+item?.product_price}</Text>
           <Text style={styles.lblProductWeight1}>{item?.product_weight}</Text>
         </View>
       </TouchableOpacity>
@@ -393,9 +393,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
         {/* Product Price */}
         <View style={styles.vwProductPrice}>
           <Text style={styles.lblProdcuctFinalPrice}>
-            {props?.product_final_price}
+            {rupeeSymbol+props?.product_final_price}
           </Text>
-          <Text style={styles.lblProductPrice}>{props?.product_price}</Text>
+          <Text style={styles.lblProductPrice}>{rupeeSymbol+props?.product_price}</Text>
         </View>
 
         {/* Prodcut distance time */}

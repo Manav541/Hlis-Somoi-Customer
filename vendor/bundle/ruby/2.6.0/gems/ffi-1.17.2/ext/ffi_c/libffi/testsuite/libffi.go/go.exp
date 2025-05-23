@@ -19,13 +19,13 @@ libffi-init
 
 global srcdir subdir
 
-set tlist [lsort [glob -nocomplain -- ₹srcdir/₹subdir/*.{c,cc}]]
+set tlist [lsort [glob -nocomplain -- $srcdir/$subdir/*.{c,cc}]]
 
 if { [libffi_feature_test "#ifdef FFI_GO_CLOSURES"] } {
-    run-many-tests ₹tlist ""
+    run-many-tests $tlist ""
 } else {
-    foreach test ₹tlist {
-	unsupported "₹test"
+    foreach test $tlist {
+	unsupported "$test"
     }
 }
 

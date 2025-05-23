@@ -1,13 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useState } from "react";
 import HomeComponent from "../../../components/bottomTabs/home";
 import { images } from "../../../constants/Images";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
-import { ScreenDimensions } from "../../../constants/utils/Dimensions";
 import { ScreenNames } from "../../../routers";
 import { useFocusEffect } from "@react-navigation/native";
 import {
-  NativeScrollEvent,
-  NativeSyntheticEvent,
   StatusBar,
 } from "react-native";
 import {
@@ -17,7 +14,6 @@ import {
   Restaurant,
   SubCategory,
 } from "../../../constants/interfaces";
-import { FlatList } from "react-native-gesture-handler";
 
 const HomeContainer = ({ navigation }: any) => {
   const [arrGroceriesFood, setArrGroceriesFood] = useState<GroceriesFoodItem[]>(
@@ -79,7 +75,7 @@ const HomeContainer = ({ navigation }: any) => {
       name: "Beverages",
     },
   ]);
-  const arrSubCategory= [
+  const arrSubCategory = [
     {
       mainCategoryTitle: "Groceries",
       subCategoryTitle: "Rice",
@@ -96,9 +92,9 @@ const HomeContainer = ({ navigation }: any) => {
       ],
       product_img: images.rice,
       product_name: "India Gate Basmati Rice",
-      product_price: "₹600",
+      product_price: "600",
       product_weight: "1 kg",
-      product_final_price: "₹499",
+      product_final_price: "499",
       product_rating: "4.5",
       product_review: 250,
       isFavourite: true,
@@ -163,9 +159,9 @@ const HomeContainer = ({ navigation }: any) => {
       ],
       product_img: images.oil,
       product_name: "Fortune Premium Mustard Oil",
-      product_price: "₹600",
+      product_price: "600",
       product_weight: "500 ml",
-      product_final_price: "₹499",
+      product_final_price: "499",
       product_rating: "4.5",
       isFavourite: false,
       product_quantity: 0,
@@ -229,9 +225,9 @@ const HomeContainer = ({ navigation }: any) => {
       ],
       product_img: images.rice1,
       product_name: "Scotti Arborio Rice",
-      product_price: "₹600",
+      product_price: "600",
       product_weight: "1 kg",
-      product_final_price: "₹499",
+      product_final_price: "499",
       product_rating: "4.5",
       isFavourite: true,
       product_quantity: 0,
@@ -295,9 +291,9 @@ const HomeContainer = ({ navigation }: any) => {
       ],
       product_img: images.atta,
       product_name: "Aashirvaad Superior MP Atta",
-      product_price: "₹120",
+      product_price: "120",
       product_weight: "500 g",
-      product_final_price: "₹99",
+      product_final_price: "99",
       product_rating: "4.5",
       isFavourite: false,
       product_quantity: 0,
@@ -361,9 +357,9 @@ const HomeContainer = ({ navigation }: any) => {
       ],
       product_img: images.rice2,
       product_name: "Gropure Black Rice",
-      product_price: "₹600",
+      product_price: "600",
       product_weight: "1 kg",
-      product_final_price: "₹499",
+      product_final_price: "499",
       product_rating: "4.5",
       isFavourite: true,
       product_quantity: 0,
@@ -427,9 +423,9 @@ const HomeContainer = ({ navigation }: any) => {
       ],
       product_img: images.milk,
       product_name: "IA2 Cow Milk",
-      product_price: "₹600",
+      product_price: "600",
       product_weight: "1 L",
-      product_final_price: "₹499",
+      product_final_price: "499",
       product_rating: "4.5",
       isFavourite: true,
       product_quantity: 0,
@@ -620,8 +616,11 @@ const HomeContainer = ({ navigation }: any) => {
   const [isGroceriesFoodSelected, setIsGroceriesFoodSelected] =
     useState<string>("Groceries");
 
-  const flatListRef = useRef<FlatList>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+
+  const handleSetBannerIndex = (index: number) => {
+    setCurrentBannerIndex(index);
+  };
 
   const onPressSearch = () => {
     navigation.navigate(ScreenNames.search);
@@ -633,32 +632,6 @@ const HomeContainer = ({ navigation }: any) => {
 
   const onPressGroceriesFood = (type: string) => {
     setIsGroceriesFoodSelected(type);
-  };
-
-  // Auto scroll functionality
-  useEffect(() => {
-    const autoScroll = setInterval(() => {
-      if (flatListRef.current && arrAds.length > 0) {
-        const nextIndex = (currentIndex + 1) % arrAds.length;
-        flatListRef.current.scrollToIndex({
-          index: nextIndex,
-          animated: true,
-        });
-        setCurrentIndex(nextIndex);
-      }
-    }, 3000); // Change slide every 3 seconds
-
-    return () => clearInterval(autoScroll);
-  }, [currentIndex, arrAds]);
-
-  const handleOnScrollAds = (
-    event: NativeSyntheticEvent<NativeScrollEvent>
-  ) => {
-    const scrollPosition = event.nativeEvent.contentOffset.x;
-    const index = Math.round(
-      scrollPosition / (ScreenDimensions.screenWidth - 40)
-    );
-    setCurrentIndex(index);
   };
 
   // handleSellAllCategories
@@ -680,14 +653,17 @@ const HomeContainer = ({ navigation }: any) => {
   const onPressSubCategories = () => {
     navigation.navigate(ScreenNames.productListing, {
       mainCategoryName: isGroceriesFoodSelected,
-      arrSubCategory:isGroceriesFoodSelected === 'Groceries'? arrSubCategory :arrBestSellers
+      arrSubCategory:
+        isGroceriesFoodSelected === "Groceries"
+          ? arrSubCategory
+          : arrBestSellers,
     });
   };
 
   const onPressBestProducts = () => {
     navigation.navigate(ScreenNames.productListing, {
       mainCategoryName: isGroceriesFoodSelected,
-      arrSubCategory: arrSubCategory 
+      arrSubCategory: arrSubCategory,
     });
   };
 
@@ -709,9 +685,8 @@ const HomeContainer = ({ navigation }: any) => {
       onPressGroceriesFood={onPressGroceriesFood}
       isGroceriesFoodSelected={isGroceriesFoodSelected}
       arrAds={arrAds}
-      flatListRef={flatListRef}
-      currentIndex={currentIndex}
-      handleOnScrollAds={handleOnScrollAds}
+      handleSetBannerIndex={handleSetBannerIndex}
+      currentBannerIndex={currentBannerIndex}
       arrSubCategoryGroceries={arrSubCategoryGroceries}
       arrBestProducts={arrBestProducts}
       arrSubCategoryFood={arrSubCategoryFood}

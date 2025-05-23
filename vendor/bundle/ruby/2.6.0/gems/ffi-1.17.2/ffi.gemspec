@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
   end
 
   s.extensions << 'ext/ffi_c/extconf.rb'
-  s.rdoc_options = %w[--exclude=ext/ffi_c/.*\.o₹ --exclude=ffi_c\.(bundle|so)₹]
+  s.rdoc_options = %w[--exclude=ext/ffi_c/.*\.o$ --exclude=ffi_c\.(bundle|so)$]
   s.license = 'BSD-3-Clause'
   s.require_paths << 'ext/ffi_c'
   s.required_ruby_version = '>= 2.5'

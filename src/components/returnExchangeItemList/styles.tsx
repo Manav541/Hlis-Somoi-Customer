@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
   vwMain: {
     flex: 1,
     backgroundColor: colors.blue4e,
+    justifyContent : 'space-between'
   },
   vwProductImage: {
     height: 116,
@@ -20,6 +21,7 @@ export const styles = StyleSheet.create({
     marginLeft : 10,
     marginTop : 9
   },
+  
 
 //   Text Styles
   lblProductName: {

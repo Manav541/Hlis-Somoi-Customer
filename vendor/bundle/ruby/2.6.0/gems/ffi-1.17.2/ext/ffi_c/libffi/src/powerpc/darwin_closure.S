@@ -78,9 +78,9 @@
 #define PASS_STR_FLOATS _darwin64_pass_struct_floats
 #undef WANT_STUB
 #else
-#define BLCLS_HELP L_ffi_closure_helper_DARWIN₹stub
-#define STRUCT_RETVALUE_P L_darwin64_struct_ret_by_value_p₹stub
-#define PASS_STR_FLOATS L_darwin64_pass_struct_floats₹stub
+#define BLCLS_HELP L_ffi_closure_helper_DARWIN$stub
+#define STRUCT_RETVALUE_P L_darwin64_struct_ret_by_value_p$stub
+#define PASS_STR_FLOATS L_darwin64_pass_struct_floats$stub
 #define WANT_STUB
 #endif
 
@@ -469,8 +469,8 @@ Lendcode:
 
 	.section __TEXT,__eh_frame,coalesced,no_toc+strip_static_syms+live_support
 EH_frame1:
-	.set	L₹set₹0,LECIE1-LSCIE1
-	.long	L₹set₹0	; Length of Common Information Entry
+	.set	L$set$0,LECIE1-LSCIE1
+	.long	L$set$0	; Length of Common Information Entry
 LSCIE1:
 	.long	0x0	; CIE Identifier Tag
 	.byte	0x1	; CIE Version
@@ -488,23 +488,23 @@ LECIE1:
 	.globl _ffi_closure_ASM.eh
 _ffi_closure_ASM.eh:
 LSFDE1:
-	.set	L₹set₹1,LEFDE1-LASFDE1
-	.long	L₹set₹1	; FDE Length
+	.set	L$set$1,LEFDE1-LASFDE1
+	.long	L$set$1	; FDE Length
 
 LASFDE1:
 	.long	LASFDE1-EH_frame1	; FDE CIE offset
 	.g_long	Lstartcode-.	; FDE initial location
-	.set	L₹set₹2,LFE1-Lstartcode
-	.g_long	L₹set₹2	; FDE address range
+	.set	L$set$2,LFE1-Lstartcode
+	.g_long	L$set$2	; FDE address range
 	.byte   0x0     ; uleb128 0x0; Augmentation size
 	.byte	0x4	; DW_CFA_advance_loc4
-	.set	L₹set₹3,LCFI1-LCFI0
-	.long	L₹set₹3
+	.set	L$set$3,LCFI1-LCFI0
+	.long	L$set$3
 	.byte	0xe	; DW_CFA_def_cfa_offset
 	.byte	EH_FRAME_OFFSETA,EH_FRAME_OFFSETB	; uleb128 176,1/190,3
 	.byte	0x4	; DW_CFA_advance_loc4
-	.set	L₹set₹4,LCFI0-Lstartcode
-	.long	L₹set₹4
+	.set	L$set$4,LCFI0-Lstartcode
+	.long	L$set$4
 	.byte   0x11    ; DW_CFA_offset_extended_sf
 	.byte	0x41	; uleb128 0x41
 	.byte   0x7e    ; sleb128 -2
@@ -515,56 +515,56 @@ LEFDE1:
 #ifdef WANT_STUB
 	.section __TEXT,__picsymbolstub1,symbol_stubs,pure_instructions,32
 	.align 5
-L_ffi_closure_helper_DARWIN₹stub:
+L_ffi_closure_helper_DARWIN$stub:
 	.indirect_symbol _ffi_closure_helper_DARWIN
 	mflr r0
-	bcl 20,31,"L1₹spb"
-"L1₹spb":
+	bcl 20,31,"L1$spb"
+"L1$spb":
 	mflr r11
-	addis r11,r11,ha16(L_ffi_closure_helper_DARWIN₹lazy_ptr-"L1₹spb")
+	addis r11,r11,ha16(L_ffi_closure_helper_DARWIN$lazy_ptr-"L1$spb")
 	mtlr r0
-	lwzu r12,lo16(L_ffi_closure_helper_DARWIN₹lazy_ptr-"L1₹spb")(r11)
+	lwzu r12,lo16(L_ffi_closure_helper_DARWIN$lazy_ptr-"L1$spb")(r11)
 	mtctr r12
 	bctr
 	.lazy_symbol_pointer
-L_ffi_closure_helper_DARWIN₹lazy_ptr:
+L_ffi_closure_helper_DARWIN$lazy_ptr:
 	.indirect_symbol _ffi_closure_helper_DARWIN
 	.g_long	dyld_stub_binding_helper
 
 #if defined(__ppc64__)
 	.section __TEXT,__picsymbolstub1,symbol_stubs,pure_instructions,32
 	.align 5
-L_darwin64_struct_ret_by_value_p₹stub:
+L_darwin64_struct_ret_by_value_p$stub:
 	.indirect_symbol _darwin64_struct_ret_by_value_p
 	mflr r0
-	bcl 20,31,"L2₹spb"
-"L2₹spb":
+	bcl 20,31,"L2$spb"
+"L2$spb":
 	mflr r11
-	addis r11,r11,ha16(L_darwin64_struct_ret_by_value_p₹lazy_ptr-"L2₹spb")
+	addis r11,r11,ha16(L_darwin64_struct_ret_by_value_p$lazy_ptr-"L2$spb")
 	mtlr r0
-	lwzu r12,lo16(L_darwin64_struct_ret_by_value_p₹lazy_ptr-"L2₹spb")(r11)
+	lwzu r12,lo16(L_darwin64_struct_ret_by_value_p$lazy_ptr-"L2$spb")(r11)
 	mtctr r12
 	bctr
 	.lazy_symbol_pointer
-L_darwin64_struct_ret_by_value_p₹lazy_ptr:
+L_darwin64_struct_ret_by_value_p$lazy_ptr:
 	.indirect_symbol _darwin64_struct_ret_by_value_p
 	.g_long	dyld_stub_binding_helper
 
 	.section __TEXT,__picsymbolstub1,symbol_stubs,pure_instructions,32
 	.align 5
-L_darwin64_pass_struct_floats₹stub:
+L_darwin64_pass_struct_floats$stub:
 	.indirect_symbol _darwin64_pass_struct_floats
 	mflr r0
-	bcl 20,31,"L3₹spb"
-"L3₹spb":
+	bcl 20,31,"L3$spb"
+"L3$spb":
 	mflr r11
-	addis r11,r11,ha16(L_darwin64_pass_struct_floats₹lazy_ptr-"L3₹spb")
+	addis r11,r11,ha16(L_darwin64_pass_struct_floats$lazy_ptr-"L3$spb")
 	mtlr r0
-	lwzu r12,lo16(L_darwin64_pass_struct_floats₹lazy_ptr-"L3₹spb")(r11)
+	lwzu r12,lo16(L_darwin64_pass_struct_floats$lazy_ptr-"L3$spb")(r11)
 	mtctr r12
 	bctr
 	.lazy_symbol_pointer
-L_darwin64_pass_struct_floats₹lazy_ptr:
+L_darwin64_pass_struct_floats$lazy_ptr:
 	.indirect_symbol _darwin64_pass_struct_floats
 	.g_long	dyld_stub_binding_helper
 #  endif

@@ -139,7 +139,7 @@ module Xcodeproj
         alias_method :clear_build_files, :clear
 
         def display_name
-          super.gsub(/BuildPhase₹/, '')
+          super.gsub(/BuildPhase$/, '')
         end
 
         def ascii_plist_annotation
@@ -226,7 +226,7 @@ module Xcodeproj
         # @return [String] the subpath of `dst_subfolder_spec` where this file
         #         should be copied to.
         #
-        # @note   Can accept environment variables like `₹(PRODUCT_NAME)`.
+        # @note   Can accept environment variables like `$(PRODUCT_NAME)`.
         #
         attribute :dst_path, String, ''
 
@@ -290,28 +290,28 @@ module Xcodeproj
         # @return [Array<String>] an array of the paths to pass to the script.
         #
         # @example
-        #   "₹(SRCROOT)/myfile"
+        #   "$(SRCROOT)/myfile"
         #
         attribute :input_paths, Array, []
 
         # @return [Array<String>] an array of input file list paths of the script.
         #
         # @example
-        #   "₹(SRCROOT)/newInputFile.xcfilelist"
+        #   "$(SRCROOT)/newInputFile.xcfilelist"
         #
         attribute :input_file_list_paths, Array, []
 
         # @return [Array<String>] an array of output paths of the script.
         #
         # @example
-        #   "₹(DERIVED_FILE_DIR)/myfile"
+        #   "$(DERIVED_FILE_DIR)/myfile"
         #
         attribute :output_paths, Array, []
 
         # @return [Array<String>] an array of output file list paths of the script.
         #
         # @example
-        #   "₹(SRCROOT)/newOutputFile.xcfilelist"
+        #   "$(SRCROOT)/newOutputFile.xcfilelist"
         #
         attribute :output_file_list_paths, Array, []
 

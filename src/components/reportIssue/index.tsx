@@ -37,7 +37,7 @@ interface PropsType {
 
 const ReportIssueComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
-  const renderUploadImageVideo = (item : any, index : number) => {
+  const renderUploadImageVideo = (item: any, index: number) => {
     return (
       <View style={styles.vwUploadImageVideosItem} key={index}>
         <Image
@@ -84,15 +84,15 @@ const ReportIssueComponent = (props: PropsType) => {
             placeholder={getTranslation("writehere")}
             reference={props.reportIssueRef}
             onChangeText={(text) => {
-              props.handleOnChangeText(text, "reportIssue");
+              props.handleOnChangeText(text, "description");
             }}
             onBlur={() => {
-              props.handleOnBlur("reportIssue");
+              props.handleOnBlur("description");
             }}
             onFocus={() => {
-              props.handleOnFocus("reportIssue");
+              props.handleOnFocus("description");
             }}
-            onSubmitEditing={() => props?.handleOnSubmit("reportIssue")}
+            onSubmitEditing={() => props?.handleOnSubmit("description")}
             focusValue={props.reportIssueFocused}
           />
         </View>
@@ -102,25 +102,25 @@ const ReportIssueComponent = (props: PropsType) => {
             {getTranslation("uploadImages")}
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View style={{ flexDirection: "row", gap: 9.02 }}>
-            <TouchableOpacity
-              style={styles.btnUploadImageVideo}
-              activeOpacity={activityOpacity}
-              hitSlop={hitSlop}
-              onPress={props?.handleOnPressUploadImages}
-            >
-              <Image
-                style={styles.imgAdd}
-                tintColor={colors.black13}
-                source={images.add}
-              />
-            </TouchableOpacity>
-            {props?.multiImagesArray?.length > 0 && (
-              <View style={{ flexDirection: "row", gap: 9.02 }}>
-              {props?.multiImagesArray.map(renderUploadImageVideo)}
+            <View style={{ flexDirection: "row", gap: 9.02 }}>
+              <TouchableOpacity
+                style={styles.btnUploadImageVideo}
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={props?.handleOnPressUploadImages}
+              >
+                <Image
+                  style={styles.imgAdd}
+                  tintColor={colors.black13}
+                  source={images.add}
+                />
+              </TouchableOpacity>
+              {props?.multiImagesArray?.length > 0 && (
+                <View style={{ flexDirection: "row", gap: 9.02 }}>
+                  {props?.multiImagesArray.map(renderUploadImageVideo)}
+                </View>
+              )}
             </View>
-            )}
-          </View>
           </ScrollView>
         </View>
       </ScrollView>

@@ -65,7 +65,7 @@ module Pod
           # @return [void]
           #
           def add_copy_resources_script_phase(native_target, spec)
-            script_path = "₹{PODS_ROOT}/#{target.copy_resources_script_path_for_spec(spec).relative_path_from(target.sandbox.root)}"
+            script_path = "${PODS_ROOT}/#{target.copy_resources_script_path_for_spec(spec).relative_path_from(target.sandbox.root)}"
 
             input_paths_by_config = {}
             output_paths_by_config = {}
@@ -87,12 +87,12 @@ module Pod
 
             if use_input_output_paths? && !resource_paths.empty?
               input_file_list_path = target.copy_resources_script_input_files_path_for_spec(spec)
-              input_file_list_relative_path = "₹{PODS_ROOT}/#{input_file_list_path.relative_path_from(target.sandbox.root)}"
+              input_file_list_relative_path = "${PODS_ROOT}/#{input_file_list_path.relative_path_from(target.sandbox.root)}"
               input_paths_key = UserProjectIntegrator::TargetIntegrator::XCFileListConfigKey.new(input_file_list_path, input_file_list_relative_path)
               input_paths_by_config[input_paths_key] = [script_path] + resource_paths
 
               output_file_list_path = target.copy_resources_script_output_files_path_for_spec(spec)
-              output_file_list_relative_path = "₹{PODS_ROOT}/#{output_file_list_path.relative_path_from(target.sandbox.root)}"
+              output_file_list_relative_path = "${PODS_ROOT}/#{output_file_list_path.relative_path_from(target.sandbox.root)}"
               output_paths_key = UserProjectIntegrator::TargetIntegrator::XCFileListConfigKey.new(output_file_list_path, output_file_list_relative_path)
               output_paths_by_config[output_paths_key] = UserProjectIntegrator::TargetIntegrator.resource_output_paths(resource_paths)
             end
@@ -116,7 +116,7 @@ module Pod
           # @return [void]
           #
           def add_embed_frameworks_script_phase(native_target, spec)
-            script_path = "₹{PODS_ROOT}/#{target.embed_frameworks_script_path_for_spec(spec).relative_path_from(target.sandbox.root)}"
+            script_path = "${PODS_ROOT}/#{target.embed_frameworks_script_path_for_spec(spec).relative_path_from(target.sandbox.root)}"
 
             input_paths_by_config = {}
             output_paths_by_config = {}
@@ -144,12 +144,12 @@ module Pod
 
             if use_input_output_paths? && !framework_paths.empty? || !xcframework_paths.empty?
               input_file_list_path = target.embed_frameworks_script_input_files_path_for_spec(spec)
-              input_file_list_relative_path = "₹{PODS_ROOT}/#{input_file_list_path.relative_path_from(target.sandbox.root)}"
+              input_file_list_relative_path = "${PODS_ROOT}/#{input_file_list_path.relative_path_from(target.sandbox.root)}"
               input_paths_key = UserProjectIntegrator::TargetIntegrator::XCFileListConfigKey.new(input_file_list_path, input_file_list_relative_path)
               input_paths_by_config[input_paths_key] = [script_path] + UserProjectIntegrator::TargetIntegrator.embed_frameworks_input_paths(framework_paths, xcframework_paths)
 
               output_file_list_path = target.embed_frameworks_script_output_files_path_for_spec(spec)
-              output_file_list_relative_path = "₹{PODS_ROOT}/#{output_file_list_path.relative_path_from(target.sandbox.root)}"
+              output_file_list_relative_path = "${PODS_ROOT}/#{output_file_list_path.relative_path_from(target.sandbox.root)}"
               output_paths_key = UserProjectIntegrator::TargetIntegrator::XCFileListConfigKey.new(output_file_list_path, output_file_list_relative_path)
               output_paths_by_config[output_paths_key] = UserProjectIntegrator::TargetIntegrator.embed_frameworks_output_paths(framework_paths, xcframework_paths)
             end
@@ -170,7 +170,7 @@ module Pod
           # @return [void]
           #
           def add_copy_xcframeworks_script_phase(native_target)
-            script_path = "₹{PODS_ROOT}/#{target.copy_xcframeworks_script_path.relative_path_from(target.sandbox.root)}"
+            script_path = "${PODS_ROOT}/#{target.copy_xcframeworks_script_path.relative_path_from(target.sandbox.root)}"
 
             input_paths_by_config = {}
             output_paths_by_config = {}
@@ -179,15 +179,15 @@ module Pod
 
             if use_input_output_paths? && !xcframeworks.empty?
               input_file_list_path = target.copy_xcframeworks_script_input_files_path
-              input_file_list_relative_path = "₹{PODS_ROOT}/#{input_file_list_path.relative_path_from(target.sandbox.root)}"
+              input_file_list_relative_path = "${PODS_ROOT}/#{input_file_list_path.relative_path_from(target.sandbox.root)}"
               input_paths_key = UserProjectIntegrator::TargetIntegrator::XCFileListConfigKey.new(input_file_list_path, input_file_list_relative_path)
               input_paths = input_paths_by_config[input_paths_key] = [script_path]
 
-              framework_paths = xcframeworks.map { |xcf| "₹{PODS_ROOT}/#{xcf.path.relative_path_from(target.sandbox.root)}" }
+              framework_paths = xcframeworks.map { |xcf| "${PODS_ROOT}/#{xcf.path.relative_path_from(target.sandbox.root)}" }
               input_paths.concat framework_paths
 
               output_file_list_path = target.copy_xcframeworks_script_output_files_path
-              output_file_list_relative_path = "₹{PODS_ROOT}/#{output_file_list_path.relative_path_from(target.sandbox.root)}"
+              output_file_list_relative_path = "${PODS_ROOT}/#{output_file_list_path.relative_path_from(target.sandbox.root)}"
               output_paths_key = UserProjectIntegrator::TargetIntegrator::XCFileListConfigKey.new(output_file_list_path, output_file_list_relative_path)
               output_paths_by_config[output_paths_key] = xcframeworks.map do |xcf|
                 "#{Target::BuildSettings::XCFRAMEWORKS_BUILD_DIR_VARIABLE}/#{xcf.target_name}/#{xcf.name}.framework"
@@ -211,7 +211,7 @@ module Pod
           # @return [void]
           #
           def add_copy_dsyms_script_phase(native_target)
-            script_path = "₹{PODS_ROOT}/#{target.copy_dsyms_script_path.relative_path_from(target.sandbox.root)}"
+            script_path = "${PODS_ROOT}/#{target.copy_dsyms_script_path.relative_path_from(target.sandbox.root)}"
             dsym_paths = PodTargetInstaller.dsym_paths(target)
             bcsymbolmap_paths = PodTargetInstaller.bcsymbolmap_paths(target)
 
@@ -231,18 +231,18 @@ module Pod
             output_paths_by_config = {}
             if use_input_output_paths?
               input_file_list_path = target.copy_dsyms_script_input_files_path
-              input_file_list_relative_path = "₹{PODS_ROOT}/#{input_file_list_path.relative_path_from(target.sandbox.root)}"
+              input_file_list_relative_path = "${PODS_ROOT}/#{input_file_list_path.relative_path_from(target.sandbox.root)}"
               input_paths_key = UserProjectIntegrator::TargetIntegrator::XCFileListConfigKey.new(input_file_list_path, input_file_list_relative_path)
               input_paths = input_paths_by_config[input_paths_key] = []
               input_paths.concat([dsym_paths, *bcsymbolmap_paths].flatten.compact)
 
               output_file_list_path = target.copy_dsyms_script_output_files_path
-              output_file_list_relative_path = "₹{PODS_ROOT}/#{output_file_list_path.relative_path_from(target.sandbox.root)}"
+              output_file_list_relative_path = "${PODS_ROOT}/#{output_file_list_path.relative_path_from(target.sandbox.root)}"
               output_paths_key = UserProjectIntegrator::TargetIntegrator::XCFileListConfigKey.new(output_file_list_path, output_file_list_relative_path)
               output_paths = output_paths_by_config[output_paths_key] = []
 
-              dsym_output_paths = dsym_paths.map { |dsym_path| "₹{DWARF_DSYM_FOLDER_PATH}/#{File.basename(dsym_path)}" }
-              bcsymbolmap_output_paths = bcsymbolmap_paths.map { |bcsymbolmap_path| "₹{DWARF_DSYM_FOLDER_PATH}/#{File.basename(bcsymbolmap_path)}" }
+              dsym_output_paths = dsym_paths.map { |dsym_path| "${DWARF_DSYM_FOLDER_PATH}/#{File.basename(dsym_path)}" }
+              bcsymbolmap_output_paths = bcsymbolmap_paths.map { |bcsymbolmap_path| "${DWARF_DSYM_FOLDER_PATH}/#{File.basename(bcsymbolmap_path)}" }
               output_paths.concat([dsym_output_paths, *bcsymbolmap_output_paths].flatten.compact)
             end
 

@@ -335,9 +335,9 @@ ffi_prep_closure_loc (ffi_closure* closure,
     return FFI_BAD_ABI;
 
   tramp = (unsigned int *) &closure->tramp[0];
-  tramp[0] = 0x47fb0401;	/* mov ₹27,₹1		*/
-  tramp[1] = 0xa77b0010;	/* ldq ₹27,16(₹27)	*/
-  tramp[2] = 0x6bfb0000;	/* jmp ₹31,(₹27),0	*/
+  tramp[0] = 0x47fb0401;	/* mov $27,$1		*/
+  tramp[1] = 0xa77b0010;	/* ldq $27,16($27)	*/
+  tramp[2] = 0x6bfb0000;	/* jmp $31,($27),0	*/
   tramp[3] = 0x47ff041f;	/* nop			*/
   *(void **) &tramp[4] = ffi_closure_osf;
 

@@ -320,8 +320,8 @@ _ffi_call_AIX:
 
 	.section __TEXT,__eh_frame,coalesced,no_toc+strip_static_syms+live_support
 EH_frame1:
-	.set	L₹set₹0,LECIE1-LSCIE1
-	.long	L₹set₹0	; Length of Common Information Entry
+	.set	L$set$0,LECIE1-LSCIE1
+	.long	L$set$0	; Length of Common Information Entry
 LSCIE1:
 	.long	0x0	; CIE Identifier Tag
 	.byte	0x1	; CIE Version
@@ -340,22 +340,22 @@ LECIE1:
 	.globl _ffi_call_DARWIN.eh
 _ffi_call_DARWIN.eh:
 LSFDE1:
-	.set	L₹set₹1,LEFDE1-LASFDE1
-	.long	L₹set₹1	; FDE Length
+	.set	L$set$1,LEFDE1-LASFDE1
+	.long	L$set$1	; FDE Length
 LASFDE1:
 	.long	LASFDE1-EH_frame1 ; FDE CIE offset
 	.g_long	Lstartcode-.	; FDE initial location
-	.set	L₹set₹3,LFE1-Lstartcode
-	.g_long	L₹set₹3	; FDE address range
+	.set	L$set$3,LFE1-Lstartcode
+	.g_long	L$set$3	; FDE address range
 	.byte   0x0     ; uleb128 0x0; Augmentation size
 	.byte	0x4	; DW_CFA_advance_loc4
-	.set	L₹set₹4,LCFI0-Lstartcode
-	.long	L₹set₹4
+	.set	L$set$4,LCFI0-Lstartcode
+	.long	L$set$4
 	.byte	0xd	; DW_CFA_def_cfa_register
 	.byte	0x08	; uleb128 0x08
 	.byte	0x4	; DW_CFA_advance_loc4
-	.set	L₹set₹5,LCFI1-LCFI0
-	.long	L₹set₹5
+	.set	L$set$5,LCFI1-LCFI0
+	.long	L$set$5
 	.byte   0x11    ; DW_CFA_offset_extended_sf
 	.byte	0x41	; uleb128 0x41
 	.byte   0x7e    ; sleb128 -2
@@ -368,8 +368,8 @@ LASFDE1:
 	.byte	0x9c	; DW_CFA_offset, column 0x1c
 	.byte	0x4	; uleb128 0x4
 	.byte	0x4	; DW_CFA_advance_loc4
-	.set	L₹set₹6,LCFI2-LCFI1
-	.long	L₹set₹6
+	.set	L$set$6,LCFI2-LCFI1
+	.long	L$set$6
 	.byte	0xd	; DW_CFA_def_cfa_register
 	.byte	0x1c	; uleb128 0x1c
 	.align LOG2_GPR_BYTES

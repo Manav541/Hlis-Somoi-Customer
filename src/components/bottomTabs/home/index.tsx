@@ -5,11 +5,8 @@ import {
   TouchableOpacity,
   Image,
   Text,
-  Platform,
   FlatList,
   StyleSheet,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
 } from "react-native";
 import React, { Ref } from "react";
 import { styles } from "./styles";
@@ -26,15 +23,13 @@ import {
   Restaurant,
   SubCategory,
 } from "../../../constants/interfaces";
+import Carousel from "react-native-reanimated-carousel";
 
 interface PropsType {
   arrGroceriesFood: GroceriesFoodItem[];
   onPressGroceriesFood: (type: string) => void;
   isGroceriesFoodSelected: string;
   arrAds: AdItem[];
-  flatListRef: Ref<FlatList>;
-  currentIndex: number;
-  handleOnScrollAds: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   arrSubCategoryGroceries: SubCategory[];
   arrBestProducts: BestProduct[];
   arrSubCategoryFood: SubCategory[];
@@ -45,8 +40,11 @@ interface PropsType {
   handleOnPressNotifaicationIcon: () => void;
   onPressLocation: () => void;
   onPressRestaurant: (item: Restaurant) => void;
-  onPressSubCategories:()=>void;
-  onPressBestProducts:()=>void;
+  onPressSubCategories: () => void;
+  onPressBestProducts: () => void;
+
+  handleSetBannerIndex: (index: number) => void;
+  currentBannerIndex: number;
 }
 
 const HomeComponent = (props: PropsType) => {
@@ -110,7 +108,9 @@ const HomeComponent = (props: PropsType) => {
               styles.vwDot,
               {
                 backgroundColor:
-                  index === props?.currentIndex ? colors.blue4e : colors.greyd9,
+                  index === props?.currentBannerIndex
+                    ? colors.blue4e
+                    : colors.greyd9,
               },
             ]}
           />
@@ -193,7 +193,11 @@ const HomeComponent = (props: PropsType) => {
         key={index}
         onPress={() => props?.onPressRestaurant(item)}
       >
-        <Image style={styles.imgBestSeller} source={item?.restaurant_img} resizeMode="stretch" />
+        <Image
+          style={styles.imgBestSeller}
+          source={item?.restaurant_img}
+          resizeMode="stretch"
+        />
 
         <View style={styles.vwBestSellerDetails}>
           <Text style={styles.lblBestSellerName}>{item?.restaurant_name}</Text>
@@ -298,17 +302,21 @@ const HomeComponent = (props: PropsType) => {
 
           {/* Ads */}
           <View style={styles.vwAdds}>
-            <FlatList
-              ref={props?.flatListRef}
+            <Carousel
               data={props.arrAds}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              bounces={false}
+              width={ScreenDimensions.screenWidth - 40}
+              height={200}
+              loop={props.arrAds.length != 1}
+              style={{ borderRadius: 10 }}
+              autoPlay
+              pagingEnabled
+              scrollAnimationDuration={1000}
+              onSnapToItem={props.handleSetBannerIndex}
+              defaultIndex={0}
+              enabled={props.arrAds.length != 1}
+              autoPlayReverse={false}
+              vertical={false}
               renderItem={renderItemAds}
-              pagingEnabled={true}
-              onScroll={props?.handleOnScrollAds}
-              snapToInterval={ScreenDimensions.screenWidth - 40}
-              decelerationRate="fast"
             />
             {renderDots()}
           </View>
@@ -370,7 +378,7 @@ const HomeComponent = (props: PropsType) => {
                 horizontal
                 bounces={false}
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: 16}}
+                contentContainerStyle={{ paddingHorizontal: 16 }}
                 initialScrollIndex={1}
                 getItemLayout={(data, index) => ({
                   length: 299,

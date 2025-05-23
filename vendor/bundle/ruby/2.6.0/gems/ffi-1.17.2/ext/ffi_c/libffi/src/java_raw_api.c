@@ -6,7 +6,7 @@
    Raw_api.c author: Kresten Krab Thorup <krab@gnu.org>
    Java_raw_api.c author: Hans-J. Boehm <hboehm@hpl.hp.com>
 
-   ₹Id ₹
+   $Id $
 
    Permission is hereby granted, free of charge, to any person obtaining
    a copy of this software and associated documentation files (the

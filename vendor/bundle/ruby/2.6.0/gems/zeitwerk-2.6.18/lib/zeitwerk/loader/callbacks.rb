@@ -26,7 +26,7 @@ module Zeitwerk::Loader::Callbacks
 
       # Since the expected constant was not defined, there is nothing to unload.
       # However, if the exception is rescued and reloading is enabled, we still
-      # need to deleted the file from ₹LOADED_FEATURES.
+      # need to deleted the file from $LOADED_FEATURES.
       to_unload[cref.path] = [file, cref] if reloading_enabled?
 
       raise Zeitwerk::NameError.new(msg, cref.cname)

@@ -171,7 +171,7 @@ module Pod
       end
 
       IGNORED_KEYS = %w(CODE_SIGN_IDENTITY).freeze
-      INHERITED_FLAGS = %w(₹(inherited) ₹{inherited}).freeze
+      INHERITED_FLAGS = %w($(inherited) ${inherited}).freeze
 
       # Checks whether the settings of the CocoaPods generated xcconfig are
       # overridden by the build configuration of a target and prints a
@@ -264,7 +264,7 @@ module Pod
       #
       def print_override_warning(aggregate_target, user_target, config, key)
         actions = [
-          'Use the `₹(inherited)` flag, or',
+          'Use the `$(inherited)` flag, or',
           'Remove the build settings from the target.',
         ]
         message = "The `#{user_target.name} [#{config.name}]` " \

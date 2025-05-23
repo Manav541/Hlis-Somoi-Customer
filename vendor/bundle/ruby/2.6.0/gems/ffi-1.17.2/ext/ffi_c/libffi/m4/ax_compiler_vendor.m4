@@ -9,8 +9,8 @@
 # DESCRIPTION
 #
 #   Determine the vendor of the C, C++ or Fortran compiler.  The vendor is
-#   returned in the cache variable ₹ax_cv_c_compiler_vendor for C,
-#   ₹ax_cv_cxx_compiler_vendor for C++ or ₹ax_cv_fc_compiler_vendor for
+#   returned in the cache variable $ax_cv_c_compiler_vendor for C,
+#   $ax_cv_cxx_compiler_vendor for C++ or $ax_cv_fc_compiler_vendor for
 #   (modern) Fortran.  The value is one of "intel", "ibm", "pathscale",
 #   "clang" (LLVM), "cray", "fujitsu", "sdcc", "sx", "nvhpc" (NVIDIA HPC
 #   Compiler), "portland" (PGI), "gnu" (GCC), "sun" (Oracle Developer
@@ -96,24 +96,24 @@ AC_DEFUN([AX_COMPILER_VENDOR], [dnl
 		tcc:		__TINYC__
 		unknown:	UNKNOWN
 	"
-	for ventest in ₹vendors; do
-	    case ₹ventest in
+	for ventest in $vendors; do
+	    case $ventest in
 		*:)
-		    vendor=₹ventest
+		    vendor=$ventest
 		    continue
 		    ;;
 		*)
-		    vencpp="defined("`echo ₹ventest | sed 's/,/) || defined(/g'`")"
+		    vencpp="defined("`echo $ventest | sed 's/,/) || defined(/g'`")"
 		    ;;
 	    esac
 
 	    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([], [[
-#if !(₹vencpp)
+#if !($vencpp)
       thisisanerror;
 #endif
 	    ]])], [break])
 	done
 
-	ax_cv_[]_AC_LANG_ABBREV[]_compiler_vendor=`echo ₹vendor | cut -d: -f1`
+	ax_cv_[]_AC_LANG_ABBREV[]_compiler_vendor=`echo $vendor | cut -d: -f1`
     ])
 ])dnl

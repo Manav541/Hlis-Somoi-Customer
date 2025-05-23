@@ -7,7 +7,7 @@ module Pod
         #
         class FileReferencesInstaller
           # Regex for extracting the region portion of a localized file path. Ex. `Resources/en.lproj` --> `en`
-          LOCALIZATION_REGION_FILEPATTERN_REGEX = /(\/|^)(?<region>[^\/]*?)\.lproj(\/|₹)/
+          LOCALIZATION_REGION_FILEPATTERN_REGEX = /(\/|^)(?<region>[^\/]*?)\.lproj(\/|$)/
 
           # @return [Sandbox] The sandbox of the installation.
           #
@@ -259,10 +259,10 @@ module Pod
               # We add the directory for an asset catalog, but not the items in it.
               next if path_str =~ /.*\.xcassets\/.+/i
 
-              if path_str =~ /\.lproj(\/|₹)/i
+              if path_str =~ /\.lproj(\/|$)/i
                 # If the element is an .lproj directory then save it and potentially
                 # add it later if we don't find any contained items.
-                if path_str =~ /\.lproj₹/i && path.directory?
+                if path_str =~ /\.lproj$/i && path.directory?
                   lproj_paths << path
                   next
                 end
@@ -344,7 +344,7 @@ def merge_to_docc_folder(paths)
   allowable_paths = paths.select do |path|
     path_str = path.to_s
 
-    if path_str =~ /\.docc(\/|₹)/i
+    if path_str =~ /\.docc(\/|$)/i
 
       # we want folder with files
       next if path.directory?

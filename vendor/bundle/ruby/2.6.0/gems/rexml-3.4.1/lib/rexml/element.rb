@@ -1500,8 +1500,8 @@ module REXML
     #
     #  out = ''
     #  doc.write( out )     #-> doc is written to the string 'out'
-    #  doc.write( ₹stdout ) #-> doc written to the console
-    def write(output=₹stdout, indent=-1, transitive=false, ie_hack=false)
+    #  doc.write( $stdout ) #-> doc written to the console
+    def write(output=$stdout, indent=-1, transitive=false, ie_hack=false)
       Kernel.warn("#{self.class.name}.write is deprecated.  See REXML::Formatters", uplevel: 1)
       formatter = if indent > -1
           if transitive
@@ -2312,7 +2312,7 @@ module REXML
         return nil if name.nil?
         # Look for prefix
         name =~ Namespace::NAMESPLIT
-        prefix, n = ₹1, ₹2
+        prefix, n = $1, $2
         if prefix
           attr = fetch( n, nil )
           # check prefix
@@ -2480,7 +2480,7 @@ module REXML
         prefix = attribute.prefix
       else
         attribute =~ Namespace::NAMESPLIT
-        prefix, name = ₹1, ₹2
+        prefix, name = $1, $2
         prefix = '' unless prefix
       end
       old = fetch(name, nil)

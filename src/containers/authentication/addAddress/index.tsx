@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Alert } from "react-native";
+import { View, Text, TextInput, Alert, BackHandler } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import GlobalBackButton from "../../../global/GlobalBackButton";
 import AddAddressComponent from "../../../components/authentication/addAddress";
@@ -37,7 +37,7 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const handleOnSubmit = (type: string) => {
     if (type === "address") {
       houseRef?.current?.focus();
-    } else {
+    } else if (type === "house") {
       additionalDescriptionRef?.current?.focus();
     }
   };
@@ -49,8 +49,8 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       }
     } else if (type === "house") {
       setHouse(text.replace(/\s/g, ""));
-    } else {
-      setAdditionalDescription(text.replace(/\s/g, ""));
+    } else if (type === "description") {
+      setAdditionalDescription(text);
     }
   };
 
@@ -59,7 +59,7 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       setAddressFocused(true);
     } else if (type === "house") {
       setHouseFocused(true);
-    } else {
+    } else if (type === "description") {
       setAdditionalDescriptionFocused(true);
     }
   };
@@ -69,23 +69,29 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       setAddressFocused(true);
     } else if (type === "house") {
       setHouseFocused(true);
-    } else {
+    } else if (type === "description") {
       setAdditionalDescriptionFocused(true);
     }
   };
 
   const handleOnPressAdd = () => {
-    if (!isNavigateFromManageAddress) {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 1,
-          routes: [{ name: ScreenNames.bottomTabsNavigation }],
-        })
-      );
-      flashMessageSucess(getTranslation("addressAddedSucess"));
+    if (address === "") {
+      flashMessageWarning(getTranslation("addressRequired"));
+    } else if (house === "") {
+      flashMessageWarning(getTranslation("houseRequired"));
     } else {
-      navigation.goBack();
-      flashMessageSucess(getTranslation("addressAddedSucess"));
+      if (!isNavigateFromManageAddress) {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{ name: ScreenNames.bottomTabsNavigation }],
+          })
+        );
+        flashMessageSucess(getTranslation("addressAddedSucess"));
+      } else {
+        navigation.goBack();
+        flashMessageSucess(getTranslation("addressAddedSucess"));
+      }
     }
   };
 
@@ -123,8 +129,8 @@ const AddAddressContainer = ({ navigation, route }: any) => {
           {isNavigateFromManageAddress
             ? ScreenNames.addAddress
             : isEditAddress
-            ? getTranslation('updateAddress')
-            : null}
+            ? getTranslation("updateAddress")
+            : ScreenNames.addAddress}
         </Text>
       ),
     });
@@ -132,6 +138,26 @@ const AddAddressContainer = ({ navigation, route }: any) => {
 
   useEffect(() => {
     header();
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        if (!isNavigateFromManageAddress) {
+          showConfirmAlert("Do you want to continue without address?", () => {
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [{ name: ScreenNames.bottomTabsNavigation }],
+              })
+            );
+          });
+          return true;
+        }
+        return false;
+      }
+    );
+
+    return () => backHandler.remove();
   }, []);
 
   return (

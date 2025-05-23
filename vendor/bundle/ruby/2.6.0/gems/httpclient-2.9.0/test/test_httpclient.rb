@@ -80,8 +80,8 @@ class TestHTTPClient < Test::Unit::TestCase
     assert_equal("GET /hello HTTP/0.9", lines[3])
     assert_equal("Connection: close", lines[7])
     assert_equal("= Response", lines[8])
-    assert_match(/^hello₹/, lines[9])
-    assert_match(/^world₹/, lines[10])
+    assert_match(/^hello$/, lines[9])
+    assert_match(/^world$/, lines[10])
   end
 
   def test_protocol_version_http10

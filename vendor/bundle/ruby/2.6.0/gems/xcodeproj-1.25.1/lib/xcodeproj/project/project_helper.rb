@@ -170,7 +170,7 @@ module Xcodeproj
       #
       # @return [PBXLegacyTarget] the target.
       #
-      def self.new_legacy_target(project, name, build_tool_path = '/usr/bin/make', build_arguments_string = '₹(ACTION)',
+      def self.new_legacy_target(project, name, build_tool_path = '/usr/bin/make', build_arguments_string = '$(ACTION)',
                                  build_working_directory = nil, pass_build_settings_in_environment = '1')
         target = project.new(PBXLegacyTarget)
         project.targets << target

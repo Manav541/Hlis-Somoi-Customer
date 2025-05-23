@@ -28,7 +28,7 @@
 * 2 bug fixes:
 
   * Fix incompatibility caused by minitest-hooks & rails invading minitest internals.
-  * Revert change from =~ to match? to allow for nil if ₹TERM undefined.
+  * Revert change from =~ to match? to allow for nil if $TERM undefined.
 
 === 5.25.0 / 2024-08-13
 
@@ -210,7 +210,7 @@
 * 4 bug fixes:
 
   * Added MT_KWARGS_HACK kludge for stub to deal with ruby 2.7 kwargs nastiness. (tsugimoto)
-  * In #expect, pop Hash class from args if ₹MT_KWARGS_HACK. (casperisfine)
+  * In #expect, pop Hash class from args if $MT_KWARGS_HACK. (casperisfine)
   * In above scenario, set expected kwargs (as Objects) based on actual kwargs.
   * Nuke ivars if exception fails to marshal twice (eg better_errors). (irphilli)
 
@@ -293,7 +293,7 @@
 * 3 minor enhancements:
 
   * Minitest.filter_backtrace returns original backtrace if filter comes back empty.
-  * Minitest::BacktraceFilter now returns entire backtrace if ₹MT_DEBUG set in env.
+  * Minitest::BacktraceFilter now returns entire backtrace if $MT_DEBUG set in env.
   * Return true on a successful refute. (jusleg)
 
 * 1 bug fix:
@@ -357,7 +357,7 @@
 
   * Added a descriptive error if assert_output or assert_raises called without a block. (okuramasafumi)
   * Changed mu_pp_for_diff to make having both \n and \\n easier to debug.
-  * Deprecated ₹N for specifying number of parallel test runners. Use MT_CPU.
+  * Deprecated $N for specifying number of parallel test runners. Use MT_CPU.
   * Deprecated use of global expectations. To be removed from MT6.
   * Extended Assertions#mu_pp to encoding validity output for strings to improve diffs.
   * Extended Assertions#mu_pp to output encoding and validity if invalid to improve diffs.
@@ -505,7 +505,7 @@
   * Added assert_mock to make it more clear that you're testing w/ them.
   * Added negative filter by test name. (utilum)
   * Added warning to README that 1.8 and 1.9 support will be dropped in minitest 6.
-  * Automatically activate minitest/hell if ₹MT_HELL is defined.
+  * Automatically activate minitest/hell if $MT_HELL is defined.
   * Improved default error messages for assert and refute. (bhenderson)
   * minitest/hell now tries to require minitest/proveit
   * mu_pp for strings prints out non-standard encodings to improve assert_equal diffs.
@@ -740,7 +740,7 @@
 * 2 minor enhancements:
 
   * Added clarification about the use of thread local variables in expectations. (jemc)
-  * Added extra message about skipped tests, if any. Disable globally with ₹MT_NO_SKIP_MSG.
+  * Added extra message about skipped tests, if any. Disable globally with $MT_NO_SKIP_MSG.
 
 * 2 bug fixes:
 
@@ -930,7 +930,7 @@ back.
 
 * 1 bug fix:
 
-  * Removed ₹DEBUG handler that detected when test/unit and minitest were both loaded. (tenderlove)
+  * Removed $DEBUG handler that detected when test/unit and minitest were both loaded. (tenderlove)
 
 === 4.6.2 / 2013-02-27
 
@@ -1015,7 +1015,7 @@ back.
 * 4 minor enhancements:
 
   * Allow #autorun to run even if loaded with other test libs that call exit. (sunaku)
-  * Do not include Expectations in Object if ₹MT_NO_EXPECTATIONS is set (experimental?)
+  * Do not include Expectations in Object if $MT_NO_EXPECTATIONS is set (experimental?)
   * Gave some much needed love to assert_raises.
   * Mock#expect can take a block to custom-validate args. (gmoothart)
 
@@ -1410,7 +1410,7 @@ back.
 
 * 4 minor enhancements:
 
-  * Do not filter backtrace if ₹DEBUG
+  * Do not filter backtrace if $DEBUG
   * Exit autorun via nested at_exit handler, in case other libs call exit
   * Make options accesor lazy.
   * Split printing of test name and its time. (nurse)
@@ -1519,7 +1519,7 @@ back.
 
 * 1 minor enhancement:
 
-  * Added something to catch mixed use of test/unit and minitest if ₹DEBUG
+  * Added something to catch mixed use of test/unit and minitest if $DEBUG
 
 * 1 bug fix:
 
@@ -1579,7 +1579,7 @@ back.
     regexp only if needed.
   * Added assert_send... seems useless to me tho.
   * message now forces to string... ruby-core likes to pass classes and arrays :(
-  * Added -v handling and switched to @verbose from ₹DEBUG.
+  * Added -v handling and switched to @verbose from $DEBUG.
   * Verbose output now includes test class name and adds a sortable running time!
   * Switched message generation into procs for message deferment.
   * Added skip and renamed fail to flunk.
@@ -1621,7 +1621,7 @@ back.
   * Added bin/use_miniunit to make it easy to test out miniunit.
   * Added -n filtering, thanks to Phil Hagelberg!
   * Added args argument to #run, takes ARGV from at_exit.
-  * Added test name output if ₹DEBUG.
+  * Added test name output if $DEBUG.
   * Added a refute (was deny) for every assert.
   * Added capture_io and a bunch of nice assertions from zentest.
   * Added deprecation mechanism for assert_no/not methods to test/unit/assertions.

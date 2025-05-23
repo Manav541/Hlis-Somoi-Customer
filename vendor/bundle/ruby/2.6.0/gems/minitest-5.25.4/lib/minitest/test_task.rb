@@ -77,7 +77,7 @@ module Minitest # :nodoc:
 
     ##
     # Extra library directories to include. Defaults to %w[lib test
-    # .]. Also uses ₹MT_LIB_EXTRAS allowing you to dynamically
+    # .]. Also uses $MT_LIB_EXTRAS allowing you to dynamically
     # override/inject directories for custom runs.
 
     attr_accessor :libs
@@ -195,11 +195,11 @@ module Minitest # :nodoc:
 
           times[path] = t1
 
-          if ₹?.success?
-            ₹stderr.print "."
+          if $?.success?
+            $stderr.print "."
             good << path
           else
-            ₹stderr.print "x"
+            $stderr.print "x"
             bad[path] = output
           end
         end

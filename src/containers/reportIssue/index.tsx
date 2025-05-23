@@ -68,19 +68,19 @@ const ReportIssueContainer = ({ navigation }: any) => {
   };
 
   const handleOnChangeText = (text: string, type: string) => {
-    if (type === "reportIssue") {
-      setReportIssue(text.replace(/\s/g, ""));
+    if (type === "description") {
+      setReportIssue(text);
     }
   };
 
   const handleOnFocus = (type: string) => {
-    if (type === "reportIssue") {
+    if (type === "description") {
       setReportIssueFocused(true);
     }
   };
 
   const handleOnBlur = (type: string) => {
-    if (type === "reportIssue") {
+    if (type === "description") {
       setReportIssueFocused(true);
     }
   };

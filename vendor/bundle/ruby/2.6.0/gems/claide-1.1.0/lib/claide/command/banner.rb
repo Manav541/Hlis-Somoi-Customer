@@ -69,8 +69,8 @@ module CLAide
         sub_command = signature_sub_command
         arguments = signature_arguments
         result = prettify_signature(full_command, sub_command, arguments)
-        result.insert(0, '₹ ')
-        result.insert(0, ' ' * (TEXT_INDENT - '₹ '.size))
+        result.insert(0, '$ ')
+        result.insert(0, ' ' * (TEXT_INDENT - '$ '.size))
       end
 
       # @return [String] The subcommand indicator of the signature.
@@ -176,7 +176,7 @@ module CLAide
         message = message.dup
         command.arguments.each do |arg|
           arg.names.each do |name|
-            message.gsub!("`#{name.gsub(/\.{3}₹/, '')}`", '\0'.ansi.magenta)
+            message.gsub!("`#{name.gsub(/\.{3}$/, '')}`", '\0'.ansi.magenta)
           end
         end
         command.options.each do |(name, _description)|
@@ -267,7 +267,7 @@ module CLAide
         # @return [String] Lifted straight from ActionView. Thanks guys!
         #
         def self.word_wrap(line, line_width)
-          line.gsub(/(.{1,#{line_width}})(\s+|₹)/, "\\1\n").strip
+          line.gsub(/(.{1,#{line_width}})(\s+|$)/, "\\1\n").strip
         end
 
         # @return [String] Lifted straight from ActiveSupport. Thanks guys!

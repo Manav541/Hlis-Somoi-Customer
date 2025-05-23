@@ -10,7 +10,7 @@ import {
 import React from "react";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { styles } from "./styles";
-import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { colors } from "../../constants/Colors";
 import GlobalButton from "../../global/GlobalButton";
@@ -80,7 +80,7 @@ const PaymentMethodComponent = (props: PropsType) => {
         backgroundColor={"transparent"}
         barStyle={"dark-content"}
       />
-      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+      <ScrollView bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom : 20}}>
         <Text style={styles.lblPaymentMethodDesc}>
           {getTranslation("paymentMethodsDesc")}
         </Text>
@@ -144,7 +144,7 @@ const PaymentMethodComponent = (props: PropsType) => {
           <Text style={styles.lblTotalAmount}>
             {getTranslation("totalAmount")}
           </Text>
-          <Text style={styles.lblTotalAmountValue}>{props?.total}</Text>
+          <Text style={styles.lblTotalAmountValue}>{rupeeSymbol+ " "+ props?.total}</Text>
         </View>
         {/* Place Order */}
         <View style={styles.vwPlaceOrder}>

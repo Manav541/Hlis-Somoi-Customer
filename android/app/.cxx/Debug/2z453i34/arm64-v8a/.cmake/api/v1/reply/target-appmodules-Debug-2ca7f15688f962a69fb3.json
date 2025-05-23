@@ -345,6 +345,14 @@
 		},
 		{
 			"backtrace" : 4,
+			"id" : "react-native-mmkv::@4ae6a1e65d3e68ba0197"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "core::@1b9a7d546b295b7d0867"
+		},
+		{
+			"backtrace" : 4,
 			"id" : "react_codegen_RNPermissionsSpec::@7ad697819b753921c957"
 		},
 		{
@@ -353,19 +361,11 @@
 		},
 		{
 			"backtrace" : 4,
-			"id" : "react_codegen_rnscreens::@25bcbd507e98d3a854ad"
-		},
-		{
-			"backtrace" : 4,
 			"id" : "react_codegen_safeareacontext::@7984cd80db47aa7b952a"
 		},
 		{
 			"backtrace" : 4,
-			"id" : "react-native-mmkv::@4ae6a1e65d3e68ba0197"
-		},
-		{
-			"backtrace" : 4,
-			"id" : "core::@1b9a7d546b295b7d0867"
+			"id" : "react_codegen_rnscreens::@25bcbd507e98d3a854ad"
 		}
 	],
 	"id" : "appmodules::@6890427a1f51a3e7e1df",

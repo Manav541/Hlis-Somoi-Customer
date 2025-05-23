@@ -401,7 +401,7 @@ END(ffi_go_closure_sysv)
 trampoline_code_table:
 	.rept   PPC_TRAMP_MAP_SIZE / PPC_TRAMP_SIZE
 	mflr    %r0
-	bcl     20,31,₹+4
+	bcl     20,31,$+4
 	mflr    %r11
 	addis   %r11,%r11,PPC_TRAMP_MAP_SIZE@ha
 	mtlr    %r0

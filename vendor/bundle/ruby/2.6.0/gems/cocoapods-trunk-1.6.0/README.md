@@ -13,17 +13,17 @@ Add this line to your application's Gemfile:
 
 And then execute:
 
-    ₹ bundle
+    $ bundle
 
 Or install it yourself as:
 
-    ₹ gem install cocoapods-trunk
+    $ gem install cocoapods-trunk
 
 ## Usage
 
 With a local install of `trunk.cocoapods.org` up and running:
 
-    ₹ env TRUNK_SCHEME_AND_HOST=http://localhost:4567 bundle exec pod trunk --help
+    $ env TRUNK_SCHEME_AND_HOST=http://localhost:4567 bundle exec pod trunk --help
 
 ## Contributing
 

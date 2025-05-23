@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
   vwLine: {
     height: 1,
     flex: 1,
-    backgroundColor: `₹{colors.greya7}30`,
+    backgroundColor: `${colors.greya7}30`,
     marginTop: 20,
     marginBottom: 10,
   },
@@ -79,7 +79,7 @@ export const styles = StyleSheet.create({
     height: 65,
     width: 65,
     borderRadius: 5,
-    backgroundColor: `₹{colors.black}17`,
+    backgroundColor: `${colors.black}17`,
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",

@@ -93,7 +93,7 @@ module Pod
                    URI(root_spec.source[:http].to_s)
                  elsif !root_spec.source[:git].nil?
                    git_source = root_spec.source[:git].to_s
-                   return unless git_source =~ /^#{URI::DEFAULT_PARSER.make_regexp}₹/
+                   return unless git_source =~ /^#{URI::DEFAULT_PARSER.make_regexp}$/
                    URI(git_source)
                  end
         if UNENCRYPTED_PROTOCOLS.include?(source.scheme) && source.host != 'localhost'

@@ -19,11 +19,11 @@ gem 'logger'
 
 And then execute:
 
-    ₹ bundle
+    $ bundle
 
 Or install it yourself as:
 
-    ₹ gem install logger
+    $ gem install logger
 
 ## Usage
 
@@ -48,25 +48,25 @@ error_log = error_log.error("fatal error")
 After checking out the repo, run the following to install dependencies.
 
 ```
-₹ bin/setup
+$ bin/setup
 ```
 
 Then, run the tests as:
 
 ```
-₹ rake test
+$ rake test
 ```
 
 To install this gem onto your local machine, run
 
 ```
-₹ rake install
+$ rake install
 ```
 
 To release a new version, update the version number in `lib/logger/version.rb`, and then run
 
 ```
-₹ rake release
+$ rake release
 ```
 
 which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
@@ -76,7 +76,7 @@ which will create a git tag for the version, push git commits and tags, and push
 ### Run tests of a specific file
 
 ```
-₹ ruby test/logger/test_logger.rb
+$ ruby test/logger/test_logger.rb
 ```
 
 ### Run tests filtering test methods by a name
@@ -84,13 +84,13 @@ which will create a git tag for the version, push git commits and tags, and push
 `--name` option is available as:
 
 ```
-₹ ruby test/logger/test_logger.rb --name test_lshift
+$ ruby test/logger/test_logger.rb --name test_lshift
 ```
 
 ### Publish documents to GitHub Pages
 
 ```
-₹ rake gh-pages
+$ rake gh-pages
 ```
 
 Then, git commit and push the generated HTMLs onto `gh-pages` branch.

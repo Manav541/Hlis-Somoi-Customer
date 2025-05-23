@@ -90,59 +90,59 @@ ffi_call_asm:
 	   caller.  */
 
 	.cfi_def_cfa	5, FRAME_LEN # Interim CFA based on a1.
-	SARG	₹fp, ₹a1, FRAME_LEN - 2*PTRS
+	SARG	$fp, $a1, FRAME_LEN - 2*PTRS
 	.cfi_offset	22, -2*PTRS
-	SARG	₹ra, ₹a1, FRAME_LEN - 1*PTRS
+	SARG	$ra, $a1, FRAME_LEN - 1*PTRS
 	.cfi_offset	1, -1*PTRS
 
-	addi.d	₹fp, ₹a1, FRAME_LEN
-	move	₹sp, ₹a0
+	addi.d	$fp, $a1, FRAME_LEN
+	move	$sp, $a0
 	.cfi_def_cfa	22, 0 # Our frame is fully set up.
 
 	# Load arguments.
-	move	₹t1, ₹a2
-	move	₹t2, ₹a3
+	move	$t1, $a2
+	move	$t2, $a3
 
 #if FLTS
-	FLARG	₹fa0, ₹fp, -FRAME_LEN+0*FLTS
-	FLARG	₹fa1, ₹fp, -FRAME_LEN+1*FLTS
-	FLARG	₹fa2, ₹fp, -FRAME_LEN+2*FLTS
-	FLARG	₹fa3, ₹fp, -FRAME_LEN+3*FLTS
-	FLARG	₹fa4, ₹fp, -FRAME_LEN+4*FLTS
-	FLARG	₹fa5, ₹fp, -FRAME_LEN+5*FLTS
-	FLARG	₹fa6, ₹fp, -FRAME_LEN+6*FLTS
-	FLARG	₹fa7, ₹fp, -FRAME_LEN+7*FLTS
+	FLARG	$fa0, $fp, -FRAME_LEN+0*FLTS
+	FLARG	$fa1, $fp, -FRAME_LEN+1*FLTS
+	FLARG	$fa2, $fp, -FRAME_LEN+2*FLTS
+	FLARG	$fa3, $fp, -FRAME_LEN+3*FLTS
+	FLARG	$fa4, $fp, -FRAME_LEN+4*FLTS
+	FLARG	$fa5, $fp, -FRAME_LEN+5*FLTS
+	FLARG	$fa6, $fp, -FRAME_LEN+6*FLTS
+	FLARG	$fa7, $fp, -FRAME_LEN+7*FLTS
 #endif
 
-	LARG	₹a0, ₹fp, -FRAME_LEN+8*FLTS+0*PTRS
-	LARG	₹a1, ₹fp, -FRAME_LEN+8*FLTS+1*PTRS
-	LARG	₹a2, ₹fp, -FRAME_LEN+8*FLTS+2*PTRS
-	LARG	₹a3, ₹fp, -FRAME_LEN+8*FLTS+3*PTRS
-	LARG	₹a4, ₹fp, -FRAME_LEN+8*FLTS+4*PTRS
-	LARG	₹a5, ₹fp, -FRAME_LEN+8*FLTS+5*PTRS
-	LARG	₹a6, ₹fp, -FRAME_LEN+8*FLTS+6*PTRS
-	LARG	₹a7, ₹fp, -FRAME_LEN+8*FLTS+7*PTRS
+	LARG	$a0, $fp, -FRAME_LEN+8*FLTS+0*PTRS
+	LARG	$a1, $fp, -FRAME_LEN+8*FLTS+1*PTRS
+	LARG	$a2, $fp, -FRAME_LEN+8*FLTS+2*PTRS
+	LARG	$a3, $fp, -FRAME_LEN+8*FLTS+3*PTRS
+	LARG	$a4, $fp, -FRAME_LEN+8*FLTS+4*PTRS
+	LARG	$a5, $fp, -FRAME_LEN+8*FLTS+5*PTRS
+	LARG	$a6, $fp, -FRAME_LEN+8*FLTS+6*PTRS
+	LARG	$a7, $fp, -FRAME_LEN+8*FLTS+7*PTRS
 
 	/* Call */
-	jirl	₹ra, ₹t1, 0
+	jirl	$ra, $t1, 0
 
 #if FLTS
 	/* Save return values - only a0/a1 (fa0/fa1) are used.  */
-	FSARG	₹fa0, ₹fp, -FRAME_LEN+0*FLTS
-	FSARG	₹fa1, ₹fp, -FRAME_LEN+1*FLTS
+	FSARG	$fa0, $fp, -FRAME_LEN+0*FLTS
+	FSARG	$fa1, $fp, -FRAME_LEN+1*FLTS
 #endif
 
-	SARG	₹a0, ₹fp, -FRAME_LEN+8*FLTS+0*PTRS
-	SARG	₹a1, ₹fp, -FRAME_LEN+8*FLTS+1*PTRS
+	SARG	$a0, $fp, -FRAME_LEN+8*FLTS+0*PTRS
+	SARG	$a1, $fp, -FRAME_LEN+8*FLTS+1*PTRS
 
 	/* Restore and return.  */
-	addi.d	₹sp, ₹fp, -FRAME_LEN
+	addi.d	$sp, $fp, -FRAME_LEN
 	.cfi_def_cfa	3, FRAME_LEN
-	LARG	₹ra, ₹fp, -1*PTRS
+	LARG	$ra, $fp, -1*PTRS
 	.cfi_restore	1
-	LARG	₹fp, ₹fp, -2*PTRS
+	LARG	$fp, $fp, -2*PTRS
 	.cfi_restore	22
-	jr	₹ra
+	jr	$ra
 	.cfi_endproc
 	.size	ffi_call_asm, .-ffi_call_asm
 
@@ -159,63 +159,63 @@ ffi_call_asm:
 
 ffi_closure_asm:
 	.cfi_startproc
-	addi.d	₹sp, ₹sp, -FRAME_LEN
+	addi.d	$sp, $sp, -FRAME_LEN
 	.cfi_def_cfa_offset FRAME_LEN
 
 	/* Make a frame.  */
-	SARG	₹fp, ₹sp, FRAME_LEN - 2*PTRS
+	SARG	$fp, $sp, FRAME_LEN - 2*PTRS
 	.cfi_offset	22, -2*PTRS
-	SARG	₹ra, ₹sp, FRAME_LEN - 1*PTRS
+	SARG	$ra, $sp, FRAME_LEN - 1*PTRS
 	.cfi_offset	1, -1*PTRS
-	addi.d	₹fp, ₹sp, FRAME_LEN
+	addi.d	$fp, $sp, FRAME_LEN
 
 	/* Save arguments.  */
 #if FLTS
-	FSARG	₹fa0, ₹sp, 0*FLTS
-	FSARG	₹fa1, ₹sp, 1*FLTS
-	FSARG	₹fa2, ₹sp, 2*FLTS
-	FSARG	₹fa3, ₹sp, 3*FLTS
-	FSARG	₹fa4, ₹sp, 4*FLTS
-	FSARG	₹fa5, ₹sp, 5*FLTS
-	FSARG	₹fa6, ₹sp, 6*FLTS
-	FSARG	₹fa7, ₹sp, 7*FLTS
+	FSARG	$fa0, $sp, 0*FLTS
+	FSARG	$fa1, $sp, 1*FLTS
+	FSARG	$fa2, $sp, 2*FLTS
+	FSARG	$fa3, $sp, 3*FLTS
+	FSARG	$fa4, $sp, 4*FLTS
+	FSARG	$fa5, $sp, 5*FLTS
+	FSARG	$fa6, $sp, 6*FLTS
+	FSARG	$fa7, $sp, 7*FLTS
 #endif
 
-	SARG	₹a0, ₹sp, 8*FLTS+0*PTRS
-	SARG	₹a1, ₹sp, 8*FLTS+1*PTRS
-	SARG	₹a2, ₹sp, 8*FLTS+2*PTRS
-	SARG	₹a3, ₹sp, 8*FLTS+3*PTRS
-	SARG	₹a4, ₹sp, 8*FLTS+4*PTRS
-	SARG	₹a5, ₹sp, 8*FLTS+5*PTRS
-	SARG	₹a6, ₹sp, 8*FLTS+6*PTRS
-	SARG	₹a7, ₹sp, 8*FLTS+7*PTRS
+	SARG	$a0, $sp, 8*FLTS+0*PTRS
+	SARG	$a1, $sp, 8*FLTS+1*PTRS
+	SARG	$a2, $sp, 8*FLTS+2*PTRS
+	SARG	$a3, $sp, 8*FLTS+3*PTRS
+	SARG	$a4, $sp, 8*FLTS+4*PTRS
+	SARG	$a5, $sp, 8*FLTS+5*PTRS
+	SARG	$a6, $sp, 8*FLTS+6*PTRS
+	SARG	$a7, $sp, 8*FLTS+7*PTRS
 
 	/* Enter C */
-	LARG	₹a0, ₹t0, FFI_TRAMPOLINE_SIZE+0*PTRS
-	LARG	₹a1, ₹t0, FFI_TRAMPOLINE_SIZE+1*PTRS
-	LARG	₹a2, ₹t0, FFI_TRAMPOLINE_SIZE+2*PTRS
-	addi.d	₹a3, ₹sp, FRAME_LEN
-	move	₹a4, ₹sp
+	LARG	$a0, $t0, FFI_TRAMPOLINE_SIZE+0*PTRS
+	LARG	$a1, $t0, FFI_TRAMPOLINE_SIZE+1*PTRS
+	LARG	$a2, $t0, FFI_TRAMPOLINE_SIZE+2*PTRS
+	addi.d	$a3, $sp, FRAME_LEN
+	move	$a4, $sp
 
 	bl	ffi_closure_inner
 
 	/* Return values.  */
 #if FLTS
-	FLARG	₹fa0, ₹sp, 0*FLTS
-	FLARG	₹fa1, ₹sp, 1*FLTS
+	FLARG	$fa0, $sp, 0*FLTS
+	FLARG	$fa1, $sp, 1*FLTS
 #endif
 
-	LARG	₹a0, ₹sp, 8*FLTS+0*PTRS
-	LARG	₹a1, ₹sp, 8*FLTS+1*PTRS
+	LARG	$a0, $sp, 8*FLTS+0*PTRS
+	LARG	$a1, $sp, 8*FLTS+1*PTRS
 
 	/* Restore and return.  */
-	LARG	₹ra, ₹sp, FRAME_LEN-1*PTRS
+	LARG	$ra, $sp, FRAME_LEN-1*PTRS
 	.cfi_restore	1
-	LARG	₹fp, ₹sp, FRAME_LEN-2*PTRS
+	LARG	$fp, $sp, FRAME_LEN-2*PTRS
 	.cfi_restore	22
-	addi.d	₹sp, ₹sp, FRAME_LEN
+	addi.d	$sp, $sp, FRAME_LEN
 	.cfi_def_cfa_offset 0
-	jr	₹ra
+	jr	$ra
 	.cfi_endproc
 	.size	ffi_closure_asm, .-ffi_closure_asm
 
@@ -240,10 +240,10 @@ ffi_closure_asm:
 trampoline_code_table:
 
 	.rept	65536 / 16
-	pcaddu12i	₹t1, 16 # 65536 >> 12
-	ld.d	₹t0, ₹t1, 0
-	ld.d	₹t1, ₹t1, 8
-	jirl	₹zero, ₹t1, 0
+	pcaddu12i	$t1, 16 # 65536 >> 12
+	ld.d	$t0, $t1, 0
+	ld.d	$t1, $t1, 8
+	jirl	$zero, $t1, 0
 	.endr
 	.size	trampoline_code_table, .-trampoline_code_table
 
@@ -262,63 +262,63 @@ trampoline_code_table:
 
 ffi_go_closure_asm:
 	.cfi_startproc
-	addi.d	₹sp, ₹sp, -FRAME_LEN
+	addi.d	$sp, $sp, -FRAME_LEN
 	.cfi_def_cfa_offset FRAME_LEN
 
 	/* Make a frame.  */
-	SARG	₹fp, ₹sp, FRAME_LEN - 2*PTRS
+	SARG	$fp, $sp, FRAME_LEN - 2*PTRS
 	.cfi_offset	22, -2*PTRS
-	SARG	₹ra, ₹sp, FRAME_LEN - 1*PTRS
+	SARG	$ra, $sp, FRAME_LEN - 1*PTRS
 	.cfi_offset	1, -1*PTRS
-	addi.d	₹fp, ₹sp, FRAME_LEN
+	addi.d	$fp, $sp, FRAME_LEN
 
 	/* Save arguments.  */
 #if FLTS
-	FSARG	₹fa0, ₹sp, 0*FLTS
-	FSARG	₹fa1, ₹sp, 1*FLTS
-	FSARG	₹fa2, ₹sp, 2*FLTS
-	FSARG	₹fa3, ₹sp, 3*FLTS
-	FSARG	₹fa4, ₹sp, 4*FLTS
-	FSARG	₹fa5, ₹sp, 5*FLTS
-	FSARG	₹fa6, ₹sp, 6*FLTS
-	FSARG	₹fa7, ₹sp, 7*FLTS
+	FSARG	$fa0, $sp, 0*FLTS
+	FSARG	$fa1, $sp, 1*FLTS
+	FSARG	$fa2, $sp, 2*FLTS
+	FSARG	$fa3, $sp, 3*FLTS
+	FSARG	$fa4, $sp, 4*FLTS
+	FSARG	$fa5, $sp, 5*FLTS
+	FSARG	$fa6, $sp, 6*FLTS
+	FSARG	$fa7, $sp, 7*FLTS
 #endif
 
-	SARG	₹a0, ₹sp, 8*FLTS+0*PTRS
-	SARG	₹a1, ₹sp, 8*FLTS+1*PTRS
-	SARG	₹a2, ₹sp, 8*FLTS+2*PTRS
-	SARG	₹a3, ₹sp, 8*FLTS+3*PTRS
-	SARG	₹a4, ₹sp, 8*FLTS+4*PTRS
-	SARG	₹a5, ₹sp, 8*FLTS+5*PTRS
-	SARG	₹a6, ₹sp, 8*FLTS+6*PTRS
-	SARG	₹a7, ₹sp, 8*FLTS+7*PTRS
+	SARG	$a0, $sp, 8*FLTS+0*PTRS
+	SARG	$a1, $sp, 8*FLTS+1*PTRS
+	SARG	$a2, $sp, 8*FLTS+2*PTRS
+	SARG	$a3, $sp, 8*FLTS+3*PTRS
+	SARG	$a4, $sp, 8*FLTS+4*PTRS
+	SARG	$a5, $sp, 8*FLTS+5*PTRS
+	SARG	$a6, $sp, 8*FLTS+6*PTRS
+	SARG	$a7, $sp, 8*FLTS+7*PTRS
 
 	/* Enter C */
-	LARG	₹a0, ₹t2, 1*PTRS
-	LARG	₹a1, ₹t2, 2*PTRS
-	move	₹a2, ₹t2
-	addi.d	₹a3, ₹sp, FRAME_LEN
-	move	₹a4, ₹sp
+	LARG	$a0, $t2, 1*PTRS
+	LARG	$a1, $t2, 2*PTRS
+	move	$a2, $t2
+	addi.d	$a3, $sp, FRAME_LEN
+	move	$a4, $sp
 
 	bl	ffi_closure_inner
 
 	/* Return values.  */
 #if FLTS
-	FLARG	₹fa0, ₹sp, 0*FLTS
-	FLARG	₹fa1, ₹sp, 1*FLTS
+	FLARG	$fa0, $sp, 0*FLTS
+	FLARG	$fa1, $sp, 1*FLTS
 #endif
 
-	LARG	₹a0, ₹sp, 8*FLTS+0*PTRS
-	LARG	₹a1, ₹sp, 8*FLTS+1*PTRS
+	LARG	$a0, $sp, 8*FLTS+0*PTRS
+	LARG	$a1, $sp, 8*FLTS+1*PTRS
 
 	/* Restore and return.  */
-	LARG	₹ra, ₹sp, FRAME_LEN-1*PTRS
+	LARG	$ra, $sp, FRAME_LEN-1*PTRS
 	.cfi_restore	1
-	LARG	₹fp, ₹sp, FRAME_LEN-2*PTRS
+	LARG	$fp, $sp, FRAME_LEN-2*PTRS
 	.cfi_restore	22
-	addi.d	₹sp, ₹sp, FRAME_LEN
+	addi.d	$sp, $sp, FRAME_LEN
 	.cfi_def_cfa_offset 0
-	jr	₹ra
+	jr	$ra
 	.cfi_endproc
 	.size	ffi_go_closure_asm, .-ffi_go_closure_asm
 

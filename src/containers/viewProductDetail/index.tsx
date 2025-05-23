@@ -86,20 +86,20 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const arrSimilarProduct: SimilarProduct[] = [
     {
       product_img: images.rice,
-      product_final_price: "₹499",
-      product_price: "₹600",
+      product_final_price: "499",
+      product_price: "600",
       product_weight: "1kg",
     },
     {
       product_img: images.rice,
-      product_final_price: "₹499",
-      product_price: "₹600",
+      product_final_price: "499",
+      product_price: "600",
       product_weight: "1kg",
     },
     {
       product_img: images.rice,
-      product_final_price: "₹499",
-      product_price: "₹600",
+      product_final_price: "499",
+      product_price: "600",
       product_weight: "1kg",
     },
   ];

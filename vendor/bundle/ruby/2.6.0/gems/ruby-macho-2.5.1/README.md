@@ -18,7 +18,7 @@ executables, dynamic libraries, and so forth.
 ruby-macho can be installed via RubyGems:
 
 ```bash
-₹ gem install ruby-macho
+$ gem install ruby-macho
 ```
 
 ### Documentation

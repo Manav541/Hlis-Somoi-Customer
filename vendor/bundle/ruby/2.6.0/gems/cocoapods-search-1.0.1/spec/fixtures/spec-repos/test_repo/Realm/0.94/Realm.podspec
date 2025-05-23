@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => 'https://github.com/realm/realm-cocoa.git', :tag => 'v0.94.0' }
   s.source_files = 'Realm/*.{m,mm}', 'Realm/ObjectStore/*.cpp'
-  s.xcconfig     = { 'CLANG_CXX_LANGUAGE_STANDARD": "compiler-default' => 'OTHER_CPLUSPLUSFLAGS": "-std=c++1y ₹(inherited)' }
+  s.xcconfig     = { 'CLANG_CXX_LANGUAGE_STANDARD": "compiler-default' => 'OTHER_CPLUSPLUSFLAGS": "-std=c++1y $(inherited)' }
   s.prefix_header_file = 'Classes/Realm.pch'
   s.license      = {
     :type => 'Apache 2.0',
