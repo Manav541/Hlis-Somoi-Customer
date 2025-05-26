@@ -31,14 +31,14 @@ import {
 interface PropsType {
   arrOrderList: Order[];
   filterModal: boolean;
-  selectOrderType: number;
-  selectOrderDate: number;
+  selectOrderType: string;
+  selectOrderDate: string;
   onPressFilter: () => void;
   closeFilterModal: () => void;
   arrFilterDate: FilterDate[];
   arrFilterOrderType: FilterOrderType[];
-  handleSelectOrderType: (index: number) => void;
-  handleSelectOrderDate: (index: number) => void;
+  handleSelectOrderType: (type : string) => void;
+  handleSelectOrderDate: (date : string) => void;
   handleNavigateOrderSummary: (status: string) => void;
   onPressApply: () => void;
   onPressReset: () => void;
@@ -46,16 +46,22 @@ interface PropsType {
 
 const statusColors: { [key: string]: string } = {
   Confirmed: colors.black35,
+  Preparing: colors.black35,
+  On_the_way :colors.black35,
   Delivered: colors.green4f,
   Returned: colors.green4f,
   Request_return: colors.orange1c,
+  Request_exchange: colors.orange1c,
   Cancelled: colors.red2e,
 };
 
 const statusTexts: { [key: string]: string } = {
   Confirmed: "Your Order Confirmed",
+  Preparing: "Your Order is Preparing",
+  On_the_way :"Your Order is On The Way",
   Delivered: "Your Order Delivered",
   Request_return: "Requested for Returned",
+  Request_exchange: "Requested for Exchange",
   Returned: "Your Order is Returned",
   Cancelled: "Your Order is Cancelled",
 };
@@ -220,16 +226,17 @@ const MyOrdersComponent = (props: PropsType) => {
                       style={styles.btnArrItems}
                       activeOpacity={activityOpacity}
                       onPress={() => {
-                        props.handleSelectOrderType(index);
+                        props.handleSelectOrderType(item.type);
                       }}
                     >
                       <Image
                         style={styles.imgRadioButton}
                         source={
-                          props.selectOrderType == index
+                          props.selectOrderType == item.type
                             ? images.radioButtonSelected
                             : images.radioButtonUnSelected
                         }
+                        resizeMode="stretch"
                       />
                       <Text style={styles.lblRadioLabel}>{item.type}</Text>
                     </TouchableOpacity>
@@ -249,16 +256,17 @@ const MyOrdersComponent = (props: PropsType) => {
                     style={styles.btnArrItems}
                     activeOpacity={activityOpacity}
                     onPress={() => {
-                      props.handleSelectOrderDate(index);
+                      props.handleSelectOrderDate(item.date);
                     }}
                   >
                     <Image
                       style={styles.imgRadioButton}
                       source={
-                        props.selectOrderDate == index
+                        props.selectOrderDate == item.date
                           ? images.radioButtonSelected
                           : images.radioButtonUnSelected
                       }
+                      resizeMode="stretch"
                     />
                     <Text style={styles.lblRadioLabel}>{item.date}</Text>
                   </TouchableOpacity>

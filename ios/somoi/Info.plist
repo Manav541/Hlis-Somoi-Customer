@@ -6,14 +6,6 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>Somoi</string>
-	<key>UIUserInterfaceStyle</key>
-    <string>Light</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Would like to use your camera to take picture for your profile?</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Would like to use your gallery to take picture for your profile?</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Would like to use your gallery to take picture for your profile?</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -39,8 +31,14 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Would like to use your camera to take picture for your profile?</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Would like to use your gallery to take picture for your profile?</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Would like to use your gallery to take picture for your profile?</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Black.ttf</string>

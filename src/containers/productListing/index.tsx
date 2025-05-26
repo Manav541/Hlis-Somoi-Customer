@@ -295,7 +295,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       header: () => (
         <View
           style={{
-            paddingTop: insets.top + 20,
+            paddingTop: insets.top + 10,
             backgroundColor: colors.orange1c,
             flexDirection: "row",
             alignItems: "center",

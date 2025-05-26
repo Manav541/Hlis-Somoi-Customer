@@ -7,13 +7,18 @@ import {
   ScrollView,
   Modal,
   StatusBar,
+  TouchableWithoutFeedback,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { fontsfamily } from "../../constants/FontFamily";
-import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
+import {
+  activityOpacity,
+  hitSlop,
+  rupeeSymbol,
+} from "../../constants/GConstant";
 import { colors } from "../../constants/Colors";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { fontSize } from "../../constants/FontSizes";
@@ -45,6 +50,7 @@ interface PropsType {
   handleCloseFoodModal: () => void;
   onPressShare: () => void;
   onPressReview: () => void;
+  onPressCartIcon: () => void;
 }
 
 const ViewRestaurantDetailComponent = (props: PropsType) => {
@@ -133,7 +139,9 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
           </View>
 
           <View style={styles.vwPriceRating}>
-            <Text style={styles.lblFoodFinalPrice}>{rupeeSymbol+item?.food_price}</Text>
+            <Text style={styles.lblFoodFinalPrice}>
+              {rupeeSymbol + item?.food_price}
+            </Text>
             <View style={styles.vwFoodRating}>
               <Image style={styles.imgStarFood} source={images.star} />
               <Text style={styles.lblFoodRating}>{item?.food_rate}</Text>
@@ -235,7 +243,11 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
             </Text>
           </Text>
           <View style={styles.vwRestaurantDistance}>
-            <Image style={styles.imgDot} source={images.dotOrange} />
+            <Image
+              style={styles.imgDot}
+              source={images.dotOrange}
+              resizeMode="stretch"
+            />
             <Text style={styles.lblRestaurant_distance}>
               {props?.restaurant_distance.toLowerCase()}
             </Text>
@@ -246,13 +258,21 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
       {/* Rate & Reviews */}
       <View style={styles.vwRestaurantRateReview}>
         <View style={styles.vwRestaurantRate}>
-          <Image style={styles.imgStar} source={images.star} />
+          <Image
+            style={styles.imgStar}
+            source={images.star}
+            resizeMode="stretch"
+          />
           <Text style={styles.lblRestaurant_rate}>
             {props?.restaurant_ratings}
           </Text>
         </View>
         <View style={styles.vwRestaurantReview}>
-          <Image style={styles.imgDotGrey} source={images.dotOrange} />
+          <Image
+            style={styles.imgDotGrey}
+            source={images.dotOrange}
+            resizeMode="stretch"
+          />
           <TouchableOpacity
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
@@ -317,143 +337,160 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
         visible={props?.isFoodModalVisible}
         transparent
         animationType="fade"
+        onRequestClose={props?.handleCloseFoodModal}
       >
-        <TouchableOpacity
-          style={styles.vwFoodModalView}
-          activeOpacity={activityOpacity}
-          onPress={props?.handleCloseFoodModal}
-        >
-          <View style={styles.vwFoodModalContainer}>
-            {props?.selectedFoodItem && (
-              <>
-                <View style={styles.vwFoodImgBG}>
-                  <Image
-                    style={styles.imgModalFood}
-                    source={props?.selectedFoodItem.food_img}
-                  />
-                  <TouchableOpacity
-                    style={{
-                      ...styles.btnRedHeart,
-                      height: 35,
-                      width: 35,
-                      top: 22.22,
-                      right: 22.21,
-                    }}
-                    activeOpacity={activityOpacity}
-                    hitSlop={hitSlop}
-                    onPress={() => {
-                      props?.onPressFavourite(props?.selectedFoodItemIndex);
-                    }}
-                  >
-                    <Image
-                      style={{ ...styles.imgRedHeart, height: 20, width: 20 }}
-                      source={
-                        props?.selectedFoodItem.isFavourite
-                          ? images.redHeart
-                          : images.emptyHeart
-                      }
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.vwFoodNameShare}>
-                  <Text style={styles.lblModalFoodName}>
-                    {props?.selectedFoodItem.food_name}
-                  </Text>
-                  <View style={{ flexDirection: "row", gap: 9 }}>
-                    <TouchableOpacity
-                      activeOpacity={activityOpacity}
-                      hitSlop={hitSlop}
-                    >
+        <StatusBar
+          translucent
+          backgroundColor={colors.black50}
+          barStyle={"dark-content"}
+        />
+        <TouchableWithoutFeedback onPress={props?.handleCloseFoodModal}>
+          <View style={styles.vwFoodModalView}>
+            <TouchableWithoutFeedback>
+              <View style={styles.vwFoodModalContainer}>
+                {props?.selectedFoodItem && (
+                  <>
+                    <View style={styles.vwFoodImgBG}>
                       <Image
-                        style={styles.imgShareCartBag}
-                        source={images.cartBagIcon}
-                        tintColor={colors.white}
+                        style={styles.imgModalFood}
+                        source={props?.selectedFoodItem.food_img}
                       />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      activeOpacity={activityOpacity}
-                      hitSlop={hitSlop}
-                      onPress={props?.onPressShare}
-                    >
-                      <Image
-                        style={styles.imgShareCartBag}
-                        source={images.shareIcon}
-                        tintColor={colors.white}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                <Text style={styles.lblModalFoodDesc}>
-                  {props?.selectedFoodItem.food_description}
-                </Text>
-                <View style={styles.vwAdditionalInfo}>
-                  <Text style={styles.lblModalFoodAdditionalInfo}>
-                    {getTranslation("additionalInfo")}
-                  </Text>
-                  <Text
-                    style={{
-                      ...styles.lblModalFoodAdditionalInfo,
-                      fontSize: fontSize.size12,
-                    }}
-                  >
-                    {props?.selectedFoodItem.food_AdditionalInfo}
-                  </Text>
-                </View>
-                {props?.selectedFoodItem.food_quantity === 0 ? (
-                  <TouchableOpacity
-                    style={styles.btnModalAddToCart}
-                    activeOpacity={activityOpacity}
-                    onPress={() =>
-                      props.handleQuantityChange(
-                        props?.selectedFoodItemIndex,
-                        "add"
-                      )
-                    }
-                  >
-                    <Text style={styles.lblAddToCart}>
-                      {getTranslation("addToCart")}
+                      <TouchableOpacity
+                        style={{
+                          ...styles.btnRedHeart,
+                          height: 35,
+                          width: 35,
+                          top: 22.22,
+                          right: 22.21,
+                        }}
+                        activeOpacity={activityOpacity}
+                        hitSlop={hitSlop}
+                        onPress={() => {
+                          props?.onPressFavourite(props?.selectedFoodItemIndex);
+                        }}
+                      >
+                        <Image
+                          style={{
+                            ...styles.imgRedHeart,
+                            height: 20,
+                            width: 20,
+                          }}
+                          source={
+                            props?.selectedFoodItem.isFavourite
+                              ? images.redHeart
+                              : images.emptyHeart
+                          }
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.vwFoodNameShare}>
+                      <Text style={styles.lblModalFoodName}>
+                        {props?.selectedFoodItem.food_name}
+                      </Text>
+                      <View style={{ flexDirection: "row", gap: 9 }}>
+                        <TouchableOpacity
+                          activeOpacity={activityOpacity}
+                          hitSlop={hitSlop}
+                          onPress={props?.onPressCartIcon}
+                        >
+                          <Image
+                            style={styles.imgShareCartBag}
+                            source={images.cartBagIcon}
+                            tintColor={colors.white}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          activeOpacity={activityOpacity}
+                          hitSlop={hitSlop}
+                          onPress={props?.onPressShare}
+                        >
+                          <Image
+                            style={styles.imgShareCartBag}
+                            source={images.shareIcon}
+                            tintColor={colors.white}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                    <Text style={styles.lblModalFoodDesc}>
+                      {props?.selectedFoodItem.food_description}
                     </Text>
-                  </TouchableOpacity>
-                ) : (
-                  <View
-                    style={{
-                      ...styles.btnModalAddToCart,
-                      flexDirection: "row",
-                    }}
-                  >
-                    <TouchableOpacity
-                      onPress={() =>
-                        props.handleQuantityChange(
-                          props?.selectedFoodItemIndex,
-                          "remove"
-                        )
-                      }
-                      hitSlop={hitSlop}
-                      activeOpacity={activityOpacity}
-                    >
-                      <Image style={styles.imgAddMinus} source={images.minus} />
-                    </TouchableOpacity>
-                    <Text style={styles.lblFoodQuantity}>
-                      {props?.selectedFoodItem.food_quantity}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() =>
-                        props.handleQuantityChange(
-                          props?.selectedFoodItemIndex,
-                          "add"
-                        )
-                      }
-                      hitSlop={hitSlop}
-                      activeOpacity={activityOpacity}
-                    >
-                      <Image style={styles.imgAddMinus} source={images.add} />
-                    </TouchableOpacity>
-                  </View>
+                    <View style={styles.vwAdditionalInfo}>
+                      <Text style={styles.lblModalFoodAdditionalInfo}>
+                        {getTranslation("additionalInfo")}
+                      </Text>
+                      <Text
+                        style={{
+                          ...styles.lblModalFoodAdditionalInfo,
+                          fontSize: fontSize.size12,
+                        }}
+                      >
+                        {props?.selectedFoodItem.food_AdditionalInfo}
+                      </Text>
+                    </View>
+                    {props?.selectedFoodItem.food_quantity === 0 ? (
+                      <TouchableOpacity
+                        style={styles.btnModalAddToCart}
+                        activeOpacity={activityOpacity}
+                        onPress={() =>
+                          props.handleQuantityChange(
+                            props?.selectedFoodItemIndex,
+                            "add"
+                          )
+                        }
+                      >
+                        <Text style={styles.lblAddToCart}>
+                          {getTranslation("addToCart")}
+                        </Text>
+                      </TouchableOpacity>
+                    ) : (
+                      <View
+                        style={{
+                          ...styles.btnModalAddToCart,
+                          flexDirection: "row",
+                        }}
+                      >
+                        <TouchableOpacity
+                          onPress={() =>
+                            props.handleQuantityChange(
+                              props?.selectedFoodItemIndex,
+                              "remove"
+                            )
+                          }
+                          hitSlop={hitSlop}
+                          activeOpacity={activityOpacity}
+                        >
+                          <Image
+                            style={styles.imgAddMinus}
+                            source={images.minus}
+                          />
+                        </TouchableOpacity>
+                        <Text style={styles.lblFoodQuantity}>
+                          {props?.selectedFoodItem.food_quantity}
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() =>
+                            props.handleQuantityChange(
+                              props?.selectedFoodItemIndex,
+                              "add"
+                            )
+                          }
+                          hitSlop={hitSlop}
+                          activeOpacity={activityOpacity}
+                        >
+                          <Image
+                            style={styles.imgAddMinus}
+                            source={images.add}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    )}
+                  </>
                 )}
-              </>
-            )}
+              </View>
+            </TouchableWithoutFeedback>
           </View>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
       </Modal>
     </ScrollView>
   );

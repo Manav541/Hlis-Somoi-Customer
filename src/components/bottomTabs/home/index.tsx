@@ -231,7 +231,7 @@ const HomeComponent = (props: PropsType) => {
         <ScrollView
           style={StyleSheet.absoluteFillObject}
           contentContainerStyle={{
-            paddingTop: insets.top ? insets.top + 20 : 40,
+            paddingTop: insets.top ? insets.top+20  : 40,
             overflow: "hidden",
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,

@@ -122,6 +122,8 @@ const AddAddressComponent = (props: PropsType) => {
               focusValue={props.additionalDescriptionFocused}
             />
           </View>
+
+          {/* set as default */}
           {props?.isNavigateFromManageAddress === true && (
             <View style={styles.vwSetAsDefault}>
               <TouchableOpacity

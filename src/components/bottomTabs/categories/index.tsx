@@ -27,6 +27,7 @@ interface PropsType {
     arrSubCategory: (GroceryProduct | Restaurant | FashionProduct)[]
   ) => void;
   handleOnPressNotifaicationIcon: () => void;
+  onPressLocation: () => void;
 }
 
 const CategoriesComponent = (props: PropsType) => {
@@ -77,6 +78,7 @@ const CategoriesComponent = (props: PropsType) => {
             style={styles.btnLocation}
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
+            onPress={props?.onPressLocation}
           >
             <Image style={styles.imgLocation} source={images.locationWhite} />
             <Text style={styles.lblLocation}>New York,NY</Text>

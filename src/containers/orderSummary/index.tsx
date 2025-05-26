@@ -69,6 +69,8 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     },
   ];
 
+  const [status_title, setStatus_title] = useState<string>("");
+
   const [arrOrderStatus, setArrOrderStatus] = useState(defaultOrderStatus);
 
   const pickupDateTimeStatus = {
@@ -253,38 +255,45 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     }, [navigation])
   );
 
-  // Status update simulation
+  // cancel order after 1 minute
   useEffect(() => {
     if (orderMainStatus !== "Confirmed") return;
-
-    // Reset index when status changes to Confirmed
-    indexRef.current = 0;
-
-    // Combined timer and interval management
-    const timers = {
-      cancel: setTimeout(() => setCancelDisabled(true), ONE_MIN),
-      status: setInterval(() => {
-        if (indexRef.current >= defaultOrderStatus.length) return;
-
-        setArrOrderStatus(prev => {
-          const updated = [...prev];
-          updated[indexRef.current].status_isdone = true;
-          setCurrentStatus(updated[indexRef.current].status_title);
-          indexRef.current++;
-          return updated;
-        });
-      }, ONE_MIN)
-    };
-
-    // Single cleanup function
+    const timer = setTimeout(() => setCancelDisabled(true), ONE_MIN);
+    setStatus_title("Confirmed");
     return () => {
-      clearTimeout(timers.cancel);
-      clearInterval(timers.status);
+      clearTimeout(timer);
     };
   }, [orderMainStatus]);
 
   useEffect(() => {
-    if (orderMainStatus === "Request_return") {
+    if (orderMainStatus === "Confirmed") {
+    
+      setStatus_title("Confirmed");
+    }
+    if (orderMainStatus === "Preparing") {
+      const preparingIndex = defaultOrderStatus.findIndex(
+        (item) => item.status_title === "Preparing"
+      );
+      const updatedStatus = defaultOrderStatus.map((item, index) => ({
+        ...item,
+        status_isdone: index <= preparingIndex,
+      }));
+      setStatus_title("Preparing");
+      setArrOrderStatus(updatedStatus);
+    } else if (orderMainStatus === "On_the_way") {
+      const onTheWayIndex = defaultOrderStatus.findIndex(
+        (item) => item.status_title === "On The Way"
+      );
+      const updatedStatus = defaultOrderStatus.map((item, index) => ({
+        ...item,
+        status_isdone: index <= onTheWayIndex,
+      }));
+      setStatus_title("On the Way");
+      setArrOrderStatus(updatedStatus);
+    } else if (
+      orderMainStatus === "Request_return" ||
+      orderMainStatus === "Request_exchange"
+    ) {
       const updatedStatus = defaultOrderStatus.map((item) => ({
         ...item,
         status_isdone: true,
@@ -306,7 +315,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
         ...orederReturnedStatus,
         status_isdone: true,
       });
-
+      setStatus_title("Returned");
       setArrOrderStatus(updatedStatus);
     } else if (orderMainStatus === "Delivered") {
       // ✅ Mark all items in the main array as done
@@ -314,8 +323,10 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
         ...item,
         status_isdone: true,
       }));
-
+      setStatus_title("Delivered");
       setArrOrderStatus(updatedStatus);
+    } else if (orderMainStatus === "Cancelled") {
+      setStatus_title("Cancelled");
     } else {
       // Default: show base status with isdone false
       setArrOrderStatus(defaultOrderStatus);
@@ -352,6 +363,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       onPressEditReview={onPressEditReview}
       onPressDeleteReview={onPressDeleteReview}
       onPressReportIssue={onPressReportIssue}
+      status_title={status_title}
     />
   );
 };

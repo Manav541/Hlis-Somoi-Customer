@@ -47,6 +47,7 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
           <Image
             style={styles.imgHeart}
             source={item?.isFavourite ? images.redHeart : images.emptyHeart}
+            resizeMode="stretch"
           />
         </TouchableOpacity>
         <View style={styles.vwBestSellersItemDetails}>
@@ -57,6 +58,7 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
             <Image
               style={styles.imgLocation}
               source={images.locationIconOrange}
+              resizeMode="stretch"
             />
             <Text style={styles.lblLocation}>{item?.restaurant_address}</Text>
           </View>
@@ -74,7 +76,7 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
                 </Text>
               </Text>
               <View style={styles.vwDistance}>
-                <Image style={styles.imgDot} source={images.dotOrange} />
+                <Image style={styles.imgDot} source={images.dotOrange} resizeMode="stretch" />
                 <Text style={styles.lblDistance}>
                   {item?.restaurant_distance}
                 </Text>
@@ -82,10 +84,10 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
             </View>
             <View style={styles.vwRating}>
               <Text style={styles.lblRatings}>{item?.restaurant_ratings}</Text>
-              <Image style={styles.imgStarBlue} source={images.starBlue} />
+              <Image style={styles.imgStarBlue} source={images.starBlue} resizeMode="stretch" />
             </View>
           </View>
-          <Image style={styles.imgLogo} source={item?.restaurant_logo} />
+          <Image style={styles.imgLogo} source={item?.restaurant_logo} resizeMode="stretch" />
         </View>
       </TouchableOpacity>
     );

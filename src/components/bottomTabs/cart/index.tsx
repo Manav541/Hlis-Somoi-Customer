@@ -260,7 +260,7 @@ const CartComponent = (props: PropsType) => {
               <View style={styles.vwLine} />
               <View style={styles.vwTotal}>
                 <Text style={styles.lblTotal}>{getTranslation("total")}</Text>
-                <Text style={styles.lblTotal}>{rupeeSymbol+props?.totalPrice}</Text>
+                <Text style={styles.lblTotal}>{rupeeSymbol+" "+props?.totalPrice}</Text>
               </View>
             </View>
           </View>

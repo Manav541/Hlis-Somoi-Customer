@@ -445,13 +445,15 @@ const SearchContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.productDetail, { item });
   };
 
+  // console.log('instsets.top', insets.top, )
+
   const header = () => {
     navigation.setOptions({
       title : "",
       header: () => (
         <View
           style={{
-            paddingTop: insets.top+20,
+            paddingTop: insets.top +10,
             backgroundColor: colors.orange1c,
             flexDirection: "row",
             alignItems: "center",

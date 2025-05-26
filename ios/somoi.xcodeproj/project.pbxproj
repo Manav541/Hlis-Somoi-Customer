@@ -67,66 +67,66 @@
 
 /* Begin PBXFileReference section */
 		0253614AA1C04C15890309A7 /* Montserrat-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ThinItalic.ttf"; path = "../src/assets/fonts/Montserrat-ThinItalic.ttf"; sourceTree = "<group>"; };
-		0F52D05CDD2246139D863860 /* Outfit-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Thin.ttf"; path = "../src/assets/fonts/Outfit-Thin.ttf"; sourceTree = "<group>"; };
-		130337FC03D74416BFD0E734 /* PublicSans-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ExtraLight.ttf"; path = "../src/assets/fonts/PublicSans-ExtraLight.ttf"; sourceTree = "<group>"; };
+		0F52D05CDD2246139D863860 /* Outfit-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Thin.ttf"; path = "../src/assets/fonts/Outfit-Thin.ttf"; sourceTree = "<group>"; };
+		130337FC03D74416BFD0E734 /* PublicSans-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ExtraLight.ttf"; path = "../src/assets/fonts/PublicSans-ExtraLight.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* somoi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = somoi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = images.xcassets; path = somoi/images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = somoi/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = somoi/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		2CEE222FAA0042E186C8F688 /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.ttf"; path = "../src/assets/fonts/Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
-		2D0A953CC068424B9A4EC3B1 /* PublicSans-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ExtraLightItalic.ttf"; path = "../src/assets/fonts/PublicSans-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
-		2FC978F6B9CA4F56ADE93470 /* GolosText-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-SemiBold.ttf"; path = "../src/assets/fonts/GolosText-SemiBold.ttf"; sourceTree = "<group>"; };
-		346949939FA74D30ADB5B530 /* GolosText-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Regular.ttf"; path = "../src/assets/fonts/GolosText-Regular.ttf"; sourceTree = "<group>"; };
+		2D0A953CC068424B9A4EC3B1 /* PublicSans-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ExtraLightItalic.ttf"; path = "../src/assets/fonts/PublicSans-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		2FC978F6B9CA4F56ADE93470 /* GolosText-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-SemiBold.ttf"; path = "../src/assets/fonts/GolosText-SemiBold.ttf"; sourceTree = "<group>"; };
+		346949939FA74D30ADB5B530 /* GolosText-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Regular.ttf"; path = "../src/assets/fonts/GolosText-Regular.ttf"; sourceTree = "<group>"; };
 		3869488AD7444DCB922C1814 /* Montserrat-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLightItalic.ttf"; path = "../src/assets/fonts/Montserrat-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		3B5B932FD9264E8EB065B35E /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.ttf"; path = "../src/assets/fonts/Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
-		3FDBF8AF6F114770AF69A026 /* Outfit-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-ExtraLight.ttf"; path = "../src/assets/fonts/Outfit-ExtraLight.ttf"; sourceTree = "<group>"; };
-		48711BC0B1A24BCDBE8D7A8E /* PublicSans-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Black.ttf"; path = "../src/assets/fonts/PublicSans-Black.ttf"; sourceTree = "<group>"; };
-		4D5AB6F92E2B443A847C7ABE /* PublicSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ExtraBold.ttf"; path = "../src/assets/fonts/PublicSans-ExtraBold.ttf"; sourceTree = "<group>"; };
+		3FDBF8AF6F114770AF69A026 /* Outfit-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-ExtraLight.ttf"; path = "../src/assets/fonts/Outfit-ExtraLight.ttf"; sourceTree = "<group>"; };
+		48711BC0B1A24BCDBE8D7A8E /* PublicSans-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Black.ttf"; path = "../src/assets/fonts/PublicSans-Black.ttf"; sourceTree = "<group>"; };
+		4D5AB6F92E2B443A847C7ABE /* PublicSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ExtraBold.ttf"; path = "../src/assets/fonts/PublicSans-ExtraBold.ttf"; sourceTree = "<group>"; };
 		4DD2EAFE4B9F4D6D8BB7E33D /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.ttf"; path = "../src/assets/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
-		52236027F34344A5ADB0E8CA /* Outfit-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Medium.ttf"; path = "../src/assets/fonts/Outfit-Medium.ttf"; sourceTree = "<group>"; };
-		534D0BCF9B034B95AA5B4D33 /* PublicSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-SemiBold.ttf"; path = "../src/assets/fonts/PublicSans-SemiBold.ttf"; sourceTree = "<group>"; };
-		5375E74BEAF94F2996DAECAA /* GolosText-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Bold.ttf"; path = "../src/assets/fonts/GolosText-Bold.ttf"; sourceTree = "<group>"; };
-		53C7C35C132447EFB350BC38 /* PublicSans-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Thin.ttf"; path = "../src/assets/fonts/PublicSans-Thin.ttf"; sourceTree = "<group>"; };
+		52236027F34344A5ADB0E8CA /* Outfit-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Medium.ttf"; path = "../src/assets/fonts/Outfit-Medium.ttf"; sourceTree = "<group>"; };
+		534D0BCF9B034B95AA5B4D33 /* PublicSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-SemiBold.ttf"; path = "../src/assets/fonts/PublicSans-SemiBold.ttf"; sourceTree = "<group>"; };
+		5375E74BEAF94F2996DAECAA /* GolosText-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Bold.ttf"; path = "../src/assets/fonts/GolosText-Bold.ttf"; sourceTree = "<group>"; };
+		53C7C35C132447EFB350BC38 /* PublicSans-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Thin.ttf"; path = "../src/assets/fonts/PublicSans-Thin.ttf"; sourceTree = "<group>"; };
 		67E4BDEE60C94CC2A1F476A2 /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BlackItalic.ttf"; path = "../src/assets/fonts/Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
-		68359B4034924F7F94D91780 /* GolosText-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Medium.ttf"; path = "../src/assets/fonts/GolosText-Medium.ttf"; sourceTree = "<group>"; };
-		69CFEEF2DDC14643A82B857A /* PublicSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Italic.ttf"; path = "../src/assets/fonts/PublicSans-Italic.ttf"; sourceTree = "<group>"; };
-		6BC99B612B424976B2FB714B /* Outfit-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Black.ttf"; path = "../src/assets/fonts/Outfit-Black.ttf"; sourceTree = "<group>"; };
+		68359B4034924F7F94D91780 /* GolosText-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Medium.ttf"; path = "../src/assets/fonts/GolosText-Medium.ttf"; sourceTree = "<group>"; };
+		69CFEEF2DDC14643A82B857A /* PublicSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Italic.ttf"; path = "../src/assets/fonts/PublicSans-Italic.ttf"; sourceTree = "<group>"; };
+		6BC99B612B424976B2FB714B /* Outfit-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Black.ttf"; path = "../src/assets/fonts/Outfit-Black.ttf"; sourceTree = "<group>"; };
 		71D84ADAA10447D08785203A /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
-		72FCC452B28F46B38EDD2A49 /* PublicSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Bold.ttf"; path = "../src/assets/fonts/PublicSans-Bold.ttf"; sourceTree = "<group>"; };
+		72FCC452B28F46B38EDD2A49 /* PublicSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Bold.ttf"; path = "../src/assets/fonts/PublicSans-Bold.ttf"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = somoi/AppDelegate.swift; sourceTree = "<group>"; };
 		784BEA0443E15071935109BF /* Pods-somoi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-somoi.release.xcconfig"; path = "Target Support Files/Pods-somoi/Pods-somoi.release.xcconfig"; sourceTree = "<group>"; };
 		80E383F2FAEA4D70A92C6905 /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.ttf"; path = "../src/assets/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = somoi/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A4A6E0BBF5C4478A8E6895B /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../src/assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
-		8FA7911DD32945729F9433F1 /* Outfit-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-SemiBold.ttf"; path = "../src/assets/fonts/Outfit-SemiBold.ttf"; sourceTree = "<group>"; };
+		8FA7911DD32945729F9433F1 /* Outfit-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-SemiBold.ttf"; path = "../src/assets/fonts/Outfit-SemiBold.ttf"; sourceTree = "<group>"; };
 		95F997EBF5F64D4C832C4B97 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Thin.ttf"; path = "../src/assets/fonts/Montserrat-Thin.ttf"; sourceTree = "<group>"; };
-		99F72DD2C0844D85BD0505CF /* PublicSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-LightItalic.ttf"; path = "../src/assets/fonts/PublicSans-LightItalic.ttf"; sourceTree = "<group>"; };
-		9D7A470B96E34B6887AE0780 /* PublicSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Light.ttf"; path = "../src/assets/fonts/PublicSans-Light.ttf"; sourceTree = "<group>"; };
-		9DBE09CF21CA4EDDADE328EB /* PublicSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-BoldItalic.ttf"; path = "../src/assets/fonts/PublicSans-BoldItalic.ttf"; sourceTree = "<group>"; };
-		A47542DFBE09441AB6EF34A9 /* PublicSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-SemiBoldItalic.ttf"; path = "../src/assets/fonts/PublicSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
-		A8B79CBADA3E4474B836A395 /* PublicSans-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ThinItalic.ttf"; path = "../src/assets/fonts/PublicSans-ThinItalic.ttf"; sourceTree = "<group>"; };
-		A9D8B94FF2194A9EA6625294 /* GolosText-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Black.ttf"; path = "../src/assets/fonts/GolosText-Black.ttf"; sourceTree = "<group>"; };
+		99F72DD2C0844D85BD0505CF /* PublicSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-LightItalic.ttf"; path = "../src/assets/fonts/PublicSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		9D7A470B96E34B6887AE0780 /* PublicSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Light.ttf"; path = "../src/assets/fonts/PublicSans-Light.ttf"; sourceTree = "<group>"; };
+		9DBE09CF21CA4EDDADE328EB /* PublicSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-BoldItalic.ttf"; path = "../src/assets/fonts/PublicSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		A47542DFBE09441AB6EF34A9 /* PublicSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-SemiBoldItalic.ttf"; path = "../src/assets/fonts/PublicSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		A8B79CBADA3E4474B836A395 /* PublicSans-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ThinItalic.ttf"; path = "../src/assets/fonts/PublicSans-ThinItalic.ttf"; sourceTree = "<group>"; };
+		A9D8B94FF2194A9EA6625294 /* GolosText-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Black.ttf"; path = "../src/assets/fonts/GolosText-Black.ttf"; sourceTree = "<group>"; };
 		B8812C406626489DB4F452D7 /* Montserrat-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Black.ttf"; path = "../src/assets/fonts/Montserrat-Black.ttf"; sourceTree = "<group>"; };
-		B90E4A75D1CE45C2AD36AF72 /* Outfit-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-ExtraBold.ttf"; path = "../src/assets/fonts/Outfit-ExtraBold.ttf"; sourceTree = "<group>"; };
+		B90E4A75D1CE45C2AD36AF72 /* Outfit-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-ExtraBold.ttf"; path = "../src/assets/fonts/Outfit-ExtraBold.ttf"; sourceTree = "<group>"; };
 		BD6F411ED5BF78AD95A9184A /* libPods-somoi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-somoi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C40A48B9A55743DDA7A94338 /* PublicSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/PublicSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		C8AE68975E514880B4A0C3B2 /* PublicSans-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-BlackItalic.ttf"; path = "../src/assets/fonts/PublicSans-BlackItalic.ttf"; sourceTree = "<group>"; };
-		C9C2B666F3184E9BBF6641AE /* Outfit-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Bold.ttf"; path = "../src/assets/fonts/Outfit-Bold.ttf"; sourceTree = "<group>"; };
+		C40A48B9A55743DDA7A94338 /* PublicSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/PublicSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		C8AE68975E514880B4A0C3B2 /* PublicSans-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-BlackItalic.ttf"; path = "../src/assets/fonts/PublicSans-BlackItalic.ttf"; sourceTree = "<group>"; };
+		C9C2B666F3184E9BBF6641AE /* Outfit-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Bold.ttf"; path = "../src/assets/fonts/Outfit-Bold.ttf"; sourceTree = "<group>"; };
 		CDB5AE0938744E8CAF7100E1 /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBoldItalic.ttf"; path = "../src/assets/fonts/Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		CDFB3AE09885C980A37994B3 /* Pods-somoi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-somoi.debug.xcconfig"; path = "Target Support Files/Pods-somoi/Pods-somoi.debug.xcconfig"; sourceTree = "<group>"; };
 		D3E9C36EE69F4384BD3A058F /* Montserrat-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLight.ttf"; path = "../src/assets/fonts/Montserrat-ExtraLight.ttf"; sourceTree = "<group>"; };
-		D44306EF4D7E476D892B79C1 /* GolosText-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-ExtraBold.ttf"; path = "../src/assets/fonts/GolosText-ExtraBold.ttf"; sourceTree = "<group>"; };
-		D6CA5A296EA54581BA4352C9 /* PublicSans-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-MediumItalic.ttf"; path = "../src/assets/fonts/PublicSans-MediumItalic.ttf"; sourceTree = "<group>"; };
+		D44306EF4D7E476D892B79C1 /* GolosText-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-ExtraBold.ttf"; path = "../src/assets/fonts/GolosText-ExtraBold.ttf"; sourceTree = "<group>"; };
+		D6CA5A296EA54581BA4352C9 /* PublicSans-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-MediumItalic.ttf"; path = "../src/assets/fonts/PublicSans-MediumItalic.ttf"; sourceTree = "<group>"; };
 		D81A15C78C3C49E1BEF360C3 /* Montserrat-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Italic.ttf"; path = "../src/assets/fonts/Montserrat-Italic.ttf"; sourceTree = "<group>"; };
 		E12FF33E02ED4121A1D3A65B /* Montserrat-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.ttf"; path = "../src/assets/fonts/Montserrat-LightItalic.ttf"; sourceTree = "<group>"; };
 		E8AF3B9C878941ED88F47889 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../src/assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		EA43D805E14248E8A9B13B64 /* Montserrat-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/Montserrat-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		EC3CAD3E3C3B424391AB5BC6 /* PublicSans-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Medium.ttf"; path = "../src/assets/fonts/PublicSans-Medium.ttf"; sourceTree = "<group>"; };
+		EC3CAD3E3C3B424391AB5BC6 /* PublicSans-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Medium.ttf"; path = "../src/assets/fonts/PublicSans-Medium.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		EEFFCEB543E249AB82811EC2 /* PublicSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Regular.ttf"; path = "../src/assets/fonts/PublicSans-Regular.ttf"; sourceTree = "<group>"; };
-		F0C6B32BA1A5416BAB249268 /* Outfit-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Regular.ttf"; path = "../src/assets/fonts/Outfit-Regular.ttf"; sourceTree = "<group>"; };
+		EEFFCEB543E249AB82811EC2 /* PublicSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Regular.ttf"; path = "../src/assets/fonts/PublicSans-Regular.ttf"; sourceTree = "<group>"; };
+		F0C6B32BA1A5416BAB249268 /* Outfit-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Regular.ttf"; path = "../src/assets/fonts/Outfit-Regular.ttf"; sourceTree = "<group>"; };
 		F8D4C5D953C94B97B5C3D737 /* Montserrat-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-MediumItalic.ttf"; path = "../src/assets/fonts/Montserrat-MediumItalic.ttf"; sourceTree = "<group>"; };
-		FD3457C8EE8B4263A3502BBE /* Outfit-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Light.ttf"; path = "../src/assets/fonts/Outfit-Light.ttf"; sourceTree = "<group>"; };
+		FD3457C8EE8B4263A3502BBE /* Outfit-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Light.ttf"; path = "../src/assets/fonts/Outfit-Light.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -471,7 +471,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = AMSNWNQ47N;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = somoi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -485,8 +488,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Hyperlink.Development;
 				PRODUCT_NAME = somoi;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Hyperlink_X11_Development;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -504,7 +509,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = AMSNWNQ47N;
 				INFOPLIST_FILE = somoi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -517,8 +525,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Hyperlink.Development;
 				PRODUCT_NAME = somoi;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Hyperlink_X11_Development;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -598,10 +608,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -670,10 +677,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

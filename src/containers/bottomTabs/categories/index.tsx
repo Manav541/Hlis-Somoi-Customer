@@ -2202,6 +2202,10 @@ const CategoriesContainer = ({ navigation }: any) => {
       arrSubCategory: arrSubCategory,
     });
   };
+
+  const onPressLocation = () => {
+    navigation.navigate(ScreenNames.manageAddress);
+  };
   // handleOnPressNotifaicationIcon
   const handleOnPressNotifaicationIcon = () => {
     navigation.navigate(ScreenNames.notification);
@@ -2219,6 +2223,7 @@ const CategoriesContainer = ({ navigation }: any) => {
       arrAllCategories={arrAllCategories}
       onPressMainCategories={onPressMainCategories}
       handleOnPressNotifaicationIcon={handleOnPressNotifaicationIcon}
+      onPressLocation={onPressLocation}
     />
   );
 };

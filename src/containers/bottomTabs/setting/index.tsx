@@ -26,7 +26,7 @@ const SettingContainer = ({ navigation, route }: any) => {
   const [profileImage, setProfileImage] = useState<ImageSourcePropType>(
     images.profileIcon
   );
-  const [name, setName] = useState<string>("Jhon Doe");
+  const [name, setName] = useState<string>("John Doe");
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
   const [isModalSignOutVisible, setIsModalSignOutVisible] = useState(false);
   const [isGuestUser, setIsGuestUser] = useState(false);

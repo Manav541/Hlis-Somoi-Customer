@@ -1,15 +1,28 @@
-import { View, Text, TouchableOpacity, Image, StatusBar, Alert, Share } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+  Alert,
+  Share,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import ViewRestaurantDetailComponent from "../../components/viewRestaurantDetail";
 import GlobalBackButton from "../../global/GlobalBackButton";
-import { activityOpacity, appName, flashMessageWarning, hitSlop } from "../../constants/GConstant";
+import {
+  activityOpacity,
+  appName,
+  flashMessageWarning,
+  hitSlop,
+} from "../../constants/GConstant";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { colors } from "../../constants/Colors";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { ScreenNames } from "../../routers";
-import { useFocusEffect } from "@react-navigation/native";
+import { CommonActions, useFocusEffect } from "@react-navigation/native";
 
 const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   // console.log("route", route.params?.item);
@@ -146,8 +159,8 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
 
   const handleOnPressFoodItem = (item: any, index: number) => {
     setIsFoodModalVisible(true);
-    setSelectedFoodItem(item)
-    setSelectedFoodItemIndex(index)
+    setSelectedFoodItem(item);
+    setSelectedFoodItemIndex(index);
   };
 
   const handleCloseFoodModal = () => {
@@ -231,6 +244,24 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     }, 1000);
   };
 
+  const onPressCartIcon = () => {
+    setIsFoodModalVisible(false);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          {
+            name: ScreenNames.bottomTabsNavigation,
+            state: {
+              routes: [{ name: ScreenNames.cart }],
+              index: 0,
+            },
+          },
+        ],
+      })
+    );
+  };
+
   const header = () => {
     navigation.setOptions({
       title: "",
@@ -245,14 +276,22 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
       ),
       headerRight: () => (
         <View style={styles.vwHeaderRight}>
-          <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop} onPress={onPressShare}>
+          <TouchableOpacity
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={onPressShare}
+          >
             <Image
               style={styles.imgButton}
               source={images.shareIcon}
               tintColor={colors.white}
             />
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop}>
+          <TouchableOpacity
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={onPressCartIcon}
+          >
             <Image
               style={styles.imgButton}
               source={images.cartBagIcon}
@@ -300,6 +339,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
       handleCloseFoodModal={handleCloseFoodModal}
       onPressShare={onPressShare}
       onPressReview={onPressReview}
+      onPressCartIcon={onPressCartIcon}
     />
   );
 };

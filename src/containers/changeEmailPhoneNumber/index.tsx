@@ -3,15 +3,18 @@ import ChangeEmailPhoneNumberComponenet from "../../components/changeEmailPhoneN
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { styles } from "./styles";
-import { StatusBar, Text, TextInput } from "react-native";
+import { StatusBar, Text, TextInput, View } from "react-native";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { regex } from "../../constants/Regex";
 import { useFocusEffect } from "@react-navigation/native";
 import { constnatStyles } from "../../constants/Styles";
 import { CountryDataType } from "../../constants/interfaces";
 import { CountryData } from "../../constants/utils/CountryData";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { colors } from "../../constants/Colors";
 
 const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
+  const insets = useSafeAreaInsets();
   const navigateFrom = route.params?.navigateFrom;
   const [email, setEmail] = useState("");
   const [mobileNumber, setMobileNumber] = useState<string>("");
@@ -21,14 +24,14 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
   const [emailFocused, setEmailFocused] = useState(false);
   const [mobileNumberFocused, setMobileNumberFocused] = useState(false);
 
-   // Country Code
-   const countryList: CountryDataType[] = CountryData;
-   const [countryArray, setCountryArray] =
-     useState<CountryDataType[]>(countryList);
-   const [countryModal, setCountryModal] = useState(false);
-   const [searchCountry, setSearchCountry] = useState("");
+  // Country Code
+  const countryList: CountryDataType[] = CountryData;
+  const [countryArray, setCountryArray] =
+    useState<CountryDataType[]>(countryList);
+  const [countryModal, setCountryModal] = useState(false);
+  const [searchCountry, setSearchCountry] = useState("");
 
-   const handleOnPressCountryCode = () => {
+  const handleOnPressCountryCode = () => {
     setCountryModal(true);
     setSearchCountry("");
     setCountryArray(countryList);
@@ -58,17 +61,17 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
     setCountryModal(false);
   };
 
-  const handleOnChangeText = (text: string,type: string) => {
+  const handleOnChangeText = (text: string, type: string) => {
     if (navigateFrom === "ChangeEmail") {
       if (type === "email") {
         setEmail(text.replace(/\s/g, ""));
       }
-      } else {
-        if (type === "mobileNumber") {
-          const onlyDigits = text.replace(/[^0-9]/g, "");
-          setMobileNumber(onlyDigits);
-        }
+    } else {
+      if (type === "mobileNumber") {
+        const onlyDigits = text.replace(/[^0-9]/g, "");
+        setMobileNumber(onlyDigits);
       }
+    }
   };
 
   const handleOnFocus = (type: string) => {
@@ -76,11 +79,11 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
       if (type === "email") {
         setEmailFocused(true);
       }
-      } else {
-        if (type === "mobileNumber") {
-          setMobileNumberFocused(true);
-        }
+    } else {
+      if (type === "mobileNumber") {
+        setMobileNumberFocused(true);
       }
+    }
   };
 
   const handleOnBlur = (type: string) => {
@@ -88,54 +91,74 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
       if (type === "email") {
         setEmailFocused(true);
       }
-      } else {
-        if (type === "mobileNumber") {
-          setMobileNumberFocused(true);
-        }
+    } else {
+      if (type === "mobileNumber") {
+        setMobileNumberFocused(true);
       }
+    }
   };
 
   const handleOnPressSubmit = () => {
     if (navigateFrom === "ChangeEmail") {
-        if (email.trim() === "") {
-          flashMessageWarning(getTranslation("emptyEmail"));
-        } else if (!regex.email.test(email)) {
-          flashMessageWarning(getTranslation("invalidEmail"));
-        } else {
-          setEmail("");
-          navigation.navigate("Verification", {
-            email: email.toLowerCase(),
-            navigateFromChangeEmailPhone: true,
-          });
-        }
+      if (email.trim() === "") {
+        flashMessageWarning(getTranslation("emptyEmail"));
+      } else if (!regex.email.test(email)) {
+        flashMessageWarning(getTranslation("invalidEmail"));
       } else {
-        if (mobileNumber.trim() === "") {
-          flashMessageWarning(getTranslation("emptyMobileNumber"));
-        } else if (!regex.mobile.test(mobileNumber)) {
-          flashMessageWarning(getTranslation("invalidMobileNumber"));
-        } else {
-          setMobileNumber("");
-          navigation.navigate("Verification", {
-            countryCode: countryCode,
-            mobileNumber: mobileNumber,
-            navigateFromChangeEmailPhone: true,
-          });
-        }
+        setEmail("");
+        navigation.navigate("Verification", {
+          email: email.toLowerCase(),
+          navigateFromChangeEmailPhone: true,
+        });
       }
+    } else {
+      if (mobileNumber.trim() === "") {
+        flashMessageWarning(getTranslation("emptyMobileNumber"));
+      } else if (!regex.mobile.test(mobileNumber)) {
+        flashMessageWarning(getTranslation("invalidMobileNumber"));
+      } else {
+        setMobileNumber("");
+        navigation.navigate("Verification", {
+          countryCode: countryCode,
+          mobileNumber: mobileNumber,
+          navigateFromChangeEmailPhone: true,
+        });
+      }
+    }
   };
 
   const header = () => {
     navigation.setOptions({
-      headerLeft: () => (
-        <GlobalBackButton onPress={() => navigation.goBack()} />
+      header: () => (
+        <View
+          style={{
+            flexDirection: "row",
+            paddingTop: insets.top + 10,
+            backgroundColor: colors.orange1c,
+            alignItems: "center",
+            justifyContent : 'space-between',
+            paddingBottom : 10
+          }}
+        >
+          <GlobalBackButton onPress={() => navigation.goBack()} style={{marginBottom : 0}} />
+          <Text style={constnatStyles.lblHeaderTitle}>
+            {navigateFrom === "ChangeEmail"
+              ? getTranslation("changeEmail")
+              : getTranslation("changePhoneNumber")}
+          </Text>
+          <View style={{width : 24}}></View>
+        </View>
       ),
-      headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>
-          {navigateFrom === "ChangeEmail"
-            ? getTranslation("changeEmail")
-            : getTranslation("changePhoneNumber")}
-        </Text>
-      ),
+      // headerLeft: () => (
+      //   <GlobalBackButton onPress={() => navigation.goBack()} />
+      // ),
+      // headerTitle: () => (
+      //   <Text style={constnatStyles.lblHeaderTitle}>
+      //     {navigateFrom === "ChangeEmail"
+      //       ? getTranslation("changeEmail")
+      //       : getTranslation("changePhoneNumber")}
+      //   </Text>
+      // ),
     });
   };
 
@@ -162,7 +185,6 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
       handleOnBlur={handleOnBlur}
       handleOnPressSubmit={handleOnPressSubmit}
       navigateFrom={navigateFrom}
-
       countryCode={countryCode}
       countryArray={countryArray}
       countryModal={countryModal}

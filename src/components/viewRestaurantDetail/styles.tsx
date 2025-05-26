@@ -300,7 +300,7 @@ export const styles = StyleSheet.create({
   //   Modal
   vwFoodModalView: {
     flex: 1,
-    backgroundColor: "#00000088",
+    backgroundColor: colors.black50,
     justifyContent: "flex-end",
   },
   vwFoodModalContainer: {

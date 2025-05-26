@@ -8,6 +8,11 @@ export const styles = StyleSheet.create({
     marginTop: 31,
     marginBottom: 21,
   },
+  vwContainer :  {
+    flex: 1,
+    backgroundColor: colors.blue4e,
+    paddingHorizontal: 20,
+  },
   lblOtpTitle: {
     textAlign: "center",
     marginHorizontal: 42,

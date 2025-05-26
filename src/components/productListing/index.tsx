@@ -72,23 +72,6 @@ interface PropsType {
 }
 
 const ProductListingComponent = (props: PropsType) => {
-  const categoryDropdownStyle = useMemo(
-    () => ({
-      ...styles.btnDropdownCategories,
-      borderTopLeftRadius: props.openCategory ? 20 : 100,
-      borderTopRightRadius: props.openCategory ? 20 : 100,
-    }),
-    [props.openCategory]
-  );
-
-  const subCategoryDropdownStyle = useMemo(
-    () => ({
-      ...styles.btnDropdownCategories,
-      borderTopLeftRadius: props.openSubCategory ? 20 : 100,
-      borderTopRightRadius: props.openSubCategory ? 20 : 100,
-    }),
-    [props.openSubCategory]
-  );
   const insets = useSafeAreaInsets();
   const renderItemSubCategoryTitle = ({ item, index }: any) => {
     return (

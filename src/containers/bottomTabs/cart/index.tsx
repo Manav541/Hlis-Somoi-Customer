@@ -184,6 +184,8 @@ const CartContainer = ({ navigation }: any) => {
 
   const [totalPrice, setTotalPrice] = useState<string>("723");
 
+
+
   const handleQuantityChange = (index: number, type: "add" | "remove") => {
     const updated = [...arrOrderProduts];
 

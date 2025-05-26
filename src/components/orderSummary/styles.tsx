@@ -127,6 +127,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 20,
     gap: 15,
+    flex : 1
   },
   vwOrderReturned: {
     flexDirection: "row",
@@ -262,8 +263,6 @@ export const styles = StyleSheet.create({
     color: colors.greya7,
     fontFamily: fontsfamily.regular,
     fontSize: fontSize.size12,
-    marginRight : 20,
-    flex : 1
   },
   lblRefundDesc: {
     color: colors.green4f,

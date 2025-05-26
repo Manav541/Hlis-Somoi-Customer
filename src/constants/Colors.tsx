@@ -28,4 +28,5 @@ export const colors = {
   black50: '#00000050',
   greyda:"#DADADA",
   green2b :"#0B802B",
+  black_35 :"#00000035"
 };

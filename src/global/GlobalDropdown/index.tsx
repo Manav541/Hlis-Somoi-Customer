@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { Image } from 'react-native'
 import React from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { colors } from '../../constants/Colors';
@@ -34,6 +34,8 @@ interface CategoryDropdownProps {
           ...styles.btnDropdownCategories,
           borderTopLeftRadius: open ? 20 : 100,
           borderTopRightRadius: open ? 20 : 100,
+          borderColor : value? colors.white : colors.greya7,
+          // opacity: disabled ? 0.5 : 1,
         }),
         [open]
       );
@@ -76,6 +78,7 @@ interface CategoryDropdownProps {
               source={images.dropdown}
             />
           )}
+          
         />
       );
     }

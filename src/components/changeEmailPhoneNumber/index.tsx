@@ -42,7 +42,7 @@ const ChangeEmailPhoneNumberComponenet = (props: PropsType) => {
         backgroundColor={"transparent"}
         barStyle={"dark-content"}
       />
-      <View style={constnatStyles.vwBlueBgWithRadius}>
+      <View style={styles.vwContainer}>
         <KeyboardAwareScrollView
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}

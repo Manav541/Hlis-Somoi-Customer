@@ -174,8 +174,11 @@ export interface Order {
   items_Count: number;
   status:
     | "Confirmed"
+    | "Preparing"
+    | "On_the_way"
     | "Delivered"
     | "Request_return"
+    | "Request_exchange"
     | "Returned"
     | "Cancelled";
   date: string;

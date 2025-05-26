@@ -15,7 +15,11 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { colors } from "../../constants/Colors";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
 import { images } from "../../constants/Images";
-import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
+import {
+  activityOpacity,
+  hitSlop,
+  rupeeSymbol,
+} from "../../constants/GConstant";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GlobalButton from "../../global/GlobalButton";
@@ -55,6 +59,7 @@ interface PropsType {
   onPressEditReview: () => void;
   onPressDeleteReview: () => void;
   onPressReportIssue: () => void;
+  status_title: string;
 }
 
 const OrderSummaryComponent = (props: PropsType) => {
@@ -79,6 +84,7 @@ const OrderSummaryComponent = (props: PropsType) => {
         <Image
           style={styles.imgOrderStatusIcon}
           source={item?.status_isdone ? item?.status_icon : item?.status_icon1}
+          resizeMode="stretch"
         />
         <View>
           <Text
@@ -99,10 +105,11 @@ const OrderSummaryComponent = (props: PropsType) => {
                   DateFormatsManager.DateFormats.DDMMYYYY_SLASH
                 )}
               </Text>
-              {props?.orderMainStatus === "Request_return" &&
-                index === props?.arrOrderStatus.length - 1 && (
-                  <Text>- {item?.status_time ?? ""}</Text>
-                )}
+              {props?.orderMainStatus === "Request_return" ||
+                (props?.orderMainStatus === "Request_exchange" &&
+                  index === props?.arrOrderStatus.length - 1 && (
+                    <Text>- {item?.status_time ?? ""}</Text>
+                  ))}
             </Text>
           )}
         </View>
@@ -131,7 +138,7 @@ const OrderSummaryComponent = (props: PropsType) => {
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Text style={styles.lblProductPrice}>
-                  {rupeeSymbol+item?.product_price}
+                  {rupeeSymbol + item?.product_price}
                 </Text>
                 <Image
                   style={styles.imgDot}
@@ -153,6 +160,7 @@ const OrderSummaryComponent = (props: PropsType) => {
             {(props?.currentStatus === "Order Delivered" ||
               props?.orderMainStatus === "Cancelled" ||
               props?.orderMainStatus === "Request_return" ||
+              props?.orderMainStatus === "Request_exchange" ||
               props?.orderMainStatus === "Returned" ||
               props?.orderMainStatus === "Delivered") && (
               <TouchableOpacity
@@ -177,7 +185,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                       gap: 2,
                     }}
                   >
-                    <Image style={styles.imgStar} source={images.star} />
+                    <Image style={styles.imgStar} source={images.star} resizeMode="stretch"/>
                     <Text style={styles.lblRateReview}>
                       {item?.product_rating}
                     </Text>
@@ -235,7 +243,9 @@ const OrderSummaryComponent = (props: PropsType) => {
           </View>
           <View style={{ alignSelf: "flex-end" }}>
             <Text style={styles.lblTotal}>{getTranslation("total")}</Text>
-            <Text style={styles.lblTotalAmount}>{rupeeSymbol+ " "+ props?.totalAmount}</Text>
+            <Text style={styles.lblTotalAmount}>
+              {rupeeSymbol + " " + props?.totalAmount}
+            </Text>
           </View>
         </View>
 
@@ -246,25 +256,27 @@ const OrderSummaryComponent = (props: PropsType) => {
               ...styles.lblYourOrderisConfirmed,
               color:
                 props?.orderMainStatus === "Cancelled" ||
-                props?.orderMainStatus === "Request_return"
+                props?.orderMainStatus === "Request_return" ||
+                props?.orderMainStatus === "Request_exchange"
                   ? colors.red2e
                   : colors.white,
             }}
           >
             {props?.orderMainStatus === "Request_return" ? (
               <Text>{getTranslation("requestReturn")}</Text>
+            ) : props?.orderMainStatus === "Request_exchange" ? (
+              <Text>{getTranslation("requestExchange")}</Text>
             ) : (
               <Text>
                 <Text>{getTranslation("yourOrderis")}</Text>
-                <Text> </Text>
-                <Text>{props?.orderMainStatus}</Text>
+                <Text>{props?.status_title}</Text>
               </Text>
             )}
           </Text>
           {props?.orderMainStatus === "Cancelled" ? (
             <View style={styles.vwCancelledOrder}>
-              <Image style={styles.imgCancel} source={images.orderCancel} />
-              <View style={{ gap: 5 }}>
+              <Image style={styles.imgCancel} source={images.orderCancel} resizeMode="stretch"/>
+              <View style={{ gap: 5, flex: 1 }}>
                 <Text style={{ ...styles.lblReportIssueQue, marginBottom: 0 }}>
                   {getTranslation("orderCancelled")}
                 </Text>
@@ -278,9 +290,11 @@ const OrderSummaryComponent = (props: PropsType) => {
                     )}
                   </Text>
                 </Text>
-                <Text style={styles.lblReportIssueDesc}>
-                  {props?.cancelReason}
-                </Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.lblReportIssueDesc}>
+                    {props?.cancelReason}
+                  </Text>
+                </View>
               </View>
             </View>
           ) : (
@@ -291,6 +305,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                   <Image
                     style={styles.imgReportIssue}
                     source={images.returnIcon}
+                    resizeMode="stretch"
                   />
                   <View style={{ flex: 1, marginRight: 15 }}>
                     <Text style={styles.lblReportIssueQue}>
@@ -306,6 +321,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                   <Image
                     style={styles.imgRightArrowGrey}
                     source={images.rightArrowGrey}
+                    resizeMode="stretch"
                   />
                 </View>
               )}
@@ -352,6 +368,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                 <Image
                   style={styles.imgReportIssue}
                   source={images.returnIcon}
+                  resizeMode="stretch"
                 />
                 <View>
                   <Text style={styles.lblReportIssueQue}>
@@ -364,6 +381,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                 <Image
                   style={styles.imgRightArrowGrey}
                   source={images.rightArrowGrey}
+                  resizeMode="stretch"
                 />
               </TouchableOpacity>
             ) : !props?.cancelDisabled &&
@@ -374,7 +392,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                 hitSlop={hitSlop}
                 onPress={props?.onPressCancelOrder}
               >
-                <Image style={styles.imgCancel} source={images.orderCancel} />
+                <Image style={styles.imgCancel} source={images.orderCancel} resizeMode="stretch" />
                 <View>
                   <Text style={styles.lblCancelOrderQue}>
                     {getTranslation("cancelOrderQue")}
@@ -389,41 +407,47 @@ const OrderSummaryComponent = (props: PropsType) => {
                 <Image
                   style={styles.imgRightArrowGrey}
                   source={images.rightArrowGrey}
+                  resizeMode="stretch"
                 />
               </TouchableOpacity>
             ) : null}
 
             {/* Report Issue */}
-            {props?.orderMainStatus !== "Returned" && (
-              <TouchableOpacity
-                style={styles.btnReportIssue}
-                activeOpacity={activityOpacity}
-                hitSlop={hitSlop}
-                onPress={props?.onPressReportIssue}
-              >
-                <Image
-                  style={styles.imgReportIssue}
-                  source={images.reportIssue}
-                />
-                <View>
-                  <Text style={styles.lblReportIssueQue}>
-                    {getTranslation("reportIssueQue")}
-                  </Text>
-                  <Text style={styles.lblReportIssueDesc}>
-                    {getTranslation("reportIssueDesc")}
-                  </Text>
-                </View>
-                <Image
-                  style={styles.imgRightArrowGrey}
-                  source={images.rightArrowGrey}
-                />
-              </TouchableOpacity>
-            )}
+            {props?.orderMainStatus !== "Request_return" &&
+              props?.orderMainStatus !== "Request_exchange" &&
+              props?.orderMainStatus !== "Returned" && (
+                <TouchableOpacity
+                  style={styles.btnReportIssue}
+                  activeOpacity={activityOpacity}
+                  hitSlop={hitSlop}
+                  onPress={props?.onPressReportIssue}
+                >
+                  <Image
+                    style={styles.imgReportIssue}
+                    source={images.reportIssue}
+                    resizeMode="stretch"
+                  />
+                  <View>
+                    <Text style={styles.lblReportIssueQue}>
+                      {getTranslation("reportIssueQue")}
+                    </Text>
+                    <Text style={styles.lblReportIssueDesc}>
+                      {getTranslation("reportIssueDesc")}
+                    </Text>
+                  </View>
+                  <Image
+                    style={styles.imgRightArrowGrey}
+                    source={images.rightArrowGrey}
+                    resizeMode="stretch"
+                  />
+                </TouchableOpacity>
+              )}
 
             {/* Driver Details */}
             {(props?.currentStatus === "On The Way" ||
               props?.currentStatus === "Order Delivered" ||
-              props?.orderMainStatus === "Delivered") && (
+              props?.orderMainStatus === "Delivered" ||
+              props?.orderMainStatus === "On_the_way") && (
               <View>
                 <Text style={styles.lblDriverInfo}>
                   {getTranslation("driverInfo")}
@@ -441,6 +465,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                   <Image
                     style={styles.imgDriverProfile}
                     source={props?.driverProfile}
+                    resizeMode="stretch"
                   />
 
                   {/* Name + (optionally) actions */}
@@ -464,6 +489,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                           <Image
                             style={styles.imgTrackIcon}
                             source={images.trackIcon}
+                            resizeMode="stretch"
                           />
                           <Text style={styles.lblTrack}>
                             {getTranslation("track")}
@@ -478,6 +504,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                           <Image
                             style={styles.imgChatCall}
                             source={images.callIcon}
+                            resizeMode="stretch"
                           />
                         </TouchableOpacity>
 
@@ -489,6 +516,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                           <Image
                             style={styles.imgChatCall}
                             source={images.chatIcon}
+                            resizeMode="stretch"
                           />
                         </TouchableOpacity>
                       </View>
@@ -498,6 +526,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                   <Image
                     style={styles.imgRightArrowGrey}
                     source={images.rightArrowGrey}
+                    resizeMode="stretch"
                   />
                 </View>
               </View>
@@ -517,7 +546,9 @@ const OrderSummaryComponent = (props: PropsType) => {
             <View style={styles.vwLineFull} />
             <View style={styles.vwTotal}>
               <Text style={styles.lblTotalBold}>{getTranslation("total")}</Text>
-              <Text style={styles.lblTotalBold}>{rupeeSymbol+" "+props?.totalAmount}</Text>
+              <Text style={styles.lblTotalBold}>
+                {rupeeSymbol + " " + props?.totalAmount}
+              </Text>
             </View>
           </View>
         </View>
@@ -557,6 +588,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                       source={
                         item <= rating ? images.starFilled : images.starEmpty
                       }
+                      resizeMode="stretch"
                     />
                   ))}
                 </View>
@@ -579,6 +611,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                     <Image
                       style={constnatStyles.img24}
                       source={images.delete1}
+                      resizeMode="stretch"
                     />
                   </TouchableOpacity>
                 </View>

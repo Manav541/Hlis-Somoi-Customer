@@ -235,6 +235,7 @@ export default {
   yourOrderIsCancelled: "Your Order is Cancelled",
   cancelOrderSelectedReason: "I want to Cancel due to product quality issues",
   requestReturn: "You have requested for return the order.",
+  requestExchange: "You have requested for exchange the order.",
   orderReturned: "Order Returned",
   returnReason: "I want to return due to product quality issues",
   refundDesc: "You will get refund  3-4 business day",

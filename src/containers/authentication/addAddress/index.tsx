@@ -9,7 +9,6 @@ import {
   showConfirmAlert,
 } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
-import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
 import { constnatStyles } from "../../../constants/Styles";
@@ -66,18 +65,18 @@ const AddAddressContainer = ({ navigation, route }: any) => {
 
   const handleOnBlur = (type: string) => {
     if (type === "address") {
-      setAddressFocused(true);
+      setAddressFocused(false);
     } else if (type === "house") {
-      setHouseFocused(true);
+      setHouseFocused(false);
     } else if (type === "description") {
-      setAdditionalDescriptionFocused(true);
+      setAdditionalDescriptionFocused(false);
     }
   };
 
   const handleOnPressAdd = () => {
-    if (address === "") {
+    if (address.trim() === "") {
       flashMessageWarning(getTranslation("addressRequired"));
-    } else if (house === "") {
+    } else if (house.trim() === "") {
       flashMessageWarning(getTranslation("houseRequired"));
     } else {
       if (!isNavigateFromManageAddress) {

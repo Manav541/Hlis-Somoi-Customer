@@ -63,6 +63,7 @@ interface PropsType {
   onPressViewAll: () => void;
   onPressFavourite: () => void;
   poduct_isFavourite: boolean;
+  onPressReview: () => void;
 }
 
 const ViewProductDetailComponent = (props: PropsType) => {
@@ -286,7 +287,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
         key={index}
       >
         {item?.isSelected && (
-          <Image style={styles.imgSelectedDot} source={images.selectedDot} />
+          <Image style={styles.imgSelectedDot} source={images.selectedDot} resizeMode="stretch"/>
         )}
       </TouchableOpacity>
     );
@@ -378,7 +379,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
             <TouchableOpacity
               activeOpacity={activityOpacity}
               hitSlop={hitSlop}
-              // onPress={props?.onPressReview}
+              onPress={props?.onPressReview}
             >
               <Text style={styles.lblProduct_reviews}>
                 {props?.product_review}{" "}

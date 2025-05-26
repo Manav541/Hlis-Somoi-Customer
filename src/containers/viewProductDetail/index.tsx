@@ -269,7 +269,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     setArrFashionColor(updatedColor);
   };
 
-  const onPressAddToCart = () => {
+  const onPressCartIcon = () => {
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
@@ -284,6 +284,10 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
         ],
       })
     );
+  };
+
+  const onPressReview = () => {
+    navigation.navigate(ScreenNames.review);
   };
 
   const header = () => {
@@ -310,7 +314,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
           <TouchableOpacity
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
-            onPress={onPressAddToCart}
+            onPress={onPressCartIcon}
           >
             <Image style={styles.imgButton} source={images.cartBagIcon} />
             <View style={styles.vwBedge}>
@@ -369,6 +373,8 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       onPressViewAll={onPressViewAll}
       onPressFavourite={onPressFavourite}
       poduct_isFavourite={poduct_isFavourite}
+      onPressReview={onPressReview}
+      
     />
   );
 };

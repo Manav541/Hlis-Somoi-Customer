@@ -10,4 +10,12 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.bold,
   
   },
+  vwHeader : {
+    
+    backgroundColor: colors.orange1c,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingBottom: 10,
+  }
 });

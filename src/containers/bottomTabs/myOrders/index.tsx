@@ -10,14 +10,68 @@ import { constnatStyles } from "../../../constants/Styles";
 
 const MyOrdersContainer = ({ navigation }: any) => {
   const [filterModal, setFilterModal] = useState(false);
-  const [selectOrderType, setSelectOrderType] = useState<number>(0);
-  const [selectOrderDate, setSelectOrderDate] = useState<number>(0);
+  const [selectOrderType, setSelectOrderType] = useState<string>('');
+  const [selectOrderDate, setSelectOrderDate] = useState<string>('');
   const [arrOrderList, setArrOrderList] = useState<Order[]>([
     {
       order_number: "#12343235",
       total: "732.00",
       items_Count: 2,
       status: "Confirmed",
+      date: "10 Mar, 2025",
+      arrProduct: [
+        {
+          product_name: `Fortune Premium Mustard ${"\n"}Oil`,
+          product_img: images.oil,
+          price: "199",
+          quantity: 1,
+          unit: "500 ml",
+          height: 46.69,
+          width: 33.62,
+        },
+        {
+          product_name: `India Gate Basmati ${"\n"}Rice`,
+          product_img: images.rice,
+          price: "499",
+          quantity: 1,
+          unit: "1 kg",
+          height: 40.74,
+          width: 27.98,
+        },
+      ],
+    },
+    {
+      order_number: "#12343245",
+      total: "732.00",
+      items_Count: 2,
+      status: "Preparing",
+      date: "10 Mar, 2025",
+      arrProduct: [
+        {
+          product_name: `Fortune Premium Mustard ${"\n"}Oil`,
+          product_img: images.oil,
+          price: "199",
+          quantity: 1,
+          unit: "500 ml",
+          height: 46.69,
+          width: 33.62,
+        },
+        {
+          product_name: `India Gate Basmati ${"\n"}Rice`,
+          product_img: images.rice,
+          price: "499",
+          quantity: 1,
+          unit: "1 kg",
+          height: 40.74,
+          width: 27.98,
+        },
+      ],
+    },
+    {
+      order_number: "#12343246",
+      total: "732.00",
+      items_Count: 2,
+      status: "On_the_way",
       date: "10 Mar, 2025",
       arrProduct: [
         {
@@ -72,6 +126,33 @@ const MyOrdersContainer = ({ navigation }: any) => {
       total: "732.00",
       items_Count: 2,
       status: "Request_return",
+      date: "10 Mar, 2025",
+      arrProduct: [
+        {
+          product_name: `Fortune Premium Mustard ${"\n"}Oil`,
+          product_img: images.oil,
+          price: "199",
+          quantity: 1,
+          unit: "500 ml",
+          height: 46.69,
+          width: 33.62,
+        },
+        {
+          product_name: `India Gate Basmati ${"\n"}Rice`,
+          product_img: images.rice,
+          price: "499",
+          quantity: 1,
+          unit: "1 kg",
+          height: 40.74,
+          width: 27.98,
+        },
+      ],
+    },
+    {
+      order_number: "#12343247",
+      total: "732.00",
+      items_Count: 2,
+      status: "Request_exchange",
       date: "10 Mar, 2025",
       arrProduct: [
         {
@@ -182,16 +263,16 @@ const MyOrdersContainer = ({ navigation }: any) => {
     setFilterModal(false)
   }
 
-  const handleSelectOrderType=(index:number)=>{
-    console.log("index=>",index);
+  const handleSelectOrderType=(type:string)=>{
+    console.log("index=>",type);
     
-    setSelectOrderType(index)
+    setSelectOrderType(type)
   }
 
-  const handleSelectOrderDate=(index:number)=>{
-    console.log("index=>",index);
+  const handleSelectOrderDate=(date : string)=>{
+    console.log("date=>",date);
     
-    setSelectOrderDate(index)
+    setSelectOrderDate(date)
   }
 
   const handleNavigateOrderSummary=(status : string)=>{
@@ -205,7 +286,9 @@ const MyOrdersContainer = ({ navigation }: any) => {
   }
 
   const onPressReset = () => {
-    setFilterModal(false);
+    // setFilterModal(false);
+    setSelectOrderType('');
+    setSelectOrderDate('');
   }
 
   const header = () => {

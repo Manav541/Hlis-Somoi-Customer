@@ -82,13 +82,13 @@ const AddNewCardContainer = ({ navigation }: any) => {
 
   const handleOnBlur = (type: string) => {
     if (type === "cardNumber") {
-      setCardNumebrFocused(true);
+      setCardNumebrFocused(false);
     } else if (type === "cardHolderName") {
-      setCardHolderNameFocused(true);
+      setCardHolderNameFocused(false);
     } else if (type === "expiryDate") {
-      setExpiryDateFocused(true);
+      setExpiryDateFocused(false);
     } else {
-      setCvvFocused(true);
+      setCvvFocused(false);
     }
   };
 
