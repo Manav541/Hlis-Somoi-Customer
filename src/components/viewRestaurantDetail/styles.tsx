@@ -121,6 +121,12 @@ export const styles = StyleSheet.create({
     overflow: "hidden",
     flexDirection: "row",
   },
+  vwRestaurantFood :{
+    paddingHorizontal: 20,
+    gap: 19,
+    marginBottom: 20,
+    marginTop: 10,
+  },
 
   // Text Styles
   lblRestaurant_name: {

@@ -14,6 +14,7 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { fontsfamily } from "../../constants/FontFamily";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Restaurant } from "../../constants/interfaces";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrAllBestSellers: Restaurant[];
@@ -37,7 +38,7 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         onPress={() => props?.onPressRestaurant(item)}
       >
-        <Image style={styles.imgBestSellers} source={item?.restaurant_img} />
+        <FastImage style={styles.imgBestSellers} source={item?.restaurant_img} />
         <TouchableOpacity
           style={styles.btnFavourite}
           activeOpacity={activityOpacity}
@@ -87,7 +88,7 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
               <Image style={styles.imgStarBlue} source={images.starBlue} resizeMode="stretch" />
             </View>
           </View>
-          <Image style={styles.imgLogo} source={item?.restaurant_logo} resizeMode="stretch" />
+          <FastImage style={styles.imgLogo} source={item?.restaurant_logo} resizeMode="stretch" />
         </View>
       </TouchableOpacity>
     );

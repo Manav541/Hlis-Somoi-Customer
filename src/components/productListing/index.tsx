@@ -458,6 +458,12 @@ const ProductListingComponent = (props: PropsType) => {
                   unselectedStyle={styles.sliderUnselected}
                   markerStyle={styles.sliderMarker}
                   containerStyle={styles.sliderContainer}
+                  touchDimensions={{
+                    height: 40,
+                    width: 40,
+                    borderRadius: 20,
+                    slipDisplacement: 40,
+                  }}
                 />
                 <View style={styles.vwSliderMinMaxValue}>
                   <Text style={styles.lblSliderMinMaxValue}>

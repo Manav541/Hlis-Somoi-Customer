@@ -1,4 +1,10 @@
-import { View, Text, TextInput, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StatusBar,
+  TouchableOpacity,
+} from "react-native";
 import React, { Ref } from "react";
 import { styles } from "./styles";
 import GlobalLogoTitle from "../../../global/GlobalLogoTitle";
@@ -12,6 +18,7 @@ import { constnatStyles } from "../../../constants/Styles";
 import GlobalEmailPhoneButton from "../../../global/GlobalEmailPhoneButton";
 import GlobalCountryModal from "../../../global/GlobalCountryModal";
 import { CountryDataType } from "../../../constants/interfaces";
+import { activityOpacity } from "../../../constants/GConstant";
 
 interface PropsType {
   name: string;
@@ -198,7 +205,7 @@ const SignupComponent = (props: PropsType) => {
             {/* Bottom View */}
             <View
               style={{
-                paddingBottom:  insets.bottom ? insets.bottom : 40,
+                paddingBottom: insets.bottom ? insets.bottom : 40,
               }}
             >
               {/* View Signup-Signin */}
@@ -234,39 +241,45 @@ const SignupComponent = (props: PropsType) => {
               />
 
               {/* Terms and condition */}
-              <View
-                style={{
-                  marginHorizontal: 30,
-                  alignSelf: "center",
-                  marginTop: 23,
-                }}
-              >
+              <View style={{ alignItems: "center",marginTop : 23 }}>
                 <Text style={styles.lblTermsCondition}>
-                  {getTranslation("bysigningup")}{" "}
-                  <Text
+                  {getTranslation("bysigningup")}
+                </Text>
+                <View style={styles.vwTnCPP}>
+                  <TouchableOpacity
+                    activeOpacity={activityOpacity}
                     onPress={() => {
                       props?.onPressCMS("termsConditions");
                     }}
-                    style={[
-                      styles.lblTermsCondition,
-                      styles.lblTermsConditionLine,
-                    ]}
                   >
-                    {getTranslation("termsandconditions")}
-                  </Text>{" "}
-                  {getTranslation("andi")}{" "}
-                  <Text
+                    <Text
+                      style={[
+                        styles.lblTermsCondition,
+                        styles.lblTermsConditionLine,
+                      ]}
+                    >
+                      {getTranslation("termsandconditions")}
+                    </Text>
+                  </TouchableOpacity>
+                  <Text style={styles.lblTermsCondition}>
+                    {getTranslation("andi")}
+                  </Text>
+                  <TouchableOpacity
+                    activeOpacity={activityOpacity}
                     onPress={() => {
                       props?.onPressCMS("privacyPolicy");
                     }}
-                    style={[
-                      styles.lblTermsCondition,
-                      styles.lblTermsConditionLine,
-                    ]}
                   >
-                    {getTranslation("privacyPolicy")}
-                  </Text>
-                </Text>
+                    <Text
+                      style={[
+                        styles.lblTermsCondition,
+                        styles.lblTermsConditionLine,
+                      ]}
+                    >
+                      {getTranslation("privacyPolicy")}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>

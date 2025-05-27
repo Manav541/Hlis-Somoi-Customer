@@ -16,7 +16,6 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
 import { fontSize } from "../../constants/FontSizes";
-import { fontsfamily } from "../../constants/FontFamily";
 import GlobalButton from "../../global/GlobalButton";
 import {
   FashionColor,

@@ -24,6 +24,7 @@ import {
   SubCategory,
 } from "../../../constants/interfaces";
 import Carousel from "react-native-reanimated-carousel";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrGroceriesFood: GroceriesFoodItem[];
@@ -70,7 +71,7 @@ const HomeComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         onPress={() => props?.onPressGroceriesFood(item.type || "")}
       >
-        <Image
+        <FastImage
           style={styles.imgGroceriesFood}
           source={item?.image}
           resizeMode="stretch"
@@ -89,7 +90,7 @@ const HomeComponent = (props: PropsType) => {
         style={styles.vwAddsItem}
         activeOpacity={activityOpacity}
       >
-        <Image
+        <FastImage
           style={styles.imgAdds}
           source={item?.image}
           resizeMode="stretch"
@@ -127,7 +128,7 @@ const HomeComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         onPress={() => props?.onPressSubCategories()}
       >
-        <Image
+        <FastImage
           style={styles.imgSubCategories}
           source={item?.image}
           resizeMode="cover"
@@ -148,7 +149,7 @@ const HomeComponent = (props: PropsType) => {
         onPress={() => props?.onPressBestProducts()}
       >
         <View style={styles.vwBestProductsImage}>
-          <Image
+          <FastImage
             style={{ height: item?.height, width: item?.width }}
             source={item?.image}
           />
@@ -193,7 +194,7 @@ const HomeComponent = (props: PropsType) => {
         key={index}
         onPress={() => props?.onPressRestaurant(item)}
       >
-        <Image
+        <FastImage
           style={styles.imgBestSeller}
           source={item?.restaurant_img}
           resizeMode="stretch"
@@ -208,7 +209,7 @@ const HomeComponent = (props: PropsType) => {
             </Text>
           </View>
         </View>
-        <Image style={styles.imgLogo} source={item?.restaurant_logo} />
+        <FastImage style={styles.imgLogo} source={item?.restaurant_logo} />
       </TouchableOpacity>
     );
   };

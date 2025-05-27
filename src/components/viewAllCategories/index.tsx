@@ -10,6 +10,7 @@ import React from "react";
 import { styles } from "./styles";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { SubCategory } from "../../constants/interfaces";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrAllCategories: SubCategory[];
@@ -30,7 +31,7 @@ const ViewAllCategoriesComponenet = (props: PropsType) => {
         hitSlop={hitSlop}
         key={index}
       >
-        <Image style={styles.imgAllCategories} source={item?.image} />
+        <FastImage style={styles.imgAllCategories} source={item?.image} />
         <Text style={styles.lblAllCategoriesName}>{item?.name}</Text>
       </TouchableOpacity>
     );

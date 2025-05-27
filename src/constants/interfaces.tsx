@@ -1,4 +1,5 @@
 import { ImageSourcePropType } from "react-native";
+import { Source as FastImageSource } from 'react-native-fast-image';
 
 export interface CountryDataType {
   name: string;
@@ -31,20 +32,20 @@ export interface NotificationGroup {
 // Home Tab
 export interface GroceriesFoodItem {
   type: string | null;
-  image: ImageSourcePropType;
+  image: FastImageSource;
 }
 
 export interface AdItem {
-  image: ImageSourcePropType;
+  image: FastImageSource;
 }
 
 export interface SubCategory {
-  image: ImageSourcePropType;
+  image: FastImageSource;
   name: string;
 }
 
 export interface BestProduct {
-  image: ImageSourcePropType;
+  image: FastImageSource;
   name: string;
   used: string;
   height: number;
@@ -92,8 +93,8 @@ export interface GroceryProduct {
 export interface Restaurant {
   restaurant_imgMain: ProductImage[];
   subCategoryTitle: string;
-  restaurant_img: ImageSourcePropType;
-  restaurant_logo: ImageSourcePropType;
+  restaurant_img: FastImageSource;
+  restaurant_logo: FastImageSource;
   restaurant_name: string;
   restaurant_address: string;
   restaurant_time: string;

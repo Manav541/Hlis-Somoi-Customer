@@ -22,6 +22,11 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: colors.white,
   },
+  vwTnCPP: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 3,
+  },
   lblOr: {
     fontSize: fontSize.size16,
     color: colors.white,

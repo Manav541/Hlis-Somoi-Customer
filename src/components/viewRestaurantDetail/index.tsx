@@ -22,6 +22,7 @@ import {
 import { colors } from "../../constants/Colors";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { fontSize } from "../../constants/FontSizes";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   restaurant_imgMain: any[];
@@ -114,7 +115,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
       >
         {/* Product Image and Favourite button */}
         <View style={styles.vwFoodImgLike}>
-          <Image source={item?.food_img} style={styles.imgFood} />
+          <FastImage source={item?.food_img} style={styles.imgFood} />
           <TouchableOpacity
             style={styles.btnRedHeart}
             activeOpacity={activityOpacity}
@@ -203,7 +204,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
           onScroll={props?.handleScroll}
           renderItem={({ item, index }) => {
             return (
-              <Image
+              <FastImage
                 style={styles.imgRestaurant_imgMain}
                 source={item?.imgMain}
                 resizeMode="cover"
@@ -212,7 +213,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
           }}
         />
         {renderDots()}
-        <Image
+        <FastImage
           style={styles.imgRestaurant_logo}
           source={props?.restaurant_logo}
         />
@@ -300,14 +301,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
       </View>
 
       {/* Restaurant Food */}
-      <View
-        style={{
-          paddingHorizontal: 20,
-          gap: 19,
-          marginBottom: 20,
-          marginTop: 10,
-        }}
-      >
+      <View style={styles.vwRestaurantFood}>
         {Array.from({
           length: Math.ceil(props.arrSubCategoryData.length / 2),
         }).map((_, rowIndex) => {
@@ -351,7 +345,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                 {props?.selectedFoodItem && (
                   <>
                     <View style={styles.vwFoodImgBG}>
-                      <Image
+                      <FastImage
                         style={styles.imgModalFood}
                         source={props?.selectedFoodItem.food_img}
                       />
