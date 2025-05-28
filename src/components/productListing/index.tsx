@@ -30,6 +30,7 @@ import {
   SubCategoryItem,
 } from "../../constants/interfaces";
 import GlobalDropdown from "../../global/GlobalDropdown";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   mainCategoryName: string;
@@ -118,7 +119,7 @@ const ProductListingComponent = (props: PropsType) => {
       >
         {/* Product Image and Favourite button */}
         <View style={styles.vwProductImgLike}>
-          <Image
+          <FastImage
             source={item?.product_img}
             style={{ height: item?.height, width: item?.width }}
           />
@@ -133,6 +134,7 @@ const ProductListingComponent = (props: PropsType) => {
             <Image
               style={styles.imgRedHeart}
               source={item?.isFavourite ? images.redHeart : images.emptyHeart}
+              resizeMode="stretch"
             />
           </TouchableOpacity>
 
@@ -163,7 +165,7 @@ const ProductListingComponent = (props: PropsType) => {
 
             {/* Rating */}
             <View style={styles.vwProductRating}>
-              <Image style={styles.imgStar} source={images.star} />
+              <Image style={styles.imgStar} source={images.star} resizeMode="stretch" />
               <Text style={styles.lblProductRating}>
                 {item?.product_rating}
               </Text>
@@ -189,7 +191,7 @@ const ProductListingComponent = (props: PropsType) => {
               hitSlop={hitSlop}
               activeOpacity={activityOpacity}
             >
-              <Image style={styles.imgAddMinus} source={images.minus} />
+              <Image style={styles.imgAddMinus} source={images.minus} resizeMode="stretch"/>
             </TouchableOpacity>
             <Text style={styles.lblProductQuantity}>
               {item.product_quantity}
@@ -199,7 +201,7 @@ const ProductListingComponent = (props: PropsType) => {
               hitSlop={hitSlop}
               activeOpacity={activityOpacity}
             >
-              <Image style={styles.imgAddMinus} source={images.add} />
+              <Image style={styles.imgAddMinus} source={images.add} resizeMode="stretch"/>
             </TouchableOpacity>
           </View>
         )}
@@ -214,7 +216,7 @@ const ProductListingComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         onPress={() => props?.onPressRestaurant(item)}
       >
-        <Image style={styles.imgBestSellers} source={item?.restaurant_img} />
+        <FastImage style={styles.imgBestSellers} source={item?.restaurant_img} resizeMode="stretch" />
         <TouchableOpacity
           style={styles.btnFavourite}
           activeOpacity={activityOpacity}
@@ -224,6 +226,7 @@ const ProductListingComponent = (props: PropsType) => {
           <Image
             style={styles.imgRedHeart}
             source={item?.isFavourite ? images.redHeart : images.emptyHeart}
+            resizeMode="stretch"
           />
         </TouchableOpacity>
         <View style={styles.vwBestSellersItemDetails}>
@@ -234,6 +237,7 @@ const ProductListingComponent = (props: PropsType) => {
             <Image
               style={styles.imgLocation}
               source={images.locationIconOrange}
+              resizeMode="stretch"
             />
             <Text style={styles.lblLocation}>{item?.restaurant_address}</Text>
           </View>
@@ -251,7 +255,7 @@ const ProductListingComponent = (props: PropsType) => {
                 </Text>
               </Text>
               <View style={styles.vwDistance}>
-                <Image style={styles.imgDot} source={images.dotOrange} />
+                <Image style={styles.imgDot} source={images.dotOrange} resizeMode="stretch" />
                 <Text style={styles.lblDistance}>
                   {item?.restaurant_distance.toLowerCase()}
                 </Text>
@@ -259,10 +263,10 @@ const ProductListingComponent = (props: PropsType) => {
             </View>
             <View style={styles.vwRating}>
               <Text style={styles.lblRatings}>{item?.restaurant_ratings}</Text>
-              <Image style={styles.imgStarBlue} source={images.starBlue} />
+              <Image style={styles.imgStarBlue} source={images.starBlue} resizeMode="stretch"/>
             </View>
           </View>
-          <Image style={styles.imgLogo} source={item?.restaurant_logo} />
+          <FastImage style={styles.imgLogo} source={item?.restaurant_logo} resizeMode="stretch"/>
         </View>
       </TouchableOpacity>
     );
@@ -440,7 +444,7 @@ const ProductListingComponent = (props: PropsType) => {
                       {rupeeSymbol + props?.range[0]}
                     </Text>
                   </View>
-                  <Image style={styles.imgDash} source={images.dashLine} />
+                  <Image style={styles.imgDash} source={images.dashLine} resizeMode="stretch" />
                   <View style={styles.vwPriceValueBox}>
                     <Text style={styles.lblLowHightPriceValue}>
                       {rupeeSymbol + props?.range[1]}
@@ -497,6 +501,7 @@ const ProductListingComponent = (props: PropsType) => {
                             ? colors.orange1c
                             : colors.greyda
                         }
+                        resizeMode="stretch"
                       />
                     </TouchableOpacity>
                   ))}

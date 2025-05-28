@@ -208,8 +208,8 @@ const HomeComponent = (props: PropsType) => {
               (+{item?.restaurant_reviews})
             </Text>
           </View>
-        </View>
         <FastImage style={styles.imgLogo} source={item?.restaurant_logo} />
+        </View>
       </TouchableOpacity>
     );
   };

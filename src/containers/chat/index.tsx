@@ -8,12 +8,13 @@ import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import {
   cameraPermission,
   checkPermission,
+  flashMessageWarning,
   galleryPermission,
   messages,
 } from "../../constants/GConstant";
 import { ChatMessage } from "../../constants/interfaces";
-import { styles } from "../availableOffers/styles";
 import { constnatStyles } from "../../constants/Styles";
+import { getTranslation } from "../../localization/i18n/i18n.config";
 
 const ChatConatiner = ({ navigation, route }: any) => {
   const [messagesList, setMessagesList] = useState<ChatMessage[]>([
@@ -141,7 +142,9 @@ const ChatConatiner = ({ navigation, route }: any) => {
     );
   };
 
-  const handleOnPressEmoji = () => {};
+  const handleOnPressEmoji = () => {
+    flashMessageWarning(getTranslation('underDevelopment'))
+  };
 
   const header = () => {
     navigation.setOptions({

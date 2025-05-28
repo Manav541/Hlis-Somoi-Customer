@@ -53,6 +53,7 @@ const CancelOrderComponent = (props: PropsType) => {
           <Image
             style={styles.imgCheckbox}
             source={item?.isSelected ? images.checkfill : images.whiteCheckBox}
+            resizeMode="stretch"
           />
         </TouchableOpacity>
         {index !== props?.arrCancelOrderReason.length - 1 && (

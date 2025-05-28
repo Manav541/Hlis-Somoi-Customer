@@ -7,6 +7,7 @@ export default {
 
   underDevelopment: "Under Development",
 
+
   // Validations
   emptyName: "Please enter your name",
   emptyEmail: "Please enter your email",
@@ -38,7 +39,7 @@ export default {
   emptyCardNumber: "Please enter card number",
   emptyCardHolderName: "Please enter card holder name",
   emptyExpiryDate: "Please enter expiry date",
-  emptyCvv: "Please enetr CVV",
+  emptyCvv: "Please enter CVV",
   successAddNewCard: "New card add successfully",
   invalidCardNumber: "Please enter valid card number",
   invalidCvv: "Please enter valid CVV",
@@ -174,7 +175,7 @@ export default {
   deliverto1: "Deliver to:",
   approxDeliveryTime: "Approx delivery time",
   orderDetails: "Order Details",
-  itemTotal: "Item total",
+  itemTotal: "Item Total",
   subTotal: "Sub Total",
   tax: "Tax (5%)",
   discount: "Discount",
@@ -182,6 +183,7 @@ export default {
   delivery: "Delivery",
   paymentType: "Payment Type",
   total: "Total",
+  yourCartIsEmpty: "Your cart is empty!",
 
   // Payment Method
   paymentMethods: "Payment Methods",

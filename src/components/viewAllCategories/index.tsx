@@ -14,6 +14,7 @@ import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrAllCategories: SubCategory[];
+  onPressCategory: ()=> void;
 }
 
 const ViewAllCategoriesComponenet = (props: PropsType) => {
@@ -30,6 +31,7 @@ const ViewAllCategoriesComponenet = (props: PropsType) => {
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         key={index}
+        onPress={props?.onPressCategory}
       >
         <FastImage style={styles.imgAllCategories} source={item?.image} />
         <Text style={styles.lblAllCategoriesName}>{item?.name}</Text>

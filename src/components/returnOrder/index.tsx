@@ -20,6 +20,7 @@ import { colors } from "../../constants/Colors";
 import { Asset } from "react-native-image-picker";
 import { CancelOrderReason } from "../../constants/interfaces";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrReturnOrderReason: CancelOrderReason[];
@@ -62,6 +63,7 @@ const ReturnOrderComponent = (props: PropsType) => {
           <Image
             style={styles.imgCheckbox}
             source={item?.isSelected ? images.checkfill : images.whiteCheckBox}
+            resizeMode="stretch"
           />
         </TouchableOpacity>
         {index !== props?.arrReturnOrderReason.length - 1 && (
@@ -74,7 +76,7 @@ const ReturnOrderComponent = (props: PropsType) => {
   const renderUploadImageVideo = (item: any, index: number) => {
     return (
       <View style={styles.vwUploadImageVideosItem}>
-        <Image
+        <FastImage
           style={styles.imgUpload}
           source={{ uri: item?.uri }}
           resizeMode="stretch"
@@ -150,6 +152,7 @@ const ReturnOrderComponent = (props: PropsType) => {
                       style={styles.imgAdd}
                       tintColor={colors.black13}
                       source={images.add}
+                      resizeMode="stretch"
                     />
                   </TouchableOpacity>
                   {props?.multiImagesArray?.length > 0 && (
@@ -183,6 +186,7 @@ const ReturnOrderComponent = (props: PropsType) => {
                     ? images.radioButtonSelected
                     : images.radioButtonUnSelected
                 }
+                resizeMode="stretch"
               />
               <Text style={styles.lblRadioText}>
                 {getTranslation("refund")}
@@ -203,6 +207,7 @@ const ReturnOrderComponent = (props: PropsType) => {
                     ? images.radioButtonSelected
                     : images.radioButtonUnSelected
                 }
+                resizeMode="stretch"
               />
               <Text style={styles.lblRadioText}>
                 {getTranslation("replacement")}

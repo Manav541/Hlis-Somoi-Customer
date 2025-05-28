@@ -14,6 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../constants/Colors";
 import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
 import { GroceryProduct } from "../../constants/interfaces";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrProducts: GroceryProduct[];
@@ -40,7 +41,7 @@ const SearchComponent = (props: PropsType) => {
         onPress={() => props.onPressProduct(item)}
       >
         <View style={styles.vwProductImage}>
-          <Image style={styles.imgProduct} source={item?.product_img} />
+          <FastImage style={styles.imgProduct} source={item?.product_img} />
         </View>
         <View style={styles.vwProductDetails}>
           <Text style={styles.lblProductName}>{item?.product_name}</Text>
@@ -82,6 +83,7 @@ const SearchComponent = (props: PropsType) => {
           <Image
             style={styles.imgNoDataFound}
             source={images.searchWithOrangeBG}
+            resizeMode="stretch"
           />
           <Text style={styles.lblNoDataFound}>
             {getTranslation("noResultsFound")}

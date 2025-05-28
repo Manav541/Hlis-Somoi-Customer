@@ -7,6 +7,8 @@ import { StatusBar, Text } from 'react-native';
 import { SubCategory } from '../../constants/interfaces';
 import { constnatStyles } from '../../constants/Styles';
 import { ScreenNames } from '../../routers';
+import { flashMessageWarning } from '../../constants/GConstant';
+import { getTranslation } from '../../localization/i18n/i18n.config';
 
 const ViewAllCategoriesContainer = ({navigation, route} : any) => {
     const [arrAllCategories, setArrAllCategories] = useState<SubCategory[]>([
@@ -36,6 +38,10 @@ const ViewAllCategoriesContainer = ({navigation, route} : any) => {
         },
     ]);
 
+    const onPressCategory =()=>{
+      flashMessageWarning(getTranslation('underDevelopment'))
+    }
+
     const header = () => {
         navigation.setOptions({
           headerLeft: () => (
@@ -63,7 +69,7 @@ const ViewAllCategoriesContainer = ({navigation, route} : any) => {
       );
       
   return (
-    <ViewAllCategoriesComponenet arrAllCategories={arrAllCategories} />
+    <ViewAllCategoriesComponenet arrAllCategories={arrAllCategories} onPressCategory={onPressCategory} />
   )
 }
 

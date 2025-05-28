@@ -29,6 +29,7 @@ import {
   OrderReviewProduct,
   OrderStatus,
 } from "../../constants/interfaces";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   orderNumber: string;
@@ -105,11 +106,11 @@ const OrderSummaryComponent = (props: PropsType) => {
                   DateFormatsManager.DateFormats.DDMMYYYY_SLASH
                 )}
               </Text>
-              {props?.orderMainStatus === "Request_return" ||
-                (props?.orderMainStatus === "Request_exchange" &&
+              {(props?.orderMainStatus === "Request_return" ||
+                props?.orderMainStatus === "Request_exchange") &&
                   index === props?.arrOrderStatus.length - 1 && (
                     <Text>- {item?.status_time ?? ""}</Text>
-                  ))}
+                  )}
             </Text>
           )}
         </View>
@@ -121,7 +122,7 @@ const OrderSummaryComponent = (props: PropsType) => {
     return (
       <View style={styles.vwProductsItems} key={index}>
         <View style={styles.vwProductImage}>
-          <Image
+          <FastImage
             style={{ height: item?.height, width: item?.width }}
             source={item?.product_img}
           />

@@ -19,6 +19,7 @@ interface PropsType {
   arrRateProgress: RateProgress[];
   arrRevieews: Review[];
   onPressViewAll: () => void;
+  onPressImageVideo: () => void;
 }
 
 const ReviewComponent = (props: PropsType) => {
@@ -62,20 +63,38 @@ const ReviewComponent = (props: PropsType) => {
         <Text style={styles.lblReviewName}>{item?.review_personName}</Text>
         <View style={styles.vwReviewRateDate}>
           <View style={styles.vwRateNumber}>
-            <Image style={styles.imgMainStar} source={images.star} />
+            <Image
+              style={styles.imgMainStar}
+              source={images.star}
+              resizeMode="stretch"
+            />
             <Text style={styles.lblReviewRateNumber}>{item?.review_rate}</Text>
           </View>
           <Text style={styles.lblReviewDate}>{item?.review_date}</Text>
         </View>
         <Text style={styles.lblReviewDesc}>{item?.review_description}</Text>
         <View style={styles.vwImgeVideo}>
-          <View style={styles.vwReviewImage}>
-            <Image style={styles.imgReview} source={item?.review_image} />
-          </View>
+          <TouchableOpacity
+            style={styles.vwReviewImage}
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={props?.onPressImageVideo}
+          >
+            <Image
+              style={styles.imgReview}
+              source={item?.review_image}
+              resizeMode="stretch"
+            />
+          </TouchableOpacity>
           {item?.type === "video" && (
-            <View style={styles.vwReviewVideo}>
+            <TouchableOpacity
+              style={styles.vwReviewVideo}
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={props?.onPressImageVideo}
+            >
               <Image style={styles.imgVideo} source={images.videocircle} />
-            </View>
+            </TouchableOpacity>
           )}
         </View>
         {index !== props?.arrRevieews.length - 1 && (
@@ -107,10 +126,14 @@ const ReviewComponent = (props: PropsType) => {
               style={{ flexDirection: "row", gap: 3, alignItems: "center" }}
             >
               <Text style={styles.lblReviews}>{props?.totalRate}</Text>
-              <Image style={styles.imgMainStar} source={images.star} />
+              <Image
+                style={styles.imgMainStar}
+                source={images.star}
+                resizeMode="stretch"
+              />
             </View>
             <Text style={styles.lblReviewsCount}>
-              {props?.totalReviews +" "+ getTranslation("reviews1")}
+              {props?.totalReviews + " " + getTranslation("reviews1")}
             </Text>
           </View>
           <View style={styles.vwVerticalLine} />
@@ -131,6 +154,7 @@ const ReviewComponent = (props: PropsType) => {
           <Image
             style={styles.imgRightOrangeArrow}
             source={images.rightArrowOrange}
+            resizeMode="stretch"
           />
         </TouchableOpacity>
       </ScrollView>

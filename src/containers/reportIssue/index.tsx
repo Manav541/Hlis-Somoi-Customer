@@ -90,7 +90,7 @@ const ReportIssueContainer = ({ navigation }: any) => {
   };
 
   const onPressSubmit = () => {
-    if (reportIssue === "") {
+    if (reportIssue.trim() === "") {
       flashMessageWarning("Please specify your issue.");
       reportIssueRef?.current?.focus();
       return;

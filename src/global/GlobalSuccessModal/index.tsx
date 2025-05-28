@@ -41,7 +41,11 @@ const GlobalSuccessModal = (props: PropsType) => {
       transparent
       animationType="slide"
     >
-      <StatusBar backgroundColor={colors.black50} />
+       <StatusBar
+          translucent
+          backgroundColor={colors.black50}
+          barStyle={"dark-content"}
+        /> 
       <View style={{ flex: 1, backgroundColor: colors.black50 }}>
         <View style={{ flex: 1 }} />
         <View

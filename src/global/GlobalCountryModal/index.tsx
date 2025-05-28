@@ -36,13 +36,18 @@ const GlobalCountryModal = (props: PropsType) => {
       visible={props.visible}
       style={{ flex: 1 }}
     >
+    
       <View
         style={[
           styles.vwMain,
           { paddingTop: PlatformVersion.isIOS ? insets.top + 10 : 10 },
         ]}
       >
-        <StatusBar barStyle={"dark-content"} />
+         <StatusBar
+          translucent
+          backgroundColor={colors.black50}
+          barStyle={"dark-content"}
+        /> 
         {/* Back Button - Search Input */}
         <View style={styles.vwInner}>
           <GlobalBackButton onPress={props.onPressBack} />

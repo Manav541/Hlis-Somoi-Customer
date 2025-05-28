@@ -9,6 +9,14 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.orange1c,
   },
+  vwMainEmpty: {
+    flex: 1,
+    backgroundColor: colors.blue4e,
+    justifyContent:'center',
+    alignItems : 'center',
+    
+  },
+
   vwMainContent: {
     flex: 1,
     backgroundColor: colors.blue4e,
@@ -260,6 +268,11 @@ export const styles = StyleSheet.create({
     color : colors.whiteff
   },
   lblTotal :{
+    fontSize : fontSize.size20,
+    fontFamily : fontsfamily.bold,
+    color : colors.white
+  },
+  lblEmptyCart :{
     fontSize : fontSize.size20,
     fontFamily : fontsfamily.bold,
     color : colors.white

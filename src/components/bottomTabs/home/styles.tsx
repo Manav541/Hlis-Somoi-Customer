@@ -238,6 +238,9 @@ export const styles = StyleSheet.create({
     marginHorizontal: 10,
     width: 299,
     marginTop: 10,
+    height : 231,
+    borderRadius : 20,
+    overflow : 'hidden',
   },
 
   // Image Styles
@@ -261,7 +264,7 @@ export const styles = StyleSheet.create({
     overflow: "hidden",
   },
   imgBestSeller: {
-    height: 170,
+    height: 159,
     width: 299,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
@@ -272,7 +275,7 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     position: "absolute",
     right: 12.29,
-    top: 138.16,
+    bottom : 52.16
   },
   imgStar: {
     height: 24,

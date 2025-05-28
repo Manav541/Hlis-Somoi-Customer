@@ -4,6 +4,8 @@ import {
   TouchableOpacity,
   Image,
   StatusBar,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import SearchComponent from "../../components/search";
@@ -499,11 +501,15 @@ const SearchContainer = ({ navigation }: any) => {
   );
 
   return (
-    <SearchComponent
-      arrProducts={arrProducts}
-      filteredProducts={filteredProducts}
-      onPressProduct={onPressProduct}
-    />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={{ flex: 1 }}>
+        <SearchComponent
+          arrProducts={arrProducts}
+          filteredProducts={filteredProducts}
+          onPressProduct={onPressProduct}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 

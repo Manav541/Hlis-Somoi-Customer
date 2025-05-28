@@ -54,7 +54,7 @@ export interface BestProduct {
 
 // Category tab
 export interface ProductImage {
-  imgMain: ImageSourcePropType;
+  imgMain: FastImageSource;
 }
 
 export interface ProductHighlight {
@@ -71,7 +71,7 @@ export interface GroceryProduct {
   mainCategoryTitle: string;
   subCategoryTitle: string;
   product_imgMain: ProductImage[];
-  product_img: ImageSourcePropType;
+  product_img: FastImageSource;
   product_name: string;
   product_price: string;
   product_weight: string;
@@ -208,7 +208,7 @@ export interface OrderStatus {
 
 export interface OrderReviewProduct {
   product_name: string;
-  product_img: ImageSourcePropType;
+  product_img: FastImageSource;
   product_price: string;
   product_quantity: number;
   product_weight: string;
@@ -273,7 +273,7 @@ export interface CardDetails {
 
 // My Wishlist
 export interface WishlistItem {
-  product_img: ImageSourcePropType;
+  product_img: FastImageSource;
   product_name: string;
   product_price: string;
   product_weight: string;

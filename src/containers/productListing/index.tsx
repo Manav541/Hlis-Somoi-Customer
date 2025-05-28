@@ -6,7 +6,7 @@ import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
 import { useFocusEffect } from "@react-navigation/native";
-import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import { activityOpacity, flashMessageWarning, hitSlop } from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../constants/Colors";
 import { constnatStyles } from "../../constants/Styles";
@@ -224,9 +224,24 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     setRating(4);
     setRange([150, 300]);
     setIsCheckInstantDelivery(false);
+    setOpenCategory(false);
+    setOpenSubCategory(false);
   };
 
   const onPressApplyFilter = () => {
+    // Check if any filter is applied
+    const isAnyFilterApplied = 
+      categoryValue !== "" || 
+      rating !== 4 || 
+      range[0] !== 150 || 
+      range[1] !== 300 || 
+      isCheckInstantDelivery;
+
+    if (!isAnyFilterApplied) {
+      flashMessageWarning("Please apply at least one filter");
+      return;
+    }
+
     setIsFilterModalVisible(false);
   };
 

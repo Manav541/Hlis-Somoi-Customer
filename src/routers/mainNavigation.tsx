@@ -6,6 +6,9 @@ import { colors } from "../constants/Colors";
 import { fontSize } from "../constants/FontSizes";
 import { fontsfamily } from "../constants/FontFamily";
 import { createStackNavigator } from "@react-navigation/stack";
+import { enableScreens } from 'react-native-screens';
+ 
+enableScreens(); 
 
 interface PropsType {
   initialRoute: string;
@@ -35,7 +38,9 @@ const MainNavigation = (props: PropsType) => {
           },
           headerShadowVisible: false,
           gestureEnabled: gestureEnabled,
+          
         }}
+        
       />
     );
   };

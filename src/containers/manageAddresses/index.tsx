@@ -13,6 +13,7 @@ import { constnatStyles } from "../../constants/Styles";
 
 const ManageAddressesContainer = ({ navigation, route }: any) => {
   const navigateFromCart = route.params?.navigateFromCart;
+  const navigateFromHome = route.params?.navigateFromHome;
   const [arrManageAddress, setArrManageAddress] = useState<AddressItem[]>([
     {
       title: "1181 North Bend River Road Lexington, KY 40507",
@@ -55,11 +56,23 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
   };
 
   const handleOnPressEditAddress = (index: number) => {
-    navigation.navigate("Add Address", { isNavigateFromManageAddress: true, isEditAddress: true });
+    navigation.navigate("Add Address", {
+      isNavigateFromManageAddress: true,
+      isEditAddress: true,
+    });
   };
 
   const handleOnPressAddAddress = () => {
     navigation.navigate("Add Address", { isNavigateFromManageAddress: true });
+  };
+
+  const onPressAddress = () => {
+    if (navigateFromCart == false) {
+      
+    }
+    else {
+      navigation.goBack();
+    }
   };
 
   const header = () => {
@@ -100,6 +113,8 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
       handleOnPressAddAddress={handleOnPressAddAddress}
       handleOnPressEditAddress={handleOnPressEditAddress}
       navigateFromCart={navigateFromCart}
+      navigateFromHome = {navigateFromHome}
+      onPressAddress={onPressAddress}
     />
   );
 };

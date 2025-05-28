@@ -170,8 +170,16 @@ const SignupContainer = ({ navigation }: any) => {
     }
   };
 
+  const [isNavigating, setIsNavigating] = useState(false);
+
   const handleOnPressSignIn = () => {
+    if (isNavigating) return;
+    setIsNavigating(true);
     navigation.replace("Sign In");
+    // Reset the flag after a short delay
+    setTimeout(() => {
+      setIsNavigating(false);
+    }, 1000);
   };
 
   const handleOnPressGuest = () => {

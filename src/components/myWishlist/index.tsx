@@ -18,6 +18,7 @@ import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { WishlistItem } from "../../constants/interfaces";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrMyWhislist: WishlistItem[];
@@ -46,7 +47,7 @@ const MyWishlistComponent = (props: PropsType) => {
       >
         {/* Product Image and Favourite button */}
         <View style={styles.vwProductImgLike}>
-          <Image
+          <FastImage
             source={item?.product_img}
             style={{ height: item?.height, width: item?.width }}
           />
@@ -58,7 +59,7 @@ const MyWishlistComponent = (props: PropsType) => {
               props?.handleRemoveFromWishlist(index);
             }}
           >
-            <Image style={styles.imgRedHeart} source={images.redHeart} />
+            <Image style={styles.imgRedHeart} source={images.redHeart} resizeMode="stretch" />
           </TouchableOpacity>
         </View>
 
@@ -85,7 +86,7 @@ const MyWishlistComponent = (props: PropsType) => {
               <Text style={styles.lblProductPrice}>{rupeeSymbol+item?.product_price}</Text>
             </View>
             <View style={styles.vwRating}>
-              <Image style={styles.imgStar} source={images.star} />
+              <Image style={styles.imgStar} source={images.star} resizeMode="stretch"/>
               <Text style={styles.lblProductRating}>
                 {item?.product_rating}
               </Text>

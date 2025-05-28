@@ -18,6 +18,7 @@ import { colors } from "../../constants/Colors";
 import { ScrollView } from "react-native-gesture-handler";
 import GlobalTextInput from "../../global/GlobalTextInput";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   reportIssue: string;
@@ -40,7 +41,7 @@ const ReportIssueComponent = (props: PropsType) => {
   const renderUploadImageVideo = (item: any, index: number) => {
     return (
       <View style={styles.vwUploadImageVideosItem} key={index}>
-        <Image
+        <FastImage
           style={styles.imgUpload}
           source={{ uri: item?.uri }}
           resizeMode="stretch"

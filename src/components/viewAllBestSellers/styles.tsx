@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 12.5,
     paddingTop: 14,
     paddingBottom: 10,
+    height : 102
   },
   vwLocation: {
     marginTop: 5,
@@ -84,7 +85,7 @@ export const styles = StyleSheet.create({
 
   // TouchableOpacity Style
   btnAllBestSellersItem: {
-    height: 249,
+    height: 250,
     width: ScreenDimensions.screenWidth - 40,
     borderRadius: 20,
     overflow: "hidden",
@@ -137,7 +138,7 @@ export const styles = StyleSheet.create({
     width: 40.48,
     borderRadius: 100,
     position: "absolute",
-    bottom: 70,
+    bottom: 81.03,
     right: 13,
   },
 });

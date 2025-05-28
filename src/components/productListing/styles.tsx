@@ -72,8 +72,9 @@ export const styles = StyleSheet.create({
   },
   vwBestSellersItemDetails: {
     marginHorizontal: 12.5,
-    marginTop: 14,
+    paddingTop: 14,
     marginBottom: 10,
+    height :102,
   },
   vwLocation: {
     marginTop: 10,
@@ -244,7 +245,7 @@ export const styles = StyleSheet.create({
     overflow: "hidden",
   },
   btnAllBestSellersItem: {
-    height: 249,
+    height: 250,
     width: ScreenDimensions.screenWidth - 40,
     borderRadius: 20,
     overflow: "hidden",
@@ -308,8 +309,8 @@ export const styles = StyleSheet.create({
     width: 40.48,
     borderRadius: 100,
     position: "absolute",
-    bottom: 70,
-    right: 13,
+    bottom: 81.03,
+    right: 14.76,
   },
 
   // Filter Modal

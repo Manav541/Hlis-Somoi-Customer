@@ -53,13 +53,14 @@ const PaymentMethodComponent = (props: PropsType) => {
                 ? images.visaIcon1
                 : images.mastercardIcon1
             }
+            resizeMode="stretch"
           />
           <Text style={styles.lblCardNumber}>
             <Text style={{ letterSpacing: 4 }}>•••• ••••</Text>{" "}
             {item?.card_number?.slice(-4)}
           </Text>
         </View>
-        <View>
+        <View style={{ alignItems : 'flex-end'}}>
           <Image
             style={styles.imgCheckBox}
             source={
@@ -93,7 +94,7 @@ const PaymentMethodComponent = (props: PropsType) => {
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
         >
-          <Image style={styles.imgGpay} source={images.gPayLogo} />
+          <Image style={styles.imgGpay} source={images.gPayLogo} resizeMode="stretch" />
         </TouchableOpacity>
 
         {/* cash on delivery */}
@@ -104,7 +105,7 @@ const PaymentMethodComponent = (props: PropsType) => {
           onPress={props?.onPressCodSelect}
         >
           <View style={styles.vwCOD}>
-            <Image style={styles.imgCOD} source={images.codLogo} />
+            <Image style={styles.imgCOD} source={images.codLogo} resizeMode="stretch"/>
             <Text style={styles.lblCOD}>
               {getTranslation("cashonDelivery")}
             </Text>
@@ -116,6 +117,7 @@ const PaymentMethodComponent = (props: PropsType) => {
                 ? images.blueFillCheckbox
                 : images.emptyBlackCheckBox
             }
+            resizeMode="stretch"
           />
         </TouchableOpacity>
 
@@ -129,7 +131,7 @@ const PaymentMethodComponent = (props: PropsType) => {
           hitSlop={hitSlop}
           onPress={props?.onPressAddNewCard}
         >
-          <Image style={styles.imgAdd} source={images.add} />
+          <Image style={styles.imgAdd} source={images.add} resizeMode="stretch" />
           <Text style={styles.lblAddNewCard}>
             {getTranslation("addNewCard")}
           </Text>

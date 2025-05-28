@@ -39,6 +39,7 @@ const NotificationComponent = (props: PropsType) => {
         <Image
           source={images.notificationBell}
           style={styles.imgNotificationBell}
+          resizeMode="stretch"
         />
         <View style={styles.vwNotificationDetails}>
           <View style={styles.vwNotificationTitleTime}>

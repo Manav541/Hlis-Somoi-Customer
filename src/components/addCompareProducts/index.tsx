@@ -9,6 +9,7 @@ import { images } from "../../constants/Images";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { GroceryProduct } from "../../constants/interfaces";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrCompareProducts: GroceryProduct[];
@@ -25,20 +26,18 @@ const AddCompareProductsComponent = (props: PropsType) => {
     index: number;
   }) => {
     return (
-      <TouchableOpacity
+      <View
         style={[
           styles.vwMyWishlistItem,
           {
             width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
           },
         ]}
-        activeOpacity={activityOpacity}
-        hitSlop={hitSlop}
         key={index}
       >
         {/* Product Image and Favourite button */}
         <View style={styles.vwProductImgLike}>
-          <Image
+          <FastImage
             source={item?.product_img}
             style={{ height: item?.height, width: item?.width }}
           />
@@ -83,7 +82,7 @@ const AddCompareProductsComponent = (props: PropsType) => {
         >
           <Text style={styles.lblAddToCart}>{getTranslation("add")}</Text>
         </TouchableOpacity>
-      </TouchableOpacity>
+      </View>
     );
   };
   return (

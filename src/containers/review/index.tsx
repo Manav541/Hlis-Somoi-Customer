@@ -55,6 +55,10 @@ const ReviewContainer = ({ navigation }: any) => {
       type: 'video'
     },
   ]);
+
+  const onPressImageVideo =()=>{
+    flashMessageWarning(getTranslation('underDevelopment'))
+  }
   
   const onPressViewAll =()=>{
     flashMessageWarning(getTranslation("underDevelopment"));
@@ -90,6 +94,7 @@ const ReviewContainer = ({ navigation }: any) => {
       arrRateProgress={arrRateProgress}
       arrRevieews={arrRevieews}
       onPressViewAll={onPressViewAll}
+      onPressImageVideo={onPressImageVideo}
     />
   );
 };

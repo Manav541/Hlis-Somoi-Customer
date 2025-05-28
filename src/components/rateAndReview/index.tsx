@@ -20,9 +20,10 @@ import { TextInput } from "react-native-gesture-handler";
 import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import FastImage, { Source as FastImageSource } from 'react-native-fast-image';
 
 interface PropsType {
-  product_img: ImageSourcePropType;
+  product_img: FastImageSource;
   product_name: string;
   product_price: string;
   product_weight: string;
@@ -53,7 +54,7 @@ const RateAndReviewComponent = (props: PropsType) => {
   const renderUploadImageVideo = (item : any , index :number) => {
     return (
       <View style={styles.vwUploadImageVideosItem} key={index}>
-        <Image
+        <FastImage
           style={styles.imgUpload}
           source={{ uri: item?.uri }}
           resizeMode="stretch"
@@ -87,7 +88,7 @@ const RateAndReviewComponent = (props: PropsType) => {
         {/* Product Details */}
         <View style={styles.vwProductsItems}>
           <View style={styles.vwProductImage}>
-            <Image
+            <FastImage
               style={{ height: props?.height, width: props?.width }}
               source={props?.product_img}
             />
@@ -110,6 +111,7 @@ const RateAndReviewComponent = (props: PropsType) => {
                     style={styles.imgDot}
                     source={images.dotOrange}
                     tintColor={colors.blue4e}
+                    resizeMode="stretch"
                   />
                   <Text style={styles.lblProductWeight}>
                     {props?.product_weight}
@@ -153,6 +155,7 @@ const RateAndReviewComponent = (props: PropsType) => {
                     ? colors.orange1c
                     : colors.greyda
                 }
+                resizeMode="stretch"
               />
             </TouchableOpacity>
           ))}

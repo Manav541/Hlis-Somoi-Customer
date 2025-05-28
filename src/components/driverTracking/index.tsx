@@ -14,6 +14,7 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   driverProfile: string;
@@ -41,9 +42,10 @@ const DriverTrackingComponent = (props: PropsType) => {
       >
         <Text style={styles.lblDriverInfo}>{getTranslation("driverInfo")}</Text>
         <View style={styles.vwDriverInfo}>
-          <Image
+          <FastImage
             style={styles.imgDriverProfile}
             source={images.driverProfile}
+            resizeMode="stretch"
           />
           <Text style={styles.lblDriverName}>{props?.driverName}</Text>
           <TouchableOpacity
@@ -51,7 +53,7 @@ const DriverTrackingComponent = (props: PropsType) => {
             hitSlop={hitSlop}
             onPress={props?.onPressChat}
           >
-            <Image style={styles.imgChat} source={images.chatIcon} />
+            <Image style={styles.imgChat} source={images.chatIcon} resizeMode="stretch" />
           </TouchableOpacity>
         </View>
         <Text style={styles.lblDriverInfo}>

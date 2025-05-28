@@ -14,6 +14,7 @@ import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { GroceryProduct } from "../../constants/interfaces";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrCompareProducts: GroceryProduct[];
@@ -35,7 +36,7 @@ const CompareProductComponent = (props: PropsType) => {
         hitSlop={hitSlop}
         key={index}
       >
-        <Image style={styles.imgProduct} source={item?.product_img} />
+        <FastImage style={styles.imgProduct} source={item?.product_img} />
         <View style={{ marginRight: 18, flex: 1 }}>
           <Text style={styles.lblProductName}>{item?.product_name}</Text>
           <View style={styles.vwProductRate}>

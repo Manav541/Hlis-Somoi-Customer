@@ -627,7 +627,7 @@ const HomeContainer = ({ navigation }: any) => {
   };
 
   const onPressLocation = () => {
-    navigation.navigate(ScreenNames.manageAddress);
+    navigation.navigate(ScreenNames.manageAddress,{ navigateFromHome: true });
   };
 
   const onPressGroceriesFood = (type: string) => {

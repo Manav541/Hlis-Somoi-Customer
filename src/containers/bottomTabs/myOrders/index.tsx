@@ -261,6 +261,8 @@ const MyOrdersContainer = ({ navigation }: any) => {
 
   const closeFilterModal=()=>{
     setFilterModal(false)
+    setSelectOrderType('');
+    setSelectOrderDate('');
   }
 
   const handleSelectOrderType=(type:string)=>{

@@ -8,6 +8,7 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
 import GlobalButton from "../../global/GlobalButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrProducts: OrderReviewProduct[];
@@ -32,7 +33,7 @@ const ReturnExchangeItemListComponent = (props: PropsType) => {
       onPress={() => props?.onPressItem(item, index)}
     >
       <View style={styles.vwProductImage}>
-        <Image
+        <FastImage
           source={item?.product_img}
           style={{ height: item?.height, width: item?.width }}
         />
@@ -53,6 +54,7 @@ const ReturnExchangeItemListComponent = (props: PropsType) => {
             style={styles.imgDotBlue}
             source={images.dotOrange}
             tintColor={colors.blue4e}
+            resizeMode="stretch"
           />
           <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
         </View>
@@ -64,6 +66,7 @@ const ReturnExchangeItemListComponent = (props: PropsType) => {
       <Image
         style={styles.imgCheckBox}
         source={item?.isSelected ? images.checkfill : images.checkempty}
+        resizeMode="stretch"
       />
     </TouchableOpacity>
   );

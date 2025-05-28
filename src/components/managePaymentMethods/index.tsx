@@ -36,6 +36,7 @@ const ManagePaymentMethodsComponent = (props: PropsType) => {
                   ? images.visaIcon
                   : images.mastercardIcon
               }
+              resizeMode="stretch"
             />
           </View>
           <Text style={styles.lblCardNumber}>
@@ -50,7 +51,7 @@ const ManagePaymentMethodsComponent = (props: PropsType) => {
             props?.handleDelete(index);
           }}
         >
-          <Image style={styles.imgDeleteCard} source={images.deleteWhiteBg} />
+          <Image style={styles.imgDeleteCard} source={images.deleteWhiteBg} resizeMode="stretch" />
         </TouchableOpacity>
       </View>
     );
@@ -68,7 +69,7 @@ const ManagePaymentMethodsComponent = (props: PropsType) => {
         hitSlop={hitSlop}
         onPress={props?.handleOnPressAddCard}
       >
-        <Image style={styles.imgAdd} source={images.add} />
+        <Image style={styles.imgAdd} source={images.add} resizeMode="stretch" />
         <Text style={styles.lblAddNewCard}>{getTranslation("addNewCard")}</Text>
       </TouchableOpacity>
       <FlatList

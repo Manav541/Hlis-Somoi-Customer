@@ -20,6 +20,8 @@ interface PropsType {
   handleOnPressAddAddress: () => void;
   handleOnPressEditAddress: (index: number) => void;
   navigateFromCart: boolean;
+  navigateFromHome:boolean;
+  onPressAddress: () => void;
 }
 
 const ManageAddressesComponent = (props: PropsType) => {
@@ -31,7 +33,13 @@ const ManageAddressesComponent = (props: PropsType) => {
     index: number;
   }) => {
     return (
-      <View style={styles.vwManageAddress}>
+      <TouchableOpacity
+        style={styles.vwManageAddress}
+        activeOpacity={activityOpacity}
+        hitSlop={hitSlop}
+        onPress={() => props.onPressAddress()}
+        disabled={!props.navigateFromCart && !props.navigateFromHome}
+      >
         <Text style={styles.lblAddressTitle}>{item.title}</Text>
 
         <View style={styles.vwDefaultEditDelete}>
@@ -53,7 +61,7 @@ const ManageAddressesComponent = (props: PropsType) => {
           </View>
 
           {/* Separator */}
-          <View style={styles.vwLine} />
+          {!props.navigateFromCart && <View style={styles.vwLine} />}
 
           {/* Edit/Delete Buttons */}
           {!props.navigateFromCart && (
@@ -79,7 +87,7 @@ const ManageAddressesComponent = (props: PropsType) => {
             </View>
           )}
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
