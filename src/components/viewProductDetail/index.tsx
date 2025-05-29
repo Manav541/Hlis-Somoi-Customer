@@ -14,7 +14,11 @@ import { styles } from "./styles";
 import { colors } from "../../constants/Colors";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { images } from "../../constants/Images";
-import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
+import {
+  activityOpacity,
+  hitSlop,
+  rupeeSymbol,
+} from "../../constants/GConstant";
 import { fontSize } from "../../constants/FontSizes";
 import GlobalButton from "../../global/GlobalButton";
 import {
@@ -59,6 +63,7 @@ interface PropsType {
   onPressBuyNow: (type: "add" | "remove") => void;
   onPressSize: (selectedSize: string) => void;
   onPressColor: (selectedColor: string) => void;
+  onPressImageVideo: () => void;
   onPressViewAll: () => void;
   onPressFavourite: () => void;
   poduct_isFavourite: boolean;
@@ -147,10 +152,12 @@ const ViewProductDetailComponent = (props: PropsType) => {
             marginLeft: 9,
           }}
         >
-          {rupeeSymbol+item?.product_final_price}
+          {rupeeSymbol + item?.product_final_price}
         </Text>
         <View style={styles.vwPriceWeight}>
-          <Text style={styles.lblProductPrice}>{rupeeSymbol+item?.product_price}</Text>
+          <Text style={styles.lblProductPrice}>
+            {rupeeSymbol + item?.product_price}
+          </Text>
           <Text style={styles.lblProductWeight1}>{item?.product_weight}</Text>
         </View>
       </TouchableOpacity>
@@ -217,7 +224,12 @@ const ViewProductDetailComponent = (props: PropsType) => {
         </View>
         <Text style={styles.lblReviewDesc}>{item?.review_description}</Text>
         <View style={styles.vwImgeVideo}>
-          <View style={styles.vwReviewImage}>
+          <TouchableOpacity
+            style={styles.vwReviewImage}
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={props?.onPressImageVideo}
+          >
             <Image
               style={
                 props?.mainCategoryTitle === "Groceries"
@@ -230,11 +242,16 @@ const ViewProductDetailComponent = (props: PropsType) => {
                   : images.fashionMainImg
               }
             />
-          </View>
+          </TouchableOpacity>
           {item?.type === "video" && (
-            <View style={styles.vwReviewVideo}>
+            <TouchableOpacity
+              style={styles.vwReviewVideo}
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={props?.onPressImageVideo}
+            >
               <Image style={styles.imgVideo} source={images.videocircle} />
-            </View>
+            </TouchableOpacity>
           )}
         </View>
         {index !== props?.arrRevieews.length - 1 && (
@@ -286,7 +303,11 @@ const ViewProductDetailComponent = (props: PropsType) => {
         key={index}
       >
         {item?.isSelected && (
-          <Image style={styles.imgSelectedDot} source={images.selectedDot} resizeMode="stretch"/>
+          <Image
+            style={styles.imgSelectedDot}
+            source={images.selectedDot}
+            resizeMode="stretch"
+          />
         )}
       </TouchableOpacity>
     );
@@ -393,9 +414,11 @@ const ViewProductDetailComponent = (props: PropsType) => {
         {/* Product Price */}
         <View style={styles.vwProductPrice}>
           <Text style={styles.lblProdcuctFinalPrice}>
-            {rupeeSymbol+props?.product_final_price}
+            {rupeeSymbol + props?.product_final_price}
           </Text>
-          <Text style={styles.lblProductPrice}>{rupeeSymbol+props?.product_price}</Text>
+          <Text style={styles.lblProductPrice}>
+            {rupeeSymbol + props?.product_price}
+          </Text>
         </View>
 
         {/* Prodcut distance time */}
@@ -512,7 +535,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
               <Image style={styles.imgMainStar} source={images.star} />
             </View>
             <Text style={styles.lblReviewsCount}>
-              {props?.totalReviews}  {getTranslation("reviews1")}
+              {props?.totalReviews} {getTranslation("reviews1")}
             </Text>
           </View>
           <View style={styles.vwVerticalLine} />

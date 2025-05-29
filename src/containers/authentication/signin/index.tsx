@@ -166,15 +166,20 @@ const SignInContainer = ({navigation}: any) => {
     navigation.navigate('Forgot Password');
   };
 
-  const handleOnPressGuest =()=>{
-    MmkvManager.setData(MmkvManager.Keys.isGuestUser, 'true');
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 1,
-          routes: [{name: ScreenNames.bottomTabsNavigation}],
-        }),
-      );
-  }
+  const handleOnPressGuest = () => {
+    if (isNavigating) return;
+    setIsNavigating(true);
+    MmkvManager.setData(MmkvManager.Keys.isGuestUser, "true");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: ScreenNames.bottomTabsNavigation }],
+      })
+    );
+    setTimeout(() => {
+      setIsNavigating(false);
+    }, 1000);
+  };
 
   useEffect(() => {
     navigation.setOptions({

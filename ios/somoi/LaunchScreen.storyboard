@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,15 +19,16 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="nZp-qm-tx0">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" red="0.085828371350000002" green="0.34658965470000003" blue="0.64469033480000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="nZp-qm-tx0" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" id="IN4-Bf-Tym"/>
-                            <constraint firstItem="nZp-qm-tx0" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="Khp-K7-eKC"/>
-                            <constraint firstAttribute="bottom" secondItem="nZp-qm-tx0" secondAttribute="bottom" id="OAL-j6-hDp"/>
-                            <constraint firstItem="nZp-qm-tx0" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="PZt-jx-YIo"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="nZp-qm-tx0" secondAttribute="trailing" id="KR4-TM-xmO"/>
+                            <constraint firstItem="nZp-qm-tx0" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="eZX-0L-64R"/>
+                            <constraint firstAttribute="bottom" secondItem="nZp-qm-tx0" secondAttribute="bottom" id="lsT-qo-TdE"/>
+                            <constraint firstItem="nZp-qm-tx0" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="s9l-g6-duh"/>
                         </constraints>
                     </view>
                 </viewController>

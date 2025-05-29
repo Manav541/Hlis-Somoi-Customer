@@ -71,10 +71,11 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
   },
   vwBestSellersItemDetails: {
-    marginHorizontal: 12.5,
+    paddingHorizontal: 12.5,
     paddingTop: 14,
     marginBottom: 10,
     height :102,
+    backgroundColor: colors.white,
   },
   vwLocation: {
     marginTop: 10,
@@ -249,7 +250,7 @@ export const styles = StyleSheet.create({
     width: ScreenDimensions.screenWidth - 40,
     borderRadius: 20,
     overflow: "hidden",
-    backgroundColor: colors.white,
+    // backgroundColor: colors.white,
   },
   btnFavourite: {
     height: 24,
@@ -291,6 +292,9 @@ export const styles = StyleSheet.create({
   imgBestSellers: {
     height: 148,
     width: ScreenDimensions.screenWidth - 40,
+    borderTopLeftRadius : 20,
+    borderTopRightRadius : 20,
+    overflow: "hidden",
   },
   imgLocation: {
     height: 22,

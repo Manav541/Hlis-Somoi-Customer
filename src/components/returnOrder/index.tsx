@@ -21,6 +21,7 @@ import { Asset } from "react-native-image-picker";
 import { CancelOrderReason } from "../../constants/interfaces";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FastImage from "react-native-fast-image";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 interface PropsType {
   arrReturnOrderReason: CancelOrderReason[];
@@ -102,10 +103,12 @@ const ReturnOrderComponent = (props: PropsType) => {
         backgroundColor={"transparent"}
         barStyle={"dark-content"}
       />
-      <ScrollView
-        style={{ flexGrow: 1 }}
-        bounces={false}
+      <KeyboardAwareScrollView
+        style={{ flex: 1 }}
+        enableOnAndroid
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+        bounces={false}
       >
         <Text style={styles.lblReturnOrderDesc}>
           {getTranslation("ReturnOrderHeader")}
@@ -215,7 +218,7 @@ const ReturnOrderComponent = (props: PropsType) => {
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <View
         style={{
           marginHorizontal: 20,

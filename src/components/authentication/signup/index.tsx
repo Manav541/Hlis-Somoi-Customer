@@ -285,15 +285,7 @@ const SignupComponent = (props: PropsType) => {
           </View>
         </KeyboardAwareScrollView>
       </View>
-      {/* Country Modal */}
-      <GlobalCountryModal
-        countryArray={props.countryArray}
-        onPressBack={props.handleOnPressBackCountryModal}
-        onPressData={props.handleOnSelectCountry}
-        onChangeText={props.handleOnChangeSearchCountry}
-        searchVal={props.searchCountry}
-        visible={props.countryModal}
-      />
+     
     </View>
   );
 };

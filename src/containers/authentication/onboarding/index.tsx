@@ -35,6 +35,7 @@ const OnboardingContainer = ({navigation}: any) => {
       desc: getTranslation('onboardingDesc3'),
     },
   ];
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const onboardingRef = useRef<FlatList>(null);
@@ -49,8 +50,13 @@ const OnboardingContainer = ({navigation}: any) => {
   };
 
   const handleOnPressGetStarted = () => {
+    if (isNavigating) return;
+    setIsNavigating(true);
     MmkvManager.setData(MmkvManager.Keys.isOnBoardingVisisted, 'true');
     navigation.replace('Sign Up');
+    setTimeout(() => {
+      setIsNavigating(false);
+    }, 1000);
   };
 
   //handleOnPressGo

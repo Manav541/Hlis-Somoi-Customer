@@ -319,11 +319,6 @@ const OrderSummaryComponent = (props: PropsType) => {
                       {getTranslation("refundDesc")}
                     </Text>
                   </View>
-                  <Image
-                    style={styles.imgRightArrowGrey}
-                    source={images.rightArrowGrey}
-                    resizeMode="stretch"
-                  />
                 </View>
               )}
             </View>
@@ -523,12 +518,6 @@ const OrderSummaryComponent = (props: PropsType) => {
                       </View>
                     )}
                   </View>
-
-                  <Image
-                    style={styles.imgRightArrowGrey}
-                    source={images.rightArrowGrey}
-                    resizeMode="stretch"
-                  />
                 </View>
               </View>
             )}

@@ -474,7 +474,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = AMSNWNQ47N;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Z64U2KCWCG;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = somoi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -488,10 +488,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Hyperlink.Development;
+				PRODUCT_BUNDLE_IDENTIFIER = com.phototovideoai.app;
 				PRODUCT_NAME = somoi;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Hyperlink_X11_Development;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PhotoToVideoAI Development";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -512,7 +512,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = AMSNWNQ47N;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Z64U2KCWCG;
 				INFOPLIST_FILE = somoi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -525,10 +525,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Hyperlink.Development;
+				PRODUCT_BUNDLE_IDENTIFIER = com.phototovideoai.app;
 				PRODUCT_NAME = somoi;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Hyperlink_X11_Development;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PhotoToVideoAI Development";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

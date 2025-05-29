@@ -14,33 +14,43 @@ const App = () => {
   const [initialRoute, setInitialRoute] = useState<string | null>(null);
 
   useEffect(() => {
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 1500);
-  }, []);
+    if (initialRoute !== null) {
+      const timeout = setTimeout(() => {
+        SplashScreen.hide();
+      }, 5000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [initialRoute]);
 
   // For Navigation
   useEffect(() => {
-    MmkvManager.getData(MmkvManager.Keys.isOnBoardingVisisted, isOnBoardingVisited => {
-      if (isOnBoardingVisited) {
-        MmkvManager.getData(MmkvManager.Keys.isLoggedIn, isLoggedIn => {
-          if (isLoggedIn) {
-            setInitialRoute(ScreenNames.bottomTabsNavigation);
-          } else {
-            MmkvManager.getData(MmkvManager.Keys.isGuestUser, isGuestUser => {
-              if (isGuestUser) {
-                setInitialRoute(ScreenNames.bottomTabsNavigation);
-              } else {
-                setInitialRoute(ScreenNames.signup); 
-              }
-            });
-          }
-        });
-      } else {
-        setInitialRoute(ScreenNames.onboarding);
+    MmkvManager.getData(
+      MmkvManager.Keys.isOnBoardingVisisted,
+      (isOnBoardingVisited) => {
+        if (isOnBoardingVisited) {
+          MmkvManager.getData(MmkvManager.Keys.isLoggedIn, (isLoggedIn) => {
+            if (isLoggedIn) {
+              setInitialRoute(ScreenNames.bottomTabsNavigation);
+            } else {
+              MmkvManager.getData(
+                MmkvManager.Keys.isGuestUser,
+                (isGuestUser) => {
+                  if (isGuestUser) {
+                    setInitialRoute(ScreenNames.bottomTabsNavigation);
+                  } else {
+                    setInitialRoute(ScreenNames.signup);
+                  }
+                }
+              );
+            }
+          });
+        } else {
+          setInitialRoute(ScreenNames.onboarding);
+        }
       }
-    });
-  });
+    );
+  }, []);
 
   if (initialRoute === null) {
     return (
@@ -72,8 +82,8 @@ const styles = StyleSheet.create({
   },
   vwActivityIndicator: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

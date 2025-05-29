@@ -249,6 +249,9 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       );
     }
   };
+  const onPressImageVideo =()=>{
+    flashMessageWarning(getTranslation('underDevelopment'))
+  }
   const onPressViewAll = () => {
     flashMessageWarning(getTranslation("underDevelopment"));
   };
@@ -370,6 +373,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       onPressBuyNow={onPressBuyNow}
       onPressSize={onPressSize}
       onPressColor={onPressColor}
+      onPressImageVideo={onPressImageVideo}
       onPressViewAll={onPressViewAll}
       onPressFavourite={onPressFavourite}
       poduct_isFavourite={poduct_isFavourite}

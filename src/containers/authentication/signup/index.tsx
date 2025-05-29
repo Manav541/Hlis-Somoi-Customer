@@ -183,6 +183,8 @@ const SignupContainer = ({ navigation }: any) => {
   };
 
   const handleOnPressGuest = () => {
+    if (isNavigating) return;
+    setIsNavigating(true);
     MmkvManager.setData(MmkvManager.Keys.isGuestUser, "true");
     navigation.dispatch(
       CommonActions.reset({
@@ -190,6 +192,9 @@ const SignupContainer = ({ navigation }: any) => {
         routes: [{ name: ScreenNames.bottomTabsNavigation }],
       })
     );
+    setTimeout(() => {
+      setIsNavigating(false);
+    }, 1000);
   };
 
   const onPressCMS = (page: string) => {

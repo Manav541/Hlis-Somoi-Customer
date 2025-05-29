@@ -7,6 +7,7 @@ import { ScreenNames } from "../../../routers";
 import GlobalBackButton from "../../../global/GlobalBackButton";
 import { FilterDate, FilterOrderType, Order } from "../../../constants/interfaces";
 import { constnatStyles } from "../../../constants/Styles";
+import { flashMessageWarning } from "../../../constants/GConstant";
 
 const MyOrdersContainer = ({ navigation }: any) => {
   const [filterModal, setFilterModal] = useState(false);
@@ -261,8 +262,6 @@ const MyOrdersContainer = ({ navigation }: any) => {
 
   const closeFilterModal=()=>{
     setFilterModal(false)
-    setSelectOrderType('');
-    setSelectOrderDate('');
   }
 
   const handleSelectOrderType=(type:string)=>{
@@ -284,8 +283,14 @@ const MyOrdersContainer = ({ navigation }: any) => {
   } 
 
   const onPressApply = () => {
+    if (!selectOrderType && !selectOrderDate) {
+      flashMessageWarning("Please select at least one filter.");
+      return;
+    }
+  
     setFilterModal(false);
-  }
+    // Apply filtering logic here if needed
+  };
 
   const onPressReset = () => {
     // setFilterModal(false);

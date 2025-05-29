@@ -30,10 +30,8 @@ const CompareProductComponent = (props: PropsType) => {
     index: number;
   }) => {
     return (
-      <TouchableOpacity
+      <View
         style={styles.btnCompareProducts}
-        activeOpacity={activityOpacity}
-        hitSlop={hitSlop}
         key={index}
       >
         <FastImage style={styles.imgProduct} source={item?.product_img} />
@@ -53,7 +51,7 @@ const CompareProductComponent = (props: PropsType) => {
             {item?.product_desc}
           </Text>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   };
   return (

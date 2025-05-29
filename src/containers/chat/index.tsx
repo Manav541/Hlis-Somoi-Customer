@@ -17,6 +17,7 @@ import { constnatStyles } from "../../constants/Styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 
 const ChatConatiner = ({ navigation, route }: any) => {
+  const driverMobileNumber = route?.params?.driverMobileNumber;
   const [messagesList, setMessagesList] = useState<ChatMessage[]>([
     {
       text: "",
@@ -143,7 +144,10 @@ const ChatConatiner = ({ navigation, route }: any) => {
   };
 
   const handleOnPressEmoji = () => {
-    flashMessageWarning(getTranslation('underDevelopment'))
+    flashMessageWarning(getTranslation("underDevelopment"));
+  };
+  const onPressCallDriver = () => {
+    Linking.openURL(`tel:${driverMobileNumber}`);
   };
 
   const header = () => {
@@ -162,9 +166,7 @@ const ChatConatiner = ({ navigation, route }: any) => {
       ),
       headerRight: () => (
         <GlobalBackButton
-          onPress={() => {
-            Linking.openURL(`tel:₹{route?.params?.driverMobileNumber}`);
-          }}
+          onPress={onPressCallDriver}
           isRight
           rightImage={images.call}
         />

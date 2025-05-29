@@ -1,11 +1,11 @@
 import {
   View,
   Text,
-  ScrollView,
   TouchableOpacity,
   Image,
   TextInput,
   StatusBar,
+  Platform,
 } from "react-native";
 import React, { Ref } from "react";
 import { styles } from "./styles";
@@ -17,6 +17,7 @@ import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
 import { CancelOrderReason } from "../../constants/interfaces";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 interface PropsType {
   arrCancelOrderReason: CancelOrderReason[];
@@ -37,6 +38,7 @@ interface PropsType {
 
 const CancelOrderComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
+
   const renderItemCancelOrderReason = (
     item: CancelOrderReason,
     index: number
@@ -62,6 +64,7 @@ const CancelOrderComponent = (props: PropsType) => {
       </View>
     );
   };
+
   return (
     <View style={styles.vwMain}>
       <StatusBar
@@ -69,10 +72,13 @@ const CancelOrderComponent = (props: PropsType) => {
         backgroundColor={"transparent"}
         barStyle={"dark-content"}
       />
-      <ScrollView
-        style={{ flexGrow: 1 }}
-        bounces={false}
+
+      <KeyboardAwareScrollView
+        style={{ flex: 1 }}
+        enableOnAndroid
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+        bounces={false}
       >
         <Text style={styles.lblCancelOrderDesc}>
           {getTranslation("cancelOrderHeader")}
@@ -80,9 +86,11 @@ const CancelOrderComponent = (props: PropsType) => {
         <Text style={styles.lblCancelOrderDesc}>
           {getTranslation("selectCancelOrderReason")}
         </Text>
+
         <View style={styles.vwCancelOrder}>
           {props?.arrCancelOrderReason.map(renderItemCancelOrderReason)}
         </View>
+
         {props?.selectedReason === "Other (please specify)" && (
           <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
             <GlobalTextInput
@@ -105,7 +113,8 @@ const CancelOrderComponent = (props: PropsType) => {
             />
           </View>
         )}
-      </ScrollView>
+      </KeyboardAwareScrollView>
+
       <View
         style={{
           marginHorizontal: 20,
@@ -118,6 +127,7 @@ const CancelOrderComponent = (props: PropsType) => {
           onPress={props?.onPressSubmit}
         />
       </View>
+
       {/* Cancel Modal */}
       <GlobalSuccessModal
         visible={props?.isCancelSuccessModalVisible}
