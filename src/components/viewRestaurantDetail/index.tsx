@@ -52,6 +52,7 @@ interface PropsType {
   onPressShare: () => void;
   onPressReview: () => void;
   onPressCartIcon: () => void;
+  
 }
 
 const ViewRestaurantDetailComponent = (props: PropsType) => {

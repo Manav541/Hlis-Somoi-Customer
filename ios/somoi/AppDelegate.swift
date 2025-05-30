@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication
       .LaunchOptionsKey: Any]? = nil
   ) -> Bool {
-    Thread.sleep(forTimeInterval: 5.0)
+    Thread.sleep(forTimeInterval: 2.0)
     let delegate = ReactNativeDelegate()
     let factory = RCTReactNativeFactory(delegate: delegate)
     delegate.dependencyProvider = RCTAppDependencyProvider()
@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     reactNativeFactory = factory
  
     window = UIWindow(frame: UIScreen.main.bounds)
- 
+     
     // Start React Native with splash screen delay
     factory.startReactNative(
       withModuleName: "somoi",

@@ -118,9 +118,11 @@ const SignInContainer = ({navigation}: any) => {
         flashMessageWarning(getTranslation('invalidEmail'));
       } else if (password.trim() == '') {
         flashMessageWarning(getTranslation('emptyPassword'));
-      } else if (!regex.password.test(password)) {
-        flashMessageWarning(getTranslation('invalidPassword'));
-      } else {
+      } 
+      // else if (!regex.password.test(password)) {
+      //   flashMessageWarning(getTranslation('invalidPassword'));
+      // } 
+      else {
         setEmail('');
         setPassword('');
         MmkvManager.setData(MmkvManager.Keys.isLoggedIn, 'true');

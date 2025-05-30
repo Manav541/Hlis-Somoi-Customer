@@ -195,7 +195,7 @@ export default {
 
   // Success
   success: "Success!",
-  yourOrderisPlaced: "Your Order is Placed",
+  yourOrderisPlaced: "Your Order Is Placed",
   orderSuccessMSG:
     "Your order has been successfully placed. We'll notify you when it's on the way.",
   order: "Order",
@@ -248,7 +248,7 @@ export default {
 
   // Rate & Review
   rateReviewTitle: "Share your experience with the product",
-  feedBackTitle: "Thank You for Feedback",
+  feedBackTitle: "Thank You For Feedback",
   feedBackDesc: "Your review has been submitted.",
   yourReview: "Your Review",
   edit: "Edit",

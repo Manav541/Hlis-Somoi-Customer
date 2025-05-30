@@ -9,7 +9,7 @@ import {
   Alert,
   Share,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
@@ -197,6 +197,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const totalRate = 4.5;
   const totalReviews = "1.5k";
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const scrollPosition = event.nativeEvent.contentOffset.x;
@@ -272,28 +273,36 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     setArrFashionColor(updatedColor);
   };
 
-  const onPressCartIcon = () => {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [
-          {
-            name: ScreenNames.bottomTabsNavigation,
-            state: {
-              routes: [{ name: ScreenNames.cart }],
-              index: 0,
+  const onPressCartIcon = useCallback(() => {
+    if (isNavigating) return;
+
+    setIsNavigating(true);
+
+    requestAnimationFrame(() => {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: ScreenNames.bottomTabsNavigation,
+              state: {
+                index: 0,
+                routes: [{ name: ScreenNames.cart }],
+              },
             },
-          },
-        ],
-      })
-    );
-  };
+          ],
+        })
+      );
+    });
+
+    setTimeout(() => setIsNavigating(false), 1000); // unlock after 1 sec
+  }, [isNavigating, navigation]);
 
   const onPressReview = () => {
     navigation.navigate(ScreenNames.review);
   };
 
-  const header = () => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       title: "",
       headerTransparent: true,
@@ -312,26 +321,32 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
             hitSlop={hitSlop}
             onPress={onPressShare}
           >
-            <Image style={styles.imgButton} source={images.shareIcon} />
+            <Image
+              style={styles.imgButton}
+              source={images.shareIcon}
+              tintColor={colors.blue4e}
+            />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
             onPress={onPressCartIcon}
+            disabled={isNavigating}
           >
-            <Image style={styles.imgButton} source={images.cartBagIcon} />
+            <Image
+              style={styles.imgButton}
+              source={images.cartBagIcon}
+              tintColor={colors.blue4e}
+            />
             <View style={styles.vwBedge}>
               <Text style={styles.lblBedge}>2</Text>
             </View>
+
           </TouchableOpacity>
         </View>
       ),
     });
-  };
-
-  useEffect(() => {
-    header();
-  }, []);
+  }, [isNavigating, onPressCartIcon]);
 
   useFocusEffect(
     React.useCallback(() => {

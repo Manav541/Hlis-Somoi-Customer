@@ -12,7 +12,9 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
   // Sample product data for reuse
   const SAMPLE_PRODUCT_DESC =
     "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.";
-  const [arrCompareProducts, setArrCompareProducts] = useState<GroceryProduct[]>([
+  const [arrCompareProducts, setArrCompareProducts] = useState<
+    GroceryProduct[]
+  >([
     {
       mainCategoryTitle: "Groceries",
       subCategoryTitle: "Rice",
@@ -38,8 +40,7 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
       product_quantity: 1,
       product_deliverytime: "10 Min",
       product_distance: "5 km",
-      product_desc:
-        SAMPLE_PRODUCT_DESC,
+      product_desc: SAMPLE_PRODUCT_DESC,
       product_highlight: [
         {
           highlightTitle: "Grain Size",
@@ -104,8 +105,7 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
       product_quantity: 0,
       product_deliverytime: "10 Min",
       product_distance: "5 km",
-      product_desc:
-      SAMPLE_PRODUCT_DESC,
+      product_desc: SAMPLE_PRODUCT_DESC,
       product_highlight: [
         {
           highlightTitle: "Grain Size",
@@ -145,7 +145,8 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
       ],
       height: 88,
       width: 88,
-    }, {
+    },
+    {
       mainCategoryTitle: "Groceries",
       subCategoryTitle: "Rice",
       product_imgMain: [
@@ -169,8 +170,7 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
       product_quantity: 0,
       product_deliverytime: "10 Min",
       product_distance: "5 km",
-      product_desc:
-      SAMPLE_PRODUCT_DESC,
+      product_desc: SAMPLE_PRODUCT_DESC,
       product_highlight: [
         {
           highlightTitle: "Grain Size",
@@ -211,16 +211,28 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
       height: 88,
       width: 62,
     },
-   
   ]);
 
+  const [isAddPressed, setIsAddPressed] = useState(false);
+
   const onPressAdd = (item: GroceryProduct) => {
+    if (isAddPressed) return; // prevent double-tap
+    setIsAddPressed(true); // lock further presses
+
     const onSelectProduct = route.params?.onSelectProduct;
     if (onSelectProduct) {
       onSelectProduct(item);
     }
+
     navigation.goBack();
   };
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     setIsAddPressed(false); // unlock when screen refocuses
+  //     return () => {};
+  //   }, [])
+  // );
 
   const header = () => {
     navigation.setOptions({
@@ -243,7 +255,7 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
       return () => {};
     }, [navigation])
   );
-  
+
   return (
     <AddCompareProductsComponent
       arrCompareProducts={arrCompareProducts}

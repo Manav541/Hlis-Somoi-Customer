@@ -17,14 +17,16 @@ import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
-import { WishlistItem } from "../../constants/interfaces";
+import { GroceryProduct } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 
 interface PropsType {
-  arrMyWhislist: WishlistItem[];
+  arrMyWhislist: GroceryProduct[];
   search: string;
   onChangeSearch: (text: string) => void;
   handleRemoveFromWishlist: (indexToRemove: number) => void;
+  handleQuantityChange: (index: number, action: "add" | "remove") => void;
+  onPressProduct: (item: any) => void;
 }
 
 const MyWishlistComponent = (props: PropsType) => {
@@ -33,17 +35,20 @@ const MyWishlistComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: WishlistItem;
+    item: GroceryProduct;
     index: number;
   }) => {
     return (
-      <View
+      <TouchableOpacity
+        activeOpacity={activityOpacity}
+        hitSlop={hitSlop}
         style={[
           styles.vwMyWishlistItem,
           {
             width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
           },
         ]}
+        onPress={() => props?.onPressProduct(item)}
       >
         {/* Product Image and Favourite button */}
         <View style={styles.vwProductImgLike}>
@@ -94,13 +99,38 @@ const MyWishlistComponent = (props: PropsType) => {
           </View>
         </View>
         {/* Add to cart */}
-        <TouchableOpacity
-          style={styles.btnAddToCart}
-          activeOpacity={activityOpacity}
-        >
-          <Text style={styles.lblAddToCart}>{getTranslation("addToCart")}</Text>
-        </TouchableOpacity>
-      </View>
+        {item.product_quantity === 0 ? (
+          <TouchableOpacity
+            style={styles.btnAddToCart}
+            activeOpacity={activityOpacity}
+            onPress={() => props.handleQuantityChange(index, "add")}
+          >
+            <Text style={styles.lblAddToCart}>
+              {getTranslation("addToCart")}
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.vwCounterContainer}>
+            <TouchableOpacity
+              onPress={() => props.handleQuantityChange(index, "remove")}
+              hitSlop={hitSlop}
+              activeOpacity={activityOpacity}
+            >
+              <Image style={styles.imgAddMinus} source={images.minus} resizeMode="stretch"/>
+            </TouchableOpacity>
+            <Text style={styles.lblProductQuantity}>
+              {item.product_quantity}
+            </Text>
+            <TouchableOpacity
+              onPress={() => props.handleQuantityChange(index, "add")}
+              hitSlop={hitSlop}
+              activeOpacity={activityOpacity}
+            >
+              <Image style={styles.imgAddMinus} source={images.add} resizeMode="stretch"/>
+            </TouchableOpacity>
+          </View>
+        )}
+      </TouchableOpacity>
     );
   };
 

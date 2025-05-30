@@ -62,6 +62,16 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 40,
   },
+  vwCounterContainer: {
+    height: 34,
+    borderBottomStartRadius: 20,
+    borderBottomEndRadius: 20,
+    backgroundColor: colors.orange1c,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    flexDirection: "row",
+  },
 
   //   TextInput styles
   txtSearch: {
@@ -83,6 +93,10 @@ export const styles = StyleSheet.create({
   imgStar: {
     height: 12.5,
     width: 12.6,
+  },
+  imgAddMinus: {
+    height: 24,
+    width: 24,
   },
 
   //   TouchableOpacity styles
@@ -142,5 +156,11 @@ export const styles = StyleSheet.create({
   lblNoData: {
     fontSize: fontSize.size16,
     color: colors.greya7,
+  },
+  lblProductQuantity: {
+    color: colors.blue4e,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+    marginHorizontal: 10,
   },
 });

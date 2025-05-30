@@ -229,19 +229,6 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   };
 
   const onPressApplyFilter = () => {
-    // Check if any filter is applied
-    const isAnyFilterApplied = 
-      categoryValue !== "" || 
-      rating !== 4 || 
-      range[0] !== 150 || 
-      range[1] !== 300 || 
-      isCheckInstantDelivery;
-
-    if (!isAnyFilterApplied) {
-      flashMessageWarning("Please apply at least one filter");
-      return;
-    }
-
     setIsFilterModalVisible(false);
   };
 

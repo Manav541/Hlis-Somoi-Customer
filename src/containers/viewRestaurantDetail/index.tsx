@@ -7,7 +7,12 @@ import {
   Alert,
   Share,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import ViewRestaurantDetailComponent from "../../components/viewRestaurantDetail";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import {
@@ -156,6 +161,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   const [isFoodModalVisible, setIsFoodModalVisible] = useState(false);
   const [selectedFoodItem, setSelectedFoodItem] = useState<any>(null);
   const [selectedFoodItemIndex, setSelectedFoodItemIndex] = useState<any>(null);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const handleOnPressFoodItem = (item: any, index: number) => {
     setIsFoodModalVisible(true);
@@ -244,25 +250,33 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     }, 1000);
   };
 
-  const onPressCartIcon = () => {
-    setIsFoodModalVisible(false);
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [
-          {
-            name: ScreenNames.bottomTabsNavigation,
-            state: {
-              routes: [{ name: ScreenNames.cart }],
-              index: 0,
-            },
-          },
-        ],
-      })
-    );
-  };
+  const onPressCartIcon = useCallback(() => {
+    if (isNavigating) return;
 
-  const header = () => {
+    setIsNavigating(true);
+    setIsFoodModalVisible(false);
+
+    requestAnimationFrame(() => {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: ScreenNames.bottomTabsNavigation,
+              state: {
+                index: 0,
+                routes: [{ name: ScreenNames.cart }],
+              },
+            },
+          ],
+        })
+      );
+    });
+
+    setTimeout(() => setIsNavigating(false), 1000); // unlock after 1 sec
+  }, [isNavigating, navigation]);
+
+  useLayoutEffect(() => {
     navigation.setOptions({
       title: "",
       headerTransparent: true,
@@ -291,6 +305,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
             onPress={onPressCartIcon}
+            disabled={isNavigating}
           >
             <Image
               style={styles.imgButton}
@@ -301,11 +316,53 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
         </View>
       ),
     });
-  };
+  }, [isNavigating, onPressCartIcon]);
 
-  useEffect(() => {
-    header();
-  }, []);
+  // const header = () => {
+  //   navigation.setOptions({
+  //     title: "",
+  //     headerTransparent: true,
+  //     headerStyle: {
+  //       backgroundColor: "transparent",
+  //       elevation: 0,
+  //       shadowOpacity: 0,
+  //     },
+  //     headerLeft: () => (
+  //       <GlobalBackButton onPress={() => navigation.goBack()} isWhite />
+  //     ),
+  //     headerRight: () => (
+  //       <View style={styles.vwHeaderRight}>
+  //         <TouchableOpacity
+  //           activeOpacity={activityOpacity}
+  //           hitSlop={hitSlop}
+  //           onPress={onPressShare}
+  //         >
+  //           <Image
+  //             style={styles.imgButton}
+  //             source={images.shareIcon}
+  //             tintColor={colors.white}
+  //           />
+  //         </TouchableOpacity>
+  //         <TouchableOpacity
+  //           activeOpacity={activityOpacity}
+  //           hitSlop={hitSlop}
+  //           onPress={onPressCartIcon}
+  //           disabled={isNavigating}
+  //         >
+  //           <Image
+  //             style={styles.imgButton}
+  //             source={images.cartBagIcon}
+  //             tintColor={colors.white}
+  //           />
+  //         </TouchableOpacity>
+  //       </View>
+  //     ),
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   header();
+  // }, []);
 
   useFocusEffect(
     React.useCallback(() => {

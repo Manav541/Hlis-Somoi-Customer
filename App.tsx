@@ -17,7 +17,7 @@ const App = () => {
     if (initialRoute !== null) {
       const timeout = setTimeout(() => {
         SplashScreen.hide();
-      }, 5000);
+      }, 1500);
 
       return () => clearTimeout(timeout);
     }
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: colors.blue4e,
   },
 });
 
