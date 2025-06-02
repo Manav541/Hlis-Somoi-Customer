@@ -5,6 +5,7 @@ import {fontsfamily} from './FontFamily';
 import {fontSize} from './FontSizes';
 import {showMessage} from 'react-native-flash-message';
 import { checkMultiple, openSettings, PERMISSIONS, requestMultiple, RESULTS } from 'react-native-permissions';
+import NetInfo from "@react-native-community/netinfo";
 
 export const appName = 'Somoi';
 
@@ -58,6 +59,13 @@ export const showConfirmForGuest = (
     { cancelable: true }
   );
 };
+
+export const getConnection = (callback: any) => {
+  NetInfo.fetch().then((state: any) => {
+    callback(state.isConnected);
+  });
+};
+
 
 // Buttons
 export const activityOpacity = 0.8;

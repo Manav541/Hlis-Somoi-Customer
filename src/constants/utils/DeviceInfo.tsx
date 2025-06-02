@@ -2,6 +2,7 @@ import DeviceInfo from 'react-native-device-info';
 
 export const DeviceInfoManager = {
   // 🔹 Basic Sync Info
+  getDeviceToken: () => DeviceInfo.getDeviceToken(), // "1234567890"
   getDeviceId: () => DeviceInfo.getDeviceId(), // "iPhone10,6"
   getDeviceType: () => DeviceInfo.getDeviceType(), // "Handset" | "Tablet" | "Tv" | "Desktop" | "unknown"
   getBrand: () => DeviceInfo.getBrand(), // "Apple", "Samsung"
@@ -15,6 +16,9 @@ export const DeviceInfoManager = {
   getReadableVersion: () => DeviceInfo.getReadableVersion(), // "1.0.1 (89)"
   getUniqueId: () => DeviceInfo.getUniqueId(), // A unique device ID, "FCDBD8EF-62FC-4ECB-AAAA-80DA344E6A5E"
   isTablet: () => DeviceInfo.isTablet(), // true if the device is a tablet, otherwise false
+
+   // 🔹 Platform Check
+   getPlatformType: () => DeviceInfo.getSystemName() === 'Android' ? 'A' : 'I',
 
   // 🔹 Async Info
   getBuildId: async () => await DeviceInfo.getBuildId(), // "20A5358e"

@@ -28,6 +28,9 @@
 		53978242C1D946CE9432758B /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A4A6E0BBF5C4478A8E6895B /* Montserrat-Light.ttf */; };
 		58B10E2540384BB5896003D2 /* PublicSans-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D0A953CC068424B9A4EC3B1 /* PublicSans-ExtraLightItalic.ttf */; };
 		5BE9B9E7E80143C88056F520 /* GolosText-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 68359B4034924F7F94D91780 /* GolosText-Medium.ttf */; };
+		5DDA7AB42DED879B00A564AB /* NativeEncryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDA7AB32DED879A00A564AB /* NativeEncryption.swift */; };
+		5DDA7AB52DED879B00A564AB /* NativeEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DDA7AB22DED879A00A564AB /* NativeEncryption.m */; };
+		5DDA7AB62DED879B00A564AB /* CryptLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DDA7AB12DED879A00A564AB /* CryptLib.m */; };
 		636FF512C90142C3A4871902 /* PublicSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EEFFCEB543E249AB82811EC2 /* PublicSans-Regular.ttf */; };
 		6480CD1E040C43B89A279BD4 /* PublicSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53C7C35C132447EFB350BC38 /* PublicSans-Thin.ttf */; };
 		695C9ACA91AC4D848ED2F907 /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 80E383F2FAEA4D70A92C6905 /* Montserrat-BoldItalic.ttf */; };
@@ -87,6 +90,11 @@
 		534D0BCF9B034B95AA5B4D33 /* PublicSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-SemiBold.ttf"; path = "../src/assets/fonts/PublicSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		5375E74BEAF94F2996DAECAA /* GolosText-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Bold.ttf"; path = "../src/assets/fonts/GolosText-Bold.ttf"; sourceTree = "<group>"; };
 		53C7C35C132447EFB350BC38 /* PublicSans-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Thin.ttf"; path = "../src/assets/fonts/PublicSans-Thin.ttf"; sourceTree = "<group>"; };
+		5DDA7AB02DED879A00A564AB /* CryptLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CryptLib.h; sourceTree = "<group>"; };
+		5DDA7AB12DED879A00A564AB /* CryptLib.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CryptLib.m; sourceTree = "<group>"; };
+		5DDA7AB22DED879A00A564AB /* NativeEncryption.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeEncryption.m; sourceTree = "<group>"; };
+		5DDA7AB32DED879A00A564AB /* NativeEncryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeEncryption.swift; sourceTree = "<group>"; };
+		5DDA7AB72DED879D00A564AB /* somoi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "somoi-Bridging-Header.h"; sourceTree = "<group>"; };
 		67E4BDEE60C94CC2A1F476A2 /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BlackItalic.ttf"; path = "../src/assets/fonts/Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
 		68359B4034924F7F94D91780 /* GolosText-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Medium.ttf"; path = "../src/assets/fonts/GolosText-Medium.ttf"; sourceTree = "<group>"; };
 		69CFEEF2DDC14643A82B857A /* PublicSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Italic.ttf"; path = "../src/assets/fonts/PublicSans-Italic.ttf"; sourceTree = "<group>"; };
@@ -144,11 +152,16 @@
 		13B07FAE1A68108700A75B9A /* somoi */ = {
 			isa = PBXGroup;
 			children = (
+				5DDA7AB02DED879A00A564AB /* CryptLib.h */,
+				5DDA7AB12DED879A00A564AB /* CryptLib.m */,
+				5DDA7AB22DED879A00A564AB /* NativeEncryption.m */,
+				5DDA7AB32DED879A00A564AB /* NativeEncryption.swift */,
 				13B07FB51A68108700A75B9A /* images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				5DDA7AB72DED879D00A564AB /* somoi-Bridging-Header.h */,
 			);
 			name = somoi;
 			sourceTree = "<group>";
@@ -292,7 +305,7 @@
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1620;
 					};
 				};
 			};
@@ -458,6 +471,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DDA7AB42DED879B00A564AB /* NativeEncryption.swift in Sources */,
+				5DDA7AB52DED879B00A564AB /* NativeEncryption.m in Sources */,
+				5DDA7AB62DED879B00A564AB /* CryptLib.m in Sources */,
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -496,6 +512,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "somoi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -533,6 +550,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "somoi-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";

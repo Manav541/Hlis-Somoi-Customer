@@ -13,6 +13,9 @@ import { CommonActions } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
 import { constnatStyles } from "../../../constants/Styles";
 import { Text, TextInput } from "react-native";
+import { APIManager } from "../../../api/ApiManager";
+import { apiEndPoint } from "../../../api/APIConstant";
+import { DeviceInfoManager } from "../../../constants/utils/DeviceInfo";
 
 const SignupContainer = ({ navigation }: any) => {
   const [name, setName] = useState("");
@@ -40,9 +43,16 @@ const SignupContainer = ({ navigation }: any) => {
     useState<CountryDataType[]>(countryList);
   const [countryModal, setCountryModal] = useState(false);
   const [searchCountry, setSearchCountry] = useState("");
+  const [sign_in_type, setSign_in_type] = useState<string>("email");
 
-  const onPressEmail = () => setIsEmailSelected(true);
-  const onPressPhone = () => setIsEmailSelected(false);
+  const onPressEmail = () => {
+    setIsEmailSelected(true);
+    setSign_in_type("email");
+  };
+  const onPressPhone = () => {
+    setIsEmailSelected(false);
+    setSign_in_type("phone");
+  };
 
   const handleOnPressCountryCode = () => {
     setCountryModal(true);
@@ -127,7 +137,7 @@ const SignupContainer = ({ navigation }: any) => {
     }
   };
 
-  const handleOnPressSignup = () => {
+  const handleOnPressSignup = async () => {
     if (isEmailSelected) {
       if (name.trim() === "") {
         flashMessageWarning(getTranslation("emptyName"));

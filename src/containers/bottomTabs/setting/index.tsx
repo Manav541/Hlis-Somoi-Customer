@@ -32,14 +32,6 @@ const SettingContainer = ({ navigation, route }: any) => {
   const [isGuestUser, setIsGuestUser] = useState(false);
   const [isSharing, setIsSharing] = useState<boolean>(true);
 
-  // useEffect(() => {
-  //   MmkvManager.getData(MmkvManager.Keys.isGuestUser, (guestUser) => {
-  //     // console.log("guestUser ==>>> ", guestUser);
-  //     if (guestUser === "true") {
-  //       setIsGuestUser(true);
-  //     }
-  //   });
-  // }, [isGuestUser]);
 
   // Constants for common values
   const ICON_SIZE = {
