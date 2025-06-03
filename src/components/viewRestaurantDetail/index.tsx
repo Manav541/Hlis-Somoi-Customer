@@ -23,6 +23,8 @@ import { colors } from "../../constants/Colors";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { fontSize } from "../../constants/FontSizes";
 import FastImage from "react-native-fast-image";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import GlobalBackButton from "../../global/GlobalBackButton";
 
 interface PropsType {
   restaurant_imgMain: any[];
@@ -52,10 +54,13 @@ interface PropsType {
   onPressShare: () => void;
   onPressReview: () => void;
   onPressCartIcon: () => void;
-  
+
+  onPressBack: () => void;
+  isNavigating: boolean;
 }
 
 const ViewRestaurantDetailComponent = (props: PropsType) => {
+  const insets = useSafeAreaInsets();
   const renderDots = () => {
     return (
       <View style={styles.vwDotsContainer}>
@@ -185,309 +190,349 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
   };
 
   return (
-    <ScrollView
-      style={styles.vwMain}
-      bounces={false}
-      showsVerticalScrollIndicator={false}
-    >
+    <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
-        barStyle={"dark-content"}
+        // translucent
+        backgroundColor={colors.blue4e}
+        barStyle={"light-content"}
       />
-      <View style={styles.vwImgMainLogo}>
-        <FlatList
-          data={props?.restaurant_imgMain}
-          horizontal
-          bounces={false}
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onScroll={props?.handleScroll}
-          renderItem={({ item, index }) => {
-            return (
-              <FastImage
-                style={styles.imgRestaurant_imgMain}
-                source={item?.imgMain}
-                resizeMode="cover"
-              />
-            );
-          }}
-        />
-        {renderDots()}
-        <FastImage
-          style={styles.imgRestaurant_logo}
-          source={props?.restaurant_logo}
-        />
-      </View>
-
-      {/* Restaurant Details */}
-      <View style={styles.vwRestaurantDetails}>
-        <Text style={styles.lblRestaurant_name}>{props?.restaurant_name}</Text>
-        <View style={styles.vwRestaurantAddress}>
-          <Image
-            style={styles.imgRestaurant_location}
-            source={images.locationIconOrange}
+      <View style={{flex : 1,marginTop: insets.top}}>
+      <ScrollView
+        style={styles.vwMain}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+      >
+        
+        <View style={styles.vwImgMainLogo}>
+          {/* Stick header */}
+          <View style={styles.vwHeader}>
+            <GlobalBackButton onPress={props?.onPressBack} isWhite />
+            <View style={styles.vwHeaderRight}>
+              <TouchableOpacity
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={props?.onPressShare}
+              >
+                <Image
+                  style={styles.imgButton}
+                  source={images.shareIcon}
+                  tintColor={colors.white}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={props?.onPressCartIcon}
+                disabled={props?.isNavigating}
+              >
+                <Image
+                  style={styles.imgButton}
+                  source={images.cartBagIcon}
+                  tintColor={colors.white}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <FlatList
+            data={props?.restaurant_imgMain}
+            horizontal
+            bounces={false}
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onScroll={props?.handleScroll}
+            renderItem={({ item, index }) => {
+              return (
+                <FastImage
+                  style={styles.imgRestaurant_imgMain}
+                  source={item?.imgMain}
+                  resizeMode="cover"
+                />
+              );
+            }}
           />
-          <Text style={styles.lblRestaurant_address}>
-            {props?.restaurant_address}
-          </Text>
+          {renderDots()}
+          <FastImage
+            style={styles.imgRestaurant_logo}
+            source={props?.restaurant_logo}
+          />
         </View>
-        <View style={styles.vwRestaurantTimeDistance}>
-          <Text style={styles.lblRestaurant_deliverytime}>
-            {getTranslation("deliveryTiming")}{" "}
-            <Text
-              style={{
-                ...styles.lblRestaurant_deliverytime,
-                fontFamily: fontsfamily.semiboldOutFit,
-              }}
-            >
-              {props?.restaurant_deliverytime}
-            </Text>
+
+        {/* Restaurant Details */}
+        <View style={styles.vwRestaurantDetails}>
+          <Text style={styles.lblRestaurant_name}>
+            {props?.restaurant_name}
           </Text>
-          <View style={styles.vwRestaurantDistance}>
+          <View style={styles.vwRestaurantAddress}>
             <Image
-              style={styles.imgDot}
+              style={styles.imgRestaurant_location}
+              source={images.locationIconOrange}
+            />
+            <Text style={styles.lblRestaurant_address}>
+              {props?.restaurant_address}
+            </Text>
+          </View>
+          <View style={styles.vwRestaurantTimeDistance}>
+            <Text style={styles.lblRestaurant_deliverytime}>
+              {getTranslation("deliveryTiming")}{" "}
+              <Text
+                style={{
+                  ...styles.lblRestaurant_deliverytime,
+                  fontFamily: fontsfamily.semiboldOutFit,
+                }}
+              >
+                {props?.restaurant_deliverytime}
+              </Text>
+            </Text>
+            <View style={styles.vwRestaurantDistance}>
+              <Image
+                style={styles.imgDot}
+                source={images.dotOrange}
+                resizeMode="stretch"
+              />
+              <Text style={styles.lblRestaurant_distance}>
+                {props?.restaurant_distance.toLowerCase()}
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Rate & Reviews */}
+        <View style={styles.vwRestaurantRateReview}>
+          <View style={styles.vwRestaurantRate}>
+            <Image
+              style={styles.imgStar}
+              source={images.star}
+              resizeMode="stretch"
+            />
+            <Text style={styles.lblRestaurant_rate}>
+              {props?.restaurant_ratings}
+            </Text>
+          </View>
+          <View style={styles.vwRestaurantReview}>
+            <Image
+              style={styles.imgDotGrey}
               source={images.dotOrange}
               resizeMode="stretch"
             />
-            <Text style={styles.lblRestaurant_distance}>
-              {props?.restaurant_distance.toLowerCase()}
-            </Text>
+            <TouchableOpacity
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={props?.onPressReview}
+            >
+              <Text style={styles.lblRestaurant_reviews}>
+                {props?.restaurant_reviews}{" "}
+                <Text style={styles.lblReviews}>
+                  {getTranslation("reviews")}
+                </Text>
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </View>
 
-      {/* Rate & Reviews */}
-      <View style={styles.vwRestaurantRateReview}>
-        <View style={styles.vwRestaurantRate}>
-          <Image
-            style={styles.imgStar}
-            source={images.star}
-            resizeMode="stretch"
+        {/* Restaurant Sub Category Type View */}
+        <View style={styles.vwFilterSubCategoryType}>
+          <Image style={styles.imgFilter} source={images.filterWhiteIcon} />
+          <FlatList
+            data={props?.arrSubCategoryType}
+            renderItem={renderItemSubCategoryType}
+            horizontal
+            bounces={false}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingRight: 20, gap: 10 }}
           />
-          <Text style={styles.lblRestaurant_rate}>
-            {props?.restaurant_ratings}
-          </Text>
         </View>
-        <View style={styles.vwRestaurantReview}>
-          <Image
-            style={styles.imgDotGrey}
-            source={images.dotOrange}
-            resizeMode="stretch"
+
+        {/* Restaurant Food */}
+        <View style={styles.vwRestaurantFood}>
+          {Array.from({
+            length: Math.ceil(props.arrSubCategoryData.length / 2),
+          }).map((_, rowIndex) => {
+            const items = props.arrSubCategoryData.slice(
+              rowIndex * 2,
+              rowIndex * 2 + 2
+            );
+            return (
+              <View
+                key={rowIndex}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                {items.map((item, index) => {
+                  const actualIndex = rowIndex * 2 + index;
+                  return renderArrSubCategoryFood({ item, index: actualIndex });
+                })}
+              </View>
+            );
+          })}
+        </View>
+
+        {/* Food Item Detail Modal */}
+        <Modal
+          visible={props?.isFoodModalVisible}
+          transparent
+          animationType="fade"
+          onRequestClose={props?.handleCloseFoodModal}
+        >
+          <StatusBar
+            translucent
+            backgroundColor={colors.black50}
+            barStyle={"dark-content"}
           />
-          <TouchableOpacity
-            activeOpacity={activityOpacity}
-            hitSlop={hitSlop}
-            onPress={props?.onPressReview}
-          >
-            <Text style={styles.lblRestaurant_reviews}>
-              {props?.restaurant_reviews}{" "}
-              <Text style={styles.lblReviews}>{getTranslation("reviews")}</Text>
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* Restaurant Sub Category Type View */}
-      <View style={styles.vwFilterSubCategoryType}>
-        <Image style={styles.imgFilter} source={images.filterWhiteIcon} />
-        <FlatList
-          data={props?.arrSubCategoryType}
-          renderItem={renderItemSubCategoryType}
-          horizontal
-          bounces={false}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingRight: 20, gap: 10 }}
-        />
-      </View>
-
-      {/* Restaurant Food */}
-      <View style={styles.vwRestaurantFood}>
-        {Array.from({
-          length: Math.ceil(props.arrSubCategoryData.length / 2),
-        }).map((_, rowIndex) => {
-          const items = props.arrSubCategoryData.slice(
-            rowIndex * 2,
-            rowIndex * 2 + 2
-          );
-          return (
-            <View
-              key={rowIndex}
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              {items.map((item, index) => {
-                const actualIndex = rowIndex * 2 + index;
-                return renderArrSubCategoryFood({ item, index: actualIndex });
-              })}
-            </View>
-          );
-        })}
-      </View>
-
-      {/* Food Item Detail Modal */}
-      <Modal
-        visible={props?.isFoodModalVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={props?.handleCloseFoodModal}
-      >
-        <StatusBar
-          translucent
-          backgroundColor={colors.black50}
-          barStyle={"dark-content"}
-        />
-        <TouchableWithoutFeedback onPress={props?.handleCloseFoodModal}>
-          <View style={styles.vwFoodModalView}>
-            <TouchableWithoutFeedback>
-              <View style={styles.vwFoodModalContainer}>
-                {props?.selectedFoodItem && (
-                  <>
-                    <View style={styles.vwFoodImgBG}>
-                      <FastImage
-                        style={styles.imgModalFood}
-                        source={props?.selectedFoodItem.food_img}
-                      />
-                      <TouchableOpacity
-                        style={{
-                          ...styles.btnRedHeart,
-                          height: 35,
-                          width: 35,
-                          top: 22.22,
-                          right: 22.21,
-                        }}
-                        activeOpacity={activityOpacity}
-                        hitSlop={hitSlop}
-                        onPress={() => {
-                          props?.onPressFavourite(props?.selectedFoodItemIndex);
-                        }}
-                      >
-                        <Image
-                          style={{
-                            ...styles.imgRedHeart,
-                            height: 20,
-                            width: 20,
-                          }}
-                          source={
-                            props?.selectedFoodItem.isFavourite
-                              ? images.redHeart
-                              : images.emptyHeart
-                          }
+          <TouchableWithoutFeedback onPress={props?.handleCloseFoodModal}>
+            <View style={styles.vwFoodModalView}>
+              <TouchableWithoutFeedback>
+                <View style={styles.vwFoodModalContainer}>
+                  {props?.selectedFoodItem && (
+                    <>
+                      <View style={styles.vwFoodImgBG}>
+                        <FastImage
+                          style={styles.imgModalFood}
+                          source={props?.selectedFoodItem.food_img}
                         />
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.vwFoodNameShare}>
-                      <Text style={styles.lblModalFoodName}>
-                        {props?.selectedFoodItem.food_name}
-                      </Text>
-                      <View style={{ flexDirection: "row", gap: 9 }}>
                         <TouchableOpacity
+                          style={{
+                            ...styles.btnRedHeart,
+                            height: 35,
+                            width: 35,
+                            top: 22.22,
+                            right: 22.21,
+                          }}
                           activeOpacity={activityOpacity}
                           hitSlop={hitSlop}
-                          onPress={props?.onPressCartIcon}
+                          onPress={() => {
+                            props?.onPressFavourite(
+                              props?.selectedFoodItemIndex
+                            );
+                          }}
                         >
                           <Image
-                            style={styles.imgShareCartBag}
-                            source={images.cartBagIcon}
-                            tintColor={colors.white}
-                          />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          activeOpacity={activityOpacity}
-                          hitSlop={hitSlop}
-                          onPress={props?.onPressShare}
-                        >
-                          <Image
-                            style={styles.imgShareCartBag}
-                            source={images.shareIcon}
-                            tintColor={colors.white}
+                            style={{
+                              ...styles.imgRedHeart,
+                              height: 20,
+                              width: 20,
+                            }}
+                            source={
+                              props?.selectedFoodItem.isFavourite
+                                ? images.redHeart
+                                : images.emptyHeart
+                            }
                           />
                         </TouchableOpacity>
                       </View>
-                    </View>
-                    <Text style={styles.lblModalFoodDesc}>
-                      {props?.selectedFoodItem.food_description}
-                    </Text>
-                    <View style={styles.vwAdditionalInfo}>
-                      <Text style={styles.lblModalFoodAdditionalInfo}>
-                        {getTranslation("additionalInfo")}
-                      </Text>
-                      <Text
-                        style={{
-                          ...styles.lblModalFoodAdditionalInfo,
-                          fontSize: fontSize.size12,
-                        }}
-                      >
-                        {props?.selectedFoodItem.food_AdditionalInfo}
-                      </Text>
-                    </View>
-                    {props?.selectedFoodItem.food_quantity === 0 ? (
-                      <TouchableOpacity
-                        style={styles.btnModalAddToCart}
-                        activeOpacity={activityOpacity}
-                        onPress={() =>
-                          props.handleQuantityChange(
-                            props?.selectedFoodItemIndex,
-                            "add"
-                          )
-                        }
-                      >
-                        <Text style={styles.lblAddToCart}>
-                          {getTranslation("addToCart")}
+                      <View style={styles.vwFoodNameShare}>
+                        <Text style={styles.lblModalFoodName}>
+                          {props?.selectedFoodItem.food_name}
                         </Text>
-                      </TouchableOpacity>
-                    ) : (
-                      <View
-                        style={{
-                          ...styles.btnModalAddToCart,
-                          flexDirection: "row",
-                        }}
-                      >
-                        <TouchableOpacity
-                          onPress={() =>
-                            props.handleQuantityChange(
-                              props?.selectedFoodItemIndex,
-                              "remove"
-                            )
-                          }
-                          hitSlop={hitSlop}
-                          activeOpacity={activityOpacity}
+                        <View style={{ flexDirection: "row", gap: 9 }}>
+                          <TouchableOpacity
+                            activeOpacity={activityOpacity}
+                            hitSlop={hitSlop}
+                            onPress={props?.onPressCartIcon}
+                          >
+                            <Image
+                              style={styles.imgShareCartBag}
+                              source={images.cartBagIcon}
+                              tintColor={colors.white}
+                            />
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            activeOpacity={activityOpacity}
+                            hitSlop={hitSlop}
+                            onPress={props?.onPressShare}
+                          >
+                            <Image
+                              style={styles.imgShareCartBag}
+                              source={images.shareIcon}
+                              tintColor={colors.white}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                      <Text style={styles.lblModalFoodDesc}>
+                        {props?.selectedFoodItem.food_description}
+                      </Text>
+                      <View style={styles.vwAdditionalInfo}>
+                        <Text style={styles.lblModalFoodAdditionalInfo}>
+                          {getTranslation("additionalInfo")}
+                        </Text>
+                        <Text
+                          style={{
+                            ...styles.lblModalFoodAdditionalInfo,
+                            fontSize: fontSize.size12,
+                          }}
                         >
-                          <Image
-                            style={styles.imgAddMinus}
-                            source={images.minus}
-                          />
-                        </TouchableOpacity>
-                        <Text style={styles.lblFoodQuantity}>
-                          {props?.selectedFoodItem.food_quantity}
+                          {props?.selectedFoodItem.food_AdditionalInfo}
                         </Text>
+                      </View>
+                      {props?.selectedFoodItem.food_quantity === 0 ? (
                         <TouchableOpacity
+                          style={styles.btnModalAddToCart}
+                          activeOpacity={activityOpacity}
                           onPress={() =>
                             props.handleQuantityChange(
                               props?.selectedFoodItemIndex,
                               "add"
                             )
                           }
-                          hitSlop={hitSlop}
-                          activeOpacity={activityOpacity}
                         >
-                          <Image
-                            style={styles.imgAddMinus}
-                            source={images.add}
-                          />
+                          <Text style={styles.lblAddToCart}>
+                            {getTranslation("addToCart")}
+                          </Text>
                         </TouchableOpacity>
-                      </View>
-                    )}
-                  </>
-                )}
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
-    </ScrollView>
+                      ) : (
+                        <View
+                          style={{
+                            ...styles.btnModalAddToCart,
+                            flexDirection: "row",
+                          }}
+                        >
+                          <TouchableOpacity
+                            onPress={() =>
+                              props.handleQuantityChange(
+                                props?.selectedFoodItemIndex,
+                                "remove"
+                              )
+                            }
+                            hitSlop={hitSlop}
+                            activeOpacity={activityOpacity}
+                          >
+                            <Image
+                              style={styles.imgAddMinus}
+                              source={images.minus}
+                            />
+                          </TouchableOpacity>
+                          <Text style={styles.lblFoodQuantity}>
+                            {props?.selectedFoodItem.food_quantity}
+                          </Text>
+                          <TouchableOpacity
+                            onPress={() =>
+                              props.handleQuantityChange(
+                                props?.selectedFoodItemIndex,
+                                "add"
+                              )
+                            }
+                            hitSlop={hitSlop}
+                            activeOpacity={activityOpacity}
+                          >
+                            <Image
+                              style={styles.imgAddMinus}
+                              source={images.add}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                      )}
+                    </>
+                  )}
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      </ScrollView>
+      </View>
+    </View>
   );
 };
 

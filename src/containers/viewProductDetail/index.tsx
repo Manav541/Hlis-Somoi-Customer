@@ -205,6 +205,10 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     setCurrentIndex(index);
   };
 
+  const onPressBack = () => {
+    navigation.goBack();
+  }
+
   const onPressShare = async () => {
     if (!isSharing) return;
 
@@ -350,7 +354,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      StatusBar.setBarStyle("dark-content");
+      StatusBar.setBarStyle("light-content");
       return () => {};
     }, [navigation])
   );
@@ -393,6 +397,11 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       onPressFavourite={onPressFavourite}
       poduct_isFavourite={poduct_isFavourite}
       onPressReview={onPressReview}
+
+      onPressBack={onPressBack}
+      onPressShare={onPressShare}
+      onPressCartIcon={onPressCartIcon}
+      isNavigating={isNavigating}
       
     />
   );

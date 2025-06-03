@@ -303,6 +303,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
             alignItems: "center",
             justifyContent: "space-between",
             paddingBottom: 14,
+            paddingLeft : 16
           }}
         >
           <GlobalBackButton

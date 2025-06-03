@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   vwMain: {
     flex: 1,
     backgroundColor: colors.blue4e,
-    paddingBottom: 20,
+    // paddingBottom: 20,
   },
   vwImgMainLogo: {
     // height : 278,
@@ -124,7 +124,7 @@ export const styles = StyleSheet.create({
   vwRestaurantFood :{
     paddingHorizontal: 20,
     gap: 19,
-    marginBottom: 20,
+    marginBottom: 40,
     marginTop: 10,
   },
 
@@ -368,5 +368,46 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 33,
+  },
+
+   // Header Styles
+   vwHeader :{
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+    height : 24,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingLeft : 16,
+    marginTop : 12
+  },
+  vwHeaderRight: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 20,
+    gap: 10,
+  },
+  vwBedge: {
+    height: 12,
+    width: 12,
+    borderRadius: 6,
+    backgroundColor: colors.red2e,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 15,
+    alignSelf: "center",
+  },
+  lblBedge: {
+    color: colors.white,
+    fontSize: fontSize.size08_31,
+    fontFamily: fontsfamily.semibold,
+  },
+  imgButton: {
+    width: 24,
+    height: 24,
   },
 });

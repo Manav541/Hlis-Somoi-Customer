@@ -276,6 +276,10 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     setTimeout(() => setIsNavigating(false), 1000); // unlock after 1 sec
   }, [isNavigating, navigation]);
 
+  const onPressBack = () => {
+    navigation.goBack();
+  };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "",
@@ -364,12 +368,12 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   //   header();
   // }, []);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      StatusBar.setBarStyle("light-content");
-      return () => {};
-    }, [navigation])
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     StatusBar.setBarStyle("light-content");
+  //     return () => {};
+  //   }, [navigation])
+  // );
 
   return (
     <ViewRestaurantDetailComponent
@@ -397,6 +401,8 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
       onPressShare={onPressShare}
       onPressReview={onPressReview}
       onPressCartIcon={onPressCartIcon}
+      onPressBack={onPressBack}
+      isNavigating={isNavigating}
     />
   );
 };

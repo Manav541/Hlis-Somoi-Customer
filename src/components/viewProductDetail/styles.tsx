@@ -386,7 +386,7 @@ export const styles = StyleSheet.create({
   imgDotGrey: {
     height: 6,
     width: 6,
-    alignSelf :'center'
+    alignSelf: "center",
   },
   imgDotOrange: {
     height: 4,
@@ -493,5 +493,46 @@ export const styles = StyleSheet.create({
     height: 42,
     width: 42,
     borderRadius: 10,
+  },
+
+  // Header Styles
+  vwHeader :{
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+    height : 24,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingLeft : 16,
+    marginTop : 12
+  },
+  vwHeaderRight: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 20,
+    gap: 10,
+  },
+  vwBedge: {
+    height: 12,
+    width: 12,
+    borderRadius: 6,
+    backgroundColor: colors.red2e,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 15,
+    alignSelf: "center",
+  },
+  lblBedge: {
+    color: colors.white,
+    fontSize: fontSize.size08_31,
+    fontFamily: fontsfamily.semibold,
+  },
+  imgButton: {
+    width: 24,
+    height: 24,
   },
 });

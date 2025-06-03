@@ -5,8 +5,8 @@ import { Platform, StatusBar, View } from "react-native";
 import { colors } from "../constants/Colors";
 import { fontSize } from "../constants/FontSizes";
 import { fontsfamily } from "../constants/FontFamily";
-import { createStackNavigator } from "@react-navigation/stack";
 import { enableScreens } from 'react-native-screens';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
  
 enableScreens(); 
 
@@ -15,7 +15,7 @@ interface PropsType {
 }
 
 const MainNavigation = (props: PropsType) => {
-  const Stack = createStackNavigator();
+  const Stack = createNativeStackNavigator();
 
   const handleStackScreens = (
     screenName: string,
@@ -48,11 +48,7 @@ const MainNavigation = (props: PropsType) => {
   return (
     <View style={{backgroundColor : colors.blue4e, flex : 1}}>
     <NavigationContainer>
-      <StatusBar
-        translucent
-        backgroundColor={"transparent"}
-        barStyle={"dark-content"}
-      />
+      
       <Stack.Navigator
         screenOptions={{ animation: "slide_from_right" }}
         initialRouteName={props?.initialRoute}
@@ -129,12 +125,12 @@ const MainNavigation = (props: PropsType) => {
         {handleStackScreens(
           ScreenNames.productDetail,
           MyScreens.ViewProductDetailContainer,
-          true
+          false
         )}
         {handleStackScreens(
           ScreenNames.restaurantDetail,
           MyScreens.ViewRestaurantDetailContainer,
-          true
+          false
         )}
         {handleStackScreens(
           ScreenNames.review,

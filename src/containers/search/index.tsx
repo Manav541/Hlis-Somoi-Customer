@@ -460,6 +460,7 @@ const SearchContainer = ({ navigation }: any) => {
             flexDirection: "row",
             alignItems: "center",
             paddingBottom: 14,
+            paddingLeft : 16
           }}
         >
           <GlobalBackButton

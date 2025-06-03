@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  StatusBar,
+} from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import SplashScreen from "react-native-splash-screen";
 import MainNavigation from "./src/routers/mainNavigation";
@@ -62,6 +68,7 @@ const App = () => {
 
   return (
     <I18nextProvider i18n={i18n}>
+      <StatusBar backgroundColor={colors.orange1c} barStyle={"dark-content"} />
       <MainNavigation initialRoute={initialRoute} />
       <View style={styles.flashMessage}>
         <FlashMessage position={"top"} ref={flashMessageRef} />
