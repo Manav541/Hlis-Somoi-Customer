@@ -13,6 +13,7 @@ import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
 import { constnatStyles } from "../../../constants/Styles";
+import { zustandStore } from "../../../store";
 
 interface OtpArray {
   value: string;
@@ -20,6 +21,14 @@ interface OtpArray {
 }
 
 const VerificationContainer = ({ navigation, route }: any) => {
+  // API Zustand Store
+  const otpVerificationApi = zustandStore.OtpVerificationStore(
+    (state) => state.otpVerification
+  );
+  const requestResendOtpApi = zustandStore.OtpVerificationStore(
+    (state) => state.requestResendOtp
+  );
+
   const [fullOtp, setFullOtp] = useState<string | number>("");
   const [otp, setOtp] = useState(60);
   const [resendOtp, setResendOtp] = useState(true);
@@ -47,8 +56,11 @@ const VerificationContainer = ({ navigation, route }: any) => {
   const [emailFromRoute, setEmailFromRoute] = useState("");
   const [countryCode, setCountryCode] = useState<string>("");
   const [mobileNumber, setMobileNumber] = useState<string>("");
-  const { navigateFromSignup, navigateFromForgotPassword,navigateFromChangeEmailPhone } = route?.params;
-
+  const {
+    navigateFromSignup,
+    navigateFromForgotPassword,
+    navigateFromChangeEmailPhone,
+  } = route?.params;
 
   //handleOnChangeText
   const handleOnChangeText = (text: string, index: number) => {
@@ -97,53 +109,88 @@ const VerificationContainer = ({ navigation, route }: any) => {
     );
   };
 
-  const handleOnPressResendOtp = () => {
-    flashMessageSucess(getTranslation("otpResendSuccessfully"));
-    const clearedOtpArray = otpArray.map((item) => ({
-      ...item,
-      value: "",
-    }));
-    setOtpArray(clearedOtpArray);
-    setFullOtp("");
-    handleResendOtpTimer();
+  const handleOnPressResendOtp = async () => {
+    try {
+      const response = await requestResendOtpApi(
+        Number(mobileNumber),
+        countryCode,
+        navigation
+      );
+      console.log("Data=====>>>>>>", JSON.stringify(response));
+      if (response.code == 1) {
+        console.log(response);
+        flashMessageSucess(response?.message);
+        const clearedOtpArray = otpArray.map((item) => ({
+          ...item,
+          value: "",
+        }));
+        setOtpArray(clearedOtpArray);
+        setFullOtp("");
+        handleResendOtpTimer();
+      } else if (response.code == 0) {
+        flashMessageWarning(response.message);
+      }
+    } catch (error: any) {
+      console.log("Error:", error.message);
+    }
   };
 
-  const handleOnPressContinueUpdateSubmit = () => {
+  const handleOnPressContinueUpdateSubmit = async () => {
     // Validate OTP
     if (fullOtp.toString().length !== 4) {
       flashMessageWarning(getTranslation("emptyOtp"));
       return;
-    } else if (fullOtp != 1234) {
-      flashMessageWarning(getTranslation("invalidOtp"));
-      return;
     } else {
-      // Clear OTP fields after successful validation
-      const clearedOtpArray = otpArray.map(item => ({
-        ...item,
-        value: ""
-      }));
-      setOtpArray(clearedOtpArray);
-      setFullOtp("");
-
       // Handle forgot password flow
       if (navigateFromForgotPassword) {
         navigation.navigate("Change Password", {
-          navigateFromForgotPassword
+          navigateFromForgotPassword,
         });
-      } 
+      }
       // Handle signup flow
       else if (navigateFromSignup) {
-        MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
-        flashMessageSucess(getTranslation("signUpSuccess"));
-        navigation.navigate("Add Address", {
-          navigateFromManageAddress: false
-        });
-      } 
-      else if (navigateFromChangeEmailPhone){
-        if(route?.params?.email){
-          flashMessageSucess(getTranslation("emailUpdateSuccess"));
+        try {
+          const response = await otpVerificationApi(
+            Number(mobileNumber),
+            countryCode,
+            Number(fullOtp),
+            emailFromRoute,
+            navigation
+          );
+
+          console.log("Data=====>>>>>>", JSON.stringify(response));
+
+          if (response.code == 1) {
+            console.log(response);
+            // Clear OTP fields after successful validation
+            const clearedOtpArray = otpArray.map((item) => ({
+              ...item,
+              value: "",
+            }));
+            setOtpArray(clearedOtpArray);
+            setFullOtp("");
+
+            const userTokenFromBackend = response?.data?.device_info?.token;
+            MmkvManager.setData(
+              MmkvManager.Keys.userToken,
+              userTokenFromBackend
+            );
+
+            MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
+            flashMessageSucess(response?.message);
+            navigation.navigate("Add Address", {
+              navigateFromManageAddress: false,
+            });
+          } else if (response.code == 0) {
+            flashMessageWarning(response.message);
+          }
+        } catch (error: any) {
+          console.log("Error:", error.message);
         }
-        else if(route?.params?.mobileNumber){
+      } else if (navigateFromChangeEmailPhone) {
+        if (route?.params?.email) {
+          flashMessageSucess(getTranslation("emailUpdateSuccess"));
+        } else if (route?.params?.mobileNumber) {
           flashMessageSucess(getTranslation("phoneNumberUpdateSuccess"));
         }
         navigation.dispatch(
@@ -168,7 +215,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
         navigation.dispatch(
           CommonActions.reset({
             index: 1,
-            routes: [{ name: ScreenNames.bottomTabsNavigation }]
+            routes: [{ name: ScreenNames.bottomTabsNavigation }],
           })
         );
       }
@@ -185,7 +232,9 @@ const VerificationContainer = ({ navigation, route }: any) => {
         />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.verification}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.verification}
+        </Text>
       ),
     });
   };

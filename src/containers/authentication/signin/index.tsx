@@ -1,19 +1,27 @@
-import React, {useEffect, useRef, useState} from 'react';
-import SignInComponent from '../../../components/authentication/signin';
-import {flashMessageSucess, flashMessageWarning} from '../../../constants/GConstant';
-import {getTranslation} from '../../../localization/i18n/i18n.config';
-import {regex} from '../../../constants/Regex';
-import { CountryDataType } from '../../../constants/interfaces';
-import { CountryData } from '../../../constants/utils/CountryData';
-import { MmkvManager } from '../../../constants/utils/MmkvManager';
-import { CommonActions } from '@react-navigation/native';
-import { ScreenNames } from '../../../routers';
-import { constnatStyles } from '../../../constants/Styles';
-import { Text, TextInput } from 'react-native';
+import React, { useEffect, useRef, useState } from "react";
+import SignInComponent from "../../../components/authentication/signin";
+import {
+  flashMessageSucess,
+  flashMessageWarning,
+} from "../../../constants/GConstant";
+import { getTranslation } from "../../../localization/i18n/i18n.config";
+import { regex } from "../../../constants/Regex";
+import { CountryDataType, DeviceInfoType } from "../../../constants/interfaces";
+import { CountryData } from "../../../constants/utils/CountryData";
+import { MmkvManager } from "../../../constants/utils/MmkvManager";
+import { CommonActions } from "@react-navigation/native";
+import { ScreenNames } from "../../../routers";
+import { constnatStyles } from "../../../constants/Styles";
+import { Text, TextInput } from "react-native";
+import { statusCodes } from "../../../api/APIConstant";
+import { DeviceInfoManager } from "../../../constants/utils/DeviceInfo";
+import { zustandStore } from "../../../store";
 
-const SignInContainer = ({navigation}: any) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const SignInContainer = ({ navigation }: any) => {
+  const signinApi = zustandStore.AuthStore((state) => state.signin);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [mobileNumber, setMobileNumber] = useState<string>("");
   const [countryCode, setCountryCode] = useState<string>("+91");
@@ -35,8 +43,12 @@ const SignInContainer = ({navigation}: any) => {
   const [countryModal, setCountryModal] = useState(false);
   const [searchCountry, setSearchCountry] = useState("");
 
-  const onPressEmail=() => {setIsEmailSelected(true)}
-  const onPressPhone=() => {setIsEmailSelected(false)}
+  const onPressEmail = () => {
+    setIsEmailSelected(true);
+  };
+  const onPressPhone = () => {
+    setIsEmailSelected(false);
+  };
 
   const handleOnPressCountryCode = () => {
     setCountryModal(true);
@@ -69,21 +81,20 @@ const SignInContainer = ({navigation}: any) => {
   };
 
   const handleOnChangeText = (text: string, type: string) => {
-    if (type === 'email') {
-      setEmail(text.replace(/\s/g, ''));
-    }else if (type === "mobileNumber") {
+    if (type === "email") {
+      setEmail(text.replace(/\s/g, ""));
+    } else if (type === "mobileNumber") {
       const onlyDigits = text.replace(/[^0-9]/g, "");
       setMobileNumber(onlyDigits);
     } else {
-      setPassword(text.replace(/\s/g, ''));
+      setPassword(text.replace(/\s/g, ""));
     }
   };
 
   const handleOnSubmit = (type: string) => {
-    if (type === 'email') {
+    if (type === "email") {
       passwordRef?.current?.focus();
     }
-    
   };
 
   const handleOnPressEye = () => {
@@ -91,9 +102,9 @@ const SignInContainer = ({navigation}: any) => {
   };
 
   const handleOnFocus = (type: string) => {
-    if (type === 'email') {
+    if (type === "email") {
       setEmailFocused(true);
-    }else if (type === "mobileNumber") {
+    } else if (type === "mobileNumber") {
       setMobileNumberFocused(true);
     } else {
       setPasswordFocused(true);
@@ -101,9 +112,9 @@ const SignInContainer = ({navigation}: any) => {
   };
 
   const handleOnBlur = (type: string) => {
-    if (type === 'email') {
+    if (type === "email") {
       setEmailFocused(false);
-    }else if (type === "mobileNumber") {
+    } else if (type === "mobileNumber") {
       setMobileNumberFocused(true);
     } else {
       setPasswordFocused(false);
@@ -112,44 +123,85 @@ const SignInContainer = ({navigation}: any) => {
 
   const handleOnPressSignIn = () => {
     if (isEmailSelected) {
-      if (email.trim() == '') {
-        flashMessageWarning(getTranslation('emptyEmail'));
+      if (email.trim() == "") {
+        flashMessageWarning(getTranslation("emptyEmail"));
       } else if (!regex.email.test(email)) {
-        flashMessageWarning(getTranslation('invalidEmail'));
-      } else if (password.trim() == '') {
-        flashMessageWarning(getTranslation('emptyPassword'));
-      } 
+        flashMessageWarning(getTranslation("invalidEmail"));
+      } else if (password.trim() == "") {
+        flashMessageWarning(getTranslation("emptyPassword"));
+      }
       // else if (!regex.password.test(password)) {
       //   flashMessageWarning(getTranslation('invalidPassword'));
-      // } 
+      // }
       else {
-        setEmail('');
-        setPassword('');
-        MmkvManager.setData(MmkvManager.Keys.isLoggedIn, 'true');
-      flashMessageSucess(getTranslation('loginSuccessfully'));
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 1,
-          routes: [{name: ScreenNames.bottomTabsNavigation}],
-        }),
-      );
+        handleAPISignup();
       }
-    }
-    else {
+    } else {
       if (mobileNumber.trim() === "") {
         flashMessageWarning(getTranslation("emptyMobileNumber"));
       } else if (!regex.mobile.test(mobileNumber)) {
         flashMessageWarning(getTranslation("invalidMobileNumber"));
       } else {
-        setMobileNumber("");
-        navigation.navigate("Verification", {
-          countryCode: countryCode,
-          mobileNumber: mobileNumber,
-          navigateFromSignup: false,
-        });
+        handleAPISignup();
       }
     }
-    
+  };
+
+  const handleAPISignup = async () => {
+    console.log("type ===>>", DeviceInfoManager.getPlatformType());
+    const dictData: DeviceInfoType = {
+      device_type: DeviceInfoManager.getPlatformType(),
+      device_token: "0",
+      os_version: await DeviceInfoManager.getVersion(),
+      device_name: await DeviceInfoManager.getDeviceName(),
+      model_name: await DeviceInfoManager.getModel(),
+      ip: await DeviceInfoManager.getIpAddress(),
+      uuid: await DeviceInfoManager.getUniqueId(),
+      sign_in_type: isEmailSelected ? "email" : "phone",
+    };
+
+    if (isEmailSelected) {
+      dictData.email = email.trim();
+      dictData.password = password.trim();
+      dictData.mobile_number = Number(mobileNumber);
+      dictData.country_code = countryCode.trim();
+    } else {
+      dictData.mobile_number = Number(mobileNumber);
+      dictData.country_code = countryCode.trim();
+    }
+
+    try {
+      const response = await signinApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("SIGNUP RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          flashMessageSucess(response.message);
+          if (isEmailSelected) {
+            setEmail("");
+            setPassword("");
+            MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
+            // flashMessageSucess(getTranslation("loginSuccessfully"));
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [{ name: ScreenNames.bottomTabsNavigation }],
+              })
+            );
+          } else {
+            setMobileNumber("");
+            navigation.navigate("Verification", {
+              countryCode: countryCode,
+              mobileNumber: mobileNumber,
+              navigateFromSignup: false,
+            });
+          }
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
   };
 
   const [isNavigating, setIsNavigating] = useState(false);
@@ -157,7 +209,7 @@ const SignInContainer = ({navigation}: any) => {
   const handleOnPressSignUp = () => {
     if (isNavigating) return;
     setIsNavigating(true);
-    navigation.replace('Sign Up');
+    navigation.replace("Sign Up");
     // Reset the flag after a short delay
     setTimeout(() => {
       setIsNavigating(false);
@@ -165,7 +217,7 @@ const SignInContainer = ({navigation}: any) => {
   };
 
   const handleOnPressForgotPassword = () => {
-    navigation.navigate('Forgot Password');
+    navigation.navigate("Forgot Password");
   };
 
   const handleOnPressGuest = () => {

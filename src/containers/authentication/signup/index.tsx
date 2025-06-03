@@ -7,17 +7,22 @@ import {
 } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { CountryData } from "../../../constants/utils/CountryData";
-import { CountryDataType } from "../../../constants/interfaces";
+import { CountryDataType, DeviceInfoType } from "../../../constants/interfaces";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
 import { constnatStyles } from "../../../constants/Styles";
 import { Text, TextInput } from "react-native";
 import { APIManager } from "../../../api/ApiManager";
-import { apiEndPoint } from "../../../api/APIConstant";
+import { apiEndPoint, statusCodes } from "../../../api/APIConstant";
 import { DeviceInfoManager } from "../../../constants/utils/DeviceInfo";
+import { zustandStore } from "../../../store";
+import DeviceInfo from "react-native-device-info";
 
 const SignupContainer = ({ navigation }: any) => {
+  // API Zustand Store
+  const signupApi = zustandStore.AuthStore((state) => state.signup);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,15 +48,12 @@ const SignupContainer = ({ navigation }: any) => {
     useState<CountryDataType[]>(countryList);
   const [countryModal, setCountryModal] = useState(false);
   const [searchCountry, setSearchCountry] = useState("");
-  const [sign_in_type, setSign_in_type] = useState<string>("email");
 
   const onPressEmail = () => {
     setIsEmailSelected(true);
-    setSign_in_type("email");
   };
   const onPressPhone = () => {
     setIsEmailSelected(false);
-    setSign_in_type("phone");
   };
 
   const handleOnPressCountryCode = () => {
@@ -137,7 +139,7 @@ const SignupContainer = ({ navigation }: any) => {
     }
   };
 
-  const handleOnPressSignup = async () => {
+  const handleOnPressSignup = () => {
     if (isEmailSelected) {
       if (name.trim() === "") {
         flashMessageWarning(getTranslation("emptyName"));
@@ -154,29 +156,63 @@ const SignupContainer = ({ navigation }: any) => {
       } else if (!regex.password.test(password)) {
         flashMessageWarning(getTranslation("invalidPassword"));
       } else {
-        setName("");
-        setEmail("");
-        setMobileNumber("");
-        setPassword("");
-        navigation.navigate("Verification", {
-          countryCode: countryCode,
-          mobileNumber: mobileNumber,
-          navigateFromSignup: true,
-        });
+        handleAPISignup();
       }
+    } else if (mobileNumber.trim() === "") {
+      flashMessageWarning(getTranslation("emptyMobileNumber"));
+    } else if (!regex.mobile.test(mobileNumber)) {
+      flashMessageWarning(getTranslation("invalidMobileNumber"));
     } else {
-      if (mobileNumber.trim() === "") {
-        flashMessageWarning(getTranslation("emptyMobileNumber"));
-      } else if (!regex.mobile.test(mobileNumber)) {
-        flashMessageWarning(getTranslation("invalidMobileNumber"));
-      } else {
-        setMobileNumber("");
-        navigation.navigate("Verification", {
-          countryCode: countryCode,
-          mobileNumber: mobileNumber,
-          navigateFromSignup: true,
-        });
+      handleAPISignup();
+    }
+  };
+
+  const handleAPISignup = async () => {
+    console.log("type ===>>", DeviceInfoManager.getPlatformType());
+    const dictData: DeviceInfoType = {
+      device_type: DeviceInfoManager.getPlatformType(),
+      device_token: "0",
+      os_version: await DeviceInfoManager.getVersion(),
+      device_name: await DeviceInfoManager.getDeviceName(),
+      model_name: await DeviceInfoManager.getModel(),
+      ip: await DeviceInfoManager.getIpAddress(),
+      uuid: await DeviceInfoManager.getUniqueId(),
+      sign_in_type: isEmailSelected ? "email" : "phone",
+    };
+
+    if (isEmailSelected) {
+      dictData.email = email.trim();
+      dictData.password = password.trim();
+      dictData.mobile_number = Number(mobileNumber);
+      dictData.country_code = countryCode.trim();
+    } else {
+      dictData.mobile_number = Number(mobileNumber);
+      dictData.country_code = countryCode.trim();
+    }
+
+    try {
+      const response = await signupApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("SIGNUP RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          flashMessageSucess(response.message);
+          setEmail("");
+          setMobileNumber("");
+          setPassword("");
+          setEmailFocused(false);
+          setMobileNumberFocused(false);
+          setPasswordFocused(false);
+          navigation.navigate("Verification", {
+            mobileNumber: mobileNumber,
+            countryCode: countryCode,
+            navigateFromSignup: true,
+          });
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
       }
+    } catch (error) {
+      __DEV__ && console.log(error);
     }
   };
 

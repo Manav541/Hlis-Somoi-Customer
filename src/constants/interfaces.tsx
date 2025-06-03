@@ -1,6 +1,27 @@
 import { ImageSourcePropType } from "react-native";
 import { Source as FastImageSource } from 'react-native-fast-image';
 
+export interface DeviceInfoType {
+  device_type: string;
+  device_token: string;
+  os_version: string;
+  device_name: string;
+  model_name: string;
+  ip: string;
+  uuid: string;
+  sign_in_type: 'email' | 'phone';
+  mobile_number?: number;
+  country_code?: string;
+  email?: string;
+  password?: string;
+}
+ 
+export interface APIResponseType {
+  code: number;
+  message: string;
+  data: object;
+}
+
 export interface CountryDataType {
   name: string;
   flag: string;

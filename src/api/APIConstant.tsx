@@ -10,10 +10,12 @@ export const apiEndPoint = {
   //Authentication
   signup: '/auth/customer/signup',
   login: '/auth/customer/login',
+  requestOtp: '/auth/customer/request-otp',
+  otpVerification: '/auth/customer/otp-verification',
 };
  
 // API status codes
-export const statusCode = {
+export const statusCodes = {
   invaildOrFail: 0,
   emptyData: 2,
   success: 1,
