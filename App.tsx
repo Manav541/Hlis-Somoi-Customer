@@ -14,10 +14,12 @@ import FlashMessage from "react-native-flash-message";
 import { MmkvManager } from "./src/constants/utils/MmkvManager";
 import { ScreenNames } from "./src/routers";
 import { colors } from "./src/constants/Colors";
+import { setLoaderRef } from "./src/constants/GConstant";
 
 const App = () => {
   const flashMessageRef = useRef<any>(null);
   const [initialRoute, setInitialRoute] = useState<string | null>(null);
+  const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
     if (initialRoute !== null) {
@@ -58,6 +60,19 @@ const App = () => {
     );
   }, []);
 
+  // ✅ Setup global loader listener separately
+  useEffect(() => {
+    setLoaderRef({
+      toggleLoader: (show: boolean) => {
+        console.log("Global loader toggled: ", show);
+        setShowLoader(show);
+      },
+    });
+
+    // Optional: cleanup on unmount
+    return () => setLoaderRef(null);
+  }, []);
+
   if (initialRoute === null) {
     return (
       <View style={styles.vwActivityIndicator}>
@@ -73,6 +88,21 @@ const App = () => {
       <View style={styles.flashMessage}>
         <FlashMessage position={"top"} ref={flashMessageRef} />
       </View>
+      {/* ✅ Global Loader */}
+      {showLoader && (
+        <View style={styles.loaderOverlay}>
+          <ActivityIndicator
+            style={{
+              height: 100,
+              width: 100,
+              borderRadius: 20,
+              backgroundColor: colors.white,
+            }}
+            size="large"
+            color={colors.orange1c}
+          />
+        </View>
+      )}
     </I18nextProvider>
   );
 };
@@ -91,7 +121,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.blue4e,
+    // backgroundColor: colors.blue4e,
+  },
+  loaderOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    backgroundColor: 'transparent',
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 999,
+    elevation: 999,
   },
 });
 

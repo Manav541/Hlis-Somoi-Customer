@@ -121,6 +121,7 @@ export const setLoaderRef = (ref: LoaderRef | null) => {
 };
 export const toggleLoader = (showLoader: boolean) => {
   if (loaderRef) {
+    console.log('showLoader => ',showLoader);
     loaderRef.toggleLoader(showLoader);
   }
 };

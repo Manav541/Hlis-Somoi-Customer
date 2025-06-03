@@ -11,9 +11,19 @@ import { regex } from "../../../constants/Regex";
 import { CommonActions } from "@react-navigation/native";
 import { constnatStyles } from "../../../constants/Styles";
 import { ScreenNames } from "../../../routers";
+import { zustandStore } from "../../../store";
+import { statusCodes } from "../../../api/APIConstant";
 
 const ChangePasswordContainer = ({ navigation, route }: any) => {
+   // API Zustand Store
+   const changeForgotPasswordApi = zustandStore.AuthStore(
+    (state) => state.changeForgotPassword
+  );
+  const changePasswordApi = zustandStore.AuthStore(
+    (state) => state.changePassword
+  );
   const { navigateFromForgotPassword } = route?.params;
+  const [email, setEmail] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -113,30 +123,73 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
     } else if (newPassword !== confirmPassword) {
       flashMessageWarning(getTranslation("passwordNotMatch"));
     } else {
-      flashMessageSucess(getTranslation("passwordChangedSucessfully"));
       if (navigateFromForgotPassword) {
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 1,
-            routes: [{ name: "Sign In" }],
-          })
-        );
+        handlechangeForgotPasswordApi();
       } else {
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 1,
-            routes: [
-              {
-                name: ScreenNames.bottomTabsNavigation,
-                state: {
-                  routes: [{ name: ScreenNames.settings }],
-                  index: 0,
-                },
-              },
-            ],
-          })
-        );
+        handlechangePasswordApi();
       }
+    }
+  };
+
+  const handlechangeForgotPasswordApi = async () => {
+    const dictData = {
+      email: email,
+      new_password: newPassword,
+    };
+
+    try {
+      const response = await changeForgotPasswordApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("CHANGE FORGOT PASSWORD RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          flashMessageWarning(response.message);
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [{ name: "Sign In" }],
+            })
+          );
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  const handlechangePasswordApi = async () => {
+    const dictData = {
+      old_password: oldPassword,
+      new_password: newPassword,
+    };
+
+    try {
+      const response = await changePasswordApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("CHANGE PASSWORD RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          flashMessageWarning(response.message);
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [
+                {
+                  name: ScreenNames.bottomTabsNavigation,
+                  state: {
+                    routes: [{ name: ScreenNames.settings }],
+                    index: 0,
+                  },
+                },
+              ],
+            })
+          );
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
     }
   };
 
@@ -153,7 +206,10 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
 
   useEffect(() => {
     header();
-  }, []);
+    if (route?.params) {
+      setEmail(route?.params?.email);
+    }
+  }, [route]);
 
   return (
     <ChangePasswordComponent

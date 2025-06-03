@@ -12,8 +12,16 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { CommonActions } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
 import { constnatStyles } from "../../../constants/Styles";
+import { MmkvManager } from "../../../constants/utils/MmkvManager";
+import { AddressResponseType } from "../../../constants/interfaces";
+import { zustandStore } from "../../../store";
+import { statusCodes } from "../../../api/APIConstant";
 
 const AddAddressContainer = ({ navigation, route }: any) => {
+  // API Zustand Store
+  const addAddressApi = zustandStore.AddressStore(
+    (state) => state.addAddress
+  );
   const [address, setAddress] = useState("");
   const [house, setHouse] = useState("");
   const [additionalDescription, setAdditionalDescription] = useState("");
@@ -79,18 +87,47 @@ const AddAddressContainer = ({ navigation, route }: any) => {
     } else if (house.trim() === "") {
       flashMessageWarning(getTranslation("houseRequired"));
     } else {
-      if (!isNavigateFromManageAddress) {
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 1,
-            routes: [{ name: ScreenNames.bottomTabsNavigation }],
-          })
-        );
-        flashMessageSucess(getTranslation("addressAddedSucess"));
-      } else {
-        navigation.goBack();
-        flashMessageSucess(getTranslation("addressAddedSucess"));
+      handleAddUpdateLocationApi();
+    }
+  };
+
+  const handleAddUpdateLocationApi = async() => {
+    const dictData : AddressResponseType = {
+      address : address,
+      building_details : house,
+      description: additionalDescription,
+      customer_id: route?.params?.customer_id,
+      latitude:"23.07546426923766",
+      longitude:"72.52575269830908"
+    };
+    if (isNavigateFromManageAddress) {
+      dictData.is_default = isDefault;
+    } 
+    try {
+      const response = await addAddressApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("ADD UPDATE LOCATION RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          flashMessageWarning(response.message);
+          if (!isNavigateFromManageAddress) {
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [{ name: ScreenNames.bottomTabsNavigation }],
+              })
+            );
+            // flashMessageSucess(getTranslation("addressAddedSucess"));
+          } else {
+            navigation.goBack();
+            // flashMessageSucess(getTranslation("addressAddedSucess"));
+          }
+         
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
       }
+    } catch (error) {
+      __DEV__ && console.log(error);
     }
   };
 
@@ -155,8 +192,13 @@ const AddAddressContainer = ({ navigation, route }: any) => {
         return false;
       }
     );
-
     return () => backHandler.remove();
+  }, [route]);
+
+  useEffect(() => {
+    MmkvManager.getData(MmkvManager.Keys.userToken, token => {
+      console.log("Token from MMKV:", token); 
+    });
   }, []);
 
   return (

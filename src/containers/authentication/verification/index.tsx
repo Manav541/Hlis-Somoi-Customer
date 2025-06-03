@@ -14,6 +14,11 @@ import { CommonActions } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
 import { constnatStyles } from "../../../constants/Styles";
 import { zustandStore } from "../../../store";
+import { statusCodes } from "../../../api/APIConstant";
+import {
+  RequestOTPResponseType,
+  VerifyOTPResponseType,
+} from "../../../constants/interfaces";
 
 interface OtpArray {
   value: string;
@@ -53,7 +58,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
   const appStateRef = useRef(AppState.currentState);
-  const [emailFromRoute, setEmailFromRoute] = useState("");
+  const [email, setEmail] = useState("");
   const [countryCode, setCountryCode] = useState<string>("");
   const [mobileNumber, setMobileNumber] = useState<string>("");
   const {
@@ -110,28 +115,34 @@ const VerificationContainer = ({ navigation, route }: any) => {
   };
 
   const handleOnPressResendOtp = async () => {
+    const dictData: RequestOTPResponseType = {};
+
+    if (email) {
+      dictData.email = email;
+    } else {
+      dictData.mobile_number = Number(mobileNumber);
+      dictData.country_code = countryCode.trim();
+    }
+
     try {
-      const response = await requestResendOtpApi(
-        Number(mobileNumber),
-        countryCode,
-        navigation
-      );
-      console.log("Data=====>>>>>>", JSON.stringify(response));
-      if (response.code == 1) {
-        console.log(response);
-        flashMessageSucess(response?.message);
-        const clearedOtpArray = otpArray.map((item) => ({
-          ...item,
-          value: "",
-        }));
-        setOtpArray(clearedOtpArray);
-        setFullOtp("");
-        handleResendOtpTimer();
-      } else if (response.code == 0) {
-        flashMessageWarning(response.message);
+      const response = await requestResendOtpApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("SIGNUP RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          flashMessageSucess(response.message);
+          const clearedOtpArray = otpArray.map((item) => ({
+            ...item,
+            value: "",
+          }));
+          setOtpArray(clearedOtpArray);
+          setFullOtp("");
+          handleResendOtpTimer();
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
       }
-    } catch (error: any) {
-      console.log("Error:", error.message);
+    } catch (error) {
+      __DEV__ && console.log(error);
     }
   };
 
@@ -141,84 +152,96 @@ const VerificationContainer = ({ navigation, route }: any) => {
       flashMessageWarning(getTranslation("emptyOtp"));
       return;
     } else {
-      // Handle forgot password flow
-      if (navigateFromForgotPassword) {
-        navigation.navigate("Change Password", {
-          navigateFromForgotPassword,
-        });
-      }
-      // Handle signup flow
-      else if (navigateFromSignup) {
-        try {
-          const response = await otpVerificationApi(
-            Number(mobileNumber),
-            countryCode,
-            Number(fullOtp),
-            emailFromRoute,
-            navigation
-          );
+      handleotpVerificationApi();
+    }
+  };
 
-          console.log("Data=====>>>>>>", JSON.stringify(response));
+  const handleotpVerificationApi = async () => {
+    const dictData: VerifyOTPResponseType = {
+      otp: Number(fullOtp),
+    };
 
-          if (response.code == 1) {
-            console.log(response);
-            // Clear OTP fields after successful validation
-            const clearedOtpArray = otpArray.map((item) => ({
-              ...item,
-              value: "",
-            }));
-            setOtpArray(clearedOtpArray);
-            setFullOtp("");
+    if (email) {
+      dictData.email = email;
+    } else {
+      dictData.mobile_number = Number(mobileNumber);
+      dictData.country_code = countryCode.trim();
+    }
 
-            const userTokenFromBackend = response?.data?.device_info?.token;
+    try {
+      const response = await otpVerificationApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("OTP VERIFICATION RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          // Clear OTP fields after successful validation
+          const clearedOtpArray = otpArray.map((item) => ({
+            ...item,
+            value: "",
+          }));
+          setOtpArray(clearedOtpArray);
+          setFullOtp("");
+
+          // Handle forgot password flow
+          if (navigateFromForgotPassword) {
+            navigation.navigate(ScreenNames.changePassword, {
+              navigateFromForgotPassword,
+              email: email,
+            });
+          }
+          // Handle signup flow
+          else if (navigateFromSignup) {
+            flashMessageSucess(response?.message);
+            const userTokenFromBackend = (response?.data as any)?.device_info?.token;
+            console.log("userTokenFromBackend", userTokenFromBackend);
             MmkvManager.setData(
               MmkvManager.Keys.userToken,
               userTokenFromBackend
             );
-
+            const customer_id = (response?.data as any)?.customer_details?.id;
             MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
-            flashMessageSucess(response?.message);
-            navigation.navigate("Add Address", {
+
+            navigation.navigate(ScreenNames.addAddress, {
               navigateFromManageAddress: false,
+              customer_id:customer_id
             });
-          } else if (response.code == 0) {
-            flashMessageWarning(response.message);
+          } else if (navigateFromChangeEmailPhone) {
+            if (route?.params?.email) {
+              flashMessageSucess(getTranslation("emailUpdateSuccess"));
+            } else if (route?.params?.mobileNumber) {
+              flashMessageSucess(getTranslation("phoneNumberUpdateSuccess"));
+            }
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [
+                  {
+                    name: ScreenNames.bottomTabsNavigation,
+                    state: {
+                      routes: [{ name: ScreenNames.settings }],
+                      index: 0,
+                    },
+                  },
+                ],
+              })
+            );
           }
-        } catch (error: any) {
-          console.log("Error:", error.message);
+          // Handle default login flow
+          else {
+            MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
+            flashMessageSucess(getTranslation("loginSuccessfully"));
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [{ name: ScreenNames.bottomTabsNavigation }],
+              })
+            );
+          }
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
         }
-      } else if (navigateFromChangeEmailPhone) {
-        if (route?.params?.email) {
-          flashMessageSucess(getTranslation("emailUpdateSuccess"));
-        } else if (route?.params?.mobileNumber) {
-          flashMessageSucess(getTranslation("phoneNumberUpdateSuccess"));
-        }
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 1,
-            routes: [
-              {
-                name: ScreenNames.bottomTabsNavigation,
-                state: {
-                  routes: [{ name: ScreenNames.settings }],
-                  index: 0,
-                },
-              },
-            ],
-          })
-        );
       }
-      // Handle default login flow
-      else {
-        MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
-        flashMessageSucess(getTranslation("loginSuccessfully"));
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 1,
-            routes: [{ name: ScreenNames.bottomTabsNavigation }],
-          })
-        );
-      }
+    } catch (error) {
+      __DEV__ && console.log(error);
     }
   };
 
@@ -264,7 +287,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
 
   useEffect(() => {
     if (route?.params) {
-      setEmailFromRoute(route?.params?.email);
+      setEmail(route?.params?.email);
       setCountryCode(route?.params?.countryCode);
       setMobileNumber(route?.params?.mobileNumber);
     }
@@ -276,7 +299,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
       handleOnChangeText={handleOnChangeText}
       handleOnSubmit={handleOnSubmit}
       handleOnKeyPress={handleOnKeyPress}
-      emailFromRoute={emailFromRoute}
+      email={email}
       otp={otp}
       resendOtp={resendOtp}
       onPressResendOtp={handleOnPressResendOtp}

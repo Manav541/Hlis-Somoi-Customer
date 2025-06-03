@@ -1,86 +1,67 @@
 import { create } from "zustand";
 import { apiEndPoint } from "../../api/APIConstant";
 import { APIManager } from "../../api/ApiManager";
+import { APIResponseType } from "../../constants/interfaces";
 
 interface Store {
-  otpVerification: any;
-  requestResendOtp: any;
+  otpVerification: (dictData: object, navigation: any) => Promise<APIResponseType>;
+  requestResendOtp: (dictData: object, navigation: any) => Promise<APIResponseType>;
 }
 
 const OtpVerificationStore = create<Store>((set) => ({
-  otpVerification: async (
-    mobile_number: number,
-    country_code: string,
-    otp: number,
-    email: string,
-    navigation: any
-  ) => {
-    const dictData = {
-      mobile_number: mobile_number,
-      country_code: country_code,
-      otp: otp,
-      email: email,
-    };
-
-    return new Promise((resolve, reject) => {
-      const callback = async (data: any, error: any) => {
+  
+  otpVerification(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: {message: string} | null,
+      ) => {
         if (error) {
-          console.error("API error:", error);
-          reject(new Error(error.message || "An error occurred"));
+          console.warn('API error===>', error);
+          reject(error.message || 'An error occurred');
           return;
-        }
-
-        if (data.code == 1) {
-          resolve(data);
-        } else if (data.code == 0) {
-          resolve(data);
+        } else {
+          if (data) {
+            resolve(data);
+          }
         }
       };
-
+ 
       APIManager.postServerRequestWithoutToken({
         apiEndPoint: apiEndPoint.otpVerification,
-        dictData,
-        navigation,
-        callback,
-        showLoader: true,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
       });
     });
   },
 
-  requestResendOtp: async (
-    mobile_number: number,
-    country_code: string,
-    navigation: any
-  ) => {
-    const dictData = {
-      mobile_number: Number(mobile_number),
-      country_code: country_code,
-    };
-
-    return new Promise((resolve, reject) => {
-      const callback = async (data: any, error: any) => {
+  requestResendOtp(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: {message: string} | null,
+      ) => {
         if (error) {
-          console.error("API error:", error);
-          reject(new Error(error.message || "An error occurred"));
+          console.warn('API error===>', error);
+          reject(error.message || 'An error occurred');
           return;
-        }
-
-        if (data.code == 1) {
-          resolve(data);
-        } else if (data.code === 0) {
-          reject(new Error(data.message));
+        } else {
+          if (data) {
+            resolve(data);
+          }
         }
       };
-
+ 
       APIManager.postServerRequestWithoutToken({
         apiEndPoint: apiEndPoint.requestOtp,
-        dictData,
-        navigation,
-        callback,
-        showLoader: true,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
       });
     });
   },
+
 }));
 
 export default OtpVerificationStore;

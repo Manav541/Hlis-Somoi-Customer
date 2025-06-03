@@ -24,7 +24,7 @@ interface PropsType {
   handleOnChangeText: (text: string, index: number) => void;
   handleOnSubmit: (index: number) => void;
   handleOnKeyPress: (nativeEvent: any, item: any, index: number) => void;
-  emailFromRoute: string;
+  email: string;
   otp: number;
   resendOtp: boolean;
   onPressResendOtp: () => void;
@@ -45,8 +45,8 @@ const VerificationComponent = (props: PropsType) => {
         <GlobalLogoTitle style={styles.vwLogoTitle} />
         <Text style={styles.lblTitle}>{getTranslation("enterYouOTPDesc")}</Text>
         <Text style={styles.lblTitle}>
-          {props?.emailFromRoute
-            ? props.emailFromRoute
+          {props?.email
+            ? props.email
             : props?.countryCode + ' ' + props?.mobileNumber}
         </Text>
 

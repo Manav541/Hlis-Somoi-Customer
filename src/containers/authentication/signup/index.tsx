@@ -4,6 +4,7 @@ import { regex } from "../../../constants/Regex";
 import {
   flashMessageSucess,
   flashMessageWarning,
+  toggleLoader,
 } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { CountryData } from "../../../constants/utils/CountryData";
@@ -168,7 +169,6 @@ const SignupContainer = ({ navigation }: any) => {
   };
 
   const handleAPISignup = async () => {
-    console.log("type ===>>", DeviceInfoManager.getPlatformType());
     const dictData: DeviceInfoType = {
       device_type: DeviceInfoManager.getPlatformType(),
       device_token: "0",
@@ -181,6 +181,7 @@ const SignupContainer = ({ navigation }: any) => {
     };
 
     if (isEmailSelected) {
+      dictData.name = name.trim();
       dictData.email = email.trim();
       dictData.password = password.trim();
       dictData.mobile_number = Number(mobileNumber);
@@ -196,6 +197,7 @@ const SignupContainer = ({ navigation }: any) => {
         __DEV__ && console.log("SIGNUP RESPONSE===>", response);
         if (response.code === statusCodes.success) {
           flashMessageSucess(response.message);
+          setName("");
           setEmail("");
           setMobileNumber("");
           setPassword("");

@@ -137,7 +137,8 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
             backgroundColor: colors.orange1c,
             alignItems: "center",
             justifyContent : 'space-between',
-            paddingBottom : 10
+            paddingBottom : 10,
+            paddingLeft : 16
           }}
         >
           <GlobalBackButton onPress={() => navigation.goBack()} style={{marginBottom : 0}} />

@@ -1,5 +1,5 @@
 import { ImageSourcePropType } from "react-native";
-import { Source as FastImageSource } from 'react-native-fast-image';
+import { Source as FastImageSource } from "react-native-fast-image";
 
 export interface DeviceInfoType {
   device_type: string;
@@ -9,17 +9,41 @@ export interface DeviceInfoType {
   model_name: string;
   ip: string;
   uuid: string;
-  sign_in_type: 'email' | 'phone';
+  sign_in_type: "email" | "phone";
   mobile_number?: number;
   country_code?: string;
   email?: string;
   password?: string;
+  name?: string;
 }
- 
+
 export interface APIResponseType {
   code: number;
   message: string;
   data: object;
+}
+
+export interface VerifyOTPResponseType {
+  mobile_number?: number;
+  country_code?: string;
+  otp: number;
+  email?: string;
+}
+
+export interface RequestOTPResponseType {
+  mobile_number?: number;
+  country_code?: string;
+  email?: string;
+}
+
+export interface AddressResponseType {
+  address: string;
+  latitude: string;
+  longitude: string;
+  building_details: string;
+  description?: string;
+  is_default?: boolean;
+  customer_id: string;
 }
 
 export interface CountryDataType {
