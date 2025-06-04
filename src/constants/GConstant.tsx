@@ -111,6 +111,16 @@ export const flashMessageWarning = (message: string | null) => {
   });
 };
 
+// s3 Bucket
+export const GlobalVar = {
+  region: "ap-south-1",
+  permissionAccess: "public-read-write",
+  bucketName: "hlik-deep-bhaumik",
+  url: "https://hlik-deep-bhaumik.s3.amazonaws.com/",
+  // url: "https://hlik-deep-bhaumik.s3.amazonaws.com/somoiapp/",
+};
+
+
 // Loader
 interface LoaderRef {
   toggleLoader: (show: boolean) => void;

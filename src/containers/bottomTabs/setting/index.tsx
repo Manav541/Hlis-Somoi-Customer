@@ -18,11 +18,20 @@ import {
   StatusBar,
   Text,
 } from "react-native";
-import { SettingDataItem } from "../../../constants/interfaces";
+import { SettingDataItem, SignupResponse } from "../../../constants/interfaces";
 import { constnatStyles } from "../../../constants/Styles";
+import { zustandStore } from "../../../store";
+import { statusCodes } from "../../../api/APIConstant";
 
 const SettingContainer = ({ navigation, route }: any) => {
   console.log("route ==>>> ", route?.params?.name);
+  // API Zustand Store
+  const logoutApi = zustandStore.AuthStore((state) => state.logout);
+  const deleteAccountApi = zustandStore.AuthStore(
+    (state) => state.deleteAccount
+  );
+  const customerDetailApi = zustandStore.AuthStore((state) => state.getCustomerDetail);
+
   const [profileImage, setProfileImage] = useState<ImageSourcePropType>(
     images.profileIcon
   );
@@ -31,7 +40,6 @@ const SettingContainer = ({ navigation, route }: any) => {
   const [isModalSignOutVisible, setIsModalSignOutVisible] = useState(false);
   const [isGuestUser, setIsGuestUser] = useState(false);
   const [isSharing, setIsSharing] = useState<boolean>(true);
-
 
   // Constants for common values
   const ICON_SIZE = {
@@ -221,33 +229,85 @@ const SettingContainer = ({ navigation, route }: any) => {
   };
 
   const handleOnPressYesDelete = () => {
-    setIsModalDeleteVisible(false);
-    MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
-    MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
-    flashMessageSucess(getTranslation("profileDeleted"));
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{ name: ScreenNames.signup }],
-      })
-    );
+    handleDeleteAccountApi();
+  };
+
+  const handleDeleteAccountApi = async () => {
+    try {
+      const response = await deleteAccountApi({}, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("LOGOUT RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          flashMessageWarning(response.message);
+          setIsModalSignOutVisible(false);
+          MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
+          MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [{ name: ScreenNames.signup }],
+            })
+          );
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
   };
 
   const handleOnPressYesSignOut = () => {
-    setIsModalSignOutVisible(false);
-    MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
-    MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
-    flashMessageSucess(getTranslation("logoutSuccess"));
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{ name: ScreenNames.signin }],
-      })
-    );
+    handleLogoutApi();
+  };
+
+  const handleLogoutApi = async () => {
+    try {
+      const response = await logoutApi({}, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("LOGOUT RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          flashMessageWarning(response.message);
+          setIsModalSignOutVisible(false);
+          MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
+          MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [{ name: ScreenNames.signin }],
+            })
+          );
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  const handleCustomerDetailApi = async()=>{
+    try {
+      const response = await customerDetailApi({}, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("CUSTOMER DETIALS RESPONSE===>", JSON.stringify((response.data as SignupResponse)));
+        const data = JSON.stringify((response.data as SignupResponse).customer_details)
+        if (response.code === statusCodes.success) {
+          setName(JSON.parse(data).name);
+          setProfileImage(JSON.parse(data).profile_image);
+         
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
   };
 
   useFocusEffect(
     React.useCallback(() => {
+      handleCustomerDetailApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
@@ -263,6 +323,8 @@ const SettingContainer = ({ navigation, route }: any) => {
       ),
     });
   }, []);
+
+ 
 
   return (
     <SettingComponent

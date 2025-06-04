@@ -15,8 +15,8 @@ import { zustandStore } from "../../../store";
 import { statusCodes } from "../../../api/APIConstant";
 
 const ChangePasswordContainer = ({ navigation, route }: any) => {
-   // API Zustand Store
-   const changeForgotPasswordApi = zustandStore.AuthStore(
+  // API Zustand Store
+  const changeForgotPasswordApi = zustandStore.AuthStore(
     (state) => state.changeForgotPassword
   );
   const changePasswordApi = zustandStore.AuthStore(

@@ -31,6 +31,9 @@ interface PropsType {
   handleOnPressContinueUpdateSubmit: () => void;
   countryCode: string;
   mobileNumber: string;
+  navigateFromSignup: boolean;
+  changeEmail: boolean;
+  siginPhone: boolean;
 }
 
 const VerificationComponent = (props: PropsType) => {
@@ -45,9 +48,9 @@ const VerificationComponent = (props: PropsType) => {
         <GlobalLogoTitle style={styles.vwLogoTitle} />
         <Text style={styles.lblTitle}>{getTranslation("enterYouOTPDesc")}</Text>
         <Text style={styles.lblTitle}>
-          {props?.email
-            ? props.email
-            : props?.countryCode + ' ' + props?.mobileNumber}
+          {props?.navigateFromSignup || props?.changeEmail === false || props?.siginPhone === true
+            ? props?.countryCode + " " + props?.mobileNumber
+            : props.email}
         </Text>
 
         {/* View OTP Field */}

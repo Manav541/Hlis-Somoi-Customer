@@ -18,11 +18,23 @@ interface Store {
     dictData: object,
     navigation: any
   ) => Promise<APIResponseType>;
-  getCustomerDetail: (
+  editProfile: (dictData: object, navigation: any) => Promise<APIResponseType>;
+  updatePhoneEmailVerification: (
     dictData: object,
     navigation: any
   ) => Promise<APIResponseType>;
-  updatePhoneEmailVerification: (
+  updatePhoneEmail: (
+    dictData: object,
+    navigation: any
+  ) => Promise<APIResponseType>;
+  logout: (dictData: object, navigation: any) => Promise<APIResponseType>;
+  deleteAccount: (
+    dictData: object,
+    navigation: any
+  ) => Promise<APIResponseType>;
+
+  // Home
+  getCustomerDetail: (
     dictData: object,
     navigation: any
   ) => Promise<APIResponseType>;
@@ -159,7 +171,7 @@ const AuthStore = create<Store>((set) => ({
     });
   },
 
-  getCustomerDetail(dictData, navigation) {
+  editProfile(dictData, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -176,8 +188,8 @@ const AuthStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.getServerRequestWithToken({
-        apiEndPoint: apiEndPoint.getCustomerDetail,
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.editProfile,
         callback: callback,
         dictData: dictData,
         navigation: navigation,
@@ -204,6 +216,111 @@ const AuthStore = create<Store>((set) => ({
 
       APIManager.postServerRequestWithToken({
         apiEndPoint: apiEndPoint.updatePhoneEmailVerification,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  updatePhoneEmail(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.updatePhoneEmail,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  logout(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.logout,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  deleteAccount(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.deleteAccount,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  // Home
+  getCustomerDetail(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.getServerRequestWithToken({
+        apiEndPoint: apiEndPoint.getCustomerDetail,
         callback: callback,
         dictData: dictData,
         navigation: navigation,

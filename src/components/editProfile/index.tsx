@@ -27,9 +27,12 @@ interface PropsType {
   nameFocused: boolean;
   profileImage: string;
   handleOnPressProfileImage: () => void;
+  uploadedProfileUrl: string | null;
+  userProfileUrl: string;
 }
 
 const EditProfileComponent = (props: PropsType) => {
+  console.log("props", props?.userProfileUrl);
   return (
     <KeyboardAwareScrollView
       bounces={false}
@@ -58,17 +61,17 @@ const EditProfileComponent = (props: PropsType) => {
         >
           <FastImage
             style={
-              props?.profileImage
+              props?.userProfileUrl
                 ? styles.imgProfileBigIconUri
                 : styles.imgProfileBigIcon
             }
             source={
-              props?.profileImage
-                ? { uri: props?.profileImage }
+              props?.userProfileUrl
+                ? { uri: props?.userProfileUrl }
                 : images.profileBigIcon
             }
           />
-          {props?.profileImage && (
+          {props?.userProfileUrl && (
             <Image style={styles.imgCamera} source={images.camera} />
           )}
         </TouchableOpacity>

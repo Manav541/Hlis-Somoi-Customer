@@ -17,10 +17,30 @@ import { Asset } from "react-native-image-picker";
 import { useFocusEffect } from "@react-navigation/native";
 import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
+import { zustandStore } from "../../store";
+import { statusCodes } from "../../api/APIConstant";
+import { editProfileResponse, SecretKeyItem, SignupResponse } from "../../constants/interfaces";
+import ImageUpload, { FolderName } from "../../constants/utils/S3ImageUpload";
 
 const EditProfileContainer = ({ navigation }: any) => {
+  // API Zustand Store
+  const editProfileApi = zustandStore.AuthStore((state) => state.editProfile);
+  const customerDetailApi = zustandStore.AuthStore(
+    (state) => state.getCustomerDetail
+  );
+  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
+
+  const [s3AccessKey, setS3AccessKey] = useState<string>("");
+  const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
+  const [userProfileUrl, setUserProfileUrl] = useState<string>("");
+  const [uploadedProfileUrl, setUploadedProfileUrl] = useState<string | null>(
+    null
+  );
+
+
+
   const [profileImage, setProfileImage] = useState<string>("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState<string>("");
   const nameRef = useRef<TextInput>(null);
   const [nameFocused, setNameFocused] = useState(false);
 
@@ -44,6 +64,23 @@ const EditProfileContainer = ({ navigation }: any) => {
     }
   };
 
+  const uploadImageUser = async (url: any) => {
+    await ImageUpload.uploadImage(
+      s3AccessKey,
+      s3SecretAccessKey,
+      url,
+      FolderName.USER_IMAGE,
+      "image/png",
+      ".png",
+      (response: any) => {
+        console.log("Profile uploaded sucessfully ===>", response);
+        setUserProfileUrl(url);
+        setUploadedProfileUrl(response);
+      }
+    );
+  };
+
+
   const handleOnPressProfileImage = () => {
     checkPermission(cameraPermission, messages.cameraPermission).then(
       (isAllow) => {
@@ -59,7 +96,11 @@ const EditProfileContainer = ({ navigation }: any) => {
                       Array.isArray(pickerResponse) &&
                       pickerResponse[0]?.uri
                     ) {
-                      setProfileImage(pickerResponse[0].uri);
+                      const selectedImageUri = pickerResponse[0].uri;
+                      // setProfileImage(selectedImageUri);
+  
+                      // ✅ Upload image here
+                      uploadImageUser(selectedImageUri);
                     } else {
                       __DEV__ && console.log("No media selected or captured");
                     }
@@ -76,15 +117,83 @@ const EditProfileContainer = ({ navigation }: any) => {
   };
 
   const handleOnPressUpadte = () => {
-    if (profileImage == "") {
+    if (userProfileUrl == "") {
       flashMessageWarning(getTranslation("emptyPfofileImage"));
-    }
-    else if (name.trim() == "") {
+    } else if (name.trim() == "") {
       flashMessageWarning(getTranslation("emptyName"));
     } else {
-      navigation.setParams({ profileImage, name });
-      navigation.goBack();
-      flashMessageSucess(getTranslation("profileUpdatedSucess"));
+      handleEditProfileApi();
+    }
+  };
+
+  const handleEditProfileApi = async () => {
+    const dictData : editProfileResponse = {
+      name : name,
+      profile_image: uploadedProfileUrl,
+    };
+    try {
+      const response = await editProfileApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("EDIT PROFILE RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          flashMessageSucess(response.message);
+          navigation.goBack();
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  const handleCustomerDetailApi = async () => {
+    try {
+      const response = await customerDetailApi({}, navigation);
+      if (response !== undefined && response !== null) {
+        // __DEV__ &&
+        //   console.log(
+        //     "CUSTOMER DETIALS RESPONSE===>",
+        //     JSON.stringify(response.data as SignupResponse)
+        //   );
+        const data = JSON.stringify(
+          (response.data as SignupResponse).customer_details
+        );
+        if (response.code === statusCodes.success) {
+          setName(JSON.parse(data).name);
+          setUserProfileUrl(JSON.parse(data).profile_image);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  const handleSecretKeyApi = async () => {
+    try {
+      const response = await secretKeyApi({}, navigation);
+      if (response?.code === statusCodes.success && Array.isArray(response.data)) {
+        const keysData = response.data as SecretKeyItem[];
+  
+        keysData.forEach((item) => {
+          switch (item.name) {
+            case "S3_ACCESS_KEY":
+              if (item.keys) setS3AccessKey(item.keys);
+              break;
+            case "S3_SECRET_KEY":
+              if (item.keys) setS3SecretAccessKey(item.keys);
+              break;
+            default:
+              break;
+          }
+        });
+      } else if (response?.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
+      }
+    } catch (error) {
+      __DEV__ && console.log("Secret Key API Error:", error);
     }
   };
 
@@ -98,7 +207,9 @@ const EditProfileContainer = ({ navigation }: any) => {
         />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.editProfile}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.editProfile}
+        </Text>
       ),
     });
   };
@@ -109,6 +220,8 @@ const EditProfileContainer = ({ navigation }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      handleCustomerDetailApi();
+      handleSecretKeyApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
@@ -125,6 +238,8 @@ const EditProfileContainer = ({ navigation }: any) => {
       handleOnPressUpadte={handleOnPressUpadte}
       profileImage={profileImage}
       handleOnPressProfileImage={handleOnPressProfileImage}
+      uploadedProfileUrl={uploadedProfileUrl}
+      userProfileUrl={userProfileUrl}
     />
   );
 };

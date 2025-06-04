@@ -7,6 +7,9 @@ export const apiBaseURL = {
 
 // API end points
 export const apiEndPoint = {
+  // Secret Key
+  secretKey :"/admin/secret-key",
+  
   //Authentication
   signup: "/auth/customer/signup",
   login: "/auth/customer/login",
@@ -16,10 +19,16 @@ export const apiEndPoint = {
     "/auth/customer/forgot-password-email-verification",
   changeForgotPassword: "/auth/customer/change-forgot-password",
   changePassword :"/auth/customer/change-password",
-  addUpdateLocation :"home/customer/add-update-location",
-  getCustomerDetail :"auth/customer/get-customer-details",
+  editProfile :"/auth/customer/edit-profile",
   updatePhoneEmailVerification :"/auth/customer/update-phone-email-verification",
   updatePhoneEmail : "/auth/customer/update-phone-email",
+  logout :"/auth/customer/logout",
+  deleteAccount :"/auth/customer/delete-account",
+  getCustomerDetail :"/auth/customer/get-customer-details",
+  cmsPages :"/auth/customer/cms-pages",
+
+  // Home
+  addUpdateLocation :"/home/customer/add-update-location",
 };
 
 // API status codes

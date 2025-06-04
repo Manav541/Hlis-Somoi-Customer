@@ -8,7 +8,11 @@ import {
 } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { CountryData } from "../../../constants/utils/CountryData";
-import { CountryDataType, DeviceInfoType } from "../../../constants/interfaces";
+import {
+  CountryDataType,
+  DeviceInfoType,
+  RequestOTPResponseType,
+} from "../../../constants/interfaces";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
@@ -23,6 +27,9 @@ import DeviceInfo from "react-native-device-info";
 const SignupContainer = ({ navigation }: any) => {
   // API Zustand Store
   const signupApi = zustandStore.AuthStore((state) => state.signup);
+  const requestResendOtpApi = zustandStore.OtpVerificationStore(
+    (state) => state.requestResendOtp
+  );
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -144,27 +151,81 @@ const SignupContainer = ({ navigation }: any) => {
     if (isEmailSelected) {
       if (name.trim() === "") {
         flashMessageWarning(getTranslation("emptyName"));
+        return;
       } else if (email.trim() === "") {
         flashMessageWarning(getTranslation("emptyEmail"));
+        return;
       } else if (!regex.email.test(email)) {
         flashMessageWarning(getTranslation("invalidEmail"));
+        return;
       } else if (mobileNumber.trim() === "") {
         flashMessageWarning(getTranslation("emptyMobileNumber"));
+        return;
       } else if (!regex.mobile.test(mobileNumber)) {
         flashMessageWarning(getTranslation("invalidMobileNumber"));
+        return;
       } else if (password.trim() === "") {
         flashMessageWarning(getTranslation("emptyPassword"));
+        return;
       } else if (!regex.password.test(password)) {
         flashMessageWarning(getTranslation("invalidPassword"));
-      } else {
-        handleAPISignup();
+        return;
       }
-    } else if (mobileNumber.trim() === "") {
-      flashMessageWarning(getTranslation("emptyMobileNumber"));
-    } else if (!regex.mobile.test(mobileNumber)) {
-      flashMessageWarning(getTranslation("invalidMobileNumber"));
     } else {
-      handleAPISignup();
+      if (mobileNumber.trim() === "") {
+        flashMessageWarning(getTranslation("emptyMobileNumber"));
+        return;
+      } else if (!regex.mobile.test(mobileNumber)) {
+        flashMessageWarning(getTranslation("invalidMobileNumber"));
+        return;
+      }
+    }
+    // API call
+    handleRequestOtpApi();
+  };
+
+  const handleRequestOtpApi = async () => {
+    const dictData: RequestOTPResponseType = {
+      type : 'signup'
+    };
+    if (isEmailSelected) {
+      dictData.email = email;
+    } else {
+      dictData.mobile_number = Number(mobileNumber);
+      dictData.country_code = countryCode.trim();
+    }
+    try {
+      const response = await requestResendOtpApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("SIGNUP SCREEN OTP REQUEST RESPONSE===>", response);
+        
+        if (response.code === statusCodes.success) {
+        
+          flashMessageSucess(response.message);
+          setName("");
+          setEmail("");
+          setMobileNumber("");
+          setPassword("");
+          setEmailFocused(false);
+          setMobileNumberFocused(false);
+          setPasswordFocused(false);
+          navigation.navigate(ScreenNames.verification, {
+            navigateFromSignup: true,
+            name: name,
+            email: email,
+            password: password,
+            mobileNumber: mobileNumber,
+            countryCode: countryCode,
+            isEmailSelected: isEmailSelected,
+            responseOTP: (response.data as { otp: string }).otp
+          });
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
     }
   };
 

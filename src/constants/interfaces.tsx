@@ -1,6 +1,59 @@
 import { ImageSourcePropType } from "react-native";
 import { Source as FastImageSource } from "react-native-fast-image";
 
+export interface SecretKeyItem {
+  id: number;
+  name: string;
+  keys: string | null;
+}
+
+export interface editProfileResponse {
+  name: string;
+  profile_image: string | null;
+}
+
+export interface CustomerDetails {
+  id: string;
+  name: string;
+  email: string;
+  country_code: string;
+  mobile_number: string;
+  password: string;
+  profile_image: string;
+  steps: string;
+  otp: number;
+  is_verified: boolean;
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
+  is_block: boolean;
+}
+
+export interface DeviceInfo {
+  id: string;
+  customer_id: string;
+  user_type: string;
+  token: string;
+  device_type: string;
+  device_token: string;
+  uuid: string;
+  os_version: string;
+  device_name: string;
+  model_name: string;
+  ip: string;
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SignupResponse {
+  customer_details: CustomerDetails;
+  device_info: DeviceInfo;
+  location_data: any[]; // You can update this if you know the structure of items
+}
+
 export interface DeviceInfoType {
   device_type: string;
   device_token: string;
@@ -34,6 +87,23 @@ export interface RequestOTPResponseType {
   mobile_number?: number;
   country_code?: string;
   email?: string;
+  type: string;
+  customer_id?: string;
+}
+
+export interface updatePhoneEmailVerificationApiResponseType {
+  email?: string;
+  mobile_number?: number;
+  country_code?: string;
+  change_type?: string;
+}
+
+export interface updatePhoneEmailApiResponseType {
+  new_email?: string;
+  new_mobile_number?: number;
+  new_country_code?: string;
+  change_type?: string;
+  otp: number;
 }
 
 export interface AddressResponseType {

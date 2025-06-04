@@ -4,19 +4,19 @@ import { APIManager } from "../../api/ApiManager";
 import { APIResponseType } from "../../constants/interfaces";
 
 interface Store {
-  addAddress: (dictData: object, navigation: any) => Promise<APIResponseType>;
+  secretKey: (dictData: object, navigation: any) => Promise<APIResponseType>;
 }
 
-const AddressStore = create<Store>((set) => ({
-    addAddress(dictData, navigation) {
+const KeyStore = create<Store>((set) => ({
+  secretKey(dictData, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
-        error: {message: string} | null,
+        error: { message: string } | null
       ) => {
         if (error) {
-          console.warn('API error===>', error);
-          reject(error.message || 'An error occurred');
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
           return;
         } else {
           if (data) {
@@ -24,18 +24,15 @@ const AddressStore = create<Store>((set) => ({
           }
         }
       };
- 
-      APIManager.postServerRequestWithToken({
-        apiEndPoint: apiEndPoint.addUpdateLocation,
+
+      APIManager.postServerRequestWithoutToken({
+        apiEndPoint: apiEndPoint.secretKey,
         callback: callback,
         dictData: dictData,
         navigation: navigation,
       });
     });
   },
-
- 
-
 }));
 
-export default AddressStore;
+export default KeyStore;

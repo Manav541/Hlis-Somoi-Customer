@@ -9,6 +9,8 @@ export const MmkvManager = {
     isLoggedIn: 'isLoggedIn',
     isGuestUser: 'isGuestUser',
     userToken: 'userToken',
+    customerDetails : 'customerDetails',
+    customerId: 'customerId',
   },
 
   getData: (key: string, callback?: (value: string | null) => void) => {

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ForgotPasswordComponent from "../../../components/authentication/forgotPassword";
 import GlobalBackButton from "../../../global/GlobalBackButton";
 import { Text, TextInput } from "react-native";
-import { flashMessageWarning } from "../../../constants/GConstant";
+import { flashMessageSucess, flashMessageWarning } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { regex } from "../../../constants/Regex";
 import { constnatStyles } from "../../../constants/Styles";
@@ -52,7 +52,7 @@ const ForgotPasswordContainer = ({ navigation, route }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ && console.log("FORGOT PASSWORD EMAIL VERIFY RESPONSE===>", response);
         if (response.code === statusCodes.success) {
-          flashMessageWarning(response.message);
+          flashMessageSucess(response.message);
           setEmail("");
           navigation.navigate(ScreenNames.verification, {
             email: email.toLowerCase(),

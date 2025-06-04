@@ -8,12 +8,22 @@ import { flashMessageWarning } from "../../constants/GConstant";
 import { regex } from "../../constants/Regex";
 import { useFocusEffect } from "@react-navigation/native";
 import { constnatStyles } from "../../constants/Styles";
-import { CountryDataType } from "../../constants/interfaces";
+import {
+  CountryDataType,
+  updatePhoneEmailVerificationApiResponseType,
+} from "../../constants/interfaces";
 import { CountryData } from "../../constants/utils/CountryData";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../constants/Colors";
+import { ScreenNames } from "../../routers";
+import { zustandStore } from "../../store";
+import { statusCodes } from "../../api/APIConstant";
 
 const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
+  // API Zustand Store
+  const updatePhoneEmailVerificationApi = zustandStore.AuthStore(
+    (state) => state.updatePhoneEmailVerification
+  );
   const insets = useSafeAreaInsets();
   const navigateFrom = route.params?.navigateFrom;
   const [email, setEmail] = useState("");
@@ -105,11 +115,7 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
       } else if (!regex.email.test(email)) {
         flashMessageWarning(getTranslation("invalidEmail"));
       } else {
-        setEmail("");
-        navigation.navigate("Verification", {
-          email: email.toLowerCase(),
-          navigateFromChangeEmailPhone: true,
-        });
+        handleUpdatePhoneEmailVerificationApi();
       }
     } else {
       if (mobileNumber.trim() === "") {
@@ -117,13 +123,57 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
       } else if (!regex.mobile.test(mobileNumber)) {
         flashMessageWarning(getTranslation("invalidMobileNumber"));
       } else {
-        setMobileNumber("");
-        navigation.navigate("Verification", {
-          countryCode: countryCode,
-          mobileNumber: mobileNumber,
-          navigateFromChangeEmailPhone: true,
-        });
+        handleUpdatePhoneEmailVerificationApi();
       }
+    }
+  };
+
+  const handleUpdatePhoneEmailVerificationApi = async () => {
+    const dictData: updatePhoneEmailVerificationApiResponseType = {};
+
+    if (navigateFrom === "ChangeEmail") {
+      dictData.email = email;
+      dictData.change_type = "email";
+    } else {
+      dictData.mobile_number = Number(mobileNumber);
+      dictData.country_code = countryCode.trim();
+      dictData.change_type = "phone";
+    }
+
+    try {
+      const response = await updatePhoneEmailVerificationApi(
+        dictData,
+        navigation
+      );
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("UPDATE PHONE EMAIL VERIFY RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          flashMessageWarning(response.message);
+          if (navigateFrom === "ChangeEmail") {
+            setEmail("");
+            navigation.navigate(ScreenNames.verification, {
+              email: email.toLowerCase(),
+              navigateFromChangeEmailPhone: true,
+              changeEmail: true,
+            });
+          } else {
+            setMobileNumber("");
+            navigation.navigate(ScreenNames.verification, {
+              countryCode: countryCode,
+              mobileNumber: mobileNumber,
+              navigateFromChangeEmailPhone: true,
+              changeEmail: false,
+            });
+          }
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
     }
   };
 
@@ -136,18 +186,21 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
             paddingTop: insets.top + 10,
             backgroundColor: colors.orange1c,
             alignItems: "center",
-            justifyContent : 'space-between',
-            paddingBottom : 10,
-            paddingLeft : 16
+            justifyContent: "space-between",
+            paddingBottom: 10,
+            paddingLeft: 16,
           }}
         >
-          <GlobalBackButton onPress={() => navigation.goBack()} style={{marginBottom : 0}} />
+          <GlobalBackButton
+            onPress={() => navigation.goBack()}
+            style={{ marginBottom: 0 }}
+          />
           <Text style={constnatStyles.lblHeaderTitle}>
             {navigateFrom === "ChangeEmail"
               ? getTranslation("changeEmail")
               : getTranslation("changePhoneNumber")}
           </Text>
-          <View style={{width : 24}}></View>
+          <View style={{ width: 24 }}></View>
         </View>
       ),
       // headerLeft: () => (

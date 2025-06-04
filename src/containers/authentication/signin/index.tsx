@@ -176,6 +176,18 @@ const SignInContainer = ({ navigation }: any) => {
         __DEV__ && console.log("SIGNUP RESPONSE===>", response);
         if (response.code === statusCodes.success) {
           flashMessageSucess(response.message);
+          const userTokenFromBackend = (response?.data as any)?.device_info
+            ?.token;
+          console.log("userTokenFromBackend", userTokenFromBackend);
+          MmkvManager.setData(MmkvManager.Keys.userToken, userTokenFromBackend);
+          const customer_details = (response?.data as any)?.customer_details;
+          MmkvManager.setData(
+            MmkvManager.Keys.customerDetails,
+            customer_details
+          );
+
+          const customerId = (response?.data as any)?.customer_details?.id;
+          MmkvManager.setData(MmkvManager.Keys.customerId, customerId);
           if (isEmailSelected) {
             setEmail("");
             setPassword("");
@@ -193,6 +205,7 @@ const SignInContainer = ({ navigation }: any) => {
               countryCode: countryCode,
               mobileNumber: mobileNumber,
               navigateFromSignup: false,
+              siginPhone: true,
             });
           }
         } else if (response.code === statusCodes.invaildOrFail) {
