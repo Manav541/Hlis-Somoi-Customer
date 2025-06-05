@@ -26,10 +26,16 @@ import {
 } from "../../../constants/interfaces";
 import { zustandStore } from "../../../store";
 import { statusCodes } from "../../../api/APIConstant";
+import { styles } from "./styles";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const AddAddressContainer = ({ navigation, route }: any) => {
+  const insets = useSafeAreaInsets();
   // API Zustand Store
   const addAddressApi = zustandStore.AddressStore((state) => state.addAddress);
+  const updateAddressApi = zustandStore.AddressStore(
+    (state) => state.updateAddress
+  );
   const customerDetailApi = zustandStore.AuthStore(
     (state) => state.getCustomerDetail
   );
@@ -38,6 +44,9 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const [address, setAddress] = useState("");
   const [house, setHouse] = useState("");
   const [additionalDescription, setAdditionalDescription] = useState("");
+  const [latitude, setLatitude] = useState(""); 
+  const [longitude, setLongitude] = useState("");
+  const [location_id, setLocation_id] = useState("");
 
   const addressRef = useRef<TextInput>(null);
   const houseRef = useRef<TextInput>(null);
@@ -100,18 +109,22 @@ const AddAddressContainer = ({ navigation, route }: any) => {
     } else if (house.trim() === "") {
       flashMessageWarning(getTranslation("houseRequired"));
     } else {
-      handleAddUpdateLocationApi();
+      if (isEditAddress) {
+        handleUpdateLocationApi();
+      } else {
+        handleAddLocationApi();
+      }
     }
   };
 
-  const handleAddUpdateLocationApi = async () => {
+  const handleAddLocationApi = async () => {
     const dictData: AddressResponseType = {
       address: address,
       building_details: house,
       description: additionalDescription,
-      customer_id: customer_id,
-      latitude: "23.07546426923766",
-      longitude: "72.52575269830908",
+      latitude: "23.118568093303452",
+      longitude: "72.598416640680717",
+      
     };
     if (isNavigateFromManageAddress) {
       dictData.is_default = isDefault;
@@ -119,9 +132,9 @@ const AddAddressContainer = ({ navigation, route }: any) => {
     try {
       const response = await addAddressApi(dictData, navigation);
       if (response !== undefined && response !== null) {
-        __DEV__ && console.log("ADD UPDATE LOCATION RESPONSE===>", response);
+        __DEV__ && console.log("ADD LOCATION RESPONSE===>", response);
         if (response.code === statusCodes.success) {
-          flashMessageWarning(response.message);
+          flashMessageSucess(response.message);
           if (!isNavigateFromManageAddress) {
             navigation.dispatch(
               CommonActions.reset({
@@ -143,43 +156,75 @@ const AddAddressContainer = ({ navigation, route }: any) => {
     }
   };
 
+  const handleUpdateLocationApi = async () => {
+    const dictData: AddressResponseType = {
+      address: address,
+      building_details: house,
+      description: additionalDescription,
+      latitude: latitude,
+      longitude: longitude,
+      is_default:isDefault,
+      location_id: location_id,
+    };
+   
+    try {
+      const response = await updateAddressApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("UPDATE LOCATION RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          flashMessageSucess(response.message);
+          navigation.goBack();
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
   const handleSetDefault = () => {
-    showConfirmAlert("Are you sure want to set this as default?", () => {
-      setIsDefault(true);
-    });
+    showConfirmAlert(
+      "Are you sure want to set this as default?",
+      () => {
+        setIsDefault(true); // When user presses "Yes"
+      },
+      () => {
+        setIsDefault(false); // When user presses "No"
+      }
+    );
+  };
+
+  const onPressGoBack = () => {
+    if (isNavigateFromManageAddress) {
+      navigation.goBack();
+    } else {
+      showConfirmAlert("Do you want to continue without address?", () => {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{ name: ScreenNames.bottomTabsNavigation }],
+          })
+        );
+      });
+    }
   };
 
   const header = () => {
     navigation.setOptions({
-      headerLeft: () => (
-        <GlobalBackButton
-          onPress={() => {
-            if (isNavigateFromManageAddress) {
-              navigation.goBack();
-            } else {
-              showConfirmAlert(
-                "Do you want to continue without address?",
-                () => {
-                  navigation.dispatch(
-                    CommonActions.reset({
-                      index: 1,
-                      routes: [{ name: ScreenNames.bottomTabsNavigation }],
-                    })
-                  );
-                }
-              );
-            }
-          }}
-        />
-      ),
-      headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>
-          {isNavigateFromManageAddress
-            ? ScreenNames.addAddress
-            : isEditAddress
-            ? getTranslation("updateAddress")
-            : ScreenNames.addAddress}
-        </Text>
+      header: () => (
+        <View style={{ ...styles.vwHeader, paddingTop: insets.top }}>
+          <GlobalBackButton onPress={onPressGoBack} />
+
+          <Text style={constnatStyles.lblHeaderTitle}>
+            {isNavigateFromManageAddress
+              ? isEditAddress
+                ? getTranslation("updateAddress")
+                : ScreenNames.addAddress
+              : ScreenNames.addAddress}
+          </Text>
+          <View style={{ width: 24 }}></View>
+        </View>
       ),
     });
   };
@@ -205,6 +250,30 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       }
     );
     return () => backHandler.remove();
+  }, [route]);
+
+  useEffect(() => {
+    if (
+      route?.params?.isNavigateFromManageAddress &&
+      route?.params?.isEditAddress &&
+      route?.params?.editAddressItem
+    ) {
+      console.log("EDIT ADDRESS ITEM===>", route?.params?.editAddressItem);
+      setAddress(route?.params?.editAddressItem.address);
+      setHouse(route?.params?.editAddressItem.building_details);
+      setAdditionalDescription(route?.params?.editAddressItem.description);
+      setIsDefault(route?.params?.editAddressItem.is_default);
+      setLatitude(route?.params?.editAddressItem.latitude);
+      setLongitude(route?.params?.editAddressItem.longitude);
+      setLocation_id(route?.params?.editAddressItem.id);
+    } else {
+      setAddress("");
+      setHouse("");
+      setAdditionalDescription("");
+      setIsDefault(false);
+      setLatitude("");
+      setLongitude("");
+    }
   }, [route]);
 
   const handleCustomerDetailApi = async () => {
@@ -257,6 +326,7 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       isDefault={isDefault}
       handleSetDefault={handleSetDefault}
       isNavigateFromManageAddress={isNavigateFromManageAddress}
+      isEditAddress={isEditAddress}
     />
   );
 };

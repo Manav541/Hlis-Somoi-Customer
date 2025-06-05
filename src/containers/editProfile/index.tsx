@@ -129,8 +129,13 @@ const EditProfileContainer = ({ navigation }: any) => {
   const handleEditProfileApi = async () => {
     const dictData : editProfileResponse = {
       name : name,
-      profile_image: uploadedProfileUrl,
     };
+
+    if (uploadedProfileUrl !== null) {
+      dictData.profile_image = uploadedProfileUrl;
+    }
+
+
     try {
       const response = await editProfileApi(dictData, navigation);
       if (response !== undefined && response !== null) {

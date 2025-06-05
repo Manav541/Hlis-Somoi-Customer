@@ -163,7 +163,7 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
               countryCode: countryCode,
               mobileNumber: mobileNumber,
               navigateFromChangeEmailPhone: true,
-              changeEmail: false,
+              changePhone: true,
             });
           }
         } else if (response.code === statusCodes.invaildOrFail) {

@@ -38,6 +38,7 @@ interface PropsType {
   isDefault: boolean;
   handleSetDefault: () => void;
   isNavigateFromManageAddress: boolean;
+  isEditAddress: boolean;
 }
 
 const AddAddressComponent = (props: PropsType) => {
@@ -153,7 +154,11 @@ const AddAddressComponent = (props: PropsType) => {
       >
         <GlobalButton
           isOrange
-          title={getTranslation("add")}
+          title={props?.isNavigateFromManageAddress
+            ? props?.isEditAddress
+              ? getTranslation("update")
+              : getTranslation("add")
+            : getTranslation("add")}
           onPress={props?.handleOnPressAdd}
         />
       </View>

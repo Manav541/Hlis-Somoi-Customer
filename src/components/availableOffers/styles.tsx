@@ -58,6 +58,12 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.bold,
     textAlign: "right",
   },
+  lblNoData: {
+    fontSize: fontSize.size20,
+    color: colors.greya7,
+    fontFamily: fontsfamily.semibold,
+    textAlign: "center",
+  },
 
   // TouchableOpacity Styles
   btnOffersData: {

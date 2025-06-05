@@ -20,9 +20,9 @@ interface PropsType {
   isModalDeleteVisible: boolean;
   isModalSignOutVisible: boolean;
   handleOnPressYesDelete: () => void;
-  handleOnPressYesSignOut:()=>void;
+  handleOnPressYesSignOut: () => void;
   handleOnPressNoThanks: () => void;
-  profileImage: ImageSourcePropType;
+  profileImage: string;
   name: string;
 }
 
@@ -40,7 +40,8 @@ const SettingComponent = (props: PropsType) => {
               style={[
                 styles.btnSubArrayData,
                 {
-                  borderBottomWidth: subIndex !== item.subArr.length - 1 ? 1 : 0,
+                  borderBottomWidth:
+                    subIndex !== item.subArr.length - 1 ? 1 : 0,
                 },
               ]}
               disabled={subItem?.disabled}
@@ -69,12 +70,11 @@ const SettingComponent = (props: PropsType) => {
       />
       <View style={styles.vwSettingView}>
         <ScrollView
-        style={{borderBottomLeftRadius : 10, borderBottomRightRadius : 10}}
+          style={{ borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}
           contentContainerStyle={{
             paddingTop: 20,
-            paddingBottom: 27, 
+            paddingBottom: 27,
             flexGrow: 1,
-
           }}
           showsVerticalScrollIndicator={false}
           bounces={false}
@@ -82,8 +82,12 @@ const SettingComponent = (props: PropsType) => {
           <View style={styles.vwProfileData}>
             <View style={styles.vwProfileImage}>
               <Image
-                style={styles.imgProfileIcon}
-                source={props?.profileImage}
+                style={
+                  props?.profileImage
+                    ? styles.imgPrfileImage
+                    : styles.imgProfileIcon
+                }
+                source={{ uri: props?.profileImage }}
               />
             </View>
             <View style={styles.vwHelloName}>
@@ -102,29 +106,29 @@ const SettingComponent = (props: PropsType) => {
 
       {/* Delete Modal */}
       <GlobalSuccessModal
-      logoutSheet
-      otherImage={images.logoTitle}
-      visible={props?.isModalDeleteVisible}
-      title={getTranslation("deleteProfileTitle")}
-      subTitle={getTranslation("deleteProfileDescription")}
-      btnTitle={getTranslation("yesDelete")}
-      secondBtnTitle={getTranslation("noThanks")}
-      onPress={props?.handleOnPressYesDelete}
-      onPressSecondBtn={props?.handleOnPressNoThanks}
-       />
+        logoutSheet
+        otherImage={images.logoTitle}
+        visible={props?.isModalDeleteVisible}
+        title={getTranslation("deleteProfileTitle")}
+        subTitle={getTranslation("deleteProfileDescription")}
+        btnTitle={getTranslation("yesDelete")}
+        secondBtnTitle={getTranslation("noThanks")}
+        onPress={props?.handleOnPressYesDelete}
+        onPressSecondBtn={props?.handleOnPressNoThanks}
+      />
 
       {/* Signout Modal */}
       <GlobalSuccessModal
-      logoutSheet
-      otherImage={images.logoTitle}
-      visible={props?.isModalSignOutVisible}
-      title={getTranslation("signOutProfileTitle")}
-      subTitle={getTranslation("signOutProfileDescription")}
-      btnTitle={getTranslation("yesSignOut")}
-      secondBtnTitle={getTranslation("noThanks")}
-      onPress={props?.handleOnPressYesSignOut}
-      onPressSecondBtn={props?.handleOnPressNoThanks}
-       />
+        logoutSheet
+        otherImage={images.logoTitle}
+        visible={props?.isModalSignOutVisible}
+        title={getTranslation("signOutProfileTitle")}
+        subTitle={getTranslation("signOutProfileDescription")}
+        btnTitle={getTranslation("yesSignOut")}
+        secondBtnTitle={getTranslation("noThanks")}
+        onPress={props?.handleOnPressYesSignOut}
+        onPressSecondBtn={props?.handleOnPressNoThanks}
+      />
     </View>
   );
 };

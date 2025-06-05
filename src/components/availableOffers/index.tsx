@@ -8,8 +8,13 @@ import {
 import React from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
-import { activityOpacity, hitSlop } from "../../constants/GConstant";
+import {
+  activityOpacity,
+  hitSlop,
+  rupeeSymbol,
+} from "../../constants/GConstant";
 import { AvailableOfferItem } from "../../constants/interfaces";
+import { DateFormatsManager } from "../../constants/utils/DateFormats";
 
 interface PropsType {
   arrAvailableOffers: AvailableOfferItem[];
@@ -32,11 +37,19 @@ const AvailableOffersComponent = (props: PropsType) => {
         key={index}
       >
         <View style={{ gap: 4 }}>
-          <Text style={styles.lblOfferTitle}>{item?.title}</Text>
-          <Text style={styles.lblOffer}>{item?.offer}</Text>
+          <Text style={styles.lblOfferTitle}>{item?.name}</Text>
+          <Text style={styles.lblOffer}>
+            {item?.type +
+              " " +
+              parseInt(item?.discount_percentage) +
+              (item?.type === "flat" ? rupeeSymbol : "%") +
+              " Off"}
+          </Text>
           <Text style={styles.lblOfferDesc}>
-            {item?.offerDesc}{" "}
-            <Text style={styles.lblOfferPrice}>{item?.offerPrice}</Text>
+            {item?.description}{" "}
+            <Text style={styles.lblOfferPrice}>
+              {rupeeSymbol + item?.minimum_price}
+            </Text>
           </Text>
         </View>
         <View style={styles.vwOfferCodeValidity}>
@@ -44,16 +57,19 @@ const AvailableOffersComponent = (props: PropsType) => {
             style={styles.btnOfferCode}
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
-            onPress={() => props.copyToClipboard(item?.offerCode)}
+            onPress={() => props.copyToClipboard(item?.coupon_code)}
           >
-            <Text style={styles.lblOfferCode}>{item?.offerCode}</Text>
+            <Text style={styles.lblOfferCode}>{item?.coupon_code}</Text>
           </TouchableOpacity>
           <View>
             <Text style={styles.lblOfferValidity}>
               {getTranslation("validUntil")}
             </Text>
             <Text style={styles.lblOfferValidityDate}>
-              {item?.offerValidity}
+              {DateFormatsManager.formatDate(
+                item?.end_date,
+                DateFormatsManager.DateFormats.DDMMYYYY_SLASH
+              )}
             </Text>
           </View>
         </View>
@@ -70,10 +86,20 @@ const AvailableOffersComponent = (props: PropsType) => {
       />
       <FlatList
         data={props.arrAvailableOffers}
-        contentContainerStyle={{ gap: 15 }}
+        contentContainerStyle={{
+          gap: 15,
+          flexGrow: 1,
+          justifyContent:
+            props.arrAvailableOffers.length === 0 ? "center" : undefined,
+          alignItems:
+            props.arrAvailableOffers.length === 0 ? "center" : undefined,
+        }}
         renderItem={renderAvailableOffers}
         bounces={false}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={
+          <Text style={styles.lblNoData}>{getTranslation("noDataFound")}</Text>
+        }
       />
     </View>
   );

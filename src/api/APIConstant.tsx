@@ -28,7 +28,17 @@ export const apiEndPoint = {
   cmsPages :"/auth/customer/cms-pages",
 
   // Home
-  addUpdateLocation :"/home/customer/add-update-location",
+  
+  contactUs :"/home/customer/contact-us",
+
+  // Address
+  locationList :"/home/customer/location-data",
+  addLocation :"/home/customer/add-update-location",
+  updateLocation : "/home/customer/update-location-data",
+  deleteLocation :"/home/customer/delete-location",
+
+  // Available Offers
+  availableOffers :"/home/customer/list-offer-listing",
 };
 
 // API status codes

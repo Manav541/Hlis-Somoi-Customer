@@ -33,6 +33,7 @@ interface PropsType {
   mobileNumber: string;
   navigateFromSignup: boolean;
   changeEmail: boolean;
+  changePhone: boolean;
   siginPhone: boolean;
 }
 
@@ -48,7 +49,7 @@ const VerificationComponent = (props: PropsType) => {
         <GlobalLogoTitle style={styles.vwLogoTitle} />
         <Text style={styles.lblTitle}>{getTranslation("enterYouOTPDesc")}</Text>
         <Text style={styles.lblTitle}>
-          {props?.navigateFromSignup || props?.changeEmail === false || props?.siginPhone === true
+          {props?.navigateFromSignup || props?.changePhone === true || props?.siginPhone === true
             ? props?.countryCode + " " + props?.mobileNumber
             : props.email}
         </Text>

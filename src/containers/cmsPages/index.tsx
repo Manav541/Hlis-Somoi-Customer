@@ -1,45 +1,43 @@
 import { StatusBar, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getTranslation } from "../../localization/i18n/i18n.config";
-import { styles } from "./styles";
 import CMSPageComponent from "../../components/cmsPages";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { useFocusEffect } from "@react-navigation/native";
-import { FaqArrProps } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
-
-
+import { zustandStore } from "../../store";
+import { flashMessageWarning } from "../../constants/GConstant";
+import { statusCodes } from "../../api/APIConstant";
 
 const CMSPageContainer = ({ navigation, route }: any) => {
+  // API
+  const cmsPagesApi = zustandStore.AuthStore((state) => state.cmsPages);
+  const [webViewLink, setWebViewLink] = useState("");
+
   const navigateFrom = route.params?.navigateFrom;
 
-  const [faqArr, setFarArr] = useState<FaqArrProps[]>([
-    {
-      faqTitle: getTranslation("faqTitle1"),
-      faqDesc: getTranslation("faqDescription"),
-      isSelected: true,
-    },
-    {
-      faqTitle: getTranslation("faqTitle2"),
-      faqDesc: getTranslation("faqDescription"),
-      isSelected: false,
-    },
-    {
-      faqTitle: getTranslation("faqTitle3"),
-      faqDesc: getTranslation("faqDescription"),
-      isSelected: false,
-    },
-    {
-      faqTitle: getTranslation("faqTitle4"),
-      faqDesc: getTranslation("faqDescription"),
-      isSelected: false,
-    },
-    {
-      faqTitle: getTranslation("faqTitle5"),
-      faqDesc: getTranslation("faqDescription"),
-      isSelected: false,
-    },
-  ]);
+  const handleApiCMSPages = async () => {
+    const dictData = {
+      keyword:
+        navigateFrom === "aboutUs"
+          ? "about_us"
+          : navigateFrom === "termsConditions"
+          ? "terms_conditions"
+          : navigateFrom === "faq"
+          ? "faq"
+          : "privacy_policy",
+    };
+    const response = await cmsPagesApi(dictData, navigation);
+    __DEV__ && console.log("CMS PAGES RESPONSE====>", JSON.stringify(response));
+    if (response.code === statusCodes.success) {
+      if (response.data && typeof response.data === "object") {
+        const details = response?.data as { content: string };
+        setWebViewLink(details.content);
+      }
+    } else if (response.code === statusCodes.invaildOrFail) {
+      flashMessageWarning(response.message);
+    }
+  };
 
   const header = () => {
     navigation.setOptions({
@@ -62,6 +60,7 @@ const CMSPageContainer = ({ navigation, route }: any) => {
 
   useEffect(() => {
     header();
+    handleApiCMSPages();
   }, [navigateFrom]);
 
   useFocusEffect(
@@ -71,22 +70,7 @@ const CMSPageContainer = ({ navigation, route }: any) => {
     }, [navigation])
   );
 
-  const handleOnPressFaq = (index: number) => {
-    const updatedFaqArr = faqArr.map((faq, i) =>
-      i === index
-        ? { ...faq, isSelected: !faq.isSelected }
-        : { ...faq, isSelected: false }
-    );
-    setFarArr(updatedFaqArr);
-  };
-
-  return (
-    <CMSPageComponent
-      navigateFrom={navigateFrom}
-      faqArr={faqArr}
-      handleOnPressFaq={handleOnPressFaq}
-    />
-  );
+  return <CMSPageComponent webViewLink={webViewLink} />;
 };
 
 export default CMSPageContainer;

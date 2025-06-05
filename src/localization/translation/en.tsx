@@ -334,6 +334,8 @@ export default {
   manageAddress: "Manage Address",
   addaNewAddress: "Add a New Address",
   setAsDefault: "Set as Default",
+  confirmSetDefault : "Are you sure want to set this as default?",
+  confirmDeleteAddress:"Are you sure want to delete this address?",
 
   // Add Address
   address: "Address",

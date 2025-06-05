@@ -6,14 +6,18 @@ import {
   TouchableOpacity,
   Dimensions,
   StatusBar,
+  TextInput,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
-import { TextInput } from "react-native-gesture-handler";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { colors } from "../../constants/Colors";
-import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
+import {
+  activityOpacity,
+  hitSlop,
+  rupeeSymbol,
+} from "../../constants/GConstant";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
@@ -64,7 +68,11 @@ const MyWishlistComponent = (props: PropsType) => {
               props?.handleRemoveFromWishlist(index);
             }}
           >
-            <Image style={styles.imgRedHeart} source={images.redHeart} resizeMode="stretch" />
+            <Image
+              style={styles.imgRedHeart}
+              source={images.redHeart}
+              resizeMode="stretch"
+            />
           </TouchableOpacity>
         </View>
 
@@ -86,12 +94,18 @@ const MyWishlistComponent = (props: PropsType) => {
           <View style={styles.vwPriceRating}>
             <View style={styles.vwPrice}>
               <Text style={styles.lblProductFinalPrice}>
-                {rupeeSymbol+item?.product_final_price}
+                {rupeeSymbol + item?.product_final_price}
               </Text>
-              <Text style={styles.lblProductPrice}>{rupeeSymbol+item?.product_price}</Text>
+              <Text style={styles.lblProductPrice}>
+                {rupeeSymbol + item?.product_price}
+              </Text>
             </View>
             <View style={styles.vwRating}>
-              <Image style={styles.imgStar} source={images.star} resizeMode="stretch"/>
+              <Image
+                style={styles.imgStar}
+                source={images.star}
+                resizeMode="stretch"
+              />
               <Text style={styles.lblProductRating}>
                 {item?.product_rating}
               </Text>
@@ -116,7 +130,11 @@ const MyWishlistComponent = (props: PropsType) => {
               hitSlop={hitSlop}
               activeOpacity={activityOpacity}
             >
-              <Image style={styles.imgAddMinus} source={images.minus} resizeMode="stretch"/>
+              <Image
+                style={styles.imgAddMinus}
+                source={images.minus}
+                resizeMode="stretch"
+              />
             </TouchableOpacity>
             <Text style={styles.lblProductQuantity}>
               {item.product_quantity}
@@ -126,7 +144,11 @@ const MyWishlistComponent = (props: PropsType) => {
               hitSlop={hitSlop}
               activeOpacity={activityOpacity}
             >
-              <Image style={styles.imgAddMinus} source={images.add} resizeMode="stretch"/>
+              <Image
+                style={styles.imgAddMinus}
+                source={images.add}
+                resizeMode="stretch"
+              />
             </TouchableOpacity>
           </View>
         )}

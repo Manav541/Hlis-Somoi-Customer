@@ -9,39 +9,49 @@ import { AvailableOfferItem } from "../../constants/interfaces";
 import { ScreenNames } from "../../routers";
 import { constnatStyles } from "../../constants/Styles";
 import Clipboard from "@react-native-clipboard/clipboard";
-import { flashMessageSucess, rupeeSymbol } from "../../constants/GConstant";
+import {
+  flashMessageSucess,
+  flashMessageWarning,
+  rupeeSymbol,
+} from "../../constants/GConstant";
+import { statusCodes } from "../../api/APIConstant";
+import { zustandStore } from "../../store";
 
 const AvailableOffersContainer = ({ navigation }: any) => {
-  const [arrAvailableOffers, setArrAvailableOffers] = useState<AvailableOfferItem[]>([
-    {
-      title: "Welcome Offer",
-      offer: "Extra 7% Off",
-      offerDesc: "Your first order above",
-      offerPrice: rupeeSymbol+"150",
-      offerCode: "SOMOIoff07",
-      offerValidity: "8/31/2025",
-    },
-    {
-      title: "Summer Offer",
-      offer: "Flat 10% Off",
-      offerDesc: "Your first order above",
-      offerPrice: rupeeSymbol+"250",
-      offerCode: "SOMOIoff10",
-      offerValidity: "8/31/2025",
-    },
-    {
-      title: "Festive Offer",
-      offer: "Extra 70% Off",
-      offerDesc: "Your first order above",
-      offerPrice: rupeeSymbol+"1550",
-      offerCode: "SOMOIoff70",
-      offerValidity: "8/31/2025",
-    },
-  ]);
+  // API Zustand Store
+  const availableOffersApi = zustandStore.AvailableOffersStore(
+    (state) => state.availableOffers
+  );
+  const [arrAvailableOffers, setArrAvailableOffers] = useState<
+    AvailableOfferItem[]
+  >([]);
 
-  const copyToClipboard = (offerCode:string) => {
+  const copyToClipboard = (offerCode: string) => {
     Clipboard.setString(offerCode);
     flashMessageSucess(getTranslation("offerCodeCopySuccess"));
+  };
+
+  const handleAvailableOffersApi = async () => {
+    try {
+      const response = await availableOffersApi({}, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "AVAILABLE OFFERS RESPONSE===>",
+            JSON.stringify(response)
+          );
+        if (response.code === statusCodes.success) {
+          setArrAvailableOffers(response.data as AvailableOfferItem[]);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          flashMessageWarning(response.message);
+          setArrAvailableOffers([]);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
   };
 
   const header = () => {
@@ -54,7 +64,9 @@ const AvailableOffersContainer = ({ navigation }: any) => {
         />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.availableOffers}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.availableOffers}
+        </Text>
       ),
     });
   };
@@ -62,14 +74,21 @@ const AvailableOffersContainer = ({ navigation }: any) => {
   useEffect(() => {
     header();
   }, []);
+
   useFocusEffect(
     React.useCallback(() => {
+      handleAvailableOffersApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
   );
 
-  return <AvailableOffersComponent arrAvailableOffers={arrAvailableOffers} copyToClipboard={copyToClipboard} />;
+  return (
+    <AvailableOffersComponent
+      arrAvailableOffers={arrAvailableOffers}
+      copyToClipboard={copyToClipboard}
+    />
+  );
 };
 
 export default AvailableOffersContainer;

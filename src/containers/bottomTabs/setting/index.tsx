@@ -32,7 +32,7 @@ const SettingContainer = ({ navigation, route }: any) => {
   );
   const customerDetailApi = zustandStore.AuthStore((state) => state.getCustomerDetail);
 
-  const [profileImage, setProfileImage] = useState<ImageSourcePropType>(
+  const [profileImage, setProfileImage] = useState<string>(
     images.profileIcon
   );
   const [name, setName] = useState<string>("John Doe");

@@ -15,18 +15,20 @@ export const showAlert = (message: string) => {
 };
 
 export const showConfirmAlert = (
-  message: string,
+  message: string | null,
   onConfirm: () => void,
+  OnCancel?: () => void,
   cancelText: string = 'No',
   confirmText: string = 'Yes'
 ) => {
   Alert.alert(
     appName,
-    message,
+    message || undefined,
     [
       {
         text: cancelText,
         style: 'cancel',
+        onPress : OnCancel
       },
       {
         text: confirmText,
@@ -116,8 +118,8 @@ export const GlobalVar = {
   region: "ap-south-1",
   permissionAccess: "public-read-write",
   bucketName: "hlik-deep-bhaumik",
+  // url: "https://hlik-deep-bhaumik.s3.amazonaws.com/",
   url: "https://hlik-deep-bhaumik.s3.amazonaws.com/",
-  // url: "https://hlik-deep-bhaumik.s3.amazonaws.com/somoiapp/",
 };
 
 

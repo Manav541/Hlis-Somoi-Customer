@@ -11,16 +11,16 @@ import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
-import { AddressItem } from "../../constants/interfaces";
+import { AddressItem, LocationData } from "../../constants/interfaces";
 
 interface PropsType {
-  arrManageAddress: AddressItem[];
-  handleOnPressDelete: (index: number) => void;
-  handleSetDefault: (index: number) => void;
+  arrManageAddress: LocationData[];
+  handleOnPressDelete: (location_id: string) => void;
+  handleSetDefault: (item: LocationData) => void;
   handleOnPressAddAddress: () => void;
-  handleOnPressEditAddress: (index: number) => void;
+  handleOnPressEditAddress: (item: LocationData) => void;
   navigateFromCart: boolean;
-  navigateFromHome:boolean;
+  navigateFromHome: boolean;
   onPressAddress: () => void;
 }
 
@@ -29,7 +29,7 @@ const ManageAddressesComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: AddressItem;
+    item: LocationData;
     index: number;
   }) => {
     return (
@@ -40,7 +40,13 @@ const ManageAddressesComponent = (props: PropsType) => {
         onPress={() => props.onPressAddress()}
         disabled={!props.navigateFromCart && !props.navigateFromHome}
       >
-        <Text style={styles.lblAddressTitle}>{item.title}</Text>
+        <Text style={styles.lblAddressTitle}>
+          {item.building_details +
+            " , " +
+            item?.address +
+            " , " +
+            item?.description}
+        </Text>
 
         <View style={styles.vwDefaultEditDelete}>
           {/* Set Default Section */}
@@ -48,10 +54,10 @@ const ManageAddressesComponent = (props: PropsType) => {
             <TouchableOpacity
               style={{ alignSelf: "center" }}
               activeOpacity={activityOpacity}
-              onPress={() => props.handleSetDefault(index)}
+              onPress={() => props.handleSetDefault(item)}
             >
               <Image
-                source={item?.default ? images.checkfill : images.checkempty}
+                source={item?.is_default ? images.checkfill : images.checkempty}
                 style={styles.imgSetDefault}
               />
             </TouchableOpacity>
@@ -69,14 +75,14 @@ const ManageAddressesComponent = (props: PropsType) => {
               <TouchableOpacity
                 activeOpacity={activityOpacity}
                 hitSlop={hitSlop}
-                onPress={() => props.handleOnPressEditAddress(index)}
+                onPress={() => props.handleOnPressEditAddress(item)}
               >
                 <Image style={styles.imgEditDelete} source={images.edit} />
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={activityOpacity}
                 hitSlop={hitSlop}
-                onPress={() => props.handleOnPressDelete(index)}
+                onPress={() => props.handleOnPressDelete(item?.id)}
               >
                 <Image
                   source={images.delete}
@@ -114,9 +120,21 @@ const ManageAddressesComponent = (props: PropsType) => {
         data={props.arrManageAddress}
         renderItem={renderManageAddress}
         keyExtractor={(_, index) => index.toString()}
-        contentContainerStyle={{ paddingTop: 20, gap: 15 }}
+        contentContainerStyle={{
+          gap: props.arrManageAddress.length === 0 ? 0 : 15,
+          flexGrow: 1,
+          justifyContent:
+            props.arrManageAddress.length === 0 ? "center" : "flex-start",
+          alignItems: "center",
+          paddingTop: 20,
+        }}
         showsVerticalScrollIndicator={false}
         bounces={false}
+        ListEmptyComponent={
+          <Text style={styles.lblNoData}>
+            {getTranslation("noDataFound")}
+          </Text>
+        }
       />
     </View>
   );

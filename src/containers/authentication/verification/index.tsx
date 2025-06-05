@@ -78,6 +78,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
     navigateFromForgotPassword,
     navigateFromChangeEmailPhone,
     changeEmail,
+    changePhone,
     siginPhone,
   } = route?.params;
 
@@ -131,12 +132,13 @@ const VerificationContainer = ({ navigation, route }: any) => {
   const handleOnPressResendOtp = async () => {
     const dictData: RequestOTPResponseType = {
       type: navigateFromSignup
-        ? "signup"
+        ? 'signup'
         : changeEmail
-        ? "changeEmail"
-        : !changeEmail
-        ? "changePhone"
-        : "login",
+        ? 'changeEmail'
+        : changePhone
+        ? 'changePhone'
+        : 'login',
+
     };
 
     if (email) {
@@ -243,7 +245,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
 
           const customerId = (response?.data as any)?.customer_details?.id;
           MmkvManager.setData(MmkvManager.Keys.customerId, customerId);
-          
+
           MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
 
           navigation.navigate(ScreenNames.addAddress, {
@@ -435,7 +437,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
   useEffect(() => {
     MmkvManager.getData(MmkvManager.Keys.customerId, (customerId) => {
       console.log("customerId from MMKV:", customerId);
-      setCustomerId(customerId || '');
+      setCustomerId(customerId || "");
     });
   }, []);
 
@@ -454,6 +456,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
       mobileNumber={mobileNumber}
       navigateFromSignup={navigateFromSignup}
       changeEmail={changeEmail}
+      changePhone={changePhone}
       siginPhone={siginPhone}
     />
   );

@@ -6,7 +6,7 @@ import { Video } from "react-native-compressor";
 import { GlobalVar, toggleLoader } from "../GConstant";
 
 export const FolderName = {
-  USER_IMAGE: "customers_images/",
+  USER_IMAGE: "somoiapp/customers_images/",
   // REPORTS_MEDIA: "reports_media/",
   // CONTACT_US: "contact_us_media/",
   // CHAT: "chat_files/",

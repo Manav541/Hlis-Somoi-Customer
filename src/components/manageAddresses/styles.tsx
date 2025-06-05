@@ -51,6 +51,12 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
     marginLeft: 10,
   },
+  lblNoData: {
+    fontSize: fontSize.size20,
+    color: colors.greya7,
+    fontFamily: fontsfamily.semibold,
+    textAlign: "center",
+  },
 
   // TouchableOpacity Styles
   btnAddAddress: {

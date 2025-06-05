@@ -3,16 +3,25 @@ import ContactUsComponent from "../../components/contactUs";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { TextInput } from "react-native-gesture-handler";
 import { regex } from "../../constants/Regex";
-import { flashMessageSucess, flashMessageWarning } from "../../constants/GConstant";
+import {
+  flashMessageSucess,
+  flashMessageWarning,
+} from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar, Text } from "react-native";
 import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
+import { zustandStore } from "../../store";
+import { statusCodes } from "../../api/APIConstant";
+import { ConatctUsResponse } from "../../constants/interfaces";
 
 const ContactUsContainer = ({ navigation }: any) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  // API Zustand Store
+  const contactUsApi = zustandStore.AuthStore((state) => state.contactUs);
+
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [subject, setSubject] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
@@ -38,68 +47,90 @@ const ContactUsContainer = ({ navigation }: any) => {
   };
 
   const handleOnChangeText = (text: string, type: string) => {
-    if (type === 'name') {
+    if (type === "name") {
       if (regex.fullName.test(text)) {
         setName(text);
       }
-    } else if (type === 'email') {
-      setEmail(text.replace(/\s/g, ''));
-    } else if (type === 'subject') {
+    } else if (type === "email") {
+      setEmail(text.replace(/\s/g, ""));
+    } else if (type === "subject") {
       setSubject(text);
-    } else if (type === 'description') {
+    } else if (type === "description") {
       setDescription(text);
     }
   };
 
   const handleOnFocus = (type: string) => {
-    if (type === 'name') {
+    if (type === "name") {
       setIsNameFocused(true);
-    } else if (type === 'email') {
+    } else if (type === "email") {
       setIsEmailFocused(true);
-    } else if (type === 'subject') {
+    } else if (type === "subject") {
       setIsSubjectFocused(true);
-    } else if (type === 'description') {
+    } else if (type === "description") {
       setIsDescriptionFocused(true);
     }
   };
 
   const handleOnBlur = (type: string) => {
-    if (type === 'name') {
+    if (type === "name") {
       setIsNameFocused(false);
-    } else if (type === 'email') {
+    } else if (type === "email") {
       setIsEmailFocused(false);
-    } else if (type === 'subject') {
+    } else if (type === "subject") {
       setIsSubjectFocused(false);
-    } else if (type === 'description') {
+    } else if (type === "description") {
       setIsDescriptionFocused(false);
     }
   };
 
   const handleOnPressSubmit = () => {
-    if (name.trim() === '') {
-      flashMessageWarning(getTranslation('emptyNameCU'));
-    } else if (email.trim() === '') {
-      flashMessageWarning(getTranslation('emptyEmailCU'));
+    if (name.trim() === "") {
+      flashMessageWarning(getTranslation("emptyNameCU"));
+    } else if (email.trim() === "") {
+      flashMessageWarning(getTranslation("emptyEmailCU"));
     } else if (!regex.email.test(email)) {
-      flashMessageWarning(getTranslation('invalidEmail'));
-    } else if (subject.trim() === '') {
-      flashMessageWarning(getTranslation('emptySubjectCU'));
-    } else if (description.trim() === '') {
-      flashMessageWarning(getTranslation('emptyDescCU'));
+      flashMessageWarning(getTranslation("invalidEmail"));
+    } else if (subject.trim() === "") {
+      flashMessageWarning(getTranslation("emptySubjectCU"));
+    } else if (description.trim() === "") {
+      flashMessageWarning(getTranslation("emptyDescCU"));
     } else {
-      setName('');
-      setEmail('');
-      setSubject('');
-      setDescription('');
-      setIsNameFocused(false);
-      setIsEmailFocused(false);
-      setIsSubjectFocused(false);
-      setIsDescriptionFocused(false);
-      nameRef.current?.blur();
-      emailRef.current?.blur();
-      subjectRef.current?.blur();
-      flashMessageSucess(getTranslation('contactusSuccessfully'));
-      navigation.goBack();
+      handleContactUsApi();
+    }
+  };
+
+  const handleContactUsApi = async () => {
+    const dictData: ConatctUsResponse = {
+      name: name,
+      email: email,
+      subject: subject,
+      description: description,
+    };
+    try {
+      const response = await contactUsApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ && console.log("CONTACT US RESPONSE===>", response);
+        if (response.code === statusCodes.success) {
+          flashMessageSucess(response.message);
+          setName("");
+          setEmail("");
+          setSubject("");
+          setDescription("");
+          setIsNameFocused(false);
+          setIsEmailFocused(false);
+          setIsSubjectFocused(false);
+          setIsDescriptionFocused(false);
+          nameRef.current?.blur();
+          emailRef.current?.blur();
+          subjectRef.current?.blur();
+          navigation.goBack();
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
     }
   };
 
@@ -113,7 +144,9 @@ const ContactUsContainer = ({ navigation }: any) => {
         />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.contactUs}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.contactUs}
+        </Text>
       ),
     });
   };

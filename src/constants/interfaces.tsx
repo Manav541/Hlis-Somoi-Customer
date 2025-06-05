@@ -9,7 +9,14 @@ export interface SecretKeyItem {
 
 export interface editProfileResponse {
   name: string;
-  profile_image: string | null;
+  profile_image?: string | null;
+}
+
+export interface ConatctUsResponse {
+  name: string;
+  email: string;
+  subject: string;
+  description: string,
 }
 
 export interface CustomerDetails {
@@ -48,10 +55,25 @@ export interface DeviceInfo {
   updated_at: string;
 }
 
+export interface LocationData {
+  id: string;
+  customer_id: string;
+  address: string;
+  latitude: string;
+  longitude: string;
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
+  building_details: string;
+  description: string;
+  is_default: boolean;
+}
+
 export interface SignupResponse {
   customer_details: CustomerDetails;
   device_info: DeviceInfo;
-  location_data: any[]; // You can update this if you know the structure of items
+  location_data: LocationData; 
 }
 
 export interface DeviceInfoType {
@@ -113,7 +135,7 @@ export interface AddressResponseType {
   building_details: string;
   description?: string;
   is_default?: boolean;
-  customer_id: string;
+  location_id?: string;
 }
 
 export interface CountryDataType {
@@ -407,12 +429,25 @@ export interface AddressItem {
 
 // Available Offers
 export interface AvailableOfferItem {
-  title: string;
-  offer: string;
-  offerDesc: string;
-  offerPrice: string;
-  offerCode: string;
-  offerValidity: string;
+  id: number;
+  vendor_id: string | null;
+  name: string;
+  minimum_price: string | null;
+  discount_percentage: string;
+  coupon_code: string;
+  type: string;
+  description: string;
+  duration_date: string | null;
+  created_by: string;
+  admin_id: number;
+  is_block: boolean;
+  is_approve: string;
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
+  start_date: string;
+  end_date: string;
 }
 
 // FAQ

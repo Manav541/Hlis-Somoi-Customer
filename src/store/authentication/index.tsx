@@ -3,41 +3,30 @@ import { APIManager } from "../../api/ApiManager";
 import { apiEndPoint } from "../../api/APIConstant";
 import { APIResponseType } from "../../constants/interfaces";
 
+type StoreFunction = (
+  dictData: object,
+  navigation: any
+) => Promise<APIResponseType>;
+
 interface Store {
-  signup: (dictData: object, navigation: any) => Promise<APIResponseType>;
-  signin: (dictData: object, navigation: any) => Promise<APIResponseType>;
-  forgotPasswordEmailVerify: (
-    dictData: object,
-    navigation: any
-  ) => Promise<APIResponseType>;
-  changeForgotPassword: (
-    dictData: object,
-    navigation: any
-  ) => Promise<APIResponseType>;
-  changePassword: (
-    dictData: object,
-    navigation: any
-  ) => Promise<APIResponseType>;
-  editProfile: (dictData: object, navigation: any) => Promise<APIResponseType>;
-  updatePhoneEmailVerification: (
-    dictData: object,
-    navigation: any
-  ) => Promise<APIResponseType>;
-  updatePhoneEmail: (
-    dictData: object,
-    navigation: any
-  ) => Promise<APIResponseType>;
-  logout: (dictData: object, navigation: any) => Promise<APIResponseType>;
-  deleteAccount: (
-    dictData: object,
-    navigation: any
-  ) => Promise<APIResponseType>;
+  // Auth-related
+  signup: StoreFunction;
+  signin: StoreFunction;
+  forgotPasswordEmailVerify: StoreFunction;
+  changeForgotPassword: StoreFunction;
+  changePassword: StoreFunction;
+  editProfile: StoreFunction;
+  updatePhoneEmailVerification: StoreFunction;
+  updatePhoneEmail: StoreFunction;
+  logout: StoreFunction;
+  deleteAccount: StoreFunction;
+
+  // CMS & Support
+  cmsPages: StoreFunction;
+  contactUs: StoreFunction;
 
   // Home
-  getCustomerDetail: (
-    dictData: object,
-    navigation: any
-  ) => Promise<APIResponseType>;
+  getCustomerDetail: StoreFunction;
 }
 
 const AuthStore = create<Store>((set) => ({
@@ -321,6 +310,58 @@ const AuthStore = create<Store>((set) => ({
 
       APIManager.getServerRequestWithToken({
         apiEndPoint: apiEndPoint.getCustomerDetail,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  cmsPages(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithoutToken({
+        apiEndPoint: apiEndPoint.cmsPages,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  contactUs(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.contactUs,
         callback: callback,
         dictData: dictData,
         navigation: navigation,
