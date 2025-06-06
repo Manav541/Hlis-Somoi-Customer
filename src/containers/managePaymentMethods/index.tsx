@@ -51,7 +51,7 @@ const ManagePaymentMethodsContainer = ({ navigation, route }: any) => {
   const header = () => {
     navigation.setOptions({
       header: () => (
-        <View style={{ ...styles.vwHeader, paddingTop: insets.top + 10 }}>
+        <View style={{ ...styles.vwHeader, paddingTop: insets.top }}>
           <GlobalBackButton onPress={() => navigation.goBack()} />
 
           <Text style={{ ...styles.txtHeaderTitle }}>

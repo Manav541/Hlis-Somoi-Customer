@@ -27,7 +27,6 @@ interface PropsType {
   nameFocused: boolean;
   profileImage: string;
   handleOnPressProfileImage: () => void;
-  uploadedProfileUrl: string | null;
   userProfileUrl: string;
 }
 
@@ -66,8 +65,10 @@ const EditProfileComponent = (props: PropsType) => {
                 : styles.imgProfileBigIcon
             }
             source={
-              props?.userProfileUrl
-                ? { uri: props?.userProfileUrl }
+              props?.profileImage
+                ? { uri: props.profileImage }
+                : props?.userProfileUrl
+                ? { uri: props.userProfileUrl }
                 : images.profileBigIcon
             }
           />

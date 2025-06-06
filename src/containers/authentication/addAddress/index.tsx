@@ -22,6 +22,7 @@ import { constnatStyles } from "../../../constants/Styles";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import {
   AddressResponseType,
+  SecretKeyItem,
   SignupResponse,
 } from "../../../constants/interfaces";
 import { zustandStore } from "../../../store";
@@ -39,12 +40,14 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const customerDetailApi = zustandStore.AuthStore(
     (state) => state.getCustomerDetail
   );
+  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
 
-  const [customer_id, setCustomer_id] = useState("");
+  const [googleApiKey, setGoogleApiKey] = useState<string>("");
+
   const [address, setAddress] = useState("");
   const [house, setHouse] = useState("");
   const [additionalDescription, setAdditionalDescription] = useState("");
-  const [latitude, setLatitude] = useState(""); 
+  const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [location_id, setLocation_id] = useState("");
 
@@ -122,9 +125,8 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       address: address,
       building_details: house,
       description: additionalDescription,
-      latitude: "23.118568093303452",
-      longitude: "72.598416640680717",
-      
+      latitude: "23.0764644081957",
+      longitude: "72.5285412099873",  
     };
     if (isNavigateFromManageAddress) {
       dictData.is_default = isDefault;
@@ -163,10 +165,10 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       description: additionalDescription,
       latitude: latitude,
       longitude: longitude,
-      is_default:isDefault,
+      is_default: isDefault,
       location_id: location_id,
     };
-   
+
     try {
       const response = await updateAddressApi(dictData, navigation);
       if (response !== undefined && response !== null) {
@@ -207,6 +209,31 @@ const AddAddressContainer = ({ navigation, route }: any) => {
           })
         );
       });
+    }
+  };
+
+  const handleSecretKeyApi = async () => {
+    try {
+      const response = await secretKeyApi({}, navigation);
+      if (
+        response?.code === statusCodes.success &&
+        Array.isArray(response.data)
+      ) {
+        const keysData = response.data as SecretKeyItem[];
+        keysData.forEach((item) => {
+          switch (item.name) {
+            case "googleApiKey":
+              if (item.keys) setGoogleApiKey(item.keys);
+              break;
+            default:
+              break;
+          }
+        });
+      } else if (response?.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
+      }
+    } catch (error) {
+      __DEV__ && console.log("Secret Key API Error:", error);
     }
   };
 
@@ -276,32 +303,9 @@ const AddAddressContainer = ({ navigation, route }: any) => {
     }
   }, [route]);
 
-  const handleCustomerDetailApi = async () => {
-    try {
-      const response = await customerDetailApi({}, navigation);
-      if (response !== undefined && response !== null) {
-        __DEV__ &&
-          console.log(
-            "CUSTOMER DETIALS RESPONSE===>",
-            JSON.stringify(response.data as SignupResponse)
-          );
-        const data = JSON.stringify(
-          (response.data as SignupResponse).customer_details
-        );
-        if (response.code === statusCodes.success) {
-          setCustomer_id(JSON.parse(data).id);
-        } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
-        }
-      }
-    } catch (error) {
-      __DEV__ && console.log(error);
-    }
-  };
-
   useFocusEffect(
     React.useCallback(() => {
-      handleCustomerDetailApi();
+      handleSecretKeyApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])

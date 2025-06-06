@@ -8,14 +8,13 @@ export const styles = StyleSheet.create({
     color: colors.blue4e,
     fontSize: fontSize.size18,
     fontFamily: fontsfamily.bold,
-  
   },
-  vwHeader : {
-    
-    backgroundColor: colors.orange1c,
+  vwHeader: {
     flexDirection: "row",
+    backgroundColor: colors.orange1c,
     alignItems: "center",
     justifyContent: "space-between",
-    paddingBottom: 10,
-  }
+    paddingBottom: 14,
+    paddingLeft: 16,
+  },
 });

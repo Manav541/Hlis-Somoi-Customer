@@ -14,6 +14,7 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { activityOpacity } from "../../../constants/GConstant";
 import GlobalSuccessModal from "../../../global/GlobalSuccessModal";
 import { SettingDataItem } from "../../../constants/interfaces";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrSettingData: SettingDataItem[];
@@ -87,7 +88,11 @@ const SettingComponent = (props: PropsType) => {
                     ? styles.imgPrfileImage
                     : styles.imgProfileIcon
                 }
-                source={{ uri: props?.profileImage }}
+                source={
+                  props?.profileImage && typeof props.profileImage === "string"
+                    ? { uri: props.profileImage }
+                    : images.driverProfile
+                }
               />
             </View>
             <View style={styles.vwHelloName}>

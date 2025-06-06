@@ -70,7 +70,7 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
 
         if (response.code === statusCodes.success) {
           flashMessageSucess(response.message);
-          handleAddressListApiApi();
+          handleAddressListApi();
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -100,7 +100,7 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
     }
   };
 
-  const handleAddressListApiApi = async () => {
+  const handleAddressListApi = async () => {
     try {
       const response = await addressListApi({}, navigation);
       if (response !== undefined && response !== null) {
@@ -113,6 +113,9 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
             setArrManageAddress(locationData as LocationData[]);
           }
         } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+        else if (response.code === statusCodes.emptyData) {
           flashMessageWarning(response.message);
         }
       }
@@ -141,7 +144,7 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
         __DEV__ && console.log("UPDATE LOCATION RESPONSE===>", response);
         if (response.code === statusCodes.success) {
           // flashMessageSucess(response.message);
-          handleAddressListApiApi();
+          handleAddressListApi();
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -170,7 +173,7 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     useCallback(() => {
-      handleAddressListApiApi();
+      handleAddressListApi();
       StatusBar.setBarStyle("dark-content");
     }, [navigation])
   );

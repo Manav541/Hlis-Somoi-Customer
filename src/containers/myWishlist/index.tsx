@@ -7,8 +7,16 @@ import { StatusBar, Text } from "react-native";
 import { GroceryProduct } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
+import { flashMessageWarning } from "../../constants/GConstant";
+import { statusCodes } from "../../api/APIConstant";
+import { zustandStore } from "../../store";
 
 const MyWishlistContainer = ({ navigation }: any) => {
+  // API Zustand store
+  const myWhilistApi = zustandStore.MyWishlistStore(
+    (state) => state.myWishlist
+  );
+
   const [search, setSearch] = useState<string>("");
   const [arrMyWhislist, setArrMyWishlist] = useState<GroceryProduct[]>([
     {
@@ -447,6 +455,33 @@ const MyWishlistContainer = ({ navigation }: any) => {
     );
   };
 
+  const handleMyWhilistApi = async () => {
+    const dictData = {
+      search_text: search,
+    };
+    try {
+      const response = await myWhilistApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("MY WISHLIST RESPONSE===>", JSON.stringify(response));
+
+        if (response.code === statusCodes.success) {
+          const wishlistData = response.data;
+          // if (Array.isArray(wishlistData)) {
+          //   setArrManageAddress(locationData as LocationData[]);
+          // }
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+        else if (response.code === statusCodes.emptyData) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Customer Detail API Error:", error);
+    }
+  };
+
   const header = () => {
     navigation.setOptions({
       headerLeft: () => (
@@ -457,7 +492,9 @@ const MyWishlistContainer = ({ navigation }: any) => {
         />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.myWishlist}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.myWishlist}
+        </Text>
       ),
     });
   };
@@ -468,6 +505,7 @@ const MyWishlistContainer = ({ navigation }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      handleMyWhilistApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])

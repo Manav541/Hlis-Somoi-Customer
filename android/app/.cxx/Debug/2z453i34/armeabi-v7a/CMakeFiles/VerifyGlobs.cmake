@@ -37,6 +37,31 @@ if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/CMakeFiles/cmake.verify_globs")
 endif()
 
+# react_codegen_SRCS at /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/CMakeLists.txt:9 (file)
+file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/*.cpp")
+set(OLD_GLOB
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/Compressor-generated.cpp"
+  )
+if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+  message("-- GLOB mismatch!")
+  file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/CMakeFiles/cmake.verify_globs")
+endif()
+
+# react_codegen_SRCS at /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/CMakeLists.txt:9 (file)
+file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/react/renderer/components/Compressor/*.cpp")
+set(OLD_GLOB
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/react/renderer/components/Compressor/ComponentDescriptors.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/react/renderer/components/Compressor/CompressorJSI-generated.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/react/renderer/components/Compressor/EventEmitters.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/react/renderer/components/Compressor/Props.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/react/renderer/components/Compressor/ShadowNodes.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/react/renderer/components/Compressor/States.cpp"
+  )
+if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+  message("-- GLOB mismatch!")
+  file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/CMakeFiles/cmake.verify_globs")
+endif()
+
 # react_codegen_SRCS at /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-date-picker/android/build/generated/source/codegen/jni/CMakeLists.txt:9 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-date-picker/android/build/generated/source/codegen/jni/*.cpp")
 set(OLD_GLOB
@@ -302,6 +327,31 @@ set(OLD_GLOB
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-screens/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/rnscreens/ShadowNodes.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-screens/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/rnscreens/States.cpp"
   "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-screens/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/rnscreens/rnscreensJSI-generated.cpp"
+  )
+if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+  message("-- GLOB mismatch!")
+  file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/CMakeFiles/cmake.verify_globs")
+endif()
+
+# react_codegen_SRCS at /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-webview/android/build/generated/source/codegen/jni/CMakeLists.txt:9 (file)
+file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-webview/android/build/generated/source/codegen/jni/*.cpp")
+set(OLD_GLOB
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-webview/android/build/generated/source/codegen/jni/RNCWebViewSpec-generated.cpp"
+  )
+if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
+  message("-- GLOB mismatch!")
+  file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/CMakeFiles/cmake.verify_globs")
+endif()
+
+# react_codegen_SRCS at /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-webview/android/build/generated/source/codegen/jni/CMakeLists.txt:9 (file)
+file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-webview/android/build/generated/source/codegen/jni/react/renderer/components/RNCWebViewSpec/*.cpp")
+set(OLD_GLOB
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-webview/android/build/generated/source/codegen/jni/react/renderer/components/RNCWebViewSpec/ComponentDescriptors.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-webview/android/build/generated/source/codegen/jni/react/renderer/components/RNCWebViewSpec/EventEmitters.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-webview/android/build/generated/source/codegen/jni/react/renderer/components/RNCWebViewSpec/Props.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-webview/android/build/generated/source/codegen/jni/react/renderer/components/RNCWebViewSpec/RNCWebViewSpecJSI-generated.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-webview/android/build/generated/source/codegen/jni/react/renderer/components/RNCWebViewSpec/ShadowNodes.cpp"
+  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-webview/android/build/generated/source/codegen/jni/react/renderer/components/RNCWebViewSpec/States.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

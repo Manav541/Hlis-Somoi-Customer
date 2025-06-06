@@ -238,7 +238,7 @@ const SettingContainer = ({ navigation, route }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ && console.log("LOGOUT RESPONSE===>", response);
         if (response.code === statusCodes.success) {
-          flashMessageWarning(response.message);
+          flashMessageSucess(response.message);
           setIsModalSignOutVisible(false);
           MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
           MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
@@ -267,7 +267,7 @@ const SettingContainer = ({ navigation, route }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ && console.log("LOGOUT RESPONSE===>", response);
         if (response.code === statusCodes.success) {
-          flashMessageWarning(response.message);
+          flashMessageSucess(response.message);
           setIsModalSignOutVisible(false);
           MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
           MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");

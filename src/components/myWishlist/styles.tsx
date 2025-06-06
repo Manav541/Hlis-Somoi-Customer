@@ -154,8 +154,10 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.semibold,
   },
   lblNoData: {
-    fontSize: fontSize.size16,
+    fontSize: fontSize.size20,
     color: colors.greya7,
+    fontFamily: fontsfamily.semibold,
+    textAlign: "center",
   },
   lblProductQuantity: {
     color: colors.blue4e,

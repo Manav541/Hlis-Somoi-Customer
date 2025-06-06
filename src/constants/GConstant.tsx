@@ -1,13 +1,19 @@
-import {Alert, Platform} from 'react-native';
-import {colors} from './Colors';
-import {PlatformVersion} from './utils/Platform';
-import {fontsfamily} from './FontFamily';
-import {fontSize} from './FontSizes';
-import {showMessage} from 'react-native-flash-message';
-import { checkMultiple, openSettings, PERMISSIONS, requestMultiple, RESULTS } from 'react-native-permissions';
+import { Alert, Platform } from "react-native";
+import { colors } from "./Colors";
+import { PlatformVersion } from "./utils/Platform";
+import { fontsfamily } from "./FontFamily";
+import { fontSize } from "./FontSizes";
+import { showMessage } from "react-native-flash-message";
+import {
+  checkMultiple,
+  openSettings,
+  PERMISSIONS,
+  requestMultiple,
+  RESULTS,
+} from "react-native-permissions";
 import NetInfo from "@react-native-community/netinfo";
 
-export const appName = 'Somoi';
+export const appName = "Somoi";
 
 // Alert
 export const showAlert = (message: string) => {
@@ -18,8 +24,8 @@ export const showConfirmAlert = (
   message: string | null,
   onConfirm: () => void,
   OnCancel?: () => void,
-  cancelText: string = 'No',
-  confirmText: string = 'Yes'
+  cancelText: string = "No",
+  confirmText: string = "Yes"
 ) => {
   Alert.alert(
     appName,
@@ -27,8 +33,8 @@ export const showConfirmAlert = (
     [
       {
         text: cancelText,
-        style: 'cancel',
-        onPress : OnCancel
+        style: "cancel",
+        onPress: OnCancel,
       },
       {
         text: confirmText,
@@ -42,8 +48,8 @@ export const showConfirmAlert = (
 export const showConfirmForGuest = (
   message: string,
   onConfirm: () => void,
-  cancelText: string = 'Cancel',
-  confirmText: string = 'Sign In'
+  cancelText: string = "Cancel",
+  confirmText: string = "Sign In"
 ) => {
   Alert.alert(
     appName,
@@ -51,7 +57,7 @@ export const showConfirmForGuest = (
     [
       {
         text: cancelText,
-        style: 'cancel',
+        style: "cancel",
       },
       {
         text: confirmText,
@@ -68,22 +74,21 @@ export const getConnection = (callback: any) => {
   });
 };
 
-
 // Buttons
 export const activityOpacity = 0.8;
 export const hitSlop = 10;
-export const rupeeSymbol = '₹';
+export const rupeeSymbol = "₹";
 
 // Flash Messages
 export const flashMessageSucess = (message: string | null) => {
   showMessage({
-    message: message || '',
-    type: 'success',
+    message: message || "",
+    type: "success",
     backgroundColor: colors.white,
     color: colors.blue4e,
     duration: 3000,
-    icon: 'success',
-    iconProps: {tintColor: colors.blue4e},
+    icon: "success",
+    iconProps: { tintColor: colors.blue4e },
     style: {
       paddingTop: PlatformVersion.isAndroid ? 40 : 10,
       zIndex: 1,
@@ -97,11 +102,11 @@ export const flashMessageSucess = (message: string | null) => {
 
 export const flashMessageWarning = (message: string | null) => {
   showMessage({
-    message: message || '',
+    message: message || "",
     backgroundColor: colors.white,
     color: colors.blue4e,
     duration: 3000,
-    icon: 'none',
+    icon: "none",
     style: {
       paddingTop: PlatformVersion.isAndroid ? 40 : 10,
       zIndex: 1,
@@ -122,7 +127,6 @@ export const GlobalVar = {
   url: "https://hlik-deep-bhaumik.s3.amazonaws.com/",
 };
 
-
 // Loader
 interface LoaderRef {
   toggleLoader: (show: boolean) => void;
@@ -133,7 +137,6 @@ export const setLoaderRef = (ref: LoaderRef | null) => {
 };
 export const toggleLoader = (showLoader: boolean) => {
   if (loaderRef) {
-    console.log('showLoader => ',showLoader);
     loaderRef.toggleLoader(showLoader);
   }
 };
@@ -156,31 +159,31 @@ export const galleryPermission = Platform.select({
       : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
 });
 export const checkPermission = (permission: any, message: string) => {
-  return new Promise(callback => {
-    checkMultiple([permission]).then(status => {
+  return new Promise((callback) => {
+    checkMultiple([permission]).then((status) => {
       if (
         status[permission] === RESULTS.DENIED ||
         status[permission] === RESULTS.UNAVAILABLE
       ) {
-        requestMultiple([permission]).then(status => {
+        requestMultiple([permission]).then((status) => {
           const data: any = Object.values(status);
-          callback(data[0] === 'granted');
+          callback(data[0] === "granted");
 
-          if (data[0] === 'blocked' && Platform.OS === 'android') {
+          if (data[0] === "blocked" && Platform.OS === "android") {
             Alert.alert(
               appName,
               message,
               [
                 {
-                  text: 'Cancel',
-                  onPress: () => __DEV__ && console.log('Cancel Pressed'),
+                  text: "Cancel",
+                  onPress: () => __DEV__ && console.log("Cancel Pressed"),
                 },
                 {
-                  text: 'Settings',
+                  text: "Settings",
                   onPress: () => openSettings(),
                 },
               ],
-              {cancelable: false},
+              { cancelable: false }
             );
           }
         });
@@ -190,15 +193,15 @@ export const checkPermission = (permission: any, message: string) => {
           message,
           [
             {
-              text: 'Cancel',
-              onPress: () => __DEV__ && console.log('Cancel Pressed'),
+              text: "Cancel",
+              onPress: () => __DEV__ && console.log("Cancel Pressed"),
             },
             {
-              text: 'Settings',
+              text: "Settings",
               onPress: () => openSettings(),
             },
           ],
-          {cancelable: false},
+          { cancelable: false }
         );
         callback(false);
       } else {

@@ -142,7 +142,7 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ && console.log("CHANGE FORGOT PASSWORD RESPONSE===>", response);
         if (response.code === statusCodes.success) {
-          flashMessageWarning(response.message);
+          flashMessageSucess(response.message);
           navigation.dispatch(
             CommonActions.reset({
               index: 1,
@@ -169,7 +169,7 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ && console.log("CHANGE PASSWORD RESPONSE===>", response);
         if (response.code === statusCodes.success) {
-          flashMessageWarning(response.message);
+          flashMessageSucess(response.message);
           navigation.dispatch(
             CommonActions.reset({
               index: 1,

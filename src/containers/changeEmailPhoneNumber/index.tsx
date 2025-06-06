@@ -183,11 +183,11 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
         <View
           style={{
             flexDirection: "row",
-            paddingTop: insets.top + 10,
+            paddingTop: insets.top,
             backgroundColor: colors.orange1c,
             alignItems: "center",
             justifyContent: "space-between",
-            paddingBottom: 10,
+            paddingBottom: 14,
             paddingLeft: 16,
           }}
         >

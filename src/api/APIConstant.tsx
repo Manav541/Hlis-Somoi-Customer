@@ -39,6 +39,9 @@ export const apiEndPoint = {
 
   // Available Offers
   availableOffers :"/home/customer/list-offer-listing",
+
+  // Wishlist
+  wishlistList : "/home/customer/wishlist-list",
 };
 
 // API status codes
