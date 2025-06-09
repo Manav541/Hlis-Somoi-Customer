@@ -2,7 +2,6 @@ import {
   View,
   Text,
   FlatList,
-  TouchableOpacity,
   Image,
   StatusBar,
 } from "react-native";
@@ -10,11 +9,14 @@ import React from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { images } from "../../constants/Images";
-import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
+import {
+  rupeeSymbol,
+} from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { GroceryProduct } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   arrCompareProducts: GroceryProduct[];
@@ -30,10 +32,7 @@ const CompareProductComponent = (props: PropsType) => {
     index: number;
   }) => {
     return (
-      <View
-        style={styles.btnCompareProducts}
-        key={index}
-      >
+      <View style={styles.btnCompareProducts} key={index}>
         <FastImage style={styles.imgProduct} source={item?.product_img} />
         <View style={{ marginRight: 18, flex: 1 }}>
           <Text style={styles.lblProductName}>{item?.product_name}</Text>
@@ -43,9 +42,11 @@ const CompareProductComponent = (props: PropsType) => {
           </View>
           <View style={styles.vwPrice}>
             <Text style={styles.lblProductFinalPrice}>
-              {rupeeSymbol+item?.product_final_price}
+              {rupeeSymbol + item?.product_final_price}
             </Text>
-            <Text style={styles.lblProductPrice}>{rupeeSymbol+item?.product_price}</Text>
+            <Text style={styles.lblProductPrice}>
+              {rupeeSymbol + item?.product_price}
+            </Text>
           </View>
           <Text style={styles.lblProductDesc} numberOfLines={4}>
             {item?.product_desc}
@@ -57,8 +58,8 @@ const CompareProductComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       <Text style={styles.lblTitle}>

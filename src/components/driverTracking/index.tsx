@@ -15,6 +15,7 @@ import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FastImage from "react-native-fast-image";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   driverProfile: string;
@@ -29,8 +30,8 @@ const DriverTrackingComponent = (props: PropsType) => {
   return (
     <ImageBackground style={styles.imgMap} source={images.map}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       <Image style={styles.imgMapDirections} source={images.mapDirection} />
@@ -53,7 +54,11 @@ const DriverTrackingComponent = (props: PropsType) => {
             hitSlop={hitSlop}
             onPress={props?.onPressChat}
           >
-            <Image style={styles.imgChat} source={images.chatIcon} resizeMode="stretch" />
+            <Image
+              style={styles.imgChat}
+              source={images.chatIcon}
+              resizeMode="stretch"
+            />
           </TouchableOpacity>
         </View>
         <Text style={styles.lblDriverInfo}>

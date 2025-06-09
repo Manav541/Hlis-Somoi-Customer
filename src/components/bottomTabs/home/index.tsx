@@ -19,21 +19,21 @@ import { colors } from "../../../constants/Colors";
 import {
   AdItem,
   BestProduct,
-  GroceriesFoodItem,
+  MainCategoryListItem,
   Restaurant,
   SubCategory,
+  SubCategoryListItem,
 } from "../../../constants/interfaces";
 import Carousel from "react-native-reanimated-carousel";
 import FastImage from "react-native-fast-image";
 
 interface PropsType {
-  arrGroceriesFood: GroceriesFoodItem[];
-  onPressGroceriesFood: (type: string) => void;
+  arrMainCategoryList: MainCategoryListItem[];
+  onPressMainCategory: (name: string,mainCategoryId:string) => void;
   isGroceriesFoodSelected: string;
   arrAds: AdItem[];
-  arrSubCategoryGroceries: SubCategory[];
+  arrSubCategory:SubCategoryListItem[]
   arrBestProducts: BestProduct[];
-  arrSubCategoryFood: SubCategory[];
   arrBestSellers: Restaurant[];
   handleSellAllCategories: () => void;
   handleSellAllBestSellers: () => void;
@@ -49,13 +49,14 @@ interface PropsType {
 }
 
 const HomeComponent = (props: PropsType) => {
-  const arrSubCategory =
-    props?.isGroceriesFoodSelected === "Groceries"
-      ? props?.arrSubCategoryGroceries
-      : props?.arrSubCategoryFood;
+  // console.log('arrmaincategorylist',props?.arrMainCategoryList)
+
   const insets = useSafeAreaInsets();
 
-  const renderGroceriesFoodItem = (item: GroceriesFoodItem, index: number) => {
+  const renderMainCategoryListItem = (
+    item: MainCategoryListItem,
+    index: number
+  ) => {
     return (
       <TouchableOpacity
         key={index}
@@ -63,21 +64,21 @@ const HomeComponent = (props: PropsType) => {
           styles.btnGroceriesFood,
           {
             backgroundColor:
-              props?.isGroceriesFoodSelected === item?.type
+              props?.isGroceriesFoodSelected === item?.name
                 ? colors.orange1c
                 : colors.white,
           },
         ]}
         activeOpacity={activityOpacity}
-        onPress={() => props?.onPressGroceriesFood(item.type || "")}
+        onPress={() => props?.onPressMainCategory(item.name,item?.id)}
       >
         <FastImage
           style={styles.imgGroceriesFood}
-          source={item?.image}
+          source={{ uri: item?.image }}
           resizeMode="stretch"
         />
         <View style={styles.vwType}>
-          <Text style={styles.lblGroceriesFood}>{item?.type}</Text>
+          <Text style={styles.lblGroceriesFood}>{item?.name}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -92,7 +93,7 @@ const HomeComponent = (props: PropsType) => {
       >
         <FastImage
           style={styles.imgAdds}
-          source={item?.image}
+          source={{ uri: item?.image }}
           resizeMode="stretch"
         />
       </TouchableOpacity>
@@ -120,7 +121,7 @@ const HomeComponent = (props: PropsType) => {
     );
   };
 
-  const renderSubCategories = (item: SubCategory, index: number) => {
+  const renderSubCategoryListItem = (item: SubCategoryListItem, index: number) => {
     return (
       <TouchableOpacity
         key={index}
@@ -130,7 +131,7 @@ const HomeComponent = (props: PropsType) => {
       >
         <FastImage
           style={styles.imgSubCategories}
-          source={item?.image}
+          source={{uri : item?.image}}
           resizeMode="cover"
         />
         <Text style={styles.lblSubCategory} numberOfLines={2}>
@@ -208,7 +209,7 @@ const HomeComponent = (props: PropsType) => {
               (+{item?.restaurant_reviews})
             </Text>
           </View>
-        <FastImage style={styles.imgLogo} source={item?.restaurant_logo} />
+          <FastImage style={styles.imgLogo} source={item?.restaurant_logo} />
         </View>
       </TouchableOpacity>
     );
@@ -217,8 +218,8 @@ const HomeComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.blue4e}
         barStyle={"light-content"}
       />
       <View style={styles.vwMainContainer}>
@@ -232,7 +233,7 @@ const HomeComponent = (props: PropsType) => {
         <ScrollView
           style={StyleSheet.absoluteFillObject}
           contentContainerStyle={{
-            paddingTop: insets.top ? insets.top+20  : 40,
+            paddingTop: insets.top ? insets.top + 20 : 40,
             overflow: "hidden",
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,
@@ -242,13 +243,13 @@ const HomeComponent = (props: PropsType) => {
           bounces={false}
           showsVerticalScrollIndicator={false}
         >
-          {/* Groceries Food */}
+          {/* Main Category*/}
           <View
             style={{ flexDirection: "row", paddingHorizontal: 20, gap: 19 }}
           >
-            {props?.arrGroceriesFood.map((item, index) =>
-              renderGroceriesFoodItem(item, index)
-            )}
+            {props?.arrMainCategoryList
+              .slice(0, 2)
+              .map((item, index) => renderMainCategoryListItem(item, index))}
           </View>
 
           {/* Location Notification */}
@@ -302,25 +303,27 @@ const HomeComponent = (props: PropsType) => {
           </TouchableOpacity>
 
           {/* Ads */}
-          <View style={styles.vwAdds}>
-            <Carousel
-              data={props.arrAds}
-              width={ScreenDimensions.screenWidth - 40}
-              height={200}
-              loop={props.arrAds.length != 1}
-              style={{ borderRadius: 10 }}
-              autoPlay
-              pagingEnabled
-              scrollAnimationDuration={1000}
-              onSnapToItem={props.handleSetBannerIndex}
-              defaultIndex={0}
-              enabled={props.arrAds.length != 1}
-              autoPlayReverse={false}
-              vertical={false}
-              renderItem={renderItemAds}
-            />
-            {renderDots()}
-          </View>
+          {props?.arrAds.length != 0 && (
+            <View style={styles.vwAdds}>
+              <Carousel
+                data={props.arrAds}
+                width={ScreenDimensions.screenWidth - 40}
+                height={200}
+                loop={props.arrAds.length != 1}
+                style={{ borderRadius: 10 }}
+                autoPlay
+                pagingEnabled
+                scrollAnimationDuration={1000}
+                onSnapToItem={props.handleSetBannerIndex}
+                defaultIndex={0}
+                enabled={props.arrAds.length != 1}
+                autoPlayReverse={false}
+                vertical={false}
+                renderItem={renderItemAds}
+              />
+              {renderDots()}
+            </View>
+          )}
 
           {/* Sub Categories */}
           <View style={styles.vwSubCategoriesMain}>
@@ -339,8 +342,8 @@ const HomeComponent = (props: PropsType) => {
 
             {/* Sub Categories Grid */}
             <View style={styles.vwSubCategoriesGrid}>
-              {arrSubCategory.map((item, index) =>
-                renderSubCategories(item, index)
+              {props?.arrSubCategory.map((item, index) =>
+                renderSubCategoryListItem(item, index)
               )}
             </View>
           </View>

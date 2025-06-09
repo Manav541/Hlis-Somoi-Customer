@@ -8,10 +8,23 @@ import {
   Category,
   FashionProduct,
   GroceryProduct,
+  MainCategoryListItem,
   Restaurant,
 } from "../../../constants/interfaces";
+import { statusCodes } from "../../../api/APIConstant";
+import { flashMessageWarning } from "../../../constants/GConstant";
+import { zustandStore } from "../../../store";
 
 const CategoriesContainer = ({ navigation }: any) => {
+  // API zustand store
+  const mainCategoryList = zustandStore.HomeStore(
+    (state) => state.mainCategoryList
+  );
+
+  const [arrMainCategoryList, setArrMainCategoryList] = useState<
+    MainCategoryListItem[]
+  >([]);
+
   const [arrAllCategories, setArrAllCategories] = useState<Category[]>([
     {
       image: images.groceriesC1,
@@ -2211,8 +2224,31 @@ const CategoriesContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.notification);
   };
 
+  // handleMainCategoryList
+  const handleMainCategoryList = async () => {
+    try {
+      const response = await mainCategoryList({}, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "MAIN CATEGORY LIST RESPONSE===>",
+            JSON.stringify(response)
+          );
+        const data = response.data as MainCategoryListItem;
+        if (response.code === statusCodes.success) {
+          setArrMainCategoryList(Array.isArray(data) ? data : [data]);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
+      handleMainCategoryList();
       StatusBar.setBarStyle("light-content");
       return () => {};
     }, [navigation])
@@ -2220,7 +2256,7 @@ const CategoriesContainer = ({ navigation }: any) => {
 
   return (
     <CategoriesComponent
-      arrAllCategories={arrAllCategories}
+      arrMainCategoryList={arrMainCategoryList}
       onPressMainCategories={onPressMainCategories}
       handleOnPressNotifaicationIcon={handleOnPressNotifaicationIcon}
       onPressLocation={onPressLocation}

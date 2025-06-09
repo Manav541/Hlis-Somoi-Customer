@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Image, StatusBar } from "react-native";
 import React from "react";
 import { OrderReviewProduct } from "../../constants/interfaces";
 import { styles } from "./styles";
@@ -73,6 +73,11 @@ const ReturnExchangeItemListComponent = (props: PropsType) => {
 
   return (
     <View style={styles.vwMain}>
+      <StatusBar
+        translucent={false}
+        backgroundColor={colors.orange1c}
+        barStyle={"dark-content"}
+      />
       <FlatList
         data={props?.arrProducts}
         showsVerticalScrollIndicator={false}

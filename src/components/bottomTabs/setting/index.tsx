@@ -15,6 +15,7 @@ import { activityOpacity } from "../../../constants/GConstant";
 import GlobalSuccessModal from "../../../global/GlobalSuccessModal";
 import { SettingDataItem } from "../../../constants/interfaces";
 import FastImage from "react-native-fast-image";
+import { colors } from "../../../constants/Colors";
 
 interface PropsType {
   arrSettingData: SettingDataItem[];
@@ -65,9 +66,9 @@ const SettingComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <View style={styles.vwSettingView}>
         <ScrollView

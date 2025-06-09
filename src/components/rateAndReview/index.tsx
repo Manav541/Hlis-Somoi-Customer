@@ -13,14 +13,18 @@ import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { colors } from "../../constants/Colors";
 import { images } from "../../constants/Images";
-import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
+import {
+  activityOpacity,
+  hitSlop,
+  rupeeSymbol,
+} from "../../constants/GConstant";
 import GlobalTextInput from "../../global/GlobalTextInput";
 import { Asset } from "react-native-image-picker";
 import { TextInput } from "react-native-gesture-handler";
 import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import FastImage, { Source as FastImageSource } from 'react-native-fast-image';
+import FastImage, { Source as FastImageSource } from "react-native-fast-image";
 
 interface PropsType {
   product_img: FastImageSource;
@@ -51,7 +55,7 @@ interface PropsType {
 
 const RateAndReviewComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
-  const renderUploadImageVideo = (item : any , index :number) => {
+  const renderUploadImageVideo = (item: any, index: number) => {
     return (
       <View style={styles.vwUploadImageVideosItem} key={index}>
         <FastImage
@@ -75,8 +79,8 @@ const RateAndReviewComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       <ScrollView
@@ -105,7 +109,7 @@ const RateAndReviewComponent = (props: PropsType) => {
               >
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text style={styles.lblProductPrice}>
-                    {rupeeSymbol+props?.product_price}
+                    {rupeeSymbol + props?.product_price}
                   </Text>
                   <Image
                     style={styles.imgDot}
@@ -187,25 +191,25 @@ const RateAndReviewComponent = (props: PropsType) => {
             {getTranslation("uploadImagesVideo")}
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View style={{ flexDirection: "row", gap: 9.02 }}>
-            <TouchableOpacity
-              style={styles.btnUploadImageVideo}
-              activeOpacity={activityOpacity}
-              hitSlop={hitSlop}
-              onPress={props?.handleOnPressUploadImages}
-            >
-              <Image
-                style={styles.imgAdd}
-                tintColor={colors.black13}
-                source={images.add}
-              />
-            </TouchableOpacity>
-            {props?.multiImagesArray?.length > 0 && (
-              <View style={{ flexDirection: "row", gap: 9.02 }}>
-                {props?.multiImagesArray.map(renderUploadImageVideo)}
-              </View>
-            )}
-          </View>
+            <View style={{ flexDirection: "row", gap: 9.02 }}>
+              <TouchableOpacity
+                style={styles.btnUploadImageVideo}
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={props?.handleOnPressUploadImages}
+              >
+                <Image
+                  style={styles.imgAdd}
+                  tintColor={colors.black13}
+                  source={images.add}
+                />
+              </TouchableOpacity>
+              {props?.multiImagesArray?.length > 0 && (
+                <View style={{ flexDirection: "row", gap: 9.02 }}>
+                  {props?.multiImagesArray.map(renderUploadImageVideo)}
+                </View>
+              )}
+            </View>
           </ScrollView>
         </View>
       </ScrollView>

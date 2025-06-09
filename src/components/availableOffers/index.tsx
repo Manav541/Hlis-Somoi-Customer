@@ -15,6 +15,7 @@ import {
 } from "../../constants/GConstant";
 import { AvailableOfferItem } from "../../constants/interfaces";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   arrAvailableOffers: AvailableOfferItem[];
@@ -80,9 +81,9 @@ const AvailableOffersComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <FlatList
         data={props.arrAvailableOffers}

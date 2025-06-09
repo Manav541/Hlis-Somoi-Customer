@@ -220,9 +220,9 @@ const OrderSummaryComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <ScrollView
         contentContainerStyle={{ paddingBottom: 40 }}

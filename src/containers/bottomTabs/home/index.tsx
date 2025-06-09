@@ -1,44 +1,41 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import HomeComponent from "../../../components/bottomTabs/home";
 import { images } from "../../../constants/Images";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { ScreenNames } from "../../../routers";
 import { useFocusEffect } from "@react-navigation/native";
-import {
-  StatusBar,
-} from "react-native";
+import { StatusBar } from "react-native";
 import {
   AdItem,
   BestProduct,
-  GroceriesFoodItem,
+  MainCategoryListItem,
   Restaurant,
   SubCategory,
+  SubCategoryListItem,
 } from "../../../constants/interfaces";
+import { flashMessageWarning } from "../../../constants/GConstant";
+import { statusCodes } from "../../../api/APIConstant";
+import { zustandStore } from "../../../store";
 
 const HomeContainer = ({ navigation }: any) => {
-  const [arrGroceriesFood, setArrGroceriesFood] = useState<GroceriesFoodItem[]>(
-    [
-      {
-        type: getTranslation("groceries"),
-        image: images.g1,
-      },
-      {
-        type: getTranslation("food"),
-        image: images.f1,
-      },
-    ]
+  // API zustand store
+  const mainCategoryListApi = zustandStore.HomeStore(
+    (state) => state.mainCategoryList
   );
-  const [arrAds, setArrAds] = useState<AdItem[]>([
-    {
-      image: images.banner,
-    },
-    {
-      image: images.banner,
-    },
-    {
-      image: images.banner,
-    },
-  ]);
+  const bannerListApi = zustandStore.HomeStore((state) => state.bannerList);
+  const subCategoryListApi = zustandStore.HomeStore(
+    (state) => state.subCategoryList
+  );
+  const bestProductsSellerListApi = zustandStore.HomeStore(
+    (state) => state.bestProductsSellerList
+  );
+
+  const [arrMainCategoryList, setArrMainCategoryList] = useState<
+    MainCategoryListItem[]
+  >([]);
+
+  const [arrAds, setArrAds] = useState<AdItem[]>([]);
+
   const [arrSubCategoryGroceries, setArrSubCategoryGroceries] = useState<
     SubCategory[]
   >([
@@ -75,405 +72,410 @@ const HomeContainer = ({ navigation }: any) => {
       name: "Beverages",
     },
   ]);
-  const arrSubCategory = [
-    {
-      mainCategoryTitle: "Groceries",
-      subCategoryTitle: "Rice",
-      product_imgMain: [
-        {
-          imgMain: images.rice,
-        },
-        {
-          imgMain: images.rice,
-        },
-        {
-          imgMain: images.rice,
-        },
-      ],
-      product_img: images.rice,
-      product_name: "India Gate Basmati Rice",
-      product_price: "600",
-      product_weight: "1 kg",
-      product_final_price: "499",
-      product_rating: "4.5",
-      product_review: 250,
-      isFavourite: true,
-      product_quantity: 0,
-      product_deliverytime: "10 Min",
-      product_distance: "5 km",
-      product_desc:
-        "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  using Lorem Ipsum is that it has a more-or-less normal distribution of  letters, as opposed to using 'Content here, content here', making it  look like readable English.",
-      product_highlight: [
-        {
-          highlightTitle: "Grain Size",
-          highlightDesc: "250",
-        },
-        {
-          highlightTitle: "Organic",
-          highlightDesc: "No",
-        },
-        {
-          highlightTitle: "Polished",
-          highlightDesc: "Yes",
-        },
-        {
-          highlightTitle: "Brand",
-          highlightDesc: "India Gate",
-        },
-        {
-          highlightTitle: "Fssai license ",
-          highlightDesc: "250",
-        },
-      ],
-      product_inStock: true,
-      product_deliveryData: [
-        {
-          deliveryDataImage: images.productReturn,
-          deliveryDataTitle: "3 day Return/ Exchange",
-        },
-        {
-          deliveryDataImage: images.cashOnDelivery,
-          deliveryDataTitle: "Cash on Delivery",
-        },
-        {
-          deliveryDataImage: images.fastDelivery,
-          deliveryDataTitle: "Fast Delivery",
-        },
-      ],
-      height: 88,
-      width: 60,
-    },
-    {
-      mainCategoryTitle: "Groceries",
-      subCategoryTitle: "Cooking Oil",
-      product_imgMain: [
-        {
-          imgMain: images.oil,
-        },
-        {
-          imgMain: images.oil,
-        },
-        {
-          imgMain: images.oil,
-        },
-      ],
-      product_img: images.oil,
-      product_name: "Fortune Premium Mustard Oil",
-      product_price: "600",
-      product_weight: "500 ml",
-      product_final_price: "499",
-      product_rating: "4.5",
-      isFavourite: false,
-      product_quantity: 0,
-      product_deliverytime: "10 Min",
-      product_distance: "5 km",
-      product_desc:
-        "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
-      product_highlight: [
-        {
-          highlightTitle: "Grain Size",
-          highlightDesc: "250",
-        },
-        {
-          highlightTitle: "Organic",
-          highlightDesc: "No",
-        },
-        {
-          highlightTitle: "Polished",
-          highlightDesc: "Yes",
-        },
-        {
-          highlightTitle: "Brand",
-          highlightDesc: "India Gate",
-        },
-        {
-          highlightTitle: "Fssai license ",
-          highlightDesc: "250",
-        },
-      ],
-      product_inStock: true,
-      product_deliveryData: [
-        {
-          deliveryDataImage: images.productReturn,
-          deliveryDataTitle: "3 day Return/ Exchange",
-        },
-        {
-          deliveryDataImage: images.cashOnDelivery,
-          deliveryDataTitle: "Cash on Delivery",
-        },
-        {
-          deliveryDataImage: images.fastDelivery,
-          deliveryDataTitle: "Fast Delivery",
-        },
-      ],
-      height: 100,
-      width: 72,
-    },
-    {
-      mainCategoryTitle: "Groceries",
-      subCategoryTitle: "Rice",
-      product_imgMain: [
-        {
-          imgMain: images.rice1,
-        },
-        {
-          imgMain: images.rice1,
-        },
-        {
-          imgMain: images.rice1,
-        },
-      ],
-      product_img: images.rice1,
-      product_name: "Scotti Arborio Rice",
-      product_price: "600",
-      product_weight: "1 kg",
-      product_final_price: "499",
-      product_rating: "4.5",
-      isFavourite: true,
-      product_quantity: 0,
-      product_deliverytime: "10 Min",
-      product_distance: "5 km",
-      product_desc:
-        "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
-      product_highlight: [
-        {
-          highlightTitle: "Grain Size",
-          highlightDesc: "250",
-        },
-        {
-          highlightTitle: "Organic",
-          highlightDesc: "No",
-        },
-        {
-          highlightTitle: "Polished",
-          highlightDesc: "Yes",
-        },
-        {
-          highlightTitle: "Brand",
-          highlightDesc: "India Gate",
-        },
-        {
-          highlightTitle: "Fssai license ",
-          highlightDesc: "250",
-        },
-      ],
-      product_inStock: true,
-      product_deliveryData: [
-        {
-          deliveryDataImage: images.productReturn,
-          deliveryDataTitle: "3 day Return/ Exchange",
-        },
-        {
-          deliveryDataImage: images.cashOnDelivery,
-          deliveryDataTitle: "Cash on Delivery",
-        },
-        {
-          deliveryDataImage: images.fastDelivery,
-          deliveryDataTitle: "Fast Delivery",
-        },
-      ],
-      height: 88,
-      width: 88,
-    },
-    {
-      mainCategoryTitle: "Groceries",
-      subCategoryTitle: "Flour",
-      product_imgMain: [
-        {
-          imgMain: images.atta,
-        },
-        {
-          imgMain: images.atta,
-        },
-        {
-          imgMain: images.atta,
-        },
-      ],
-      product_img: images.atta,
-      product_name: "Aashirvaad Superior MP Atta",
-      product_price: "120",
-      product_weight: "500 g",
-      product_final_price: "99",
-      product_rating: "4.5",
-      isFavourite: false,
-      product_quantity: 0,
-      product_deliverytime: "10 Min",
-      product_distance: "5 km",
-      product_desc:
-        "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
-      product_highlight: [
-        {
-          highlightTitle: "Grain Size",
-          highlightDesc: "250",
-        },
-        {
-          highlightTitle: "Organic",
-          highlightDesc: "No",
-        },
-        {
-          highlightTitle: "Polished",
-          highlightDesc: "Yes",
-        },
-        {
-          highlightTitle: "Brand",
-          highlightDesc: "India Gate",
-        },
-        {
-          highlightTitle: "Fssai license ",
-          highlightDesc: "250",
-        },
-      ],
-      product_inStock: true,
-      product_deliveryData: [
-        {
-          deliveryDataImage: images.productReturn,
-          deliveryDataTitle: "3 day Return/ Exchange",
-        },
-        {
-          deliveryDataImage: images.cashOnDelivery,
-          deliveryDataTitle: "Cash on Delivery",
-        },
-        {
-          deliveryDataImage: images.fastDelivery,
-          deliveryDataTitle: "Fast Delivery",
-        },
-      ],
-      height: 88,
-      width: 60,
-    },
-    {
-      mainCategoryTitle: "Groceries",
-      subCategoryTitle: "Rice",
-      product_imgMain: [
-        {
-          imgMain: images.rice2,
-        },
-        {
-          imgMain: images.rice2,
-        },
-        {
-          imgMain: images.rice2,
-        },
-      ],
-      product_img: images.rice2,
-      product_name: "Gropure Black Rice",
-      product_price: "600",
-      product_weight: "1 kg",
-      product_final_price: "499",
-      product_rating: "4.5",
-      isFavourite: true,
-      product_quantity: 0,
-      product_deliverytime: "10 Min",
-      product_distance: "5 km",
-      product_desc:
-        "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
-      product_highlight: [
-        {
-          highlightTitle: "Grain Size",
-          highlightDesc: "250",
-        },
-        {
-          highlightTitle: "Organic",
-          highlightDesc: "No",
-        },
-        {
-          highlightTitle: "Polished",
-          highlightDesc: "Yes",
-        },
-        {
-          highlightTitle: "Brand",
-          highlightDesc: "India Gate",
-        },
-        {
-          highlightTitle: "Fssai license ",
-          highlightDesc: "250",
-        },
-      ],
-      product_inStock: true,
-      product_deliveryData: [
-        {
-          deliveryDataImage: images.productReturn,
-          deliveryDataTitle: "3 day Return/ Exchange",
-        },
-        {
-          deliveryDataImage: images.cashOnDelivery,
-          deliveryDataTitle: "Cash on Delivery",
-        },
-        {
-          deliveryDataImage: images.fastDelivery,
-          deliveryDataTitle: "Fast Delivery",
-        },
-      ],
-      height: 88,
-      width: 62,
-    },
-    {
-      mainCategoryTitle: "Groceries",
-      subCategoryTitle: "Milk",
-      product_imgMain: [
-        {
-          imgMain: images.milk,
-        },
-        {
-          imgMain: images.milk,
-        },
-        {
-          imgMain: images.milk,
-        },
-      ],
-      product_img: images.milk,
-      product_name: "IA2 Cow Milk",
-      product_price: "600",
-      product_weight: "1 L",
-      product_final_price: "499",
-      product_rating: "4.5",
-      isFavourite: true,
-      product_quantity: 0,
-      product_deliverytime: "10 Min",
-      product_distance: "5 km",
-      product_desc:
-        "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
-      product_highlight: [
-        {
-          highlightTitle: "Grain Size",
-          highlightDesc: "250",
-        },
-        {
-          highlightTitle: "Organic",
-          highlightDesc: "No",
-        },
-        {
-          highlightTitle: "Polished",
-          highlightDesc: "Yes",
-        },
-        {
-          highlightTitle: "Brand",
-          highlightDesc: "India Gate",
-        },
-        {
-          highlightTitle: "Fssai license ",
-          highlightDesc: "250",
-        },
-      ],
-      product_inStock: true,
-      product_deliveryData: [
-        {
-          deliveryDataImage: images.productReturn,
-          deliveryDataTitle: "3 day Return/ Exchange",
-        },
-        {
-          deliveryDataImage: images.cashOnDelivery,
-          deliveryDataTitle: "Cash on Delivery",
-        },
-        {
-          deliveryDataImage: images.fastDelivery,
-          deliveryDataTitle: "Fast Delivery",
-        },
-      ],
-      height: 91.79,
-      width: 72,
-    },
-  ];
+
+  const [arrSubCategory, setArrSubCategory] = useState<SubCategoryListItem[]>(
+    []
+  );
+
+  // const arrSubCategory = [
+  //   {
+  //     mainCategoryTitle: "Groceries",
+  //     subCategoryTitle: "Rice",
+  //     product_imgMain: [
+  //       {
+  //         imgMain: images.rice,
+  //       },
+  //       {
+  //         imgMain: images.rice,
+  //       },
+  //       {
+  //         imgMain: images.rice,
+  //       },
+  //     ],
+  //     product_img: images.rice,
+  //     product_name: "India Gate Basmati Rice",
+  //     product_price: "600",
+  //     product_weight: "1 kg",
+  //     product_final_price: "499",
+  //     product_rating: "4.5",
+  //     product_review: 250,
+  //     isFavourite: true,
+  //     product_quantity: 0,
+  //     product_deliverytime: "10 Min",
+  //     product_distance: "5 km",
+  //     product_desc:
+  //       "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  using Lorem Ipsum is that it has a more-or-less normal distribution of  letters, as opposed to using 'Content here, content here', making it  look like readable English.",
+  //     product_highlight: [
+  //       {
+  //         highlightTitle: "Grain Size",
+  //         highlightDesc: "250",
+  //       },
+  //       {
+  //         highlightTitle: "Organic",
+  //         highlightDesc: "No",
+  //       },
+  //       {
+  //         highlightTitle: "Polished",
+  //         highlightDesc: "Yes",
+  //       },
+  //       {
+  //         highlightTitle: "Brand",
+  //         highlightDesc: "India Gate",
+  //       },
+  //       {
+  //         highlightTitle: "Fssai license ",
+  //         highlightDesc: "250",
+  //       },
+  //     ],
+  //     product_inStock: true,
+  //     product_deliveryData: [
+  //       {
+  //         deliveryDataImage: images.productReturn,
+  //         deliveryDataTitle: "3 day Return/ Exchange",
+  //       },
+  //       {
+  //         deliveryDataImage: images.cashOnDelivery,
+  //         deliveryDataTitle: "Cash on Delivery",
+  //       },
+  //       {
+  //         deliveryDataImage: images.fastDelivery,
+  //         deliveryDataTitle: "Fast Delivery",
+  //       },
+  //     ],
+  //     height: 88,
+  //     width: 60,
+  //   },
+  //   {
+  //     mainCategoryTitle: "Groceries",
+  //     subCategoryTitle: "Cooking Oil",
+  //     product_imgMain: [
+  //       {
+  //         imgMain: images.oil,
+  //       },
+  //       {
+  //         imgMain: images.oil,
+  //       },
+  //       {
+  //         imgMain: images.oil,
+  //       },
+  //     ],
+  //     product_img: images.oil,
+  //     product_name: "Fortune Premium Mustard Oil",
+  //     product_price: "600",
+  //     product_weight: "500 ml",
+  //     product_final_price: "499",
+  //     product_rating: "4.5",
+  //     isFavourite: false,
+  //     product_quantity: 0,
+  //     product_deliverytime: "10 Min",
+  //     product_distance: "5 km",
+  //     product_desc:
+  //       "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+  //     product_highlight: [
+  //       {
+  //         highlightTitle: "Grain Size",
+  //         highlightDesc: "250",
+  //       },
+  //       {
+  //         highlightTitle: "Organic",
+  //         highlightDesc: "No",
+  //       },
+  //       {
+  //         highlightTitle: "Polished",
+  //         highlightDesc: "Yes",
+  //       },
+  //       {
+  //         highlightTitle: "Brand",
+  //         highlightDesc: "India Gate",
+  //       },
+  //       {
+  //         highlightTitle: "Fssai license ",
+  //         highlightDesc: "250",
+  //       },
+  //     ],
+  //     product_inStock: true,
+  //     product_deliveryData: [
+  //       {
+  //         deliveryDataImage: images.productReturn,
+  //         deliveryDataTitle: "3 day Return/ Exchange",
+  //       },
+  //       {
+  //         deliveryDataImage: images.cashOnDelivery,
+  //         deliveryDataTitle: "Cash on Delivery",
+  //       },
+  //       {
+  //         deliveryDataImage: images.fastDelivery,
+  //         deliveryDataTitle: "Fast Delivery",
+  //       },
+  //     ],
+  //     height: 100,
+  //     width: 72,
+  //   },
+  //   {
+  //     mainCategoryTitle: "Groceries",
+  //     subCategoryTitle: "Rice",
+  //     product_imgMain: [
+  //       {
+  //         imgMain: images.rice1,
+  //       },
+  //       {
+  //         imgMain: images.rice1,
+  //       },
+  //       {
+  //         imgMain: images.rice1,
+  //       },
+  //     ],
+  //     product_img: images.rice1,
+  //     product_name: "Scotti Arborio Rice",
+  //     product_price: "600",
+  //     product_weight: "1 kg",
+  //     product_final_price: "499",
+  //     product_rating: "4.5",
+  //     isFavourite: true,
+  //     product_quantity: 0,
+  //     product_deliverytime: "10 Min",
+  //     product_distance: "5 km",
+  //     product_desc:
+  //       "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+  //     product_highlight: [
+  //       {
+  //         highlightTitle: "Grain Size",
+  //         highlightDesc: "250",
+  //       },
+  //       {
+  //         highlightTitle: "Organic",
+  //         highlightDesc: "No",
+  //       },
+  //       {
+  //         highlightTitle: "Polished",
+  //         highlightDesc: "Yes",
+  //       },
+  //       {
+  //         highlightTitle: "Brand",
+  //         highlightDesc: "India Gate",
+  //       },
+  //       {
+  //         highlightTitle: "Fssai license ",
+  //         highlightDesc: "250",
+  //       },
+  //     ],
+  //     product_inStock: true,
+  //     product_deliveryData: [
+  //       {
+  //         deliveryDataImage: images.productReturn,
+  //         deliveryDataTitle: "3 day Return/ Exchange",
+  //       },
+  //       {
+  //         deliveryDataImage: images.cashOnDelivery,
+  //         deliveryDataTitle: "Cash on Delivery",
+  //       },
+  //       {
+  //         deliveryDataImage: images.fastDelivery,
+  //         deliveryDataTitle: "Fast Delivery",
+  //       },
+  //     ],
+  //     height: 88,
+  //     width: 88,
+  //   },
+  //   {
+  //     mainCategoryTitle: "Groceries",
+  //     subCategoryTitle: "Flour",
+  //     product_imgMain: [
+  //       {
+  //         imgMain: images.atta,
+  //       },
+  //       {
+  //         imgMain: images.atta,
+  //       },
+  //       {
+  //         imgMain: images.atta,
+  //       },
+  //     ],
+  //     product_img: images.atta,
+  //     product_name: "Aashirvaad Superior MP Atta",
+  //     product_price: "120",
+  //     product_weight: "500 g",
+  //     product_final_price: "99",
+  //     product_rating: "4.5",
+  //     isFavourite: false,
+  //     product_quantity: 0,
+  //     product_deliverytime: "10 Min",
+  //     product_distance: "5 km",
+  //     product_desc:
+  //       "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+  //     product_highlight: [
+  //       {
+  //         highlightTitle: "Grain Size",
+  //         highlightDesc: "250",
+  //       },
+  //       {
+  //         highlightTitle: "Organic",
+  //         highlightDesc: "No",
+  //       },
+  //       {
+  //         highlightTitle: "Polished",
+  //         highlightDesc: "Yes",
+  //       },
+  //       {
+  //         highlightTitle: "Brand",
+  //         highlightDesc: "India Gate",
+  //       },
+  //       {
+  //         highlightTitle: "Fssai license ",
+  //         highlightDesc: "250",
+  //       },
+  //     ],
+  //     product_inStock: true,
+  //     product_deliveryData: [
+  //       {
+  //         deliveryDataImage: images.productReturn,
+  //         deliveryDataTitle: "3 day Return/ Exchange",
+  //       },
+  //       {
+  //         deliveryDataImage: images.cashOnDelivery,
+  //         deliveryDataTitle: "Cash on Delivery",
+  //       },
+  //       {
+  //         deliveryDataImage: images.fastDelivery,
+  //         deliveryDataTitle: "Fast Delivery",
+  //       },
+  //     ],
+  //     height: 88,
+  //     width: 60,
+  //   },
+  //   {
+  //     mainCategoryTitle: "Groceries",
+  //     subCategoryTitle: "Rice",
+  //     product_imgMain: [
+  //       {
+  //         imgMain: images.rice2,
+  //       },
+  //       {
+  //         imgMain: images.rice2,
+  //       },
+  //       {
+  //         imgMain: images.rice2,
+  //       },
+  //     ],
+  //     product_img: images.rice2,
+  //     product_name: "Gropure Black Rice",
+  //     product_price: "600",
+  //     product_weight: "1 kg",
+  //     product_final_price: "499",
+  //     product_rating: "4.5",
+  //     isFavourite: true,
+  //     product_quantity: 0,
+  //     product_deliverytime: "10 Min",
+  //     product_distance: "5 km",
+  //     product_desc:
+  //       "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+  //     product_highlight: [
+  //       {
+  //         highlightTitle: "Grain Size",
+  //         highlightDesc: "250",
+  //       },
+  //       {
+  //         highlightTitle: "Organic",
+  //         highlightDesc: "No",
+  //       },
+  //       {
+  //         highlightTitle: "Polished",
+  //         highlightDesc: "Yes",
+  //       },
+  //       {
+  //         highlightTitle: "Brand",
+  //         highlightDesc: "India Gate",
+  //       },
+  //       {
+  //         highlightTitle: "Fssai license ",
+  //         highlightDesc: "250",
+  //       },
+  //     ],
+  //     product_inStock: true,
+  //     product_deliveryData: [
+  //       {
+  //         deliveryDataImage: images.productReturn,
+  //         deliveryDataTitle: "3 day Return/ Exchange",
+  //       },
+  //       {
+  //         deliveryDataImage: images.cashOnDelivery,
+  //         deliveryDataTitle: "Cash on Delivery",
+  //       },
+  //       {
+  //         deliveryDataImage: images.fastDelivery,
+  //         deliveryDataTitle: "Fast Delivery",
+  //       },
+  //     ],
+  //     height: 88,
+  //     width: 62,
+  //   },
+  //   {
+  //     mainCategoryTitle: "Groceries",
+  //     subCategoryTitle: "Milk",
+  //     product_imgMain: [
+  //       {
+  //         imgMain: images.milk,
+  //       },
+  //       {
+  //         imgMain: images.milk,
+  //       },
+  //       {
+  //         imgMain: images.milk,
+  //       },
+  //     ],
+  //     product_img: images.milk,
+  //     product_name: "IA2 Cow Milk",
+  //     product_price: "600",
+  //     product_weight: "1 L",
+  //     product_final_price: "499",
+  //     product_rating: "4.5",
+  //     isFavourite: true,
+  //     product_quantity: 0,
+  //     product_deliverytime: "10 Min",
+  //     product_distance: "5 km",
+  //     product_desc:
+  //       "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+  //     product_highlight: [
+  //       {
+  //         highlightTitle: "Grain Size",
+  //         highlightDesc: "250",
+  //       },
+  //       {
+  //         highlightTitle: "Organic",
+  //         highlightDesc: "No",
+  //       },
+  //       {
+  //         highlightTitle: "Polished",
+  //         highlightDesc: "Yes",
+  //       },
+  //       {
+  //         highlightTitle: "Brand",
+  //         highlightDesc: "India Gate",
+  //       },
+  //       {
+  //         highlightTitle: "Fssai license ",
+  //         highlightDesc: "250",
+  //       },
+  //     ],
+  //     product_inStock: true,
+  //     product_deliveryData: [
+  //       {
+  //         deliveryDataImage: images.productReturn,
+  //         deliveryDataTitle: "3 day Return/ Exchange",
+  //       },
+  //       {
+  //         deliveryDataImage: images.cashOnDelivery,
+  //         deliveryDataTitle: "Cash on Delivery",
+  //       },
+  //       {
+  //         deliveryDataImage: images.fastDelivery,
+  //         deliveryDataTitle: "Fast Delivery",
+  //       },
+  //     ],
+  //     height: 91.79,
+  //     width: 72,
+  //   },
+  // ];
   const [arrSubCategoryFood, setArrSubCategoryFood] = useState<SubCategory[]>([
     {
       image: images.food1,
@@ -615,6 +617,7 @@ const HomeContainer = ({ navigation }: any) => {
 
   const [isGroceriesFoodSelected, setIsGroceriesFoodSelected] =
     useState<string>("Groceries");
+  const [mainCategoryId, setMainCategoryId] = useState<string>("1");
 
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
 
@@ -627,11 +630,15 @@ const HomeContainer = ({ navigation }: any) => {
   };
 
   const onPressLocation = () => {
-    navigation.navigate(ScreenNames.manageAddress,{ navigateFromHome: true });
+    navigation.navigate(ScreenNames.manageAddress, { navigateFromHome: true });
   };
 
-  const onPressGroceriesFood = (type: string) => {
-    setIsGroceriesFoodSelected(type);
+  const onPressMainCategory = (name: string, mainCategoryId: string) => {
+    console.log("mainCategoryId", mainCategoryId, name);
+    setIsGroceriesFoodSelected(name);
+    setMainCategoryId(mainCategoryId);
+    handleSubCategoryListApi(mainCategoryId);
+    handleBestProductsSellerListApi(mainCategoryId);
   };
 
   // handleSellAllCategories
@@ -672,8 +679,106 @@ const HomeContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.notification);
   };
 
+  // ----------------------- API Calling -----------------------
+
+  // handleMainCategoryListApi
+  const handleMainCategoryListApi = async () => {
+    try {
+      const response = await mainCategoryListApi({}, navigation);
+      if (response !== undefined && response !== null) {
+        // __DEV__ &&
+        //   console.log(
+        //     "MAIN CATEGORY LIST RESPONSE===>",
+        //     JSON.stringify(response)
+        //   );
+        const data = response.data as MainCategoryListItem;
+        if (response.code === statusCodes.success) {
+          // console.log("Dataaa => ", JSON.stringify(data));
+          setArrMainCategoryList(Array.isArray(data) ? data : [data]);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  // handleBannerListApi
+  const handleBannerListApi = async () => {
+    try {
+      const response = await bannerListApi({}, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("BANNER LIST RESPONSE===>", JSON.stringify(response));
+        const data = response.data as AdItem;
+        if (response.code === statusCodes.success) {
+          setArrAds(Array.isArray(data) ? data : [data]);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  // handleSubCategoryListApi
+  const handleSubCategoryListApi = async (mainCategoryId: String) => {
+    const dictData = {
+      category_id: mainCategoryId,
+    };
+    try {
+      const response = await subCategoryListApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "SUB CATEGORY LIST RESPONSE===>",
+            JSON.stringify(response)
+          );
+        const data = response.data as SubCategoryListItem;
+        if (response.code === statusCodes.success) {
+          setArrSubCategory(Array.isArray(data) ? data : [data]);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+   // handleSubCategoryListApi
+   const handleBestProductsSellerListApi = async (mainCategoryId: String) => {
+    const dictData = {
+      category_id: mainCategoryId,
+    };
+    try {
+      const response = await bestProductsSellerListApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "BEST PRODUCTS SELLERS LIST RESPONSE===>",
+            JSON.stringify(response)
+          );
+        // const data = response.data as SubCategoryListItem;
+        if (response.code === statusCodes.success) {
+          // setArrSubCategory(Array.isArray(data) ? data : [data]);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
+      handleMainCategoryListApi();
+      handleBannerListApi();
+      handleSubCategoryListApi(mainCategoryId);
+      handleBestProductsSellerListApi(mainCategoryId);
       StatusBar.setBarStyle("light-content");
       return () => {};
     }, [navigation])
@@ -681,15 +786,15 @@ const HomeContainer = ({ navigation }: any) => {
 
   return (
     <HomeComponent
-      arrGroceriesFood={arrGroceriesFood}
-      onPressGroceriesFood={onPressGroceriesFood}
-      isGroceriesFoodSelected={isGroceriesFoodSelected}
+      arrMainCategoryList={arrMainCategoryList}
       arrAds={arrAds}
+      arrSubCategory={arrSubCategory}
+
+      onPressMainCategory={onPressMainCategory}
+      isGroceriesFoodSelected={isGroceriesFoodSelected}
       handleSetBannerIndex={handleSetBannerIndex}
       currentBannerIndex={currentBannerIndex}
-      arrSubCategoryGroceries={arrSubCategoryGroceries}
       arrBestProducts={arrBestProducts}
-      arrSubCategoryFood={arrSubCategoryFood}
       arrBestSellers={arrBestSellers}
       handleSellAllCategories={handleSellAllCategories}
       handleSellAllBestSellers={handleSellAllBestSellers}

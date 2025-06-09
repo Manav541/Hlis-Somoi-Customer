@@ -40,10 +40,10 @@ interface PropsType {
 const VerificationComponent = (props: PropsType) => {
   return (
     <View style={constnatStyles.vwOrangeBgParent}>
-      <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+       <StatusBar
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <View style={constnatStyles.vwBlueBgWithRadius}>
         <GlobalLogoTitle style={styles.vwLogoTitle} />

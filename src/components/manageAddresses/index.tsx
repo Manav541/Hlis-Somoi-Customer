@@ -12,6 +12,7 @@ import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { AddressItem, LocationData } from "../../constants/interfaces";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   arrManageAddress: LocationData[];
@@ -100,9 +101,9 @@ const ManageAddressesComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <TouchableOpacity
         style={styles.btnAddAddress}

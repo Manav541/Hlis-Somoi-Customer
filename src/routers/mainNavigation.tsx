@@ -5,10 +5,10 @@ import { Platform, StatusBar, View } from "react-native";
 import { colors } from "../constants/Colors";
 import { fontSize } from "../constants/FontSizes";
 import { fontsfamily } from "../constants/FontFamily";
-import { enableScreens } from 'react-native-screens';
+import { enableScreens } from "react-native-screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
- 
-enableScreens(); 
+
+enableScreens();
 
 interface PropsType {
   initialRoute: string;
@@ -38,214 +38,211 @@ const MainNavigation = (props: PropsType) => {
           },
           headerShadowVisible: false,
           gestureEnabled: gestureEnabled,
-          
         }}
-        
       />
     );
   };
 
   return (
-    <View style={{backgroundColor : colors.blue4e, flex : 1}}>
-    <NavigationContainer>
-      
-      <Stack.Navigator
-        screenOptions={{ animation: "slide_from_right" }}
-        initialRouteName={props?.initialRoute}
-        // initialRouteName={ScreenNames.chat}
-      >
-        {/* Auth */}
-        {handleStackScreens(
-          ScreenNames.onboarding,
-          MyScreens.OnboardingContainer,
-          false
-        )}
-        {handleStackScreens(
-          ScreenNames.signup,
-          MyScreens.SignupContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.signin,
-          MyScreens.SignInContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.verification,
-          MyScreens.VerificationContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.forgotPassword,
-          MyScreens.ForgotPasswordContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.changePassword,
-          MyScreens.ChangePasswordContainer,
-          true,
-          false
-        )}
-        {handleStackScreens(
-          ScreenNames.addAddress,
-          MyScreens.AddAddressContainer,
-          true
-        )}
+    <View style={{ backgroundColor: colors.blue4e, flex: 1 }}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{ animation: "slide_from_right" }}
+          initialRouteName={props?.initialRoute}
+          // initialRouteName={ScreenNames.chat}
+        >
+          {/* Auth */}
+          {handleStackScreens(
+            ScreenNames.onboarding,
+            MyScreens.OnboardingContainer,
+            false
+          )}
+          {handleStackScreens(
+            ScreenNames.signup,
+            MyScreens.SignupContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.signin,
+            MyScreens.SignInContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.verification,
+            MyScreens.VerificationContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.forgotPassword,
+            MyScreens.ForgotPasswordContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.changePassword,
+            MyScreens.ChangePasswordContainer,
+            true,
+            false
+          )}
+          {handleStackScreens(
+            ScreenNames.addAddress,
+            MyScreens.AddAddressContainer,
+            true
+          )}
 
-        {/* Bottom Tabs */}
-        {handleStackScreens(
-          ScreenNames.bottomTabsNavigation,
-          MyScreens.BottomTabsNavigation,
-          false
-        )}
+          {/* Bottom Tabs */}
+          {handleStackScreens(
+            ScreenNames.bottomTabsNavigation,
+            MyScreens.BottomTabsNavigation,
+            false
+          )}
 
-        {/* Home */}
-        {handleStackScreens(
-          ScreenNames.search,
-          MyScreens.SearchContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.allCategories,
-          MyScreens.ViewAllCategoriesContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.allBestSellers,
-          MyScreens.ViewAllBestSellersContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.notification,
-          MyScreens.NotificationContainer,
-          true
-        )}
+          {/* Home */}
+          {handleStackScreens(
+            ScreenNames.search,
+            MyScreens.SearchContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.allCategories,
+            MyScreens.ViewAllCategoriesContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.allBestSellers,
+            MyScreens.ViewAllBestSellersContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.notification,
+            MyScreens.NotificationContainer,
+            true
+          )}
 
-        {/* Food Detail */}
-        {handleStackScreens(
-          ScreenNames.productDetail,
-          MyScreens.ViewProductDetailContainer,
-          false
-        )}
-        {handleStackScreens(
-          ScreenNames.restaurantDetail,
-          MyScreens.ViewRestaurantDetailContainer,
-          false
-        )}
-        {handleStackScreens(
-          ScreenNames.review,
-          MyScreens.ReviewContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.compareProduct,
-          MyScreens.CompareProductConteiner,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.addCompareProduct,
-          MyScreens.AddCompareProductsContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.paymentMethod,
-          MyScreens.PaymentMethodContainer,
-          true
-        )}
+          {/* Food Detail */}
+          {handleStackScreens(
+            ScreenNames.productDetail,
+            MyScreens.ViewProductDetailContainer,
+            false
+          )}
+          {handleStackScreens(
+            ScreenNames.restaurantDetail,
+            MyScreens.ViewRestaurantDetailContainer,
+            false
+          )}
+          {handleStackScreens(
+            ScreenNames.review,
+            MyScreens.ReviewContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.compareProduct,
+            MyScreens.CompareProductConteiner,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.addCompareProduct,
+            MyScreens.AddCompareProductsContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.paymentMethod,
+            MyScreens.PaymentMethodContainer,
+            true
+          )}
 
-        {/* Categories */}
-        {handleStackScreens(
-          ScreenNames.productListing,
-          MyScreens.ProductListingContainer,
-          true
-        )}
+          {/* Categories */}
+          {handleStackScreens(
+            ScreenNames.productListing,
+            MyScreens.ProductListingContainer,
+            true
+          )}
 
-        {/* My Orders */}
-        {handleStackScreens(
-          ScreenNames.orderSummary,
-          MyScreens.OrderSummaryContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.cancelOrder,
-          MyScreens.CancelOrderContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.returnExchangeItemList,
-          MyScreens.ReturnExchangeItemListContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.returnOrder,
-          MyScreens.ReturnOrderContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.rateAndReview,
-          MyScreens.RateAndReviewContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.reportIssue,
-          MyScreens.ReportIssueContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.driverTracking,
-          MyScreens.DriverTrackingContainer,
-          true
-        )}
-        {handleStackScreens(ScreenNames.chat, MyScreens.ChatContainer, true)}
+          {/* My Orders */}
+          {handleStackScreens(
+            ScreenNames.orderSummary,
+            MyScreens.OrderSummaryContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.cancelOrder,
+            MyScreens.CancelOrderContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.returnExchangeItemList,
+            MyScreens.ReturnExchangeItemListContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.returnOrder,
+            MyScreens.ReturnOrderContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.rateAndReview,
+            MyScreens.RateAndReviewContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.reportIssue,
+            MyScreens.ReportIssueContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.driverTracking,
+            MyScreens.DriverTrackingContainer,
+            true
+          )}
+          {handleStackScreens(ScreenNames.chat, MyScreens.ChatContainer, true)}
 
-        {/* Setting */}
-        {handleStackScreens(
-          ScreenNames.editProfile,
-          MyScreens.EditProfileContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.cmsPage,
-          MyScreens.CMSPageContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.availableOffers,
-          MyScreens.AvailableOffersContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.contactUs,
-          MyScreens.ContactUsContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.manageAddress,
-          MyScreens.ManageAddressesContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.myWishlist,
-          MyScreens.MyWishlistContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.changeEmailPhoneNumber,
-          MyScreens.ChangeEmailPhoneNumberContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.managePaymentMethods,
-          MyScreens.ManagePaymentMethodsContainer,
-          true
-        )}
-        {handleStackScreens(
-          ScreenNames.addNewCard,
-          MyScreens.AddNewCardContainer,
-          true
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+          {/* Setting */}
+          {handleStackScreens(
+            ScreenNames.editProfile,
+            MyScreens.EditProfileContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.cmsPage,
+            MyScreens.CMSPageContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.availableOffers,
+            MyScreens.AvailableOffersContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.contactUs,
+            MyScreens.ContactUsContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.manageAddress,
+            MyScreens.ManageAddressesContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.myWishlist,
+            MyScreens.MyWishlistContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.changeEmailPhoneNumber,
+            MyScreens.ChangeEmailPhoneNumberContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.managePaymentMethods,
+            MyScreens.ManagePaymentMethodsContainer,
+            true
+          )}
+          {handleStackScreens(
+            ScreenNames.addNewCard,
+            MyScreens.AddNewCardContainer,
+            true
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
     </View>
   );
 };

@@ -28,7 +28,13 @@ export const apiEndPoint = {
   cmsPages :"/auth/customer/cms-pages",
 
   // Home
+  mainCategoryList :"/home/customer/categories-listing",
+  bannerList :"/home/customer/banner-listing",
+  subCategoryList :"/home/customer/sub-listing",
+  bestProductsSellerList :"/home/customer/home-product-listing",
+  searchProduct : "/home/customer/search-product",
   
+  // Setting Module
   contactUs :"/home/customer/contact-us",
 
   // Address

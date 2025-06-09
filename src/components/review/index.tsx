@@ -12,6 +12,7 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { RateProgress, Review } from "../../constants/interfaces";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   totalRate: number;
@@ -106,8 +107,8 @@ const ReviewComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       <ScrollView

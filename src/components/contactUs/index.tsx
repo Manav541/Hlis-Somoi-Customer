@@ -9,6 +9,7 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import GlobalLogoTitle from "../../global/GlobalLogoTitle";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   name: string;
@@ -39,9 +40,9 @@ const ContactUsComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <KeyboardAwareScrollView
         contentContainerStyle={{ flexGrow: 1 }}

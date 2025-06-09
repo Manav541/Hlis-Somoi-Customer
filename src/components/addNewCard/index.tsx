@@ -7,6 +7,7 @@ import GlobalTextInput from "../../global/GlobalTextInput";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GlobalButton from "../../global/GlobalButton";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   cardNumber: string;
@@ -35,8 +36,8 @@ const AddNewCardComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain1}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       <KeyboardAwareScrollView

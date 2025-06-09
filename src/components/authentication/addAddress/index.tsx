@@ -16,6 +16,7 @@ import { PlatformVersion } from "../../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { activityOpacity, hitSlop } from "../../../constants/GConstant";
 import { images } from "../../../constants/Images";
+import { colors } from "../../../constants/Colors";
 
 interface PropsType {
   address: string;
@@ -50,9 +51,9 @@ const AddAddressComponent = (props: PropsType) => {
       showsVerticalScrollIndicator={false}
     >
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <View>
         <Text style={styles.lblAddAddressHeading}>
@@ -154,11 +155,13 @@ const AddAddressComponent = (props: PropsType) => {
       >
         <GlobalButton
           isOrange
-          title={props?.isNavigateFromManageAddress
-            ? props?.isEditAddress
-              ? getTranslation("update")
+          title={
+            props?.isNavigateFromManageAddress
+              ? props?.isEditAddress
+                ? getTranslation("update")
+                : getTranslation("add")
               : getTranslation("add")
-            : getTranslation("add")}
+          }
           onPress={props?.handleOnPressAdd}
         />
       </View>

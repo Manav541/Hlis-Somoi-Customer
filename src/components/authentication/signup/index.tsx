@@ -2,7 +2,6 @@ import {
   View,
   Text,
   TextInput,
-  StatusBar,
   TouchableOpacity,
 } from "react-native";
 import React, { Ref } from "react";
@@ -13,10 +12,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import GlobalButton from "../../../global/GlobalButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { PlatformVersion } from "../../../constants/utils/Platform";
 import { constnatStyles } from "../../../constants/Styles";
 import GlobalEmailPhoneButton from "../../../global/GlobalEmailPhoneButton";
-import GlobalCountryModal from "../../../global/GlobalCountryModal";
 import { CountryDataType } from "../../../constants/interfaces";
 import { activityOpacity } from "../../../constants/GConstant";
 
@@ -64,11 +61,6 @@ const SignupComponent = (props: PropsType) => {
 
   return (
     <View style={constnatStyles.vwOrangeBgParent}>
-      <StatusBar
-        translucent
-        backgroundColor={"transparent"}
-        barStyle={"dark-content"}
-      />
       <View style={constnatStyles.vwBlueBgWithRadius}>
         <KeyboardAwareScrollView
           contentContainerStyle={{ flexGrow: 1 }}

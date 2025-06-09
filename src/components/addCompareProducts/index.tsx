@@ -1,7 +1,11 @@
 import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
 import React from "react";
 import { styles } from "./styles";
-import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
+import {
+  activityOpacity,
+  hitSlop,
+  rupeeSymbol,
+} from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { FlatList } from "react-native-gesture-handler";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
@@ -10,6 +14,7 @@ import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { GroceryProduct } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   arrCompareProducts: GroceryProduct[];
@@ -61,9 +66,11 @@ const AddCompareProductsComponent = (props: PropsType) => {
           <View style={styles.vwPriceRating}>
             <View style={styles.vwPrice}>
               <Text style={styles.lblProductFinalPrice}>
-                {rupeeSymbol+item?.product_final_price}
+                {rupeeSymbol + item?.product_final_price}
               </Text>
-              <Text style={styles.lblProductPrice}>{rupeeSymbol+item?.product_price}</Text>
+              <Text style={styles.lblProductPrice}>
+                {rupeeSymbol + item?.product_price}
+              </Text>
             </View>
             <View style={styles.vwProductRating}>
               <Image style={styles.imgStar} source={images.star} />
@@ -88,8 +95,8 @@ const AddCompareProductsComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       <FlatList

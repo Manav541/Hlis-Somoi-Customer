@@ -159,9 +159,9 @@ const MyWishlistComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <View style={styles.vwSearch}>
         <Image style={styles.imgSearch} source={images.search} />

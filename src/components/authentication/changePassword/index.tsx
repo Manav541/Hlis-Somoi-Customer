@@ -7,6 +7,7 @@ import GlobalTextInput from "../../../global/GlobalTextInput";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import GlobalButton from "../../../global/GlobalButton";
 import { constnatStyles } from "../../../constants/Styles";
+import { colors } from "../../../constants/Colors";
 
 interface PropsType {
   oldPassword: string;
@@ -34,9 +35,9 @@ const ChangePasswordComponent = (props: PropsType) => {
   return (
     <View style={constnatStyles.vwOrangeBgParent}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <View style={constnatStyles.vwBlueBgWithRadius}>
         <KeyboardAwareScrollView

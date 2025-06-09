@@ -167,13 +167,30 @@ export interface NotificationGroup {
 }
 
 // Home Tab
-export interface GroceriesFoodItem {
-  type: string | null;
-  image: FastImageSource;
+export interface MainCategoryListItem {
+  id: string;
+  name: string;
+  image: string;
+  parent_id: string | null;
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SubCategoryListItem {
+  id: string;
+  name: string;
+  image: string;
+  parent_id: string;
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface AdItem {
-  image: FastImageSource;
+  image: string;
 }
 
 export interface SubCategory {

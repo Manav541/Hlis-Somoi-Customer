@@ -14,6 +14,7 @@ import {
   NotificationData,
   NotificationGroup,
 } from "../../constants/interfaces";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   arrNotification: NotificationGroup[];
@@ -54,9 +55,9 @@ const NotificationComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <SectionList
         sections={props?.arrNotification}

@@ -155,7 +155,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
     try {
       const response = await requestResendOtpApi(dictData, navigation);
       if (response !== undefined && response !== null) {
-        __DEV__ && console.log("SIGNUP RESPONSE===>", response);
+        __DEV__ && console.log("REQUEST OTP RESPONSE===>", response);
         if (response.code === statusCodes.success) {
           flashMessageSucess(response.message);
           const clearedOtpArray = otpArray.map((item) => ({

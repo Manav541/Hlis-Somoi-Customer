@@ -15,6 +15,7 @@ import { fontsfamily } from "../../constants/FontFamily";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Restaurant } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   arrAllBestSellers: Restaurant[];
@@ -97,8 +98,8 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       <FlatList

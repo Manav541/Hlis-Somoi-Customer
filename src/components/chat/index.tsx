@@ -156,8 +156,8 @@ const ChatComponent = (props: PropsType) => {
       ]}
     >
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       {/* View Chats Flatlist */}

@@ -77,8 +77,8 @@ const PaymentMethodComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       <ScrollView bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom : 20}}>

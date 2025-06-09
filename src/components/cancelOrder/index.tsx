@@ -18,6 +18,7 @@ import GlobalSuccessModal from "../../global/GlobalSuccessModal";
 import { CancelOrderReason } from "../../constants/interfaces";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   arrCancelOrderReason: CancelOrderReason[];
@@ -68,9 +69,9 @@ const CancelOrderComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
 
       <KeyboardAwareScrollView

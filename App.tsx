@@ -1,7 +1,5 @@
 import {
   View,
-  Text,
-  StyleSheet,
   ActivityIndicator,
   StatusBar,
 } from "react-native";
@@ -15,11 +13,12 @@ import { MmkvManager } from "./src/constants/utils/MmkvManager";
 import { ScreenNames } from "./src/routers";
 import { colors } from "./src/constants/Colors";
 import { setLoaderRef } from "./src/constants/GConstant";
+import Loader from "./src/constants/Loader";
+import { constnatStyles } from "./src/constants/Styles";
 
 const App = () => {
   const flashMessageRef = useRef<any>(null);
   const [initialRoute, setInitialRoute] = useState<string | null>(null);
-  const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
     if (initialRoute !== null) {
@@ -60,21 +59,9 @@ const App = () => {
     );
   }, []);
 
-  // ✅ Setup global loader listener separately
-  useEffect(() => {
-    setLoaderRef({
-      toggleLoader: (show: boolean) => {
-        setShowLoader(show);
-      },
-    });
-
-    // Optional: cleanup on unmount
-    return () => setLoaderRef(null);
-  }, []);
-
   if (initialRoute === null) {
     return (
-      <View style={styles.vwActivityIndicator}>
+      <View style={constnatStyles.vwActivityIndicator}>
         <ActivityIndicator size="large" color={colors.orange1c} />
       </View>
     );
@@ -84,56 +71,12 @@ const App = () => {
     <I18nextProvider i18n={i18n}>
       <StatusBar backgroundColor={colors.orange1c} barStyle={"dark-content"} />
       <MainNavigation initialRoute={initialRoute} />
-      <View style={styles.flashMessage}>
+      <View style={constnatStyles.flashMessage}>
         <FlashMessage position={"top"} ref={flashMessageRef} />
       </View>
-      {/* ✅ Global Loader */}
-      {showLoader && (
-        <View style={styles.loaderOverlay}>
-          <ActivityIndicator
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 20,
-              backgroundColor: colors.white,
-            }}
-            size="large"
-            color={colors.orange1c}
-          />
-        </View>
-      )}
+      <Loader ref={(ref) => setLoaderRef(ref)} />
     </I18nextProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  flashMessage: {
-    zIndex: 1000,
-    elevation: 1000,
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    pointerEvents: "box-none",
-  },
-  vwActivityIndicator: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    // backgroundColor: colors.blue4e,
-  },
-  loaderOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    backgroundColor: "transparent",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 999,
-    elevation: 999,
-  },
-});
 
 export default App;

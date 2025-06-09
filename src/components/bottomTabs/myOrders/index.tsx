@@ -37,8 +37,8 @@ interface PropsType {
   closeFilterModal: () => void;
   arrFilterDate: FilterDate[];
   arrFilterOrderType: FilterOrderType[];
-  handleSelectOrderType: (type : string) => void;
-  handleSelectOrderDate: (date : string) => void;
+  handleSelectOrderType: (type: string) => void;
+  handleSelectOrderDate: (date: string) => void;
   handleNavigateOrderSummary: (status: string) => void;
   onPressApply: () => void;
   onPressReset: () => void;
@@ -47,7 +47,7 @@ interface PropsType {
 const statusColors: { [key: string]: string } = {
   Confirmed: colors.black35,
   Preparing: colors.black35,
-  On_the_way :colors.black35,
+  On_the_way: colors.black35,
   Delivered: colors.green4f,
   Returned: colors.green4f,
   Request_return: colors.orange1c,
@@ -58,7 +58,7 @@ const statusColors: { [key: string]: string } = {
 const statusTexts: { [key: string]: string } = {
   Confirmed: "Your Order Confirmed",
   Preparing: "Your Order is Preparing",
-  On_the_way :"Your Order is On The Way",
+  On_the_way: "Your Order is On The Way",
   Delivered: "Your Order Delivered",
   Request_return: "Requested for Returned",
   Request_exchange: "Requested for Exchange",
@@ -93,7 +93,9 @@ const MyOrdersComponent = (props: PropsType) => {
           </View>
           <View style={{ justifyContent: "space-between" }}>
             <Text style={styles.lblTotal}>{getTranslation("total")}</Text>
-            <Text style={styles.lblTotalValue}>{rupeeSymbol+" "+item.total}</Text>
+            <Text style={styles.lblTotalValue}>
+              {rupeeSymbol + " " + item.total}
+            </Text>
           </View>
         </View>
 
@@ -122,7 +124,9 @@ const MyOrdersComponent = (props: PropsType) => {
                         {product.product_name}
                       </Text>
                       <View style={styles.vwPrice}>
-                        <Text style={styles.lblPrice}>{rupeeSymbol+product.price}</Text>
+                        <Text style={styles.lblPrice}>
+                          {rupeeSymbol + product.price}
+                        </Text>
                         <View style={styles.vwDot} />
                         <Text style={styles.lblUnit}>{product.unit}</Text>
                       </View>
@@ -167,9 +171,9 @@ const MyOrdersComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <View style={styles.vwMainContainer}>
         <FlatList
@@ -192,8 +196,8 @@ const MyOrdersComponent = (props: PropsType) => {
         onRequestClose={props.closeFilterModal}
       >
         <StatusBar
-          translucent
-          backgroundColor={colors.black50}
+          translucent={false}
+          backgroundColor={colors.orange1c}
           barStyle={"dark-content"}
         />
         <View style={styles.vwFilterModal}>

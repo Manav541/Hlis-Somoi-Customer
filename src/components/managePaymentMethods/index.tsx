@@ -12,6 +12,7 @@ import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { CardDetails } from "../../constants/interfaces";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   arrCards: CardDetails[];
@@ -51,7 +52,11 @@ const ManagePaymentMethodsComponent = (props: PropsType) => {
             props?.handleDelete(index);
           }}
         >
-          <Image style={styles.imgDeleteCard} source={images.deleteWhiteBg} resizeMode="stretch" />
+          <Image
+            style={styles.imgDeleteCard}
+            source={images.deleteWhiteBg}
+            resizeMode="stretch"
+          />
         </TouchableOpacity>
       </View>
     );
@@ -59,9 +64,9 @@ const ManagePaymentMethodsComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <TouchableOpacity
         style={styles.btnAddCard}

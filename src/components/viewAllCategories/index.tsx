@@ -11,10 +11,11 @@ import { styles } from "./styles";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { SubCategory } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   arrAllCategories: SubCategory[];
-  onPressCategory: ()=> void;
+  onPressCategory: () => void;
 }
 
 const ViewAllCategoriesComponenet = (props: PropsType) => {
@@ -41,8 +42,8 @@ const ViewAllCategoriesComponenet = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       <FlatList

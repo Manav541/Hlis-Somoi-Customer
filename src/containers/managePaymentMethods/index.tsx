@@ -13,6 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../constants/Colors";
 import { ScreenNames } from "../../routers";
 import { styles } from "./styles";
+import { constnatStyles } from "../../constants/Styles";
 
 const ManagePaymentMethodsContainer = ({ navigation, route }: any) => {
   console.log("route", route.params?.newCardData);
@@ -51,7 +52,9 @@ const ManagePaymentMethodsContainer = ({ navigation, route }: any) => {
   const header = () => {
     navigation.setOptions({
       header: () => (
-        <View style={{ ...styles.vwHeader, paddingTop: insets.top }}>
+        <View
+          style={[constnatStyles.vwHeader, { paddingTop: insets.top + 10 }]}
+        >
           <GlobalBackButton onPress={() => navigation.goBack()} />
 
           <Text style={{ ...styles.txtHeaderTitle }}>

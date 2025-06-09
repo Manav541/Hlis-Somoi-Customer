@@ -10,6 +10,7 @@ import GlobalButton from "../../global/GlobalButton";
 import { styles } from "./styles";
 import GlobalCountryModal from "../../global/GlobalCountryModal";
 import { CountryDataType } from "../../constants/interfaces";
+import { colors } from "../../constants/Colors";
 
 interface PropsType {
   email: string;
@@ -38,9 +39,9 @@ const ChangeEmailPhoneNumberComponenet = (props: PropsType) => {
   return (
     <View style={constnatStyles.vwOrangeBgParent}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <View style={styles.vwContainer}>
         <KeyboardAwareScrollView

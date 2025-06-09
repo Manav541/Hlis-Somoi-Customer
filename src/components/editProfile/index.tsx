@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   TouchableOpacity,
   Image,
   TextInput,
@@ -44,9 +43,9 @@ const EditProfileComponent = (props: PropsType) => {
       }}
     >
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
         barStyle={"dark-content"}
+        backgroundColor={colors.orange1c}
       />
       <View style={{ flex: 1 }}>
         <TouchableOpacity

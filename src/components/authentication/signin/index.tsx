@@ -58,11 +58,6 @@ const SignInComponent = (props: PropsType) => {
 
   return (
     <View style={constnatStyles.vwOrangeBgParent}>
-      <StatusBar
-        translucent
-        backgroundColor={"transparent"}
-        barStyle={"dark-content"}
-      />
       <View style={constnatStyles.vwBlueBgWithRadius}>
         <KeyboardAwareScrollView
           contentContainerStyle={{ flexGrow: 1 }}

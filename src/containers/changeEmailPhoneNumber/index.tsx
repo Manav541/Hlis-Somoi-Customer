@@ -4,7 +4,7 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { styles } from "./styles";
 import { StatusBar, Text, TextInput, View } from "react-native";
-import { flashMessageWarning } from "../../constants/GConstant";
+import { flashMessageSucess, flashMessageWarning } from "../../constants/GConstant";
 import { regex } from "../../constants/Regex";
 import { useFocusEffect } from "@react-navigation/native";
 import { constnatStyles } from "../../constants/Styles";
@@ -149,7 +149,7 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
         __DEV__ &&
           console.log("UPDATE PHONE EMAIL VERIFY RESPONSE===>", response);
         if (response.code === statusCodes.success) {
-          flashMessageWarning(response.message);
+          flashMessageSucess(response.message);
           if (navigateFrom === "ChangeEmail") {
             setEmail("");
             navigation.navigate(ScreenNames.verification, {
@@ -181,15 +181,7 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
     navigation.setOptions({
       header: () => (
         <View
-          style={{
-            flexDirection: "row",
-            paddingTop: insets.top,
-            backgroundColor: colors.orange1c,
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingBottom: 14,
-            paddingLeft: 16,
-          }}
+          style={[constnatStyles.vwHeader, { paddingTop: insets.top + 10 }]}
         >
           <GlobalBackButton
             onPress={() => navigation.goBack()}

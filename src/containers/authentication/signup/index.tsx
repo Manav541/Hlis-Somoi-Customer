@@ -319,6 +319,7 @@ const SignupContainer = ({ navigation }: any) => {
     });
   }, []);
 
+
   return (
     <SignupComponent
       name={name}

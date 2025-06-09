@@ -116,7 +116,7 @@ const CartComponent = (props: PropsType) => {
     return (
       <View style={styles.vwMainEmpty}>
         <StatusBar
-          translucent
+          translucent={false}
           backgroundColor={"transparent"}
           barStyle={"dark-content"}
         />

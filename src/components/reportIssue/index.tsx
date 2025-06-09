@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   StatusBar,
+  ScrollView,
 } from "react-native";
 import React, { Ref } from "react";
 import { Asset } from "react-native-image-picker";
@@ -15,7 +16,6 @@ import { styles } from "./styles";
 import GlobalButton from "../../global/GlobalButton";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { colors } from "../../constants/Colors";
-import { ScrollView } from "react-native-gesture-handler";
 import GlobalTextInput from "../../global/GlobalTextInput";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FastImage from "react-native-fast-image";
@@ -62,8 +62,8 @@ const ReportIssueComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       <ScrollView

@@ -28,7 +28,7 @@ interface PropsType {
   otherImage?: ImageSourcePropType | string;
   isContinueShopping?: boolean;
   title1?: string | null;
-  orderNumber?: string  | null;
+  orderNumber?: string | null;
 }
 
 const GlobalSuccessModal = (props: PropsType) => {
@@ -41,11 +41,11 @@ const GlobalSuccessModal = (props: PropsType) => {
       transparent
       animationType="slide"
     >
-       <StatusBar
-          translucent
-          backgroundColor={colors.black50}
-          barStyle={"dark-content"}
-        /> 
+      <StatusBar
+        translucent={false}
+        backgroundColor={colors.orange1c}
+        barStyle={"dark-content"}
+      />
       <View style={{ flex: 1, backgroundColor: colors.black50 }}>
         <View style={{ flex: 1 }} />
         <View
@@ -60,7 +60,9 @@ const GlobalSuccessModal = (props: PropsType) => {
           {!props?.noConfirmationImage && (
             <Image
               source={props?.otherImage ? props?.otherImage : images.success}
-              style={props?.otherImage ? styles.imgOtherImage :styles.imgSuccess}
+              style={
+                props?.otherImage ? styles.imgOtherImage : styles.imgSuccess
+              }
             />
           )}
           {props?.isContinueShopping && (
@@ -74,7 +76,14 @@ const GlobalSuccessModal = (props: PropsType) => {
           >
             {props.title}
           </Text>
-          <Text style={{...styles.lblSubtitle,marginBottom : props?.isContinueShopping ?8 : 30}}>{props.subTitle}</Text>
+          <Text
+            style={{
+              ...styles.lblSubtitle,
+              marginBottom: props?.isContinueShopping ? 8 : 30,
+            }}
+          >
+            {props.subTitle}
+          </Text>
           {props?.isContinueShopping && (
             <Text style={styles.lblOrderNumber}>
               {getTranslation("order") + " " + props?.orderNumber}

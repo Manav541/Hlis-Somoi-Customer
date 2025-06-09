@@ -505,7 +505,7 @@ const MyWishlistContainer = ({ navigation }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleMyWhilistApi();
+      // handleMyWhilistApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])

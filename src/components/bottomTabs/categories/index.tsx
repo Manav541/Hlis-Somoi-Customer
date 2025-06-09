@@ -17,11 +17,13 @@ import {
   Category,
   FashionProduct,
   GroceryProduct,
+  MainCategoryListItem,
   Restaurant,
 } from "../../../constants/interfaces";
+import { colors } from "../../../constants/Colors";
 
 interface PropsType {
-  arrAllCategories: Category[];
+  arrMainCategoryList:MainCategoryListItem[];
   onPressMainCategories: (
     mainCategoryName: string,
     arrSubCategory: (GroceryProduct | Restaurant | FashionProduct)[]
@@ -31,13 +33,15 @@ interface PropsType {
 }
 
 const CategoriesComponent = (props: PropsType) => {
+  console.log("props?.arrMainCategoryList", props?.arrMainCategoryList);
+  
   const insets = useSafeAreaInsets();
 
   const renderItemAllCategories = ({
     item,
     index,
   }: {
-    item: Category;
+    item: MainCategoryListItem;
     index: number;
   }) => {
     return (
@@ -46,11 +50,11 @@ const CategoriesComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         key={index}
-        onPress={() => {
-          props?.onPressMainCategories(item?.name, item?.arrSubCategory);
-        }}
+        // onPress={() => {
+        //   props?.onPressMainCategories(item?.name, item?.arrSubCategory);
+        // }}
       >
-        <Image style={styles.imgAllCategories} source={item?.image} />
+        <Image style={styles.imgAllCategories} source={{uri : item?.image}} />
         <Text style={styles.lblAllCategoriesName}>{item?.name}</Text>
       </TouchableOpacity>
     );
@@ -59,14 +63,14 @@ const CategoriesComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.blue4e}
         barStyle={"light-content"}
       />
       <View
         style={{
           ...styles.vwContainer,
-          paddingTop:  insets.top ? insets.top + 20 : 40,
+          paddingTop: insets.top ? insets.top + 20 : 40,
         }}
       >
         <View
@@ -96,13 +100,13 @@ const CategoriesComponent = (props: PropsType) => {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={props?.arrAllCategories}
+          data={props?.arrMainCategoryList}
           bounces={false}
           showsVerticalScrollIndicator={false}
           renderItem={renderItemAllCategories}
           numColumns={2}
-          style={{marginTop: 10}}
-          contentContainerStyle={{paddingTop : 27,  gap: 20, paddingBottom: 20 }}
+          style={{ marginTop: 10 }}
+          contentContainerStyle={{ paddingTop: 27, gap: 20, paddingBottom: 20 }}
           columnWrapperStyle={{
             marginHorizontal: 20,
             justifyContent: "space-between",

@@ -19,7 +19,6 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
 import { constnatStyles } from "../../../constants/Styles";
-import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import {
   AddressResponseType,
   SecretKeyItem,
@@ -126,7 +125,7 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       building_details: house,
       description: additionalDescription,
       latitude: "23.0764644081957",
-      longitude: "72.5285412099873",  
+      longitude: "72.5285412099873",
     };
     if (isNavigateFromManageAddress) {
       dictData.is_default = isDefault;
@@ -240,7 +239,9 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const header = () => {
     navigation.setOptions({
       header: () => (
-        <View style={{ ...styles.vwHeader, paddingTop: insets.top }}>
+        <View
+          style={[constnatStyles.vwHeader, { paddingTop: insets.top + 10 }]}
+        >
           <GlobalBackButton onPress={onPressGoBack} />
 
           <Text style={constnatStyles.lblHeaderTitle}>
