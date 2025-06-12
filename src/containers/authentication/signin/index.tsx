@@ -6,7 +6,7 @@ import {
 } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { regex } from "../../../constants/Regex";
-import { CountryDataType, DeviceInfoType } from "../../../constants/interfaces";
+import { CountryDataType, CustomerDetails, DeviceInfoType, SignupResponse } from "../../../constants/interfaces";
 import { CountryData } from "../../../constants/utils/CountryData";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
@@ -175,15 +175,17 @@ const SignInContainer = ({ navigation }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ && console.log("SIGNUP RESPONSE===>", response);
         if (response.code === statusCodes.success) {
+          if (isEmailSelected) {
           flashMessageSucess(response.message);
-          const userTokenFromBackend = (response?.data as any)?.device_info
+          }
+          const userTokenFromBackend = (response?.data as SignupResponse)?.device_info
             ?.token;
           console.log("userTokenFromBackend", userTokenFromBackend);
           MmkvManager.setData(MmkvManager.Keys.userToken, userTokenFromBackend);
-          const customer_details = (response?.data as any)?.customer_details;
+          const customer_details = (response?.data as SignupResponse)?.customer_details;
           MmkvManager.setData(
             MmkvManager.Keys.customerDetails,
-            customer_details
+            JSON.stringify(customer_details)
           );
 
           const customerId = (response?.data as any)?.customer_details?.id;
@@ -234,18 +236,19 @@ const SignInContainer = ({ navigation }: any) => {
   };
 
   const handleOnPressGuest = () => {
-    if (isNavigating) return;
-    setIsNavigating(true);
-    MmkvManager.setData(MmkvManager.Keys.isGuestUser, "true");
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{ name: ScreenNames.bottomTabsNavigation }],
-      })
-    );
-    setTimeout(() => {
-      setIsNavigating(false);
-    }, 1000);
+    flashMessageWarning(getTranslation("underDevelopment"));
+    // if (isNavigating) return;
+    // setIsNavigating(true);
+    // MmkvManager.setData(MmkvManager.Keys.isGuestUser, "true");
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 1,
+    //     routes: [{ name: ScreenNames.bottomTabsNavigation }],
+    //   })
+    // );
+    // setTimeout(() => {
+    //   setIsNavigating(false);
+    // }, 1000);
   };
 
   useEffect(() => {

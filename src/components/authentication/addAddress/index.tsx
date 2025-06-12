@@ -132,6 +132,7 @@ const AddAddressComponent = (props: PropsType) => {
                 activeOpacity={activityOpacity}
                 hitSlop={hitSlop}
                 onPress={props?.handleSetDefault}
+                style={{flexDirection : 'row', alignItems : 'center', height : 24, gap : 10}}
               >
                 <Image
                   source={
@@ -139,10 +140,11 @@ const AddAddressComponent = (props: PropsType) => {
                   }
                   style={styles.imgCheck}
                 />
-              </TouchableOpacity>
-              <Text style={styles.lblSetAsDefault}>
+                <Text style={styles.lblSetAsDefault}>
                 {getTranslation("setAsDefault")}
               </Text>
+              </TouchableOpacity>
+              
             </View>
           )}
         </View>

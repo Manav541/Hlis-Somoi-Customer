@@ -49,6 +49,5 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     marginTop: 30,
-    marginBlock: 10,
   },
 });

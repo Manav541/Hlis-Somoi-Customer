@@ -35,7 +35,7 @@ import ReturnOrderContainer from "../containers/returnOrder";
 import ReviewContainer from "../containers/review";
 import SearchContainer from "../containers/search";
 import ViewAllBestSellersContainer from "../containers/viewAllBestSellers";
-import ViewAllCategoriesContainer from "../containers/viewAllCategories";
+import ViewAllSubCategoriesContainer from "../containers/viewAllSubCategories";
 import ViewProductDetailContainer from "../containers/viewProductDetail";
 import ViewRestaurantDetailContainer from "../containers/viewRestaurantDetail";
 import BottomTabsNavigation from "./bottomTabsNavigation";
@@ -119,7 +119,7 @@ export const MyScreens = {
   SettingContainer,
 
   // Home page
-  ViewAllCategoriesContainer,
+  ViewAllSubCategoriesContainer,
   ViewAllBestSellersContainer,
   SearchContainer,
   NotificationContainer,

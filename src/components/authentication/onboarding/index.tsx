@@ -54,8 +54,8 @@ const OnboardingComponent = (props: PropsType) => {
       ]}
     >
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.blue4e}
         barStyle={"light-content"}
       />
       <View

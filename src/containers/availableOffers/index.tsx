@@ -43,7 +43,8 @@ const AvailableOffersContainer = ({ navigation }: any) => {
         if (response.code === statusCodes.success) {
           setArrAvailableOffers(response.data as AvailableOfferItem[]);
         } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
+          // flashMessageWarning(response.message);
+          setArrAvailableOffers([]);
         } else if (response.code === statusCodes.emptyData) {
           flashMessageWarning(response.message);
           setArrAvailableOffers([]);

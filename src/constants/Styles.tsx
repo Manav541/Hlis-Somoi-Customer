@@ -41,7 +41,6 @@ export const constnatStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingBottom: 14,
-    paddingLeft: 16,
   },
   lblNoData: {
     color: colors.white,

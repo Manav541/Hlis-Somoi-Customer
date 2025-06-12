@@ -319,9 +319,9 @@ export default {
   deleteProfileDescription: "Do you really want to delete your profile?",
   yesDelete: "Yes, Delete",
   noThanks: "No, Thanks",
-  signOutProfileTitle: "Sign Out?",
-  signOutProfileDescription: "Are you sure you want to sign out?",
-  yesSignOut: "Yes, Sign Out",
+  signOutProfileTitle: "Logout?",
+  signOutProfileDescription: "Are you sure you want to logout?",
+  yesSignOut: "Yes, Logout",
 
   //  -------------------------Contact Us Page------------------------
   subject: "Subject",
@@ -342,7 +342,7 @@ export default {
   add: "Add",
   addAddressHeading:
     "Please fill in the details below to add a new address for your orders.",
-  HousenoBuildingsreetarea: "House no/ Building/sreet/area",
+  HousenoBuildingsreetarea: "House no/ Building/street/area",
   additionalDescription: "Additional Description",
 
   // Manage Payment Methods

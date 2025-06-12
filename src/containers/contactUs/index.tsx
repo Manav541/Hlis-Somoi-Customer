@@ -9,7 +9,7 @@ import {
 } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
-import { StatusBar, Text } from "react-native";
+import { Keyboard, StatusBar, Text } from "react-native";
 import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
 import { zustandStore } from "../../store";
@@ -35,6 +35,37 @@ const ContactUsContainer = ({ navigation }: any) => {
   const [isSubjectFocused, setIsSubjectFocused] = useState<boolean>(false);
   const [isDescriptionFocused, setIsDescriptionFocused] =
     useState<boolean>(false);
+
+  const handleBackPress = () => {
+    // Check if keyboard is visible
+    if (
+      isNameFocused ||
+      isEmailFocused ||
+      isSubjectFocused ||
+      isDescriptionFocused
+    ) {
+      // Dismiss keyboard and blur all inputs
+      Keyboard.dismiss();
+      nameRef.current?.blur();
+      emailRef.current?.blur();
+      subjectRef.current?.blur();
+      descriptionRef.current?.blur();
+
+      // Reset focus states
+      setIsNameFocused(false);
+      setIsEmailFocused(false);
+      setIsSubjectFocused(false);
+      setIsDescriptionFocused(false);
+
+      // Use setTimeout to ensure keyboard is dismissed before navigation
+      setTimeout(() => {
+        navigation.goBack();
+      }, 100);
+    } else {
+      // If keyboard is not open, navigate back immediately
+      navigation.goBack();
+    }
+  };
 
   const handleOnSubmit = (type: string) => {
     if (type === "name") {
@@ -136,13 +167,7 @@ const ContactUsContainer = ({ navigation }: any) => {
 
   const header = () => {
     navigation.setOptions({
-      headerLeft: () => (
-        <GlobalBackButton
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      ),
+      headerLeft: () => <GlobalBackButton onPress={handleBackPress} />,
       headerTitle: () => (
         <Text style={constnatStyles.lblHeaderTitle}>
           {ScreenNames.contactUs}

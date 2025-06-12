@@ -7,6 +7,7 @@ import { fontSize } from "../constants/FontSizes";
 import { fontsfamily } from "../constants/FontFamily";
 import { enableScreens } from "react-native-screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 
 enableScreens();
 
@@ -15,7 +16,7 @@ interface PropsType {
 }
 
 const MainNavigation = (props: PropsType) => {
-  const Stack = createNativeStackNavigator();
+  const Stack = createStackNavigator();
 
   const handleStackScreens = (
     screenName: string,
@@ -104,7 +105,7 @@ const MainNavigation = (props: PropsType) => {
           )}
           {handleStackScreens(
             ScreenNames.allCategories,
-            MyScreens.ViewAllCategoriesContainer,
+            MyScreens.ViewAllSubCategoriesContainer,
             true
           )}
           {handleStackScreens(

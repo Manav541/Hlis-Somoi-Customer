@@ -3,6 +3,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import React, { Ref } from "react";
 import { styles } from "./styles";
@@ -66,6 +67,10 @@ const SignupComponent = (props: PropsType) => {
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
           bounces={false}
+          // enableAutomaticScroll
+          // enableOnAndroid={true}
+          // // keyboardShouldPersistTaps="handled"
+          extraScrollHeight={100}
         >
           {/* Logo-Title */}
           <GlobalLogoTitle style={styles.vwLogoTitle} />

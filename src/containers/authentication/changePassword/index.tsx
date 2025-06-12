@@ -94,20 +94,21 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
         })
       );
     } else {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 1,
-          routes: [
-            {
-              name: ScreenNames.bottomTabsNavigation,
-              state: {
-                routes: [{ name: ScreenNames.settings }],
-                index: 0,
-              },
-            },
-          ],
-        })
-      );
+      navigation.goBack();
+      // navigation.dispatch(
+      //   CommonActions.reset({
+      //     index: 1,
+      //     routes: [
+      //       {
+      //         name: ScreenNames.bottomTabsNavigation,
+      //         state: {
+      //           routes: [{ name: ScreenNames.settings }],
+      //           index: 0,
+      //         },
+      //       },
+      //     ],
+      //   })
+      // );
     }
   };
 

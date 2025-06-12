@@ -27,82 +27,88 @@ interface PropsType {
   profileImage: string;
   handleOnPressProfileImage: () => void;
   userProfileUrl: string;
+  baseImagePath: string;
 }
 
 const EditProfileComponent = (props: PropsType) => {
-  console.log("props", props?.userProfileUrl);
   return (
-    <KeyboardAwareScrollView
-      bounces={false}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{
-        flexGrow: 1,
-        paddingHorizontal: 20,
-        paddingBottom: 38,
+    <View
+      style={{
+        flex: 1,
         backgroundColor: colors.blue4e,
+        paddingHorizontal: 20,
+        paddingBottom: 30,
       }}
     >
-      <StatusBar
-        translucent={false}
-        barStyle={"dark-content"}
-        backgroundColor={colors.orange1c}
-      />
-      <View style={{ flex: 1 }}>
-        <TouchableOpacity
-          style={{
-            ...styles.btnProfileImage,
-            borderWidth: props?.profileImage ? 4 : 1.51,
-            borderColor: props?.profileImage ? colors.orange1c : colors.white,
-          }}
-          activeOpacity={activityOpacity}
-          onPress={props.handleOnPressProfileImage}
-        >
-          <FastImage
-            style={
-              props?.userProfileUrl
-                ? styles.imgProfileBigIconUri
-                : styles.imgProfileBigIcon
-            }
-            source={
-              props?.profileImage
-                ? { uri: props.profileImage }
-                : props?.userProfileUrl
-                ? { uri: props.userProfileUrl }
-                : images.profileBigIcon
-            }
-          />
-          {props?.userProfileUrl && (
-            <Image style={styles.imgCamera} source={images.camera} />
-          )}
-        </TouchableOpacity>
-        <View style={{ marginTop: 30 }}>
-          <GlobalTextInput
-            placeholder={getTranslation("name")}
-            value={props.name}
-            reference={props.nameRef}
-            secureTextEntry={false}
-            onChangeText={(text) => {
-              props.handleOnChangeText(text, "name");
+      <KeyboardAwareScrollView
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+      >
+        <StatusBar
+          translucent={false}
+          barStyle={"dark-content"}
+          backgroundColor={colors.orange1c}
+        />
+
+        <View style={{ flex: 1 }}>
+          <TouchableOpacity
+            style={{
+              ...styles.btnProfileImage,
+              borderWidth: 1.51,
+              borderColor: props?.profileImage ? colors.white : colors.orange1c,
             }}
-            onBlur={() => {
-              props.handleOnBlur("name");
-            }}
-            onFocus={() => {
-              props.handleOnFocus("name");
-            }}
-            focusValue={props.nameFocused}
-            onSubmitEditing={() => {}}
-            isLastField
-          />
+            activeOpacity={activityOpacity}
+            onPress={props.handleOnPressProfileImage}
+          >
+            <FastImage
+              style={
+                props?.baseImagePath != props?.profileImage
+                  ? styles.imgProfileBigIconUri
+                  : styles.imgProfileBigIcon
+              }
+              source={
+                props?.baseImagePath == props?.profileImage
+                  ? images.profileIcon
+                  : { uri: props.profileImage }
+              }
+            />
+            {props?.baseImagePath != props?.profileImage && (
+              <Image style={styles.imgCamera} source={images.camera} />
+            )}
+          </TouchableOpacity>
+
+          <View style={{ marginTop: 30 }}>
+            <GlobalTextInput
+              placeholder={getTranslation("name")}
+              value={props.name}
+              reference={props.nameRef}
+              secureTextEntry={false}
+              onChangeText={(text) => {
+                props.handleOnChangeText(text, "name");
+              }}
+              onBlur={() => {
+                props.handleOnBlur("name");
+              }}
+              onFocus={() => {
+                props.handleOnFocus("name");
+              }}
+              focusValue={props.nameFocused}
+              onSubmitEditing={() => {}}
+              isLastField
+            />
+          </View>
         </View>
-      </View>
+      </KeyboardAwareScrollView>
+
       <GlobalButton
         title={getTranslation("update")}
         isOrange={true}
         onPress={props?.handleOnPressUpadte}
       />
-      {/* <CustomOrangeButton title={getTranslation("update")} /> */}
-    </KeyboardAwareScrollView>
+    </View>
   );
 };
 

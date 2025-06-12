@@ -25,19 +25,24 @@ import {
   SignupResponse,
 } from "../../constants/interfaces";
 import ImageUpload, { FolderName } from "../../constants/utils/S3ImageUpload";
+import { MmkvManager } from "../../constants/utils/MmkvManager";
 
 const EditProfileContainer = ({ navigation }: any) => {
   const editProfileApi = zustandStore.AuthStore((state) => state.editProfile);
-  const customerDetailApi = zustandStore.AuthStore((state) => state.getCustomerDetail);
+  const customerDetailApi = zustandStore.AuthStore(
+    (state) => state.getCustomerDetail
+  );
   const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
 
   const [s3AccessKey, setS3AccessKey] = useState<string>("");
   const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
   const [userProfileUrl, setUserProfileUrl] = useState<string>("");
-  const [profileImage, setProfileImage] = useState<string>(""); 
+  const [profileImage, setProfileImage] = useState<string>("");
   const [name, setName] = useState<string>("");
   const nameRef = useRef<TextInput>(null);
   const [nameFocused, setNameFocused] = useState(false);
+  const baseImagePath =
+    "https://hlik-deep-bhaumik.s3.amazonaws.com/somoiapp/customers_images/";
 
   const handleOnChangeText = (text: string, type: string) => {
     if (type === "name") {
@@ -77,49 +82,51 @@ const EditProfileContainer = ({ navigation }: any) => {
   };
 
   const handleOnPressProfileImage = () => {
-    checkPermission(cameraPermission, messages.cameraPermission).then((isAllow) => {
-      if (isAllow) {
-        checkPermission(galleryPermission, messages.galleryPermission).then((isAllow) => {
-          if (isAllow) {
-            ImagePickerManager.choosePickerOptions("photo")
-              .then((result: unknown) => {
-                const pickerResponse = result as Asset[];
-                if (Array.isArray(pickerResponse) && pickerResponse[0]?.uri) {
-                  const selectedImageUri = pickerResponse[0].uri;
-                  setProfileImage(selectedImageUri); 
-                } else {
-                  __DEV__ && console.log("No media selected or captured");
-                }
-              })
-              .catch((error: string) => {
-                __DEV__ && console.log("Error capturing media:", error);
-              });
-          }
-        });
+    checkPermission(cameraPermission, messages.cameraPermission).then(
+      (isAllow) => {
+        if (isAllow) {
+          checkPermission(galleryPermission, messages.galleryPermission).then(
+            (isAllow) => {
+              if (isAllow) {
+                ImagePickerManager.choosePickerOptions("photo")
+                  .then((result: unknown) => {
+                    const pickerResponse = result as Asset[];
+                    if (
+                      Array.isArray(pickerResponse) &&
+                      pickerResponse[0]?.uri
+                    ) {
+                      const selectedImageUri = pickerResponse[0].uri;
+                      setProfileImage(selectedImageUri);
+                    } else {
+                      __DEV__ && console.log("No media selected or captured");
+                    }
+                  })
+                  .catch((error: string) => {
+                    __DEV__ && console.log("Error capturing media:", error);
+                  });
+              }
+            }
+          );
+        }
       }
-    });
+    );
   };
 
   const handleOnPressUpadte = async () => {
-    if (profileImage === "" && userProfileUrl === "") {
-      flashMessageWarning(getTranslation("emptyPfofileImage"));
-      return;
-    } else if (name.trim() === "") {
+    if (!name || name.trim() === "") {
       flashMessageWarning(getTranslation("emptyName"));
-      return;
-    }
+    } else {
+      try {
+        let uploadedUrl: string | null = null;
 
-    try {
-      let uploadedUrl: string | null = null;
+        if (profileImage !== "" && !profileImage.startsWith("http")) {
+          uploadedUrl = await uploadImageUser(profileImage);
+        }
 
-      if (profileImage !== "") {
-        uploadedUrl = await uploadImageUser(profileImage);
-        setProfileImage("");
+        handleEditProfileApi(uploadedUrl);
+      } catch (error) {
+        __DEV__ && console.log("Upload error:", error);
       }
-
-      handleEditProfileApi(uploadedUrl);
-    } catch (error) {
-      __DEV__ && console.log("Upload error:", error);
     }
   };
 
@@ -134,11 +141,20 @@ const EditProfileContainer = ({ navigation }: any) => {
 
     try {
       const response = await editProfileApi(dictData, navigation);
-      if (response?.code === statusCodes.success) {
-        flashMessageSucess(response.message);
-        navigation.goBack();
-      } else if (response?.code === statusCodes.invaildOrFail) {
-        flashMessageWarning(response.message);
+      if (response !== undefined && response !== null) {
+        if (response.code === statusCodes.success) {
+          flashMessageSucess(response.message);
+          navigation.goBack();
+          const customer_details = JSON.stringify(
+            (response.data as SignupResponse).customer_details
+          );
+          MmkvManager.setData(
+            MmkvManager.Keys.customerDetails,
+            JSON.stringify(customer_details)
+          );
+        } else if (response?.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
       }
     } catch (error) {
       __DEV__ && console.log(error);
@@ -149,10 +165,12 @@ const EditProfileContainer = ({ navigation }: any) => {
     try {
       const response = await customerDetailApi({}, navigation);
       if (response !== undefined && response !== null) {
-        const data = JSON.stringify((response.data as SignupResponse).customer_details);
+        const customer_details = JSON.stringify(
+          (response.data as SignupResponse).customer_details
+        );
         if (response.code === statusCodes.success) {
-          setName(JSON.parse(data).name);
-          setUserProfileUrl(JSON.parse(data).profile_image);
+          setName(JSON.parse(customer_details).name);
+          setProfileImage(JSON.parse(customer_details).profile_image);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -165,7 +183,10 @@ const EditProfileContainer = ({ navigation }: any) => {
   const handleSecretKeyApi = async () => {
     try {
       const response = await secretKeyApi({}, navigation);
-      if (response?.code === statusCodes.success && Array.isArray(response.data)) {
+      if (
+        response?.code === statusCodes.success &&
+        Array.isArray(response.data)
+      ) {
         const keysData = response.data as SecretKeyItem[];
         keysData.forEach((item) => {
           switch (item.name) {
@@ -192,6 +213,7 @@ const EditProfileContainer = ({ navigation }: any) => {
       headerLeft: () => (
         <GlobalBackButton
           onPress={() => {
+            console.log("call edit back");
             navigation.goBack();
           }}
         />
@@ -229,6 +251,7 @@ const EditProfileContainer = ({ navigation }: any) => {
       profileImage={profileImage}
       handleOnPressProfileImage={handleOnPressProfileImage}
       userProfileUrl={userProfileUrl}
+      baseImagePath={baseImagePath}
     />
   );
 };

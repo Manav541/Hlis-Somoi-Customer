@@ -149,7 +149,7 @@ const ChangeEmailPhoneNumberContainer = ({ navigation, route }: any) => {
         __DEV__ &&
           console.log("UPDATE PHONE EMAIL VERIFY RESPONSE===>", response);
         if (response.code === statusCodes.success) {
-          flashMessageSucess(response.message);
+          // flashMessageSucess(response.message);
           if (navigateFrom === "ChangeEmail") {
             setEmail("");
             navigation.navigate(ScreenNames.verification, {

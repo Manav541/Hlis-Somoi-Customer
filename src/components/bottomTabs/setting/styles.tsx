@@ -94,8 +94,8 @@ export const styles = StyleSheet.create({
 
   // Image styles
   imgProfileIcon: {
-    height: 24,
-    width: 24,
+    height: 30,
+    width: 30,
   },
   imgPrfileImage: {
     height: 58,

@@ -28,7 +28,7 @@ const GlobalBackButton = (props: PropsType) => {
       hitSlop={hitSlop}
       onPress={props.onPress}
       style={{
-        // marginLeft: props.isRight ? 0 : 16,
+        marginLeft: props.isRight ? 0 : 16,
         marginRight: props.isRight ? 16 : 0,
       }}
     >

@@ -41,7 +41,7 @@ const SearchComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         key={index}
-        onPress={() => props.onPressProduct(item)}
+        // onPress={() => props.onPressProduct(item)}
       >
         <View style={styles.vwProductImage}>
           <FastImage style={styles.imgProduct} source={{uri : item?.product_img}} />
@@ -50,7 +50,7 @@ const SearchComponent = (props: PropsType) => {
           <Text style={styles.lblProductName}>{item?.name}</Text>
           <View style={styles.vwProductPriceWeight}>
             <Text style={styles.lblProductPrice}>
-              {rupeeSymbol + item?.product_price}
+              {rupeeSymbol + item?.variation_data?.price}
             </Text>
             <Image
               style={styles.imgDot}
@@ -58,7 +58,7 @@ const SearchComponent = (props: PropsType) => {
               source={images.dotOrange}
               resizeMode="stretch"
             />
-            <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
+            <Text style={styles.lblProductWeight}>{item?.variation_data?.amount+item?.variation_data?.unit}</Text>
           </View>
         </View>
       </TouchableOpacity>

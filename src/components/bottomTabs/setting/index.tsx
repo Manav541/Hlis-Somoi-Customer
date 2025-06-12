@@ -4,7 +4,6 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  ImageSourcePropType,
   StatusBar,
 } from "react-native";
 import React from "react";
@@ -14,8 +13,8 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { activityOpacity } from "../../../constants/GConstant";
 import GlobalSuccessModal from "../../../global/GlobalSuccessModal";
 import { SettingDataItem } from "../../../constants/interfaces";
-import FastImage from "react-native-fast-image";
 import { colors } from "../../../constants/Colors";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrSettingData: SettingDataItem[];
@@ -26,9 +25,11 @@ interface PropsType {
   handleOnPressNoThanks: () => void;
   profileImage: string;
   name: string;
+  baseImagePath: string;
 }
 
 const SettingComponent = (props: PropsType) => {
+  console.log("props", props?.profileImage);
   const renderArrSettingData = (item: any, index: number) => {
     return (
       <View key={index}>
@@ -83,16 +84,16 @@ const SettingComponent = (props: PropsType) => {
         >
           <View style={styles.vwProfileData}>
             <View style={styles.vwProfileImage}>
-              <Image
+              <FastImage
                 style={
-                  props?.profileImage
+                  props?.profileImage!= props?.baseImagePath
                     ? styles.imgPrfileImage
                     : styles.imgProfileIcon
                 }
                 source={
-                  props?.profileImage && typeof props.profileImage === "string"
+                  props?.profileImage != props?.baseImagePath
                     ? { uri: props.profileImage }
-                    : images.driverProfile
+                    : images.profileBigIcon
                 }
               />
             </View>

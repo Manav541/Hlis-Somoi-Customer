@@ -190,6 +190,8 @@ const SignupContainer = ({ navigation }: any) => {
     };
     if (isEmailSelected) {
       dictData.email = email;
+      dictData.mobile_number = Number(mobileNumber);
+      dictData.country_code = countryCode.trim();
     } else {
       dictData.mobile_number = Number(mobileNumber);
       dictData.country_code = countryCode.trim();
@@ -201,8 +203,6 @@ const SignupContainer = ({ navigation }: any) => {
           console.log("SIGNUP SCREEN OTP REQUEST RESPONSE===>", response);
         
         if (response.code === statusCodes.success) {
-        
-          flashMessageSucess(response.message);
           setName("");
           setEmail("");
           setMobileNumber("");
@@ -229,56 +229,6 @@ const SignupContainer = ({ navigation }: any) => {
     }
   };
 
-  const handleAPISignup = async () => {
-    const dictData: DeviceInfoType = {
-      device_type: DeviceInfoManager.getPlatformType(),
-      device_token: "0",
-      os_version: await DeviceInfoManager.getVersion(),
-      device_name: await DeviceInfoManager.getDeviceName(),
-      model_name: await DeviceInfoManager.getModel(),
-      ip: await DeviceInfoManager.getIpAddress(),
-      uuid: await DeviceInfoManager.getUniqueId(),
-      sign_in_type: isEmailSelected ? "email" : "phone",
-    };
-
-    if (isEmailSelected) {
-      dictData.name = name.trim();
-      dictData.email = email.trim();
-      dictData.password = password.trim();
-      dictData.mobile_number = Number(mobileNumber);
-      dictData.country_code = countryCode.trim();
-    } else {
-      dictData.mobile_number = Number(mobileNumber);
-      dictData.country_code = countryCode.trim();
-    }
-
-    try {
-      const response = await signupApi(dictData, navigation);
-      if (response !== undefined && response !== null) {
-        __DEV__ && console.log("SIGNUP RESPONSE===>", response);
-        if (response.code === statusCodes.success) {
-          flashMessageSucess(response.message);
-          setName("");
-          setEmail("");
-          setMobileNumber("");
-          setPassword("");
-          setEmailFocused(false);
-          setMobileNumberFocused(false);
-          setPasswordFocused(false);
-          navigation.navigate("Verification", {
-            mobileNumber: mobileNumber,
-            countryCode: countryCode,
-            navigateFromSignup: true,
-          });
-        } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
-        }
-      }
-    } catch (error) {
-      __DEV__ && console.log(error);
-    }
-  };
-
   const [isNavigating, setIsNavigating] = useState(false);
 
   const handleOnPressSignIn = () => {
@@ -292,18 +242,19 @@ const SignupContainer = ({ navigation }: any) => {
   };
 
   const handleOnPressGuest = () => {
-    if (isNavigating) return;
-    setIsNavigating(true);
-    MmkvManager.setData(MmkvManager.Keys.isGuestUser, "true");
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{ name: ScreenNames.bottomTabsNavigation }],
-      })
-    );
-    setTimeout(() => {
-      setIsNavigating(false);
-    }, 1000);
+    flashMessageWarning(getTranslation("underDevelopment"));
+    // if (isNavigating) return;
+    // setIsNavigating(true);
+    // MmkvManager.setData(MmkvManager.Keys.isGuestUser, "true");
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 1,
+    //     routes: [{ name: ScreenNames.bottomTabsNavigation }],
+    //   })
+    // );
+    // setTimeout(() => {
+    //   setIsNavigating(false);
+    // }, 1000);
   };
 
   const onPressCMS = (page: string) => {

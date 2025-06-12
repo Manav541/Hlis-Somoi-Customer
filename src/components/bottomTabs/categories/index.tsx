@@ -21,20 +21,24 @@ import {
   Restaurant,
 } from "../../../constants/interfaces";
 import { colors } from "../../../constants/Colors";
+import FastImage from "react-native-fast-image";
 
 interface PropsType {
-  arrMainCategoryList:MainCategoryListItem[];
+  arrMainCategoryList: MainCategoryListItem[];
   onPressMainCategories: (
     mainCategoryName: string,
     arrSubCategory: (GroceryProduct | Restaurant | FashionProduct)[]
   ) => void;
   handleOnPressNotifaicationIcon: () => void;
   onPressLocation: () => void;
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
 }
 
 const CategoriesComponent = (props: PropsType) => {
-  console.log("props?.arrMainCategoryList", props?.arrMainCategoryList);
-  
+
   const insets = useSafeAreaInsets();
 
   const renderItemAllCategories = ({
@@ -44,6 +48,7 @@ const CategoriesComponent = (props: PropsType) => {
     item: MainCategoryListItem;
     index: number;
   }) => {
+
     return (
       <TouchableOpacity
         style={styles.btnAllCategories}
@@ -54,7 +59,11 @@ const CategoriesComponent = (props: PropsType) => {
         //   props?.onPressMainCategories(item?.name, item?.arrSubCategory);
         // }}
       >
-        <Image style={styles.imgAllCategories} source={{uri : item?.image}} />
+        <FastImage
+          style={styles.imgAllCategories}
+          source={{ uri: item?.image, priority: FastImage.priority.normal }}
+        />
+
         <Text style={styles.lblAllCategoriesName}>{item?.name}</Text>
       </TouchableOpacity>
     );
@@ -101,7 +110,7 @@ const CategoriesComponent = (props: PropsType) => {
         </View>
         <FlatList
           data={props?.arrMainCategoryList}
-          bounces={false}
+          bounces={true}
           showsVerticalScrollIndicator={false}
           renderItem={renderItemAllCategories}
           numColumns={2}
@@ -110,6 +119,16 @@ const CategoriesComponent = (props: PropsType) => {
           columnWrapperStyle={{
             marginHorizontal: 20,
             justifyContent: "space-between",
+          }}
+          onEndReached={() => {
+            if (props.canLoadMore && props.hasMountedOnce.current) {
+              props.loadMoreCategories();
+            }
+          }}
+          onEndReachedThreshold={0.4}
+          onContentSizeChange={(w, h) => {
+            props.setCanLoadMore(h > 600); // Adjust if needed
+            props.hasMountedOnce.current = true;
           }}
         />
       </View>

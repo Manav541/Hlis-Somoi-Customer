@@ -9,6 +9,7 @@ type StoreFunction = (
 ) => Promise<APIResponseType>;
 
 interface Store {
+  // API functions
   mainCategoryList: StoreFunction;
   bannerList: StoreFunction;
   subCategoryList: StoreFunction;
@@ -34,7 +35,7 @@ const HomeStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.getServerRequestWithToken({
+      APIManager.postServerRequestWithToken({
         apiEndPoint: apiEndPoint.mainCategoryList,
         callback: callback,
         dictData: dictData,

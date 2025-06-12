@@ -116,7 +116,7 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
           flashMessageWarning(response.message);
         }
         else if (response.code === statusCodes.emptyData) {
-          flashMessageWarning(response.message);
+          setArrManageAddress([]);
         }
       }
     } catch (error) {

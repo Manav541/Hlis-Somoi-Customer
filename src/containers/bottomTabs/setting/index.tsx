@@ -18,7 +18,11 @@ import {
   StatusBar,
   Text,
 } from "react-native";
-import { SettingDataItem, SignupResponse } from "../../../constants/interfaces";
+import {
+  CustomerDetails,
+  SettingDataItem,
+  SignupResponse,
+} from "../../../constants/interfaces";
 import { constnatStyles } from "../../../constants/Styles";
 import { zustandStore } from "../../../store";
 import { statusCodes } from "../../../api/APIConstant";
@@ -30,16 +34,13 @@ const SettingContainer = ({ navigation, route }: any) => {
   const deleteAccountApi = zustandStore.AuthStore(
     (state) => state.deleteAccount
   );
-  const customerDetailApi = zustandStore.AuthStore((state) => state.getCustomerDetail);
 
-  const [profileImage, setProfileImage] = useState<string>(
-    images.profileIcon
-  );
-  const [name, setName] = useState<string>("John Doe");
+  const [profileImage, setProfileImage] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
   const [isModalSignOutVisible, setIsModalSignOutVisible] = useState(false);
-  const [isGuestUser, setIsGuestUser] = useState(false);
   const [isSharing, setIsSharing] = useState<boolean>(true);
+  const baseImagePath = "https://hlik-deep-bhaumik.s3.amazonaws.com/somoiapp/customers_images/";
 
   // Constants for common values
   const ICON_SIZE = {
@@ -229,6 +230,7 @@ const SettingContainer = ({ navigation, route }: any) => {
   };
 
   const handleOnPressYesDelete = () => {
+    setIsModalDeleteVisible(false);
     handleDeleteAccountApi();
   };
 
@@ -236,12 +238,10 @@ const SettingContainer = ({ navigation, route }: any) => {
     try {
       const response = await deleteAccountApi({}, navigation);
       if (response !== undefined && response !== null) {
-        __DEV__ && console.log("LOGOUT RESPONSE===>", response);
+        __DEV__ && console.log("DELETE ACCOUNT RESPONSE===>", response);
         if (response.code === statusCodes.success) {
           flashMessageSucess(response.message);
-          setIsModalSignOutVisible(false);
           MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
-          MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
           navigation.dispatch(
             CommonActions.reset({
               index: 1,
@@ -258,6 +258,7 @@ const SettingContainer = ({ navigation, route }: any) => {
   };
 
   const handleOnPressYesSignOut = () => {
+    setIsModalSignOutVisible(false);
     handleLogoutApi();
   };
 
@@ -268,7 +269,6 @@ const SettingContainer = ({ navigation, route }: any) => {
         __DEV__ && console.log("LOGOUT RESPONSE===>", response);
         if (response.code === statusCodes.success) {
           flashMessageSucess(response.message);
-          setIsModalSignOutVisible(false);
           MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
           MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
           navigation.dispatch(
@@ -286,29 +286,22 @@ const SettingContainer = ({ navigation, route }: any) => {
     }
   };
 
-  const handleCustomerDetailApi = async()=>{
-    try {
-      const response = await customerDetailApi({}, navigation);
-      if (response !== undefined && response !== null) {
-        __DEV__ && console.log("CUSTOMER DETIALS RESPONSE===>", JSON.stringify((response.data as SignupResponse)));
-        const data = JSON.stringify((response.data as SignupResponse).customer_details)
-        if (response.code === statusCodes.success) {
-          setName(JSON.parse(data).name);
-          setProfileImage(JSON.parse(data).profile_image);
-         
-        } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
-        }
-      }
-    } catch (error) {
-      __DEV__ && console.log(error);
-    }
-  };
-
   useFocusEffect(
     React.useCallback(() => {
-      handleCustomerDetailApi();
       StatusBar.setBarStyle("dark-content");
+
+      // Fetch customer data
+      MmkvManager.getData(
+        MmkvManager.Keys.customerDetails,
+        (customerDetails) => {
+          if (customerDetails) {
+            const customerData = JSON.parse(customerDetails) as CustomerDetails;
+            setProfileImage(customerData.profile_image);
+            setName(customerData.name);
+          }
+        }
+      );
+
       return () => {};
     }, [navigation])
   );
@@ -324,8 +317,6 @@ const SettingContainer = ({ navigation, route }: any) => {
     });
   }, []);
 
- 
-
   return (
     <SettingComponent
       arrSettingData={arrSettingData}
@@ -336,6 +327,7 @@ const SettingContainer = ({ navigation, route }: any) => {
       handleOnPressNoThanks={handleOnPressNoThanks}
       profileImage={profileImage}
       name={name}
+      baseImagePath={baseImagePath}
     />
   );
 };

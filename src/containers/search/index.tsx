@@ -25,6 +25,7 @@ import { ScreenNames } from "../../routers";
 import { GroceryProduct } from "../../constants/interfaces";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
+import { constnatStyles } from "../../constants/Styles";
 
 const SearchContainer = ({ navigation }: any) => {
   // API zustand store
@@ -38,6 +39,12 @@ const SearchContainer = ({ navigation }: any) => {
 
   const onChangeSearch = (text: string) => {
     setSearch(text);
+
+    if (text.trim() === "") {
+      setArrProducts([]); // Immediately clear the list
+      return;
+    }
+
     handleSearchProductApi(text);
   };
 
@@ -65,7 +72,11 @@ const SearchContainer = ({ navigation }: any) => {
         if (response.code === statusCodes.success) {
           setArrProducts(data);
         } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
+          // flashMessageWarning(response.message);
+          setArrProducts([]);
+        } else if (response.code === statusCodes.emptyData) {
+          // flashMessageWarning(response.message);
+          setArrProducts([]);
         }
       }
     } catch (error) {
@@ -78,14 +89,7 @@ const SearchContainer = ({ navigation }: any) => {
       title: "",
       header: () => (
         <View
-          style={{
-            paddingTop: insets.top + 10,
-            backgroundColor: colors.orange1c,
-            flexDirection: "row",
-            alignItems: "center",
-            paddingBottom: 14,
-            paddingLeft: 16,
-          }}
+          style={[constnatStyles.vwHeader, { paddingTop: insets.top + 10 }]}
         >
           <GlobalBackButton
             onPress={() => navigation.goBack()}

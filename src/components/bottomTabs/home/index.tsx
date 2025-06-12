@@ -19,6 +19,7 @@ import { colors } from "../../../constants/Colors";
 import {
   AdItem,
   BestProduct,
+  BestProductSellerData,
   MainCategoryListItem,
   Restaurant,
   SubCategory,
@@ -33,6 +34,7 @@ interface PropsType {
   isGroceriesFoodSelected: string;
   arrAds: AdItem[];
   arrSubCategory:SubCategoryListItem[]
+  arrBestProductsSellers:BestProductSellerData[]
   arrBestProducts: BestProduct[];
   arrBestSellers: Restaurant[];
   handleSellAllCategories: () => void;
@@ -46,6 +48,8 @@ interface PropsType {
 
   handleSetBannerIndex: (index: number) => void;
   currentBannerIndex: number;
+
+  currentAddress: string | null;
 }
 
 const HomeComponent = (props: PropsType) => {
@@ -141,42 +145,39 @@ const HomeComponent = (props: PropsType) => {
     );
   };
 
-  const renderBestProducts = (item: BestProduct, index: number) => {
+  const renderBestProducts = (item: BestProductSellerData, index: number) => {
     return (
       <TouchableOpacity
         style={styles.btnBestProducts}
         key={index}
         activeOpacity={activityOpacity}
-        onPress={() => props?.onPressBestProducts()}
+        // onPress={() => props?.onPressBestProducts()}
       >
         <View style={styles.vwBestProductsImage}>
           <FastImage
-            style={{ height: item?.height, width: item?.width }}
-            source={item?.image}
+            style={{ height: 100, width: 90 }}
+            source={{uri : item?.image}}
           />
         </View>
-        <Text style={styles.lblBestProductsUsed}>{item?.used}</Text>
+        <Text style={styles.lblBestProductsUsed}>+{item?.total_products} More</Text>
         <Text style={styles.lblBestProductsName}>{item?.name}</Text>
       </TouchableOpacity>
     );
   };
 
-  const renderStar = (rate: number) => {
+  const renderStar = (rate: string | number) => {
+    const numericRate = Math.floor(parseFloat(rate as string)); // Convert and floor
     const totalStars = 5;
-    const filledStars = 4;
+  
     return (
       <View style={{ flexDirection: "row" }}>
-        {Array.from({ length: totalStars }).map((_, index) => {
-          return (
-            <Image
-              key={index}
-              source={
-                index !== filledStars ? images.starFilled : images.starEmpty
-              }
-              style={{ width: 24, height: 24, marginRight: 2 }}
-            />
-          );
-        })}
+        {Array.from({ length: totalStars }).map((_, index) => (
+          <Image
+            key={index}
+            source={index < numericRate ? images.starFilled : images.starEmpty}
+            style={{ width: 24, height: 24, marginRight: 2 }}
+          />
+        ))}
       </View>
     );
   };
@@ -185,7 +186,7 @@ const HomeComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: Restaurant;
+    item: BestProductSellerData;
     index: number;
   }) => {
     return (
@@ -193,23 +194,23 @@ const HomeComponent = (props: PropsType) => {
         style={styles.btnBestSeller}
         activeOpacity={activityOpacity}
         key={index}
-        onPress={() => props?.onPressRestaurant(item)}
+        // onPress={() => props?.onPressRestaurant(item)}
       >
         <FastImage
           style={styles.imgBestSeller}
-          source={item?.restaurant_img}
+          source={{uri : item?.store_cover_image}}
           resizeMode="stretch"
         />
 
         <View style={styles.vwBestSellerDetails}>
-          <Text style={styles.lblBestSellerName}>{item?.restaurant_name}</Text>
+          <Text style={styles.lblBestSellerName}>{item?.store_name}</Text>
           <View style={styles.vwRating}>
-            {renderStar(item?.restaurant_ratings)}
+            {renderStar(item?.store_rating)}
             <Text style={styles.lblBestSellerReviews}>
-              (+{item?.restaurant_reviews})
+              (+{item?.total_reviews})
             </Text>
           </View>
-          <FastImage style={styles.imgLogo} source={item?.restaurant_logo} />
+          <FastImage style={styles.imgLogo} source={{uri : item?.store_image}} />
         </View>
       </TouchableOpacity>
     );
@@ -354,7 +355,7 @@ const HomeComponent = (props: PropsType) => {
                 {getTranslation("bestProducts")}
               </Text>
               <View style={styles.vwBestProductsGrid}>
-                {props?.arrBestProducts.map((item, index) =>
+                {props?.arrBestProductsSellers.map((item, index) =>
                   renderBestProducts(item, index)
                 )}
               </View>
@@ -376,7 +377,7 @@ const HomeComponent = (props: PropsType) => {
                 </TouchableOpacity>
               </View>
               <FlatList
-                data={props?.arrBestSellers}
+                data={props?.arrBestProductsSellers}
                 renderItem={renderBestSeller}
                 keyExtractor={(item, index) => index.toString()}
                 horizontal

@@ -45,6 +45,5 @@ export const styles = StyleSheet.create({
   imgCheck: {
     width: 24,
     height: 24,
-    marginRight: 10,
   },
 });

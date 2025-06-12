@@ -20,39 +20,41 @@ export interface ConatctUsResponse {
 }
 
 export interface CustomerDetails {
-  id: string;
-  name: string;
-  email: string;
   country_code: string;
+  created_at: string;
+  email: string;
+  id: string;
+  is_active: boolean;
+  is_block: boolean;
+  is_delete: boolean;
+  is_verified: boolean;
+  last_login: string | null;
+  login_status: "offline" | "online";
   mobile_number: string;
+  name: string;
+  otp: number;
   password: string;
   profile_image: string;
   steps: string;
-  otp: number;
-  is_verified: boolean;
-  is_active: boolean;
-  is_delete: boolean;
-  created_at: string;
   updated_at: string;
-  is_block: boolean;
 }
 
 export interface DeviceInfo {
-  id: string;
+  created_at: string;
   customer_id: string;
-  user_type: string;
-  token: string;
-  device_type: string;
-  device_token: string;
-  uuid: string;
-  os_version: string;
   device_name: string;
-  model_name: string;
+  device_token: string;
+  device_type: "I" | "A"; // I = iOS, A = Android
+  id: string;
   ip: string;
   is_active: boolean;
   is_delete: boolean;
-  created_at: string;
+  model_name: string;
+  os_version: string;
+  token: string;
   updated_at: string;
+  user_type: string;
+  uuid: string;
 }
 
 export interface LocationData {
@@ -152,6 +154,47 @@ export interface ChatMessage {
   status?: "Read" | "Delivered" | "Sent";
   type: "text" | "image" | "video";
   image?: string;
+}
+
+// Home
+export interface BestProductSellerData {
+  id: string;
+  vendor_id: string;
+  category_id: string;
+  sub_category_id: string;
+  name: string;
+  description: string;
+  is_product_available: boolean;
+  is_product_returnable: boolean;
+  is_cod_available: boolean;
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string; // ISO string
+  updated_at: string;
+  gst_percentage: string;
+  set_alert: string;
+  store_name: string;
+  store_image: string;
+  store_cover_image: string;
+  store_location: string;
+  opening_time: string; // e.g., "08:00:00"
+  closing_time: string;
+  is_store_wishlisted: number;
+  store_rating: string; // Can be converted to number if needed
+  image: string;
+  rating: string;
+  total_reviews: string;
+  category_name: string;
+  sub_category_name: string;
+  total_products: string;
+  variation_data: VariationData;
+}
+
+export interface VariationData {
+  price: string;
+  quantity: string;
+  unit: string;
+  amount: string;
 }
 
 // Notification
