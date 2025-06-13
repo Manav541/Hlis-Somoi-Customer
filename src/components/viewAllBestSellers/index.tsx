@@ -13,13 +13,19 @@ import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { fontsfamily } from "../../constants/FontFamily";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Restaurant } from "../../constants/interfaces";
+import { BestProductSellerData, Restaurant } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
+import { colors } from "../../constants/Colors";
+import { DateFormatsManager } from "../../constants/utils/DateFormats";
 
 interface PropsType {
-  arrAllBestSellers: Restaurant[];
+  arrAllBestSellers: BestProductSellerData[];
   onPressFavourite: (index: number) => void;
   onPressRestaurant: (item: Restaurant) => void;
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
 }
 
 const ViewAllBestSellersComponent = (props: PropsType) => {
@@ -29,16 +35,19 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: Restaurant;
+    item: BestProductSellerData;
     index: number;
   }) => {
     return (
       <TouchableOpacity
         style={styles.btnAllBestSellersItem}
         activeOpacity={activityOpacity}
-        onPress={() => props?.onPressRestaurant(item)}
+        // onPress={() => props?.onPressRestaurant(item)}
       >
-        <FastImage style={styles.imgBestSellers} source={item?.restaurant_img} />
+        <FastImage
+          style={styles.imgBestSellers}
+          source={{ uri: item?.store_cover_image }}
+        />
         <TouchableOpacity
           style={styles.btnFavourite}
           activeOpacity={activityOpacity}
@@ -47,21 +56,23 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
         >
           <Image
             style={styles.imgHeart}
-            source={item?.isFavourite ? images.redHeart : images.emptyHeart}
+            source={
+              item?.is_store_wishlisted == 0
+                ? images.redHeart
+                : images.emptyHeart
+            }
             resizeMode="stretch"
           />
         </TouchableOpacity>
         <View style={styles.vwBestSellersItemDetails}>
-          <Text style={styles.lblBestSellersItemName}>
-            {item?.restaurant_name}
-          </Text>
+          <Text style={styles.lblBestSellersItemName}>{item?.store_name}</Text>
           <View style={styles.vwLocation}>
             <Image
               style={styles.imgLocation}
               source={images.locationIconOrange}
               resizeMode="stretch"
             />
-            <Text style={styles.lblLocation}>{item?.restaurant_address}</Text>
+            <Text style={styles.lblLocation}>{item?.store_location}</Text>
           </View>
           <View style={styles.vwTimeDistanceRating}>
             <View style={styles.vwTimeDistance}>
@@ -73,22 +84,46 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
                     fontFamily: fontsfamily.semiboldOutFit,
                   }}
                 >
-                  {item?.restaurant_time}
+                  {DateFormatsManager.formatDate(
+                    item?.opening_time,
+                    DateFormatsManager.TimeFormats.HHmm,
+                    DateFormatsManager.TimeFormats.HHmmss
+                  ) +
+                    "-" +
+                    DateFormatsManager.formatDate(
+                      item?.closing_time,
+                      DateFormatsManager.TimeFormats.HHmm,
+                      DateFormatsManager.TimeFormats.HHmmss
+                    )}
                 </Text>
               </Text>
               <View style={styles.vwDistance}>
-                <Image style={styles.imgDot} source={images.dotOrange} resizeMode="stretch" />
+                <Image
+                  style={styles.imgDot}
+                  source={images.dotOrange}
+                  resizeMode="stretch"
+                />
                 <Text style={styles.lblDistance}>
-                  {item?.restaurant_distance}
+                  {/* {item?.restaurant_distance} */}1 km
                 </Text>
               </View>
             </View>
             <View style={styles.vwRating}>
-              <Text style={styles.lblRatings}>{item?.restaurant_ratings}</Text>
-              <Image style={styles.imgStarBlue} source={images.starBlue} resizeMode="stretch" />
+              <Text style={styles.lblRatings}>
+                {parseFloat(item?.store_rating).toFixed(1)}
+              </Text>
+              <Image
+                style={styles.imgStarBlue}
+                source={images.starBlue}
+                resizeMode="stretch"
+              />
             </View>
           </View>
-          <FastImage style={styles.imgLogo} source={item?.restaurant_logo} resizeMode="stretch" />
+          <FastImage
+            style={styles.imgLogo}
+            source={{ uri: item?.store_image }}
+            resizeMode="stretch"
+          />
         </View>
       </TouchableOpacity>
     );
@@ -97,18 +132,28 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       <FlatList
         data={props?.arrAllBestSellers}
-        bounces={false}
+        bounces
         showsVerticalScrollIndicator={false}
         renderItem={renderItemAllBestSellers}
         contentContainerStyle={{
           marginTop: 20,
           paddingBottom: insets.bottom ? insets.bottom : 30,
+        }}
+        onEndReached={() => {
+          if (props.canLoadMore && props.hasMountedOnce.current) {
+            props.loadMoreCategories();
+          }
+        }}
+        onEndReachedThreshold={0.4}
+        onContentSizeChange={(w, h) => {
+          props.setCanLoadMore(h > 600); // Adjust if needed
+          props.hasMountedOnce.current = true;
         }}
       />
     </View>

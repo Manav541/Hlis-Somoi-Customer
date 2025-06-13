@@ -6,6 +6,7 @@ export default {
   updateNow: "Update Now",
 
   underDevelopment: "Under Development",
+  noInternet: "No internet connection. Please check your network and try again.",
 
 
   // Validations

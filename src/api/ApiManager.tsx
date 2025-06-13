@@ -7,9 +7,10 @@ import {
 import {NativeModules} from 'react-native';
 import {CommonActions} from '@react-navigation/native';
 import {MmkvManager} from '../constants/utils/MmkvManager';
-import {getConnection, toggleLoader} from '../constants/GConstant';
+import {flashMessageWarning, getConnection, toggleLoader} from '../constants/GConstant';
 import {APIResponseType} from '../constants/interfaces';
 import { ScreenNames } from '../routers';
+import { getTranslation } from '../localization/i18n/i18n.config';
 
 type APICallback = (
   response: APIResponseType | null,
@@ -71,7 +72,7 @@ export const APIManager = {
     getConnection(async (internet: boolean | null) => {
       if (!internet) {
         toggleLoader(false);
-        return console.log('No internet connection');
+        return flashMessageWarning(getTranslation('noInternet'))
       }
 
       var header = await APIManager.getHeader();
@@ -181,7 +182,7 @@ export const APIManager = {
     getConnection(async (internet: boolean | null) => {
       if (!internet) {
         toggleLoader(false);
-        return console.log('No internet connection');
+        return flashMessageWarning(getTranslation('noInternet'))
       }
 
       var header = await APIManager.getHeader();
@@ -264,7 +265,7 @@ export const APIManager = {
     getConnection(async (internet: boolean | null) => {
       if (!internet) {
         toggleLoader(false);
-        return console.log('No internet connection');
+        return flashMessageWarning(getTranslation('noInternet'))
       }
 
       var header = await APIManager.getHeader();
@@ -374,7 +375,7 @@ export const APIManager = {
     getConnection(async (internet: boolean | null) => {
       if (!internet) {
         toggleLoader(false);
-        return console.log('No internet connection');
+        return flashMessageWarning(getTranslation('noInternet'))
       }
 
       var header = await APIManager.getHeader();
