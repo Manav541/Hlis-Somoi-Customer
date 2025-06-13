@@ -532,3 +532,12 @@ export interface SubCategoryData {
   category: string;
   subCategory: SubCategoryItem[];
 }
+
+
+// extra
+
+export interface GroceriesFoodItem {
+  type: string | null;
+  image: FastImageSource;
+}
+

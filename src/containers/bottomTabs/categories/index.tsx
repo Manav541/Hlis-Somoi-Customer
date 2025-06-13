@@ -1,5 +1,5 @@
 import { StatusBar } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import CategoriesComponent from "../../../components/bottomTabs/categories";
 import { images } from "../../../constants/Images";
 import { ScreenNames } from "../../../routers";
@@ -8,29 +8,2190 @@ import {
   Category,
   FashionProduct,
   GroceryProduct,
-  MainCategoryListItem,
   Restaurant,
 } from "../../../constants/interfaces";
-import { statusCodes } from "../../../api/APIConstant";
-import { flashMessageWarning, toggleLoader } from "../../../constants/GConstant";
-import { zustandStore } from "../../../store";
 
 const CategoriesContainer = ({ navigation }: any) => {
-  // API zustand store
-  const mainCategoryList = zustandStore.HomeStore(
-    (state) => state.mainCategoryList
-  );
-
-  const [arrMainCategoryList, setArrMainCategoryList] = useState<
-    MainCategoryListItem[]
-  >([]);
-  const [mainCategoryPageNumber, setMainCategoryPageNumber] = useState<number>(
-    1
-  );
-  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
-  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
-  const hasMountedOnce = useRef(false);
-  const [canLoadMore, setCanLoadMore] = useState(false);
+  const [arrAllCategories, setArrAllCategories] = useState<Category[]>([
+    {
+      image: images.groceriesC1,
+      name: "Groceries",
+      arrSubCategory: [
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice,
+            },
+            {
+              imgMain: images.rice,
+            },
+            {
+              imgMain: images.rice,
+            },
+          ],
+          product_img: images.rice,
+          product_name: "India Gate Basmati Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  using Lorem Ipsum is that it has a more-or-less normal distribution of  letters, as opposed to using 'Content here, content here', making it  look like readable English.",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 60,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Cooking Oil",
+          product_imgMain: [
+            {
+              imgMain: images.oil,
+            },
+            {
+              imgMain: images.oil,
+            },
+            {
+              imgMain: images.oil,
+            },
+          ],
+          product_img: images.oil,
+          product_name: "Fortune Premium Mustard Oil",
+          product_price: "600",
+          product_weight: "500 ml",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: false,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 100,
+          width: 72,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice1,
+            },
+            {
+              imgMain: images.rice1,
+            },
+            {
+              imgMain: images.rice1,
+            },
+          ],
+          product_img: images.rice1,
+          product_name: "Scotti Arborio Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 88,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Flour",
+          product_imgMain: [
+            {
+              imgMain: images.atta,
+            },
+            {
+              imgMain: images.atta,
+            },
+            {
+              imgMain: images.atta,
+            },
+          ],
+          product_img: images.atta,
+          product_name: "Aashirvaad Superior MP Atta",
+          product_price: "120",
+          product_weight: "500 g",
+          product_final_price: "99",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: false,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 60,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice2,
+            },
+            {
+              imgMain: images.rice2,
+            },
+            {
+              imgMain: images.rice2,
+            },
+          ],
+          product_img: images.rice2,
+          product_name: "Gropure Black Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 62,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Milk",
+          product_imgMain: [
+            {
+              imgMain: images.milk,
+            },
+            {
+              imgMain: images.milk,
+            },
+            {
+              imgMain: images.milk,
+            },
+          ],
+          product_img: images.milk,
+          product_name: "IA2 Cow Milk",
+          product_price: "600",
+          product_weight: "1 L",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 91.79,
+          width: 72,
+        },
+      ],
+    },
+    {
+      image: images.foodC2,
+      name: "Food",
+      arrSubCategory: [
+        {
+          restaurant_imgMain: [
+            {
+              imgMain: images.restaurantImage,
+            },
+            {
+              imgMain: images.restaurantImage1,
+            },
+            {
+              imgMain: images.restaurantImage2,
+            },
+          ],
+          subCategoryTitle: "Fast Food & Snacks",
+          restaurant_img: images.bs1,
+          restaurant_logo: images.burgerKingLogo,
+          restaurant_name: "Burger King",
+          restaurant_address: "Denver Church, California, USA",
+          restaurant_time: "10:00-18:00",
+          restaurant_deliverytime: "1 hour",
+          restaurant_distance: "1 KM",
+          restaurant_ratings: 4.5,
+          restaurant_reviews: 250,
+          isFavourite: true,
+        },
+        {
+          restaurant_imgMain: [
+            {
+              imgMain: images.restaurantImage1,
+            },
+            {
+              imgMain: images.restaurantImage2,
+            },
+            {
+              imgMain: images.restaurantImage,
+            },
+          ],
+          subCategoryTitle: "Fast Food & Snacks",
+          restaurant_img: images.bs2,
+          restaurant_logo: images.macdonaldsLogo,
+          restaurant_name: "Macdonalds",
+          restaurant_address: "Denver Church, California, USA",
+          restaurant_time: "10:00-18:00",
+          restaurant_deliverytime: "1 hour",
+          restaurant_distance: "1.2 KM",
+          restaurant_ratings: 4.5,
+          restaurant_reviews: 200,
+          isFavourite: false,
+        },
+        {
+          restaurant_imgMain: [
+            {
+              imgMain: images.restaurantImage2,
+            },
+            {
+              imgMain: images.restaurantImage1,
+            },
+            {
+              imgMain: images.restaurantImage,
+            },
+          ],
+          subCategoryTitle: "Local & Regional Cuisine",
+          restaurant_img: images.bs3,
+          restaurant_logo: images.subwayLogo,
+          restaurant_name: "Subway",
+          restaurant_address: "Denver Church, California, USA",
+          restaurant_time: "10:00-18:00",
+          restaurant_deliverytime: "1 hour",
+          restaurant_distance: "3 KM",
+          restaurant_ratings: 4.5,
+          restaurant_reviews: 200,
+          isFavourite: false,
+        },
+      ],
+    },
+    {
+      image: images.fruitC3,
+      name: " Fruits & Vegetables",
+      arrSubCategory: [
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice,
+            },
+            {
+              imgMain: images.rice,
+            },
+            {
+              imgMain: images.rice,
+            },
+          ],
+          product_img: images.rice,
+          product_name: "India Gate Basmati Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  using Lorem Ipsum is that it has a more-or-less normal distribution of  letters, as opposed to using 'Content here, content here', making it  look like readable English.",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 60,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Cooking Oil",
+          product_imgMain: [
+            {
+              imgMain: images.oil,
+            },
+            {
+              imgMain: images.oil,
+            },
+            {
+              imgMain: images.oil,
+            },
+          ],
+          product_img: images.oil,
+          product_name: "Fortune Premium Mustard Oil",
+          product_price: "600",
+          product_weight: "500 ml",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: false,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 100,
+          width: 72,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice1,
+            },
+            {
+              imgMain: images.rice1,
+            },
+            {
+              imgMain: images.rice1,
+            },
+          ],
+          product_img: images.rice1,
+          product_name: "Scotti Arborio Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 88,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Flour",
+          product_imgMain: [
+            {
+              imgMain: images.atta,
+            },
+            {
+              imgMain: images.atta,
+            },
+            {
+              imgMain: images.atta,
+            },
+          ],
+          product_img: images.atta,
+          product_name: "Aashirvaad Superior MP Atta",
+          product_price: "120",
+          product_weight: "500 g",
+          product_final_price: "99",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: false,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 60,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice2,
+            },
+            {
+              imgMain: images.rice2,
+            },
+            {
+              imgMain: images.rice2,
+            },
+          ],
+          product_img: images.rice2,
+          product_name: "Gropure Black Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 62,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Milk",
+          product_imgMain: [
+            {
+              imgMain: images.milk,
+            },
+            {
+              imgMain: images.milk,
+            },
+            {
+              imgMain: images.milk,
+            },
+          ],
+          product_img: images.milk,
+          product_name: "IA2 Cow Milk",
+          product_price: "600",
+          product_weight: "1 L",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 91.79,
+          width: 72,
+        },
+      ],
+    },
+    {
+      image: images.beautyC4,
+      name: "Beauty & Personal Care",
+      arrSubCategory: [
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice,
+            },
+            {
+              imgMain: images.rice,
+            },
+            {
+              imgMain: images.rice,
+            },
+          ],
+          product_img: images.rice,
+          product_name: "India Gate Basmati Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  using Lorem Ipsum is that it has a more-or-less normal distribution of  letters, as opposed to using 'Content here, content here', making it  look like readable English.",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 60,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Cooking Oil",
+          product_imgMain: [
+            {
+              imgMain: images.oil,
+            },
+            {
+              imgMain: images.oil,
+            },
+            {
+              imgMain: images.oil,
+            },
+          ],
+          product_img: images.oil,
+          product_name: "Fortune Premium Mustard Oil",
+          product_price: "600",
+          product_weight: "500 ml",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: false,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 100,
+          width: 72,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice1,
+            },
+            {
+              imgMain: images.rice1,
+            },
+            {
+              imgMain: images.rice1,
+            },
+          ],
+          product_img: images.rice1,
+          product_name: "Scotti Arborio Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 88,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Flour",
+          product_imgMain: [
+            {
+              imgMain: images.atta,
+            },
+            {
+              imgMain: images.atta,
+            },
+            {
+              imgMain: images.atta,
+            },
+          ],
+          product_img: images.atta,
+          product_name: "Aashirvaad Superior MP Atta",
+          product_price: "120",
+          product_weight: "500 g",
+          product_final_price: "99",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: false,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 60,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice2,
+            },
+            {
+              imgMain: images.rice2,
+            },
+            {
+              imgMain: images.rice2,
+            },
+          ],
+          product_img: images.rice2,
+          product_name: "Gropure Black Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 62,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Milk",
+          product_imgMain: [
+            {
+              imgMain: images.milk,
+            },
+            {
+              imgMain: images.milk,
+            },
+            {
+              imgMain: images.milk,
+            },
+          ],
+          product_img: images.milk,
+          product_name: "IA2 Cow Milk",
+          product_price: "600",
+          product_weight: "1 L",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 91.79,
+          width: 72,
+        },
+      ],
+    },
+    {
+      image: images.electronicsC5,
+      name: "Electronics & Accessories ",
+      arrSubCategory: [
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice,
+            },
+            {
+              imgMain: images.rice,
+            },
+            {
+              imgMain: images.rice,
+            },
+          ],
+          product_img: images.rice,
+          product_name: "India Gate Basmati Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  using Lorem Ipsum is that it has a more-or-less normal distribution of  letters, as opposed to using 'Content here, content here', making it  look like readable English.",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 60,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Cooking Oil",
+          product_imgMain: [
+            {
+              imgMain: images.oil,
+            },
+            {
+              imgMain: images.oil,
+            },
+            {
+              imgMain: images.oil,
+            },
+          ],
+          product_img: images.oil,
+          product_name: "Fortune Premium Mustard Oil",
+          product_price: "600",
+          product_weight: "500 ml",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: false,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 100,
+          width: 72,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice1,
+            },
+            {
+              imgMain: images.rice1,
+            },
+            {
+              imgMain: images.rice1,
+            },
+          ],
+          product_img: images.rice1,
+          product_name: "Scotti Arborio Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 88,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Flour",
+          product_imgMain: [
+            {
+              imgMain: images.atta,
+            },
+            {
+              imgMain: images.atta,
+            },
+            {
+              imgMain: images.atta,
+            },
+          ],
+          product_img: images.atta,
+          product_name: "Aashirvaad Superior MP Atta",
+          product_price: "120",
+          product_weight: "500 g",
+          product_final_price: "99",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: false,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 60,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice2,
+            },
+            {
+              imgMain: images.rice2,
+            },
+            {
+              imgMain: images.rice2,
+            },
+          ],
+          product_img: images.rice2,
+          product_name: "Gropure Black Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 62,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Milk",
+          product_imgMain: [
+            {
+              imgMain: images.milk,
+            },
+            {
+              imgMain: images.milk,
+            },
+            {
+              imgMain: images.milk,
+            },
+          ],
+          product_img: images.milk,
+          product_name: "IA2 Cow Milk",
+          product_price: "600",
+          product_weight: "1 L",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 91.79,
+          width: 72,
+        },
+      ],
+    },
+    {
+      image: images.householdC6,
+      name: " Household Essentials",
+      arrSubCategory: [
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice,
+            },
+            {
+              imgMain: images.rice,
+            },
+            {
+              imgMain: images.rice,
+            },
+          ],
+          product_img: images.rice,
+          product_name: "India Gate Basmati Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  using Lorem Ipsum is that it has a more-or-less normal distribution of  letters, as opposed to using 'Content here, content here', making it  look like readable English.",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 60,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Cooking Oil",
+          product_imgMain: [
+            {
+              imgMain: images.oil,
+            },
+            {
+              imgMain: images.oil,
+            },
+            {
+              imgMain: images.oil,
+            },
+          ],
+          product_img: images.oil,
+          product_name: "Fortune Premium Mustard Oil",
+          product_price: "600",
+          product_weight: "500 ml",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: false,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 100,
+          width: 72,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice1,
+            },
+            {
+              imgMain: images.rice1,
+            },
+            {
+              imgMain: images.rice1,
+            },
+          ],
+          product_img: images.rice1,
+          product_name: "Scotti Arborio Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 88,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Flour",
+          product_imgMain: [
+            {
+              imgMain: images.atta,
+            },
+            {
+              imgMain: images.atta,
+            },
+            {
+              imgMain: images.atta,
+            },
+          ],
+          product_img: images.atta,
+          product_name: "Aashirvaad Superior MP Atta",
+          product_price: "120",
+          product_weight: "500 g",
+          product_final_price: "99",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: false,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 60,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Rice",
+          product_imgMain: [
+            {
+              imgMain: images.rice2,
+            },
+            {
+              imgMain: images.rice2,
+            },
+            {
+              imgMain: images.rice2,
+            },
+          ],
+          product_img: images.rice2,
+          product_name: "Gropure Black Rice",
+          product_price: "600",
+          product_weight: "1 kg",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 62,
+        },
+        {
+          mainCategoryTitle: "Groceries",
+          subCategoryTitle: "Milk",
+          product_imgMain: [
+            {
+              imgMain: images.milk,
+            },
+            {
+              imgMain: images.milk,
+            },
+            {
+              imgMain: images.milk,
+            },
+          ],
+          product_img: images.milk,
+          product_name: "IA2 Cow Milk",
+          product_price: "600",
+          product_weight: "1 L",
+          product_final_price: "499",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
+          product_highlight: [
+            {
+              highlightTitle: "Grain Size",
+              highlightDesc: "250",
+            },
+            {
+              highlightTitle: "Organic",
+              highlightDesc: "No",
+            },
+            {
+              highlightTitle: "Polished",
+              highlightDesc: "Yes",
+            },
+            {
+              highlightTitle: "Brand",
+              highlightDesc: "India Gate",
+            },
+            {
+              highlightTitle: "Fssai license ",
+              highlightDesc: "250",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.productReturn,
+              deliveryDataTitle: "3 day Return/ Exchange",
+            },
+            {
+              deliveryDataImage: images.cashOnDelivery,
+              deliveryDataTitle: "Cash on Delivery",
+            },
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 91.79,
+          width: 72,
+        },
+      ],
+    },
+    {
+      image: images.fashionC7,
+      name: "Fashion",
+      arrSubCategory: [
+        {
+          mainCategoryTitle: "Fashion",
+          subCategoryTitle: "T-shirt",
+          product_imgMain: [
+            {
+              imgMain: images.fashionMainImg,
+            },
+            {
+              imgMain: images.fashionMainImg,
+            },
+            {
+              imgMain: images.fashionMainImg,
+            },
+          ],
+          product_img: images.fashionMainImg,
+          product_name: "Dennis Lingo",
+          product_price: "500",
+          product_final_price: "299",
+          product_rating: "4.5",
+          product_review: 250,
+          isFavourite: true,
+          product_quantity: 0,
+          product_deliverytime: "10 Min",
+          product_distance: "5 KM",
+          product_desc:
+            "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  using Lorem Ipsum is that it has a more-or-less normal distribution of  letters, as opposed to using 'Content here, content here', making it  look like readable English.",
+          product_highlight: [
+            {
+              highlightTitle: "GSize & Fit",
+              highlightDesc: "Regular Fit",
+            },
+            {
+              highlightTitle: "Material & Care",
+              highlightDesc: "Cotton ,Mashine Wash",
+            },
+            {
+              highlightTitle: "Main Trend",
+              highlightDesc: "Monochrome",
+            },
+            {
+              highlightTitle: "Neck",
+              highlightDesc: "Polo Collar",
+            },
+          ],
+          product_inStock: true,
+          product_deliveryData: [
+            {
+              deliveryDataImage: images.fastDelivery,
+              deliveryDataTitle: "Fast Delivery",
+            },
+          ],
+          height: 88,
+          width: 60,
+        },
+      ],
+    },
+  ]);
 
   const onPressMainCategories = (
     mainCategoryName: string,
@@ -50,61 +2211,8 @@ const CategoriesContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.notification);
   };
 
-  // handleMainCategoryList
-  const handleMainCategoryList = async (page: number,isLoadMore = false) => {
-    if (isLoadMore && isLoadingMore) return;
-
-    if (!isLoadMore) toggleLoader(true);
-    else setIsLoadingMore(true);
-
-    const dictData = {
-      page_number : page
-    }
-    try {
-      const response = await mainCategoryList(dictData, navigation);
-      if (response !== undefined && response !== null) {
-        __DEV__ &&
-          console.log(
-            "MAIN CATEGORY LIST RESPONSE===>",
-            JSON.stringify(response)
-          );
-        const data = response.data as MainCategoryListItem;
-        if (response.code === statusCodes.success) {
-          if (Array.isArray(data) && data.length > 0) {
-            setArrMainCategoryList((prev) =>
-              isLoadMore ? [...prev, ...data] : data
-            );
-            // Only update the page number if data exists
-            setMainCategoryPageNumber(page);
-          } else {
-            setHasMoreData(false);
-          }
-        } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
-        }
-      }
-    } catch (error) {
-      __DEV__ && console.log(error);
-    }finally {
-      if (!isLoadMore) toggleLoader(false);
-      else setIsLoadingMore(false);
-    }
-  };
-
-  const loadMoreCategories = () => {
-    if (hasMoreData && !isLoadingMore) {
-      const nextPage = mainCategoryPageNumber + 1;
-      handleMainCategoryList(nextPage, true);
-    }
-  };
-
   useFocusEffect(
     React.useCallback(() => {
-      setMainCategoryPageNumber(1);
-      setHasMoreData(true);
-      setArrMainCategoryList([]); 
-
-      handleMainCategoryList(1,false);
       StatusBar.setBarStyle("light-content");
       return () => {};
     }, [navigation])
@@ -112,14 +2220,10 @@ const CategoriesContainer = ({ navigation }: any) => {
 
   return (
     <CategoriesComponent
-      arrMainCategoryList={arrMainCategoryList}
+      arrAllCategories={arrAllCategories}
       onPressMainCategories={onPressMainCategories}
       handleOnPressNotifaicationIcon={handleOnPressNotifaicationIcon}
       onPressLocation={onPressLocation}
-      loadMoreCategories={loadMoreCategories}
-      canLoadMore={canLoadMore}
-      setCanLoadMore={setCanLoadMore}
-      hasMountedOnce={hasMountedOnce}
     />
   );
 };

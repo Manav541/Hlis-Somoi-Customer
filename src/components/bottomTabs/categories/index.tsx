@@ -17,53 +17,40 @@ import {
   Category,
   FashionProduct,
   GroceryProduct,
-  MainCategoryListItem,
   Restaurant,
 } from "../../../constants/interfaces";
-import { colors } from "../../../constants/Colors";
-import FastImage from "react-native-fast-image";
 
 interface PropsType {
-  arrMainCategoryList: MainCategoryListItem[];
+  arrAllCategories: Category[];
   onPressMainCategories: (
     mainCategoryName: string,
     arrSubCategory: (GroceryProduct | Restaurant | FashionProduct)[]
   ) => void;
   handleOnPressNotifaicationIcon: () => void;
   onPressLocation: () => void;
-  loadMoreCategories: () => void;
-  canLoadMore: boolean;
-  setCanLoadMore: (value: boolean) => void;
-  hasMountedOnce: { current: boolean };
 }
 
 const CategoriesComponent = (props: PropsType) => {
-
   const insets = useSafeAreaInsets();
 
   const renderItemAllCategories = ({
     item,
     index,
   }: {
-    item: MainCategoryListItem;
+    item: Category;
     index: number;
   }) => {
-
     return (
       <TouchableOpacity
         style={styles.btnAllCategories}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         key={index}
-        // onPress={() => {
-        //   props?.onPressMainCategories(item?.name, item?.arrSubCategory);
-        // }}
+        onPress={() => {
+          props?.onPressMainCategories(item?.name, item?.arrSubCategory);
+        }}
       >
-        <FastImage
-          style={styles.imgAllCategories}
-          source={{ uri: item?.image, priority: FastImage.priority.normal }}
-        />
-
+        <Image style={styles.imgAllCategories} source={item?.image} />
         <Text style={styles.lblAllCategoriesName}>{item?.name}</Text>
       </TouchableOpacity>
     );
@@ -72,14 +59,14 @@ const CategoriesComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent={false}
-        backgroundColor={colors.blue4e}
+        translucent
+        backgroundColor={"transparent"}
         barStyle={"light-content"}
       />
       <View
         style={{
           ...styles.vwContainer,
-          paddingTop: insets.top ? insets.top + 20 : 40,
+          paddingTop:  insets.top ? insets.top + 20 : 40,
         }}
       >
         <View
@@ -109,26 +96,16 @@ const CategoriesComponent = (props: PropsType) => {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={props?.arrMainCategoryList}
-          bounces={true}
+          data={props?.arrAllCategories}
+          bounces={false}
           showsVerticalScrollIndicator={false}
           renderItem={renderItemAllCategories}
           numColumns={2}
-          style={{ marginTop: 10 }}
-          contentContainerStyle={{ paddingTop: 27, gap: 20, paddingBottom: 20 }}
+          style={{marginTop: 10}}
+          contentContainerStyle={{paddingTop : 27,  gap: 20, paddingBottom: 20 }}
           columnWrapperStyle={{
             marginHorizontal: 20,
             justifyContent: "space-between",
-          }}
-          onEndReached={() => {
-            if (props.canLoadMore && props.hasMountedOnce.current) {
-              props.loadMoreCategories();
-            }
-          }}
-          onEndReachedThreshold={0.4}
-          onContentSizeChange={(w, h) => {
-            props.setCanLoadMore(h > 600); // Adjust if needed
-            props.hasMountedOnce.current = true;
           }}
         />
       </View>

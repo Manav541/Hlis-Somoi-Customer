@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   vwFlatlistMain: {
-    height: ScreenDimensions.screenHeight / 1.2,
+    height: ScreenDimensions.screenHeight / 1.24,
     backgroundColor: colors.blue4e,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,

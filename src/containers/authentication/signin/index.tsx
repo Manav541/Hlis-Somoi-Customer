@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import SignInComponent from "../../../components/authentication/signin";
 import {
+  containsEmoji,
   flashMessageSucess,
   flashMessageWarning,
 } from "../../../constants/GConstant";
@@ -82,12 +83,18 @@ const SignInContainer = ({ navigation }: any) => {
 
   const handleOnChangeText = (text: string, type: string) => {
     if (type === "email") {
-      setEmail(text.replace(/\s/g, ""));
+      const newText = text.replace(/\s/g, "");
+      if (!containsEmoji(newText)) {
+        setEmail(newText);
+      }
     } else if (type === "mobileNumber") {
       const onlyDigits = text.replace(/[^0-9]/g, "");
       setMobileNumber(onlyDigits);
     } else {
-      setPassword(text.replace(/\s/g, ""));
+      const newText = text.replace(/\s/g, "");
+      if (!containsEmoji(newText)) {
+        setPassword(newText);
+      }
     }
   };
 

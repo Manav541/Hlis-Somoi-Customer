@@ -328,7 +328,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ && console.log("OTP VERIFICATION RESPONSE===>", response);
         if (response.code === statusCodes.success) {
-          flashMessageSucess(response.message);
+          
           // Clear OTP fields after successful validation
           const clearedOtpArray = otpArray.map((item) => ({
             ...item,
@@ -337,11 +337,13 @@ const VerificationContainer = ({ navigation, route }: any) => {
           setOtpArray(clearedOtpArray);
           setFullOtp("");
           if (navigateFromForgotPassword) {
+            flashMessageSucess(getTranslation('otpVerifiedSucessfully'));
             navigation.navigate(ScreenNames.changePassword, {
               navigateFromForgotPassword,
               email: email,
             });
           } else if (navigateFromChangeEmailPhone) {
+            flashMessageSucess(response.message);
             navigation.dispatch(
               CommonActions.reset({
                 index: 1,
@@ -357,6 +359,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
               })
             );
           } else {
+            flashMessageSucess(response.message);
             MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
             navigation.dispatch(
               CommonActions.reset({

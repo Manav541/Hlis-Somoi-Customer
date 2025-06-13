@@ -12,6 +12,7 @@ import {
   RESULTS,
 } from "react-native-permissions";
 import NetInfo from "@react-native-community/netinfo";
+import emojiRegex from "emoji-regex";
 
 export const appName = "Somoi";
 
@@ -209,4 +210,10 @@ export const checkPermission = (permission: any, message: string) => {
       }
     });
   });
+};
+
+
+export const containsEmoji = (str: string): boolean => {
+  const regex = emojiRegex();
+  return regex.test(str);
 };

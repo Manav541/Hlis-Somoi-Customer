@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ForgotPasswordComponent from "../../../components/authentication/forgotPassword";
 import GlobalBackButton from "../../../global/GlobalBackButton";
 import { Text, TextInput } from "react-native";
-import { flashMessageWarning } from "../../../constants/GConstant";
+import { containsEmoji, flashMessageWarning } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { regex } from "../../../constants/Regex";
 import { constnatStyles } from "../../../constants/Styles";
@@ -21,7 +21,10 @@ const ForgotPasswordContainer = ({ navigation, route }: any) => {
   const [emailFocused, setEmailFocused] = useState(false);
 
   const handleOnChangeText = (text: string) => {
-    setEmail(text.replace(/\s/g, ""));
+    const newText = text.replace(/\s/g, "");
+      if (!containsEmoji(newText)) {
+        setEmail(newText);
+      }
   };
 
   const handleOnFocus = () => {

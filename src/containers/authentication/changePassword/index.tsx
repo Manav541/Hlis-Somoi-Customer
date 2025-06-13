@@ -3,6 +3,7 @@ import ChangePasswordComponent from "../../../components/authentication/changePa
 import GlobalBackButton from "../../../global/GlobalBackButton";
 import { BackHandler, Text, TextInput } from "react-native";
 import {
+  containsEmoji,
   flashMessageSucess,
   flashMessageWarning,
 } from "../../../constants/GConstant";
@@ -43,11 +44,17 @@ const ChangePasswordContainer = ({ navigation, route }: any) => {
   const handleOnChangeText = (text: string, type: string) => {
     const cleanedText = text.replace(/\s/g, "");
     if (type === "oldPassword") {
-      setOldPassword(cleanedText);
+      if (!containsEmoji(cleanedText)) {
+        setOldPassword(cleanedText);
+      }
     } else if (type === "newPassword") {
-      setNewPassword(cleanedText);
+      if (!containsEmoji(cleanedText)) {
+        setNewPassword(cleanedText);
+      }
     } else {
-      setConfirmPassword(cleanedText);
+      if (!containsEmoji(cleanedText)) {
+        setConfirmPassword(cleanedText);
+      }
     }
   };
 

@@ -43,6 +43,7 @@ export const styles = StyleSheet.create({
   vwLocation: {
     flexDirection: "row",
     alignItems: "center",
+    flex:1
   },
   vwAdds: {
     marginTop: 20,
@@ -148,6 +149,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.semibold,
     marginLeft: 5,
+    flex : 1
   },
   lblSubCategoriesTitle: {
     color: colors.blue4e,

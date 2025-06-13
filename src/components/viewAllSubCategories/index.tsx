@@ -6,29 +6,23 @@ import {
   Image,
   StatusBar,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React from "react";
 import { styles } from "./styles";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
-import { SubCategoryListItem } from "../../constants/interfaces";
+import { SubCategory } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
-import { colors } from "../../constants/Colors";
 
 interface PropsType {
-  arrSubCategory: SubCategoryListItem[];
-  onPressCategory: () => void;
-  loadMoreCategories: () => void;
-  canLoadMore: boolean;
-  setCanLoadMore: (value: boolean) => void;
-  hasMountedOnce: { current: boolean };
+  arrAllCategories: SubCategory[];
+  onPressCategory: ()=> void;
 }
 
 const ViewAllSubCategoriesComponenet = (props: PropsType) => {
-
   const renderItemAllCategories = ({
     item,
     index,
   }: {
-    item: SubCategoryListItem;
+    item: SubCategory;
     index: number;
   }) => {
     return (
@@ -39,10 +33,7 @@ const ViewAllSubCategoriesComponenet = (props: PropsType) => {
         key={index}
         onPress={props?.onPressCategory}
       >
-        <FastImage
-          style={styles.imgAllCategories}
-          source={{ uri: item?.image }}
-        />
+        <FastImage style={styles.imgAllCategories} source={item?.image} />
         <Text style={styles.lblAllCategoriesName}>{item?.name}</Text>
       </TouchableOpacity>
     );
@@ -50,31 +41,20 @@ const ViewAllSubCategoriesComponenet = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent={false}
-        backgroundColor={colors.orange1c}
+        translucent
+        backgroundColor={"transparent"}
         barStyle={"dark-content"}
       />
       <FlatList
-         data={props.arrSubCategory}
-         renderItem={renderItemAllCategories}
-         keyExtractor={(item, index) => index.toString()}
-         numColumns={2}
-         bounces
-         showsVerticalScrollIndicator={false}
-         contentContainerStyle={{ paddingTop: 20, gap: 20 }}
-         columnWrapperStyle={{
-           marginHorizontal: 20,
-           justifyContent: "space-between",
-         }}
-         onEndReached={() => {
-          if (props.canLoadMore && props.hasMountedOnce.current) {
-            props.loadMoreCategories();
-          }
-        }}
-        onEndReachedThreshold={0.4}
-        onContentSizeChange={(w, h) => {
-          props.setCanLoadMore(h > 600); // Adjust if needed
-          props.hasMountedOnce.current = true;
+        data={props?.arrAllCategories}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        renderItem={renderItemAllCategories}
+        numColumns={2}
+        contentContainerStyle={{ paddingTop: 20, gap: 20 }}
+        columnWrapperStyle={{
+          marginHorizontal: 20,
+          justifyContent: "space-between",
         }}
       />
     </View>

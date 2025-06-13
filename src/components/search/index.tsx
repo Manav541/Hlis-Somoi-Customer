@@ -12,16 +12,13 @@ import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../constants/Colors";
-import {
-  activityOpacity,
-  hitSlop,
-  rupeeSymbol,
-} from "../../constants/GConstant";
+import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
 import { GroceryProduct } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 
 interface PropsType {
-  arrProducts: any[];
+  arrProducts: GroceryProduct[];
+  filteredProducts: GroceryProduct[];
   onPressProduct: (item: GroceryProduct) => void;
 }
 
@@ -32,7 +29,7 @@ const SearchComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: any;
+    item: GroceryProduct;
     index: number;
   }) => {
     return (
@@ -41,24 +38,22 @@ const SearchComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         key={index}
-        // onPress={() => props.onPressProduct(item)}
+        onPress={() => props.onPressProduct(item)}
       >
         <View style={styles.vwProductImage}>
-          <FastImage style={styles.imgProduct} source={{uri : item?.product_img}} />
+          <FastImage style={styles.imgProduct} source={item?.product_img} />
         </View>
         <View style={styles.vwProductDetails}>
-          <Text style={styles.lblProductName}>{item?.name}</Text>
+          <Text style={styles.lblProductName}>{item?.product_name}</Text>
           <View style={styles.vwProductPriceWeight}>
-            <Text style={styles.lblProductPrice}>
-              {rupeeSymbol + item?.variation_data?.price}
-            </Text>
+            <Text style={styles.lblProductPrice}>{rupeeSymbol+item?.product_price}</Text>
             <Image
               style={styles.imgDot}
               tintColor={colors.blue4e}
               source={images.dotOrange}
               resizeMode="stretch"
             />
-            <Text style={styles.lblProductWeight}>{item?.variation_data?.amount+item?.variation_data?.unit}</Text>
+            <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -68,13 +63,13 @@ const SearchComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent={false}
+        translucent
+        backgroundColor={"transparent"}
         barStyle={"dark-content"}
-        backgroundColor={colors.orange1c}
       />
-      {props.arrProducts.length > 0 ? (
+      {props.filteredProducts.length > 0 ? (
         <FlatList
-          data={props.arrProducts}
+          data={props.filteredProducts}
           bounces={false}
           showsVerticalScrollIndicator={false}
           renderItem={renderItemSearch}

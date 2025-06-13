@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import SignupComponent from "../../../components/authentication/signup";
 import { regex } from "../../../constants/Regex";
 import {
+  containsEmoji,
   flashMessageSucess,
   flashMessageWarning,
   toggleLoader,
@@ -49,6 +50,7 @@ const SignupContainer = ({ navigation }: any) => {
   const [mobileNumberFocused, setMobileNumberFocused] = useState(false);
 
   const [isEmailSelected, setIsEmailSelected] = useState(true);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   // Country Code
   const countryList: CountryDataType[] = CountryData;
@@ -100,9 +102,15 @@ const SignupContainer = ({ navigation }: any) => {
         setName(text);
       }
     } else if (type === "email") {
-      setEmail(text.replace(/\s/g, ""));
+      const newText = text.replace(/\s/g, "");
+      if (!containsEmoji(newText)) {
+        setEmail(newText);
+      }
     } else if (type === "password") {
-      setPassword(text.replace(/\s/g, ""));
+      const newText = text.replace(/\s/g, "");
+      if (!containsEmoji(newText)) {
+        setPassword(newText);
+      }
     } else if (type === "mobileNumber") {
       const onlyDigits = text.replace(/[^0-9]/g, "");
       setMobileNumber(onlyDigits);
@@ -229,7 +237,7 @@ const SignupContainer = ({ navigation }: any) => {
     }
   };
 
-  const [isNavigating, setIsNavigating] = useState(false);
+  
 
   const handleOnPressSignIn = () => {
     if (isNavigating) return;
