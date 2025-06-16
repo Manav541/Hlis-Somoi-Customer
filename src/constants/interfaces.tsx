@@ -250,6 +250,26 @@ export interface BestProduct {
 }
 
 // Category tab
+export interface SubCategoryTitle {
+  id : string
+  image: any;        
+  name: string;      
+  isSelected: boolean; 
+}
+
+export interface Product {
+  id: string;
+  image: string;
+  inStock: boolean;
+  isFavorite: boolean;
+  name: string;
+  originalPrice: string;
+  price: string;
+  quantity: number;
+  rating: string;
+  weight: string;
+}
+
 export interface ProductImage {
   imgMain: FastImageSource;
 }

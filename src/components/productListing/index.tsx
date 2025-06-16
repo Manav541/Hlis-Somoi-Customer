@@ -26,19 +26,21 @@ import GlobalButton from "../../global/GlobalButton";
 import DropDownPicker from "react-native-dropdown-picker";
 import {
   CategoryItem,
+  Product,
   SubCategoryData,
   SubCategoryItem,
+  SubCategoryTitle,
 } from "../../constants/interfaces";
 import GlobalDropdown from "../../global/GlobalDropdown";
 import FastImage from "react-native-fast-image";
 
 interface PropsType {
   mainCategoryName: string;
-  subCategoryTitle: any[];
+  subCategoryTitle: SubCategoryTitle[];
   subCategoryFoodTitle: any[];
   subCategoryFashionTitle: any[];
-  onPressSubCategoryTitle: (index: number) => void;
-  arrSubCategory: any[];
+  onPressSubCategoryTitle: (selectedName: string) => void;
+  arrSubCategoryProduct: Product[];
   handleQuantityChange: (index: number, type: "add" | "remove") => void;
   onPressFavourite: (index: number) => void;
   onPressRestaurant: (item: any) => void;
@@ -74,7 +76,13 @@ interface PropsType {
 
 const ProductListingComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
-  const renderItemSubCategoryTitle = ({ item, index }: any) => {
+  const renderItemSubCategoryTitle = ({
+    item,
+    index,
+  }: {
+    item: SubCategoryTitle;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         style={
@@ -84,12 +92,13 @@ const ProductListingComponent = (props: PropsType) => {
         }
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
-        onPress={() => props.onPressSubCategoryTitle(index)}
+        key={index}
+        onPress={() => props.onPressSubCategoryTitle(item?.name)}
       >
         <Image
           style={styles.imgSubIcon}
           tintColor={item?.isSelected ? colors.blue4e : colors.greya7}
-          source={item?.subIcon}
+          source={item?.image}
         />
         <Text
           style={
@@ -104,7 +113,13 @@ const ProductListingComponent = (props: PropsType) => {
     );
   };
 
-  const renderArrSubCategory = ({ item, index }: any) => {
+  const renderArrSubCategoryProduct = ({
+    item,
+    index,
+  }: {
+    item: Product;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         style={[
@@ -120,8 +135,8 @@ const ProductListingComponent = (props: PropsType) => {
         {/* Product Image and Favourite button */}
         <View style={styles.vwProductImgLike}>
           <FastImage
-            source={item?.product_img}
-            style={{ height: item?.height, width: item?.width }}
+            source={{ uri: item?.image }}
+            style={{ height: 80, width: 70 }}
           />
           <TouchableOpacity
             style={styles.btnRedHeart}
@@ -133,7 +148,7 @@ const ProductListingComponent = (props: PropsType) => {
           >
             <Image
               style={styles.imgRedHeart}
-              source={item?.isFavourite ? images.redHeart : images.emptyHeart}
+              source={item?.isFavorite ? images.redHeart : images.emptyHeart}
               resizeMode="stretch"
             />
           </TouchableOpacity>
@@ -146,9 +161,9 @@ const ProductListingComponent = (props: PropsType) => {
           {/* name and weight */}
           <View style={{ height: 59 }}>
             <Text style={styles.lblProductName} numberOfLines={2}>
-              {item?.product_name}
+              {item?.name}
             </Text>
-            <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
+            <Text style={styles.lblProductWeight}>{item?.weight}</Text>
           </View>
 
           {/* Price and Rating */}
@@ -156,25 +171,27 @@ const ProductListingComponent = (props: PropsType) => {
             {/* Price */}
             <View style={styles.vwPrice}>
               <Text style={styles.lblProductFinalPrice}>
-                {rupeeSymbol + item?.product_final_price}
+                {rupeeSymbol + item?.price}
               </Text>
               <Text style={styles.lblProductPrice}>
-                {rupeeSymbol + item?.product_price}
+                {rupeeSymbol + item?.originalPrice}
               </Text>
             </View>
 
             {/* Rating */}
             <View style={styles.vwProductRating}>
-              <Image style={styles.imgStar} source={images.star} resizeMode="stretch" />
-              <Text style={styles.lblProductRating}>
-                {item?.product_rating}
-              </Text>
+              <Image
+                style={styles.imgStar}
+                source={images.star}
+                resizeMode="stretch"
+              />
+              <Text style={styles.lblProductRating}>{item?.rating}</Text>
             </View>
           </View>
         </View>
 
         {/* Add to cart */}
-        {item.product_quantity === 0 ? (
+        {item.quantity === 0 ? (
           <TouchableOpacity
             style={styles.btnAddToCart}
             activeOpacity={activityOpacity}
@@ -191,17 +208,23 @@ const ProductListingComponent = (props: PropsType) => {
               hitSlop={hitSlop}
               activeOpacity={activityOpacity}
             >
-              <Image style={styles.imgAddMinus} source={images.minus} resizeMode="stretch"/>
+              <Image
+                style={styles.imgAddMinus}
+                source={images.minus}
+                resizeMode="stretch"
+              />
             </TouchableOpacity>
-            <Text style={styles.lblProductQuantity}>
-              {item.product_quantity}
-            </Text>
+            <Text style={styles.lblProductQuantity}>{item.quantity}</Text>
             <TouchableOpacity
               onPress={() => props.handleQuantityChange(index, "add")}
               hitSlop={hitSlop}
               activeOpacity={activityOpacity}
             >
-              <Image style={styles.imgAddMinus} source={images.add} resizeMode="stretch"/>
+              <Image
+                style={styles.imgAddMinus}
+                source={images.add}
+                resizeMode="stretch"
+              />
             </TouchableOpacity>
           </View>
         )}
@@ -216,7 +239,11 @@ const ProductListingComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         onPress={() => props?.onPressRestaurant(item)}
       >
-        <FastImage style={styles.imgBestSellers} source={item?.restaurant_img} resizeMode="stretch" />
+        <FastImage
+          style={styles.imgBestSellers}
+          source={item?.restaurant_img}
+          resizeMode="stretch"
+        />
         <TouchableOpacity
           style={styles.btnFavourite}
           activeOpacity={activityOpacity}
@@ -255,7 +282,11 @@ const ProductListingComponent = (props: PropsType) => {
                 </Text>
               </Text>
               <View style={styles.vwDistance}>
-                <Image style={styles.imgDot} source={images.dotOrange} resizeMode="stretch" />
+                <Image
+                  style={styles.imgDot}
+                  source={images.dotOrange}
+                  resizeMode="stretch"
+                />
                 <Text style={styles.lblDistance}>
                   {item?.restaurant_distance.toLowerCase()}
                 </Text>
@@ -263,10 +294,18 @@ const ProductListingComponent = (props: PropsType) => {
             </View>
             <View style={styles.vwRating}>
               <Text style={styles.lblRatings}>{item?.restaurant_ratings}</Text>
-              <Image style={styles.imgStarBlue} source={images.starBlue} resizeMode="stretch"/>
+              <Image
+                style={styles.imgStarBlue}
+                source={images.starBlue}
+                resizeMode="stretch"
+              />
             </View>
           </View>
-          <FastImage style={styles.imgLogo} source={item?.restaurant_logo} resizeMode="stretch"/>
+          <FastImage
+            style={styles.imgLogo}
+            source={item?.restaurant_logo}
+            resizeMode="stretch"
+          />
         </View>
       </TouchableOpacity>
     );
@@ -281,13 +320,7 @@ const ProductListingComponent = (props: PropsType) => {
       />
       <View>
         <FlatList
-          data={
-            props?.mainCategoryName === "Food"
-              ? props?.subCategoryFoodTitle
-              : props?.mainCategoryName === "Fashion"
-              ? props?.subCategoryFashionTitle
-              : props?.subCategoryTitle
-          }
+          data={props?.subCategoryTitle}
           horizontal
           bounces={false}
           showsHorizontalScrollIndicator={false}
@@ -298,7 +331,7 @@ const ProductListingComponent = (props: PropsType) => {
 
       {props?.mainCategoryName === "Food" ? (
         <FlatList
-          data={props?.arrSubCategory}
+          data={props?.arrSubCategoryProduct}
           bounces={false}
           showsVerticalScrollIndicator={false}
           renderItem={renderArrFoodSubCategory}
@@ -311,9 +344,9 @@ const ProductListingComponent = (props: PropsType) => {
         />
       ) : (
         <FlatList
-          data={props?.arrSubCategory}
+          data={props?.arrSubCategoryProduct}
           numColumns={2}
-          renderItem={renderArrSubCategory}
+          renderItem={renderArrSubCategoryProduct}
           keyExtractor={(_, index) => index.toString()}
           contentContainerStyle={{
             paddingHorizontal: 20,
@@ -444,7 +477,11 @@ const ProductListingComponent = (props: PropsType) => {
                       {rupeeSymbol + props?.range[0]}
                     </Text>
                   </View>
-                  <Image style={styles.imgDash} source={images.dashLine} resizeMode="stretch" />
+                  <Image
+                    style={styles.imgDash}
+                    source={images.dashLine}
+                    resizeMode="stretch"
+                  />
                   <View style={styles.vwPriceValueBox}>
                     <Text style={styles.lblLowHightPriceValue}>
                       {rupeeSymbol + props?.range[1]}

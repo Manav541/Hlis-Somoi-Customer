@@ -4,7 +4,6 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  Dimensions,
   StatusBar,
   TextInput,
 } from "react-native";
@@ -31,6 +30,8 @@ interface PropsType {
   handleRemoveFromWishlist: (indexToRemove: number) => void;
   handleQuantityChange: (index: number, action: "add" | "remove") => void;
   onPressProduct: (item: any) => void;
+  selectedTab: string;
+  handleTabPress: (tab: string) => void;
 }
 
 const MyWishlistComponent = (props: PropsType) => {
@@ -175,6 +176,49 @@ const MyWishlistComponent = (props: PropsType) => {
         />
       </View>
 
+      {/* Buttons Products Restaurants */}
+      <View style={styles.vwProductsRestaurants}>
+        <TouchableOpacity
+          style={styles.btnProductsRestaurants}
+          activeOpacity={activityOpacity}
+          hitSlop={hitSlop}
+          onPress={() => props?.handleTabPress("Product")}
+        >
+          <Text
+            style={
+              props?.selectedTab == "Product"
+                ? styles.lblProductsRestaurantsSelected
+                : styles.lblProductsRestaurantsUnSelected
+            }
+          >
+            Products
+          </Text>
+          {props?.selectedTab == "Product" ? (
+            <View style={styles.vwLine} />
+          ) : null}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.btnProductsRestaurants}
+          activeOpacity={activityOpacity}
+          hitSlop={hitSlop}
+          onPress={() => props?.handleTabPress("Restaurant")}
+        >
+          <Text
+            style={
+              props?.selectedTab == "Restaurant"
+                ? styles.lblProductsRestaurantsSelected
+                : styles.lblProductsRestaurantsUnSelected
+            }
+          >
+            Restaurants
+          </Text>
+          {props?.selectedTab == "Restaurant" ? (
+            <View style={styles.vwLine} />
+          ) : null}
+        </TouchableOpacity>
+      </View>
+
+      {/* Products and Restaurants Data*/}
       <FlatList
         data={props?.arrMyWhislist}
         numColumns={2}

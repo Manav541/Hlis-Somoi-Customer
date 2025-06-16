@@ -72,6 +72,17 @@ export const styles = StyleSheet.create({
     overflow: "hidden",
     flexDirection: "row",
   },
+  vwProductsRestaurants: {
+    height: 28,
+    flexDirection: "row",
+    marginHorizontal: 20,
+    marginBottom: 20,
+    gap : 10
+  },
+  vwLine: {
+    height: 1,
+    backgroundColor: colors.orange1c,
+  },
 
   //   TextInput styles
   txtSearch: {
@@ -120,6 +131,11 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "hidden",
   },
+  btnProductsRestaurants: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+
   //   Text styles
   lblAddToCart: {
     color: colors.blue4e,
@@ -165,4 +181,16 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.semibold,
     marginHorizontal: 10,
   },
+  lblProductsRestaurantsSelected:{
+    color: colors.orange1c,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+    textAlign:'center'
+  },
+  lblProductsRestaurantsUnSelected:{
+    color: colors.greya7,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+    textAlign:'center'
+  }
 });

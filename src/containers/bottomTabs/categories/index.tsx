@@ -1,19 +1,21 @@
 import { StatusBar } from "react-native";
 import React, { useRef, useState } from "react";
 import CategoriesComponent from "../../../components/bottomTabs/categories";
-import { images } from "../../../constants/Images";
 import { ScreenNames } from "../../../routers";
 import { useFocusEffect } from "@react-navigation/native";
 import {
-  Category,
   FashionProduct,
   GroceryProduct,
   MainCategoryListItem,
   Restaurant,
 } from "../../../constants/interfaces";
 import { statusCodes } from "../../../api/APIConstant";
-import { flashMessageWarning, toggleLoader } from "../../../constants/GConstant";
+import {
+  flashMessageWarning,
+  toggleLoader,
+} from "../../../constants/GConstant";
 import { zustandStore } from "../../../store";
+import LocationManager from "../../../constants/utils/LocationManager";
 
 const CategoriesContainer = ({ navigation }: any) => {
   // API zustand store
@@ -24,21 +26,21 @@ const CategoriesContainer = ({ navigation }: any) => {
   const [arrMainCategoryList, setArrMainCategoryList] = useState<
     MainCategoryListItem[]
   >([]);
-  const [mainCategoryPageNumber, setMainCategoryPageNumber] = useState<number>(
-    1
-  );
+  const [mainCategoryPageNumber, setMainCategoryPageNumber] =
+    useState<number>(1);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [hasMoreData, setHasMoreData] = useState<boolean>(true);
   const hasMountedOnce = useRef(false);
   const [canLoadMore, setCanLoadMore] = useState(false);
+  const [currentAddress, setCurrentAddress] = useState<string | null>("");
 
   const onPressMainCategories = (
-    mainCategoryName: string,
-    arrSubCategory: (GroceryProduct | Restaurant | FashionProduct)[]
+    mainCategoryId: string,
+    mainCategoryName: string
   ) => {
     navigation.navigate(ScreenNames.productListing, {
+      mainCategoryId: mainCategoryId,
       mainCategoryName: mainCategoryName,
-      arrSubCategory: arrSubCategory,
     });
   };
 
@@ -51,15 +53,15 @@ const CategoriesContainer = ({ navigation }: any) => {
   };
 
   // handleMainCategoryList
-  const handleMainCategoryList = async (page: number,isLoadMore = false) => {
+  const handleMainCategoryList = async (page: number, isLoadMore = false) => {
     if (isLoadMore && isLoadingMore) return;
 
     if (!isLoadMore) toggleLoader(true);
     else setIsLoadingMore(true);
 
     const dictData = {
-      page_number : page
-    }
+      page_number: page,
+    };
     try {
       const response = await mainCategoryList(dictData, navigation);
       if (response !== undefined && response !== null) {
@@ -85,7 +87,7 @@ const CategoriesContainer = ({ navigation }: any) => {
       }
     } catch (error) {
       __DEV__ && console.log(error);
-    }finally {
+    } finally {
       if (!isLoadMore) toggleLoader(false);
       else setIsLoadingMore(false);
     }
@@ -98,13 +100,25 @@ const CategoriesContainer = ({ navigation }: any) => {
     }
   };
 
+  // Current Location
+  const handleCurrentLocation = async () => {
+    toggleLoader(true);
+    const current = await LocationManager.getCurrentLocation();
+    if (current) {
+      const address = await LocationManager.getFormattedAddress(current);
+      console.log("currentAddress", address);
+      setCurrentAddress(address);
+    }
+    toggleLoader(false);
+  };
+
   useFocusEffect(
     React.useCallback(() => {
+      handleCurrentLocation();
       setMainCategoryPageNumber(1);
       setHasMoreData(true);
-      setArrMainCategoryList([]); 
-
-      handleMainCategoryList(1,false);
+      setArrMainCategoryList([]);
+      handleMainCategoryList(1, false);
       StatusBar.setBarStyle("light-content");
       return () => {};
     }, [navigation])
@@ -120,6 +134,7 @@ const CategoriesContainer = ({ navigation }: any) => {
       canLoadMore={canLoadMore}
       setCanLoadMore={setCanLoadMore}
       hasMountedOnce={hasMountedOnce}
+      currentAddress={currentAddress}
     />
   );
 };

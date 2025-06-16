@@ -276,7 +276,7 @@ const HomeComponent = (props: PropsType) => {
                   resizeMode="stretch"
                 />
                 <Text style={styles.lblLocation} numberOfLines={2}>
-                  {getTranslation("ahmedabad")}
+                  {props?.currentAddress}
                 </Text>
               </View>
               <Image

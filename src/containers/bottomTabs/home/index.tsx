@@ -14,7 +14,10 @@ import {
   SubCategory,
   SubCategoryListItem,
 } from "../../../constants/interfaces";
-import { flashMessageWarning, toggleLoader } from "../../../constants/GConstant";
+import {
+  flashMessageWarning,
+  toggleLoader,
+} from "../../../constants/GConstant";
 import { statusCodes } from "../../../api/APIConstant";
 import { zustandStore } from "../../../store";
 import LocationManager from "../../../constants/utils/LocationManager";
@@ -153,9 +156,8 @@ const HomeContainer = ({ navigation }: any) => {
   const [mainCategoryId, setMainCategoryId] = useState<string>("1");
   const [currentAddress, setCurrentAddress] = useState<string | null>("");
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
-  const [mainCategoryPageNumber, setMainCategoryPageNumber] = useState<number>(
-    1
-  );
+  const [mainCategoryPageNumber, setMainCategoryPageNumber] =
+    useState<number>(1);
   const [subCategoryPageNumber, setSubCategoryPageNumber] = useState<number>(1);
   const [bestProductsSellerPageNumber, setBestProductsSellerPageNumber] =
     useState<number>(1);
@@ -230,7 +232,7 @@ const HomeContainer = ({ navigation }: any) => {
   const handleMainCategoryListApi = async () => {
     const dictData = {
       page_number: mainCategoryPageNumber,
-    }
+    };
     try {
       const response = await mainCategoryListApi(dictData, navigation);
       if (response !== undefined && response !== null) {
@@ -323,8 +325,21 @@ const HomeContainer = ({ navigation }: any) => {
     }
   };
 
+   // Current Location
+   const handleCurrentLocation = async () => {
+    toggleLoader(true);
+    const current = await LocationManager.getCurrentLocation();
+    if (current) {
+      const address = await LocationManager.getFormattedAddress(current);
+      console.log("currentAddress", address);
+      setCurrentAddress(address);
+    }
+    toggleLoader(false);
+  };
+
   useFocusEffect(
     React.useCallback(() => {
+      handleCurrentLocation();
       setIsGroceriesFoodSelected("Groceries");
       handleMainCategoryListApi();
       handleBannerListApi();
@@ -357,7 +372,6 @@ const HomeContainer = ({ navigation }: any) => {
       onPressRestaurant={onPressRestaurant}
       onPressSubCategories={onPressSubCategories}
       onPressBestProducts={onPressBestProducts}
-
       currentAddress={currentAddress}
     />
   );

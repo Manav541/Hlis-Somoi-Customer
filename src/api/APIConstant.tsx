@@ -33,6 +33,9 @@ export const apiEndPoint = {
   subCategoryList :"/home/customer/sub-listing",
   bestProductsSellerList :"/home/customer/home-product-listing",
   searchProduct : "/home/customer/search-product",
+
+  // Categories Module
+  productListing :"/home/customer/categroywise-products",
   
   // Setting Module
   contactUs :"/home/customer/contact-us",

@@ -4,6 +4,7 @@ import AvailableOffersStore from "./availableOffers";
 import HomeStore from "./home";
 import KeyStore from "./keys";
 import MyWishlistStore from "./myWishlist";
+import ProductListingStore from "./productListing";
 import userOtpVerificationStore from "./verfication";
 
 export const zustandStore = {
@@ -14,4 +15,5 @@ export const zustandStore = {
   AvailableOffersStore:AvailableOffersStore,
   MyWishlistStore : MyWishlistStore,
   HomeStore : HomeStore,
+  ProductListingStore : ProductListingStore
 };

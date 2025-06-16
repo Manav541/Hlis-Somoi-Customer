@@ -25,20 +25,17 @@ import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrMainCategoryList: MainCategoryListItem[];
-  onPressMainCategories: (
-    mainCategoryName: string,
-    arrSubCategory: (GroceryProduct | Restaurant | FashionProduct)[]
-  ) => void;
+  onPressMainCategories: (mainCategoryId:string,mainCategoryName: string) => void;
   handleOnPressNotifaicationIcon: () => void;
   onPressLocation: () => void;
   loadMoreCategories: () => void;
   canLoadMore: boolean;
   setCanLoadMore: (value: boolean) => void;
   hasMountedOnce: { current: boolean };
+  currentAddress: string | null;
 }
 
 const CategoriesComponent = (props: PropsType) => {
-
   const insets = useSafeAreaInsets();
 
   const renderItemAllCategories = ({
@@ -48,16 +45,15 @@ const CategoriesComponent = (props: PropsType) => {
     item: MainCategoryListItem;
     index: number;
   }) => {
-
     return (
       <TouchableOpacity
         style={styles.btnAllCategories}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         key={index}
-        // onPress={() => {
-        //   props?.onPressMainCategories(item?.name, item?.arrSubCategory);
-        // }}
+        onPress={() => {
+          props?.onPressMainCategories(item?.id,item?.name);
+        }}
       >
         <FastImage
           style={styles.imgAllCategories}
@@ -94,7 +90,9 @@ const CategoriesComponent = (props: PropsType) => {
             onPress={props?.onPressLocation}
           >
             <Image style={styles.imgLocation} source={images.locationWhite} />
-            <Text style={styles.lblLocation}>New York,NY</Text>
+            <Text style={styles.lblLocation} numberOfLines={1}>
+              {props?.currentAddress}
+            </Text>
             <Image style={styles.imgDownArrow} source={images.whiteDownArrow} />
           </TouchableOpacity>
           <TouchableOpacity

@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import SearchComponent from "../../components/search";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -26,6 +26,7 @@ import { GroceryProduct } from "../../constants/interfaces";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
 import { constnatStyles } from "../../constants/Styles";
+import { debounceQuery } from "../../constants/utils/Debounce";
 
 const SearchContainer = ({ navigation }: any) => {
   // API zustand store
@@ -35,6 +36,7 @@ const SearchContainer = ({ navigation }: any) => {
 
   const insets = useSafeAreaInsets();
   const [search, setSearch] = useState<string>("");
+  const debounce = debounceQuery(search, 300);
   const [arrProducts, setArrProducts] = useState([]);
 
   const onChangeSearch = (text: string) => {
@@ -44,8 +46,6 @@ const SearchContainer = ({ navigation }: any) => {
       setArrProducts([]); // Immediately clear the list
       return;
     }
-
-    handleSearchProductApi(text);
   };
 
   const onPressCloseSearch = () => {
@@ -120,6 +120,18 @@ const SearchContainer = ({ navigation }: any) => {
   useEffect(() => {
     header();
   }, [search]);
+
+  useFocusEffect(
+    useCallback(() => {
+      // Call your API function here
+      if (debounce) {
+        console.log("Search Text==>", debounce);
+        handleSearchProductApi(debounce);
+      }
+      // Cleanup interval on component unmount or dependency change
+      return () => {};
+    }, [debounce])
+  );
 
   useFocusEffect(
     React.useCallback(() => {

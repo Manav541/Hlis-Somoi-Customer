@@ -32,7 +32,8 @@ export const styles = StyleSheet.create({
     color : colors.white,
     fontSize : fontSize.size14,
     fontFamily: fontsfamily.semibold,
-    marginLeft : 5
+    marginLeft : 5,
+    flex : 1
   },
   lblAllCategoriesName:{
     color : colors.white,
@@ -48,7 +49,9 @@ export const styles = StyleSheet.create({
   btnLocation:{
     flexDirection : 'row',
     alignItems : 'center',
-    gap : 5
+    gap : 5,
+    flex : 1,
+    marginRight : 10
   },
   btnAllCategories :{
     gap : 10,
