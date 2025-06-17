@@ -97,6 +97,7 @@ export const images = {
   rice1: require("../assets/images/rice1.png"),
   rice2: require("../assets/images/rice2.png"),
   sort: require("../assets/images/sort.png"),
+  filter: require("../assets/images/filter.png"),
   filterCheckbox: require("../assets/images/filterCheckbox.png"),
   dropdown: require("../assets/images/dropdown.png"),
   dashLine: require("../assets/images/dashLine.png"),

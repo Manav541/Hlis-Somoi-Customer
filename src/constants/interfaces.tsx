@@ -268,6 +268,7 @@ export interface Product {
   quantity: number;
   rating: string;
   weight: string;
+  variation_id : string;
 }
 
 export interface ProductImage {

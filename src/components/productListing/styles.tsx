@@ -112,6 +112,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 6,
     paddingRight: 7,
   },
+  
 
   // Text Styles
   lblSubCategoryTitle: {
@@ -202,6 +203,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.regularOutFit,
   },
+  
 
   // Touchableopacity Styles
   btnSubCategoryTitle: {
@@ -335,6 +337,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginHorizontal: 20,
+    marginBottom : 10
   },
   vwLine: {
     height: 1,
@@ -479,5 +482,20 @@ export const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: fontsfamily.medium,
     fontSize: fontSize.size14,
+  },
+
+  // Sort Modal
+  vwLineSort : {
+    height : 1, 
+    backgroundColor : `${colors.greya7}50`,
+    marginHorizontal : 20,
+  },
+  lblSort:{
+    color: colors.white,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+    marginTop : 11,
+    marginBottom : 10,
+    marginHorizontal : 20
   },
 });

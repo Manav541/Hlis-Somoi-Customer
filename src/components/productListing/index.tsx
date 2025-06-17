@@ -42,36 +42,22 @@ interface PropsType {
   onPressSubCategoryTitle: (selectedName: string) => void;
   arrSubCategoryProduct: Product[];
   handleQuantityChange: (index: number, type: "add" | "remove") => void;
-  onPressFavourite: (index: number) => void;
+  onPressFavourite: (product_id: string, variation_id: string) => void;
   onPressRestaurant: (item: any) => void;
   onPressProduct: (item: any) => void;
   isFilterModalVisible: boolean;
+  isSortModalVisible: boolean;
+  arrSortList: any[];
   range: number[];
   setRange: (values: number[]) => void;
   rating: number;
   onPressRating: (index: number) => void;
   onPressCloseFilterModal: () => void;
+  onPressCloseSortModal: () => void;
   onPressApplyFilter: () => void;
+  onPressSortList: (sort_by: string) => void;
   isCheckInstantDelivery: boolean;
   onPressInstantDelivery: () => void;
-
-  // Category Dropdown
-  openCategory: boolean;
-  setOpenCategory: React.Dispatch<React.SetStateAction<boolean>>;
-  categoryValue: string;
-  setCategoryValue: React.Dispatch<React.SetStateAction<string>>;
-  categoryItems: CategoryItem[];
-  setCategoryItems: React.Dispatch<React.SetStateAction<CategoryItem[]>>;
-
-  // Sub Category Dropdown
-  openSubCategory: boolean;
-  setOpenSubCategory: any;
-  subCategoryValue: string;
-  setSubCategoryValue: any;
-  subCategoryItems: SubCategoryData[];
-  setSubCategoryItems: any;
-  filteredSubCategories: SubCategoryItem[];
-  setFilteredSubCategories: any;
 }
 
 const ProductListingComponent = (props: PropsType) => {
@@ -143,7 +129,7 @@ const ProductListingComponent = (props: PropsType) => {
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
             onPress={() => {
-              props?.onPressFavourite(index);
+              props?.onPressFavourite(item?.id, item?.variation_id);
             }}
           >
             <Image
@@ -185,7 +171,7 @@ const ProductListingComponent = (props: PropsType) => {
                 source={images.star}
                 resizeMode="stretch"
               />
-              <Text style={styles.lblProductRating}>{item?.rating}</Text>
+              <Text style={styles.lblProductRating}>{parseFloat(item.rating).toFixed(1)}</Text>
             </View>
           </View>
         </View>
@@ -237,6 +223,7 @@ const ProductListingComponent = (props: PropsType) => {
       <TouchableOpacity
         style={styles.btnAllBestSellersItem}
         activeOpacity={activityOpacity}
+        key={index}
         onPress={() => props?.onPressRestaurant(item)}
       >
         <FastImage
@@ -248,7 +235,7 @@ const ProductListingComponent = (props: PropsType) => {
           style={styles.btnFavourite}
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
-          onPress={() => props?.onPressFavourite(index)}
+          onPress={() => props?.onPressFavourite(item?.id, item?.variation_id)}
         >
           <Image
             style={styles.imgRedHeart}
@@ -307,6 +294,20 @@ const ProductListingComponent = (props: PropsType) => {
             resizeMode="stretch"
           />
         </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const renderArrSortList = (item: any, index: number) => {
+    return (
+      <TouchableOpacity
+        activeOpacity={activityOpacity}
+        hitSlop={hitSlop}
+        key={index}
+        onPress={() => {props?.onPressSortList(item?.value)}}
+      >
+        <View style={styles.vwLineSort} />
+        <Text style={styles.lblSort}>{item?.name}</Text>
       </TouchableOpacity>
     );
   };
@@ -431,41 +432,6 @@ const ProductListingComponent = (props: PropsType) => {
                 </View>
               </View>
 
-              {/* Categories Dropdown */}
-              <View style={styles.vwCategories}>
-                <Text style={styles.lblCategories}>
-                  {getTranslation("categories")}
-                </Text>
-                <GlobalDropdown
-                  open={props.openCategory}
-                  value={props.categoryValue}
-                  items={props.categoryItems}
-                  setOpen={props.setOpenCategory}
-                  setValue={props.setCategoryValue}
-                  setItems={props.setCategoryItems}
-                  placeholder={getTranslation("select") || ""}
-                  zIndex={5000}
-                />
-              </View>
-
-              {/* Sub Categories Dropdown */}
-              <View style={styles.vwCategories}>
-                <Text style={styles.lblCategories}>
-                  {getTranslation("subCategories")}
-                </Text>
-                <GlobalDropdown
-                  open={props?.openSubCategory}
-                  value={props?.subCategoryValue}
-                  items={props?.filteredSubCategories}
-                  setOpen={props?.setOpenSubCategory}
-                  setValue={props?.setSubCategoryValue}
-                  setItems={props?.setFilteredSubCategories}
-                  placeholder={getTranslation("select") || ""}
-                  disabled={!props.categoryValue}
-                  zIndex={4000}
-                />
-              </View>
-
               {/* Price Range */}
               <View style={styles.vwPricerange}>
                 <Text style={styles.lblCategories}>
@@ -559,6 +525,38 @@ const ProductListingComponent = (props: PropsType) => {
                 />
               </View>
             </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Sort Modal */}
+      <Modal
+        visible={props?.isSortModalVisible}
+        transparent
+        animationType="fade"
+      >
+        <StatusBar
+          translucent
+          backgroundColor={colors.black50}
+          barStyle={"dark-content"}
+        />
+        <View style={styles.vwFilterModal}>
+          <View style={[styles.vwFilterModalContainer, { paddingBottom: 40 }]}>
+            <View style={styles.vwFilterTitleClose}>
+              <Text style={styles.lblFilters}>{getTranslation("sort")}</Text>
+              <TouchableOpacity
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={props?.onPressCloseSortModal}
+              >
+                <Image
+                  style={styles.imgClose}
+                  source={images.closeSearch}
+                  tintColor={colors.orange1c}
+                />
+              </TouchableOpacity>
+            </View>
+            {props?.arrSortList.map(renderArrSortList)}
           </View>
         </View>
       </Modal>

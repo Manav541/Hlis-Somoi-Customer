@@ -20,14 +20,14 @@ import {
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
-import { GroceryProduct } from "../../constants/interfaces";
+import { GroceryProduct, Product } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 
 interface PropsType {
-  arrMyWhislist: GroceryProduct[];
+  arrMyWhislist: Product[];
   search: string;
   onChangeSearch: (text: string) => void;
-  handleRemoveFromWishlist: (indexToRemove: number) => void;
+  handleRemoveFromWishlist: (product_id: string, variation_id: string) => void;
   handleQuantityChange: (index: number, action: "add" | "remove") => void;
   onPressProduct: (item: any) => void;
   selectedTab: string;
@@ -40,7 +40,7 @@ const MyWishlistComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: GroceryProduct;
+    item: Product;
     index: number;
   }) => {
     return (
@@ -58,15 +58,15 @@ const MyWishlistComponent = (props: PropsType) => {
         {/* Product Image and Favourite button */}
         <View style={styles.vwProductImgLike}>
           <FastImage
-            source={item?.product_img}
-            style={{ height: item?.height, width: item?.width }}
+            source={{ uri: item?.image }}
+            style={{ height: 80, width: 70 }}
           />
           <TouchableOpacity
             style={styles.btnRedHeart}
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
             onPress={() => {
-              props?.handleRemoveFromWishlist(index);
+              props?.handleRemoveFromWishlist(item?.id, item?.variation_id);
             }}
           >
             <Image
@@ -82,23 +82,21 @@ const MyWishlistComponent = (props: PropsType) => {
           <View style={{ height: 59 }}>
             <View style={{ height: 44 }}>
               <Text style={styles.lblProductName} numberOfLines={2}>
-                {item?.product_name}
+                {item?.name}
               </Text>
             </View>
             <View style={{ height: 15 }}>
-              <Text style={styles.lblProductWeight}>
-                {item?.product_weight}
-              </Text>
+              <Text style={styles.lblProductWeight}>{item?.weight}</Text>
             </View>
           </View>
 
           <View style={styles.vwPriceRating}>
             <View style={styles.vwPrice}>
               <Text style={styles.lblProductFinalPrice}>
-                {rupeeSymbol + item?.product_final_price}
+                {rupeeSymbol + item?.price}
               </Text>
               <Text style={styles.lblProductPrice}>
-                {rupeeSymbol + item?.product_price}
+                {rupeeSymbol + item?.originalPrice}
               </Text>
             </View>
             <View style={styles.vwRating}>
@@ -107,14 +105,12 @@ const MyWishlistComponent = (props: PropsType) => {
                 source={images.star}
                 resizeMode="stretch"
               />
-              <Text style={styles.lblProductRating}>
-                {item?.product_rating}
-              </Text>
+              <Text style={styles.lblProductRating}>{parseFloat(item.rating).toFixed(1)}</Text>
             </View>
           </View>
         </View>
         {/* Add to cart */}
-        {item.product_quantity === 0 ? (
+        {item.quantity === 0 ? (
           <TouchableOpacity
             style={styles.btnAddToCart}
             activeOpacity={activityOpacity}
@@ -137,9 +133,7 @@ const MyWishlistComponent = (props: PropsType) => {
                 resizeMode="stretch"
               />
             </TouchableOpacity>
-            <Text style={styles.lblProductQuantity}>
-              {item.product_quantity}
-            </Text>
+            <Text style={styles.lblProductQuantity}>{item.quantity}</Text>
             <TouchableOpacity
               onPress={() => props.handleQuantityChange(index, "add")}
               hitSlop={hitSlop}

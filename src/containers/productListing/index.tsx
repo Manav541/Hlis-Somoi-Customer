@@ -29,6 +29,12 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const productListingApi = zustandStore.ProductListingStore(
     (state) => state.productListing
   );
+  const wishlistProductApi = zustandStore.MyWishlistStore(
+    (state) => state.wishlistProduct
+  );
+  const filterSortApi = zustandStore.ProductListingStore(
+    (state) => state.filterSort
+  );
 
   const insets = useSafeAreaInsets();
   const mainCategoryId = route.params?.mainCategoryId;
@@ -39,6 +45,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const [allSubCategories, setAllSubCategories] = useState<any[]>([]);
   const [isFilterModalVisible, setIsFilterModalVisible] =
     useState<boolean>(false);
+  const [isSortModalVisible, setIsSortModalVisible] = useState<boolean>(false);
   const [subCategoryTitle, setSubCategoryTitle] = useState<SubCategoryTitle[]>(
     []
   );
@@ -49,6 +56,8 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     "Cooking Oil": images.cookingoilSubIcon,
     Milk: images.cookingoilSubIcon,
   };
+
+  const [selectedTitle, setSelectedTitle] = useState("All");
 
   const [subCategoryFoodTitle, setSubCategoryFoodTitle] = useState([
     {
@@ -84,136 +93,34 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const [range, setRange] = useState([150, 300]);
   const [rating, setRating] = useState(4);
   const [isCheckInstantDelivery, setIsCheckInstantDelivery] = useState(false);
-
-  // Category Dropdown
-  const [openCategory, setOpenCategory] = useState<boolean>(false);
-  const [categoryValue, setCategoryValue] = useState<string>("");
-  const [categoryItems, setCategoryItems] = useState<CategoryItem[]>([
-    { label: "Groceries", value: "groceries" },
-    { label: "Food", value: "food" },
-    { label: "Fruits & Vegetables", value: "fruits & vegetables" },
-    { label: "Beauty & Personal Care", value: "beauty & personal care" },
+  const [arrSortList, setArrSortList] = useState<any[]>([
     {
-      label: "Electronics & Accessories ",
-      value: "electronics & accessories ",
-    },
-    { label: "Household Essentials", value: "household essentials" },
-    { label: "Fashion", value: "fashion" },
-  ]);
-
-  // Sub Category Dropdown
-  const [openSubCategory, setOpenSubCategory] = useState<boolean>(false);
-  const [subCategoryValue, setSubCategoryValue] = useState<string>("");
-  const [subCategoryItems, setSubCategoryItems] = useState<SubCategoryData[]>([
-    {
-      category: "groceries",
-      subCategory: [
-        {
-          label: "Rice",
-          value: "rice",
-        },
-        {
-          label: "Flour",
-          value: "flour",
-        },
-        {
-          label: "Cooking Oil",
-          value: "cooking oil",
-        },
-        {
-          label: "Milk",
-          value: "milk",
-        },
-      ],
+      name: "Newest",
+      value: "newest",
+      isSelected: false,
     },
     {
-      category: "food",
-      subCategory: [
-        {
-          label: "Local & Regional Cuisine",
-          value: "local & regional cuisine",
-        },
-        {
-          label: "Fast Food & Snacks",
-          value: "fast food & snacks",
-        },
-      ],
+      name: "Low Price",
+      value: "low_price",
+      isSelected: false,
     },
     {
-      category: "fruits & vegetables",
-      subCategory: [
-        {
-          label: "Rice",
-          value: "rice",
-        },
-        {
-          label: "Flour",
-          value: "flour",
-        },
-      ],
+      name: "High Price",
+      value: "high_price",
+      isSelected: false,
     },
     {
-      category: "beauty & personal care",
-      subCategory: [
-        {
-          label: "Rice",
-          value: "rice",
-        },
-        {
-          label: "Flour",
-          value: "flour",
-        },
-      ],
+      name: "Low Ratings",
+      value: "low_rating",
+      isSelected: false,
     },
     {
-      category: "electronics & accessories ",
-      subCategory: [
-        {
-          label: "Rice",
-          value: "rice",
-        },
-        {
-          label: "Flour",
-          value: "flour",
-        },
-      ],
-    },
-    {
-      category: "household essentials",
-      subCategory: [
-        {
-          label: "Rice",
-          value: "rice",
-        },
-        {
-          label: "Flour",
-          value: "flour",
-        },
-      ],
-    },
-    {
-      category: "fashion",
-      subCategory: [
-        {
-          label: "T-shirt",
-          value: "t-shirt",
-        },
-      ],
+      name: "High Ratings",
+      value: "high_rating",
+      isSelected: false,
     },
   ]);
-  const [filteredSubCategories, setFilteredSubCategories] = useState<
-    SubCategoryItem[]
-  >([]);
-
-  useEffect(() => {
-    if (categoryValue) {
-      const found = subCategoryItems.find(
-        (item) => item.category === categoryValue
-      );
-      setFilteredSubCategories(found?.subCategory || []);
-      setSubCategoryValue("");
-    }
-  }, [categoryValue]);
+  const [selectedSortTitle, setSelectedSortTitle] = useState("");
 
   const onPressInstantDelivery = () => {
     setIsCheckInstantDelivery(!isCheckInstantDelivery);
@@ -225,25 +132,60 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
   const onPressCloseFilterModal = () => {
     setIsFilterModalVisible(false);
-    setCategoryValue("");
-    setSubCategoryValue("");
     setRating(4);
     setRange([150, 300]);
     setIsCheckInstantDelivery(false);
-    setOpenCategory(false);
-    setOpenSubCategory(false);
   };
 
-  const onPressApplyFilter = () => {
+  const onPressCloseSortModal = () => {
+    setIsSortModalVisible(false);
+  };
+
+  const onPressApplyFilter = async () => {
     setIsFilterModalVisible(false);
+    if (selectedTitle === "All") {
+      await handleFilterApi(isCheckInstantDelivery, range[0], range[1], rating);
+    } else {
+      const selectedSub = allSubCategories.find(
+        (sub: any) => sub.name === selectedTitle
+      );
+      handleProductListingApi(selectedSub?.id);
+      await handleFilterApi(
+        isCheckInstantDelivery,
+        range[0],
+        range[1],
+        rating,
+        selectedSub?.id
+      );
+    }
+  };
+
+  const onPressSortList = async (sort_by: string) => {
+    setIsSortModalVisible(false);
+    if (selectedTitle === "All") {
+      await handleSortApi(sort_by);
+    } else {
+      const selectedSub = allSubCategories.find(
+        (sub: any) => sub.name === selectedTitle
+      );
+      handleProductListingApi(selectedSub?.id);
+      await handleSortApi(sort_by, selectedSub?.id);
+    }
   };
 
   const onPressSubCategoryTitle = (selectedName: string) => {
+    setSelectedTitle(selectedName);
     const updatedSubCategories = subCategoryTitle.map((item) => ({
       ...item,
       isSelected: item.name === selectedName,
     }));
     setSubCategoryTitle(updatedSubCategories);
+
+    // ✅ Reset Filters when subcategory changes
+    setRating(4);
+    setRange([150, 300]);
+    setIsCheckInstantDelivery(false);
+    setSelectedSortTitle("");
 
     if (selectedName === "All") {
       handleProductListingApi();
@@ -265,10 +207,8 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     setArrSubCategoryProduct(updated);
   };
 
-  const onPressFavourite = (index: number) => {
-    const updatedList = [...arrSubCategoryProduct];
-    updatedList[index].isFavorite = !updatedList[index].isFavorite;
-    setArrSubCategoryProduct(updatedList);
+  const onPressFavourite = (product_id: string, variation_id: string) => {
+    handleWishlistProductApi(product_id, variation_id);
   };
 
   const onPressRestaurant = (item: any) => {
@@ -283,6 +223,10 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     setIsFilterModalVisible(true);
   };
 
+  const onPressSort = () => {
+    setIsSortModalVisible(true);
+  };
+
   const header = () => {
     navigation.setOptions({
       header: () => (
@@ -293,12 +237,20 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
           <Text style={constnatStyles.lblHeaderTitle}>{mainCategoryName}</Text>
 
-          <GlobalBackButton
-            isRight
-            onPress={onPressFilter}
-            rightImage={images.sort}
-            style={{ marginBottom: 0 }}
-          />
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <GlobalBackButton
+              isRight
+              onPress={onPressSort}
+              rightImage={images.sort}
+              style={{ marginBottom: 0 }}
+            />
+            <GlobalBackButton
+              isRight
+              onPress={onPressFilter}
+              rightImage={images.filter}
+              style={{ marginBottom: 0 }}
+            />
+          </View>
         </View>
       ),
     });
@@ -312,6 +264,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const handleProductListingApi = async (subCategoryId?: string) => {
     const dictData = {
       category_id: mainCategoryId,
+      ...(subCategoryId && { sub_category_id: subCategoryId }),
     };
 
     try {
@@ -324,8 +277,10 @@ const ProductListingContainer = ({ navigation, route }: any) => {
         if (response.code === statusCodes.success) {
           const subCategories = (response.data as any)?.subCategories ?? [];
 
-          // Save all subcategories once
-          setAllSubCategories(subCategories);
+          // Save only once if empty
+          if (allSubCategories.length === 0) {
+            setAllSubCategories(subCategories);
+          }
 
           // Set tabs only once, preserve structure
           if (subCategoryTitle.length === 0) {
@@ -360,6 +315,124 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     }
   };
 
+  const handleWishlistProductApi = async (
+    product_id: string,
+    variation_id: string
+  ) => {
+    const dictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+    };
+
+    try {
+      const response = await wishlistProductApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "WISHLIST PRODUCT RESPONSE===>",
+            JSON.stringify(response)
+          );
+
+        if (response.code === statusCodes.success) {
+          const updatedList = [...arrSubCategoryProduct];
+          const productIndex = updatedList.findIndex(
+            (product) =>
+              product.id === product_id && product.variation_id === variation_id
+          );
+          if (productIndex !== -1) {
+            updatedList[productIndex].isFavorite =
+              !updatedList[productIndex].isFavorite;
+          }
+          setArrSubCategoryProduct(updatedList);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Product Listing API Error:", error);
+    }
+  };
+
+  const handleFilterApi = async (
+    is_instant_delivery?: boolean,
+    min_price?: number,
+    max_price?: number,
+    rating?: number,
+    sub_category_id?: string
+  ) => {
+    const dictData = {
+      is_instant_delivery,
+      min_price,
+      max_price,
+      rating,
+      page: 1,
+      category_id: mainCategoryId,
+      ...(sub_category_id && { sub_category_id }),
+    };
+
+    try {
+      const response = await filterSortApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("FILTER PRODUCT RESPONSE===>", JSON.stringify(response));
+
+        if (response.code === statusCodes.success) {
+          const subCategories = (response.data as any)?.subCategories ?? [];
+
+          // Update filtered products
+          const productList: Product[] = sub_category_id
+            ? subCategories.find((sub: any) => sub.id === sub_category_id)
+                ?.products || []
+            : subCategories.flatMap((sub: any) => sub.products || []);
+
+          setArrSubCategoryProduct(productList);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          setArrSubCategoryProduct([]);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Product Listing API Error:", error);
+    }
+  };
+
+  const handleSortApi = async (sort_by?: string, sub_category_id?: string) => {
+    const dictData = {
+      sort_by: sort_by,
+      page: 1,
+      category_id: mainCategoryId,
+      ...(sub_category_id && { sub_category_id }),
+    };
+
+    try {
+      const response = await filterSortApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("SORT PRODUCT RESPONSE===>", JSON.stringify(response));
+
+        if (response.code === statusCodes.success) {
+          const subCategories = (response.data as any)?.subCategories ?? [];
+
+          // Update filtered products
+          const productList: Product[] = sub_category_id
+            ? subCategories.find((sub: any) => sub.id === sub_category_id)
+                ?.products || []
+            : subCategories.flatMap((sub: any) => sub.products || []);
+
+          setArrSubCategoryProduct(productList);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Product Listing API Error:", error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       handleProductListingApi();
@@ -381,30 +454,18 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       onPressRestaurant={onPressRestaurant}
       onPressProduct={onPressProduct}
       isFilterModalVisible={isFilterModalVisible}
+      isSortModalVisible={isSortModalVisible}
+      arrSortList={arrSortList}
       range={range}
       setRange={setRange}
       rating={rating}
       onPressRating={onPressRating}
       onPressCloseFilterModal={onPressCloseFilterModal}
+      onPressCloseSortModal={onPressCloseSortModal}
       onPressApplyFilter={onPressApplyFilter}
+      onPressSortList={onPressSortList}
       isCheckInstantDelivery={isCheckInstantDelivery}
       onPressInstantDelivery={onPressInstantDelivery}
-      // Category Dropdown
-      openCategory={openCategory}
-      setOpenCategory={setOpenCategory}
-      categoryValue={categoryValue}
-      setCategoryValue={setCategoryValue}
-      categoryItems={categoryItems}
-      setCategoryItems={setCategoryItems}
-      // Sub Category Dropdown
-      openSubCategory={openSubCategory}
-      setOpenSubCategory={setOpenSubCategory}
-      subCategoryValue={subCategoryValue}
-      setSubCategoryValue={setSubCategoryValue}
-      subCategoryItems={subCategoryItems}
-      setSubCategoryItems={setSubCategoryItems}
-      filteredSubCategories={filteredSubCategories}
-      setFilteredSubCategories={setFilteredSubCategories}
     />
   );
 };

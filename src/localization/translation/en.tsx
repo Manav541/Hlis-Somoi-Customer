@@ -210,6 +210,7 @@ export default {
   priceRange: "Price Range",
   ratingRange: "Rating Range",
   applyFilters: "Apply Filters",
+  sort : "Sort",
 
   filterbyOrderType: "Filter by Order Type",
   orders: "Orders",

@@ -36,6 +36,7 @@ export const apiEndPoint = {
 
   // Categories Module
   productListing :"/home/customer/categroywise-products",
+  filterSort :"/home/customer/filter-sort",
   
   // Setting Module
   contactUs :"/home/customer/contact-us",
@@ -50,6 +51,7 @@ export const apiEndPoint = {
   availableOffers :"/home/customer/list-offer-listing",
 
   // Wishlist
+  wishlistProduct :"/home/customer/wishlist-product",
   wishlistList : "/home/customer/wishlist-list",
 };
 

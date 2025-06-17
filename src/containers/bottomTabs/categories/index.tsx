@@ -52,8 +52,8 @@ const CategoriesContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.notification);
   };
 
-  // handleMainCategoryList
-  const handleMainCategoryList = async (page: number, isLoadMore = false) => {
+  // handleMainCategoryListApi
+  const handleMainCategoryListApi = async (page: number, isLoadMore = false) => {
     if (isLoadMore && isLoadingMore) return;
 
     if (!isLoadMore) toggleLoader(true);
@@ -96,7 +96,7 @@ const CategoriesContainer = ({ navigation }: any) => {
   const loadMoreCategories = () => {
     if (hasMoreData && !isLoadingMore) {
       const nextPage = mainCategoryPageNumber + 1;
-      handleMainCategoryList(nextPage, true);
+      handleMainCategoryListApi(nextPage, true);
     }
   };
 
@@ -118,7 +118,7 @@ const CategoriesContainer = ({ navigation }: any) => {
       setMainCategoryPageNumber(1);
       setHasMoreData(true);
       setArrMainCategoryList([]);
-      handleMainCategoryList(1, false);
+      handleMainCategoryListApi(1, false);
       StatusBar.setBarStyle("light-content");
       return () => {};
     }, [navigation])
