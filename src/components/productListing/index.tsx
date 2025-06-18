@@ -44,7 +44,7 @@ interface PropsType {
   handleQuantityChange: (index: number, type: "add" | "remove") => void;
   onPressFavourite: (product_id: string, variation_id: string) => void;
   onPressRestaurant: (item: any) => void;
-  onPressProduct: (item: any) => void;
+  onPressProduct: (product_id: string, variation_id: string) => void;
   isFilterModalVisible: boolean;
   isSortModalVisible: boolean;
   arrSortList: any[];
@@ -116,7 +116,7 @@ const ProductListingComponent = (props: PropsType) => {
         ]}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
-        onPress={() => props?.onPressProduct(item)}
+        onPress={() => props?.onPressProduct(item?.id, item?.variation_id)}
       >
         {/* Product Image and Favourite button */}
         <View style={styles.vwProductImgLike}>
@@ -171,7 +171,9 @@ const ProductListingComponent = (props: PropsType) => {
                 source={images.star}
                 resizeMode="stretch"
               />
-              <Text style={styles.lblProductRating}>{parseFloat(item.rating).toFixed(1)}</Text>
+              <Text style={styles.lblProductRating}>
+                {parseFloat(item.rating).toFixed(1)}
+              </Text>
             </View>
           </View>
         </View>
@@ -304,10 +306,23 @@ const ProductListingComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         key={index}
-        onPress={() => {props?.onPressSortList(item?.value)}}
+        onPress={() => {
+          props?.onPressSortList(item?.value);
+        }}
       >
         <View style={styles.vwLineSort} />
-        <Text style={styles.lblSort}>{item?.name}</Text>
+        <View
+          style={styles.vwSort}
+        >
+          <Text style={styles.lblSort}>{item?.name}</Text>
+          {item?.isSelected && (
+            <Image
+              style={styles.imgSortSelected}
+              source={images.tickSort}
+              resizeMode="stretch"
+            />
+          )}
+        </View>
       </TouchableOpacity>
     );
   };
@@ -557,6 +572,19 @@ const ProductListingComponent = (props: PropsType) => {
               </TouchableOpacity>
             </View>
             {props?.arrSortList.map(renderArrSortList)}
+            {/* <View
+                style={{
+                  marginTop: 15,
+                  marginBottom: insets.bottom ? insets.bottom : 10,
+                  marginHorizontal : 20
+                }}
+              >
+                <GlobalButton
+                  title={getTranslation("applySort")}
+                  isOrange
+                  onPress={props?.onPressApplyFilter}
+                />
+              </View> */}
           </View>
         </View>
       </Modal>

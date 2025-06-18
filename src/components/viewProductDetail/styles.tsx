@@ -73,7 +73,8 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 20,
     paddingHorizontal: 10,
-    margin: 20,
+    marginHorizontal: 20,
+    marginTop: 20,
   },
   vwPriceWeight: {
     flexDirection: "row",
@@ -287,6 +288,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size16,
     fontFamily: fontsfamily.semibold,
     marginHorizontal: 20,
+    marginTop: 20,
   },
   lblHighlightTitle: {
     color: colors.white,
@@ -306,7 +308,6 @@ export const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 10,
     lineHeight: 20,
-    marginBottom: 20,
   },
   lblRate: {
     color: colors.white,
@@ -430,8 +431,8 @@ export const styles = StyleSheet.create({
     width: 24,
   },
   imgReview: {
-    width: 30.9,
-    height: 45,
+    width: 65,
+    height: 65,
   },
   imgReviewF: {
     width: 65,
@@ -494,20 +495,43 @@ export const styles = StyleSheet.create({
     width: 42,
     borderRadius: 10,
   },
+  btnReviewImage: {
+    height: 65,
+    width: 65,
+    borderRadius: 5,
+    backgroundColor: colors.whiteff,
+    marginTop: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  btnReviewVideo: {
+    height: 65,
+    width: 65,
+    borderRadius: 5,
+    backgroundColor: colors.black50,
+    marginTop: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+  },
 
   // Header Styles
-  vwHeader :{
+  vwHeader: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     zIndex: 1,
-    height : 24,
+    height: 24,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-    paddingLeft : 16,
-    marginTop : 12
+    marginTop: 12,
   },
   vwHeaderRight: {
     flexDirection: "row",
@@ -534,5 +558,28 @@ export const styles = StyleSheet.create({
   imgButton: {
     width: 24,
     height: 24,
+  },
+
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.95)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnClose: {
+    position: "absolute",
+    right: 20,
+    zIndex: 999,
+  },
+  mediaItem: {
+    width: ScreenDimensions.windowWidth,
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  fullScreenMedia: {
+    width: "100%",
+    height: "60%",
   },
 });

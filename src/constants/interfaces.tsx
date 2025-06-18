@@ -271,6 +271,85 @@ export interface Product {
   variation_id : string;
 }
 
+// Product Detail Page
+
+export interface ProductData {
+  main_category: string;
+  sub_category: string;
+  product_id: string;
+  product_name: string;
+  is_product_available: boolean;
+  is_product_returnable: boolean;
+  is_cod_available: boolean;
+  is_fast_delivery: boolean;
+  images: ProductImages[];
+  is_wishlist: boolean;
+  in_stock: boolean;
+  average_rating: string;
+  total_reviews: string;
+  price: string;
+  original_price: string;
+  variation_id: string;
+  product_weight: string;
+  distance: string;
+  estimated_delivery_time: string;
+  variations: Variation[];
+  tags: Tag[];
+  highlights: Highlight[];
+  description: string;
+  rating_summary: RatingSummary[];
+  reviews: Review[];
+  cart: Cart;
+}
+
+export interface ProductImages {
+  image: string;
+}
+
+export interface Variation {
+  product_id: string;
+  variation_id: string;
+  price: string;
+  original_price: string;
+  quantity: string;
+  is_selected: boolean;
+  image: string;
+  weight: string;
+}
+
+export interface Tag {
+  title?: string;
+  icon?: ImageSourcePropType;
+}
+
+export interface Highlight {
+  label?: string;
+  value?: string;
+}
+
+export interface RatingSummary {
+  rateNumber: number,
+  ratePercentage: number,
+}
+
+export interface Review {
+  name: string;
+  rating: string;
+  comment: string;
+  date: string;
+  media: Media[]
+}
+
+export interface Media {
+  link : string,
+  type: "image" | "video";
+}
+
+export interface Cart {
+  is_added: boolean;
+  quantity: number;
+}
+
 export interface ProductImage {
   imgMain: FastImageSource;
 }
@@ -443,20 +522,6 @@ export interface CancelOrderReason {
   isSelected: boolean;
 }
 
-// Rate & Review
-export interface RateProgress {
-  rate_number: number;
-  rate_percentage: number;
-}
-
-export interface Review {
-  review_personName: string;
-  review_rate: string;
-  review_date: string;
-  review_description: string;
-  review_image: ImageSourcePropType;
-  type: "image" | "video";
-}
 
 // Order Details
 export interface OrderDetail {

@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   StatusBar,
   Platform,
+  Modal,
+  TouchableWithoutFeedback,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -25,64 +27,63 @@ import GlobalButton from "../../global/GlobalButton";
 import {
   FashionColor,
   FashionSize,
-  RateProgress,
+  Media,
+  ProductData,
+  RatingSummary,
   Review,
-  SimilarProduct,
+  Tag,
+  Variation,
 } from "../../constants/interfaces";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GlobalBackButton from "../../global/GlobalBackButton";
+import FastImage from "react-native-fast-image";
+import { DateFormatsManager } from "../../constants/utils/DateFormats";
+import Video from "react-native-video";
+import { ScreenDimensions } from "../../constants/utils/Dimensions";
 
 interface PropsType {
-  product_imgMain: any[];
-  product_imgMainF: any[];
-  product_img: any;
-  mainCategoryTitle: string;
-  subCategoryTitle: any[];
-  product_inStock: boolean;
-  product_name: string;
-  product_weight: string;
-  product_rating: string;
-  product_review: number;
-  product_final_price: string;
-  product_price: string;
-  product_distance: string;
-  product_deliverytime: string;
-  product_deliveryData: any[];
-  arrSimilarProduct: SimilarProduct[];
-  product_highlight: any[];
-  product_desc: string;
-  product_quantity: number;
+  productDetails: ProductData | null;
+  arrTags: Tag[];
+
   arrFashionSize: FashionSize[];
   arrFashionColor: FashionColor[];
 
   currentIndex: number;
   handleScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
-  totalRate: number;
-  totalReviews: string;
-  arrRateProgress: RateProgress[];
-  arrRevieews: Review[];
+
   onPressGoToCompareProduct: () => void;
   onPressBuyNow: (type: "add" | "remove") => void;
   onPressSize: (selectedSize: string) => void;
   onPressColor: (selectedColor: string) => void;
   onPressImageVideo: () => void;
   onPressViewAll: () => void;
-  onPressFavourite: () => void;
-  poduct_isFavourite: boolean;
+  onPressFavourite: (product_id: string, variation_id: string) => void;
   onPressReview: () => void;
 
   onPressBack: () => void;
   onPressShare: () => void;
   onPressCartIcon: () => void;
   isNavigating: boolean;
+
+  mediaModalVisible: boolean;
+  handleCloseMediaModal: () => void;
+  selectedMedia: { link: string; type: "image" | "video" } | null;
+  handleSelectMedia: (
+    mediaList: { link: string; type: "image" | "video" }[],
+    index: number
+  ) => void;
+  allMedia:Media[];
+  selectedIndex: number;
+
 }
 
 const ViewProductDetailComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
+
   const renderDots = () => {
     return (
       <View style={styles.vwDotsContainer}>
-        {props?.product_imgMain?.map((_, index) => (
+        {props?.productDetails?.images?.map((_, index) => (
           <View
             key={index}
             style={[
@@ -98,8 +99,8 @@ const ViewProductDetailComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemProductDeliveryData = (item: any, index: number) => {
-    if (props?.product_deliveryData.length === 1) {
+  const renderItemTags = (item: Tag, index: number) => {
+    if (props?.arrTags.length === 1) {
       return (
         <View
           key={index}
@@ -111,12 +112,10 @@ const ViewProductDetailComponent = (props: PropsType) => {
         >
           <Image
             style={{ height: 21.75, width: 28, marginLeft: 18 }}
-            source={item.deliveryDataImage}
+            source={item?.icon}
             resizeMode="stretch"
           />
-          <Text style={styles.lblProductDeliveryData}>
-            {item.deliveryDataTitle}
-          </Text>
+          <Text style={styles.lblProductDeliveryData}>{item?.title}</Text>
         </View>
       );
     }
@@ -124,15 +123,13 @@ const ViewProductDetailComponent = (props: PropsType) => {
       <View key={index} style={{ alignItems: "center", width: 100 }}>
         <Image
           style={
-            item.deliveryDataTitle === "Fast Delivery"
+            item?.title === "Fast Delivery"
               ? styles.imgFastDelivery
               : styles.imgProductDeliveryData
           }
-          source={item.deliveryDataImage}
+          source={item?.icon}
         />
-        <Text style={styles.lblProductDeliveryData}>
-          {item.deliveryDataTitle}
-        </Text>
+        <Text style={styles.lblProductDeliveryData}>{item?.title}</Text>
       </View>
     );
   };
@@ -141,7 +138,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: SimilarProduct;
+    item: Variation;
     index: number;
   }) => {
     return (
@@ -151,7 +148,10 @@ const ViewProductDetailComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
       >
-        <Image style={styles.imgSimilarProduct} source={item?.product_img} />
+        <FastImage
+          style={styles.imgSimilarProduct}
+          source={{ uri: item?.image }}
+        />
         <Text
           style={{
             ...styles.lblProdcuctFinalPrice,
@@ -159,32 +159,19 @@ const ViewProductDetailComponent = (props: PropsType) => {
             marginLeft: 9,
           }}
         >
-          {rupeeSymbol + item?.product_final_price}
+          {rupeeSymbol + parseInt(item?.price).toFixed()}
         </Text>
         <View style={styles.vwPriceWeight}>
           <Text style={styles.lblProductPrice}>
-            {rupeeSymbol + item?.product_price}
+            {rupeeSymbol + parseInt(item?.original_price).toFixed()}
           </Text>
-          <Text style={styles.lblProductWeight1}>{item?.product_weight}</Text>
+          <Text style={styles.lblProductWeight1}>{item?.weight}</Text>
         </View>
       </TouchableOpacity>
     );
   };
 
-  const renderItemProductHighlight = (item: any, index: number) => {
-    return (
-      <View key={index} style={styles.vwHighlightItem}>
-        <View style={{ width: 87 }}>
-          <Text style={styles.lblHighlightTitle}>{item?.highlightTitle}</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.lblHighlightDesc}>{item?.highlightDesc}</Text>
-        </View>
-      </View>
-    );
-  };
-
-  const renderItemArrRateProgress = (item: RateProgress, index: number) => {
+  const renderItemArrRateProgress = (item: RatingSummary, index: number) => {
     return (
       <View style={styles.vwRateProgressItem} key={index}>
         <View
@@ -197,7 +184,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
         >
           <View style={styles.vwRateNumber}>
             <Image style={styles.imgMainStar} source={images.star} />
-            <Text style={styles.lblRateNumber}>{item?.rate_number}</Text>
+            <Text style={styles.lblRateNumber}>{item?.rateNumber}</Text>
           </View>
 
           <View style={styles.vwProgressBar}>
@@ -205,14 +192,14 @@ const ViewProductDetailComponent = (props: PropsType) => {
               style={[
                 styles.vwProgressBarFill,
                 {
-                  width: `${item?.rate_percentage}%`,
+                  width: `${item?.ratePercentage}%`,
                 },
               ]}
             />
           </View>
         </View>
-        <View style={{ width: 30, flexDirection: "row-reverse" }}>
-          <Text style={styles.lblRatePercentage}>{item?.rate_percentage}%</Text>
+        <View style={{ width: 35, flexDirection: "row-reverse" }}>
+          <Text style={styles.lblRatePercentage}>{item?.ratePercentage}%</Text>
         </View>
       </View>
     );
@@ -221,47 +208,67 @@ const ViewProductDetailComponent = (props: PropsType) => {
   const renderItemArrReviews = (item: Review, index: number) => {
     return (
       <View key={index}>
-        <Text style={styles.lblReviewName}>{item?.review_personName}</Text>
+        <Text style={styles.lblReviewName}>{item?.name}</Text>
         <View style={styles.vwReviewRateDate}>
           <View style={styles.vwRateNumber}>
             <Image style={styles.imgMainStar} source={images.star} />
-            <Text style={styles.lblReviewRateNumber}>{item?.review_rate}</Text>
+            <Text style={styles.lblReviewRateNumber}>{item?.rating}</Text>
           </View>
-          <Text style={styles.lblReviewDate}>{item?.review_date}</Text>
+          <Text style={styles.lblReviewDate}>
+            {" "}
+            {DateFormatsManager.formatDate(
+              item?.date,
+              DateFormatsManager.DateFormats.DD_MM_YYYY
+            )}
+          </Text>
         </View>
-        <Text style={styles.lblReviewDesc}>{item?.review_description}</Text>
-        <View style={styles.vwImgeVideo}>
-          <TouchableOpacity
-            style={styles.vwReviewImage}
-            activeOpacity={activityOpacity}
-            hitSlop={hitSlop}
-            onPress={props?.onPressImageVideo}
-          >
-            <Image
-              style={
-                props?.mainCategoryTitle === "Groceries"
-                  ? styles.imgReview
-                  : styles.imgReviewF
-              }
-              source={
-                props?.mainCategoryTitle === "Groceries"
-                  ? item?.review_image
-                  : images.fashionMainImg
-              }
-            />
-          </TouchableOpacity>
-          {item?.type === "video" && (
-            <TouchableOpacity
-              style={styles.vwReviewVideo}
-              activeOpacity={activityOpacity}
-              hitSlop={hitSlop}
-              onPress={props?.onPressImageVideo}
-            >
-              <Image style={styles.imgVideo} source={images.videocircle} />
-            </TouchableOpacity>
+        <Text style={styles.lblReviewDesc}>{item?.comment}</Text>
+        {/* Media */}
+        <FlatList
+          data={item?.media}
+          horizontal
+          bounces={false}
+          contentContainerStyle={{ gap: 20 }}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item: itemMedia, index }) => (
+            <>
+              <TouchableOpacity
+                style={styles.btnReviewImage}
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={() => props?.handleSelectMedia(item?.media,index)}
+              >
+                {itemMedia.type === "image" ? (
+                  <Image
+                    source={{ uri: itemMedia.link }}
+                    style={styles.imgReview}
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <Video
+                    source={{ uri: itemMedia.link }}
+                    style={styles.imgReview}
+                    paused={true} // Don't autoplay
+                    controls={true} // Native play/pause buttons
+                    resizeMode="cover"
+                    repeat={false}
+                  />
+                )}
+              </TouchableOpacity>
+              {itemMedia?.type === "video" && (
+                <TouchableOpacity
+                  style={styles.btnReviewVideo}
+                  activeOpacity={activityOpacity}
+                  hitSlop={hitSlop}
+                  onPress={() => props?.handleSelectMedia(item?.media,index)}
+                >
+                  <Image style={styles.imgVideo} source={images.videocircle} />
+                </TouchableOpacity>
+              )}
+            </>
           )}
-        </View>
-        {index !== props?.arrRevieews.length - 1 && (
+        />
+        {index !== (props?.productDetails?.reviews?.length ?? 0) - 1 && (
           <View style={styles.vwLine} />
         )}
       </View>
@@ -329,16 +336,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
       />
       <View style={{ flex: 1, marginTop: insets.top }}>
         <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
-          <View
-            style={[
-              props?.mainCategoryTitle === "Groceries" && styles.vwImgMainLogo,
-              { position: "relative" },
-            ]}
-          >
+          <View style={[styles.vwImgMainLogo, { position: "relative" }]}>
             {/* Stick header */}
-            <View
-              style={styles.vwHeader}
-            >
+            <View style={styles.vwHeader}>
               <GlobalBackButton onPress={props?.onPressBack} />
               <View style={styles.vwHeaderRight}>
                 <TouchableOpacity
@@ -370,11 +370,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
               </View>
             </View>
             <FlatList
-              data={
-                props?.mainCategoryTitle === "Fashion"
-                  ? props?.product_imgMainF
-                  : props?.product_imgMain
-              }
+              data={props?.productDetails?.images}
               horizontal
               bounces={false}
               onScroll={props?.handleScroll}
@@ -383,17 +379,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
               renderItem={({ item, index }) => {
                 return (
                   <Image
-                    style={
-                      props?.mainCategoryTitle === "Fashion"
-                        ? styles.imgProduct_imgMainF
-                        : styles.imgProduct_imgMain
-                    }
-                    source={item.imgMain}
-                    resizeMode={
-                      props?.mainCategoryTitle === "Fashion"
-                        ? "stretch"
-                        : "contain"
-                    }
+                    style={styles.imgProduct_imgMain}
+                    source={{ uri: item.image }}
+                    resizeMode={"contain"}
                   />
                 );
               }}
@@ -404,26 +392,34 @@ const ViewProductDetailComponent = (props: PropsType) => {
           {/* Product Main Details */}
           <View style={styles.vwCategoryTitleInstock}>
             <Text style={styles.lblCategoryTitle}>
-              {props?.mainCategoryTitle + "  /  " + props?.subCategoryTitle}
+              {props?.productDetails?.main_category +
+                "  /  " +
+                props?.productDetails?.sub_category}
             </Text>
             <Text
               style={{
                 ...styles.lblStock,
-                color: props?.product_inStock ? colors.green86 : colors.red2e,
+                color: props?.productDetails?.in_stock
+                  ? colors.green86
+                  : colors.red2e,
               }}
             >
-              {props?.product_inStock
+              {props?.productDetails?.in_stock
                 ? getTranslation("inStock")
                 : getTranslation("outOfStock")}
             </Text>
           </View>
 
           {/* Produt name */}
-          <Text style={styles.lblProductName}>{props?.product_name}</Text>
+          <Text style={styles.lblProductName}>
+            {props?.productDetails?.product_name}
+          </Text>
 
           {/* Product Weight */}
-          {props?.mainCategoryTitle === "Groceries" && (
-            <Text style={styles.lblProductWeight}>{props?.product_weight}</Text>
+          {props?.productDetails?.main_category === "Groceries" && (
+            <Text style={styles.lblProductWeight}>
+              {props?.productDetails?.product_weight}
+            </Text>
           )}
 
           {/* Product rate review */}
@@ -431,7 +427,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
             <View style={styles.vwProductRate}>
               <Image style={styles.imgStar} source={images.star} />
               <Text style={styles.lblProduct_rate}>
-                {props?.product_rating}
+                {props?.productDetails?.average_rating}
               </Text>
             </View>
             <View style={styles.vwProductReview}>
@@ -447,7 +443,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
                 onPress={props?.onPressReview}
               >
                 <Text style={styles.lblProduct_reviews}>
-                  {props?.product_review}{" "}
+                  {props?.productDetails?.total_reviews}{" "}
                   <Text style={styles.lblReviews}>
                     {getTranslation("reviews")}
                   </Text>
@@ -459,10 +455,10 @@ const ViewProductDetailComponent = (props: PropsType) => {
           {/* Product Price */}
           <View style={styles.vwProductPrice}>
             <Text style={styles.lblProdcuctFinalPrice}>
-              {rupeeSymbol + props?.product_final_price}
+              {rupeeSymbol + props?.productDetails?.price}
             </Text>
             <Text style={styles.lblProductPrice}>
-              {rupeeSymbol + props?.product_price}
+              {rupeeSymbol + props?.productDetails?.original_price}
             </Text>
           </View>
 
@@ -477,7 +473,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
               {getTranslation("approxDistanceTime")}
             </Text>
             <Text style={styles.lblPoductDistance}>
-              {props?.product_distance}
+              {props?.productDetails?.distance}
             </Text>
             <Image
               style={styles.imgDotOrange}
@@ -485,12 +481,12 @@ const ViewProductDetailComponent = (props: PropsType) => {
               resizeMode="stretch"
             />
             <Text style={styles.lblProductDeliveryTime}>
-              {props?.product_deliverytime}
+              {props?.productDetails?.estimated_delivery_time}
             </Text>
           </View>
 
           {/* fashion data */}
-          {props?.mainCategoryTitle === "Fashion" && (
+          {props?.productDetails?.main_category === "Fashion" && (
             <View style={styles.vwFashionSizeColor}>
               <Text style={styles.lblSize}>{getTranslation("size")}</Text>
               <View>
@@ -528,9 +524,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
           )}
 
           {/* Similar Product */}
-          {props?.mainCategoryTitle === "Groceries" && (
+          {props?.productDetails?.main_category === "Groceries" && (
             <FlatList
-              data={props?.arrSimilarProduct}
+              data={props?.productDetails?.variations}
               horizontal
               showsHorizontalScrollIndicator={false}
               bounces={false}
@@ -544,30 +540,24 @@ const ViewProductDetailComponent = (props: PropsType) => {
             />
           )}
 
-          {/* product_deliveryData */}
+          {/* tags */}
           <View
             style={{
               ...styles.vwProductData,
               justifyContent:
-                props?.product_deliveryData.length === 1
-                  ? "flex-start"
-                  : "space-around",
+                props?.arrTags.length === 1 ? "flex-start" : "space-around",
             }}
           >
-            {props?.product_deliveryData?.map(renderItemProductDeliveryData)}
-          </View>
-
-          {/* Highligh */}
-          <Text style={styles.lblHighlight}>{getTranslation("highlight")}</Text>
-          <View style={styles.vwHighlight}>
-            {props?.product_highlight?.map(renderItemProductHighlight)}
+            {props?.arrTags?.map(renderItemTags)}
           </View>
 
           {/* Product Details */}
           <Text style={styles.lblHighlight}>
             {getTranslation("productDetails")}
           </Text>
-          <Text style={styles.lblProductDesc}>{props?.product_desc}</Text>
+          <Text style={styles.lblProductDesc}>
+            {props?.productDetails?.description}
+          </Text>
 
           {/* Reviews */}
           <Text style={styles.lblHighlight}>{getTranslation("reviews")}</Text>
@@ -576,33 +566,40 @@ const ViewProductDetailComponent = (props: PropsType) => {
               <View
                 style={{ flexDirection: "row", gap: 3, alignItems: "center" }}
               >
-                <Text style={styles.lblReviews1}>{props?.totalRate}</Text>
+                <Text style={styles.lblReviews1}>
+                  {props?.productDetails?.average_rating}
+                </Text>
                 <Image style={styles.imgMainStar} source={images.star} />
               </View>
               <Text style={styles.lblReviewsCount}>
-                {props?.totalReviews} {getTranslation("reviews1")}
+                {props?.productDetails?.total_reviews}{" "}
+                {getTranslation("reviews1")}
               </Text>
             </View>
             <View style={styles.vwVerticalLine} />
             <View style={{ gap: 8, flex: 1 }}>
-              {props?.arrRateProgress.map(renderItemArrRateProgress)}
+              {props?.productDetails?.rating_summary.map(
+                renderItemArrRateProgress
+              )}
             </View>
           </View>
           <View style={{ marginTop: 20, marginHorizontal: 20 }}>
-            {props?.arrRevieews.map(renderItemArrReviews)}
+            {props?.productDetails?.reviews.map(renderItemArrReviews)}
           </View>
-          <TouchableOpacity
-            style={styles.btnViewAll}
-            activeOpacity={activityOpacity}
-            hitSlop={hitSlop}
-            onPress={props?.onPressViewAll}
-          >
-            <Text style={styles.lblViewAll}>{getTranslation("viewAll")}</Text>
-            <Image
-              style={styles.imgRightOrangeArrow}
-              source={images.rightArrowOrange}
-            />
-          </TouchableOpacity>
+          {(props?.productDetails?.reviews?.length ?? 0) > 0 && (
+            <TouchableOpacity
+              style={styles.btnViewAll}
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={props?.onPressViewAll}
+            >
+              <Text style={styles.lblViewAll}>{getTranslation("viewAll")}</Text>
+              <Image
+                style={styles.imgRightOrangeArrow}
+                source={images.rightArrowOrange}
+              />
+            </TouchableOpacity>
+          )}
 
           {/* Go to Comapare Products */}
           <View style={styles.vwGotoComapreButton}>
@@ -625,16 +622,23 @@ const ViewProductDetailComponent = (props: PropsType) => {
             style={styles.btnIsFavourite}
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
-            onPress={props?.onPressFavourite}
+            onPress={() =>
+              props?.onPressFavourite(
+                props?.productDetails?.product_id ?? "",
+                props?.productDetails?.variation_id ?? ""
+              )
+            }
           >
             <Image
               style={styles.imgRedHeart}
               source={
-                props?.poduct_isFavourite ? images.redHeart : images.emptyHeart
+                props?.productDetails?.is_wishlist
+                  ? images.redHeart
+                  : images.emptyHeart
               }
             />
           </TouchableOpacity>
-          {props?.product_quantity === 0 ? (
+          {props?.productDetails?.cart?.quantity === 0 ? (
             <GlobalButton
               isOrange
               title={getTranslation("buyNow")}
@@ -651,7 +655,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
                 <Image style={styles.imgAddMinus} source={images.minus} />
               </TouchableOpacity>
               <Text style={styles.lblProductQuantity}>
-                {props?.product_quantity}
+                {props?.productDetails?.cart?.quantity}
               </Text>
               <TouchableOpacity
                 onPress={() => props.onPressBuyNow("add")}
@@ -664,6 +668,63 @@ const ViewProductDetailComponent = (props: PropsType) => {
           )}
         </View>
       </View>
+
+      {/* Media Modal */}
+      <Modal
+        visible={props?.mediaModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={props?.handleCloseMediaModal}
+      >
+        <View style={styles.modalOverlay}>
+          {/* Close Button */}
+          <TouchableOpacity
+            style={[styles.btnClose, { top: insets.top + 20 }]}
+            onPress={props?.handleCloseMediaModal}
+            hitSlop={hitSlop}
+            activeOpacity={activityOpacity}
+          >
+            <Image
+              source={images.closeImage}
+              style={{ height: 35, width: 35 }}
+            />
+          </TouchableOpacity>
+
+          {/* Media Gallery */}
+          <FlatList
+            data={props?.allMedia || []} // ✅ full media array
+            horizontal
+            pagingEnabled
+            keyExtractor={(_, index) => index.toString()}
+            initialScrollIndex={props?.selectedIndex || 0} // start at tapped index
+            getItemLayout={(_, index) => ({
+              length: ScreenDimensions.screenWidth,
+              offset: ScreenDimensions.screenWidth * index,
+              index,
+            })}
+            renderItem={({ item }) => (
+              <View style={styles.mediaItem}>
+                {item?.type === "image" ? (
+                  <Image
+                    source={{ uri: item.link }}
+                    style={styles.fullScreenMedia}
+                    resizeMode="contain"
+                  />
+                ) : (
+                  <Video
+                    source={{ uri: item.link }}
+                    style={styles.fullScreenMedia}
+                    resizeMode="contain"
+                    controls
+                    paused={false}
+                    fullscreen={false}
+                  />
+                )}
+              </View>
+            )}
+          />
+        </View>
+      </Modal>
     </View>
   );
 };

@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 7,
     marginTop: 6,
     marginBottom: 7,
-    justifyContent:'space-between'
+    justifyContent: "space-between",
   },
   vwPriceRating: {
     height: 17,
@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 12.5,
     paddingTop: 14,
     marginBottom: 10,
-    height :102,
+    height: 102,
     backgroundColor: colors.white,
   },
   vwLocation: {
@@ -112,7 +112,6 @@ export const styles = StyleSheet.create({
     paddingLeft: 6,
     paddingRight: 7,
   },
-  
 
   // Text Styles
   lblSubCategoryTitle: {
@@ -149,7 +148,7 @@ export const styles = StyleSheet.create({
     color: colors.greya7,
     fontSize: fontSize.size10,
     fontFamily: fontsfamily.semibold,
-    lineHeight : 15
+    lineHeight: 15,
   },
   lblProductFinalPrice: {
     color: colors.blue4e,
@@ -203,7 +202,6 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.regularOutFit,
   },
-  
 
   // Touchableopacity Styles
   btnSubCategoryTitle: {
@@ -294,8 +292,8 @@ export const styles = StyleSheet.create({
   imgBestSellers: {
     height: 148,
     width: ScreenDimensions.screenWidth - 40,
-    borderTopLeftRadius : 20,
-    borderTopRightRadius : 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     overflow: "hidden",
   },
   imgLocation: {
@@ -337,7 +335,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginHorizontal: 20,
-    marginBottom : 10
+    marginBottom: 10,
   },
   vwLine: {
     height: 1,
@@ -439,7 +437,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 16,
     justifyContent: "space-between",
-    backgroundColor : colors.blue4e
+    backgroundColor: colors.blue4e,
   },
   btnDropdownCategoriesContainer: {
     height: 52,
@@ -447,7 +445,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor : colors.blue4e
+    backgroundColor: colors.blue4e,
   },
 
   // Slider Styles
@@ -485,17 +483,27 @@ export const styles = StyleSheet.create({
   },
 
   // Sort Modal
-  vwLineSort : {
-    height : 1, 
-    backgroundColor : `${colors.greya7}50`,
-    marginHorizontal : 20,
+  vwLineSort: {
+    height: 1,
+    backgroundColor: `${colors.greya7}50`,
+    marginHorizontal: 20,
   },
-  lblSort:{
+  vwSort: {
+    flexDirection: "row",
+    marginTop: 11,
+    marginBottom: 10,
+    marginHorizontal: 20,
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: 22,
+  },
+  lblSort: {
     color: colors.white,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
-    marginTop : 11,
-    marginBottom : 10,
-    marginHorizontal : 20
+  },
+  imgSortSelected: {
+    height: 22,
+    width: 22,
   },
 });

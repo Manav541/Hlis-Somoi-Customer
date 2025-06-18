@@ -309,3 +309,5 @@
 66957	69482	1750051828939241765	Compressor_autolinked_build/CMakeFiles/react_codegen_Compressor.dir/react/renderer/components/Compressor/ComponentDescriptors.cpp.o	e8297e6285924c37
 60136	73989	1750051833309529906	CMakeFiles/appmodules.dir/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o	b77146d9b7456ab3
 73989	74250	1750051833664789152	/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/Debug/2z453i34/obj/arm64-v8a/libappmodules.so	2bfcf91877fe4d9f
+1	45	0	/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/arm64-v8a/CMakeFiles/cmake.verify_globs	337bb6ed5848202
+0	229	0	clean	4338a57a53e29abe

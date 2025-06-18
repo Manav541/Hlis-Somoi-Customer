@@ -9,7 +9,7 @@ import {
   Alert,
   Share,
 } from "react-native";
-import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
@@ -28,125 +28,55 @@ import { colors } from "../../constants/Colors";
 import {
   FashionColor,
   FashionSize,
-  RateProgress,
+  Media,
+  ProductData,
+  RatingSummary,
   Review,
   SimilarProduct,
+  Tag,
 } from "../../constants/interfaces";
+import { zustandStore } from "../../store";
+import { statusCodes } from "../../api/APIConstant";
 
 const ViewProductDetailContainer = ({ navigation, route }: any) => {
-  const itemData = route.params?.item;
-  console.log("itemData", itemData);
-  // const product_imgMain = itemData?.prodcut_imgMain;
-  const product_imgMain = [
-    {
-      imgMain: images.rice,
-    },
-    {
-      imgMain: images.rice,
-    },
-    {
-      imgMain: images.rice,
-    },
-  ];
-  const product_imgMainF = [
-    {
-      imgMain: images.fashionMainImg,
-    },
-    {
-      imgMain: images.fashionMainImg,
-    },
-    {
-      imgMain: images.fashionMainImg,
-    },
-  ];
+  // API Zustand store
+  const productDetailsApi = zustandStore.ProductListingStore(
+    (state) => state.productDetails
+  );
+  const wishlistProductApi = zustandStore.MyWishlistStore(
+    (state) => state.wishlistProduct
+  );
 
-  const product_img = itemData?.product_img;
-  const mainCategoryTitle = itemData?.mainCategoryTitle;
-  const subCategoryTitle = itemData?.subCategoryTitle;
-  const product_inStock = itemData?.product_inStock;
-  const product_name = itemData?.product_name;
-  const product_weight = itemData?.product_weight;
-  const product_rating = itemData?.product_rating;
-  const product_review = itemData?.product_review;
-  const product_final_price = itemData?.product_final_price;
-  const product_price = itemData?.product_price;
-  const product_distance = itemData?.product_distance;
-  const product_deliverytime = itemData?.product_deliverytime;
-  const product_deliveryData = itemData?.product_deliveryData;
-  const product_highlight = itemData?.product_highlight;
-  const product_desc = itemData?.product_desc;
-  const [product_quantity, setProduct_Quantity] = useState(
-    itemData?.product_quantity
+  const itemData = route.params;
+  const product_id = itemData?.product_id;
+  const variation_id = itemData?.variation_id;
+  const customer_latitude = itemData?.customer_latitude;
+  const customer_longitude = itemData?.customer_longitude;
+
+  const [productDetails, setProductDetails] = useState<ProductData | null>(
+    null
   );
-  const [poduct_isFavourite, setPoduct_isFavourite] = useState(
-    itemData?.isFavourite
-  );
+  const [arrTags, setArrTags] = useState<Tag[]>([]);
   const [isSharing, setIsSharing] = useState<boolean>(true);
+  const [mediaModalVisible, setMediaModalVisible] = useState(false);
+const [allMedia, setAllMedia] = useState<Media[]>([]);
+const [selectedMedia, setSelectedMedia] = useState<{ link: string; type: 'image' | 'video' } | null>(null);
+const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
-  const arrSimilarProduct: SimilarProduct[] = [
-    {
-      product_img: images.rice,
-      product_final_price: "499",
-      product_price: "600",
-      product_weight: "1kg",
-    },
-    {
-      product_img: images.rice,
-      product_final_price: "499",
-      product_price: "600",
-      product_weight: "1kg",
-    },
-    {
-      product_img: images.rice,
-      product_final_price: "499",
-      product_price: "600",
-      product_weight: "1kg",
-    },
-  ];
+  const handleCloseMediaModal = () => {
+    setMediaModalVisible(false);
+    // setSelectedMedia(null);
+  // setAllMedia([]);
+  };
 
-  const [arrRateProgress, setArrRateProgress] = useState<RateProgress[]>([
-    {
-      rate_number: 5,
-      rate_percentage: 60,
-    },
-    {
-      rate_number: 4,
-      rate_percentage: 34,
-    },
-    {
-      rate_number: 3,
-      rate_percentage: 20,
-    },
-    {
-      rate_number: 2,
-      rate_percentage: 10,
-    },
-    {
-      rate_number: 1,
-      rate_percentage: 0,
-    },
-  ]);
-
-  const [arrRevieews, setArrReviews] = useState<Review[]>([
-    {
-      review_personName: "Jesus Loy",
-      review_rate: "4.5",
-      review_date: "12 Oct 2023",
-      review_description:
-        "Material is best but the overall look is too gud 😍 Test very good",
-      review_image: images.rice,
-      type: "image",
-    },
-    {
-      review_personName: "Mike loy",
-      review_rate: "4.5",
-      review_date: "12 Oct 2023",
-      review_description:
-        "It is a long established fact that a reader will be distracted by the readable",
-      review_image: images.rice,
-      type: "video",
-    },
-  ]);
+  const handleSelectMedia = (
+    mediaList: { link: string; type: 'image' | 'video' }[],
+    index: number
+  ) => {
+    setAllMedia(mediaList);
+    setSelectedIndex(index);
+    setMediaModalVisible(true);
+  };
 
   const [arrFashionSize, setArrFashionSize] = useState<FashionSize[]>([
     {
@@ -195,8 +125,6 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   ]);
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const totalRate = 4.5;
-  const totalReviews = "1.5k";
   const [isNavigating, setIsNavigating] = useState(false);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -207,7 +135,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
 
   const onPressBack = () => {
     navigation.goBack();
-  }
+  };
 
   const onPressShare = async () => {
     if (!isSharing) return;
@@ -236,27 +164,27 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   };
 
   const onPressGoToCompareProduct = () => {
-    navigation.navigate(ScreenNames.compareProduct, {
-      mainCategoryTitle: mainCategoryTitle,
-    });
+    navigation.navigate(ScreenNames.compareProduct);
   };
 
-  const onPressFavourite = () => {
-    setPoduct_isFavourite((prevFavourite: boolean) => !prevFavourite);
+  const onPressFavourite = (product_id: string, variation_id: string) => {
+    handleWishlistProductApi(product_id, variation_id);
   };
 
   const onPressBuyNow = (type: "add" | "remove") => {
-    if (type === "add") {
-      setProduct_Quantity((prevQuantity: number) => prevQuantity + 1);
-    } else if (type === "remove") {
-      setProduct_Quantity((prevQuantity: number) =>
-        prevQuantity > 0 ? prevQuantity - 1 : 0
-      );
-    }
+    // if (type === "add") {
+    //   setProduct_Quantity((prevQuantity: number) => prevQuantity + 1);
+    // } else if (type === "remove") {
+    //   setProduct_Quantity((prevQuantity: number) =>
+    //     prevQuantity > 0 ? prevQuantity - 1 : 0
+    //   );
+    // }
   };
-  const onPressImageVideo =()=>{
-    flashMessageWarning(getTranslation('underDevelopment'))
-  }
+
+  const onPressImageVideo = () => {
+    flashMessageWarning(getTranslation("underDevelopment"));
+  };
+
   const onPressViewAll = () => {
     flashMessageWarning(getTranslation("underDevelopment"));
   };
@@ -306,88 +234,178 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     navigation.navigate(ScreenNames.review);
   };
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: "",
-      headerTransparent: true,
-      headerStyle: {
-        backgroundColor: "transparent",
-        elevation: 0,
-        shadowOpacity: 0,
-      },
-      headerLeft: () => (
-        <GlobalBackButton onPress={() => navigation.goBack()} />
-      ),
-      headerRight: () => (
-        <View style={styles.vwHeaderRight}>
-          <TouchableOpacity
-            activeOpacity={activityOpacity}
-            hitSlop={hitSlop}
-            onPress={onPressShare}
-          >
-            <Image
-              style={styles.imgButton}
-              source={images.shareIcon}
-              tintColor={colors.blue4e}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={activityOpacity}
-            hitSlop={hitSlop}
-            onPress={onPressCartIcon}
-            disabled={isNavigating}
-          >
-            <Image
-              style={styles.imgButton}
-              source={images.cartBagIcon}
-              tintColor={colors.blue4e}
-            />
-            <View style={styles.vwBedge}>
-              <Text style={styles.lblBedge}>2</Text>
-            </View>
+  // Utility to format delivery time
+  const formatDeliveryTime = (minutes: number): string => {
+    const hrs = Math.floor(minutes / 60);
+    const mins = minutes % 60;
 
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [isNavigating, onPressCartIcon]);
+    if (hrs > 0 && mins > 0) {
+      return `${hrs} hr${hrs > 1 ? "s" : ""} ${mins} min${mins > 1 ? "s" : ""}`;
+    } else if (hrs > 0) {
+      return `${hrs} hr${hrs > 1 ? "s" : ""}`;
+    } else {
+      return `${mins} min${mins > 1 ? "s" : ""}`;
+    }
+  };
+
+  // ------------------- API Call ---------------------------
+  // handleProductDetailsApi
+  const handleProductDetailsApi = async () => {
+    const dictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+      customer_latitude: customer_latitude,
+      customer_longitude: customer_longitude,
+    };
+    try {
+      const response = await productDetailsApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("PRODUCT DETAILS RESPONSE===>", JSON.stringify(response));
+
+        if (response.code === statusCodes.success) {
+          const rawData = response.data as ProductData;
+
+          // ✅ Dynamically build tag array based on response
+          const tempTags = [];
+          if (rawData.is_product_returnable) {
+            tempTags.push({
+              icon: images.productReturn,
+              title: "3 day Return/\nExchange",
+            });
+          }
+          if (rawData.is_cod_available) {
+            tempTags.push({
+              icon: images.cashOnDelivery,
+              title: "Cash on\nDelivery",
+            });
+          }
+          if (rawData.is_fast_delivery) {
+            tempTags.push({
+              icon: images.fastDelivery,
+              title: "Fast\nDelivery",
+            });
+          }
+          setArrTags(tempTags);
+
+          // Convert estimated_delivery_time: "1548 mins" => "25 hrs 48 mins"
+          const estimatedMinsString = rawData.estimated_delivery_time || "0";
+          const estimatedMins = Number(
+            estimatedMinsString.replace(" mins", "")
+          );
+          const formattedDeliveryTime = formatDeliveryTime(estimatedMins);
+
+          // Convert string[] to { image: string }[]
+          const formattedImages = ((rawData as any).images || []).map(
+            (img: string) => ({
+              image: img,
+            })
+          );
+
+          // Convert rating_summary object to array
+          const ratingArray: RatingSummary[] = Object.entries(
+            rawData.rating_summary || {}
+          )
+            .map(([key, value]) => ({
+              rateNumber: Number(key),
+              ratePercentage: Number(value),
+            }))
+            .reverse();
+
+          const formattedReviews: Review[] = (rawData.reviews || []).map(
+            (review: any) => ({
+              ...review,
+              media: Array.isArray(review.media)
+                ? review.media.map((url: string) => {
+                    const isVideo =
+                      url.endsWith(".mp4") ||
+                      url.endsWith(".mov") ||
+                      url.includes("video");
+                    return {
+                      link: url,
+                      type: isVideo ? "video" : "image",
+                    };
+                  })
+                : [],
+            })
+          );
+
+          // Apply the transformation and set to state
+          const finalData = {
+            ...rawData,
+            images: formattedImages,
+            rating_summary: ratingArray,
+            estimated_delivery_time: formattedDeliveryTime,
+            reviews: formattedReviews,
+          };
+
+          setProductDetails(finalData);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  // handleWishlistProductApi
+  const handleWishlistProductApi = async (
+    product_id: string,
+    variation_id: string
+  ) => {
+    const dictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+    };
+
+    try {
+      const response = await wishlistProductApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "WISHLIST PRODUCT RESPONSE===>",
+            JSON.stringify(response)
+          );
+
+        if (response.code === statusCodes.success) {
+          // ✅ Toggle is_wishlist in local state
+          setProductDetails((prevDetails) => {
+            if (!prevDetails) return prevDetails;
+            return {
+              ...prevDetails,
+              is_wishlist: !prevDetails.is_wishlist,
+            };
+          });
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Product Listing API Error:", error);
+    }
+  };
 
   useFocusEffect(
     React.useCallback(() => {
+      handleProductDetailsApi();
       StatusBar.setBarStyle("light-content");
       return () => {};
     }, [navigation])
   );
 
   return (
+    // <View style={{flex : 1, backgroundColor : colors.blue4e}}></View>
     <ViewProductDetailComponent
-      product_imgMain={product_imgMain}
-      product_imgMainF={product_imgMainF}
-      product_img={product_img}
-      mainCategoryTitle={mainCategoryTitle}
-      subCategoryTitle={subCategoryTitle}
-      product_inStock={product_inStock}
-      product_name={product_name}
-      product_weight={product_weight}
-      product_rating={product_rating}
-      product_review={product_review}
-      product_final_price={product_final_price}
-      product_price={product_price}
-      product_distance={product_distance}
-      product_deliverytime={product_deliverytime}
-      product_deliveryData={product_deliveryData}
-      arrSimilarProduct={arrSimilarProduct}
-      product_highlight={product_highlight}
-      product_desc={product_desc}
-      product_quantity={product_quantity}
+      productDetails={productDetails}
+      arrTags={arrTags}
       arrFashionSize={arrFashionSize}
       arrFashionColor={arrFashionColor}
       currentIndex={currentIndex}
       handleScroll={handleScroll}
-      totalRate={totalRate}
-      totalReviews={totalReviews}
-      arrRateProgress={arrRateProgress}
-      arrRevieews={arrRevieews}
       onPressGoToCompareProduct={onPressGoToCompareProduct}
       onPressBuyNow={onPressBuyNow}
       onPressSize={onPressSize}
@@ -395,14 +413,17 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       onPressImageVideo={onPressImageVideo}
       onPressViewAll={onPressViewAll}
       onPressFavourite={onPressFavourite}
-      poduct_isFavourite={poduct_isFavourite}
       onPressReview={onPressReview}
-
       onPressBack={onPressBack}
       onPressShare={onPressShare}
       onPressCartIcon={onPressCartIcon}
       isNavigating={isNavigating}
-      
+      mediaModalVisible={mediaModalVisible}
+      handleCloseMediaModal={handleCloseMediaModal}
+      selectedMedia={selectedMedia}
+      handleSelectMedia={handleSelectMedia}
+      allMedia={allMedia}
+      selectedIndex={selectedIndex}
     />
   );
 };

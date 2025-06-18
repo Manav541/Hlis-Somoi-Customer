@@ -1,28 +1,17 @@
-import { View, Text, StatusBar, TouchableOpacity, Image } from "react-native";
+import { View, Text, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import ProductListingComponent from "../../components/productListing";
 import GlobalBackButton from "../../global/GlobalBackButton";
-import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
 import { useFocusEffect } from "@react-navigation/native";
-import {
-  activityOpacity,
-  flashMessageWarning,
-  hitSlop,
-} from "../../constants/GConstant";
+import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { colors } from "../../constants/Colors";
 import { constnatStyles } from "../../constants/Styles";
-import {
-  CategoryItem,
-  Product,
-  SubCategoryData,
-  SubCategoryItem,
-  SubCategoryTitle,
-} from "../../constants/interfaces";
+import { Product, SubCategoryTitle } from "../../constants/interfaces";
 import { statusCodes } from "../../api/APIConstant";
 import { zustandStore } from "../../store";
+import LocationManager from "../../constants/utils/LocationManager";
 
 const ProductListingContainer = ({ navigation, route }: any) => {
   // API Zustand store
@@ -88,6 +77,8 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       isSelected: false,
     },
   ]);
+  const [latitude, setLatitude] = useState<string>("");
+  const [longitude, setLongitude] = useState<string>("");
 
   // Filer Modal
   const [range, setRange] = useState([150, 300]);
@@ -168,7 +159,6 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       const selectedSub = allSubCategories.find(
         (sub: any) => sub.name === selectedTitle
       );
-      handleProductListingApi(selectedSub?.id);
       await handleSortApi(sort_by, selectedSub?.id);
     }
   };
@@ -215,8 +205,13 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     navigation.navigate(ScreenNames.restaurantDetail, { item: item });
   };
 
-  const onPressProduct = (item: any) => {
-    navigation.navigate(ScreenNames.productDetail, { item: item });
+  const onPressProduct = (product_id: string, variation_id: string) => {
+    navigation.navigate(ScreenNames.productDetail, {
+      product_id: product_id,
+      variation_id: variation_id,
+      customer_latitude: latitude,
+      customer_longitude: longitude,
+    });
   };
 
   const onPressFilter = () => {
@@ -424,6 +419,13 @@ const ProductListingContainer = ({ navigation, route }: any) => {
             : subCategories.flatMap((sub: any) => sub.products || []);
 
           setArrSubCategoryProduct(productList);
+
+          // ✅ Update sort selection here
+          const updatedSortList = arrSortList.map((item) => ({
+            ...item,
+            isSelected: item.value === sort_by,
+          }));
+          setArrSortList(updatedSortList);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -440,6 +442,22 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       return () => {};
     }, [navigation])
   );
+
+  useEffect(() => {
+    const fetchLocation = async () => {
+      toggleLoader(true);
+      const current = await LocationManager.getCurrentLocation();
+      if (current) {
+       console.log("current",current);
+       setLatitude(current.latitude.toString());
+       setLongitude(current.longitude.toString());
+        
+      }
+      toggleLoader(false);
+    };
+
+    fetchLocation();
+  }, []);
 
   return (
     <ProductListingComponent

@@ -211,6 +211,7 @@ export default {
   ratingRange: "Rating Range",
   applyFilters: "Apply Filters",
   sort : "Sort",
+  applySort: "Apply Sort",
 
   filterbyOrderType: "Filter by Order Type",
   orders: "Orders",

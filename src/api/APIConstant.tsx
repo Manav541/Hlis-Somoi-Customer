@@ -8,8 +8,8 @@ export const apiBaseURL = {
 // API end points
 export const apiEndPoint = {
   // Secret Key
-  secretKey :"/admin/secret-key",
-  
+  secretKey: "/admin/secret-key",
+
   //Authentication
   signup: "/auth/customer/signup",
   login: "/auth/customer/login",
@@ -18,41 +18,43 @@ export const apiEndPoint = {
   forgotPasswordEmailVerification:
     "/auth/customer/forgot-password-email-verification",
   changeForgotPassword: "/auth/customer/change-forgot-password",
-  changePassword :"/auth/customer/change-password",
-  editProfile :"/auth/customer/edit-profile",
-  updatePhoneEmailVerification :"/auth/customer/update-phone-email-verification",
-  updatePhoneEmail : "/auth/customer/update-phone-email",
-  logout :"/auth/customer/logout",
-  deleteAccount :"/auth/customer/delete-account",
-  getCustomerDetail :"/auth/customer/get-customer-details",
-  cmsPages :"/auth/customer/cms-pages",
+  changePassword: "/auth/customer/change-password",
+  editProfile: "/auth/customer/edit-profile",
+  updatePhoneEmailVerification:
+    "/auth/customer/update-phone-email-verification",
+  updatePhoneEmail: "/auth/customer/update-phone-email",
+  logout: "/auth/customer/logout",
+  deleteAccount: "/auth/customer/delete-account",
+  getCustomerDetail: "/auth/customer/get-customer-details",
+  cmsPages: "/auth/customer/cms-pages",
 
   // Home
-  mainCategoryList :"/home/customer/categories-listing",
-  bannerList :"/home/customer/banner-listing",
-  subCategoryList :"/home/customer/sub-listing",
-  bestProductsSellerList :"/home/customer/home-product-listing",
-  searchProduct : "/home/customer/search-product",
+  mainCategoryList: "/home/customer/categories-listing",
+  bannerList: "/home/customer/banner-listing",
+  subCategoryList: "/home/customer/sub-listing",
+  bestProductsSellerList: "/home/customer/home-product-listing",
+  searchProduct: "/home/customer/search-product",
 
   // Categories Module
-  productListing :"/home/customer/categroywise-products",
-  filterSort :"/home/customer/filter-sort",
-  
+  productListing: "/home/customer/categroywise-products",
+  filterSort: "/home/customer/filter-sort",
+  productDetails: "/home/customer/product-details",
+
   // Setting Module
-  contactUs :"/home/customer/contact-us",
+  contactUs: "/home/customer/contact-us",
 
   // Address
-  locationList :"/home/customer/location-data",
-  addLocation :"/home/customer/add-update-location",
-  updateLocation : "/home/customer/update-location-data",
-  deleteLocation :"/home/customer/delete-location",
+  locationList: "/home/customer/location-data",
+  addLocation: "/home/customer/add-update-location",
+  updateLocation: "/home/customer/update-location-data",
+  deleteLocation: "/home/customer/delete-location",
 
   // Available Offers
-  availableOffers :"/home/customer/list-offer-listing",
+  availableOffers: "/home/customer/list-offer-listing",
 
   // Wishlist
-  wishlistProduct :"/home/customer/wishlist-product",
-  wishlistList : "/home/customer/wishlist-list",
+  wishlistProduct: "/home/customer/wishlist-product",
+  wishlistList: "/home/customer/wishlist-list",
 };
 
 // API status codes
