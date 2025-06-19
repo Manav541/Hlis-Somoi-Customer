@@ -25,14 +25,14 @@ import {
 import { fontSize } from "../../constants/FontSizes";
 import GlobalButton from "../../global/GlobalButton";
 import {
-  FashionColor,
-  FashionSize,
+  ColorVariation,
+  GroceryProductVariation,
   Media,
   ProductData,
   RatingSummary,
   Review,
+  SizeVariation,
   Tag,
-  Variation,
 } from "../../constants/interfaces";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GlobalBackButton from "../../global/GlobalBackButton";
@@ -44,16 +44,14 @@ import { ScreenDimensions } from "../../constants/utils/Dimensions";
 interface PropsType {
   productDetails: ProductData | null;
   arrTags: Tag[];
-
-  arrFashionSize: FashionSize[];
-  arrFashionColor: FashionColor[];
-
+  arrSizeVariations: SizeVariation[];
+  arrColorVariations: ColorVariation[];
   currentIndex: number;
   handleScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
-
+  onPressVariationProduct: (variation_id: string) => void;
   onPressGoToCompareProduct: () => void;
   onPressBuyNow: (type: "add" | "remove") => void;
-  onPressSize: (selectedSize: string) => void;
+  onPressSize: (selectedSize: string, size_id: string) => void;
   onPressColor: (selectedColor: string) => void;
   onPressImageVideo: () => void;
   onPressViewAll: () => void;
@@ -72,9 +70,8 @@ interface PropsType {
     mediaList: { link: string; type: "image" | "video" }[],
     index: number
   ) => void;
-  allMedia:Media[];
+  allMedia: Media[];
   selectedIndex: number;
-
 }
 
 const ViewProductDetailComponent = (props: PropsType) => {
@@ -138,7 +135,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: Variation;
+    item: GroceryProductVariation;
     index: number;
   }) => {
     return (
@@ -147,6 +144,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
         style={styles.btnSimilarProduct}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
+        onPress={() => props?.onPressVariationProduct(item?.variation_id)}
       >
         <FastImage
           style={styles.imgSimilarProduct}
@@ -184,7 +182,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
         >
           <View style={styles.vwRateNumber}>
             <Image style={styles.imgMainStar} source={images.star} />
-            <Text style={styles.lblRateNumber}>{item?.rateNumber}</Text>
+            <Text style={styles.lblRateNumber}>{item?.rate_number}</Text>
           </View>
 
           <View style={styles.vwProgressBar}>
@@ -192,14 +190,14 @@ const ViewProductDetailComponent = (props: PropsType) => {
               style={[
                 styles.vwProgressBarFill,
                 {
-                  width: `${item?.ratePercentage}%`,
+                  width: `${item?.rate_percentage}%`,
                 },
               ]}
             />
           </View>
         </View>
         <View style={{ width: 35, flexDirection: "row-reverse" }}>
-          <Text style={styles.lblRatePercentage}>{item?.ratePercentage}%</Text>
+          <Text style={styles.lblRatePercentage}>{item?.rate_percentage}%</Text>
         </View>
       </View>
     );
@@ -236,7 +234,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
                 style={styles.btnReviewImage}
                 activeOpacity={activityOpacity}
                 hitSlop={hitSlop}
-                onPress={() => props?.handleSelectMedia(item?.media,index)}
+                onPress={() => props?.handleSelectMedia(item?.media, index)}
               >
                 {itemMedia.type === "image" ? (
                   <Image
@@ -260,7 +258,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
                   style={styles.btnReviewVideo}
                   activeOpacity={activityOpacity}
                   hitSlop={hitSlop}
-                  onPress={() => props?.handleSelectMedia(item?.media,index)}
+                  onPress={() => props?.handleSelectMedia(item?.media, index)}
                 >
                   <Image style={styles.imgVideo} source={images.videocircle} />
                 </TouchableOpacity>
@@ -279,19 +277,19 @@ const ViewProductDetailComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: FashionSize;
+    item: SizeVariation;
     index: number;
   }) => {
     return (
       <TouchableOpacity
         style={
-          item?.isSelected
+          item?.is_selected
             ? styles.btnSize
             : { ...styles.btnSize, backgroundColor: colors.white }
         }
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
-        onPress={() => props?.onPressSize(item?.size)}
+        onPress={() => props?.onPressSize(item?.size,item?.size_id)}
         key={index}
       >
         <Text style={{ ...styles.lblSize, fontSize: fontSize.size25 }}>
@@ -305,18 +303,18 @@ const ViewProductDetailComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: FashionColor;
+    item: ColorVariation;
     index: number;
   }) => {
     return (
       <TouchableOpacity
-        style={{ ...styles.btnSize, backgroundColor: item?.color }}
+        style={{ ...styles.btnSize, backgroundColor: item?.hex }}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
-        onPress={() => props?.onPressColor(item?.color)}
+        onPress={() => props?.onPressColor(item?.hex)}
         key={index}
       >
-        {item?.isSelected && (
+        {item?.is_selected && (
           <Image
             style={styles.imgSelectedDot}
             source={images.selectedDot}
@@ -379,9 +377,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
               renderItem={({ item, index }) => {
                 return (
                   <Image
-                    style={styles.imgProduct_imgMain}
+                    style={styles.imgProduct_imgMainF}
                     source={{ uri: item.image }}
-                    resizeMode={"contain"}
+                    resizeMode={"stretch"}
                   />
                 );
               }}
@@ -491,7 +489,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
               <Text style={styles.lblSize}>{getTranslation("size")}</Text>
               <View>
                 <FlatList
-                  data={props?.arrFashionSize}
+                  data={props?.arrSizeVariations}
                   bounces={false}
                   horizontal
                   showsHorizontalScrollIndicator={false}
@@ -508,7 +506,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
               <Text style={styles.lblColor}>{getTranslation("color")}</Text>
               <View>
                 <FlatList
-                  data={props?.arrFashionColor}
+                  data={props?.arrColorVariations}
                   bounces={false}
                   horizontal
                   showsHorizontalScrollIndicator={false}
@@ -526,7 +524,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
           {/* Similar Product */}
           {props?.productDetails?.main_category === "Groceries" && (
             <FlatList
-              data={props?.productDetails?.variations}
+              data={
+                props?.productDetails?.variations as GroceryProductVariation[]
+              }
               horizontal
               showsHorizontalScrollIndicator={false}
               bounces={false}
@@ -545,7 +545,11 @@ const ViewProductDetailComponent = (props: PropsType) => {
             style={{
               ...styles.vwProductData,
               justifyContent:
-                props?.arrTags.length === 1 ? "flex-start" : "space-around",
+                props?.arrTags.length === 1
+                  ? "flex-start"
+                  : props?.arrTags.length === 2
+                  ? "space-evenly"
+                  : "space-around",
             }}
           >
             {props?.arrTags?.map(renderItemTags)}

@@ -1,6 +1,7 @@
 import AddressStore from "./addAddress";
 import AuthStore from "./authentication";
 import AvailableOffersStore from "./availableOffers";
+import CartStore from "./cart";
 import HomeStore from "./home";
 import KeyStore from "./keys";
 import MyWishlistStore from "./myWishlist";
@@ -15,5 +16,6 @@ export const zustandStore = {
   AvailableOffersStore:AvailableOffersStore,
   MyWishlistStore : MyWishlistStore,
   HomeStore : HomeStore,
-  ProductListingStore : ProductListingStore
+  ProductListingStore : ProductListingStore,
+  CartStore : CartStore
 };

@@ -8,8 +8,20 @@ import { images } from "../../../constants/Images";
 import { ScreenNames } from "../../../routers";
 import { GroceryProduct, OrderDetail } from "../../../constants/interfaces";
 import { constnatStyles } from "../../../constants/Styles";
+import { zustandStore } from "../../../store";
+import { statusCodes } from "../../../api/APIConstant";
 
 const CartContainer = ({ navigation }: any) => {
+  // API zustand store
+  const cartListingApi = zustandStore.CartStore((state) => state.cartListing);
+  const applyCouponCodeApi = zustandStore.CartStore(
+    (state) => state.applyCouponCode
+  );
+  const removeCouponCodeApi = zustandStore.CartStore(
+    (state) => state.removeCouponCode
+  );
+  const current_date = new Date().toISOString().split('T')[0];
+console.log(current_date);
   const [couponCode, setCouponCode] = useState<string>("");
   const [isApplyCoupon, setIsApplyCoupon] = useState<boolean>(false);
   const [arrOrderProduts, setArrOrderProducts] = useState<GroceryProduct[]>([
@@ -148,6 +160,10 @@ const CartContainer = ({ navigation }: any) => {
     },
   ]);
 
+  const [cartDetails, setCartDetails] = useState<any>(
+    null
+  );
+
   const [deliverToName, setDeliverToName] = useState<string>("John");
   const [deliverToAddress, setDeliverToAddress] = useState<string>(
     "3465 Hanover Street, Locust Court Burbank New York, NY 10038"
@@ -162,15 +178,15 @@ const CartContainer = ({ navigation }: any) => {
     },
     {
       orderDetailTitle: getTranslation("subTotal"),
-      orderDetailValue: rupeeSymbol+"698",
+      orderDetailValue: rupeeSymbol + "698",
     },
     {
       orderDetailTitle: getTranslation("tax"),
-      orderDetailValue: rupeeSymbol+"34",
+      orderDetailValue: rupeeSymbol + "34",
     },
     {
       orderDetailTitle: getTranslation("discount"),
-      orderDetailValue: "-"+rupeeSymbol+"10.00",
+      orderDetailValue: "-" + rupeeSymbol + "10.00",
     },
     {
       orderDetailTitle: getTranslation("delivery"),
@@ -183,8 +199,6 @@ const CartContainer = ({ navigation }: any) => {
   ]);
 
   const [totalPrice, setTotalPrice] = useState<string>("723");
-
-
 
   const handleQuantityChange = (index: number, type: "add" | "remove") => {
     const updated = [...arrOrderProduts];
@@ -211,13 +225,13 @@ const CartContainer = ({ navigation }: any) => {
       flashMessageWarning(getTranslation("coupon_code_required"));
     } else {
       setCouponCode("");
-      setIsApplyCoupon(true);
+      handleApplyCouponCodeApi(couponCode);
     }
   };
 
   const onPressRemoveCoupon = () => {
     setCouponCode("");
-    setIsApplyCoupon(false);
+    handleRemoveCouponCodeApi();
   };
 
   const onPressChangeDeliveryAddress = () => {
@@ -228,8 +242,79 @@ const CartContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.paymentMethod);
   };
 
+  // ----------------------- API Calling -------------------------
+  // handleCartListingApi
+  const handleCartListingApi = async () => {
+    const dictData = {};
+    try {
+      const response = await cartListingApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("CART LISTING RESPONSE===>", JSON.stringify(response));
+        if (response.code === statusCodes.success) {
+          const rawData = response.data as any;
+          setCartDetails(rawData);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  // handleApplyCouponCodeApi
+  const handleApplyCouponCodeApi = async (offer_code: String) => {
+    const dictData = {
+      offer_code: offer_code,
+      current_date:current_date
+    };
+    try {
+      const response = await applyCouponCodeApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "APPLY COUPON CODE RESPONSE===>",
+            JSON.stringify(response)
+          );
+        if (response.code === statusCodes.success) {
+          setIsApplyCoupon(true);
+          handleCartListingApi();
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  // handleRemoveCouponCodeApi
+  const handleRemoveCouponCodeApi = async () => {
+    const dictData = {};
+    try {
+      const response = await removeCouponCodeApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "REMOVE COUPON CODE RESPONSE===>",
+            JSON.stringify(response)
+          );
+        if (response.code === statusCodes.success) {
+          setIsApplyCoupon(false);
+          handleCartListingApi();
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
+      handleCartListingApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
@@ -246,6 +331,7 @@ const CartContainer = ({ navigation }: any) => {
 
   return (
     <CartComponent
+      cartDetails={cartDetails}
       couponCode={couponCode}
       isApplyCoupon={isApplyCoupon}
       onChangeCouponCode={onChangeCouponCode}

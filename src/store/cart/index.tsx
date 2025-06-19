@@ -3,20 +3,23 @@ import { apiEndPoint } from "../../api/APIConstant";
 import { APIManager } from "../../api/ApiManager";
 import { APIResponseType } from "../../constants/interfaces";
 
-type StoreFunction = (
-  dictData: object,
-  navigation: any
-) => Promise<APIResponseType>;
-
 interface Store {
-  productListing: StoreFunction;
-  filterSort: StoreFunction;
-  productDetails: StoreFunction;
-  addToCart: StoreFunction;
+  applyCouponCode: (
+    dictData: object,
+    navigation: any
+  ) => Promise<APIResponseType>;
+  removeCouponCode: (
+    dictData: object,
+    navigation: any
+  ) => Promise<APIResponseType>;
+  cartListing: (
+    dictData: object,
+    navigation: any
+  ) => Promise<APIResponseType>;
 }
 
-const ProductListingStore = create<Store>((set) => ({
-  productListing(dictData, navigation) {
+const CartStore = create<Store>((set) => ({
+  applyCouponCode(dictData, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -34,7 +37,7 @@ const ProductListingStore = create<Store>((set) => ({
       };
 
       APIManager.postServerRequestWithToken({
-        apiEndPoint: apiEndPoint.productListing,
+        apiEndPoint: apiEndPoint.applyCouponCode,
         callback: callback,
         dictData: dictData,
         navigation: navigation,
@@ -42,7 +45,7 @@ const ProductListingStore = create<Store>((set) => ({
     });
   },
 
-  filterSort(dictData, navigation) {
+  removeCouponCode(dictData, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -60,7 +63,7 @@ const ProductListingStore = create<Store>((set) => ({
       };
 
       APIManager.postServerRequestWithToken({
-        apiEndPoint: apiEndPoint.filterSort,
+        apiEndPoint: apiEndPoint.removeCouponCode,
         callback: callback,
         dictData: dictData,
         navigation: navigation,
@@ -68,7 +71,7 @@ const ProductListingStore = create<Store>((set) => ({
     });
   },
 
-  productDetails(dictData, navigation) {
+  cartListing(dictData, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -86,33 +89,7 @@ const ProductListingStore = create<Store>((set) => ({
       };
 
       APIManager.postServerRequestWithToken({
-        apiEndPoint: apiEndPoint.productDetails,
-        callback: callback,
-        dictData: dictData,
-        navigation: navigation,
-      });
-    });
-  },
-
-  addToCart(dictData, navigation) {
-    return new Promise<APIResponseType>((resolve, reject) => {
-      const callback = (
-        data: APIResponseType | null,
-        error: { message: string } | null
-      ) => {
-        if (error) {
-          console.warn("API error===>", error);
-          reject(error.message || "An error occurred");
-          return;
-        } else {
-          if (data) {
-            resolve(data);
-          }
-        }
-      };
-
-      APIManager.postServerRequestWithToken({
-        apiEndPoint: apiEndPoint.addToCart,
+        apiEndPoint: apiEndPoint.cartListing,
         callback: callback,
         dictData: dictData,
         navigation: navigation,
@@ -121,4 +98,4 @@ const ProductListingStore = create<Store>((set) => ({
   },
 }));
 
-export default ProductListingStore;
+export default CartStore;

@@ -8,10 +8,15 @@ import { useFocusEffect } from "@react-navigation/native";
 import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { constnatStyles } from "../../constants/Styles";
-import { Product, SubCategoryTitle } from "../../constants/interfaces";
+import {
+  AddToCartDictData,
+  Product,
+  SubCategoryTitle,
+} from "../../constants/interfaces";
 import { statusCodes } from "../../api/APIConstant";
 import { zustandStore } from "../../store";
 import LocationManager from "../../constants/utils/LocationManager";
+import { MmkvManager } from "../../constants/utils/MmkvManager";
 
 const ProductListingContainer = ({ navigation, route }: any) => {
   // API Zustand store
@@ -24,10 +29,14 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const filterSortApi = zustandStore.ProductListingStore(
     (state) => state.filterSort
   );
+  const addToCartApi = zustandStore.ProductListingStore(
+    (state) => state.addToCart
+  );
 
   const insets = useSafeAreaInsets();
   const mainCategoryId = route.params?.mainCategoryId;
   const mainCategoryName = route.params?.mainCategoryName;
+  const [customer_id, setCustomer_id] = useState<string>("");
   const [arrSubCategoryProduct, setArrSubCategoryProduct] = useState<Product[]>(
     []
   );
@@ -44,6 +53,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     Flour: images.flourSubIcon,
     "Cooking Oil": images.cookingoilSubIcon,
     Milk: images.cookingoilSubIcon,
+    "T-shirt": images.tshirtIcon,
   };
 
   const [selectedTitle, setSelectedTitle] = useState("All");
@@ -194,7 +204,14 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     } else if (type === "remove" && updated[index].quantity > 0) {
       updated[index].quantity -= 1;
     }
+    const updatedData = updated[0];
+    console.log("updated data ==> ", updatedData);
     setArrSubCategoryProduct(updated);
+    handleAddToCartApi(
+      updatedData.id,
+      updatedData.variation_id,
+      updatedData.quantity
+    );
   };
 
   const onPressFavourite = (product_id: string, variation_id: string) => {
@@ -224,28 +241,26 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
   const header = () => {
     navigation.setOptions({
-      header: () => (
-        <View
-          style={[constnatStyles.vwHeader, { paddingTop: insets.top + 10 }]}
-        >
-          <GlobalBackButton onPress={() => navigation.goBack()} />
-
-          <Text style={constnatStyles.lblHeaderTitle}>{mainCategoryName}</Text>
-
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <GlobalBackButton
-              isRight
-              onPress={onPressSort}
-              rightImage={images.sort}
-              style={{ marginBottom: 0 }}
-            />
-            <GlobalBackButton
-              isRight
-              onPress={onPressFilter}
-              rightImage={images.filter}
-              style={{ marginBottom: 0 }}
-            />
-          </View>
+      headerLeft: () => (
+        <GlobalBackButton onPress={() => navigation.goBack()} />
+      ),
+      headerTitle: () => (
+        <Text style={constnatStyles.lblHeaderTitle}>{mainCategoryName}</Text>
+      ),
+      headerRight: () => (
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <GlobalBackButton
+            isRight
+            onPress={onPressSort}
+            rightImage={images.sort}
+            style={{ marginBottom: 0 }}
+          />
+          <GlobalBackButton
+            isRight
+            onPress={onPressFilter}
+            rightImage={images.filter}
+            style={{ marginBottom: 0 }}
+          />
         </View>
       ),
     });
@@ -301,8 +316,10 @@ const ProductListingContainer = ({ navigation, route }: any) => {
             : subCategories.flatMap((sub: any) => sub.products || []);
 
           setArrSubCategoryProduct(productList);
-        } else {
-          flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          setArrSubCategoryProduct([]);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          setArrSubCategoryProduct([]);
         }
       }
     } catch (error) {
@@ -435,10 +452,52 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     }
   };
 
+  const handleAddToCartApi = async (
+    product_id: string,
+    variation_id: string,
+    quantity: number,
+    size_id?: string,
+    color_id?: string
+  ) => {
+    const dictData: AddToCartDictData = {
+      customer_id: customer_id,
+      product_id: product_id,
+      variation_id: variation_id,
+      quantity: quantity,
+    };
+
+    if (mainCategoryId == "9") {
+      dictData.size_id = size_id;
+      dictData.color_id = color_id;
+    }
+
+    try {
+      const response = await addToCartApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("ADD TO CART RESPONSE===>", JSON.stringify(response));
+
+        if (response.code === statusCodes.success) {
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Product Listing API Error:", error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       handleProductListingApi();
       StatusBar.setBarStyle("dark-content");
+      // Fetch customer data
+      MmkvManager.getData(MmkvManager.Keys.customerId, (customerId) => {
+        if (customerId) {
+          setCustomer_id(customerId);
+        }
+      });
       return () => {};
     }, [navigation])
   );
@@ -448,10 +507,9 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       toggleLoader(true);
       const current = await LocationManager.getCurrentLocation();
       if (current) {
-       console.log("current",current);
-       setLatitude(current.latitude.toString());
-       setLongitude(current.longitude.toString());
-        
+        console.log("current", current);
+        setLatitude(current.latitude.toString());
+        setLongitude(current.longitude.toString());
       }
       toggleLoader(false);
     };

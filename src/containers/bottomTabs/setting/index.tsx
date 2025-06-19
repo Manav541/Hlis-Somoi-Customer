@@ -28,7 +28,6 @@ import { zustandStore } from "../../../store";
 import { statusCodes } from "../../../api/APIConstant";
 
 const SettingContainer = ({ navigation, route }: any) => {
-  console.log("route ==>>> ", route?.params?.name);
   // API Zustand Store
   const logoutApi = zustandStore.AuthStore((state) => state.logout);
   const deleteAccountApi = zustandStore.AuthStore(

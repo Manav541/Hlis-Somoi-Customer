@@ -23,6 +23,7 @@ import { GroceryProduct, OrderDetail } from "../../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 
 interface PropsType {
+  cartDetails: any;
   couponCode: string;
   isApplyCoupon: boolean;
   onChangeCouponCode: (text: string) => void;
@@ -40,21 +41,21 @@ interface PropsType {
 }
 
 const CartComponent = (props: PropsType) => {
-  const renderItemOrderProduct = (item: GroceryProduct, index: number) => {
+  const renderItemOrderProduct = (item: any, index: number) => {
     return (
       <View style={styles.vwOrderProductItem} key={index}>
         <View style={styles.vwProductImage}>
           <FastImage
-            style={{ height: item?.height, width: item?.width }}
-            source={item?.product_img}
+            style={{ height: 61.6, width: 42.3 }}
+            source={{ uri: item?.product_data?.image }}
             resizeMode="stretch"
           />
         </View>
         <View style={styles.vwOrderProductItemDetail}>
-          <Text style={styles.lblProductName}>{item?.product_name}</Text>
+          <Text style={styles.lblProductName}>{item?.product_data?.name}</Text>
           <View style={styles.vwProductPriceWeight}>
             <Text style={styles.lblProductPrice}>
-              {rupeeSymbol + item?.product_final_price}
+              {rupeeSymbol + item?.product_data?.variation_data?.price}
             </Text>
             <Image
               style={styles.imgBlueDot}
@@ -62,7 +63,11 @@ const CartComponent = (props: PropsType) => {
               resizeMode="stretch"
               tintColor={colors.blue4e}
             />
-            <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
+            <Text style={styles.lblProductWeight}>
+              {item?.product_data?.variation_data?.amount +
+                " " +
+                item?.product_data?.variation_data?.unit}
+            </Text>
           </View>
         </View>
         <View style={styles.vwProductQuantity}>
@@ -78,9 +83,7 @@ const CartComponent = (props: PropsType) => {
               resizeMode="stretch"
             />
           </TouchableOpacity>
-          <Text style={styles.lblProductQuantity}>
-            {item?.product_quantity}
-          </Text>
+          <Text style={styles.lblProductQuantity}>{item?.quantity}</Text>
           <TouchableOpacity
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
@@ -112,7 +115,7 @@ const CartComponent = (props: PropsType) => {
   };
 
   // Empty Cart
-  if (!props?.arrOrderProduts?.length) {
+  if (!props?.cartDetails) {
     return (
       <View style={styles.vwMainEmpty}>
         <StatusBar
@@ -170,6 +173,7 @@ const CartComponent = (props: PropsType) => {
               through free delivery!
             </Text>
           </View>
+          {/* Coupon Code */}
           <View style={styles.vwApplyCouponCode}>
             <Image
               style={styles.imgApplyCouponCode}
@@ -180,8 +184,8 @@ const CartComponent = (props: PropsType) => {
               {getTranslation("applyCouponCode")}
             </Text>
           </View>
-          {/* Coupon Code */}
-          {props?.isApplyCoupon ? (
+          {/* Coupon Code Apply */}
+          {props?.cartDetails?.is_offer_applied == true ? (
             <View style={styles.vwRemoveCode}>
               <View style={styles.vwApplidCouponCodeDesc}>
                 <Text style={styles.lblAppliedCouponCodeTitle}>
@@ -236,7 +240,7 @@ const CartComponent = (props: PropsType) => {
 
           {/* Order Product Listing */}
           <View style={styles.vwArrOrderProducts}>
-            {props?.arrOrderProduts?.map(renderItemOrderProduct)}
+            {props?.cartDetails?.cart_details?.map(renderItemOrderProduct)}
           </View>
 
           {/* Delivert To Name */}
@@ -277,13 +281,65 @@ const CartComponent = (props: PropsType) => {
             </Text>
             <View style={styles.vwOrderDetailsItemMain}>
               <View style={{ gap: 11 }}>
-                {props?.arrOrderDetails?.map(renderItemOrderDetails)}
+                {/* Item Total */}
+                <View style={styles.vwOrderDetailsItem}>
+                  <Text style={styles.lblOrderDetailsTitle}>Item total</Text>
+                  <Text style={styles.lblOrderDetailsValue}>
+                    {props?.cartDetails?.total_quantity}
+                  </Text>
+                </View>
+
+                {/* Sub Total */}
+                <View style={styles.vwOrderDetailsItem}>
+                  <Text style={styles.lblOrderDetailsTitle}>Sub Total</Text>
+                  <Text style={styles.lblOrderDetailsValue}>
+                    {rupeeSymbol + " " + props?.cartDetails?.total_amount}
+                  </Text>
+                </View>
+
+                {/* Tax (5%) */}
+                <View style={styles.vwOrderDetailsItem}>
+                  <Text style={styles.lblOrderDetailsTitle}>
+                    Tax ({props?.cartDetails?.tax_percentage}%)
+                  </Text>
+                  <Text style={styles.lblOrderDetailsValue}>
+                    {rupeeSymbol + props?.cartDetails?.tax_amount}
+                  </Text>
+                </View>
+
+                {/* Discount */}
+                <View style={styles.vwOrderDetailsItem}>
+                  <Text style={styles.lblOrderDetailsTitle}>Discount</Text>
+                  <Text style={styles.lblOrderDetailsValue}>
+                    {rupeeSymbol + props?.cartDetails?.discount_price}
+                  </Text>
+                </View>
+
+                {/* Delivery */}
+                <View style={styles.vwOrderDetailsItem}>
+                  <Text style={styles.lblOrderDetailsTitle}>Delivery</Text>
+                  <Text style={styles.lblOrderDetailsValue}>
+                    {props?.cartDetails?.delivery_charges === "0.00"
+                      ? "Free"
+                      : rupeeSymbol + props?.cartDetails?.delivery_charges}
+                  </Text>
+                </View>
+
+                {/* Payment Type */}
+                <View style={styles.vwOrderDetailsItem}>
+                  <Text style={styles.lblOrderDetailsTitle}>Payment Type</Text>
+                  <Text style={styles.lblOrderDetailsValue}>
+                    {props?.cartDetails?.payment_type}
+                  </Text>
+                </View>
+
+                {/* {props?.arrOrderDetails?.map(renderItemOrderDetails)} */}
               </View>
               <View style={styles.vwLine} />
               <View style={styles.vwTotal}>
                 <Text style={styles.lblTotal}>{getTranslation("total")}</Text>
                 <Text style={styles.lblTotal}>
-                  {rupeeSymbol + " " + props?.totalPrice}
+                  {rupeeSymbol + " " + props?.cartDetails?.total_bill}
                 </Text>
               </View>
             </View>

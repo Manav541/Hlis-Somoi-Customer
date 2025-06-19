@@ -24,15 +24,12 @@ import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import ViewProductDetailComponent from "../../components/viewProductDetail";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { ScreenNames } from "../../routers";
-import { colors } from "../../constants/Colors";
 import {
-  FashionColor,
-  FashionSize,
+  ColorVariation,
   Media,
   ProductData,
-  RatingSummary,
   Review,
-  SimilarProduct,
+  SizeVariation,
   Tag,
 } from "../../constants/interfaces";
 import { zustandStore } from "../../store";
@@ -59,70 +56,33 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const [arrTags, setArrTags] = useState<Tag[]>([]);
   const [isSharing, setIsSharing] = useState<boolean>(true);
   const [mediaModalVisible, setMediaModalVisible] = useState(false);
-const [allMedia, setAllMedia] = useState<Media[]>([]);
-const [selectedMedia, setSelectedMedia] = useState<{ link: string; type: 'image' | 'video' } | null>(null);
-const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [allMedia, setAllMedia] = useState<Media[]>([]);
+  const [selectedMedia, setSelectedMedia] = useState<{
+    link: string;
+    type: "image" | "video";
+  } | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [arrSizeVariations, setArrSizeVariations] = useState<SizeVariation[]>(
+    []
+  );
+  const [arrColorVariations, setArrColorVariations] = useState<
+    ColorVariation[]
+  >([]);
 
   const handleCloseMediaModal = () => {
     setMediaModalVisible(false);
     // setSelectedMedia(null);
-  // setAllMedia([]);
+    // setAllMedia([]);
   };
 
   const handleSelectMedia = (
-    mediaList: { link: string; type: 'image' | 'video' }[],
+    mediaList: { link: string; type: "image" | "video" }[],
     index: number
   ) => {
     setAllMedia(mediaList);
     setSelectedIndex(index);
     setMediaModalVisible(true);
   };
-
-  const [arrFashionSize, setArrFashionSize] = useState<FashionSize[]>([
-    {
-      size: "S",
-      isSelected: false,
-    },
-    {
-      size: "M",
-      isSelected: true,
-    },
-    {
-      size: "L",
-      isSelected: false,
-    },
-    {
-      size: "XL",
-      isSelected: false,
-    },
-  ]);
-
-  const [arrFashionColor, setArrFashionColor] = useState<FashionColor[]>([
-    {
-      color: colors.brown08,
-      isSelected: false,
-    },
-    {
-      color: colors.blue4e,
-      isSelected: true,
-    },
-    {
-      color: colors.black,
-      isSelected: false,
-    },
-    {
-      color: colors.brown46,
-      isSelected: false,
-    },
-    {
-      color: colors.green9f,
-      isSelected: false,
-    },
-    {
-      color: colors.grey72,
-      isSelected: false,
-    },
-  ]);
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isNavigating, setIsNavigating] = useState(false);
@@ -171,6 +131,10 @@ const [selectedIndex, setSelectedIndex] = useState<number>(0);
     handleWishlistProductApi(product_id, variation_id);
   };
 
+  const onPressVariationProduct = (variation_id: string) => {
+    handleProductDetailsApi(product_id, variation_id);
+  };
+
   const onPressBuyNow = (type: "add" | "remove") => {
     // if (type === "add") {
     //   setProduct_Quantity((prevQuantity: number) => prevQuantity + 1);
@@ -189,20 +153,65 @@ const [selectedIndex, setSelectedIndex] = useState<number>(0);
     flashMessageWarning(getTranslation("underDevelopment"));
   };
 
-  const onPressSize = (selectedSize: string) => {
-    const updatedSizes = arrFashionSize.map((item) => ({
+  const onPressSize = (selectedSize: string, size_id: string) => {
+    // Step 1: Update the size selection
+    const updatedSizes = arrSizeVariations.map((item) => ({
       ...item,
-      isSelected: item.size === selectedSize,
+      is_selected: item.size === selectedSize,
     }));
-    setArrFashionSize(updatedSizes);
+    setArrSizeVariations(updatedSizes);
+
+    // Step 2: Get the selected size object
+    const selectedSizeObj = updatedSizes.find(
+      (item) => item.size === selectedSize
+    );
+
+    if (selectedSizeObj && Array.isArray(selectedSizeObj.colors)) {
+      // Step 3: Get the color where is_selected is true
+      const selectedColor = selectedSizeObj.colors.find(
+        (color) => color.is_selected
+      );
+
+      console.log("selectedColor", selectedColor);
+
+      // Step 4: Update the color variation state
+      setArrColorVariations(selectedSizeObj.colors);
+
+      // Step 5: Call API with selected values
+      handleProductDetailsApi(
+        product_id,
+        selectedColor?.variation_id ?? "",
+        size_id,
+        selectedColor?.color_id ?? ""
+      );
+    } else {
+      setArrColorVariations([]);
+    }
   };
 
-  const onPressColor = (selectedColor: string) => {
-    const updatedColor = arrFashionColor.map((item) => ({
+  const onPressColor = (selectedHex: string) => {
+    // Step 1: Update color selection
+    const updatedColors = arrColorVariations.map((item) => ({
       ...item,
-      isSelected: item.color === selectedColor,
+      is_selected: item.hex === selectedHex,
     }));
-    setArrFashionColor(updatedColor);
+    setArrColorVariations(updatedColors);
+  
+    // Step 2: Get selected color object
+    const selectedColor = updatedColors.find((color) => color.is_selected);
+  
+    // Step 3: Get the selected size object
+    const selectedSizeObj = arrSizeVariations.find((item) => item.is_selected);
+  
+    // Step 4: Call API with selected values
+    if (selectedSizeObj && selectedColor) {
+      handleProductDetailsApi(
+        product_id,
+        selectedColor.variation_id,
+        selectedSizeObj.size_id,
+        selectedColor.color_id
+      );
+    }
   };
 
   const onPressCartIcon = useCallback(() => {
@@ -241,7 +250,7 @@ const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
     if (hrs > 0 && mins > 0) {
       return `${hrs} hr${hrs > 1 ? "s" : ""} ${mins} min${mins > 1 ? "s" : ""}`;
-    } else if (hrs > 0) {
+    } else if (hrs > 0 && mins === 0) {
       return `${hrs} hr${hrs > 1 ? "s" : ""}`;
     } else {
       return `${mins} min${mins > 1 ? "s" : ""}`;
@@ -250,12 +259,19 @@ const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   // ------------------- API Call ---------------------------
   // handleProductDetailsApi
-  const handleProductDetailsApi = async () => {
+  const handleProductDetailsApi = async (
+    product_id: string,
+    variation_id: string,
+    size_id?: string,
+    color_id?: string
+  ) => {
     const dictData = {
       product_id: product_id,
       variation_id: variation_id,
       customer_latitude: customer_latitude,
       customer_longitude: customer_longitude,
+      size_id: size_id,
+      color_id: color_id,
     };
     try {
       const response = await productDetailsApi(dictData, navigation);
@@ -266,34 +282,51 @@ const [selectedIndex, setSelectedIndex] = useState<number>(0);
         if (response.code === statusCodes.success) {
           const rawData = response.data as ProductData;
 
+          // ✅ Store size variations if Fashion category
+          if (
+            rawData.main_category === "Fashion" &&
+            Array.isArray(rawData.variations)
+          ) {
+            setArrSizeVariations(rawData.variations as SizeVariation[]);
+
+            // ✅ Set default selected size and its colors
+            const selectedSizeObj = rawData.variations.find(
+              (item) => item.is_selected
+            );
+            if (
+              selectedSizeObj &&
+              "colors" in selectedSizeObj &&
+              Array.isArray(selectedSizeObj.colors)
+            ) {
+              setArrColorVariations(selectedSizeObj.colors);
+            }
+          }
+
+          // Format delivery time from minutes to string
+          const estimatedMins = Number(rawData.estimated_delivery_time || 0);
+          const formattedDeliveryTime = formatDeliveryTime(estimatedMins);
+
           // ✅ Dynamically build tag array based on response
           const tempTags = [];
           if (rawData.is_product_returnable) {
             tempTags.push({
               icon: images.productReturn,
-              title: "3 day Return/\nExchange",
+              title: "3 day Return/ Exchange",
             });
           }
           if (rawData.is_cod_available) {
             tempTags.push({
               icon: images.cashOnDelivery,
-              title: "Cash on\nDelivery",
+              title: "Cash on Delivery",
             });
           }
           if (rawData.is_fast_delivery) {
             tempTags.push({
               icon: images.fastDelivery,
-              title: "Fast\nDelivery",
+              title: "Fast Delivery",
             });
           }
           setArrTags(tempTags);
-
-          // Convert estimated_delivery_time: "1548 mins" => "25 hrs 48 mins"
-          const estimatedMinsString = rawData.estimated_delivery_time || "0";
-          const estimatedMins = Number(
-            estimatedMinsString.replace(" mins", "")
-          );
-          const formattedDeliveryTime = formatDeliveryTime(estimatedMins);
 
           // Convert string[] to { image: string }[]
           const formattedImages = ((rawData as any).images || []).map(
@@ -301,16 +334,6 @@ const [selectedIndex, setSelectedIndex] = useState<number>(0);
               image: img,
             })
           );
-
-          // Convert rating_summary object to array
-          const ratingArray: RatingSummary[] = Object.entries(
-            rawData.rating_summary || {}
-          )
-            .map(([key, value]) => ({
-              rateNumber: Number(key),
-              ratePercentage: Number(value),
-            }))
-            .reverse();
 
           const formattedReviews: Review[] = (rawData.reviews || []).map(
             (review: any) => ({
@@ -334,9 +357,8 @@ const [selectedIndex, setSelectedIndex] = useState<number>(0);
           const finalData = {
             ...rawData,
             images: formattedImages,
-            rating_summary: ratingArray,
-            estimated_delivery_time: formattedDeliveryTime,
             reviews: formattedReviews,
+            estimated_delivery_time: formattedDeliveryTime,
           };
 
           setProductDetails(finalData);
@@ -391,21 +413,21 @@ const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   useFocusEffect(
     React.useCallback(() => {
-      handleProductDetailsApi();
+      handleProductDetailsApi(product_id, variation_id);
       StatusBar.setBarStyle("light-content");
       return () => {};
-    }, [navigation])
+    }, [navigation, product_id, variation_id])
   );
 
   return (
-    // <View style={{flex : 1, backgroundColor : colors.blue4e}}></View>
     <ViewProductDetailComponent
       productDetails={productDetails}
       arrTags={arrTags}
-      arrFashionSize={arrFashionSize}
-      arrFashionColor={arrFashionColor}
+      arrSizeVariations={arrSizeVariations}
+      arrColorVariations={arrColorVariations}
       currentIndex={currentIndex}
       handleScroll={handleScroll}
+      onPressVariationProduct={onPressVariationProduct}
       onPressGoToCompareProduct={onPressGoToCompareProduct}
       onPressBuyNow={onPressBuyNow}
       onPressSize={onPressSize}

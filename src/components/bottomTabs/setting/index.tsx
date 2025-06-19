@@ -29,7 +29,6 @@ interface PropsType {
 }
 
 const SettingComponent = (props: PropsType) => {
-  console.log("props", props?.profileImage);
   const renderArrSettingData = (item: any, index: number) => {
     return (
       <View key={index}>

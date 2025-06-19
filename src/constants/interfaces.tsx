@@ -293,7 +293,7 @@ export interface ProductData {
   product_weight: string;
   distance: string;
   estimated_delivery_time: string;
-  variations: Variation[];
+  variations: (GroceryProductVariation | SizeVariation | ColorVariation)[];
   tags: Tag[];
   highlights: Highlight[];
   description: string;
@@ -302,11 +302,29 @@ export interface ProductData {
   cart: Cart;
 }
 
+export interface ColorVariation {
+  name: string;
+  hex: string;
+  image: string;
+  variation_id: string;
+  color_id:string;
+  price: string;
+  quantity: string;
+  is_selected: boolean;
+}
+
+export interface SizeVariation {
+  size: string;
+  size_id:string
+  is_selected: boolean;
+  colors: ColorVariation[];
+}
+
 export interface ProductImages {
   image: string;
 }
 
-export interface Variation {
+export interface GroceryProductVariation {
   product_id: string;
   variation_id: string;
   price: string;
@@ -328,8 +346,8 @@ export interface Highlight {
 }
 
 export interface RatingSummary {
-  rateNumber: number,
-  ratePercentage: number,
+  rate_number: number,
+  rate_percentage: number,
 }
 
 export interface Review {
@@ -402,57 +420,24 @@ export interface Restaurant {
   isFavourite: boolean;
 }
 
-export interface FashionHighlight {
-  highlightTitle: string;
-  highlightDesc: string;
-}
 
-export interface FashionImage {
-  imgMain: ImageSourcePropType;
-}
 
-export interface FashionProduct {
-  mainCategoryTitle: string;
-  subCategoryTitle: string;
-  product_imgMain: FashionImage[];
-  product_img: ImageSourcePropType;
-  product_name: string;
-  product_price: string;
-  product_final_price: string;
-  product_rating: string;
-  product_review: number;
-  isFavourite: boolean;
-  product_quantity: number;
-  product_deliverytime: string;
-  product_distance: string;
-  product_desc: string;
-  product_highlight: FashionHighlight[];
-  product_inStock: boolean;
-  product_deliveryData: DeliveryData[];
-  height: number;
-  width: number;
-}
 
-export interface Category {
-  image: ImageSourcePropType;
-  name: string;
-  arrSubCategory: (GroceryProduct | Restaurant | FashionProduct)[];
-}
 
-export interface FashionSize {
-  size: "S" | "M" | "L" | "XL";
-  isSelected: boolean;
-}
-
-export interface FashionColor {
-  color: string;
-  isSelected: boolean;
-}
 export interface SimilarProduct {
   product_img: ImageSourcePropType;
   product_final_price: string;
   product_price: string;
   product_weight: string;
+}
+
+export interface AddToCartDictData {
+  customer_id: string;
+  product_id: string;
+  variation_id: string;
+  quantity: number;
+  size_id?: string;
+  color_id?: string;
 }
 
 // My Order Tab

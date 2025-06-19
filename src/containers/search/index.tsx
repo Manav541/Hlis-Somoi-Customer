@@ -1,8 +1,6 @@
 import {
   View,
   TextInput,
-  TouchableOpacity,
-  Image,
   StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
@@ -14,15 +12,9 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { colors } from "../../constants/Colors";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
-import {
-  activityOpacity,
-  flashMessageWarning,
-  hitSlop,
-} from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../routers";
-import { GroceryProduct } from "../../constants/interfaces";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
 import { constnatStyles } from "../../constants/Styles";

@@ -39,6 +39,12 @@ export const apiEndPoint = {
   productListing: "/home/customer/categroywise-products",
   filterSort: "/home/customer/filter-sort",
   productDetails: "/home/customer/product-details",
+  addToCart: "/home/customer/add-to-cart",
+
+  // Cart Module
+  applyCouponCode: "/home/customer/apply-offer",
+  removeCouponCode: "/home/customer/remove-offer",
+  cartListing: "/home/customer/get-cart-data",
 
   // Setting Module
   contactUs: "/home/customer/contact-us",
