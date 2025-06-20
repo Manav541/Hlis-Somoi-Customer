@@ -94,12 +94,14 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
     });
   };
 
-  const onPressAddress = () => {
-    if (navigateFromCart) {
+  const onPressAddress = (selectedAddress: LocationData) => {
+    if (navigateFromCart && route.params?.onSelectAddress) {
+      route.params.onSelectAddress(selectedAddress); // call the callback
       navigation.goBack();
     }
   };
 
+  // ----------------------- API Calling -------------------------
   const handleAddressListApi = async () => {
     try {
       const response = await addressListApi({}, navigation);

@@ -6,10 +6,16 @@ import { flashMessageWarning, rupeeSymbol } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { images } from "../../../constants/Images";
 import { ScreenNames } from "../../../routers";
-import { GroceryProduct, OrderDetail } from "../../../constants/interfaces";
+import {
+  AddToCartDictData,
+  ApplyCouponResponseData,
+  CustomerDetails,
+  GroceryProduct,
+} from "../../../constants/interfaces";
 import { constnatStyles } from "../../../constants/Styles";
 import { zustandStore } from "../../../store";
 import { statusCodes } from "../../../api/APIConstant";
+import { MmkvManager } from "../../../constants/utils/MmkvManager";
 
 const CartContainer = ({ navigation }: any) => {
   // API zustand store
@@ -20,8 +26,17 @@ const CartContainer = ({ navigation }: any) => {
   const removeCouponCodeApi = zustandStore.CartStore(
     (state) => state.removeCouponCode
   );
-  const current_date = new Date().toISOString().split('T')[0];
-console.log(current_date);
+  const addressListApi = zustandStore.AddressStore(
+    (state) => state.addressList
+  );
+  const updateCartQuantityApi = zustandStore.ProductListingStore(
+    (state) => state.updateCartQuantity
+  );
+  const removeFromCartApi = zustandStore.ProductListingStore(
+    (state) => state.removeFromCart
+  );
+
+  const current_date = new Date().toISOString().split("T")[0];
   const [couponCode, setCouponCode] = useState<string>("");
   const [isApplyCoupon, setIsApplyCoupon] = useState<boolean>(false);
   const [arrOrderProduts, setArrOrderProducts] = useState<GroceryProduct[]>([
@@ -159,61 +174,46 @@ console.log(current_date);
       width: 47.52,
     },
   ]);
-
-  const [cartDetails, setCartDetails] = useState<any>(
-    null
-  );
-
-  const [deliverToName, setDeliverToName] = useState<string>("John");
-  const [deliverToAddress, setDeliverToAddress] = useState<string>(
-    "3465 Hanover Street, Locust Court Burbank New York, NY 10038"
-  );
+  const [cartDetails, setCartDetails] = useState<any>(null);
+  const [deliverToName, setDeliverToName] = useState<string>("");
+  const [deliverToAddress, setDeliverToAddress] = useState<string>("");
+  const hasSelectedAddressRef = React.useRef(false);
   const [approxDeliveryTime, setApproxDeliveryTime] =
-    useState<string>("25 min");
-
-  const [arrOrderDetails, setArrOrderDetails] = useState<OrderDetail[]>([
-    {
-      orderDetailTitle: getTranslation("itemTotal"),
-      orderDetailValue: "2",
-    },
-    {
-      orderDetailTitle: getTranslation("subTotal"),
-      orderDetailValue: rupeeSymbol + "698",
-    },
-    {
-      orderDetailTitle: getTranslation("tax"),
-      orderDetailValue: rupeeSymbol + "34",
-    },
-    {
-      orderDetailTitle: getTranslation("discount"),
-      orderDetailValue: "-" + rupeeSymbol + "10.00",
-    },
-    {
-      orderDetailTitle: getTranslation("delivery"),
-      orderDetailValue: "Free",
-    },
-    {
-      orderDetailTitle: getTranslation("paymentType"),
-      orderDetailValue: "Cash on Delivery",
-    },
-  ]);
-
-  const [totalPrice, setTotalPrice] = useState<string>("723");
+    useState<string>("25 mins");
+  const [offerResponse, setOfferResponse] = useState<ApplyCouponResponseData>();
 
   const handleQuantityChange = (index: number, type: "add" | "remove") => {
-    const updated = [...arrOrderProduts];
+    const cartArray = [...cartDetails?.cart_details];
+    const item = cartArray[index];
+
+    const currentQty = Number(item.quantity) || 0;
 
     if (type === "add") {
-      updated[index].product_quantity += 1;
+      handleUpdateCartQuantityApi(
+        item.product_id,
+        item.variation_id,
+        currentQty + 1,
+        index,
+        cartArray
+      );
     } else if (type === "remove") {
-      if (updated[index].product_quantity > 1) {
-        updated[index].product_quantity -= 1;
+      if (currentQty > 1) {
+        handleUpdateCartQuantityApi(
+          item.product_id,
+          item.variation_id,
+          currentQty - 1,
+          index,
+          cartArray
+        );
       } else {
-        updated.splice(index, 1);
+        handleRemoveFromCartApi(
+          item.product_id,
+          item.variation_id,
+          index,
+          cartArray
+        );
       }
     }
-
-    setArrOrderProducts(updated);
   };
 
   const onChangeCouponCode = (text: string) => {
@@ -235,9 +235,17 @@ console.log(current_date);
   };
 
   const onPressChangeDeliveryAddress = () => {
-    navigation.navigate(ScreenNames.manageAddress, { navigateFromCart: true });
-  };
+    navigation.navigate(ScreenNames.manageAddress, {
+      navigateFromCart: true,
+      onSelectAddress: (selectedAddress: any) => {
+        console.log("ADDRESS SELECTED IN CART SCREEN ===>", selectedAddress); // ✅ Log the full selected address
 
+        const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
+        setDeliverToAddress(formatted);
+        hasSelectedAddressRef.current = true;
+      },
+    });
+  };
   const onPressPlaceOrder = () => {
     navigation.navigate(ScreenNames.paymentMethod);
   };
@@ -256,6 +264,8 @@ console.log(current_date);
           setCartDetails(rawData);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          setCartDetails(null);
         }
       }
     } catch (error) {
@@ -267,7 +277,7 @@ console.log(current_date);
   const handleApplyCouponCodeApi = async (offer_code: String) => {
     const dictData = {
       offer_code: offer_code,
-      current_date:current_date
+      current_date: current_date,
     };
     try {
       const response = await applyCouponCodeApi(dictData, navigation);
@@ -278,7 +288,9 @@ console.log(current_date);
             JSON.stringify(response)
           );
         if (response.code === statusCodes.success) {
+          const data = response.data as any;
           setIsApplyCoupon(true);
+          setOfferResponse(data);
           handleCartListingApi();
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
@@ -312,10 +324,141 @@ console.log(current_date);
     }
   };
 
+  // handleAddressListApi
+  const handleAddressListApi = async () => {
+    try {
+      const response = await addressListApi({}, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("ADDRESS LIST RESPONSE===>", JSON.stringify(response));
+
+        if (response.code === statusCodes.success) {
+          const locationData = response.data;
+          if (Array.isArray(locationData)) {
+            const defaultAddress = locationData.find(
+              (item) => item.is_default === true
+            );
+            if (defaultAddress) {
+              const formattedAddress = `${defaultAddress.building_details}, ${defaultAddress.address}, ${defaultAddress.description}`;
+              setDeliverToAddress(formattedAddress);
+            }
+          }
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("ADDRESS LIST API Error:", error);
+    }
+  };
+
+  // handleUpdateCartQuantityApi
+  const handleUpdateCartQuantityApi = async (
+    product_id: string,
+    variation_id: string,
+    quantity: number,
+    index: number,
+    cartArray: any[]
+  ) => {
+    const dictData: AddToCartDictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+      quantity: quantity,
+    };
+
+    try {
+      const response = await updateCartQuantityApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "UPDATE CART QUANTITY RESPONSE===>",
+            JSON.stringify(response)
+          );
+
+        if (response.code === statusCodes.success) {
+          const rawData = response.data as any;
+          // ✅ Update quantity only after success
+          const updated = [...cartArray];
+          updated[index].quantity = quantity;
+          setCartDetails((prev: any) => ({
+            ...prev,
+            cart_details: updated,
+          }));
+
+          setCartDetails(rawData);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Update Cart API Error:", error);
+    }
+  };
+
+  // handleRemoveFromCartApi
+  const handleRemoveFromCartApi = async (
+    product_id: string,
+    variation_id: string,
+    index: number,
+    cartArray: any[]
+  ) => {
+    const dictData: AddToCartDictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+    };
+
+    try {
+      const response = await removeFromCartApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "REMOVE FROM CART RESPONSE===>",
+            JSON.stringify(response)
+          );
+
+        if (response.code === statusCodes.success) {
+          const rawData = response.data as any;
+          // ✅ Remove item only after success
+          const updated = [...cartArray];
+          updated.splice(index, 1);
+          setCartDetails((prev: any) => ({
+            ...prev,
+            cart_details: updated,
+          }));
+          setCartDetails(rawData);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Remove From Cart API Error:", error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       handleCartListingApi();
+      // Only load default address if no address selected yet
+      if (!hasSelectedAddressRef.current) {
+        handleAddressListApi();
+      }
       StatusBar.setBarStyle("dark-content");
+
+      // Fetch customer data
+      MmkvManager.getData(
+        MmkvManager.Keys.customerDetails,
+        (customerDetails) => {
+          if (customerDetails) {
+            const customerData = JSON.parse(customerDetails) as CustomerDetails;
+            setDeliverToName(customerData.name);
+          }
+        }
+      );
+
       return () => {};
     }, [navigation])
   );
@@ -341,11 +484,10 @@ console.log(current_date);
       deliverToName={deliverToName}
       deliverToAddress={deliverToAddress}
       approxDeliveryTime={approxDeliveryTime}
-      arrOrderDetails={arrOrderDetails}
-      totalPrice={totalPrice}
       onPressChangeDeliveryAddress={onPressChangeDeliveryAddress}
       onPressPlaceOrder={onPressPlaceOrder}
       handleQuantityChange={handleQuantityChange}
+      offerResponse={offerResponse || {} as ApplyCouponResponseData}
     />
   );
 };

@@ -3,7 +3,7 @@ import GlobalBackButton from "../../global/GlobalBackButton";
 import MyWishlistComponent from "../../components/myWishlist";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar, Text } from "react-native";
-import { Product } from "../../constants/interfaces";
+import { AddToCartDictData, Product } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
 import { statusCodes } from "../../api/APIConstant";
@@ -11,7 +11,7 @@ import { zustandStore } from "../../store";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { debounceQuery } from "../../constants/utils/Debounce";
 
-const MyWishlistContainer = ({ navigation }: any) => {
+const MyWishlistContainer = ({ navigation, route }: any) => {
   // API Zustand store
   const myWhilistApi = zustandStore.MyWishlistStore(
     (state) => state.myWishlist
@@ -20,6 +20,17 @@ const MyWishlistContainer = ({ navigation }: any) => {
     (state) => state.wishlistProduct
   );
 
+  const addToCartApi = zustandStore.ProductListingStore(
+    (state) => state.addToCart
+  );
+  const updateCartQuantityApi = zustandStore.ProductListingStore(
+    (state) => state.updateCartQuantity
+  );
+  const removeFromCartApi = zustandStore.ProductListingStore(
+    (state) => state.removeFromCart
+  );
+
+  const currentLatLong = route?.params?.currentLatLong;
   const [search, setSearch] = useState<string>("");
   const debounce = debounceQuery(search, 300);
   const [selectedTab, setSelectedTab] = useState<string>("Product");
@@ -32,23 +43,55 @@ const MyWishlistContainer = ({ navigation }: any) => {
   const handleTabPress = (tab: string) => {
     setSearch("");
     setSelectedTab(tab);
-    handleMyWhilistApi(search,tab);
+    handleMyWhilistApi(search, tab);
   };
 
   // Add to cart
-  const handleQuantityChange = (index: number, type: "add" | "remove") => {
-    const updated = [...arrMyWhislist];
+  const handleQuantityChange = async (
+    index: number,
+    type: "add" | "remove"
+  ) => {
+    const currentItem = arrMyWhislist[index];
+    const currentQty = Number(currentItem.quantity) || 0;
+    let newQty = currentQty;
+
     if (type === "add") {
-      updated[index].quantity += 1;
-    } else if (type === "remove" && updated[index].quantity > 0) {
-      updated[index].quantity -= 1;
+      newQty = currentQty + 1;
+    } else if (type === "remove" && currentQty > 0) {
+      newQty = currentQty - 1;
     }
-    setArrMyWishlist(updated);
+
+    const { id: product_id, variation_id, color, size } = currentItem;
+    const size_id = size?.size_id;
+    const color_id = color?.color_id;
+
+    if (newQty === 0) {
+      await handleRemoveFromCartApi(product_id, variation_id, index);
+    } else if (currentQty === 0 && newQty === 1) {
+      await handleAddToCartApi(
+        product_id,
+        variation_id,
+        newQty,
+        size_id,
+        color_id,
+        index
+      );
+    } else {
+      await handleUpdateCartQuantityApi(
+        product_id,
+        variation_id,
+        newQty,
+        index
+      );
+    }
   };
 
   // On Press Product
   const onPressProduct = (item: any) => {
-    navigation.navigate(ScreenNames.productDetail, { item: item });
+    navigation.navigate(ScreenNames.productDetail, {
+      item: item,
+      currentLatLong: currentLatLong,
+    });
   };
 
   //   Remove from wishlist
@@ -61,7 +104,8 @@ const MyWishlistContainer = ({ navigation }: any) => {
 
   // -----------------------API Call-----------------------
 
-  const handleMyWhilistApi = async (text : string,type: string) => {
+  // handleMyWhilistApi
+  const handleMyWhilistApi = async (text: string, type: string) => {
     const dictData = {
       search_text: text.trim(),
       page_number: 1,
@@ -91,6 +135,7 @@ const MyWishlistContainer = ({ navigation }: any) => {
     }
   };
 
+  // handleWishlistProductApi
   const handleWishlistProductApi = async (
     product_id: string,
     variation_id: string
@@ -123,6 +168,122 @@ const MyWishlistContainer = ({ navigation }: any) => {
     }
   };
 
+  // handleAddToCartApi
+  const handleAddToCartApi = async (
+    product_id: string,
+    variation_id: string,
+    quantity: number,
+    size_id?: string,
+    color_id?: string,
+    index?: number
+  ) => {
+    const dictData: AddToCartDictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+      quantity: quantity,
+    };
+
+    // if (mainCategoryId == "9") {
+    //   dictData.size_id = size_id;
+    //   dictData.color_id = color_id;
+    // }
+
+    try {
+      const response = await addToCartApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("ADD TO CART RESPONSE===>", JSON.stringify(response));
+
+        if (response.code === statusCodes.success) {
+          const updated = [...arrMyWhislist];
+          if (index !== undefined) {
+            updated[index].quantity = quantity;
+          }
+          setArrMyWishlist(updated);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Product Listing API Error:", error);
+    }
+  };
+
+  // handleUpdateCartQuantityApi
+  const handleUpdateCartQuantityApi = async (
+    product_id: string,
+    variation_id: string,
+    quantity: number,
+    index?: number
+  ) => {
+    const dictData: AddToCartDictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+      quantity: quantity,
+    };
+
+    try {
+      const response = await updateCartQuantityApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "UPDATE CART QUANTITY RESPONSE===>",
+            JSON.stringify(response)
+          );
+
+        if (response.code === statusCodes.success) {
+          const updated = [...arrMyWhislist];
+          if (index !== undefined) {
+            updated[index].quantity = quantity;
+          }
+          setArrMyWishlist(updated);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Update Cart API Error:", error);
+    }
+  };
+
+  // handleRemoveFromCartApi
+  const handleRemoveFromCartApi = async (
+    product_id: string,
+    variation_id: string,
+    index?: number
+  ) => {
+    const dictData: AddToCartDictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+    };
+
+    try {
+      const response = await removeFromCartApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "REMOVE FROM CART RESPONSE===>",
+            JSON.stringify(response)
+          );
+
+        if (response.code === statusCodes.success) {
+          const updated = [...arrMyWhislist];
+          if (typeof index === "number") {
+            updated[index].quantity = 0;
+          }
+          setArrMyWishlist(updated);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Remove From Cart API Error:", error);
+    }
+  };
+
   const header = () => {
     navigation.setOptions({
       headerLeft: () => (
@@ -146,7 +307,7 @@ const MyWishlistContainer = ({ navigation }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleMyWhilistApi(search,selectedTab);
+      handleMyWhilistApi(search, selectedTab);
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
@@ -157,7 +318,7 @@ const MyWishlistContainer = ({ navigation }: any) => {
       // Call your API function here
       if (debounce) {
         console.log("Search Text==>", debounce);
-        handleMyWhilistApi(debounce,selectedTab);
+        handleMyWhilistApi(debounce, selectedTab);
       }
       // Cleanup interval on component unmount or dependency change
       return () => {};

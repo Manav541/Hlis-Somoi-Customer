@@ -59,7 +59,8 @@ const MyWishlistComponent = (props: PropsType) => {
         <View style={styles.vwProductImgLike}>
           <FastImage
             source={{ uri: item?.image }}
-            style={{ height: 80, width: 70 }}
+            style={{ height: 80, aspectRatio: 1 }}
+            resizeMode={FastImage.resizeMode.contain}
           />
           <TouchableOpacity
             style={styles.btnRedHeart}

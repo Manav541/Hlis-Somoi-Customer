@@ -40,6 +40,8 @@ export const apiEndPoint = {
   filterSort: "/home/customer/filter-sort",
   productDetails: "/home/customer/product-details",
   addToCart: "/home/customer/add-to-cart",
+  updateCartQuantity: "/home/customer/update-cart-quantity",
+  removeFromCart : "/home/customer/remove-cart-data",
 
   // Cart Module
   applyCouponCode: "/home/customer/apply-offer",

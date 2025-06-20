@@ -72,6 +72,10 @@ interface PropsType {
   ) => void;
   allMedia: Media[];
   selectedIndex: number;
+  cartItemTotal: string;
+  is_variation: boolean;
+  is_size: boolean;
+  is_color: boolean;
 }
 
 const ViewProductDetailComponent = (props: PropsType) => {
@@ -289,7 +293,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
         }
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
-        onPress={() => props?.onPressSize(item?.size,item?.size_id)}
+        onPress={() => props?.onPressSize(item?.size, item?.size_id)}
         key={index}
       >
         <Text style={{ ...styles.lblSize, fontSize: fontSize.size25 }}>
@@ -361,9 +365,13 @@ const ViewProductDetailComponent = (props: PropsType) => {
                     source={images.cartBagIcon}
                     tintColor={colors.blue4e}
                   />
-                  <View style={styles.vwBedge}>
-                    <Text style={styles.lblBedge}>2</Text>
-                  </View>
+                  {props?.cartItemTotal && (
+                    <View style={styles.vwBedge}>
+                      <Text style={styles.lblBedge}>
+                        {props?.cartItemTotal}
+                      </Text>
+                    </View>
+                  )}
                 </TouchableOpacity>
               </View>
             </View>

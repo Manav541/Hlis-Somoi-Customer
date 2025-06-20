@@ -41,10 +41,24 @@ interface PropsType {
   subCategoryFashionTitle: any[];
   onPressSubCategoryTitle: (selectedName: string) => void;
   arrSubCategoryProduct: Product[];
-  handleQuantityChange: (index: number, type: "add" | "remove") => void;
+  handleQuantityChange: (
+    index: number,
+    type: "add" | "remove",
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean
+  ) => void;
   onPressFavourite: (product_id: string, variation_id: string) => void;
   onPressRestaurant: (item: any) => void;
-  onPressProduct: (product_id: string, variation_id: string) => void;
+  onPressProduct: (
+    product_id: string,
+    variation_id: string,
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean,
+    color_id?: string,
+    size_id?: string
+  ) => void;
   isFilterModalVisible: boolean;
   isSortModalVisible: boolean;
   arrSortList: any[];
@@ -116,13 +130,24 @@ const ProductListingComponent = (props: PropsType) => {
         ]}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
-        onPress={() => props?.onPressProduct(item?.id, item?.variation_id)}
+        onPress={() =>
+          props?.onPressProduct(
+            item?.id,
+            item?.variation_id,
+            item?.is_variation,
+            item?.is_color,
+            item?.is_size,
+            item?.color?.color_id,
+            item?.size?.size_id
+          )
+        }
       >
         {/* Product Image and Favourite button */}
         <View style={styles.vwProductImgLike}>
           <FastImage
             source={{ uri: item?.image }}
-            style={{ height: 80, width: 70 }}
+            style={{ height: 80, aspectRatio: 1 }}
+            resizeMode={FastImage.resizeMode.contain}
           />
           <TouchableOpacity
             style={styles.btnRedHeart}
@@ -183,7 +208,15 @@ const ProductListingComponent = (props: PropsType) => {
           <TouchableOpacity
             style={styles.btnAddToCart}
             activeOpacity={activityOpacity}
-            onPress={() => props.handleQuantityChange(index, "add")}
+            onPress={() =>
+              props.handleQuantityChange(
+                index,
+                "add",
+                item?.is_variation,
+                item?.is_color,
+                item?.is_size
+              )
+            }
           >
             <Text style={styles.lblAddToCart}>
               {getTranslation("addToCart")}
@@ -192,7 +225,15 @@ const ProductListingComponent = (props: PropsType) => {
         ) : (
           <View style={styles.vwCounterContainer}>
             <TouchableOpacity
-              onPress={() => props.handleQuantityChange(index, "remove")}
+              onPress={() =>
+                props.handleQuantityChange(
+                  index,
+                  "remove",
+                  item?.is_variation,
+                  item?.is_color,
+                  item?.is_size
+                )
+              }
               hitSlop={hitSlop}
               activeOpacity={activityOpacity}
             >
@@ -204,7 +245,15 @@ const ProductListingComponent = (props: PropsType) => {
             </TouchableOpacity>
             <Text style={styles.lblProductQuantity}>{item.quantity}</Text>
             <TouchableOpacity
-              onPress={() => props.handleQuantityChange(index, "add")}
+              onPress={() =>
+                props.handleQuantityChange(
+                  index,
+                  "add",
+                  item?.is_variation,
+                  item?.is_color,
+                  item?.is_size
+                )
+              }
               hitSlop={hitSlop}
               activeOpacity={activityOpacity}
             >
@@ -311,9 +360,7 @@ const ProductListingComponent = (props: PropsType) => {
         }}
       >
         <View style={styles.vwLineSort} />
-        <View
-          style={styles.vwSort}
-        >
+        <View style={styles.vwSort}>
           <Text style={styles.lblSort}>{item?.name}</Text>
           {item?.isSelected && (
             <Image

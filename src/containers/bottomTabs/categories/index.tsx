@@ -4,8 +4,6 @@ import CategoriesComponent from "../../../components/bottomTabs/categories";
 import { ScreenNames } from "../../../routers";
 import { useFocusEffect } from "@react-navigation/native";
 import {
-  FashionProduct,
-  GroceryProduct,
   MainCategoryListItem,
   Restaurant,
 } from "../../../constants/interfaces";
@@ -32,6 +30,9 @@ const CategoriesContainer = ({ navigation }: any) => {
   const [hasMoreData, setHasMoreData] = useState<boolean>(true);
   const hasMountedOnce = useRef(false);
   const [canLoadMore, setCanLoadMore] = useState(false);
+  const [currentLatLong, setCurrentLatLong] = useState<
+    { latitude: number; longitude: number } | null
+  >(null);
   const [currentAddress, setCurrentAddress] = useState<string | null>("");
 
   const onPressMainCategories = (
@@ -41,6 +42,7 @@ const CategoriesContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.productListing, {
       mainCategoryId: mainCategoryId,
       mainCategoryName: mainCategoryName,
+      currentLatLong: currentLatLong
     });
   };
 
@@ -105,6 +107,7 @@ const CategoriesContainer = ({ navigation }: any) => {
     toggleLoader(true);
     const current = await LocationManager.getCurrentLocation();
     if (current) {
+      setCurrentLatLong(current);
       const address = await LocationManager.getFormattedAddress(current);
       console.log("currentAddress", address);
       setCurrentAddress(address);

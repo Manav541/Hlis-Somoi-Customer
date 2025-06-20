@@ -16,7 +16,7 @@ export interface ConatctUsResponse {
   name: string;
   email: string;
   subject: string;
-  description: string,
+  description: string;
 }
 
 export interface CustomerDetails {
@@ -75,7 +75,7 @@ export interface LocationData {
 export interface SignupResponse {
   customer_details: CustomerDetails;
   device_info: DeviceInfo;
-  location_data: LocationData; 
+  location_data: LocationData;
 }
 
 export interface DeviceInfoType {
@@ -251,10 +251,10 @@ export interface BestProduct {
 
 // Category tab
 export interface SubCategoryTitle {
-  id : string
-  image: any;        
-  name: string;      
-  isSelected: boolean; 
+  id: string;
+  image: any;
+  name: string;
+  isSelected: boolean;
 }
 
 export interface Product {
@@ -268,10 +268,37 @@ export interface Product {
   quantity: number;
   rating: string;
   weight: string;
-  variation_id : string;
+  variation_id: string;
+  is_size: boolean;
+  is_color: boolean;
+  is_variation: boolean;
+  color?: {
+    color_id: string;
+    name: string;
+    code: string;
+    image: string;
+  };
+
+  size?: {
+    size_id: string;
+    name: string;
+    value: string;
+    image: string;
+  };
+
+  is_selected?: boolean;
 }
 
 // Product Detail Page
+
+export interface ProductDetailsDictData {
+  product_id: string;
+  variation_id: string;
+  customer_latitude: string;
+  customer_longitude: string;
+  size_id?: string;     // optional
+  color_id?: string;    // optional
+}
 
 export interface ProductData {
   main_category: string;
@@ -307,7 +334,7 @@ export interface ColorVariation {
   hex: string;
   image: string;
   variation_id: string;
-  color_id:string;
+  color_id: string;
   price: string;
   quantity: string;
   is_selected: boolean;
@@ -315,7 +342,7 @@ export interface ColorVariation {
 
 export interface SizeVariation {
   size: string;
-  size_id:string
+  size_id: string;
   is_selected: boolean;
   colors: ColorVariation[];
 }
@@ -346,8 +373,8 @@ export interface Highlight {
 }
 
 export interface RatingSummary {
-  rate_number: number,
-  rate_percentage: number,
+  rate_number: number;
+  rate_percentage: number;
 }
 
 export interface Review {
@@ -355,11 +382,11 @@ export interface Review {
   rating: string;
   comment: string;
   date: string;
-  media: Media[]
+  media: Media[];
 }
 
 export interface Media {
-  link : string,
+  link: string;
   type: "image" | "video";
 }
 
@@ -420,10 +447,6 @@ export interface Restaurant {
   isFavourite: boolean;
 }
 
-
-
-
-
 export interface SimilarProduct {
   product_img: ImageSourcePropType;
   product_final_price: string;
@@ -432,12 +455,40 @@ export interface SimilarProduct {
 }
 
 export interface AddToCartDictData {
-  customer_id: string;
   product_id: string;
   variation_id: string;
-  quantity: number;
+  quantity?: number;
   size_id?: string;
   color_id?: string;
+}
+
+// Cart
+export interface OfferData {
+  id: number;
+  vendor_id: number | null;
+  name: string;
+  minimum_price: number | null;
+  discount_percentage: string;
+  coupon_code: string;
+  type: string;
+  description: string;
+  duration_date: string | null;
+  created_by: string;
+  admin_id: number;
+  is_block: boolean;
+  is_approve: string;
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
+  start_date: string; // ISO date format
+  end_date: string;   // ISO date format
+}
+
+export interface ApplyCouponResponseData {
+  discount_price: string;
+  total_bill: string;
+  offer_data: OfferData;
 }
 
 // My Order Tab
@@ -506,7 +557,6 @@ export interface CancelOrderReason {
   reason: string;
   isSelected: boolean;
 }
-
 
 // Order Details
 export interface OrderDetail {
@@ -604,11 +654,9 @@ export interface SubCategoryData {
   subCategory: SubCategoryItem[];
 }
 
-
 // extra
 
 export interface GroceriesFoodItem {
   type: string | null;
   image: FastImageSource;
 }
-

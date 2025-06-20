@@ -1,33 +1,24 @@
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
   StatusBar,
   NativeSyntheticEvent,
   NativeScrollEvent,
   Alert,
   Share,
 } from "react-native";
-import React, { useCallback, useLayoutEffect, useState } from "react";
-import GlobalBackButton from "../../global/GlobalBackButton";
-import { styles } from "./styles";
+import React, { useCallback, useState } from "react";
 import { images } from "../../constants/Images";
-import {
-  activityOpacity,
-  appName,
-  flashMessageWarning,
-  hitSlop,
-} from "../../constants/GConstant";
+import { appName, flashMessageWarning } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import ViewProductDetailComponent from "../../components/viewProductDetail";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { ScreenNames } from "../../routers";
 import {
+  AddToCartDictData,
   ColorVariation,
   Media,
   ProductData,
+  ProductDetailsDictData,
   Review,
   SizeVariation,
   Tag,
@@ -43,12 +34,27 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const wishlistProductApi = zustandStore.MyWishlistStore(
     (state) => state.wishlistProduct
   );
+  const addToCartApi = zustandStore.ProductListingStore(
+    (state) => state.addToCart
+  );
+  const updateCartQuantityApi = zustandStore.ProductListingStore(
+    (state) => state.updateCartQuantity
+  );
+  const removeFromCartApi = zustandStore.ProductListingStore(
+    (state) => state.removeFromCart
+  );
+  const cartListingApi = zustandStore.CartStore((state) => state.cartListing);
 
   const itemData = route.params;
   const product_id = itemData?.product_id;
   const variation_id = itemData?.variation_id;
   const customer_latitude = itemData?.customer_latitude;
   const customer_longitude = itemData?.customer_longitude;
+  const is_variation = itemData?.is_variation;
+  const is_color = itemData?.is_color;
+  const is_size = itemData?.is_size;
+  const color_id = itemData?.color_id;
+  const size_id = itemData?.size_id;
 
   const [productDetails, setProductDetails] = useState<ProductData | null>(
     null
@@ -68,6 +74,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const [arrColorVariations, setArrColorVariations] = useState<
     ColorVariation[]
   >([]);
+  const [cartItemTotal, setCartItemTotal] = useState<string>("");
 
   const handleCloseMediaModal = () => {
     setMediaModalVisible(false);
@@ -135,14 +142,59 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     handleProductDetailsApi(product_id, variation_id);
   };
 
+  // onPressBuyNow
   const onPressBuyNow = (type: "add" | "remove") => {
-    // if (type === "add") {
-    //   setProduct_Quantity((prevQuantity: number) => prevQuantity + 1);
-    // } else if (type === "remove") {
-    //   setProduct_Quantity((prevQuantity: number) =>
-    //     prevQuantity > 0 ? prevQuantity - 1 : 0
-    //   );
-    // }
+    if (!productDetails) return;
+
+    const currentQty = Number(productDetails.cart?.quantity) || 0;
+    let newQty = currentQty;
+
+    if (type === "add") {
+      newQty = currentQty + 1;
+    } else if (type === "remove") {
+      newQty = currentQty > 0 ? currentQty - 1 : 0;
+    }
+
+    // ✅ Extract selected size and color from variations
+    const selectedSize = productDetails.variations?.find((v) => v.is_selected);
+    const selectedColor = (selectedSize as SizeVariation)?.colors?.find(
+      (c) => c.is_selected
+    );
+
+    const product_id = productDetails?.product_id;
+    const variation_id = productDetails?.variation_id; // You must pass this
+    const size_id = (selectedSize as SizeVariation)?.size_id;
+    const color_id = selectedColor?.color_id;
+
+    if (newQty === 1 && currentQty === 0) {
+      // Add to cart first time
+      handleAddToCartApi(
+        product_id,
+        variation_id,
+        newQty,
+        size_id,
+        color_id,
+        productDetails,
+        setProductDetails
+      );
+    } else if (newQty === 0) {
+      // Remove from cart
+      handleRemoveFromCartApi(
+        product_id,
+        variation_id,
+        productDetails,
+        setProductDetails
+      );
+    } else {
+      // Update quantity
+      handleUpdateCartQuantityApi(
+        product_id,
+        variation_id,
+        newQty,
+        productDetails,
+        setProductDetails
+      );
+    }
   };
 
   const onPressImageVideo = () => {
@@ -196,13 +248,13 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       is_selected: item.hex === selectedHex,
     }));
     setArrColorVariations(updatedColors);
-  
+
     // Step 2: Get selected color object
     const selectedColor = updatedColors.find((color) => color.is_selected);
-  
+
     // Step 3: Get the selected size object
     const selectedSizeObj = arrSizeVariations.find((item) => item.is_selected);
-  
+
     // Step 4: Call API with selected values
     if (selectedSizeObj && selectedColor) {
       handleProductDetailsApi(
@@ -265,14 +317,20 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     size_id?: string,
     color_id?: string
   ) => {
-    const dictData = {
+    const dictData: ProductDetailsDictData = {
       product_id: product_id,
       variation_id: variation_id,
-      customer_latitude: customer_latitude,
-      customer_longitude: customer_longitude,
-      size_id: size_id,
-      color_id: color_id,
+      customer_latitude: customer_latitude.toString(),
+      customer_longitude: customer_longitude.toString(),
     };
+
+    if (is_size == true) {
+      dictData.size_id = size_id;
+    }
+    if (is_color == true) {
+      dictData.color_id = color_id;
+    }
+
     try {
       const response = await productDetailsApi(dictData, navigation);
       if (response !== undefined && response !== null) {
@@ -411,12 +469,175 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     }
   };
 
+  // handleAddToCartApi
+  const handleAddToCartApi = async (
+    product_id: string,
+    variation_id: string,
+    quantity: number,
+    size_id?: string,
+    color_id?: string,
+    productDetails?: ProductData,
+    setProductDetails?: React.Dispatch<React.SetStateAction<ProductData | null>>
+  ) => {
+    const dictData: AddToCartDictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+      quantity: quantity,
+    };
+
+    if (is_variation == true) {
+      if (is_size == true) {
+        dictData.size_id = size_id;
+      }
+      if (is_color == true) {
+        dictData.color_id = color_id;
+      }
+    }
+
+    try {
+      const response = await addToCartApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("ADD TO CART RESPONSE===>", JSON.stringify(response));
+
+        if (response.code === statusCodes.success) {
+          // ✅ Update quantity in productDetails
+          if (productDetails && setProductDetails) {
+            setProductDetails({
+              ...productDetails,
+              cart: {
+                ...productDetails.cart,
+                quantity: quantity,
+              },
+            });
+          }
+          // handleCartListingApi();
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Product Listing API Error:", error);
+    }
+  };
+
+  // handleUpdateCartQuantityApi
+  const handleUpdateCartQuantityApi = async (
+    product_id: string,
+    variation_id: string,
+    quantity: number,
+    productDetails?: ProductData,
+    setProductDetails?: React.Dispatch<React.SetStateAction<ProductData | null>>
+  ) => {
+    const dictData: AddToCartDictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+      quantity: quantity,
+    };
+
+    try {
+      const response = await updateCartQuantityApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "UPDATE CART QUANTITY RESPONSE===>",
+            JSON.stringify(response)
+          );
+
+        if (response.code === statusCodes.success) {
+          // ✅ Update quantity in productDetails
+          if (productDetails && setProductDetails) {
+            setProductDetails({
+              ...productDetails,
+              cart: {
+                ...productDetails.cart,
+                quantity: quantity,
+              },
+            });
+          }
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Update Cart API Error:", error);
+    }
+  };
+
+  // handleRemoveFromCartApi
+  const handleRemoveFromCartApi = async (
+    product_id: string,
+    variation_id: string,
+    productDetails?: ProductData,
+    setProductDetails?: React.Dispatch<React.SetStateAction<ProductData | null>>
+  ) => {
+    const dictData: AddToCartDictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+    };
+
+    try {
+      const response = await removeFromCartApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "REMOVE FROM CART RESPONSE===>",
+            JSON.stringify(response)
+          );
+
+        if (response.code === statusCodes.success) {
+          // ✅ Set quantity to 0 in productDetails
+          if (productDetails && setProductDetails) {
+            setProductDetails({
+              ...productDetails,
+              cart: {
+                ...productDetails.cart,
+                quantity: 0,
+              },
+            });
+          }
+          // handleCartListingApi();
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Remove From Cart API Error:", error);
+    }
+  };
+
+  // handleCartListingApi
+  const handleCartListingApi = async () => {
+    const dictData = {};
+    try {
+      const response = await cartListingApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("CART LISTING RESPONSE===>", JSON.stringify(response));
+        if (response.code === statusCodes.success) {
+          const rawData = response.data as any;
+          setCartItemTotal(rawData?.total_quantity);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          setCartItemTotal("");
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
-      handleProductDetailsApi(product_id, variation_id);
+      handleProductDetailsApi(product_id, variation_id, color_id, size_id);
+      // handleCartListingApi();
       StatusBar.setBarStyle("light-content");
       return () => {};
-    }, [navigation, product_id, variation_id])
+    }, [navigation, product_id, variation_id, color_id, size_id])
   );
 
   return (
@@ -446,6 +667,10 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       handleSelectMedia={handleSelectMedia}
       allMedia={allMedia}
       selectedIndex={selectedIndex}
+      cartItemTotal={cartItemTotal}
+      is_variation={is_variation}
+      is_size={is_size}
+      is_color={is_color}
     />
   );
 };

@@ -22,7 +22,7 @@ interface PropsType {
   handleOnPressEditAddress: (item: LocationData) => void;
   navigateFromCart: boolean;
   navigateFromHome: boolean;
-  onPressAddress: () => void;
+  onPressAddress: (selectedAddress: LocationData) => void;
 }
 
 const ManageAddressesComponent = (props: PropsType) => {
@@ -38,7 +38,8 @@ const ManageAddressesComponent = (props: PropsType) => {
         style={styles.vwManageAddress}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
-        onPress={() => props.onPressAddress()}
+        key={index}
+        onPress={() => props.onPressAddress(item)}
         disabled={!props.navigateFromCart && !props.navigateFromHome}
       >
         <Text style={styles.lblAddressTitle}>

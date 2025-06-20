@@ -6,6 +6,7 @@ import {
   flashMessageSucess,
   flashMessageWarning,
   showConfirmForGuest,
+  toggleLoader,
 } from "../../../constants/GConstant";
 import { images } from "../../../constants/Images";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
@@ -26,6 +27,7 @@ import {
 import { constnatStyles } from "../../../constants/Styles";
 import { zustandStore } from "../../../store";
 import { statusCodes } from "../../../api/APIConstant";
+import LocationManager from "../../../constants/utils/LocationManager";
 
 const SettingContainer = ({ navigation, route }: any) => {
   // API Zustand Store
@@ -40,6 +42,9 @@ const SettingContainer = ({ navigation, route }: any) => {
   const [isModalSignOutVisible, setIsModalSignOutVisible] = useState(false);
   const [isSharing, setIsSharing] = useState<boolean>(true);
   const baseImagePath = "https://hlik-deep-bhaumik.s3.amazonaws.com/somoiapp/customers_images/";
+  const [currentLatLong, setCurrentLatLong] = useState<
+    { latitude: number; longitude: number } | null
+  >(null);
 
   // Constants for common values
   const ICON_SIZE = {
@@ -124,7 +129,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           icon: images.myWishlistIcon,
           title: getTranslation("myWishlist"),
           ...ICON_SIZE,
-          onPress: () => navigation.navigate(ScreenNames.myWishlist),
+          onPress: () => navigation.navigate(ScreenNames.myWishlist,{currentLatLong:currentLatLong}),
         },
         {
           icon: images.manageAddressIcon,
@@ -284,6 +289,16 @@ const SettingContainer = ({ navigation, route }: any) => {
       __DEV__ && console.log(error);
     }
   };
+
+    // Current Location
+    const handleCurrentLocation = async () => {
+      toggleLoader(true);
+      const current = await LocationManager.getCurrentLocation();
+      if (current) {
+        setCurrentLatLong(current);
+      }
+      toggleLoader(false);
+    };
 
   useFocusEffect(
     React.useCallback(() => {

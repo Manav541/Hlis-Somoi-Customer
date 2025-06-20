@@ -48,9 +48,9 @@ const AvailableOffersComponent = (props: PropsType) => {
           </Text>
           <Text style={styles.lblOfferDesc}>
             {item?.description}{" "}
-            <Text style={styles.lblOfferPrice}>
+            {/* <Text style={styles.lblOfferPrice}>
               {rupeeSymbol + item?.minimum_price}
-            </Text>
+            </Text> */}
           </Text>
         </View>
         <View style={styles.vwOfferCodeValidity}>

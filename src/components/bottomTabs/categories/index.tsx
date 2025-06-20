@@ -14,11 +14,7 @@ import { images } from "../../../constants/Images";
 import { activityOpacity, hitSlop } from "../../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
-  Category,
-  FashionProduct,
-  GroceryProduct,
   MainCategoryListItem,
-  Restaurant,
 } from "../../../constants/interfaces";
 import { colors } from "../../../constants/Colors";
 import FastImage from "react-native-fast-image";

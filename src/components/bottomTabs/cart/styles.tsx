@@ -114,7 +114,7 @@ export const styles = StyleSheet.create({
     justifyContent : 'space-between',
     alignItems : 'center',
     flexDirection : 'row',
-    gap : 8,
+    gap : 5,
     marginHorizontal : 9,
     marginBottom : 9,
     alignSelf : 'flex-end',
@@ -224,6 +224,9 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
     color: colors.blue4e,
+    width : 16,
+    textAlign : 'center',
+    height : 16
   },
   lblDeliverToName :{
     fontSize : fontSize.size16,

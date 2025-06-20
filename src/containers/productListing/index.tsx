@@ -6,7 +6,6 @@ import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
 import { useFocusEffect } from "@react-navigation/native";
 import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { constnatStyles } from "../../constants/Styles";
 import {
   AddToCartDictData,
@@ -32,11 +31,15 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const addToCartApi = zustandStore.ProductListingStore(
     (state) => state.addToCart
   );
+  const updateCartQuantityApi = zustandStore.ProductListingStore(
+    (state) => state.updateCartQuantity
+  );
+  const removeFromCartApi = zustandStore.ProductListingStore(
+    (state) => state.removeFromCart
+  );
 
-  const insets = useSafeAreaInsets();
   const mainCategoryId = route.params?.mainCategoryId;
   const mainCategoryName = route.params?.mainCategoryName;
-  const [customer_id, setCustomer_id] = useState<string>("");
   const [arrSubCategoryProduct, setArrSubCategoryProduct] = useState<Product[]>(
     []
   );
@@ -87,8 +90,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       isSelected: false,
     },
   ]);
-  const [latitude, setLatitude] = useState<string>("");
-  const [longitude, setLongitude] = useState<string>("");
+  const currentLatLong = route.params?.currentLatLong;
 
   // Filer Modal
   const [range, setRange] = useState([150, 300]);
@@ -197,21 +199,49 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     }
   };
 
-  const handleQuantityChange = (index: number, type: "add" | "remove") => {
-    const updated = [...arrSubCategoryProduct];
+  const handleQuantityChange = async (
+    index: number,
+    type: "add" | "remove",
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean
+  ) => {
+    const currentItem = arrSubCategoryProduct[index];
+    const currentQty = Number(currentItem.quantity) || 0;
+    let newQty = currentQty;
+
     if (type === "add") {
-      updated[index].quantity += 1;
-    } else if (type === "remove" && updated[index].quantity > 0) {
-      updated[index].quantity -= 1;
+      newQty = currentQty + 1;
+    } else if (type === "remove" && currentQty > 0) {
+      newQty = currentQty - 1;
     }
-    const updatedData = updated[0];
-    console.log("updated data ==> ", updatedData);
-    setArrSubCategoryProduct(updated);
-    handleAddToCartApi(
-      updatedData.id,
-      updatedData.variation_id,
-      updatedData.quantity
-    );
+
+    const { id: product_id, variation_id, color, size } = currentItem;
+    const size_id = size?.size_id;
+    const color_id = color?.color_id;
+
+    if (newQty === 0) {
+      await handleRemoveFromCartApi(product_id, variation_id, index);
+    } else if (currentQty === 0 && newQty === 1) {
+      await handleAddToCartApi(
+        product_id,
+        variation_id,
+        newQty,
+        size_id,
+        color_id,
+        index,
+        is_variation,
+        is_color,
+        is_size
+      );
+    } else {
+      await handleUpdateCartQuantityApi(
+        product_id,
+        variation_id,
+        newQty,
+        index
+      );
+    }
   };
 
   const onPressFavourite = (product_id: string, variation_id: string) => {
@@ -222,12 +252,25 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     navigation.navigate(ScreenNames.restaurantDetail, { item: item });
   };
 
-  const onPressProduct = (product_id: string, variation_id: string) => {
+  const onPressProduct = (
+    product_id: string,
+    variation_id: string,
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean,
+    color_id?: string,
+    size_id?: string
+  ) => {
     navigation.navigate(ScreenNames.productDetail, {
       product_id: product_id,
       variation_id: variation_id,
-      customer_latitude: latitude,
-      customer_longitude: longitude,
+      customer_latitude: currentLatLong?.latitude,
+      customer_longitude: currentLatLong?.longitude,
+      is_variation: is_variation,
+      is_color: is_color,
+      is_size: is_size,
+      color_id: color_id,
+      size_id: size_id,
     });
   };
 
@@ -271,10 +314,12 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   }, [mainCategoryName]);
 
   // -------------------------API Calling------------------------
+  // handleProductListingApi
   const handleProductListingApi = async (subCategoryId?: string) => {
     const dictData = {
       category_id: mainCategoryId,
       ...(subCategoryId && { sub_category_id: subCategoryId }),
+      page_no: 1,
     };
 
     try {
@@ -327,6 +372,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     }
   };
 
+  // handleWishlistProductApi
   const handleWishlistProductApi = async (
     product_id: string,
     variation_id: string
@@ -366,6 +412,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     }
   };
 
+  // handleFilterApi
   const handleFilterApi = async (
     is_instant_delivery?: boolean,
     min_price?: number,
@@ -411,6 +458,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     }
   };
 
+  // handleSortApi
   const handleSortApi = async (sort_by?: string, sub_category_id?: string) => {
     const dictData = {
       sort_by: sort_by,
@@ -452,23 +500,31 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     }
   };
 
+  // handleAddToCartApi
   const handleAddToCartApi = async (
     product_id: string,
     variation_id: string,
     quantity: number,
     size_id?: string,
-    color_id?: string
+    color_id?: string,
+    index?: number,
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean
   ) => {
     const dictData: AddToCartDictData = {
-      customer_id: customer_id,
       product_id: product_id,
       variation_id: variation_id,
       quantity: quantity,
     };
 
-    if (mainCategoryId == "9") {
-      dictData.size_id = size_id;
-      dictData.color_id = color_id;
+    if (is_variation == true) {
+      if (is_size == true) {
+        dictData.size_id = size_id;
+      }
+      if (is_color == true) {
+        dictData.color_id = color_id;
+      }
     }
 
     try {
@@ -479,6 +535,11 @@ const ProductListingContainer = ({ navigation, route }: any) => {
           console.log("ADD TO CART RESPONSE===>", JSON.stringify(response));
 
         if (response.code === statusCodes.success) {
+          const updated = [...arrSubCategoryProduct];
+          if (index !== undefined) {
+            updated[index].quantity = quantity;
+          }
+          setArrSubCategoryProduct(updated);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -488,34 +549,87 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     }
   };
 
+  // handleUpdateCartQuantityApi
+  const handleUpdateCartQuantityApi = async (
+    product_id: string,
+    variation_id: string,
+    quantity: number,
+    index?: number
+  ) => {
+    const dictData: AddToCartDictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+      quantity: quantity,
+    };
+
+    try {
+      const response = await updateCartQuantityApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "UPDATE CART QUANTITY RESPONSE===>",
+            JSON.stringify(response)
+          );
+
+        if (response.code === statusCodes.success) {
+          const updated = [...arrSubCategoryProduct];
+          if (index !== undefined) {
+            updated[index].quantity = quantity;
+          }
+          setArrSubCategoryProduct(updated);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Update Cart API Error:", error);
+    }
+  };
+
+  // handleRemoveFromCartApi
+  const handleRemoveFromCartApi = async (
+    product_id: string,
+    variation_id: string,
+    index?: number
+  ) => {
+    const dictData: AddToCartDictData = {
+      product_id: product_id,
+      variation_id: variation_id,
+    };
+
+    try {
+      const response = await removeFromCartApi(dictData, navigation);
+
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "REMOVE FROM CART RESPONSE===>",
+            JSON.stringify(response)
+          );
+
+        if (response.code === statusCodes.success) {
+          const updated = [...arrSubCategoryProduct];
+          if (typeof index === "number") {
+            updated[index].quantity = 0;
+          }
+          setArrSubCategoryProduct(updated);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Remove From Cart API Error:", error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       handleProductListingApi();
       StatusBar.setBarStyle("dark-content");
-      // Fetch customer data
-      MmkvManager.getData(MmkvManager.Keys.customerId, (customerId) => {
-        if (customerId) {
-          setCustomer_id(customerId);
-        }
-      });
       return () => {};
     }, [navigation])
   );
-
-  useEffect(() => {
-    const fetchLocation = async () => {
-      toggleLoader(true);
-      const current = await LocationManager.getCurrentLocation();
-      if (current) {
-        console.log("current", current);
-        setLatitude(current.latitude.toString());
-        setLongitude(current.longitude.toString());
-      }
-      toggleLoader(false);
-    };
-
-    fetchLocation();
-  }, []);
 
   return (
     <ProductListingComponent

@@ -19,7 +19,11 @@ import {
 } from "../../../constants/GConstant";
 import GlobalButton from "../../../global/GlobalButton";
 import { fontsfamily } from "../../../constants/FontFamily";
-import { GroceryProduct, OrderDetail } from "../../../constants/interfaces";
+import {
+  ApplyCouponResponseData,
+  GroceryProduct,
+  OrderDetail,
+} from "../../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 
 interface PropsType {
@@ -33,11 +37,10 @@ interface PropsType {
   deliverToName: string;
   deliverToAddress: string;
   approxDeliveryTime: string;
-  arrOrderDetails: OrderDetail[];
-  totalPrice: string;
   onPressChangeDeliveryAddress: () => void;
   onPressPlaceOrder: () => void;
   handleQuantityChange: (index: number, type: "add" | "remove") => void;
+  offerResponse: ApplyCouponResponseData;
 }
 
 const CartComponent = (props: PropsType) => {
@@ -101,19 +104,6 @@ const CartComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemOrderDetails = (item: OrderDetail, index: number) => {
-    return (
-      <View style={styles.vwOrderDetailsItem} key={index}>
-        <Text style={styles.lblOrderDetailsTitle}>
-          {item?.orderDetailTitle}
-        </Text>
-        <Text style={styles.lblOrderDetailsValue}>
-          {item?.orderDetailValue}
-        </Text>
-      </View>
-    );
-  };
-
   // Empty Cart
   if (!props?.cartDetails) {
     return (
@@ -133,8 +123,8 @@ const CartComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        translucent
-        backgroundColor={"transparent"}
+        translucent={false}
+        backgroundColor={colors.blue4e}
         barStyle={"dark-content"}
       />
       <View style={styles.vwMainContent}>
@@ -189,7 +179,13 @@ const CartComponent = (props: PropsType) => {
             <View style={styles.vwRemoveCode}>
               <View style={styles.vwApplidCouponCodeDesc}>
                 <Text style={styles.lblAppliedCouponCodeTitle}>
-                  Coupon Flat-10 applied!
+                  Coupon{" "}
+                  {props?.offerResponse?.offer_data?.type +
+                    "-" +
+                    parseInt(
+                      props?.offerResponse?.offer_data?.discount_percentage
+                    ).toFixed()}{" "}
+                  applied!
                 </Text>
                 <Text style={styles.lblAppliedCouponCodeDec}>
                   You saved{" "}
@@ -199,7 +195,8 @@ const CartComponent = (props: PropsType) => {
                       color: colors.green86,
                     }}
                   >
-                    {rupeeSymbol}10
+                    {rupeeSymbol +
+                      parseInt(props?.offerResponse?.discount_price).toFixed()}
                   </Text>{" "}
                   on your order.
                 </Text>
@@ -311,7 +308,7 @@ const CartComponent = (props: PropsType) => {
                 <View style={styles.vwOrderDetailsItem}>
                   <Text style={styles.lblOrderDetailsTitle}>Discount</Text>
                   <Text style={styles.lblOrderDetailsValue}>
-                    {rupeeSymbol + props?.cartDetails?.discount_price}
+                    -{rupeeSymbol + props?.cartDetails?.discount_price}
                   </Text>
                 </View>
 
@@ -329,7 +326,9 @@ const CartComponent = (props: PropsType) => {
                 <View style={styles.vwOrderDetailsItem}>
                   <Text style={styles.lblOrderDetailsTitle}>Payment Type</Text>
                   <Text style={styles.lblOrderDetailsValue}>
-                    {props?.cartDetails?.payment_type}
+                    {props?.cartDetails?.payment_type == "cod"
+                      ? "Cash on Delivery"
+                      : "Online Payment"}
                   </Text>
                 </View>
 
