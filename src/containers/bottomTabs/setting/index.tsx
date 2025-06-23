@@ -41,10 +41,12 @@ const SettingContainer = ({ navigation, route }: any) => {
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
   const [isModalSignOutVisible, setIsModalSignOutVisible] = useState(false);
   const [isSharing, setIsSharing] = useState<boolean>(true);
-  const baseImagePath = "https://hlik-deep-bhaumik.s3.amazonaws.com/somoiapp/customers_images/";
-  const [currentLatLong, setCurrentLatLong] = useState<
-    { latitude: number; longitude: number } | null
-  >(null);
+  const baseImagePath =
+    "https://hlik-deep-bhaumik.s3.amazonaws.com/somoiapp/customers_images/";
+  const [currentLatLong, setCurrentLatLong] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
 
   // Constants for common values
   const ICON_SIZE = {
@@ -129,7 +131,10 @@ const SettingContainer = ({ navigation, route }: any) => {
           icon: images.myWishlistIcon,
           title: getTranslation("myWishlist"),
           ...ICON_SIZE,
-          onPress: () => navigation.navigate(ScreenNames.myWishlist,{currentLatLong:currentLatLong}),
+          onPress: () =>
+            navigation.navigate(ScreenNames.myWishlist, {
+              currentLatLong: currentLatLong,
+            }),
         },
         {
           icon: images.manageAddressIcon,
@@ -290,18 +295,19 @@ const SettingContainer = ({ navigation, route }: any) => {
     }
   };
 
-    // Current Location
-    const handleCurrentLocation = async () => {
-      toggleLoader(true);
-      const current = await LocationManager.getCurrentLocation();
-      if (current) {
-        setCurrentLatLong(current);
-      }
-      toggleLoader(false);
-    };
+  // Current Location
+  const handleCurrentLocation = async () => {
+    toggleLoader(true);
+    const current = await LocationManager.getCurrentLocation();
+    if (current) {
+      setCurrentLatLong(current);
+    }
+    toggleLoader(false);
+  };
 
   useFocusEffect(
     React.useCallback(() => {
+      handleCurrentLocation();
       StatusBar.setBarStyle("dark-content");
 
       // Fetch customer data

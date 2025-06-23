@@ -9,6 +9,10 @@ interface Store {
     dictData: object,
     navigation: any
   ) => Promise<APIResponseType>;
+  wishlistStore: (
+    dictData: object,
+    navigation: any
+  ) => Promise<APIResponseType>;
 }
 
 const MyWishlistStore = create<Store>((set) => ({
@@ -63,6 +67,34 @@ const MyWishlistStore = create<Store>((set) => ({
       });
     });
   },
+
+  wishlistStore(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.wishlistStore,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+
 }));
 
 export default MyWishlistStore;

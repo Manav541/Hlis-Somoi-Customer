@@ -317,7 +317,7 @@ const HomeContainer = ({ navigation }: any) => {
         if (response.code === statusCodes.success) {
           setArrBestProductsSellers(Array.isArray(data) ? data : [data]);
         } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
+          setArrBestProductsSellers([])
         }
       }
     } catch (error) {

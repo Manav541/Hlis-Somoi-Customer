@@ -60,17 +60,21 @@ const CartComponent = (props: PropsType) => {
             <Text style={styles.lblProductPrice}>
               {rupeeSymbol + item?.product_data?.variation_data?.price}
             </Text>
-            <Image
-              style={styles.imgBlueDot}
-              source={images.dotOrange}
-              resizeMode="stretch"
-              tintColor={colors.blue4e}
-            />
-            <Text style={styles.lblProductWeight}>
-              {item?.product_data?.variation_data?.amount +
-                " " +
-                item?.product_data?.variation_data?.unit}
-            </Text>
+            {item?.product_data?.variation_data?.amount && (
+              <>
+                <Image
+                  style={styles.imgBlueDot}
+                  source={images.dotOrange}
+                  resizeMode="stretch"
+                  tintColor={colors.blue4e}
+                />
+                <Text style={styles.lblProductWeight}>
+                  {item?.product_data?.variation_data?.amount +
+                    " " +
+                    item?.product_data?.variation_data?.unit}
+                </Text>
+              </>
+            )}
           </View>
         </View>
         <View style={styles.vwProductQuantity}>
@@ -180,10 +184,10 @@ const CartComponent = (props: PropsType) => {
               <View style={styles.vwApplidCouponCodeDesc}>
                 <Text style={styles.lblAppliedCouponCodeTitle}>
                   Coupon{" "}
-                  {props?.offerResponse?.offer_data?.type +
+                  {props?.cartDetails?.offer_data?.type +
                     "-" +
                     parseInt(
-                      props?.offerResponse?.offer_data?.discount_percentage
+                      props?.cartDetails?.offer_data?.discount_percentage
                     ).toFixed()}{" "}
                   applied!
                 </Text>
@@ -196,7 +200,7 @@ const CartComponent = (props: PropsType) => {
                     }}
                   >
                     {rupeeSymbol +
-                      parseInt(props?.offerResponse?.discount_price).toFixed()}
+                      parseInt(props?.cartDetails?.discount_price).toFixed()}
                   </Text>{" "}
                   on your order.
                 </Text>

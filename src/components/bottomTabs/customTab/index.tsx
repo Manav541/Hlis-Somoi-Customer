@@ -23,9 +23,9 @@ const CustomBottomTabsComponent = (props: PropsType) => {
         styles.vwTabs,
         {paddingBottom: PlatformVersion.isIOS ? insets.bottom + 10 : 20},
       ]}>
-      {props.tabs.map((route: TabsArray, index: number) =>
-        props.onPressBottomTab(route, index),
-      )}
+      {props.tabs.map((route: TabsArray, index: number) => (
+        props.onPressBottomTab(route, index)
+      ))}
     </View>
   );
 };

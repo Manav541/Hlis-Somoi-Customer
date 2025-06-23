@@ -14,6 +14,7 @@ import ViewProductDetailComponent from "../../components/viewProductDetail";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { ScreenNames } from "../../routers";
 import {
+  AddRemoveWishlistDictData,
   AddToCartDictData,
   ColorVariation,
   Media,
@@ -46,6 +47,8 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const cartListingApi = zustandStore.CartStore((state) => state.cartListing);
 
   const itemData = route.params;
+  console.log("itemData", itemData);
+
   const product_id = itemData?.product_id;
   const variation_id = itemData?.variation_id;
   const customer_latitude = itemData?.customer_latitude;
@@ -170,8 +173,8 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       // Add to cart first time
       handleAddToCartApi(
         product_id,
-        variation_id,
         newQty,
+        variation_id,
         size_id,
         color_id,
         productDetails,
@@ -189,8 +192,8 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       // Update quantity
       handleUpdateCartQuantityApi(
         product_id,
-        variation_id,
         newQty,
+        variation_id,
         productDetails,
         setProductDetails
       );
@@ -313,22 +316,24 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   // handleProductDetailsApi
   const handleProductDetailsApi = async (
     product_id: string,
-    variation_id: string,
+    variation_id?: string,
     size_id?: string,
     color_id?: string
   ) => {
     const dictData: ProductDetailsDictData = {
       product_id: product_id,
-      variation_id: variation_id,
       customer_latitude: customer_latitude.toString(),
       customer_longitude: customer_longitude.toString(),
     };
 
-    if (is_size == true) {
-      dictData.size_id = size_id;
-    }
-    if (is_color == true) {
-      dictData.color_id = color_id;
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+      if (is_size == true) {
+        dictData.size_id = size_id;
+      }
+      if (is_color == true) {
+        dictData.color_id = color_id;
+      }
     }
 
     try {
@@ -342,21 +347,43 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
 
           // ✅ Store size variations if Fashion category
           if (
-            rawData.main_category === "Fashion" &&
+            rawData.is_variation === true &&
             Array.isArray(rawData.variations)
           ) {
-            setArrSizeVariations(rawData.variations as SizeVariation[]);
+            // ✅ CASE 1: BOTH SIZE AND COLOR EXIST
+            if (is_size === true && is_color === true) {
+              setArrSizeVariations(rawData.variations as SizeVariation[]);
 
-            // ✅ Set default selected size and its colors
-            const selectedSizeObj = rawData.variations.find(
-              (item) => item.is_selected
-            );
-            if (
-              selectedSizeObj &&
-              "colors" in selectedSizeObj &&
-              Array.isArray(selectedSizeObj.colors)
-            ) {
-              setArrColorVariations(selectedSizeObj.colors);
+              const selectedSizeObj = rawData.variations.find(
+                (item) => item.is_selected
+              );
+              if (
+                selectedSizeObj &&
+                "colors" in selectedSizeObj &&
+                Array.isArray(selectedSizeObj.colors)
+              ) {
+                setArrColorVariations(selectedSizeObj.colors);
+              }
+            }
+
+            // ✅ CASE 2: ONLY SIZE EXISTS
+            else if (is_size === true && is_color !== true) {
+              setArrSizeVariations(rawData.variations as SizeVariation[]);
+              setArrColorVariations([]); // Clear any previous color data
+            }
+
+            // ✅ CASE 3: ONLY COLOR EXISTS
+            else if (is_color === true && is_size !== true) {
+              // No size variations; directly use the first entry's color array
+              const firstItem = rawData.variations[0];
+              if (
+                firstItem &&
+                "colors" in firstItem &&
+                Array.isArray(firstItem.colors)
+              ) {
+                setArrColorVariations(firstItem.colors);
+              }
+              setArrSizeVariations([]); // Clear any previous size data
             }
           }
 
@@ -434,12 +461,16 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   // handleWishlistProductApi
   const handleWishlistProductApi = async (
     product_id: string,
-    variation_id: string
+    variation_id?: string,
+
   ) => {
-    const dictData = {
+    const dictData : AddRemoveWishlistDictData = {
       product_id: product_id,
-      variation_id: variation_id,
     };
+
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+    }
 
     try {
       const response = await wishlistProductApi(dictData, navigation);
@@ -472,8 +503,8 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   // handleAddToCartApi
   const handleAddToCartApi = async (
     product_id: string,
-    variation_id: string,
     quantity: number,
+    variation_id?: string,
     size_id?: string,
     color_id?: string,
     productDetails?: ProductData,
@@ -481,11 +512,11 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   ) => {
     const dictData: AddToCartDictData = {
       product_id: product_id,
-      variation_id: variation_id,
       quantity: quantity,
     };
 
     if (is_variation == true) {
+      dictData.variation_id = variation_id;
       if (is_size == true) {
         dictData.size_id = size_id;
       }
@@ -525,16 +556,19 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   // handleUpdateCartQuantityApi
   const handleUpdateCartQuantityApi = async (
     product_id: string,
-    variation_id: string,
     quantity: number,
+    variation_id?: string,
     productDetails?: ProductData,
     setProductDetails?: React.Dispatch<React.SetStateAction<ProductData | null>>
   ) => {
     const dictData: AddToCartDictData = {
       product_id: product_id,
-      variation_id: variation_id,
       quantity: quantity,
     };
+
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+    }
 
     try {
       const response = await updateCartQuantityApi(dictData, navigation);
@@ -569,14 +603,17 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   // handleRemoveFromCartApi
   const handleRemoveFromCartApi = async (
     product_id: string,
-    variation_id: string,
+    variation_id?: string,
     productDetails?: ProductData,
     setProductDetails?: React.Dispatch<React.SetStateAction<ProductData | null>>
   ) => {
     const dictData: AddToCartDictData = {
       product_id: product_id,
-      variation_id: variation_id,
     };
+
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+    }
 
     try {
       const response = await removeFromCartApi(dictData, navigation);
@@ -633,11 +670,11 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleProductDetailsApi(product_id, variation_id, color_id, size_id);
+      handleProductDetailsApi(product_id, variation_id, size_id, color_id);
       // handleCartListingApi();
       StatusBar.setBarStyle("light-content");
       return () => {};
-    }, [navigation, product_id, variation_id, color_id, size_id])
+    }, [navigation, product_id, variation_id, size_id, color_id])
   );
 
   return (

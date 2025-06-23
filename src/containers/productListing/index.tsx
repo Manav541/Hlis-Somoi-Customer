@@ -8,6 +8,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
 import { constnatStyles } from "../../constants/Styles";
 import {
+  AddRemoveWishlistDictData,
   AddToCartDictData,
   Product,
   SubCategoryTitle,
@@ -54,9 +55,12 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const subCategoryImageMap: Record<string, any> = {
     Rice: images.riceSubIcon,
     Flour: images.flourSubIcon,
-    "Cooking Oil": images.cookingoilSubIcon,
-    Milk: images.cookingoilSubIcon,
+    Oil: images.cookingoilSubIcon,
+    Dairy: images.cookingoilSubIcon,
     "T-shirt": images.tshirtIcon,
+    "Nail Polishes": images.nailpolishSubIcon,
+    Makeup: images.makeupsetSubIcon,
+    "Skin Care": images.skincareSubIcon,
   };
 
   const [selectedTitle, setSelectedTitle] = useState("All");
@@ -221,12 +225,17 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     const color_id = color?.color_id;
 
     if (newQty === 0) {
-      await handleRemoveFromCartApi(product_id, variation_id, index);
+      await handleRemoveFromCartApi(
+        product_id,
+        index,
+        variation_id,
+        is_variation
+      );
     } else if (currentQty === 0 && newQty === 1) {
       await handleAddToCartApi(
         product_id,
-        variation_id,
         newQty,
+        variation_id,
         size_id,
         color_id,
         index,
@@ -237,15 +246,20 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     } else {
       await handleUpdateCartQuantityApi(
         product_id,
-        variation_id,
         newQty,
-        index
+        variation_id,
+        index,
+        is_variation
       );
     }
   };
 
-  const onPressFavourite = (product_id: string, variation_id: string) => {
-    handleWishlistProductApi(product_id, variation_id);
+  const onPressFavourite = (
+    product_id: string,
+    variation_id?: string,
+    is_variation?: boolean
+  ) => {
+    handleWishlistProductApi(product_id, variation_id, is_variation);
   };
 
   const onPressRestaurant = (item: any) => {
@@ -254,13 +268,16 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
   const onPressProduct = (
     product_id: string,
-    variation_id: string,
+    variation_id?: string,
     is_variation?: boolean,
     is_color?: boolean,
     is_size?: boolean,
     color_id?: string,
     size_id?: string
   ) => {
+    console.log("color_id", color_id);
+    console.log("size_id", size_id);
+
     navigation.navigate(ScreenNames.productDetail, {
       product_id: product_id,
       variation_id: variation_id,
@@ -375,12 +392,16 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   // handleWishlistProductApi
   const handleWishlistProductApi = async (
     product_id: string,
-    variation_id: string
+    variation_id?: string,
+    is_variation?: boolean
   ) => {
-    const dictData = {
+    const dictData : AddRemoveWishlistDictData = {
       product_id: product_id,
-      variation_id: variation_id,
     };
+
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+    }
 
     try {
       const response = await wishlistProductApi(dictData, navigation);
@@ -503,8 +524,8 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   // handleAddToCartApi
   const handleAddToCartApi = async (
     product_id: string,
-    variation_id: string,
     quantity: number,
+    variation_id?: string,
     size_id?: string,
     color_id?: string,
     index?: number,
@@ -514,11 +535,12 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   ) => {
     const dictData: AddToCartDictData = {
       product_id: product_id,
-      variation_id: variation_id,
+
       quantity: quantity,
     };
 
     if (is_variation == true) {
+      dictData.variation_id = variation_id;
       if (is_size == true) {
         dictData.size_id = size_id;
       }
@@ -552,15 +574,19 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   // handleUpdateCartQuantityApi
   const handleUpdateCartQuantityApi = async (
     product_id: string,
-    variation_id: string,
     quantity: number,
-    index?: number
+    variation_id?: string,
+    index?: number,
+    is_variation?: boolean
   ) => {
     const dictData: AddToCartDictData = {
       product_id: product_id,
-      variation_id: variation_id,
       quantity: quantity,
     };
+
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+    }
 
     try {
       const response = await updateCartQuantityApi(dictData, navigation);
@@ -590,14 +616,17 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   // handleRemoveFromCartApi
   const handleRemoveFromCartApi = async (
     product_id: string,
-    variation_id: string,
-    index?: number
+    index?: number,
+    variation_id?: string,
+    is_variation?: boolean
   ) => {
     const dictData: AddToCartDictData = {
       product_id: product_id,
-      variation_id: variation_id,
     };
 
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+    }
     try {
       const response = await removeFromCartApi(dictData, navigation);
 

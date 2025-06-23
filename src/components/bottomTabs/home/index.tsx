@@ -254,7 +254,7 @@ const HomeComponent = (props: PropsType) => {
         >
           {/* Main Category*/}
           <View
-            style={{ flexDirection: "row", paddingHorizontal: 20, gap: 19 }}
+            style={styles.vwMainCategory}
           >
             {props?.arrMainCategoryList
               .slice(0, 2)
@@ -357,50 +357,54 @@ const HomeComponent = (props: PropsType) => {
             </View>
           </View>
 
-          {props?.isGroceriesFoodSelected === "Groceries" ? (
-            <View style={styles.vwBestProducts}>
-              <Text style={{ ...styles.lblBestProducts, marginHorizontal: 20 }}>
-                {getTranslation("bestProducts")}
-              </Text>
-              <View style={styles.vwBestProductsGrid}>
-                {props?.arrBestProductsSellers.map((item, index) =>
-                  renderBestProducts(item, index)
-                )}
-              </View>
-            </View>
-          ) : (
-            <View style={{ marginBottom: 35, marginTop: 30 }}>
-              <View style={styles.vwBestSellerSeeAll}>
-                <Text style={styles.lblBestProducts}>
-                  {getTranslation("bestSellers")}
-                </Text>
-                <TouchableOpacity
-                  activeOpacity={activityOpacity}
-                  hitSlop={hitSlop}
-                  onPress={props?.handleSellAllBestSellers}
+          {/* Best Products & Best Sellers */}
+          {props?.arrBestProductsSellers.length != 0 &&
+            (props?.isGroceriesFoodSelected === "Groceries" ? (
+              <View style={styles.vwBestProducts}>
+                <Text
+                  style={{ ...styles.lblBestProducts, marginHorizontal: 20 }}
                 >
-                  <Text style={styles.lblSeeAll}>
-                    {getTranslation("seeAll")}
-                  </Text>
-                </TouchableOpacity>
+                  {getTranslation("bestProducts")}
+                </Text>
+                <View style={styles.vwBestProductsGrid}>
+                  {props?.arrBestProductsSellers.map((item, index) =>
+                    renderBestProducts(item, index)
+                  )}
+                </View>
               </View>
-              <FlatList
-                data={props?.arrBestProductsSellers}
-                renderItem={renderBestSeller}
-                keyExtractor={(item, index) => index.toString()}
-                horizontal
-                bounces={false}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: 16 }}
-                initialScrollIndex={1}
-                getItemLayout={(data, index) => ({
-                  length: 299,
-                  offset: 299 * index,
-                  index,
-                })}
-              />
-            </View>
-          )}
+            ) : (
+              <View style={{ marginBottom: 35, marginTop: 30 }}>
+                <View style={styles.vwBestSellerSeeAll}>
+                  <Text style={styles.lblBestProducts}>
+                    {getTranslation("bestSellers")}
+                  </Text>
+                  <TouchableOpacity
+                    activeOpacity={activityOpacity}
+                    hitSlop={hitSlop}
+                    onPress={props?.handleSellAllBestSellers}
+                  >
+                    <Text style={styles.lblSeeAll}>
+                      {getTranslation("seeAll")}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <FlatList
+                  data={props?.arrBestProductsSellers.slice(0, 3)}
+                  renderItem={renderBestSeller}
+                  keyExtractor={(item, index) => index.toString()}
+                  horizontal
+                  bounces={false}
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={{ paddingHorizontal: 16 }}
+                  initialScrollIndex={1}
+                  getItemLayout={(data, index) => ({
+                    length: 299,
+                    offset: 299 * index,
+                    index,
+                  })}
+                />
+              </View>
+            ))}
         </ScrollView>
       </View>
     </View>

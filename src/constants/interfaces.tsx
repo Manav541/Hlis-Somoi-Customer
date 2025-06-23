@@ -179,7 +179,7 @@ export interface BestProductSellerData {
   store_location: string;
   opening_time: string; // e.g., "08:00:00"
   closing_time: string;
-  is_store_wishlisted: number;
+  is_store_wishlisted: boolean;
   store_rating: string; // Can be converted to number if needed
   image: string;
   rating: string;
@@ -293,11 +293,11 @@ export interface Product {
 
 export interface ProductDetailsDictData {
   product_id: string;
-  variation_id: string;
+  variation_id?: string;
   customer_latitude: string;
   customer_longitude: string;
-  size_id?: string;     // optional
-  color_id?: string;    // optional
+  size_id?: string; // optional
+  color_id?: string; // optional
 }
 
 export interface ProductData {
@@ -309,6 +309,9 @@ export interface ProductData {
   is_product_returnable: boolean;
   is_cod_available: boolean;
   is_fast_delivery: boolean;
+  is_variation: boolean;
+  is_size: boolean;
+  is_color: boolean;
   images: ProductImages[];
   is_wishlist: boolean;
   in_stock: boolean;
@@ -456,10 +459,13 @@ export interface SimilarProduct {
 
 export interface AddToCartDictData {
   product_id: string;
-  variation_id: string;
+  variation_id?: string;
   quantity?: number;
   size_id?: string;
   color_id?: string;
+  is_variation?: boolean;
+  is_color?: boolean;
+  is_size?: boolean;
 }
 
 // Cart
@@ -482,7 +488,7 @@ export interface OfferData {
   created_at: string;
   updated_at: string;
   start_date: string; // ISO date format
-  end_date: string;   // ISO date format
+  end_date: string; // ISO date format
 }
 
 export interface ApplyCouponResponseData {
@@ -600,6 +606,12 @@ export interface WishlistItem {
   favourite: boolean;
   height: number;
   width: number;
+}
+
+export interface AddRemoveWishlistDictData {
+  product_id: string;
+  variation_id?: string;
+  is_variation?: boolean;
 }
 
 // Manage Address

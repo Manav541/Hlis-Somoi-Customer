@@ -14,12 +14,14 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
   const bestProductsSellerListApi = zustandStore.HomeStore(
     (state) => state.bestProductsSellerList
   );
-  const [arrAllBestSellers, setArrAllBestSellers] = useState(
-    route?.params?.arrBestSellers || []
+  const wishlistStoreApi = zustandStore.MyWishlistStore(
+    (state) => state.wishlistStore
   );
+
   const [arrBestProductsSellers, setArrBestProductsSellers] = useState<
     BestProductSellerData[]
   >([]);
+
   const [bestProductsSellerPageNumber, setBestProductsSellerPageNumber] =
     useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
@@ -29,24 +31,28 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
 
   const mainCategoryId = route.params.mainCategoryId;
 
-  const onPressFavourite = (index: number) => {
-    const updatedList = [...arrAllBestSellers];
-    updatedList[index].isFavourite = !updatedList[index].isFavourite;
-    setArrAllBestSellers(updatedList);
+  const onPressFavourite = (index: number, vendor_id: string) => {
+    // const updatedList = [...arrBestProductsSellers];
+    // updatedList[index].isFavourite = !updatedList[index].isFavourite;
+    // setArrBestProductsSellers(updatedList);
+    handleWishlistStoreApi(vendor_id,index);
   };
 
   const onPressRestaurant = (item: Restaurant) => {
     navigation.navigate(ScreenNames.restaurantDetail, { item: item });
   };
 
-  // handleSubCategoryListApi
-  const handleBestProductsSellerListApi = async ( page: number,
-    isLoadMore: boolean) => {
+  // ------------------------API Calling---------------------------
 
-      if (isLoadMore && isLoadingMore) return;
+  // handleBestProductsSellerListApi
+  const handleBestProductsSellerListApi = async (
+    page: number,
+    isLoadMore: boolean
+  ) => {
+    if (isLoadMore && isLoadingMore) return;
 
-      if (!isLoadMore) toggleLoader(true);
-      else setIsLoadingMore(true);
+    if (!isLoadMore) toggleLoader(true);
+    else setIsLoadingMore(true);
     const dictData = {
       category_id: mainCategoryId,
       page_number: page,
@@ -59,13 +65,13 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
             "BEST PRODUCTS SELLERS LIST RESPONSE===>",
             JSON.stringify(response)
           );
-          if (response.code === statusCodes.success) {
+        if (response.code === statusCodes.success) {
           const data = response.data as BestProductSellerData[];
           if (Array.isArray(data) && data.length > 0) {
-            setArrAllBestSellers((prev: BestProductSellerData[]) =>
+            setArrBestProductsSellers((prev: BestProductSellerData[]) =>
               isLoadMore ? [...prev, ...data] : data
             );
-  
+
             // Only update the page number if data exists
             setBestProductsSellerPageNumber(page);
           } else {
@@ -77,10 +83,32 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
       }
     } catch (error) {
       __DEV__ && console.log(error);
-    }
-    finally {
+    } finally {
       if (!isLoadMore) toggleLoader(false);
       else setIsLoadingMore(false);
+    }
+  };
+
+  // handleWishlistStoreApi
+  const handleWishlistStoreApi = async (vendor_id: string, index: number) => {
+    const dictData = {
+      vendor_id: vendor_id,
+    };
+    try {
+      const response = await wishlistStoreApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("WISHLIST STORE RESPONSE===>", JSON.stringify(response));
+        if (response.code === statusCodes.success) {
+          const updatedList = [...arrBestProductsSellers];
+          updatedList[index].is_store_wishlisted = !updatedList[index].is_store_wishlisted;
+          setArrBestProductsSellers(updatedList);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
     }
   };
 
@@ -116,7 +144,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
     React.useCallback(() => {
       setBestProductsSellerPageNumber(1);
       setHasMoreData(true);
-      setArrAllBestSellers([]);
+      setArrBestProductsSellers([]);
       handleBestProductsSellerListApi(1, false);
       StatusBar.setBarStyle("dark-content");
       return () => {};
@@ -124,7 +152,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
   );
   return (
     <ViewAllBestSellersComponent
-      arrAllBestSellers={arrAllBestSellers}
+      arrBestProductsSellers={arrBestProductsSellers}
       onPressFavourite={onPressFavourite}
       onPressRestaurant={onPressRestaurant}
       loadMoreCategories={loadMoreCategories}

@@ -130,7 +130,6 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.semibold,
   },
   lblInStock: {
-    color: colors.green2b,
     fontSize: fontSize.size10,
     fontFamily: fontsfamily.semibold,
     position: "absolute",

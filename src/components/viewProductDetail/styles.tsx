@@ -185,9 +185,9 @@ export const styles = StyleSheet.create({
     marginHorizontal: 10,
     backgroundColor: colors.whiteff,
     borderRadius: 10,
-    height: 194,
+    // height: 194,
     marginTop: 20,
-    paddingTop: 10,
+    paddingVertical: 10,
     paddingLeft: 10,
   },
   vwBuyNow: {

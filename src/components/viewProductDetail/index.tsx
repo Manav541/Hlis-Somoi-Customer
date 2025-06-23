@@ -422,7 +422,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
           </Text>
 
           {/* Product Weight */}
-          {props?.productDetails?.main_category === "Groceries" && (
+          {props?.productDetails?.product_weight && (
             <Text style={styles.lblProductWeight}>
               {props?.productDetails?.product_weight}
             </Text>
@@ -491,61 +491,76 @@ const ViewProductDetailComponent = (props: PropsType) => {
             </Text>
           </View>
 
-          {/* fashion data */}
-          {props?.productDetails?.main_category === "Fashion" && (
-            <View style={styles.vwFashionSizeColor}>
-              <Text style={styles.lblSize}>{getTranslation("size")}</Text>
-              <View>
-                <FlatList
-                  data={props?.arrSizeVariations}
-                  bounces={false}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={renderItemFashionSize}
-                  contentContainerStyle={{
-                    gap: 14,
-                    marginTop: 10,
-                    marginBottom: 20,
-                    paddingRight: 14,
-                  }}
-                />
-              </View>
+          {/* variation data */}
+          {props?.productDetails?.is_variation === true && (
+            <View>
+              {/* ✅ Case: Show Size/Color only if either exists */}
+              {(props?.productDetails?.is_size === true ||
+                props?.productDetails?.is_color === true) && (
+                <View style={styles.vwFashionSizeColor}>
+                  {props?.productDetails?.is_size === true && (
+                    <View>
+                      <Text style={styles.lblSize}>
+                        {getTranslation("size")}
+                      </Text>
+                      <FlatList
+                        data={props?.arrSizeVariations}
+                        bounces={false}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={renderItemFashionSize}
+                        contentContainerStyle={{
+                          gap: 14,
+                          marginTop: 10,
+                          marginBottom: 20,
+                          paddingRight: 14,
+                        }}
+                      />
+                    </View>
+                  )}
+                  {props?.productDetails?.is_color === true && (
+                    <View>
+                      <Text style={styles.lblColor}>
+                        {getTranslation("color")}
+                      </Text>
+                      <FlatList
+                        data={props?.arrColorVariations}
+                        bounces={false}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={renderItemFashionColor}
+                        contentContainerStyle={{
+                          gap: 15,
+                          marginTop: 10,
+                          paddingRight: 15,
+                        }}
+                      />
+                    </View>
+                  )}
+                </View>
+              )}
 
-              <Text style={styles.lblColor}>{getTranslation("color")}</Text>
-              <View>
-                <FlatList
-                  data={props?.arrColorVariations}
-                  bounces={false}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={renderItemFashionColor}
-                  contentContainerStyle={{
-                    gap: 15,
-                    marginTop: 10,
-                    paddingRight: 15,
-                  }}
-                />
-              </View>
+              {/* ✅ Case: Show Similar Products only if no size/color */}
+              {props?.productDetails?.is_size !== true &&
+                props?.productDetails?.is_color !== true && (
+                  <FlatList
+                    data={
+                      props?.productDetails
+                        ?.variations as GroceryProductVariation[]
+                    }
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    bounces={false}
+                    contentContainerStyle={{
+                      paddingLeft: 20,
+                      gap: 14,
+                      marginTop: 20,
+                      paddingRight: 20,
+                    }}
+                    renderItem={renderItemSimilarProducts}
+                  />
+                )}
             </View>
-          )}
-
-          {/* Similar Product */}
-          {props?.productDetails?.main_category === "Groceries" && (
-            <FlatList
-              data={
-                props?.productDetails?.variations as GroceryProductVariation[]
-              }
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              bounces={false}
-              contentContainerStyle={{
-                paddingLeft: 20,
-                gap: 14,
-                marginTop: 20,
-                paddingRight: 20,
-              }}
-              renderItem={renderItemSimilarProducts}
-            />
           )}
 
           {/* tags */}

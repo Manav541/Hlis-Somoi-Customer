@@ -48,7 +48,7 @@ interface PropsType {
     is_color?: boolean,
     is_size?: boolean
   ) => void;
-  onPressFavourite: (product_id: string, variation_id: string) => void;
+  onPressFavourite: (product_id: string, variation_id?: string, is_variation?: boolean) => void;
   onPressRestaurant: (item: any) => void;
   onPressProduct: (
     product_id: string,
@@ -154,7 +154,7 @@ const ProductListingComponent = (props: PropsType) => {
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
             onPress={() => {
-              props?.onPressFavourite(item?.id, item?.variation_id);
+              props?.onPressFavourite(item?.id, item?.variation_id, item?.is_variation);
             }}
           >
             <Image
@@ -164,7 +164,16 @@ const ProductListingComponent = (props: PropsType) => {
             />
           </TouchableOpacity>
 
-          <Text style={styles.lblInStock}>{getTranslation("inStock")}</Text>
+          <Text
+            style={[
+              styles.lblInStock,
+              { color: item?.inStock ? colors.green2b : colors.red2e },
+            ]}
+          >
+            {item?.inStock
+              ? getTranslation("inStock")
+              : getTranslation("outOfStock")}
+          </Text>
         </View>
 
         {/* Product Details */}
@@ -217,6 +226,7 @@ const ProductListingComponent = (props: PropsType) => {
                 item?.is_size
               )
             }
+            disabled={item?.inStock ==  false}
           >
             <Text style={styles.lblAddToCart}>
               {getTranslation("addToCart")}

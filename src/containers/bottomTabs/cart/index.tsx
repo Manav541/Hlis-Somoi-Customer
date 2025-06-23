@@ -191,26 +191,29 @@ const CartContainer = ({ navigation }: any) => {
     if (type === "add") {
       handleUpdateCartQuantityApi(
         item.product_id,
-        item.variation_id,
         currentQty + 1,
         index,
-        cartArray
+        cartArray,
+        item.variation_id,
+        item?.product_data?.is_variation
       );
     } else if (type === "remove") {
       if (currentQty > 1) {
         handleUpdateCartQuantityApi(
           item.product_id,
-          item.variation_id,
           currentQty - 1,
           index,
-          cartArray
+          cartArray,
+          item.variation_id,
+          item?.product_data?.is_variation
         );
       } else {
         handleRemoveFromCartApi(
           item.product_id,
-          item.variation_id,
           index,
-          cartArray
+          cartArray,
+          item.variation_id,
+          item?.product_data?.is_variation
         );
       }
     }
@@ -288,9 +291,7 @@ const CartContainer = ({ navigation }: any) => {
             JSON.stringify(response)
           );
         if (response.code === statusCodes.success) {
-          const data = response.data as any;
           setIsApplyCoupon(true);
-          setOfferResponse(data);
           handleCartListingApi();
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
@@ -357,16 +358,20 @@ const CartContainer = ({ navigation }: any) => {
   // handleUpdateCartQuantityApi
   const handleUpdateCartQuantityApi = async (
     product_id: string,
-    variation_id: string,
     quantity: number,
     index: number,
-    cartArray: any[]
+    cartArray: any[],
+    variation_id?: string,
+    is_variation?: boolean
   ) => {
     const dictData: AddToCartDictData = {
       product_id: product_id,
-      variation_id: variation_id,
       quantity: quantity,
     };
+
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+    }
 
     try {
       const response = await updateCartQuantityApi(dictData, navigation);
@@ -401,14 +406,18 @@ const CartContainer = ({ navigation }: any) => {
   // handleRemoveFromCartApi
   const handleRemoveFromCartApi = async (
     product_id: string,
-    variation_id: string,
     index: number,
-    cartArray: any[]
+    cartArray: any[],
+    variation_id?: string,
+    is_variation?: boolean
   ) => {
     const dictData: AddToCartDictData = {
       product_id: product_id,
-      variation_id: variation_id,
     };
+
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+    }
 
     try {
       const response = await removeFromCartApi(dictData, navigation);
@@ -487,7 +496,7 @@ const CartContainer = ({ navigation }: any) => {
       onPressChangeDeliveryAddress={onPressChangeDeliveryAddress}
       onPressPlaceOrder={onPressPlaceOrder}
       handleQuantityChange={handleQuantityChange}
-      offerResponse={offerResponse || {} as ApplyCouponResponseData}
+      offerResponse={offerResponse || ({} as ApplyCouponResponseData)}
     />
   );
 };

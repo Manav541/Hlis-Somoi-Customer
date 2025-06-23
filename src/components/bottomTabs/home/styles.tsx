@@ -13,8 +13,13 @@ export const styles = StyleSheet.create({
     flex: 1,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
-    backgroundColor : colors.whiteff,
+    backgroundColor: colors.whiteff,
     overflow: "hidden",
+  },
+  vwMainCategory: {
+    flexDirection: "row",
+    paddingHorizontal: 20,
+    gap: 19,
   },
   vwGroceriesFoodLogo: {
     height: 122,
@@ -43,7 +48,7 @@ export const styles = StyleSheet.create({
   vwLocation: {
     flexDirection: "row",
     alignItems: "center",
-    flex:1
+    flex: 1,
   },
   vwAdds: {
     marginTop: 20,
@@ -68,6 +73,7 @@ export const styles = StyleSheet.create({
   },
   vwSubCategoriesMain: {
     marginTop: 29.97,
+    marginBottom: 24,
   },
   vwSubCategoriesTitleSeeAll: {
     flexDirection: "row",
@@ -81,7 +87,7 @@ export const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   vwBestProducts: {
-    marginTop: 24,
+    // marginTop: 24,
   },
   vwBestProductsGrid: {
     flexDirection: "row",
@@ -105,11 +111,11 @@ export const styles = StyleSheet.create({
     marginTop: 7,
     alignItems: "center",
   },
-  vwBestSellerSeeAll :{
-    flexDirection : 'row',
-    justifyContent : 'space-between',
-    alignItems : 'center',
-    marginHorizontal : 20,
+  vwBestSellerSeeAll: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginHorizontal: 20,
   },
   vwBestSellerDetails: {
     borderBottomLeftRadius: 20,
@@ -119,7 +125,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 14,
     paddingTop: 8,
-    height : 72
+    height: 72,
   },
   vwRatingContainer: {
     flexDirection: "row",
@@ -132,12 +138,12 @@ export const styles = StyleSheet.create({
   },
 
   //   Text Styles
-  lblSearch:{
+  lblSearch: {
     color: colors.greya7,
     fontSize: fontSize.size15,
     fontFamily: fontsfamily.semibold,
-    marginLeft : 10,
-    lineHeight : 17,
+    marginLeft: 10,
+    lineHeight: 17,
   },
   lblGroceriesFood: {
     color: colors.blue4e,
@@ -149,7 +155,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.semibold,
     marginLeft: 5,
-    flex : 1
+    flex: 1,
   },
   lblSubCategoriesTitle: {
     color: colors.blue4e,
@@ -181,6 +187,7 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.semibold,
     textAlign: "center",
     marginTop: 6,
+    marginBottom: 6,
   },
   lblBestProductsUsed: {
     color: colors.white,
@@ -214,10 +221,10 @@ export const styles = StyleSheet.create({
   },
   btnGroceriesFood: {
     height: 122,
-    width: (ScreenDimensions.screenWidth - (20 * 2) - 19) / 2,
+    width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
     borderRadius: 11.42,
     backgroundColor: colors.orange1c,
-    overflow: 'hidden', 
+    overflow: "hidden",
   },
   btnNotification: {
     justifyContent: "center",
@@ -231,7 +238,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   btnBestProducts: {
-    height: 200,
+    // height: 200,
     width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
     backgroundColor: colors.blue4e,
     borderRadius: 20,
@@ -240,14 +247,14 @@ export const styles = StyleSheet.create({
     marginHorizontal: 10,
     width: 299,
     marginTop: 10,
-    height : 231,
-    borderRadius : 20,
-    overflow : 'hidden',
+    height: 231,
+    borderRadius: 20,
+    overflow: "hidden",
   },
 
   // Image Styles
   imgGroceriesFood: {
-    height:87.36,
+    height: 87.36,
     width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
     borderRadius: 11.42,
   },
@@ -256,7 +263,7 @@ export const styles = StyleSheet.create({
     width: 24,
   },
   imgAdds: {
-    width: ScreenDimensions.screenWidth-40,
+    width: ScreenDimensions.screenWidth - 40,
     height: 195,
   },
   imgSubCategories: {
@@ -277,7 +284,7 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     position: "absolute",
     right: 12.29,
-    bottom : 52.16
+    bottom: 52.16,
   },
   imgStar: {
     height: 24,

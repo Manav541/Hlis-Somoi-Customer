@@ -63,6 +63,7 @@ export const apiEndPoint = {
   // Wishlist
   wishlistProduct: "/home/customer/wishlist-product",
   wishlistList: "/home/customer/wishlist-list",
+  wishlistStore :"/home/customer/wishlist-store",
 };
 
 // API status codes

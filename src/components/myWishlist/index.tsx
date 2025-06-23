@@ -27,9 +27,23 @@ interface PropsType {
   arrMyWhislist: Product[];
   search: string;
   onChangeSearch: (text: string) => void;
-  handleRemoveFromWishlist: (product_id: string, variation_id: string) => void;
-  handleQuantityChange: (index: number, action: "add" | "remove") => void;
-  onPressProduct: (item: any) => void;
+  handleRemoveFromWishlist: (product_id: string, variation_id?: string, is_variation?: boolean) => void;
+  handleQuantityChange: (
+    index: number,
+    action: "add" | "remove",
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean
+  ) => void;
+  onPressProduct: (
+    product_id: string,
+    variation_id: string,
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean,
+    color_id?: string,
+    size_id?: string
+  ) => void;
   selectedTab: string;
   handleTabPress: (tab: string) => void;
 }
@@ -53,7 +67,17 @@ const MyWishlistComponent = (props: PropsType) => {
             width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
           },
         ]}
-        onPress={() => props?.onPressProduct(item)}
+        onPress={() =>
+          props?.onPressProduct(
+            item?.id,
+            item?.variation_id,
+            item?.is_variation,
+            item?.is_color,
+            item?.is_size,
+            item?.color?.color_id,
+            item?.size?.size_id
+          )
+        }
       >
         {/* Product Image and Favourite button */}
         <View style={styles.vwProductImgLike}>
@@ -67,7 +91,7 @@ const MyWishlistComponent = (props: PropsType) => {
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
             onPress={() => {
-              props?.handleRemoveFromWishlist(item?.id, item?.variation_id);
+              props?.handleRemoveFromWishlist(item?.id, item?.variation_id, item?.is_variation);
             }}
           >
             <Image
@@ -106,7 +130,9 @@ const MyWishlistComponent = (props: PropsType) => {
                 source={images.star}
                 resizeMode="stretch"
               />
-              <Text style={styles.lblProductRating}>{parseFloat(item.rating).toFixed(1)}</Text>
+              <Text style={styles.lblProductRating}>
+                {parseFloat(item.rating).toFixed(1)}
+              </Text>
             </View>
           </View>
         </View>
@@ -115,7 +141,15 @@ const MyWishlistComponent = (props: PropsType) => {
           <TouchableOpacity
             style={styles.btnAddToCart}
             activeOpacity={activityOpacity}
-            onPress={() => props.handleQuantityChange(index, "add")}
+            onPress={() =>
+              props.handleQuantityChange(
+                index,
+                "add",
+                item?.is_variation,
+                item?.is_color,
+                item?.is_size
+              )
+            }
           >
             <Text style={styles.lblAddToCart}>
               {getTranslation("addToCart")}
@@ -124,7 +158,15 @@ const MyWishlistComponent = (props: PropsType) => {
         ) : (
           <View style={styles.vwCounterContainer}>
             <TouchableOpacity
-              onPress={() => props.handleQuantityChange(index, "remove")}
+              onPress={() =>
+                props.handleQuantityChange(
+                  index,
+                  "remove",
+                  item?.is_variation,
+                  item?.is_color,
+                  item?.is_size
+                )
+              }
               hitSlop={hitSlop}
               activeOpacity={activityOpacity}
             >
@@ -136,7 +178,15 @@ const MyWishlistComponent = (props: PropsType) => {
             </TouchableOpacity>
             <Text style={styles.lblProductQuantity}>{item.quantity}</Text>
             <TouchableOpacity
-              onPress={() => props.handleQuantityChange(index, "add")}
+              onPress={() =>
+                props.handleQuantityChange(
+                  index,
+                  "add",
+                  item?.is_variation,
+                  item?.is_color,
+                  item?.is_size
+                )
+              }
               hitSlop={hitSlop}
               activeOpacity={activityOpacity}
             >

@@ -3,7 +3,11 @@ import GlobalBackButton from "../../global/GlobalBackButton";
 import MyWishlistComponent from "../../components/myWishlist";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar, Text } from "react-native";
-import { AddToCartDictData, Product } from "../../constants/interfaces";
+import {
+  AddRemoveWishlistDictData,
+  AddToCartDictData,
+  Product,
+} from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
 import { statusCodes } from "../../api/APIConstant";
@@ -31,6 +35,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   );
 
   const currentLatLong = route?.params?.currentLatLong;
+
   const [search, setSearch] = useState<string>("");
   const debounce = debounceQuery(search, 300);
   const [selectedTab, setSelectedTab] = useState<string>("Product");
@@ -49,7 +54,10 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   // Add to cart
   const handleQuantityChange = async (
     index: number,
-    type: "add" | "remove"
+    type: "add" | "remove",
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean
   ) => {
     const currentItem = arrMyWhislist[index];
     const currentQty = Number(currentItem.quantity) || 0;
@@ -66,40 +74,65 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
     const color_id = color?.color_id;
 
     if (newQty === 0) {
-      await handleRemoveFromCartApi(product_id, variation_id, index);
+      await handleRemoveFromCartApi(
+        product_id,
+        variation_id,
+        index,
+        is_variation
+      );
     } else if (currentQty === 0 && newQty === 1) {
       await handleAddToCartApi(
         product_id,
-        variation_id,
         newQty,
+        variation_id,
         size_id,
         color_id,
-        index
+        index,
+        is_variation,
+        is_color,
+        is_size
       );
     } else {
       await handleUpdateCartQuantityApi(
         product_id,
-        variation_id,
         newQty,
-        index
+        variation_id,
+        index,
+        is_variation
       );
     }
   };
 
   // On Press Product
-  const onPressProduct = (item: any) => {
+  const onPressProduct = (
+    product_id: string,
+    variation_id: string,
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean,
+    color_id?: string,
+    size_id?: string
+  ) => {
     navigation.navigate(ScreenNames.productDetail, {
-      item: item,
-      currentLatLong: currentLatLong,
+      product_id: product_id,
+      variation_id: variation_id,
+      customer_latitude: currentLatLong?.latitude,
+      customer_longitude: currentLatLong?.longitude,
+      is_variation: is_variation,
+      is_color: is_color,
+      is_size: is_size,
+      color_id: color_id,
+      size_id: size_id,
     });
   };
 
   //   Remove from wishlist
   const handleRemoveFromWishlist = (
     product_id: string,
-    variation_id: string
+    variation_id?: string,
+    is_variation?: boolean
   ) => {
-    handleWishlistProductApi(product_id, variation_id);
+    handleWishlistProductApi(product_id, variation_id, is_variation);
   };
 
   // -----------------------API Call-----------------------
@@ -138,12 +171,16 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   // handleWishlistProductApi
   const handleWishlistProductApi = async (
     product_id: string,
-    variation_id: string
+    variation_id?: string,
+    is_variation?: boolean
   ) => {
-    const dictData = {
+    const dictData: AddRemoveWishlistDictData = {
       product_id: product_id,
-      variation_id: variation_id,
     };
+
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+    }
 
     try {
       const response = await wishlistProductApi(dictData, navigation);
@@ -171,22 +208,29 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   // handleAddToCartApi
   const handleAddToCartApi = async (
     product_id: string,
-    variation_id: string,
     quantity: number,
+    variation_id?: string,
     size_id?: string,
     color_id?: string,
-    index?: number
+    index?: number,
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean
   ) => {
     const dictData: AddToCartDictData = {
       product_id: product_id,
-      variation_id: variation_id,
       quantity: quantity,
     };
 
-    // if (mainCategoryId == "9") {
-    //   dictData.size_id = size_id;
-    //   dictData.color_id = color_id;
-    // }
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+      if (is_size == true) {
+        dictData.size_id = size_id;
+      }
+      if (is_color == true) {
+        dictData.color_id = color_id;
+      }
+    }
 
     try {
       const response = await addToCartApi(dictData, navigation);
@@ -213,15 +257,19 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   // handleUpdateCartQuantityApi
   const handleUpdateCartQuantityApi = async (
     product_id: string,
-    variation_id: string,
     quantity: number,
-    index?: number
+    variation_id?: string,
+    index?: number,
+    is_variation?: boolean
   ) => {
     const dictData: AddToCartDictData = {
       product_id: product_id,
-      variation_id: variation_id,
       quantity: quantity,
     };
+
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+    }
 
     try {
       const response = await updateCartQuantityApi(dictData, navigation);
@@ -251,13 +299,17 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   // handleRemoveFromCartApi
   const handleRemoveFromCartApi = async (
     product_id: string,
-    variation_id: string,
-    index?: number
+    variation_id?: string,
+    index?: number,
+    is_variation?: boolean
   ) => {
     const dictData: AddToCartDictData = {
       product_id: product_id,
-      variation_id: variation_id,
     };
+
+    if (is_variation == true) {
+      dictData.variation_id = variation_id;
+    }
 
     try {
       const response = await removeFromCartApi(dictData, navigation);

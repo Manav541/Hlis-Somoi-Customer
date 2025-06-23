@@ -19,8 +19,8 @@ import { colors } from "../../constants/Colors";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
 
 interface PropsType {
-  arrAllBestSellers: BestProductSellerData[];
-  onPressFavourite: (index: number) => void;
+  arrBestProductsSellers: BestProductSellerData[];
+  onPressFavourite: (index: number,vendor_id: string) => void;
   onPressRestaurant: (item: Restaurant) => void;
   loadMoreCategories: () => void;
   canLoadMore: boolean;
@@ -52,14 +52,14 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
           style={styles.btnFavourite}
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
-          onPress={() => props?.onPressFavourite(index)}
+          onPress={() => props?.onPressFavourite(index,item?.vendor_id)}
         >
           <Image
             style={styles.imgHeart}
             source={
-              item?.is_store_wishlisted == 0
-                ? images.redHeart
-                : images.emptyHeart
+              item?.is_store_wishlisted == true
+                ? images.emptyHeart
+                : images.redHeart
             }
             resizeMode="stretch"
           />
@@ -137,7 +137,7 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
         barStyle={"dark-content"}
       />
       <FlatList
-        data={props?.arrAllBestSellers}
+        data={props?.arrBestProductsSellers}
         bounces
         showsVerticalScrollIndicator={false}
         renderItem={renderItemAllBestSellers}

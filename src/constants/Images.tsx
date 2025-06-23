@@ -103,6 +103,9 @@ export const images = {
   dashLine: require("../assets/images/dashLine.png"),
   tshirtIcon :require("../assets/images/tshirtIcon.png"),
   tickSort : require("../assets/images/tickSort.png"),
+  nailpolishSubIcon : require("../assets/images/nailpolishSubIcon.png"),
+  makeupsetSubIcon : require("../assets/images/makeupsetSubIcon.png"),
+  skincareSubIcon : require("../assets/images/skincareSubIcon.png"),
 
   // Product Detail
   shareIcon: require("../assets/images/shareIcon.png"),
