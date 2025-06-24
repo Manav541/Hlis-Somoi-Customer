@@ -224,6 +224,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
     right: 20,
     bottom: -30,
+    borderRadius : 100
   },
   imgRestaurant_location: {
     height: 23.71,

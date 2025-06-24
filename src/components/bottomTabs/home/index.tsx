@@ -35,8 +35,6 @@ interface PropsType {
   arrAds: AdItem[];
   arrSubCategory: SubCategoryListItem[];
   arrBestProductsSellers: BestProductSellerData[];
-  arrBestProducts: BestProduct[];
-  arrBestSellers: Restaurant[];
   handleSellAllCategories: () => void;
   handleSellAllBestSellers: () => void;
   onPressSearch: () => void;
@@ -44,7 +42,15 @@ interface PropsType {
   onPressLocation: () => void;
   onPressRestaurant: (item: Restaurant) => void;
   onPressSubCategories: () => void;
-  onPressBestProducts: () => void;
+  onPressBestProducts: (
+    product_id: string,
+    variation_id?: string,
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean,
+    color_id?: string,
+    size_id?: string
+  ) => void;
 
   handleSetBannerIndex: (index: number) => void;
   currentBannerIndex: number;
@@ -154,7 +160,16 @@ const HomeComponent = (props: PropsType) => {
         style={styles.btnBestProducts}
         key={index}
         activeOpacity={activityOpacity}
-        // onPress={() => props?.onPressBestProducts()}
+        onPress={() =>
+          props?.onPressBestProducts(
+            item?.id,
+            item?.variation_data?.variation_id,
+            item?.is_variation,
+            item?.is_color,
+            item?.is_size,
+            
+          )
+        }
       >
         <View style={styles.vwBestProductsImage}>
           <FastImage
@@ -253,9 +268,7 @@ const HomeComponent = (props: PropsType) => {
           showsVerticalScrollIndicator={false}
         >
           {/* Main Category*/}
-          <View
-            style={styles.vwMainCategory}
-          >
+          <View style={styles.vwMainCategory}>
             {props?.arrMainCategoryList
               .slice(0, 2)
               .map((item, index) => renderMainCategoryListItem(item, index))}

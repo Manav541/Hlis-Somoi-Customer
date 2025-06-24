@@ -1,15 +1,24 @@
-import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
+import { Text, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import CompareProductComponent from "../../components/compareProduct";
 import GlobalBackButton from "../../global/GlobalBackButton";
-import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
 import { useFocusEffect } from "@react-navigation/native";
 import { GroceryProduct } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
+import { zustandStore } from "../../store";
 
 const CompareProductConteiner = ({ navigation, route }: any) => {
+   // API Zustand store
+  const compareProductListApi = zustandStore.CompareProductStore(
+    (state) => state.compareProductList
+  );
+
+  const removeCompareProductApi = zustandStore.CompareProductStore(
+    (state) => state.removeCompareProduct
+  );
+
   const mainCategoryTitle = route.params?.mainCategoryTitle;
   const [arrCompareProducts, setArrCompareProducts] = useState<
     GroceryProduct[]
@@ -98,11 +107,16 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
         <GlobalBackButton onPress={() => navigation.goBack()} />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.compareProduct}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.compareProduct}
+        </Text>
       ),
       headerRight: () => (
-        <GlobalBackButton onPress={onPressAddButton} isRight rightImage={images.addCircle}/>
-       
+        <GlobalBackButton
+          onPress={onPressAddButton}
+          isRight
+          rightImage={images.addCircle}
+        />
       ),
     });
   };

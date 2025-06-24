@@ -187,10 +187,14 @@ export interface BestProductSellerData {
   category_name: string;
   sub_category_name: string;
   total_products: string;
+  is_size: boolean;
+  is_color: boolean;
+  is_variation: boolean;
   variation_data: VariationData;
 }
 
 export interface VariationData {
+  variation_id: string;
   price: string;
   quantity: string;
   unit: string;
@@ -289,15 +293,32 @@ export interface Product {
   is_selected?: boolean;
 }
 
+export interface ProductListDictData {
+  category_id: string;
+  sub_category_id?: string;
+  page_no: number;
+  type?: string;
+}
+
 // Product Detail Page
 
 export interface ProductDetailsDictData {
   product_id: string;
+  vendor_id?: string;
   variation_id?: string;
   customer_latitude: string;
   customer_longitude: string;
   size_id?: string; // optional
   color_id?: string; // optional
+}
+
+export interface FoodDetailsDictData {
+  vendor_id: string;
+  customer_latitude: string;
+  customer_longitude: string;
+  category_id: string;
+  page_no: number;
+  sub_category_id?: string;
 }
 
 export interface ProductData {
@@ -398,6 +419,43 @@ export interface Cart {
   quantity: number;
 }
 
+// Food Data
+export interface RestaurantDetailResponse {
+  restaurant: RestaurantInfo;
+  categories: Category[];
+  products: ProductRestaurant[];
+}
+
+export interface RestaurantInfo {
+  id: string;
+  name: string;
+  location: string;
+  delivery_time: string;
+  distance_km: string;
+  rating: string;
+  review_count: number;
+  logo: string;
+  banner_image: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+}
+
+export interface ProductRestaurant {
+  id: string;
+  name: string;
+  category_id: string;
+  price: number;
+  rating: string;
+  image: string;
+  is_added_to_cart: boolean;
+  quantity: number;
+  is_favorite: boolean;
+  description: string;
+}
+
 export interface ProductImage {
   imgMain: FastImageSource;
 }
@@ -436,18 +494,17 @@ export interface GroceryProduct {
 }
 
 export interface Restaurant {
-  restaurant_imgMain: ProductImage[];
-  subCategoryTitle: string;
-  restaurant_img: FastImageSource;
-  restaurant_logo: FastImageSource;
-  restaurant_name: string;
-  restaurant_address: string;
-  restaurant_time: string;
-  restaurant_deliverytime: string;
-  restaurant_distance: string;
-  restaurant_ratings: number;
-  restaurant_reviews: number;
-  isFavourite: boolean;
+  id: string;
+  name: string;
+  location: string;
+  open_time: string;
+  close_time: string;
+  distance_km: string;
+  rating: string;
+  subcategory_id: string;
+  logo: string;
+  image: string;
+  is_store_wishlisted: boolean;
 }
 
 export interface SimilarProduct {

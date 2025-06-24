@@ -7,6 +7,7 @@ import {
   AddRemoveWishlistDictData,
   AddToCartDictData,
   Product,
+  Restaurant,
 } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
@@ -23,7 +24,6 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   const wishlistProductApi = zustandStore.MyWishlistStore(
     (state) => state.wishlistProduct
   );
-
   const addToCartApi = zustandStore.ProductListingStore(
     (state) => state.addToCart
   );
@@ -33,13 +33,21 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   const removeFromCartApi = zustandStore.ProductListingStore(
     (state) => state.removeFromCart
   );
+  const wishlistStoreApi = zustandStore.MyWishlistStore(
+    (state) => state.wishlistStore
+  );
 
   const currentLatLong = route?.params?.currentLatLong;
 
   const [search, setSearch] = useState<string>("");
   const debounce = debounceQuery(search, 300);
   const [selectedTab, setSelectedTab] = useState<string>("Product");
-  const [arrMyWhislist, setArrMyWishlist] = useState<Product[]>([]);
+  const [arrMyWhislistProduct, setArrMyWishlistProduct] = useState<Product[]>(
+    []
+  );
+  const [arrMyWhislistStore, setArrMyWishlistStore] = useState<Restaurant[]>(
+    []
+  );
 
   const onChangeSearch = (text: string) => {
     setSearch(text);
@@ -59,7 +67,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
     is_color?: boolean,
     is_size?: boolean
   ) => {
-    const currentItem = arrMyWhislist[index];
+    const currentItem = arrMyWhislistProduct[index];
     const currentQty = Number(currentItem.quantity) || 0;
     let newQty = currentQty;
 
@@ -127,7 +135,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   };
 
   //   Remove from wishlist
-  const handleRemoveFromWishlist = (
+  const handleRemoveProductFromWishlist = (
     product_id: string,
     variation_id?: string,
     is_variation?: boolean
@@ -135,15 +143,23 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
     handleWishlistProductApi(product_id, variation_id, is_variation);
   };
 
+  const handleRemoveStoreFromWishlist = (index: number, vendor_id: string) => {
+    handleWishlistStoreApi(vendor_id, index);
+  };
+
   // -----------------------API Call-----------------------
 
   // handleMyWhilistApi
   const handleMyWhilistApi = async (text: string, type: string) => {
-    const dictData = {
-      search_text: text.trim(),
+    const dictData: any = {
       page_number: 1,
       type: type.toLowerCase(),
     };
+
+    if (text.trim().length > 0) {
+      dictData.search_text = text.trim();
+    }
+
     try {
       const response = await myWhilistApi(dictData, navigation);
       if (response !== undefined && response !== null) {
@@ -153,14 +169,20 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
         if (response.code === statusCodes.success) {
           const wishlistData = response.data;
           if (Array.isArray(wishlistData)) {
-            setArrMyWishlist(wishlistData);
+            if (type == "Store") {
+              setArrMyWishlistStore(wishlistData);
+            } else {
+              setArrMyWishlistProduct(wishlistData);
+            }
           }
         } else if (response.code === statusCodes.invaildOrFail) {
           // flashMessageWarning(response.message);
-          setArrMyWishlist([]);
+          setArrMyWishlistProduct([]);
+          setArrMyWishlistStore([]);
         } else if (response.code === statusCodes.emptyData) {
           // flashMessageWarning(response.message);
-          setArrMyWishlist([]);
+          setArrMyWishlistProduct([]);
+          setArrMyWishlistStore([]);
         }
       }
     } catch (error) {
@@ -193,7 +215,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
           );
 
         if (response.code === statusCodes.success) {
-          setArrMyWishlist((prev: Product[]) =>
+          setArrMyWishlistStore((prev: Restaurant[]) =>
             prev.filter((item) => item.id !== product_id)
           );
         } else if (response.code === statusCodes.invaildOrFail) {
@@ -202,6 +224,29 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
       }
     } catch (error) {
       __DEV__ && console.log("Product Listing API Error:", error);
+    }
+  };
+
+  // handleWishlistStoreApi
+  const handleWishlistStoreApi = async (vendor_id: string, index: number) => {
+    const dictData = {
+      vendor_id: vendor_id,
+    };
+    try {
+      const response = await wishlistStoreApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("WISHLIST STORE RESPONSE===>", JSON.stringify(response));
+        if (response.code === statusCodes.success) {
+           setArrMyWishlistProduct((prev: Product[]) =>
+            prev.filter((item) => item.id !== vendor_id)
+          );
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
     }
   };
 
@@ -240,11 +285,11 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
           console.log("ADD TO CART RESPONSE===>", JSON.stringify(response));
 
         if (response.code === statusCodes.success) {
-          const updated = [...arrMyWhislist];
+          const updated = [...arrMyWhislistProduct];
           if (index !== undefined) {
             updated[index].quantity = quantity;
           }
-          setArrMyWishlist(updated);
+          setArrMyWishlistProduct(updated);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -282,11 +327,11 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
           );
 
         if (response.code === statusCodes.success) {
-          const updated = [...arrMyWhislist];
+          const updated = [...arrMyWhislistProduct];
           if (index !== undefined) {
             updated[index].quantity = quantity;
           }
-          setArrMyWishlist(updated);
+          setArrMyWishlistProduct(updated);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -322,11 +367,11 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
           );
 
         if (response.code === statusCodes.success) {
-          const updated = [...arrMyWhislist];
+          const updated = [...arrMyWhislistProduct];
           if (typeof index === "number") {
             updated[index].quantity = 0;
           }
-          setArrMyWishlist(updated);
+          setArrMyWishlistProduct(updated);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -359,30 +404,20 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleMyWhilistApi(search, selectedTab);
+      handleMyWhilistApi(debounce, selectedTab);
       StatusBar.setBarStyle("dark-content");
       return () => {};
-    }, [navigation])
-  );
-
-  useFocusEffect(
-    React.useCallback(() => {
-      // Call your API function here
-      if (debounce) {
-        console.log("Search Text==>", debounce);
-        handleMyWhilistApi(debounce, selectedTab);
-      }
-      // Cleanup interval on component unmount or dependency change
-      return () => {};
-    }, [debounce])
+    }, [navigation, debounce])
   );
 
   return (
     <MyWishlistComponent
-      arrMyWhislist={arrMyWhislist}
+      arrMyWhislistProduct={arrMyWhislistProduct}
+      arrMyWhislistStore={arrMyWhislistStore}
       search={search}
       onChangeSearch={onChangeSearch}
-      handleRemoveFromWishlist={handleRemoveFromWishlist}
+      handleRemoveProductFromWishlist={handleRemoveProductFromWishlist}
+      handleRemoveStoreFromWishlist={handleRemoveStoreFromWishlist}
       handleQuantityChange={handleQuantityChange}
       onPressProduct={onPressProduct}
       selectedTab={selectedTab}

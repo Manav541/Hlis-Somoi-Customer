@@ -416,11 +416,9 @@ export const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   imgSimilarProduct: {
-    height: 93.2,
-    width: 64,
+    height: 102,
+    width: 70,
     alignSelf: "center",
-    marginTop: 15,
-    marginBottom: 21.8,
   },
   imgMainStar: {
     height: 15.02,
@@ -466,6 +464,9 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     height: 192,
     width: 120,
+    justifyContent : 'space-between',
+    paddingTop : 15,
+    paddingBottom : 14
   },
   btnViewAll: {
     flexDirection: "row",

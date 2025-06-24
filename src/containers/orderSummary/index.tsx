@@ -68,12 +68,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       status_isdone: false,
     },
   ];
-
-  const [status_title, setStatus_title] = useState<string>("");
-
-  const [arrOrderStatus, setArrOrderStatus] = useState(defaultOrderStatus);
-
-  const pickupDateTimeStatus = {
+   const pickupDateTimeStatus = {
     status_icon: images.orderReturnedUn,
     status_icon1: images.orderReturnedUn,
     status_title: "Order pickup date & Time",
@@ -90,6 +85,12 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     status_time: "10:00 am",
     status_isdone: false,
   };
+
+  const [status_title, setStatus_title] = useState<string>("");
+
+  const [arrOrderStatus, setArrOrderStatus] = useState(defaultOrderStatus);
+
+ 
 
   const [arrProducts, setArrProducts] = useState<OrderReviewProduct[]>([
     {

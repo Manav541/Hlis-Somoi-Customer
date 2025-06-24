@@ -13,6 +13,7 @@ interface PropsType {
   isOrangeWithBorder?: boolean;
   flex?: number;
   isWhite? : boolean;
+  disabled?:boolean;
 }
 
 const GlobalButton = (props: PropsType) => {
@@ -34,10 +35,12 @@ const GlobalButton = (props: PropsType) => {
             ? colors.orange1c
             : 'transparent',
           flex: props.flex,
+          
         },
       ]}
       onPress={props.onPress}
-      activeOpacity={activityOpacity}>
+      activeOpacity={activityOpacity}
+      disabled={props?.disabled}>
       <Text
         style={[
           styles.title,

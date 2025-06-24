@@ -57,7 +57,7 @@ interface PropsType {
   onPressViewAll: () => void;
   onPressFavourite: (product_id: string, variation_id: string) => void;
   onPressReview: () => void;
-
+  
   onPressBack: () => void;
   onPressShare: () => void;
   onPressCartIcon: () => void;
@@ -154,19 +154,15 @@ const ViewProductDetailComponent = (props: PropsType) => {
           style={styles.imgSimilarProduct}
           source={{ uri: item?.image }}
         />
-        <Text
+        <View style={styles.vwPriceWeight}>
+         <Text
           style={{
             ...styles.lblProdcuctFinalPrice,
             color: colors.blue4e,
-            marginLeft: 9,
           }}
         >
           {rupeeSymbol + parseInt(item?.price).toFixed()}
         </Text>
-        <View style={styles.vwPriceWeight}>
-          <Text style={styles.lblProductPrice}>
-            {rupeeSymbol + parseInt(item?.original_price).toFixed()}
-          </Text>
           <Text style={styles.lblProductWeight1}>{item?.weight}</Text>
         </View>
       </TouchableOpacity>
@@ -463,9 +459,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
             <Text style={styles.lblProdcuctFinalPrice}>
               {rupeeSymbol + props?.productDetails?.price}
             </Text>
-            <Text style={styles.lblProductPrice}>
+            {/* <Text style={styles.lblProductPrice}>
               {rupeeSymbol + props?.productDetails?.original_price}
-            </Text>
+            </Text> */}
           </View>
 
           {/* Prodcut distance time */}
@@ -671,6 +667,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
               title={getTranslation("buyNow")}
               flex={1}
               onPress={() => props?.onPressBuyNow("add")}
+              disabled={props?.productDetails?.in_stock == false}
             />
           ) : (
             <View style={styles.vwBuyNow}>
@@ -717,7 +714,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
             />
           </TouchableOpacity>
 
-          {/* Media Gallery */}
+          {/* Media Gallery of Review */}
           <FlatList
             data={props?.allMedia || []} // ✅ full media array
             horizontal

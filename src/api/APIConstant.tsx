@@ -39,9 +39,15 @@ export const apiEndPoint = {
   productListing: "/home/customer/categroywise-products",
   filterSort: "/home/customer/filter-sort",
   productDetails: "/home/customer/product-details",
+  foodDetails:"/home/customer/food-details",
   addToCart: "/home/customer/add-to-cart",
   updateCartQuantity: "/home/customer/update-cart-quantity",
   removeFromCart : "/home/customer/remove-cart-data",
+
+  // Compare Products
+  compareProductList : "/home/customer/compare-products-listing",
+  addCompareProduct : "/home/customer/compare-products-insert",
+  removeCompareProduct : "/home/customer/remove-product-from-compare",
 
   // Cart Module
   applyCouponCode: "/home/customer/apply-offer",

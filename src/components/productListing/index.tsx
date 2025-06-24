@@ -27,17 +27,20 @@ import DropDownPicker from "react-native-dropdown-picker";
 import {
   CategoryItem,
   Product,
+  Restaurant,
   SubCategoryData,
   SubCategoryItem,
   SubCategoryTitle,
 } from "../../constants/interfaces";
 import GlobalDropdown from "../../global/GlobalDropdown";
 import FastImage from "react-native-fast-image";
+import { DateFormatsManager } from "../../constants/utils/DateFormats";
 
 interface PropsType {
   mainCategoryName: string;
   subCategoryTitle: SubCategoryTitle[];
   subCategoryFoodTitle: any[];
+  arrRestaurants: Restaurant[];
   subCategoryFashionTitle: any[];
   onPressSubCategoryTitle: (selectedName: string) => void;
   arrSubCategoryProduct: Product[];
@@ -48,8 +51,13 @@ interface PropsType {
     is_color?: boolean,
     is_size?: boolean
   ) => void;
-  onPressFavourite: (product_id: string, variation_id?: string, is_variation?: boolean) => void;
-  onPressRestaurant: (item: any) => void;
+  onPressFavourite: (
+    product_id: string,
+    variation_id?: string,
+    is_variation?: boolean
+  ) => void;
+  onPressFavouriteStore: (index: number, vendor_id: string) => void;
+  onPressRestaurant: (vendor_id: string) => void;
   onPressProduct: (
     product_id: string,
     variation_id: string,
@@ -121,97 +129,106 @@ const ProductListingComponent = (props: PropsType) => {
     index: number;
   }) => {
     return (
-      <TouchableOpacity
+      <View
         style={[
           styles.vwMyWishlistItem,
           {
             width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
           },
         ]}
-        activeOpacity={activityOpacity}
-        hitSlop={hitSlop}
-        onPress={() =>
-          props?.onPressProduct(
-            item?.id,
-            item?.variation_id,
-            item?.is_variation,
-            item?.is_color,
-            item?.is_size,
-            item?.color?.color_id,
-            item?.size?.size_id
-          )
-        }
       >
-        {/* Product Image and Favourite button */}
-        <View style={styles.vwProductImgLike}>
-          <FastImage
-            source={{ uri: item?.image }}
-            style={{ height: 80, aspectRatio: 1 }}
-            resizeMode={FastImage.resizeMode.contain}
-          />
-          <TouchableOpacity
-            style={styles.btnRedHeart}
-            activeOpacity={activityOpacity}
-            hitSlop={hitSlop}
-            onPress={() => {
-              props?.onPressFavourite(item?.id, item?.variation_id, item?.is_variation);
-            }}
-          >
-            <Image
-              style={styles.imgRedHeart}
-              source={item?.isFavorite ? images.redHeart : images.emptyHeart}
-              resizeMode="stretch"
+        <TouchableOpacity
+          style={[
+            styles.btnMyWishlistItem,
+            {
+              width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
+            },
+          ]}
+          activeOpacity={activityOpacity}
+          hitSlop={hitSlop}
+          onPress={() =>
+            props?.onPressProduct(
+              item?.id,
+              item?.variation_id,
+              item?.is_variation,
+              item?.is_color,
+              item?.is_size,
+              item?.color?.color_id,
+              item?.size?.size_id
+            )
+          }
+        >
+          {/* Product Image and Favourite button */}
+          <View style={styles.vwProductImgLike}>
+            <FastImage
+              source={{ uri: item?.image }}
+              style={{ height: 80, aspectRatio: 1 }}
+              resizeMode={FastImage.resizeMode.contain}
             />
-          </TouchableOpacity>
-
-          <Text
-            style={[
-              styles.lblInStock,
-              { color: item?.inStock ? colors.green2b : colors.red2e },
-            ]}
-          >
-            {item?.inStock
-              ? getTranslation("inStock")
-              : getTranslation("outOfStock")}
-          </Text>
-        </View>
-
-        {/* Product Details */}
-        <View style={styles.vwProductDetails}>
-          {/* name and weight */}
-          <View style={{ height: 59 }}>
-            <Text style={styles.lblProductName} numberOfLines={2}>
-              {item?.name}
-            </Text>
-            <Text style={styles.lblProductWeight}>{item?.weight}</Text>
-          </View>
-
-          {/* Price and Rating */}
-          <View style={styles.vwPriceRating}>
-            {/* Price */}
-            <View style={styles.vwPrice}>
-              <Text style={styles.lblProductFinalPrice}>
-                {rupeeSymbol + item?.price}
-              </Text>
-              <Text style={styles.lblProductPrice}>
-                {rupeeSymbol + item?.originalPrice}
-              </Text>
-            </View>
-
-            {/* Rating */}
-            <View style={styles.vwProductRating}>
+            <TouchableOpacity
+              style={styles.btnRedHeart}
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={() => {
+                props?.onPressFavourite(
+                  item?.id,
+                  item?.variation_id,
+                  item?.is_variation
+                );
+              }}
+            >
               <Image
-                style={styles.imgStar}
-                source={images.star}
+                style={styles.imgRedHeart}
+                source={item?.isFavorite ? images.redHeart : images.emptyHeart}
                 resizeMode="stretch"
               />
-              <Text style={styles.lblProductRating}>
-                {parseFloat(item.rating).toFixed(1)}
+            </TouchableOpacity>
+
+            <Text
+              style={[
+                styles.lblInStock,
+                { color: item?.inStock ? colors.green2b : colors.red2e },
+              ]}
+            >
+              {item?.inStock
+                ? getTranslation("inStock")
+                : getTranslation("outOfStock")}
+            </Text>
+          </View>
+
+          {/* Product Details */}
+          <View style={styles.vwProductDetails}>
+            {/* name and weight */}
+            <View style={{ height: 59 }}>
+              <Text style={styles.lblProductName} numberOfLines={2}>
+                {item?.name}
               </Text>
+              <Text style={styles.lblProductWeight}>{item?.weight}</Text>
+            </View>
+
+            {/* Price and Rating */}
+            <View style={styles.vwPriceRating}>
+              {/* Price */}
+              <View style={styles.vwPrice}>
+                <Text style={styles.lblProductFinalPrice}>
+                  {rupeeSymbol + parseFloat(item?.price).toFixed(2)}
+                </Text>
+              </View>
+
+              {/* Rating */}
+              <View style={styles.vwProductRating}>
+                <Image
+                  style={styles.imgStar}
+                  source={images.star}
+                  resizeMode="stretch"
+                />
+                <Text style={styles.lblProductRating}>
+                  {parseFloat(item.rating).toFixed(1)}
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-
+        </TouchableOpacity>
         {/* Add to cart */}
         {item.quantity === 0 ? (
           <TouchableOpacity
@@ -226,7 +243,7 @@ const ProductListingComponent = (props: PropsType) => {
                 item?.is_size
               )
             }
-            disabled={item?.inStock ==  false}
+            disabled={item?.inStock == false}
           >
             <Text style={styles.lblAddToCart}>
               {getTranslation("addToCart")}
@@ -275,38 +292,38 @@ const ProductListingComponent = (props: PropsType) => {
             </TouchableOpacity>
           </View>
         )}
-      </TouchableOpacity>
+      </View>
     );
   };
 
-  const renderArrFoodSubCategory = ({ item, index }: any) => {
+  const renderArrFoodSubCategory = ({ item, index }: { item: Restaurant; index: number }) => {
     return (
       <TouchableOpacity
         style={styles.btnAllBestSellersItem}
         activeOpacity={activityOpacity}
         key={index}
-        onPress={() => props?.onPressRestaurant(item)}
+        onPress={() => props?.onPressRestaurant(item?.id)}
       >
         <FastImage
           style={styles.imgBestSellers}
-          source={item?.restaurant_img}
+          source={{uri : item?.image}}
           resizeMode="stretch"
         />
         <TouchableOpacity
           style={styles.btnFavourite}
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
-          onPress={() => props?.onPressFavourite(item?.id, item?.variation_id)}
+          onPress={() => props?.onPressFavouriteStore(index, item?.id)}
         >
           <Image
             style={styles.imgRedHeart}
-            source={item?.isFavourite ? images.redHeart : images.emptyHeart}
+            source={item?.is_store_wishlisted ? images.redHeart : images.emptyHeart}
             resizeMode="stretch"
           />
         </TouchableOpacity>
         <View style={styles.vwBestSellersItemDetails}>
           <Text style={styles.lblBestSellersItemName}>
-            {item?.restaurant_name}
+            {item?.name}
           </Text>
           <View style={styles.vwLocation}>
             <Image
@@ -314,7 +331,7 @@ const ProductListingComponent = (props: PropsType) => {
               source={images.locationIconOrange}
               resizeMode="stretch"
             />
-            <Text style={styles.lblLocation}>{item?.restaurant_address}</Text>
+            <Text style={styles.lblLocation}>{item?.location}</Text>
           </View>
           <View style={styles.vwTimeDistanceRating}>
             <View style={styles.vwTimeDistance}>
@@ -326,7 +343,17 @@ const ProductListingComponent = (props: PropsType) => {
                     fontFamily: fontsfamily.semiboldOutFit,
                   }}
                 >
-                  {item?.restaurant_time}
+                  {DateFormatsManager.formatDate(
+                    item?.open_time,
+                    DateFormatsManager.TimeFormats.HHmm,
+                    DateFormatsManager.TimeFormats.HHmmss
+                  ) +
+                    "-" +
+                    DateFormatsManager.formatDate(
+                      item?.close_time,
+                      DateFormatsManager.TimeFormats.HHmm,
+                      DateFormatsManager.TimeFormats.HHmmss
+                    )}
                 </Text>
               </Text>
               <View style={styles.vwDistance}>
@@ -336,12 +363,12 @@ const ProductListingComponent = (props: PropsType) => {
                   resizeMode="stretch"
                 />
                 <Text style={styles.lblDistance}>
-                  {item?.restaurant_distance.toLowerCase()}
+                  {item?.distance_km}
                 </Text>
               </View>
             </View>
             <View style={styles.vwRating}>
-              <Text style={styles.lblRatings}>{item?.restaurant_ratings}</Text>
+              <Text style={styles.lblRatings}>{item?.rating}</Text>
               <Image
                 style={styles.imgStarBlue}
                 source={images.starBlue}
@@ -351,7 +378,7 @@ const ProductListingComponent = (props: PropsType) => {
           </View>
           <FastImage
             style={styles.imgLogo}
-            source={item?.restaurant_logo}
+            source={{uri : item?.logo}}
             resizeMode="stretch"
           />
         </View>
@@ -404,7 +431,7 @@ const ProductListingComponent = (props: PropsType) => {
 
       {props?.mainCategoryName === "Food" ? (
         <FlatList
-          data={props?.arrSubCategoryProduct}
+          data={props?.arrRestaurants}
           bounces={false}
           showsVerticalScrollIndicator={false}
           renderItem={renderArrFoodSubCategory}
@@ -414,6 +441,13 @@ const ProductListingComponent = (props: PropsType) => {
             paddingHorizontal: 20,
             paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
           }}
+           ListEmptyComponent={
+            <View style={styles.vwNoData}>
+              <Text style={styles.lblNoData}>
+                {getTranslation("noDataFound")}
+              </Text>
+            </View>
+          }
         />
       ) : (
         <FlatList

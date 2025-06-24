@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   vwMyWishlistItem: {
     height: 241,
     borderRadius: 20,
-    backgroundColor: colors.white,
+    overflow: "hidden",
   },
   vwProductImgLike: {
     height: 112,
@@ -203,6 +203,13 @@ export const styles = StyleSheet.create({
   },
 
   // Touchableopacity Styles
+   btnMyWishlistItem: {
+    height: 207,
+    borderTopLeftRadius:20,
+    borderTopRightRadius: 20,
+    backgroundColor: colors.white,
+    overflow :'hidden'
+  },
   btnSubCategoryTitle: {
     paddingHorizontal: 7,
     flexDirection: "row",
@@ -249,7 +256,6 @@ export const styles = StyleSheet.create({
     width: ScreenDimensions.screenWidth - 40,
     borderRadius: 20,
     overflow: "hidden",
-    // backgroundColor: colors.white,
   },
   btnFavourite: {
     height: 24,

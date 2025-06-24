@@ -188,6 +188,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 6,
     marginBottom: 6,
+    marginHorizontal : 10
   },
   lblBestProductsUsed: {
     color: colors.white,

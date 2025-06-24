@@ -30,11 +30,9 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
   const [canLoadMore, setCanLoadMore] = useState(false);
 
   const mainCategoryId = route.params.mainCategoryId;
+  const type = route.params.type;
 
   const onPressFavourite = (index: number, vendor_id: string) => {
-    // const updatedList = [...arrBestProductsSellers];
-    // updatedList[index].isFavourite = !updatedList[index].isFavourite;
-    // setArrBestProductsSellers(updatedList);
     handleWishlistStoreApi(vendor_id,index);
   };
 
@@ -47,7 +45,8 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
   // handleBestProductsSellerListApi
   const handleBestProductsSellerListApi = async (
     page: number,
-    isLoadMore: boolean
+    isLoadMore: boolean,
+    type : string
   ) => {
     if (isLoadMore && isLoadingMore) return;
 
@@ -56,6 +55,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
     const dictData = {
       category_id: mainCategoryId,
       page_number: page,
+      type : type
     };
     try {
       const response = await bestProductsSellerListApi(dictData, navigation);
@@ -136,7 +136,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
   const loadMoreCategories = () => {
     if (hasMoreData && !isLoadingMore) {
       const nextPage = bestProductsSellerPageNumber + 1;
-      handleBestProductsSellerListApi(nextPage, true);
+      handleBestProductsSellerListApi(nextPage, true,type);
     }
   };
 
@@ -145,7 +145,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
       setBestProductsSellerPageNumber(1);
       setHasMoreData(true);
       setArrBestProductsSellers([]);
-      handleBestProductsSellerListApi(1, false);
+      handleBestProductsSellerListApi(1, false,type);
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])

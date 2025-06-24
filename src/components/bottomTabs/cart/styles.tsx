@@ -130,21 +130,6 @@ export const styles = StyleSheet.create({
     marginTop : 20,
     marginBottom : 7
   },
-  vwApproxTime:{
-    height : 17,
-    justifyContent : 'space-between',
-    alignItems : 'center',
-    flexDirection : 'row',
-    gap : 10,
-    marginHorizontal : 20,
-    marginVertical : 20,
-  },
-  vwImgApproxTime:{
-    height : 17,
-    flexDirection : 'row',
-    alignItems : 'center',
-    gap : 4
-  },
   vwOrderDetails:{
     marginHorizontal : 20,
     gap : 15
@@ -243,17 +228,8 @@ export const styles = StyleSheet.create({
     fontFamily : fontsfamily.medium,
     color : colors.whiteff,
     marginHorizontal : 20,
-    lineHeight : 16
-  },
-  lblApproxTime :{
-    fontSize : fontSize.size12,
-    fontFamily : fontsfamily.medium,
-    color : colors.whiteff
-  },
-  lblApproxTimeValue :{
-    fontSize : fontSize.size12,
-    fontFamily : fontsfamily.bold,
-    color : colors.orange1c
+    lineHeight : 16,
+    marginBottom : 20
   },
   lblOrderDetails:{
     fontSize : fontSize.size16,
@@ -293,10 +269,6 @@ export const styles = StyleSheet.create({
   imgPlusMinus :{
     height : 24,
     width : 24
-  },
-  imgBoy:{
-    height : 17,
-    width : 18
   },
   imgTickCircle:{
     height : 16,

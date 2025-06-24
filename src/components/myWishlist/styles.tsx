@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../constants/Colors";
 import { fontSize } from "../../constants/FontSizes";
 import { fontsfamily } from "../../constants/FontFamily";
+import { ScreenDimensions } from "../../constants/utils/Dimensions";
 
 export const styles = StyleSheet.create({
   //   View styles
@@ -23,7 +24,7 @@ export const styles = StyleSheet.create({
   vwMyWishlistItem: {
     height: 241,
     borderRadius: 20,
-    backgroundColor: colors.white,
+    overflow :'hidden'
   },
   vwProductImgLike: {
     height: 112,
@@ -83,6 +84,48 @@ export const styles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.orange1c,
   },
+   vwBestSellersItemDetails: {
+    paddingHorizontal: 12.5,
+    paddingTop: 14,
+    marginBottom: 10,
+    height: 102,
+    backgroundColor: colors.white,
+  },
+  vwLocation: {
+    marginTop: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    height: 22,
+  },
+  vwTimeDistanceRating: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 23,
+    marginTop: 5,
+  },
+  vwTimeDistance: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
+  vwDistance: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
+  vwRatingStore: {
+    backgroundColor: colors.orange1c,
+    height: 23,
+    width: 53,
+    gap: 4,
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 50,
+    paddingLeft: 6,
+    paddingRight: 7,
+  },
 
   //   TextInput styles
   txtSearch: {
@@ -109,8 +152,48 @@ export const styles = StyleSheet.create({
     height: 24,
     width: 24,
   },
+  imgBestSellers: {
+    height: 148,
+    width: ScreenDimensions.screenWidth - 40,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    overflow: "hidden",
+  },
+  imgLocation: {
+    height: 22,
+    width: 22,
+  },
+  imgDot: {
+    height: 5,
+    width: 5,
+  },
+  imgStarBlue: {
+    height: 16,
+    width: 16,
+  },
+  imgLogo: {
+    height: 40.48,
+    width: 40.48,
+    borderRadius: 100,
+    position: "absolute",
+    bottom: 81.03,
+    right: 14.76,
+  },
 
   //   TouchableOpacity styles
+  btnMyWishlistItem: {
+    height: 207,
+    borderTopLeftRadius:20,
+    borderTopRightRadius: 20,
+    backgroundColor: colors.white,
+    overflow :'hidden'
+  },
+   btnAllBestSellersItem: {
+    height: 250,
+    width: ScreenDimensions.screenWidth - 40,
+    borderRadius: 20,
+    overflow: "hidden",
+  },
   btnRedHeart: {
     height: 24,
     width: 24,
@@ -122,6 +205,26 @@ export const styles = StyleSheet.create({
     top: 10,
     right: 10,
   },
+  btnFavourite: {
+    height: 24,
+    width: 24,
+    backgroundColor: colors.white,
+    borderRadius: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 9.29,
+    right: 10,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+
   btnAddToCart: {
     height: 34,
     borderBottomStartRadius: 20,
@@ -192,5 +295,31 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
     textAlign:'center'
-  }
+  },
+  lblBestSellersItemName: {
+    color: colors.black35,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.bold,
+    lineHeight: 14,
+  },
+  lblLocation: {
+    color: colors.black35,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regularOutFit,
+  },
+  lblTime: {
+    color: colors.black35,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regularOutFit,
+  },
+  lblDistance: {
+    color: colors.black35,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.mediumOutFit,
+  },
+  lblRatings: {
+    color: colors.blue4e,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.regularOutFit,
+  },
 });

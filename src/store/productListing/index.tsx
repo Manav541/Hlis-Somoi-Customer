@@ -12,6 +12,7 @@ interface Store {
   productListing: StoreFunction;
   filterSort: StoreFunction;
   productDetails: StoreFunction;
+  foodDetails: StoreFunction;
   addToCart: StoreFunction;
   updateCartQuantity: StoreFunction;
   removeFromCart: StoreFunction;
@@ -89,6 +90,32 @@ const ProductListingStore = create<Store>((set) => ({
 
       APIManager.postServerRequestWithToken({
         apiEndPoint: apiEndPoint.productDetails,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  foodDetails(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.foodDetails,
         callback: callback,
         dictData: dictData,
         navigation: navigation,

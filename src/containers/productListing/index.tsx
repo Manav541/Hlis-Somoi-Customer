@@ -11,6 +11,8 @@ import {
   AddRemoveWishlistDictData,
   AddToCartDictData,
   Product,
+  ProductListDictData,
+  Restaurant,
   SubCategoryTitle,
 } from "../../constants/interfaces";
 import { statusCodes } from "../../api/APIConstant";
@@ -38,12 +40,16 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const removeFromCartApi = zustandStore.ProductListingStore(
     (state) => state.removeFromCart
   );
+  const wishlistStoreApi = zustandStore.MyWishlistStore(
+    (state) => state.wishlistStore
+  );
 
   const mainCategoryId = route.params?.mainCategoryId;
   const mainCategoryName = route.params?.mainCategoryName;
   const [arrSubCategoryProduct, setArrSubCategoryProduct] = useState<Product[]>(
     []
   );
+  const [arrRestaurants, setArrRestaurants] = useState<Restaurant[]>([]);
   const [allSubCategories, setAllSubCategories] = useState<any[]>([]);
   const [isFilterModalVisible, setIsFilterModalVisible] =
     useState<boolean>(false);
@@ -262,8 +268,16 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     handleWishlistProductApi(product_id, variation_id, is_variation);
   };
 
-  const onPressRestaurant = (item: any) => {
-    navigation.navigate(ScreenNames.restaurantDetail, { item: item });
+  const onPressFavouriteStore = (index: number, vendor_id: string) => {
+    handleWishlistStoreApi(vendor_id, index);
+  };
+
+  const onPressRestaurant = (vendor_id: string) => {
+    navigation.navigate(ScreenNames.restaurantDetail, {
+      vendor_id: vendor_id,
+      customer_latitude: currentLatLong?.latitude,
+      customer_longitude: currentLatLong?.longitude,
+    });
   };
 
   const onPressProduct = (
@@ -333,11 +347,15 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   // -------------------------API Calling------------------------
   // handleProductListingApi
   const handleProductListingApi = async (subCategoryId?: string) => {
-    const dictData = {
+    const dictData: ProductListDictData = {
       category_id: mainCategoryId,
-      ...(subCategoryId && { sub_category_id: subCategoryId }),
       page_no: 1,
+      type: mainCategoryName.toLowerCase(),
     };
+
+    if (subCategoryId) {
+      dictData.sub_category_id = subCategoryId;
+    }
 
     try {
       const response = await productListingApi(dictData, navigation);
@@ -347,7 +365,21 @@ const ProductListingContainer = ({ navigation, route }: any) => {
           console.log("PRODUCT LISTING RESPONSE===>", JSON.stringify(response));
 
         if (response.code === statusCodes.success) {
-          const subCategories = (response.data as any)?.subCategories ?? [];
+          const data = response.data;
+          const subCategories = (data as any)?.subCategories ?? [];
+
+          // ✅ SET RESTAURANTS if Food category
+          if (
+            mainCategoryName === "Food" &&
+            Array.isArray((data as any)?.restaurants)
+          ) {
+            const filteredRestaurants = subCategoryId
+              ? (data as any).restaurants.filter(
+                  (res: any) => res.subCategoryId === subCategoryId
+                )
+              : (data as any).restaurants;
+            setArrRestaurants(filteredRestaurants);
+          }
 
           // Save only once if empty
           if (allSubCategories.length === 0) {
@@ -380,8 +412,10 @@ const ProductListingContainer = ({ navigation, route }: any) => {
           setArrSubCategoryProduct(productList);
         } else if (response.code === statusCodes.emptyData) {
           setArrSubCategoryProduct([]);
+          setArrRestaurants([]);
         } else if (response.code === statusCodes.invaildOrFail) {
           setArrSubCategoryProduct([]);
+          setArrRestaurants([]);
         }
       }
     } catch (error) {
@@ -395,7 +429,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     variation_id?: string,
     is_variation?: boolean
   ) => {
-    const dictData : AddRemoveWishlistDictData = {
+    const dictData: AddRemoveWishlistDictData = {
       product_id: product_id,
     };
 
@@ -652,6 +686,30 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     }
   };
 
+  // handleWishlistStoreApi
+  const handleWishlistStoreApi = async (vendor_id: string, index: number) => {
+    const dictData = {
+      vendor_id: vendor_id,
+    };
+    try {
+      const response = await wishlistStoreApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("WISHLIST STORE RESPONSE===>", JSON.stringify(response));
+        if (response.code === statusCodes.success) {
+          const updatedList = [...arrRestaurants];
+          updatedList[index].is_store_wishlisted =
+            !updatedList[index].is_store_wishlisted;
+          setArrRestaurants(updatedList);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       handleProductListingApi();
@@ -665,11 +723,13 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       mainCategoryName={mainCategoryName}
       subCategoryTitle={subCategoryTitle}
       subCategoryFoodTitle={subCategoryFoodTitle}
+      arrRestaurants={arrRestaurants}
       subCategoryFashionTitle={subCategoryFashionTitle}
       onPressSubCategoryTitle={onPressSubCategoryTitle}
       arrSubCategoryProduct={arrSubCategoryProduct}
       handleQuantityChange={handleQuantityChange}
       onPressFavourite={onPressFavourite}
+      onPressFavouriteStore={onPressFavouriteStore}
       onPressRestaurant={onPressRestaurant}
       onPressProduct={onPressProduct}
       isFilterModalVisible={isFilterModalVisible}

@@ -2,6 +2,7 @@ import AddressStore from "./addAddress";
 import AuthStore from "./authentication";
 import AvailableOffersStore from "./availableOffers";
 import CartStore from "./cart";
+import CompareProductStore from "./compareProduct";
 import HomeStore from "./home";
 import KeyStore from "./keys";
 import MyWishlistStore from "./myWishlist";
@@ -9,13 +10,24 @@ import ProductListingStore from "./productListing";
 import userOtpVerificationStore from "./verfication";
 
 export const zustandStore = {
+  KeyStore: KeyStore,
+
+  // Authentication Module
   AuthStore: AuthStore,
   OtpVerificationStore: userOtpVerificationStore,
+
+  // Home Module
+  HomeStore: HomeStore,
+
+  // Category Module
+  ProductListingStore: ProductListingStore,
+  CompareProductStore: CompareProductStore,
+
+  // Cart Module
+  CartStore: CartStore,
+
+  // Setting Module
   AddressStore: AddressStore,
-  KeyStore :KeyStore,
-  AvailableOffersStore:AvailableOffersStore,
-  MyWishlistStore : MyWishlistStore,
-  HomeStore : HomeStore,
-  ProductListingStore : ProductListingStore,
-  CartStore : CartStore
+  AvailableOffersStore: AvailableOffersStore,
+  MyWishlistStore: MyWishlistStore,
 };

@@ -261,21 +261,6 @@ const CartComponent = (props: PropsType) => {
             {props?.deliverToAddress}
           </Text>
 
-          <View style={styles.vwApproxTime}>
-            <View style={styles.vwImgApproxTime}>
-              <Image
-                style={styles.imgBoy}
-                source={images.boyRide}
-                resizeMode="stretch"
-              />
-              <Text style={styles.lblApproxTime}>
-                {getTranslation("approxDeliveryTime")}
-              </Text>
-            </View>
-            <Text style={styles.lblApproxTimeValue}>
-              {props?.approxDeliveryTime}
-            </Text>
-          </View>
           <View style={styles.vwOrderDetails}>
             <Text style={styles.lblOrderDetails}>
               {getTranslation("orderDetails")}
@@ -295,16 +280,6 @@ const CartComponent = (props: PropsType) => {
                   <Text style={styles.lblOrderDetailsTitle}>Sub Total</Text>
                   <Text style={styles.lblOrderDetailsValue}>
                     {rupeeSymbol + " " + props?.cartDetails?.total_amount}
-                  </Text>
-                </View>
-
-                {/* Tax (5%) */}
-                <View style={styles.vwOrderDetailsItem}>
-                  <Text style={styles.lblOrderDetailsTitle}>
-                    Tax ({props?.cartDetails?.tax_percentage}%)
-                  </Text>
-                  <Text style={styles.lblOrderDetailsValue}>
-                    {rupeeSymbol + props?.cartDetails?.tax_amount}
                   </Text>
                 </View>
 

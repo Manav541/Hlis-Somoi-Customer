@@ -4,12 +4,15 @@ import {
   FlatList,
   Image,
   StatusBar,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { images } from "../../constants/Images";
 import {
+  activityOpacity,
+  hitSlop,
   rupeeSymbol,
 } from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -52,6 +55,21 @@ const CompareProductComponent = (props: PropsType) => {
             {item?.product_desc}
           </Text>
         </View>
+
+        {/* Delete Compare Product */}
+        {index != 0 && (
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              top: 10,
+              right: 10,
+            }}
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+          >
+            <Image style={{ height: 28, width: 28 }} source={images.delete} />
+          </TouchableOpacity>
+        )}
       </View>
     );
   };

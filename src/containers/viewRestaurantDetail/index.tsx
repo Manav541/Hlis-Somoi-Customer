@@ -7,41 +7,35 @@ import {
   Alert,
   Share,
 } from "react-native";
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { useCallback, useState } from "react";
 import ViewRestaurantDetailComponent from "../../components/viewRestaurantDetail";
-import GlobalBackButton from "../../global/GlobalBackButton";
-import {
-  activityOpacity,
-  appName,
-  flashMessageWarning,
-  hitSlop,
-} from "../../constants/GConstant";
-import { styles } from "./styles";
+import { appName, flashMessageWarning } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
-import { colors } from "../../constants/Colors";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
-import { getTranslation } from "../../localization/i18n/i18n.config";
 import { ScreenNames } from "../../routers";
 import { CommonActions, useFocusEffect } from "@react-navigation/native";
+import { zustandStore } from "../../store";
+import { statusCodes } from "../../api/APIConstant";
+import {
+  FoodDetailsDictData,
+  ProductDetailsDictData,
+  ProductRestaurant,
+  RestaurantDetailResponse,
+} from "../../constants/interfaces";
 
 const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
+  // API Zustand store
+  const foodDetailsApi = zustandStore.ProductListingStore(
+    (state) => state.foodDetails
+  );
   // console.log("route", route.params?.item);
-  const itemData = route.params?.item;
-  const restaurant_imgMain = itemData?.restaurant_imgMain;
-  const restaurant_img = itemData?.restaurant_img;
-  const restaurant_logo = itemData?.restaurant_logo;
-  const restaurant_name = itemData?.restaurant_name;
-  const restaurant_address = itemData?.restaurant_address;
-  const restaurant_ratings = itemData?.restaurant_ratings;
-  const restaurant_distance = itemData?.restaurant_distance;
-  const restaurant_reviews = itemData?.restaurant_reviews;
-  const restaurant_deliverytime = itemData?.restaurant_deliverytime;
+  const itemData = route.params;
+  const vendor_id = itemData?.vendor_id;
+  const customer_latitude = itemData?.customer_latitude;
+  const customer_longitude = itemData?.customer_longitude;
   const [isSharing, setIsSharing] = useState<boolean>(true);
+
+  const [foodData, setFoodData] = useState<RestaurantDetailResponse>();
 
   const [arrSubCategoryType, setArrSubCategoryType] = useState([
     {
@@ -163,7 +157,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   const [selectedFoodItemIndex, setSelectedFoodItemIndex] = useState<any>(null);
   const [isNavigating, setIsNavigating] = useState(false);
 
-  const handleOnPressFoodItem = (item: any, index: number) => {
+  const handleOnPressFoodItem = (item: ProductRestaurant, index: number) => {
     setIsFoodModalVisible(true);
     setSelectedFoodItem(item);
     setSelectedFoodItemIndex(index);
@@ -174,13 +168,16 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   };
 
   const handleQuantityChange = (index: number, type: "add" | "remove") => {
-    const updated = [...arrSubCategoryData];
+    const updated = foodData?.products ? [...foodData.products] : [];
     if (type === "add") {
-      updated[index].food_quantity += 1;
-    } else if (type === "remove" && updated[index].food_quantity > 0) {
-      updated[index].food_quantity -= 1;
+      updated[index].quantity += 1;
+    } else if (type === "remove" && updated[index].quantity > 0) {
+      updated[index].quantity -= 1;
     }
-    setArrSubCategoryData(updated);
+    setFoodData((prev) => ({
+      ...prev!,
+      products: updated,
+    }));
   };
 
   const onPressFavourite = (index: number) => {
@@ -273,119 +270,57 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
       );
     });
 
-    setTimeout(() => setIsNavigating(false), 1000); // unlock after 1 sec
+    setTimeout(() => setIsNavigating(false), 1000);
   }, [isNavigating, navigation]);
 
   const onPressBack = () => {
     navigation.goBack();
   };
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: "",
-      headerTransparent: true,
-      headerStyle: {
-        backgroundColor: "transparent",
-        elevation: 0,
-        shadowOpacity: 0,
-      },
-      headerLeft: () => (
-        <GlobalBackButton onPress={() => navigation.goBack()} isWhite />
-      ),
-      headerRight: () => (
-        <View style={styles.vwHeaderRight}>
-          <TouchableOpacity
-            activeOpacity={activityOpacity}
-            hitSlop={hitSlop}
-            onPress={onPressShare}
-          >
-            <Image
-              style={styles.imgButton}
-              source={images.shareIcon}
-              tintColor={colors.white}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={activityOpacity}
-            hitSlop={hitSlop}
-            onPress={onPressCartIcon}
-            disabled={isNavigating}
-          >
-            <Image
-              style={styles.imgButton}
-              source={images.cartBagIcon}
-              tintColor={colors.white}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [isNavigating, onPressCartIcon]);
+  // --------------------------API Calling-----------------------
+  // handleProductDetailsApi
+  const handleProductDetailsApi = async (vendor_id: string) => {
+    const dictData: FoodDetailsDictData = {
+      vendor_id: vendor_id,
+      customer_latitude: customer_latitude.toString(),
+      customer_longitude: customer_longitude.toString(),
+      category_id: "2",
+      page_no: 1,
+      // sub_category_id:"5"
+    };
 
-  // const header = () => {
-  //   navigation.setOptions({
-  //     title: "",
-  //     headerTransparent: true,
-  //     headerStyle: {
-  //       backgroundColor: "transparent",
-  //       elevation: 0,
-  //       shadowOpacity: 0,
-  //     },
-  //     headerLeft: () => (
-  //       <GlobalBackButton onPress={() => navigation.goBack()} isWhite />
-  //     ),
-  //     headerRight: () => (
-  //       <View style={styles.vwHeaderRight}>
-  //         <TouchableOpacity
-  //           activeOpacity={activityOpacity}
-  //           hitSlop={hitSlop}
-  //           onPress={onPressShare}
-  //         >
-  //           <Image
-  //             style={styles.imgButton}
-  //             source={images.shareIcon}
-  //             tintColor={colors.white}
-  //           />
-  //         </TouchableOpacity>
-  //         <TouchableOpacity
-  //           activeOpacity={activityOpacity}
-  //           hitSlop={hitSlop}
-  //           onPress={onPressCartIcon}
-  //           disabled={isNavigating}
-  //         >
-  //           <Image
-  //             style={styles.imgButton}
-  //             source={images.cartBagIcon}
-  //             tintColor={colors.white}
-  //           />
-  //         </TouchableOpacity>
-  //       </View>
-  //     ),
-  //   });
-  // };
+    try {
+      const response = await foodDetailsApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("STORE DETAILS RESPONSE===>", JSON.stringify(response));
 
-  // useEffect(() => {
-  //   header();
-  // }, []);
+        if (response.code === statusCodes.success) {
+          const foodData = response.data as RestaurantDetailResponse;
+          setFoodData(foodData);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     StatusBar.setBarStyle("light-content");
-  //     return () => {};
-  //   }, [navigation])
-  // );
+  useFocusEffect(
+    React.useCallback(() => {
+      handleProductDetailsApi(vendor_id);
+      // handleCartListingApi();
+      StatusBar.setBarStyle("light-content");
+      return () => {};
+    }, [navigation, vendor_id])
+  );
 
   return (
     <ViewRestaurantDetailComponent
-      restaurant_imgMain={restaurant_imgMain}
-      restaurant_img={restaurant_img}
-      restaurant_logo={restaurant_logo}
-      restaurant_name={restaurant_name}
-      restaurant_address={restaurant_address}
-      restaurant_ratings={restaurant_ratings}
-      restaurant_distance={restaurant_distance}
-      restaurant_reviews={restaurant_reviews}
-      restaurant_deliverytime={restaurant_deliverytime}
+      foodData={foodData || ({} as RestaurantDetailResponse)}
       arrSubCategoryType={arrSubCategoryType}
       onPressSubCategoryType={onPressSubCategoryType}
       arrSubCategoryData={arrSubCategoryData}

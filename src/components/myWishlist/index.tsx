@@ -20,14 +20,26 @@ import {
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
-import { GroceryProduct, Product } from "../../constants/interfaces";
+import {
+  GroceryProduct,
+  Product,
+  Restaurant,
+} from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
+import { DateFormatsManager } from "../../constants/utils/DateFormats";
+import { fontsfamily } from "../../constants/FontFamily";
 
 interface PropsType {
-  arrMyWhislist: Product[];
+  arrMyWhislistProduct: Product[];
+  arrMyWhislistStore: Restaurant[];
   search: string;
   onChangeSearch: (text: string) => void;
-  handleRemoveFromWishlist: (product_id: string, variation_id?: string, is_variation?: boolean) => void;
+  handleRemoveProductFromWishlist: (
+    product_id: string,
+    variation_id?: string,
+    is_variation?: boolean
+  ) => void;
+  handleRemoveStoreFromWishlist:(index: number, vendor_id: string) => void;
   handleQuantityChange: (
     index: number,
     action: "add" | "remove",
@@ -50,7 +62,7 @@ interface PropsType {
 
 const MyWishlistComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
-  const renderArrMyWhislist = ({
+  const renderArrMyWhislistProduct = ({
     item,
     index,
   }: {
@@ -58,84 +70,95 @@ const MyWishlistComponent = (props: PropsType) => {
     index: number;
   }) => {
     return (
-      <TouchableOpacity
-        activeOpacity={activityOpacity}
-        hitSlop={hitSlop}
+      <View
         style={[
           styles.vwMyWishlistItem,
-          {
-            width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
-          },
+          { width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2 },
         ]}
-        onPress={() =>
-          props?.onPressProduct(
-            item?.id,
-            item?.variation_id,
-            item?.is_variation,
-            item?.is_color,
-            item?.is_size,
-            item?.color?.color_id,
-            item?.size?.size_id
-          )
-        }
       >
-        {/* Product Image and Favourite button */}
-        <View style={styles.vwProductImgLike}>
-          <FastImage
-            source={{ uri: item?.image }}
-            style={{ height: 80, aspectRatio: 1 }}
-            resizeMode={FastImage.resizeMode.contain}
-          />
-          <TouchableOpacity
-            style={styles.btnRedHeart}
-            activeOpacity={activityOpacity}
-            hitSlop={hitSlop}
-            onPress={() => {
-              props?.handleRemoveFromWishlist(item?.id, item?.variation_id, item?.is_variation);
-            }}
-          >
-            <Image
-              style={styles.imgRedHeart}
-              source={images.redHeart}
-              resizeMode="stretch"
+        <TouchableOpacity
+          activeOpacity={activityOpacity}
+          hitSlop={hitSlop}
+          style={[
+            styles.btnMyWishlistItem,
+            {
+              width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
+            },
+          ]}
+          onPress={() =>
+            props?.onPressProduct(
+              item?.id,
+              item?.variation_id,
+              item?.is_variation,
+              item?.is_color,
+              item?.is_size,
+              item?.color?.color_id,
+              item?.size?.size_id
+            )
+          }
+        >
+          {/* Product Image and Favourite button */}
+          <View style={styles.vwProductImgLike}>
+            <FastImage
+              source={{ uri: item?.image }}
+              style={{ height: 80, aspectRatio: 1 }}
+              resizeMode={FastImage.resizeMode.contain}
             />
-          </TouchableOpacity>
-        </View>
-
-        {/* Product Details */}
-        <View style={styles.vwProductDetails}>
-          <View style={{ height: 59 }}>
-            <View style={{ height: 44 }}>
-              <Text style={styles.lblProductName} numberOfLines={2}>
-                {item?.name}
-              </Text>
-            </View>
-            <View style={{ height: 15 }}>
-              <Text style={styles.lblProductWeight}>{item?.weight}</Text>
-            </View>
-          </View>
-
-          <View style={styles.vwPriceRating}>
-            <View style={styles.vwPrice}>
-              <Text style={styles.lblProductFinalPrice}>
-                {rupeeSymbol + item?.price}
-              </Text>
-              <Text style={styles.lblProductPrice}>
-                {rupeeSymbol + item?.originalPrice}
-              </Text>
-            </View>
-            <View style={styles.vwRating}>
+            <TouchableOpacity
+              style={styles.btnRedHeart}
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={() => {
+                props?.handleRemoveProductFromWishlist(
+                  item?.id,
+                  item?.variation_id,
+                  item?.is_variation
+                );
+              }}
+            >
               <Image
-                style={styles.imgStar}
-                source={images.star}
+                style={styles.imgRedHeart}
+                source={images.redHeart}
                 resizeMode="stretch"
               />
-              <Text style={styles.lblProductRating}>
-                {parseFloat(item.rating).toFixed(1)}
-              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Product Details */}
+          <View style={styles.vwProductDetails}>
+            <View style={{ height: 59 }}>
+              <View style={{ height: 44 }}>
+                <Text style={styles.lblProductName} numberOfLines={2}>
+                  {item?.name}
+                </Text>
+              </View>
+              <View style={{ height: 15 }}>
+                <Text style={styles.lblProductWeight}>{item?.weight}</Text>
+              </View>
+            </View>
+
+            <View style={styles.vwPriceRating}>
+              <View style={styles.vwPrice}>
+                <Text style={styles.lblProductFinalPrice}>
+                  {rupeeSymbol + item?.price}
+                </Text>
+                {/* <Text style={styles.lblProductPrice}>
+                  {rupeeSymbol + item?.originalPrice}
+                </Text> */}
+              </View>
+              <View style={styles.vwRating}>
+                <Image
+                  style={styles.imgStar}
+                  source={images.star}
+                  resizeMode="stretch"
+                />
+                <Text style={styles.lblProductRating}>
+                  {parseFloat(item.rating).toFixed(1)}
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
         {/* Add to cart */}
         {item.quantity === 0 ? (
           <TouchableOpacity
@@ -198,6 +221,100 @@ const MyWishlistComponent = (props: PropsType) => {
             </TouchableOpacity>
           </View>
         )}
+      </View>
+    );
+  };
+
+  const renderArrMyWhislistStore = ({
+    item,
+    index,
+  }: {
+    item: Restaurant;
+    index: number;
+  }) => {
+    return (
+      <TouchableOpacity
+        style={styles.btnAllBestSellersItem}
+        activeOpacity={activityOpacity}
+        key={index}
+        // onPress={() => props?.onPressRestaurant(item)}
+      >
+        <FastImage
+          style={styles.imgBestSellers}
+          source={{ uri: item?.image }}
+          resizeMode="stretch"
+        />
+        <TouchableOpacity
+          style={styles.btnFavourite}
+          activeOpacity={activityOpacity}
+          hitSlop={hitSlop}
+          onPress={() => props?.handleRemoveStoreFromWishlist(index, item?.id)}
+        >
+          <Image
+            style={styles.imgRedHeart}
+            source={
+              item?.is_store_wishlisted ? images.redHeart : images.emptyHeart
+            }
+            resizeMode="stretch"
+          />
+        </TouchableOpacity>
+        <View style={styles.vwBestSellersItemDetails}>
+          <Text style={styles.lblBestSellersItemName}>{item?.name}</Text>
+          <View style={styles.vwLocation}>
+            <Image
+              style={styles.imgLocation}
+              source={images.locationIconOrange}
+              resizeMode="stretch"
+            />
+            <Text style={styles.lblLocation}>{item?.location}</Text>
+          </View>
+          <View style={styles.vwTimeDistanceRating}>
+            <View style={styles.vwTimeDistance}>
+              <Text style={styles.lblTime}>
+                {getTranslation("openCloseTime")}
+                <Text
+                  style={{
+                    ...styles.lblTime,
+                    fontFamily: fontsfamily.semiboldOutFit,
+                  }}
+                >
+                  {DateFormatsManager.formatDate(
+                    item?.open_time,
+                    DateFormatsManager.TimeFormats.HHmm,
+                    DateFormatsManager.TimeFormats.HHmmss
+                  ) +
+                    "-" +
+                    DateFormatsManager.formatDate(
+                      item?.close_time,
+                      DateFormatsManager.TimeFormats.HHmm,
+                      DateFormatsManager.TimeFormats.HHmmss
+                    )}
+                </Text>
+              </Text>
+              <View style={styles.vwDistance}>
+                <Image
+                  style={styles.imgDot}
+                  source={images.dotOrange}
+                  resizeMode="stretch"
+                />
+                <Text style={styles.lblDistance}>{item?.distance_km}</Text>
+              </View>
+            </View>
+            <View style={styles.vwRatingStore}>
+              <Text style={styles.lblRatings}>{item?.rating}</Text>
+              <Image
+                style={styles.imgStarBlue}
+                source={images.starBlue}
+                resizeMode="stretch"
+              />
+            </View>
+          </View>
+          <FastImage
+            style={styles.imgLogo}
+            source={{ uri: item?.logo }}
+            resizeMode="stretch"
+          />
+        </View>
       </TouchableOpacity>
     );
   };
@@ -246,43 +363,66 @@ const MyWishlistComponent = (props: PropsType) => {
           style={styles.btnProductsRestaurants}
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
-          onPress={() => props?.handleTabPress("Restaurant")}
+          onPress={() => props?.handleTabPress("Store")}
         >
           <Text
             style={
-              props?.selectedTab == "Restaurant"
+              props?.selectedTab == "Store"
                 ? styles.lblProductsRestaurantsSelected
                 : styles.lblProductsRestaurantsUnSelected
             }
           >
             Restaurants
           </Text>
-          {props?.selectedTab == "Restaurant" ? (
+          {props?.selectedTab == "Store" ? (
             <View style={styles.vwLine} />
           ) : null}
         </TouchableOpacity>
       </View>
 
       {/* Products and Restaurants Data*/}
-      <FlatList
-        data={props?.arrMyWhislist}
-        numColumns={2}
-        renderItem={renderArrMyWhislist}
-        keyExtractor={(_, index) => index.toString()}
-        contentContainerStyle={{
-          paddingHorizontal: 20,
-          paddingBottom: PlatformVersion.isIOS ? insets.bottom : 19,
-        }}
-        columnWrapperStyle={{
-          justifyContent: "space-between",
-          marginBottom: 19,
-        }}
-        showsVerticalScrollIndicator={false}
-        bounces={false}
-        ListEmptyComponent={
-          <Text style={styles.lblNoData}>{getTranslation("noDataFound")}</Text>
-        }
-      />
+      {props?.selectedTab == "Store" ? (
+        <FlatList
+          key={"store"}
+          data={props?.arrMyWhislistStore}
+          bounces={false}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderArrMyWhislistStore}
+          contentContainerStyle={{
+            gap: 10,
+            paddingHorizontal: 20,
+            paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
+          }}
+          ListEmptyComponent={
+            <Text style={styles.lblNoData}>
+              {getTranslation("noDataFound")}
+            </Text>
+          }
+        />
+      ) : (
+        <FlatList
+          key={"product"}
+          data={props?.arrMyWhislistProduct}
+          numColumns={2}
+          renderItem={renderArrMyWhislistProduct}
+          keyExtractor={(_, index) => index.toString()}
+          contentContainerStyle={{
+            paddingHorizontal: 20,
+            paddingBottom: PlatformVersion.isIOS ? insets.bottom : 19,
+          }}
+          columnWrapperStyle={{
+            justifyContent: "space-between",
+            marginBottom: 19,
+          }}
+          showsVerticalScrollIndicator={false}
+          bounces={false}
+          ListEmptyComponent={
+            <Text style={styles.lblNoData}>
+              {getTranslation("noDataFound")}
+            </Text>
+          }
+        />
+      )}
     </View>
   );
 };

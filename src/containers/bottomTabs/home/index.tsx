@@ -46,115 +46,14 @@ const HomeContainer = ({ navigation }: any) => {
     BestProductSellerData[]
   >([]);
 
-  const [arrBestProducts, setArrBestProducts] = useState<BestProduct[]>([
-    {
-      image: images.milkBP,
-      name: "Dairy",
-      used: "+13 More",
-      height: 102,
-      width: 102,
-    },
-    {
-      image: images.rice,
-      name: "Rice",
-      used: "+13 More",
-      height: 102.4,
-      width: 70.31,
-    },
-    {
-      image: images.spicesBP,
-      name: "Spices",
-      used: "+13 More",
-      height: 129.33,
-      width: 103.41,
-    },
-    {
-      image: images.snackBP,
-      name: "Snacks",
-      used: "+13 More",
-      height: 87.24,
-      width: 65.98,
-    },
-  ]);
-  const [arrBestSellers, setArrBestSellers] = useState<Restaurant[]>([
-    {
-      restaurant_imgMain: [
-        {
-          imgMain: images.restaurantImage,
-        },
-        {
-          imgMain: images.restaurantImage1,
-        },
-        {
-          imgMain: images.restaurantImage2,
-        },
-      ],
-      subCategoryTitle: "Fast Food & Snacks",
-      restaurant_img: images.bs1,
-      restaurant_logo: images.burgerKingLogo,
-      restaurant_name: "Burger King",
-      restaurant_address: "Denver Church, California, USA",
-      restaurant_time: "10:00-18:00",
-      restaurant_deliverytime: "1 hour",
-      restaurant_distance: "1 km",
-      restaurant_ratings: 4.5,
-      restaurant_reviews: 250,
-      isFavourite: true,
-    },
-    {
-      restaurant_imgMain: [
-        {
-          imgMain: images.restaurantImage1,
-        },
-        {
-          imgMain: images.restaurantImage2,
-        },
-        {
-          imgMain: images.restaurantImage,
-        },
-      ],
-      subCategoryTitle: "Fast Food & Snacks",
-      restaurant_img: images.bs2,
-      restaurant_logo: images.macdonaldsLogo,
-      restaurant_name: "Macdonalds",
-      restaurant_address: "Denver Church, California, USA",
-      restaurant_time: "10:00-18:00",
-      restaurant_deliverytime: "1 hour",
-      restaurant_distance: "1.2 km",
-      restaurant_ratings: 4.5,
-      restaurant_reviews: 200,
-      isFavourite: false,
-    },
-    {
-      restaurant_imgMain: [
-        {
-          imgMain: images.restaurantImage2,
-        },
-        {
-          imgMain: images.restaurantImage1,
-        },
-        {
-          imgMain: images.restaurantImage,
-        },
-      ],
-      subCategoryTitle: "Local & Regional Cuisine",
-      restaurant_img: images.bs3,
-      restaurant_logo: images.subwayLogo,
-      restaurant_name: "Subway",
-      restaurant_address: "Denver Church, California, USA",
-      restaurant_time: "10:00-18:00",
-      restaurant_deliverytime: "1 hour",
-      restaurant_distance: "3 km",
-      restaurant_ratings: 4.5,
-      restaurant_reviews: 200,
-      isFavourite: false,
-    },
-  ]);
 
   const [isGroceriesFoodSelected, setIsGroceriesFoodSelected] =
     useState<string>("Groceries");
   const [mainCategoryId, setMainCategoryId] = useState<string>("1");
   const [currentAddress, setCurrentAddress] = useState<string | null>("");
+   const [currentLatLong, setCurrentLatLong] = useState<
+    { latitude: number; longitude: number } | null
+  >(null);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [mainCategoryPageNumber, setMainCategoryPageNumber] =
     useState<number>(1);
@@ -183,7 +82,7 @@ const HomeContainer = ({ navigation }: any) => {
     setIsGroceriesFoodSelected(name);
     setMainCategoryId(mainCategoryId);
     handleSubCategoryListApi(mainCategoryId);
-    handleBestProductsSellerListApi(mainCategoryId);
+    handleBestProductsSellerListApi(mainCategoryId,name.toLowerCase());
   };
 
   // handleSellAllCategories
@@ -197,6 +96,7 @@ const HomeContainer = ({ navigation }: any) => {
   const handleSellAllBestSellers = () => {
     navigation.navigate(ScreenNames.allBestSellers, {
       mainCategoryId: mainCategoryId,
+      type : isGroceriesFoodSelected.toLowerCase(),
     });
   };
 
@@ -214,10 +114,28 @@ const HomeContainer = ({ navigation }: any) => {
     // });
   };
 
-  const onPressBestProducts = () => {
-    navigation.navigate(ScreenNames.productListing, {
-      mainCategoryName: isGroceriesFoodSelected,
-      arrSubCategory: arrSubCategory,
+  const onPressBestProducts = (
+    product_id: string,
+    variation_id?: string,
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean,
+    color_id?: string,
+    size_id?: string
+  ) => {
+    console.log("color_id", color_id);
+    console.log("size_id", size_id);
+
+    navigation.navigate(ScreenNames.productDetail, {
+      product_id: product_id,
+      variation_id: variation_id,
+      customer_latitude: currentLatLong?.latitude,
+      customer_longitude: currentLatLong?.longitude,
+      is_variation: is_variation,
+      is_color: is_color,
+      is_size: is_size,
+      color_id: color_id,
+      size_id: size_id,
     });
   };
 
@@ -300,10 +218,11 @@ const HomeContainer = ({ navigation }: any) => {
   };
 
   // handleSubCategoryListApi
-  const handleBestProductsSellerListApi = async (mainCategoryId: String) => {
+  const handleBestProductsSellerListApi = async (mainCategoryId: String, name : string) => {
     const dictData = {
       category_id: mainCategoryId,
       page_number: bestProductsSellerPageNumber,
+      type : name,
     };
     try {
       const response = await bestProductsSellerListApi(dictData, navigation);
@@ -330,6 +249,7 @@ const HomeContainer = ({ navigation }: any) => {
     toggleLoader(true);
     const current = await LocationManager.getCurrentLocation();
     if (current) {
+      setCurrentLatLong(current);
       const address = await LocationManager.getFormattedAddress(current);
       console.log("currentAddress", address);
       setCurrentAddress(address);
@@ -344,7 +264,7 @@ const HomeContainer = ({ navigation }: any) => {
       handleMainCategoryListApi();
       handleBannerListApi();
       handleSubCategoryListApi(mainCategoryId);
-      handleBestProductsSellerListApi(mainCategoryId);
+      handleBestProductsSellerListApi(mainCategoryId,isGroceriesFoodSelected);
       StatusBar.setBarStyle("light-content");
       return () => {};
     }, [navigation])
@@ -362,8 +282,6 @@ const HomeContainer = ({ navigation }: any) => {
       isGroceriesFoodSelected={isGroceriesFoodSelected}
       handleSetBannerIndex={handleSetBannerIndex}
       currentBannerIndex={currentBannerIndex}
-      arrBestProducts={arrBestProducts}
-      arrBestSellers={arrBestSellers}
       handleSellAllCategories={handleSellAllCategories}
       handleSellAllBestSellers={handleSellAllBestSellers}
       onPressSearch={onPressSearch}

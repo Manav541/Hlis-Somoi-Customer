@@ -114,22 +114,14 @@ const SearchContainer = ({ navigation }: any) => {
   }, [search]);
 
   useFocusEffect(
-    useCallback(() => {
-      // Call your API function here
-      if (debounce) {
+    React.useCallback(() => {
+       if (debounce) {
         console.log("Search Text==>", debounce);
         handleSearchProductApi(debounce);
       }
-      // Cleanup interval on component unmount or dependency change
-      return () => {};
-    }, [debounce])
-  );
-
-  useFocusEffect(
-    React.useCallback(() => {
       StatusBar.setBarStyle("dark-content");
       return () => {};
-    }, [navigation])
+    }, [navigation,debounce])
   );
 
   return (
