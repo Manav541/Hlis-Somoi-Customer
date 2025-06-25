@@ -5,7 +5,7 @@ import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
 import { useFocusEffect } from "@react-navigation/native";
-import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
+import { flashMessageWarning } from "../../constants/GConstant";
 import { constnatStyles } from "../../constants/Styles";
 import {
   AddRemoveWishlistDictData,
@@ -17,8 +17,6 @@ import {
 } from "../../constants/interfaces";
 import { statusCodes } from "../../api/APIConstant";
 import { zustandStore } from "../../store";
-import LocationManager from "../../constants/utils/LocationManager";
-import { MmkvManager } from "../../constants/utils/MmkvManager";
 
 const ProductListingContainer = ({ navigation, route }: any) => {
   // API Zustand store
@@ -277,6 +275,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       vendor_id: vendor_id,
       customer_latitude: currentLatLong?.latitude,
       customer_longitude: currentLatLong?.longitude,
+      mainCategoryId:mainCategoryId
     });
   };
 
@@ -351,6 +350,8 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       category_id: mainCategoryId,
       page_no: 1,
       type: mainCategoryName.toLowerCase(),
+      customer_latitude: currentLatLong?.latitude.toString(),
+      customer_longitude: currentLatLong?.longitude.toString(),
     };
 
     if (subCategoryId) {
@@ -569,7 +570,6 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   ) => {
     const dictData: AddToCartDictData = {
       product_id: product_id,
-
       quantity: quantity,
     };
 

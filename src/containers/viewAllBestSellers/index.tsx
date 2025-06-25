@@ -31,13 +31,19 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
 
   const mainCategoryId = route.params.mainCategoryId;
   const type = route.params.type;
+  const currentLatLong = route.params?.currentLatLong;
 
   const onPressFavourite = (index: number, vendor_id: string) => {
-    handleWishlistStoreApi(vendor_id,index);
+    handleWishlistStoreApi(vendor_id, index);
   };
 
-  const onPressRestaurant = (item: Restaurant) => {
-    navigation.navigate(ScreenNames.restaurantDetail, { item: item });
+  const onPressRestaurant = (vendor_id: string) => {
+    navigation.navigate(ScreenNames.restaurantDetail, {
+      vendor_id: vendor_id,
+      customer_latitude: currentLatLong?.latitude,
+      customer_longitude: currentLatLong?.longitude,
+      mainCategoryId: mainCategoryId,
+    });
   };
 
   // ------------------------API Calling---------------------------
@@ -46,7 +52,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
   const handleBestProductsSellerListApi = async (
     page: number,
     isLoadMore: boolean,
-    type : string
+    type: string
   ) => {
     if (isLoadMore && isLoadingMore) return;
 
@@ -55,7 +61,9 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
     const dictData = {
       category_id: mainCategoryId,
       page_number: page,
-      type : type
+      type: type,
+      customer_latitude: currentLatLong?.latitude.toString(),
+      customer_longitude: currentLatLong?.longitude.toString(),
     };
     try {
       const response = await bestProductsSellerListApi(dictData, navigation);
@@ -101,7 +109,8 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
           console.log("WISHLIST STORE RESPONSE===>", JSON.stringify(response));
         if (response.code === statusCodes.success) {
           const updatedList = [...arrBestProductsSellers];
-          updatedList[index].is_store_wishlisted = !updatedList[index].is_store_wishlisted;
+          updatedList[index].is_store_wishlisted =
+            !updatedList[index].is_store_wishlisted;
           setArrBestProductsSellers(updatedList);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
@@ -136,7 +145,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
   const loadMoreCategories = () => {
     if (hasMoreData && !isLoadingMore) {
       const nextPage = bestProductsSellerPageNumber + 1;
-      handleBestProductsSellerListApi(nextPage, true,type);
+      handleBestProductsSellerListApi(nextPage, true, type);
     }
   };
 
@@ -145,7 +154,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
       setBestProductsSellerPageNumber(1);
       setHasMoreData(true);
       setArrBestProductsSellers([]);
-      handleBestProductsSellerListApi(1, false,type);
+      handleBestProductsSellerListApi(1, false, type);
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])

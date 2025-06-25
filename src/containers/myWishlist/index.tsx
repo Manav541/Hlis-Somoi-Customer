@@ -134,6 +134,15 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
     });
   };
 
+  const onPressRestaurant = (vendor_id: string) => {
+    navigation.navigate(ScreenNames.restaurantDetail, {
+      vendor_id: vendor_id,
+      customer_latitude: currentLatLong?.latitude,
+      customer_longitude: currentLatLong?.longitude,
+      mainCategoryId: "2",
+    });
+  };
+
   //   Remove from wishlist
   const handleRemoveProductFromWishlist = (
     product_id: string,
@@ -154,6 +163,8 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
     const dictData: any = {
       page_number: 1,
       type: type.toLowerCase(),
+      customer_latitude: currentLatLong?.latitude.toString(),
+      customer_longitude: currentLatLong?.longitude.toString(),
     };
 
     if (text.trim().length > 0) {
@@ -238,7 +249,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
         __DEV__ &&
           console.log("WISHLIST STORE RESPONSE===>", JSON.stringify(response));
         if (response.code === statusCodes.success) {
-           setArrMyWishlistProduct((prev: Product[]) =>
+          setArrMyWishlistProduct((prev: Product[]) =>
             prev.filter((item) => item.id !== vendor_id)
           );
         } else if (response.code === statusCodes.invaildOrFail) {
@@ -420,6 +431,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
       handleRemoveStoreFromWishlist={handleRemoveStoreFromWishlist}
       handleQuantityChange={handleQuantityChange}
       onPressProduct={onPressProduct}
+      onPressRestaurant={onPressRestaurant}
       selectedTab={selectedTab}
       handleTabPress={handleTabPress}
     />

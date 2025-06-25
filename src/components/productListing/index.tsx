@@ -363,7 +363,7 @@ const ProductListingComponent = (props: PropsType) => {
                   resizeMode="stretch"
                 />
                 <Text style={styles.lblDistance}>
-                  {item?.distance_km}
+                  {item?.distance}
                 </Text>
               </View>
             </View>

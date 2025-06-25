@@ -46,14 +46,14 @@ const HomeContainer = ({ navigation }: any) => {
     BestProductSellerData[]
   >([]);
 
-
   const [isGroceriesFoodSelected, setIsGroceriesFoodSelected] =
     useState<string>("Groceries");
   const [mainCategoryId, setMainCategoryId] = useState<string>("1");
   const [currentAddress, setCurrentAddress] = useState<string | null>("");
-   const [currentLatLong, setCurrentLatLong] = useState<
-    { latitude: number; longitude: number } | null
-  >(null);
+  const [currentLatLong, setCurrentLatLong] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [mainCategoryPageNumber, setMainCategoryPageNumber] =
     useState<number>(1);
@@ -82,7 +82,7 @@ const HomeContainer = ({ navigation }: any) => {
     setIsGroceriesFoodSelected(name);
     setMainCategoryId(mainCategoryId);
     handleSubCategoryListApi(mainCategoryId);
-    handleBestProductsSellerListApi(mainCategoryId,name.toLowerCase());
+    handleBestProductsSellerListApi(mainCategoryId, name.toLowerCase());
   };
 
   // handleSellAllCategories
@@ -96,12 +96,18 @@ const HomeContainer = ({ navigation }: any) => {
   const handleSellAllBestSellers = () => {
     navigation.navigate(ScreenNames.allBestSellers, {
       mainCategoryId: mainCategoryId,
-      type : isGroceriesFoodSelected.toLowerCase(),
+      type: isGroceriesFoodSelected.toLowerCase(),
+      currentLatLong: currentLatLong,
     });
   };
 
-  const onPressRestaurant = (item: Restaurant) => {
-    navigation.navigate(ScreenNames.restaurantDetail, { item: item });
+  const onPressRestaurant = (vendor_id: string) => {
+    navigation.navigate(ScreenNames.restaurantDetail, {
+      vendor_id: vendor_id,
+      customer_latitude: currentLatLong?.latitude,
+      customer_longitude: currentLatLong?.longitude,
+      mainCategoryId: mainCategoryId,
+    });
   };
 
   const onPressSubCategories = () => {
@@ -218,11 +224,16 @@ const HomeContainer = ({ navigation }: any) => {
   };
 
   // handleSubCategoryListApi
-  const handleBestProductsSellerListApi = async (mainCategoryId: String, name : string) => {
+  const handleBestProductsSellerListApi = async (
+    mainCategoryId: String,
+    name: string
+  ) => {
     const dictData = {
       category_id: mainCategoryId,
       page_number: bestProductsSellerPageNumber,
-      type : name,
+      type: name,
+      customer_latitude: currentLatLong?.latitude.toString(),
+      customer_longitude: currentLatLong?.longitude.toString(),
     };
     try {
       const response = await bestProductsSellerListApi(dictData, navigation);
@@ -236,7 +247,7 @@ const HomeContainer = ({ navigation }: any) => {
         if (response.code === statusCodes.success) {
           setArrBestProductsSellers(Array.isArray(data) ? data : [data]);
         } else if (response.code === statusCodes.invaildOrFail) {
-          setArrBestProductsSellers([])
+          setArrBestProductsSellers([]);
         }
       }
     } catch (error) {
@@ -244,8 +255,8 @@ const HomeContainer = ({ navigation }: any) => {
     }
   };
 
-   // Current Location
-   const handleCurrentLocation = async () => {
+  // Current Location
+  const handleCurrentLocation = async () => {
     toggleLoader(true);
     const current = await LocationManager.getCurrentLocation();
     if (current) {
@@ -264,13 +275,11 @@ const HomeContainer = ({ navigation }: any) => {
       handleMainCategoryListApi();
       handleBannerListApi();
       handleSubCategoryListApi(mainCategoryId);
-      handleBestProductsSellerListApi(mainCategoryId,isGroceriesFoodSelected);
+      handleBestProductsSellerListApi(mainCategoryId, isGroceriesFoodSelected);
       StatusBar.setBarStyle("light-content");
       return () => {};
     }, [navigation])
   );
-
- 
 
   return (
     <HomeComponent

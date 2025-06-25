@@ -16,12 +16,24 @@ import { TextInput } from "react-native-gesture-handler";
 import { ScreenNames } from "../../routers";
 import { images } from "../../constants/Images";
 import { constnatStyles } from "../../constants/Styles";
-import { Source as FastImageSource } from 'react-native-fast-image';
+import { zustandStore } from "../../store";
+import { statusCodes } from "../../api/APIConstant";
+import { RestaurantInfo } from "../../constants/interfaces";
 
 const RateAndReviewContainer = ({ navigation, route }: any) => {
-  console.log("route?.params", route?.params);
-  const [product_img, setProduct_img] = useState<FastImageSource>(images.rice);
-  const [product_name, setProduct_name] = useState<string>(`India Gate Basmati ${"\n"}Rice`);
+  // API Store
+  const rateVendorApi = zustandStore.RateAndReviewStore(
+    (state) => state.rateVendor
+  );
+
+  console.log("route?.params", route?.params?.storeDetail);
+  const itemData = route?.params;
+  const navigateFromStoreReview = itemData?.navigateFromStoreReview;
+  const storeDetail: RestaurantInfo = itemData?.storeDetail;
+  const [product_img, setProduct_img] = useState<any>(images.rice);
+  const [product_name, setProduct_name] = useState<string>(
+    `India Gate Basmati ${"\n"}Rice`
+  );
   const [product_price, setProduct_price] = useState<string>("199");
   const [product_quantity, setProduct_quantity] = useState<string>("1");
   const [product_weight, setProduct_weight] = useState<string>("1 kg");
@@ -32,7 +44,8 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
 
   const [product_review, setproduct_review] = useState<string>("");
   const product_reviewRef = useRef<TextInput>(null);
-  const [product_reviewFocused, setproduct_reviewFocused] = useState<boolean>(false);
+  const [product_reviewFocused, setproduct_reviewFocused] =
+    useState<boolean>(false);
 
   const [isReviewSuccessModalVisible, setIsReviewSuccessModalVisible] =
     useState(false);
@@ -103,7 +116,7 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
 
   const handleOnSubmit = (type: string) => {
     if (type === "description") {
-    product_reviewRef?.current?.focus();
+      product_reviewRef?.current?.focus();
     }
   };
 
@@ -112,27 +125,31 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
     if (product_rating === 0) {
       flashMessageWarning("Please select a rating");
       return;
+    } else {
+      if (navigateFromStoreReview == true) {
+        handleRateVendorApi();
+      }
     }
-
-    // If rating is valid, show success modal
-    setIsReviewSuccessModalVisible(true);
   };
 
   const onPressOkReturn = () => {
     setIsReviewSuccessModalVisible(false);
-    navigation.goBack()
+    navigation.goBack();
   };
 
   const onPressRating = (index: number) => {
     setProduct_rating(index + 1);
   };
+
   const header = () => {
     navigation.setOptions({
       headerLeft: () => (
         <GlobalBackButton onPress={() => navigation.goBack()} />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.rateAndReview}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.rateAndReview}
+        </Text>
       ),
     });
   };
@@ -140,16 +157,43 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
   useEffect(() => {
     header();
     if (route?.params) {
-      setProduct_img(route.params?.item.product_img);
-      setProduct_name(route.params?.item.product_name);
-      setProduct_price(route.params?.item.product_price);
-      setProduct_quantity(route.params?.item.product_quantity);
-      setProduct_weight(route.params?.item.product_weight);
-      setHeight(route.params?.item.height);
-      setWidth(route.params?.item.width);
+      if (!route?.params?.navigateFromStoreReview) {
+        setProduct_img(route.params?.item.product_img);
+        setProduct_name(route.params?.item.product_name);
+        setProduct_price(route.params?.item.product_price);
+        setProduct_quantity(route.params?.item.product_quantity);
+        setProduct_weight(route.params?.item.product_weight);
+        setHeight(route.params?.item.height);
+        setWidth(route.params?.item.width);
+      }
     } else {
     }
   }, [route]);
+
+  // --------------------------API Calling--------------------------
+  // handleRateVendorApi
+  const handleRateVendorApi = async () => {
+    const dictData = {
+      vendor_id: storeDetail?.id,
+      rating: product_rating,
+      review: product_review,
+    };
+    try {
+      const response = await rateVendorApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("RATE VENDOR RESPONSE===>", JSON.stringify(response));
+        const data = response.data as any;
+        if (response.code === statusCodes.success) {
+          setIsReviewSuccessModalVisible(true);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -159,6 +203,8 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
   );
   return (
     <RateAndReviewComponent
+      navigateFromStoreReview={navigateFromStoreReview}
+      storeDetail={storeDetail}
       product_img={product_img}
       product_name={product_name}
       product_price={product_price}

@@ -25,8 +25,13 @@ import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FastImage, { Source as FastImageSource } from "react-native-fast-image";
+import { RestaurantInfo } from "../../constants/interfaces";
+import { DateFormatsManager } from "../../constants/utils/DateFormats";
+import { fontsfamily } from "../../constants/FontFamily";
 
 interface PropsType {
+  navigateFromStoreReview: boolean;
+  storeDetail: RestaurantInfo;
   product_img: FastImageSource;
   product_name: string;
   product_price: string;
@@ -89,48 +94,112 @@ const RateAndReviewComponent = (props: PropsType) => {
         showsVerticalScrollIndicator={false}
       >
         <Text style={styles.lblTitle}>{getTranslation("rateReviewTitle")}</Text>
-        {/* Product Details */}
-        <View style={styles.vwProductsItems}>
-          <View style={styles.vwProductImage}>
+        {props?.navigateFromStoreReview == true ? (
+          <View style={styles.vwAllBestSellersItem}>
             <FastImage
-              style={{ height: props?.height, width: props?.width }}
-              source={props?.product_img}
+              style={styles.imgBestSellers}
+              source={{ uri: props?.storeDetail?.banner_image }}
             />
-          </View>
-          <View style={styles.vwProductItemDetails}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.lblProductName}>{props?.product_name}</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text style={styles.lblProductPrice}>
-                    {rupeeSymbol + props?.product_price}
-                  </Text>
-                  <Image
-                    style={styles.imgDot}
-                    source={images.dotOrange}
-                    tintColor={colors.blue4e}
-                    resizeMode="stretch"
-                  />
-                  <Text style={styles.lblProductWeight}>
-                    {props?.product_weight}
+            <View style={styles.vwBestSellersItemDetails}>
+              <Text style={styles.lblBestSellersItemName}>
+                {props?.storeDetail?.name}
+              </Text>
+              <View style={styles.vwLocation}>
+                <Image
+                  style={styles.imgLocation}
+                  source={images.locationIconOrange}
+                  resizeMode="stretch"
+                />
+                <Text style={styles.lblLocation}>
+                  {props?.storeDetail?.location}
+                </Text>
+              </View>
+              <View style={styles.vwTimeDistanceRating}>
+                <View style={styles.vwTimeDistance}>
+                  <Text style={styles.lblTime}>
+                    {getTranslation("openCloseTime")}
+                    <Text
+                      style={{
+                        ...styles.lblTime,
+                        fontFamily: fontsfamily.semiboldOutFit,
+                      }}
+                    >
+                      {DateFormatsManager.formatDate(
+                        props?.storeDetail?.opening_time,
+                        DateFormatsManager.TimeFormats.HHmm,
+                        DateFormatsManager.TimeFormats.HHmmss
+                      ) +
+                        "-" +
+                        DateFormatsManager.formatDate(
+                          props?.storeDetail?.closing_time,
+                          DateFormatsManager.TimeFormats.HHmm,
+                          DateFormatsManager.TimeFormats.HHmmss
+                        )}
+                    </Text>
                   </Text>
                 </View>
-                <Text style={styles.lblQuantity}>
-                  {getTranslation("qty") + " "}
-                  <Text style={styles.lblQuantityCount}>
-                    {props?.product_quantity}
+                <View style={styles.vwRating}>
+                  <Text style={styles.lblRatings}>
+                    {parseFloat(props?.storeDetail?.rating).toFixed(1)}
                   </Text>
-                </Text>
+                  <Image
+                    style={styles.imgStarBlue}
+                    source={images.starBlue}
+                    resizeMode="stretch"
+                  />
+                </View>
+              </View>
+              <FastImage
+                style={styles.imgLogo}
+                source={{ uri: props?.storeDetail?.logo }}
+                resizeMode="stretch"
+              />
+            </View>
+          </View>
+        ) : (
+          <View style={styles.vwProductsItems}>
+            <View style={styles.vwProductImage}>
+              <FastImage
+                style={{ height: props?.height, width: props?.width }}
+                source={props?.product_img}
+              />
+            </View>
+            <View style={styles.vwProductItemDetails}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.lblProductName}>{props?.product_name}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={styles.lblProductPrice}>
+                      {rupeeSymbol + props?.product_price}
+                    </Text>
+                    <Image
+                      style={styles.imgDot}
+                      source={images.dotOrange}
+                      tintColor={colors.blue4e}
+                      resizeMode="stretch"
+                    />
+                    <Text style={styles.lblProductWeight}>
+                      {props?.product_weight}
+                    </Text>
+                  </View>
+                  <Text style={styles.lblQuantity}>
+                    {getTranslation("qty") + " "}
+                    <Text style={styles.lblQuantityCount}>
+                      {props?.product_quantity}
+                    </Text>
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
-        </View>
+        )}
+
         {/* Line */}
         <View style={styles.vwLine} />
         {/* Rating  */}
@@ -186,32 +255,34 @@ const RateAndReviewComponent = (props: PropsType) => {
           />
         </View>
         {/* Upload Image and Videos */}
-        <View style={styles.vwUploadImageVideos}>
-          <Text style={styles.lblUploadImageVideo}>
-            {getTranslation("uploadImagesVideo")}
-          </Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={{ flexDirection: "row", gap: 9.02 }}>
-              <TouchableOpacity
-                style={styles.btnUploadImageVideo}
-                activeOpacity={activityOpacity}
-                hitSlop={hitSlop}
-                onPress={props?.handleOnPressUploadImages}
-              >
-                <Image
-                  style={styles.imgAdd}
-                  tintColor={colors.black13}
-                  source={images.add}
-                />
-              </TouchableOpacity>
-              {props?.multiImagesArray?.length > 0 && (
-                <View style={{ flexDirection: "row", gap: 9.02 }}>
-                  {props?.multiImagesArray.map(renderUploadImageVideo)}
-                </View>
-              )}
-            </View>
-          </ScrollView>
-        </View>
+        {!props?.navigateFromStoreReview && (
+          <View style={styles.vwUploadImageVideos}>
+            <Text style={styles.lblUploadImageVideo}>
+              {getTranslation("uploadImagesVideo")}
+            </Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View style={{ flexDirection: "row", gap: 9.02 }}>
+                <TouchableOpacity
+                  style={styles.btnUploadImageVideo}
+                  activeOpacity={activityOpacity}
+                  hitSlop={hitSlop}
+                  onPress={props?.handleOnPressUploadImages}
+                >
+                  <Image
+                    style={styles.imgAdd}
+                    tintColor={colors.black13}
+                    source={images.add}
+                  />
+                </TouchableOpacity>
+                {props?.multiImagesArray?.length > 0 && (
+                  <View style={{ flexDirection: "row", gap: 9.02 }}>
+                    {props?.multiImagesArray.map(renderUploadImageVideo)}
+                  </View>
+                )}
+              </View>
+            </ScrollView>
+          </View>
+        )}
       </ScrollView>
       <View
         style={{

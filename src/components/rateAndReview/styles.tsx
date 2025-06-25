@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../constants/Colors";
 import { fontSize } from "../../constants/FontSizes";
 import { fontsfamily } from "../../constants/FontFamily";
+import { ScreenDimensions } from "../../constants/utils/Dimensions";
 
 export const styles = StyleSheet.create({
   // View Styles
@@ -51,6 +52,57 @@ export const styles = StyleSheet.create({
     borderRadius: 9.38,
     overflow: "hidden",
   },
+  vwAllBestSellersItem: {
+    height: 250,
+    width: ScreenDimensions.screenWidth - 40,
+    borderRadius: 20,
+    overflow: "hidden",
+    backgroundColor: colors.white,
+    marginBottom: 10,
+    marginHorizontal : 20
+  },
+  vwBestSellersItemDetails: {
+    paddingHorizontal: 12.5,
+    paddingTop: 14,
+    paddingBottom: 10,
+    height: 102,
+  },
+  vwLocation: {
+    marginTop: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    height: 22,
+  },
+  vwTimeDistanceRating: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 23,
+    marginTop: 5,
+  },
+  vwTimeDistance: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
+  vwDistance: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
+  vwRating: {
+    backgroundColor: colors.orange1c,
+    height: 23,
+    width: 53,
+    gap: 4,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 50,
+    paddingLeft: 6,
+    paddingRight: 7,
+  },
 
   // Text Styles
   lblTitle: {
@@ -92,6 +144,28 @@ export const styles = StyleSheet.create({
     color: colors.white,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
+  },
+  lblBestSellersItemName: {
+    color: colors.black35,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.bold,
+    lineHeight: 22,
+  },
+  lblLocation: {
+    color: colors.black35,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regularOutFit,
+  },
+  lblTime: {
+    color: colors.black35,
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regularOutFit,
+  },
+  lblRatings: {
+    color: colors.blue4e,
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.regularOutFit,
+    alignSelf :'center',
   },
 
   // TouchableOpacity Styles
@@ -138,5 +212,25 @@ export const styles = StyleSheet.create({
     width: 78,
     borderRadius: 9.38,
     overflow: "hidden",
+  },
+  imgBestSellers: {
+    height: 148,
+    width: ScreenDimensions.screenWidth - 40,
+  },
+  imgLocation: {
+    height: 22,
+    width: 22,
+  },
+  imgStarBlue: {
+    height: 16,
+    width: 16,
+  },
+  imgLogo: {
+    height: 40.48,
+    width: 40.48,
+    borderRadius: 100,
+    position: "absolute",
+    bottom: 81.03,
+    right: 13,
   },
 });

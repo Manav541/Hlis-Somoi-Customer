@@ -7,6 +7,7 @@ import HomeStore from "./home";
 import KeyStore from "./keys";
 import MyWishlistStore from "./myWishlist";
 import ProductListingStore from "./productListing";
+import RateAndReviewStore from "./rateAndReview";
 import userOtpVerificationStore from "./verfication";
 
 export const zustandStore = {
@@ -22,6 +23,7 @@ export const zustandStore = {
   // Category Module
   ProductListingStore: ProductListingStore,
   CompareProductStore: CompareProductStore,
+  RateAndReviewStore:RateAndReviewStore,
 
   // Cart Module
   CartStore: CartStore,

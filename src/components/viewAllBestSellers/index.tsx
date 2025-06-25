@@ -21,7 +21,7 @@ import { DateFormatsManager } from "../../constants/utils/DateFormats";
 interface PropsType {
   arrBestProductsSellers: BestProductSellerData[];
   onPressFavourite: (index: number,vendor_id: string) => void;
-  onPressRestaurant: (item: Restaurant) => void;
+  onPressRestaurant: (vendor_id : string) => void;
   loadMoreCategories: () => void;
   canLoadMore: boolean;
   setCanLoadMore: (value: boolean) => void;
@@ -42,7 +42,7 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
       <TouchableOpacity
         style={styles.btnAllBestSellersItem}
         activeOpacity={activityOpacity}
-        // onPress={() => props?.onPressRestaurant(item)}
+        onPress={() => props?.onPressRestaurant(item?.vendor_id)}
       >
         <FastImage
           style={styles.imgBestSellers}
@@ -104,7 +104,7 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
                   resizeMode="stretch"
                 />
                 <Text style={styles.lblDistance}>
-                  {/* {item?.restaurant_distance} */}1 km
+                  {item?.distance}
                 </Text>
               </View>
             </View>

@@ -39,7 +39,7 @@ interface PropsType {
     variation_id?: string,
     is_variation?: boolean
   ) => void;
-  handleRemoveStoreFromWishlist:(index: number, vendor_id: string) => void;
+  handleRemoveStoreFromWishlist: (index: number, vendor_id: string) => void;
   handleQuantityChange: (
     index: number,
     action: "add" | "remove",
@@ -56,6 +56,7 @@ interface PropsType {
     color_id?: string,
     size_id?: string
   ) => void;
+  onPressRestaurant: (vendor_id: string) => void;
   selectedTab: string;
   handleTabPress: (tab: string) => void;
 }
@@ -237,7 +238,7 @@ const MyWishlistComponent = (props: PropsType) => {
         style={styles.btnAllBestSellersItem}
         activeOpacity={activityOpacity}
         key={index}
-        // onPress={() => props?.onPressRestaurant(item)}
+        onPress={() => props?.onPressRestaurant(item?.id)}
       >
         <FastImage
           style={styles.imgBestSellers}
@@ -297,7 +298,7 @@ const MyWishlistComponent = (props: PropsType) => {
                   source={images.dotOrange}
                   resizeMode="stretch"
                 />
-                <Text style={styles.lblDistance}>{item?.distance_km}</Text>
+                <Text style={styles.lblDistance}>{item?.distance}</Text>
               </View>
             </View>
             <View style={styles.vwRatingStore}>

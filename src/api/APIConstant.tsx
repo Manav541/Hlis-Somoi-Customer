@@ -39,15 +39,21 @@ export const apiEndPoint = {
   productListing: "/home/customer/categroywise-products",
   filterSort: "/home/customer/filter-sort",
   productDetails: "/home/customer/product-details",
-  foodDetails:"/home/customer/food-details",
+  foodDetails: "/home/customer/food-details",
   addToCart: "/home/customer/add-to-cart",
   updateCartQuantity: "/home/customer/update-cart-quantity",
-  removeFromCart : "/home/customer/remove-cart-data",
+  removeFromCart: "/home/customer/remove-cart-data",
 
   // Compare Products
-  compareProductList : "/home/customer/compare-products-listing",
-  addCompareProduct : "/home/customer/compare-products-insert",
-  removeCompareProduct : "/home/customer/remove-product-from-compare",
+  compareProductList: "/home/customer/compare-products-listing",
+  addCompareProduct: "/home/customer/compare-products-insert",
+  removeCompareProduct: "/home/customer/remove-product-from-compare",
+
+  // Rate & Review
+  rateVendor: "/home/customer/rate-vendor",
+  rateProduct: "/home/customer/rate-product",
+  editRate : "/home/customer/edit-ratings",
+  deleteRate :"/home/customer/delete-ratings",
 
   // Cart Module
   applyCouponCode: "/home/customer/apply-offer",
@@ -69,7 +75,7 @@ export const apiEndPoint = {
   // Wishlist
   wishlistProduct: "/home/customer/wishlist-product",
   wishlistList: "/home/customer/wishlist-list",
-  wishlistStore :"/home/customer/wishlist-store",
+  wishlistStore: "/home/customer/wishlist-store",
 };
 
 // API status codes

@@ -6,15 +6,18 @@ import { images } from "../../constants/Images";
 import { flashMessageWarning } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
-import { RateProgress, Review } from "../../constants/interfaces";
+import { RatingSummary, Review } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
 
-const ReviewContainer = ({ navigation }: any) => {
+const ReviewContainer = ({ navigation,route }: any) => {
   const totalRate = 4.5;
   const totalReviews = "1.5k";
+  const storeDetail = route?.params?.storeDetail;
+  console.log("storeDetail",storeDetail);
   
-  const [arrRateProgress, setArrRateProgress] = useState<RateProgress[]>([
+
+  const [arrRateProgress, setArrRateProgress] = useState<RatingSummary[]>([
     {
       rate_number: 5,
       rate_percentage: 60,
@@ -36,34 +39,43 @@ const ReviewContainer = ({ navigation }: any) => {
       rate_percentage: 0,
     },
   ]);
-  
-  const [arrRevieews,setArrReviews] = useState<Review[]>([
+
+  const [arrRevieews, setArrReviews] = useState<Review[]>([
     {
-      review_personName : 'Jesus Loy',
-      review_rate : '4.5',
-      review_date: '12 Oct 2023',
-      review_description : 'Material is best but the overall look is too gud 😍 Test very good',
+      review_personName: "Jesus Loy",
+      review_rate: "4.5",
+      review_date: "12 Oct 2023",
+      review_description:
+        "Material is best but the overall look is too gud 😍 Test very good",
       review_image: images.rice,
-      type: 'image'
+      type: "image",
     },
     {
-      review_personName : 'Mike loy',
-      review_rate : '4.5',
-      review_date: '12 Oct 2023',
-      review_description : 'It is a long established fact that a reader will be distracted by the readable',
+      review_personName: "Mike loy",
+      review_rate: "4.5",
+      review_date: "12 Oct 2023",
+      review_description:
+        "It is a long established fact that a reader will be distracted by the readable",
       review_image: images.rice,
-      type: 'video'
+      type: "video",
     },
   ]);
 
-  const onPressImageVideo =()=>{
-    flashMessageWarning(getTranslation('underDevelopment'))
-  }
-  
-  const onPressViewAll =()=>{
+  const onPressImageVideo = () => {
     flashMessageWarning(getTranslation("underDevelopment"));
-  }
-  
+  };
+
+  const onPressViewAll = () => {
+    flashMessageWarning(getTranslation("underDevelopment"));
+  };
+
+  const onPressAddButton = () => {
+    navigation.navigate(ScreenNames.rateAndReview, {
+      navigateFromStoreReview : true,
+      storeDetail:storeDetail
+    });
+  };
+
   useEffect(() => {
     const header = () => {
       navigation.setOptions({
@@ -71,7 +83,16 @@ const ReviewContainer = ({ navigation }: any) => {
           <GlobalBackButton onPress={() => navigation.goBack()} />
         ),
         headerTitle: () => (
-          <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.review}</Text>
+          <Text style={constnatStyles.lblHeaderTitle}>
+            {ScreenNames.review}
+          </Text>
+        ),
+        headerRight: () => (
+          <GlobalBackButton
+            onPress={onPressAddButton}
+            isRight
+            rightImage={images.addCircle}
+          />
         ),
       });
     };
@@ -85,7 +106,6 @@ const ReviewContainer = ({ navigation }: any) => {
       return () => {};
     }, [navigation])
   );
-
 
   return (
     <ReviewComponent

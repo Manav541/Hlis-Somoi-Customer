@@ -40,7 +40,7 @@ interface PropsType {
   onPressSearch: () => void;
   handleOnPressNotifaicationIcon: () => void;
   onPressLocation: () => void;
-  onPressRestaurant: (item: Restaurant) => void;
+  onPressRestaurant: (vendor_id: string) => void;
   onPressSubCategories: () => void;
   onPressBestProducts: (
     product_id: string,
@@ -214,7 +214,7 @@ const HomeComponent = (props: PropsType) => {
         style={styles.btnBestSeller}
         activeOpacity={activityOpacity}
         key={index}
-        // onPress={() => props?.onPressRestaurant(item)}
+        onPress={() => props?.onPressRestaurant(item?.vendor_id)}
       >
         <FastImage
           style={styles.imgBestSeller}

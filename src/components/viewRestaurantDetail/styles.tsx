@@ -11,9 +11,10 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.blue4e,
     // paddingBottom: 20,
   },
-  vwImgMainLogo: {
-    // height : 278,
-    // backgroundColor: "red",
+  vwMyWishlistItem: {
+    height: 231,
+    borderRadius: 20,
+    overflow: "hidden",
   },
   vwDotsContainer: {
     flexDirection: "row",
@@ -75,11 +76,7 @@ export const styles = StyleSheet.create({
     marginLeft: 20,
     marginTop: 10,
   },
-  vwFoodItem: {
-    height: 231,
-    borderRadius: 20,
-    backgroundColor: colors.white,
-  },
+
   vwFoodImgLike: {
     height: 112,
     borderTopStartRadius: 20,
@@ -121,11 +118,18 @@ export const styles = StyleSheet.create({
     overflow: "hidden",
     flexDirection: "row",
   },
-  vwRestaurantFood :{
+  vwRestaurantFood: {
     paddingHorizontal: 20,
     gap: 19,
     marginBottom: 40,
     marginTop: 10,
+  },
+  vwPriceWeight: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginHorizontal: 9,
+    marginTop: 4,
   },
 
   // Text Styles
@@ -195,7 +199,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.bold,
   },
-  lblFoodPrice: {
+   lblFoodPrice: {
     color: colors.greya7,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regular,
@@ -212,6 +216,23 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.semibold,
     marginHorizontal: 10,
   },
+  lblNoData: {
+    fontSize: fontSize.size16,
+    color: colors.greya7,
+    textAlign: "center",
+  },
+  lblProdcuctFinalPrice: {
+    color: colors.blue4e,
+    fontSize: fontSize.size18,
+    fontFamily: fontsfamily.semibold,
+    marginLeft : 10
+  },
+  lblProductWeight1: {
+    color: colors.greya7,
+    fontSize: fontSize.size18,
+    fontFamily: fontsfamily.regular,
+    marginLeft : 10
+  },
 
   // Image Styles
   imgRestaurant_imgMain: {
@@ -224,7 +245,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
     right: 20,
     bottom: -30,
-    borderRadius : 100
+    borderRadius: 100,
   },
   imgRestaurant_location: {
     height: 23.71,
@@ -262,8 +283,19 @@ export const styles = StyleSheet.create({
     height: 88,
     width: 88,
   },
+  imgSimilarProduct: {
+    height: 102,
+    width: 95,
+    alignSelf: "center",
+  },
 
   // Touchableopacity Styles
+  btnFoodItem: {
+    height: 197,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: colors.white,
+  },
   btnSubCategoryTitle: {
     paddingHorizontal: 15,
     height: 35,
@@ -303,15 +335,36 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "hidden",
   },
+  btnSimilarProduct: {
+    backgroundColor: colors.creamee,
+    borderRadius: 20,
+    height: 192,
+    width: 120,
+    justifyContent: "space-between",
+    paddingTop: 15,
+    paddingBottom: 11,
+  },
+   btnSimilarProductSelected: {
+    backgroundColor: colors.creamee,
+    borderRadius: 20,
+    height: 192,
+    width: 120,
+    justifyContent: "space-between",
+    paddingTop: 15,
+    paddingBottom: 7,
+    borderWidth : 4,
+    borderColor : colors.orange1c
+  },
 
   //   Modal
   vwFoodModalView: {
     flex: 1,
     backgroundColor: colors.black50,
-    justifyContent: "flex-end",
+    // justifyContent: "flex-end",
   },
   vwFoodModalContainer: {
     width: "100%",
+    height: ScreenDimensions.screenHeight / 1.5,
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 37,
@@ -368,22 +421,20 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.orange1c,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 33,
   },
 
-   // Header Styles
-   vwHeader :{
+  // Header Styles
+  vwHeader: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     zIndex: 1,
-    height : 24,
+    height: 24,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-    paddingLeft : 16,
-    marginTop : 12
+    marginTop: 12,
   },
   vwHeaderRight: {
     flexDirection: "row",
@@ -410,5 +461,14 @@ export const styles = StyleSheet.create({
   imgButton: {
     width: 24,
     height: 24,
+  },
+
+  fixedBottom: {
+    position: "absolute",
+    bottom: 20,
+    left: 0,
+    right: 0,
+    backgroundColor: colors.blue4e,
+    padding: 20,
   },
 });

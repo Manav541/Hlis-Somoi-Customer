@@ -179,6 +179,7 @@ export interface BestProductSellerData {
   store_location: string;
   opening_time: string; // e.g., "08:00:00"
   closing_time: string;
+  distance: string;
   is_store_wishlisted: boolean;
   store_rating: string; // Can be converted to number if needed
   image: string;
@@ -298,6 +299,8 @@ export interface ProductListDictData {
   sub_category_id?: string;
   page_no: number;
   type?: string;
+  customer_latitude?: string;
+  customer_longitude?: string;
 }
 
 // Product Detail Page
@@ -316,7 +319,7 @@ export interface FoodDetailsDictData {
   vendor_id: string;
   customer_latitude: string;
   customer_longitude: string;
-  category_id: string;
+  category_id?: string;
   page_no: number;
   sub_category_id?: string;
 }
@@ -436,11 +439,14 @@ export interface RestaurantInfo {
   review_count: number;
   logo: string;
   banner_image: string;
+  opening_time: string; // e.g., "08:00:00"
+  closing_time: string;
 }
 
 export interface Category {
   id: string;
   name: string;
+  isSelected: boolean;
 }
 
 export interface ProductRestaurant {
@@ -454,6 +460,33 @@ export interface ProductRestaurant {
   quantity: number;
   is_favorite: boolean;
   description: string;
+  is_variation: boolean;
+  variation_id: string;
+  variations: FoodProductVariation[];
+  selected_variation: {
+    variation_id: string;
+    product_id: string;
+    price: string;
+    quantity: number;
+    unit_id: string;
+    unit: string;
+    amount: string;
+    in_stock: boolean;
+    is_selected: boolean;
+    weight: string;
+  };
+}
+
+export interface FoodProductVariation {
+  variation_id: string;
+  product_id: string;
+  price: string;
+  quantity: number;
+  unit_id: string;
+  unit: string;
+  amount: string;
+  in_stock: boolean;
+  is_selected: boolean;
 }
 
 export interface ProductImage {
@@ -505,6 +538,7 @@ export interface Restaurant {
   logo: string;
   image: string;
   is_store_wishlisted: boolean;
+  distance: string;
 }
 
 export interface SimilarProduct {
