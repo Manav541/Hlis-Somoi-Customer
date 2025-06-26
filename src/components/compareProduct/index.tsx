@@ -17,12 +17,25 @@ import {
 } from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
-import { GroceryProduct } from "../../constants/interfaces";
+import {
+  ComapareProductData,
+  GroceryProduct,
+} from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 import { colors } from "../../constants/Colors";
 
 interface PropsType {
-  arrCompareProducts: GroceryProduct[];
+  arrCompareProducts: ComapareProductData[];
+  onPressDeleteButton: (product_id: string) => void;
+  onPressProduct: (
+    product_id: string,
+    variation_id?: string,
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean,
+    color_id?: string,
+    size_id?: string
+  ) => void;
 }
 
 const CompareProductComponent = (props: PropsType) => {
@@ -31,28 +44,42 @@ const CompareProductComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: GroceryProduct;
+    item: ComapareProductData;
     index: number;
   }) => {
     return (
-      <View style={styles.btnCompareProducts} key={index}>
-        <FastImage style={styles.imgProduct} source={item?.product_img} />
+      <TouchableOpacity
+        style={styles.btnCompareProducts}
+        key={index}
+        activeOpacity={activityOpacity}
+        hitSlop={hitSlop}
+        disabled={index == 0}
+        onPress={() => {
+          props?.onPressProduct(
+            item?.id,
+            item?.variation_id,
+            item?.is_variation,
+            item?.is_color,
+            item?.is_size,
+            item?.color_id,
+            item?.size_id
+          );
+        }}
+      >
+        <FastImage style={styles.imgProduct} source={{ uri: item?.image }} />
         <View style={{ marginRight: 18, flex: 1 }}>
-          <Text style={styles.lblProductName}>{item?.product_name}</Text>
+          <Text style={styles.lblProductName}>{item?.name}</Text>
           <View style={styles.vwProductRate}>
             <Image style={styles.imgStar} source={images.star} />
-            <Text style={styles.lblProductRate}>{item?.product_rating}</Text>
+            <Text style={styles.lblProductRate}>{item?.rating}</Text>
           </View>
           <View style={styles.vwPrice}>
             <Text style={styles.lblProductFinalPrice}>
-              {rupeeSymbol + item?.product_final_price}
-            </Text>
-            <Text style={styles.lblProductPrice}>
-              {rupeeSymbol + item?.product_price}
+              {rupeeSymbol + item?.price}
             </Text>
           </View>
           <Text style={styles.lblProductDesc} numberOfLines={4}>
-            {item?.product_desc}
+            {item?.description}
           </Text>
         </View>
 
@@ -66,11 +93,14 @@ const CompareProductComponent = (props: PropsType) => {
             }}
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
+            onPress={() => {
+              props?.onPressDeleteButton(item?.id);
+            }}
           >
             <Image style={{ height: 28, width: 28 }} source={images.delete} />
           </TouchableOpacity>
         )}
-      </View>
+      </TouchableOpacity>
     );
   };
   return (

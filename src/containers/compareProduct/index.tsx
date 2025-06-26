@@ -1,107 +1,126 @@
 import { Text, StatusBar } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import CompareProductComponent from "../../components/compareProduct";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
 import { useFocusEffect } from "@react-navigation/native";
-import { GroceryProduct } from "../../constants/interfaces";
+import { ComapareProductData } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { zustandStore } from "../../store";
+import { statusCodes } from "../../api/APIConstant";
+import { flashMessageWarning } from "../../constants/GConstant";
 
 const CompareProductConteiner = ({ navigation, route }: any) => {
-   // API Zustand store
-  const compareProductListApi = zustandStore.CompareProductStore(
-    (state) => state.compareProductList
+  // API Zustand store
+  const compareProductDetailApi = zustandStore.CompareProductStore(
+    (state) => state.compareProductDetail
   );
 
   const removeCompareProductApi = zustandStore.CompareProductStore(
     (state) => state.removeCompareProduct
   );
 
-  const mainCategoryTitle = route.params?.mainCategoryTitle;
+  const itemData = route.params;
+  const main_category = itemData?.main_category;
+  const customer_latitude = itemData?.customer_latitude;
+  const customer_longitude = itemData?.customer_longitude;
+
   const [arrCompareProducts, setArrCompareProducts] = useState<
-    GroceryProduct[]
-  >([
-    {
-      mainCategoryTitle: "Groceries",
-      subCategoryTitle: "Rice",
-      product_imgMain: [
-        {
-          imgMain: images.rice,
-        },
-        {
-          imgMain: images.rice,
-        },
-        {
-          imgMain: images.rice,
-        },
-      ],
-      product_img: images.rice,
-      product_name: `India Gate Basmati Rice`,
-      product_price: "600",
-      product_weight: "1 kg",
-      product_final_price: "499",
-      product_rating: "4.5",
-      product_review: 250,
-      isFavourite: true,
-      product_quantity: 1,
-      product_deliverytime: "10 Min",
-      product_distance: "5 km",
-      product_desc:
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-      product_highlight: [
-        {
-          highlightTitle: "Grain Size",
-          highlightDesc: "250",
-        },
-        {
-          highlightTitle: "Organic",
-          highlightDesc: "No",
-        },
-        {
-          highlightTitle: "Polished",
-          highlightDesc: "Yes",
-        },
-        {
-          highlightTitle: "Brand",
-          highlightDesc: "India Gate",
-        },
-        {
-          highlightTitle: "Fssai license ",
-          highlightDesc: "250",
-        },
-      ],
-      product_inStock: true,
-      product_deliveryData: [
-        {
-          deliveryDataImage: images.productReturn,
-          deliveryDataTitle: "3 day Return/ Exchange",
-        },
-        {
-          deliveryDataImage: images.cashOnDelivery,
-          deliveryDataTitle: "Cash on Delivery",
-        },
-        {
-          deliveryDataImage: images.fastDelivery,
-          deliveryDataTitle: "Fast Delivery",
-        },
-      ],
-      height: 88,
-      width: 60,
-    },
-  ]);
+    ComapareProductData[]
+  >([]);
 
   const onPressAddButton = () => {
     navigation.navigate(ScreenNames.addCompareProduct, {
-      mainCategoryTitle,
-      onSelectProduct: (selectedProduct: GroceryProduct) => {
-        setArrCompareProducts((prev) => [...prev, selectedProduct]);
-      },
+      main_category: main_category,
+      customer_latitude: customer_latitude,
+      customer_longitude: customer_longitude,
     });
   };
 
-  const header = () => {
+  const onPressDeleteButton = (product_id: string) => {
+    handleRemoveCompareProductApi(product_id);
+  };
+
+  const onPressProduct = (
+    product_id: string,
+    variation_id?: string,
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean,
+    color_id?: string,
+    size_id?: string
+  ) => {
+    navigation.navigate(ScreenNames.productDetail, {
+      product_id: product_id,
+      variation_id: variation_id,
+      is_variation: is_variation,
+      is_color: is_color,
+      is_size: is_size,
+      color_id: color_id,
+      size_id: size_id,
+      customer_latitude: customer_latitude,
+      customer_longitude: customer_longitude,
+      navigateFromCompareProduct: true,
+    });
+  };
+
+  // ----------------------API Calling--------------------
+  // handleCompareProductDetailApi
+  const handleCompareProductDetailApi = async () => {
+    try {
+      const response = await compareProductDetailApi({}, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "COMPARE PRODUCT DETAIL RESPONSE===>",
+            JSON.stringify(response)
+          );
+        const data = response.data as ComapareProductData[];
+        if (response.code === statusCodes.success) {
+          setArrCompareProducts(data);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  // handleAddCompareProductApi
+  const handleRemoveCompareProductApi = async (product_id: string) => {
+    const dictData = {
+      product_id: product_id,
+    };
+    try {
+      const response = await removeCompareProductApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "REMOVE COMPARE PRODUCT RESPONSE===>",
+            JSON.stringify(response)
+          );
+        const data = response.data as any;
+        if (response.code === statusCodes.success) {
+          // Remove the deleted product from the compare list
+          setArrCompareProducts((prev) =>
+            prev.filter((item) => item.id !== product_id)
+          );
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <GlobalBackButton onPress={() => navigation.goBack()} />
@@ -119,20 +138,23 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
         />
       ),
     });
-  };
-
-  useEffect(() => {
-    header();
   }, []);
 
   useFocusEffect(
     React.useCallback(() => {
+      handleCompareProductDetailApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
   );
 
-  return <CompareProductComponent arrCompareProducts={arrCompareProducts} />;
+  return (
+    <CompareProductComponent
+      arrCompareProducts={arrCompareProducts}
+      onPressDeleteButton={onPressDeleteButton}
+      onPressProduct={onPressProduct}
+    />
+  );
 };
 
 export default CompareProductConteiner;

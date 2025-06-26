@@ -82,11 +82,11 @@ const HomeComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         onPress={() => props?.onPressMainCategory(item.name, item?.id)}
       >
-        <FastImage
+        {/* <FastImage
           style={styles.imgGroceriesFood}
           source={{ uri: item?.image }}
           resizeMode="stretch"
-        />
+        /> */}
         <View style={styles.vwType}>
           <Text style={styles.lblGroceriesFood}>{item?.name}</Text>
         </View>

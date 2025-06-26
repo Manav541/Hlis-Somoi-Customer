@@ -4,6 +4,10 @@ import { APIManager } from "../../api/ApiManager";
 import { APIResponseType } from "../../constants/interfaces";
 
 interface Store {
+  rateAndReviewList: (
+    dictData: object,
+    navigation: any
+  ) => Promise<APIResponseType>;
   rateVendor: (dictData: object, navigation: any) => Promise<APIResponseType>;
   rateProduct: (dictData: object, navigation: any) => Promise<APIResponseType>;
   editRate: (dictData: object, navigation: any) => Promise<APIResponseType>;
@@ -11,6 +15,32 @@ interface Store {
 }
 
 const RateAndReviewStore = create<Store>((set) => ({
+  rateAndReviewList(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.rateAndReviewList,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
   rateVendor(dictData, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (

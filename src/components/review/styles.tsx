@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../constants/Colors";
 import { fontSize } from "../../constants/FontSizes";
 import { fontsfamily } from "../../constants/FontFamily";
+import { ScreenDimensions } from "../../constants/utils/Dimensions";
 
 export const styles = StyleSheet.create({
   // View Styles
@@ -150,8 +151,8 @@ export const styles = StyleSheet.create({
     width: 24,
   },
   imgReview: {
-    width: 30.9,
-    height: 45,
+    width: 65,
+    height: 65,
   },
   imgRightOrangeArrow: {
     height: 16,
@@ -162,5 +163,53 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     gap: 5,
     marginTop: 9,
+    marginBottom: 20,
+  },
+  btnReviewImage: {
+    height: 65,
+    width: 65,
+    borderRadius: 5,
+    backgroundColor: colors.whiteff,
+    marginTop: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  btnReviewVideo: {
+    height: 65,
+    width: 65,
+    borderRadius: 5,
+    backgroundColor: colors.black50,
+    marginTop: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.95)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnClose: {
+    position: "absolute",
+    right: 20,
+    zIndex: 999,
+  },
+  mediaItem: {
+    width: ScreenDimensions.windowWidth,
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  fullScreenMedia: {
+    width: "100%",
+    height: "60%",
   },
 });

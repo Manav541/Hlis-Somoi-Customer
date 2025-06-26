@@ -45,15 +45,17 @@ export const apiEndPoint = {
   removeFromCart: "/home/customer/remove-cart-data",
 
   // Compare Products
-  compareProductList: "/home/customer/compare-products-listing",
+  compareProductDetails: "/home/customer/compare-products-details",
+  similarProductListing: "/home/customer/similar-compare-products-listing",
   addCompareProduct: "/home/customer/compare-products-insert",
   removeCompareProduct: "/home/customer/remove-product-from-compare",
 
   // Rate & Review
+  rateAndReviewList: "/home/customer/rate-review-listing",
   rateVendor: "/home/customer/rate-vendor",
   rateProduct: "/home/customer/rate-product",
-  editRate : "/home/customer/edit-ratings",
-  deleteRate :"/home/customer/delete-ratings",
+  editRate: "/home/customer/edit-ratings",
+  deleteRate: "/home/customer/delete-ratings",
 
   // Cart Module
   applyCouponCode: "/home/customer/apply-offer",

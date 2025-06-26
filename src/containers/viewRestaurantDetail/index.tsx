@@ -90,8 +90,8 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
       variations: updatedVariations,
       selected_variation: selectedVariation,
       variation_id: selectedVariation?.variation_id,
-      price: selectedVariation?.price || 0,
-      quantity: selectedVariation?.quantity || 0,
+      price: selectedVariation?.price,
+      quantity: selectedVariation?.quantity,
     });
   };
 
@@ -103,18 +103,25 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     variation_id?: string
   ) => {
     const currentItem = arrSubCategoryFoodData[index];
-    console.log("currentItem => ", currentItem);
 
-    const currentQty = Number(currentItem.quantity) || 0;
-    let newQty = currentQty;
+    let variationQty = 0;
 
-    if (type === "add") {
-      newQty = currentQty + 1;
-    } else if (type === "remove" && currentQty > 0) {
-      newQty = currentQty - 1;
+    if (is_variation && variation_id) {
+      const selectedVar = currentItem.variations.find(
+        (v: any) => v.variation_id === variation_id
+      );
+      variationQty = Number(selectedVar?.quantity) || 0;
+    } else {
+      variationQty = Number(currentItem.quantity) || 0;
     }
 
-    // const { id: product_id, variation_id } = currentItem;
+    let newQty = variationQty;
+
+    if (type === "add") {
+      newQty = variationQty + 1;
+    } else if (type === "remove" && variationQty > 0) {
+      newQty = variationQty - 1;
+    }
 
     if (newQty === 0) {
       await handleRemoveFromCartApi(
@@ -123,7 +130,8 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
         variation_id,
         is_variation
       );
-    } else if (currentQty === 0 && newQty === 1) {
+    } else if (variationQty === 0 && newQty === 1) {
+      // ✅ CORRECT: Only call this for first-time add
       await handleAddToCartApi(
         product_id,
         newQty,
@@ -132,6 +140,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
         is_variation
       );
     } else {
+      // ✅ Now only calls update if already present
       await handleUpdateCartQuantityApi(
         product_id,
         newQty,
@@ -167,6 +176,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   const onPressReview = () => {
     navigation.navigate(ScreenNames.review, {
       storeDetail: foodData?.restaurant,
+      type: "vendor"
     });
   };
 
@@ -340,10 +350,46 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
 
         if (response.code === statusCodes.success) {
           const updated = [...arrSubCategoryFoodData];
+
           if (index !== undefined) {
-            updated[index].quantity = quantity;
+            // Find the correct variation and update quantity
+            if (is_variation && variation_id) {
+              const item = updated[index];
+              item.variations = item.variations.map((v) =>
+                v.variation_id === variation_id
+                  ? { ...v, quantity: quantity }
+                  : v
+              );
+
+              // Also update main product quantity if needed
+              if (item.variation_id === variation_id) {
+                item.quantity = quantity;
+              }
+            } else {
+              updated[index].quantity = quantity;
+            }
           }
+
           setArrSubCategoryFoodData(updated);
+
+          // Update selected food modal quantity (if open)
+          if (selectedFoodItem?.id === product_id) {
+            const updatedVariations = selectedFoodItem.variations.map(
+              (v: any) =>
+                v.variation_id === variation_id ? { ...v, quantity } : v
+            );
+
+            const selectedVariation = updatedVariations.find(
+              (v: any) => v.variation_id === variation_id
+            );
+
+            setSelectedFoodItem((prev: any) => ({
+              ...prev,
+              quantity: selectedVariation?.quantity ?? quantity,
+              variations: updatedVariations,
+              selected_variation: selectedVariation,
+            }));
+          }
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -382,10 +428,46 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
 
         if (response.code === statusCodes.success) {
           const updated = [...arrSubCategoryFoodData];
+
           if (index !== undefined) {
-            updated[index].quantity = quantity;
+            const product = updated[index];
+
+            if (is_variation && variation_id) {
+              // ✅ Update variation-specific quantity
+              product.variations = product.variations.map((v) =>
+                v.variation_id === variation_id ? { ...v, quantity } : v
+              );
+
+              // Update main quantity only if current variation is selected
+              if (product.variation_id === variation_id) {
+                product.quantity = quantity;
+              }
+            } else {
+              // Not variation-based product
+              product.quantity = quantity;
+            }
           }
+
           setArrSubCategoryFoodData(updated);
+
+          // ✅ Update selectedFoodItem if modal is open
+          if (selectedFoodItem?.id === product_id) {
+            const updatedVariations = selectedFoodItem.variations.map(
+              (v: any) =>
+                v.variation_id === variation_id ? { ...v, quantity } : v
+            );
+
+            const selectedVariation = updatedVariations.find(
+              (v: any) => v.variation_id === variation_id
+            );
+
+            setSelectedFoodItem((prev: any) => ({
+              ...prev,
+              quantity: selectedVariation?.quantity ?? quantity,
+              variations: updatedVariations,
+              selected_variation: selectedVariation,
+            }));
+          }
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -421,10 +503,46 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
 
         if (response.code === statusCodes.success) {
           const updated = [...arrSubCategoryFoodData];
+
           if (typeof index === "number") {
-            updated[index].quantity = 0;
+            const product = updated[index];
+
+            if (is_variation && variation_id) {
+              // ✅ Set selected variation's quantity to 0
+              product.variations = product.variations.map((v) =>
+                v.variation_id === variation_id ? { ...v, quantity: 0 } : v
+              );
+
+              // Set product quantity = 0 only if this was the selected variation
+              if (product.variation_id === variation_id) {
+                product.quantity = 0;
+              }
+            } else {
+              // ✅ For non-variation products
+              product.quantity = 0;
+            }
           }
+
           setArrSubCategoryFoodData(updated);
+
+          // ✅ Update modal view if open
+          if (selectedFoodItem?.id === product_id) {
+            const updatedVariations = selectedFoodItem.variations.map(
+              (v: any) =>
+                v.variation_id === variation_id ? { ...v, quantity: 0 } : v
+            );
+
+            const selectedVariation = updatedVariations.find(
+              (v: any) => v.variation_id === variation_id
+            );
+
+            setSelectedFoodItem((prev: any) => ({
+              ...prev,
+              quantity: selectedVariation?.quantity ?? 0,
+              variations: updatedVariations,
+              selected_variation: selectedVariation,
+            }));
+          }
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }

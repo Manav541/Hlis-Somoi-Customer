@@ -82,7 +82,14 @@ const HomeContainer = ({ navigation }: any) => {
     setIsGroceriesFoodSelected(name);
     setMainCategoryId(mainCategoryId);
     handleSubCategoryListApi(mainCategoryId);
-    handleBestProductsSellerListApi(mainCategoryId, name.toLowerCase());
+    if (currentLatLong) {
+      handleBestProductsSellerListApi(
+        mainCategoryId,
+        name.toLowerCase(),
+        currentLatLong.latitude,
+        currentLatLong.longitude
+      );
+    }
   };
 
   // handleSellAllCategories
@@ -226,14 +233,16 @@ const HomeContainer = ({ navigation }: any) => {
   // handleSubCategoryListApi
   const handleBestProductsSellerListApi = async (
     mainCategoryId: String,
-    name: string
+    name: string,
+    customer_latitude: number,
+    customer_longitude: number
   ) => {
     const dictData = {
       category_id: mainCategoryId,
       page_number: bestProductsSellerPageNumber,
       type: name,
-      customer_latitude: currentLatLong?.latitude.toString(),
-      customer_longitude: currentLatLong?.longitude.toString(),
+      customer_latitude: customer_latitude?.toString(),
+      customer_longitude: customer_longitude?.toString(),
     };
     try {
       const response = await bestProductsSellerListApi(dictData, navigation);
@@ -255,7 +264,6 @@ const HomeContainer = ({ navigation }: any) => {
     }
   };
 
-  // Current Location
   const handleCurrentLocation = async () => {
     toggleLoader(true);
     const current = await LocationManager.getCurrentLocation();
@@ -264,19 +272,32 @@ const HomeContainer = ({ navigation }: any) => {
       const address = await LocationManager.getFormattedAddress(current);
       console.log("currentAddress", address);
       setCurrentAddress(address);
+
+      // ✅ Other initial APIs
+      handleMainCategoryListApi();
+      handleBannerListApi();
+      handleSubCategoryListApi(mainCategoryId);
+
+      // ✅ Now call the API after lat/long is ready
+      handleBestProductsSellerListApi(
+        mainCategoryId,
+        isGroceriesFoodSelected,
+        current.latitude,
+        current.longitude
+      );
     }
     toggleLoader(false);
   };
 
   useFocusEffect(
     React.useCallback(() => {
-      handleCurrentLocation();
       setIsGroceriesFoodSelected("Groceries");
-      handleMainCategoryListApi();
-      handleBannerListApi();
-      handleSubCategoryListApi(mainCategoryId);
-      handleBestProductsSellerListApi(mainCategoryId, isGroceriesFoodSelected);
+
+      // ✅ Get location & then call product API
+      handleCurrentLocation();
+
       StatusBar.setBarStyle("light-content");
+
       return () => {};
     }, [navigation])
   );

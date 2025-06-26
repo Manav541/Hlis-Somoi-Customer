@@ -5,6 +5,7 @@ export const fontsfamily = {
     semibold: 'Montserrat-SemiBold',
     bold: 'Montserrat-Bold',
     extrabold: 'Montserrat-ExtraBold',
+    italic :'Montserrat-Italic',
 
     // Outfit
     lightOutFit: 'Outfit-Light',

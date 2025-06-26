@@ -603,7 +603,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                             />
                           </TouchableOpacity>
                           <Text style={styles.lblFoodQuantity}>
-                            {props?.selectedFoodItem?.selected_variation?.quantity}
+                            {props?.selectedFoodItem?.quantity}
                           </Text>
                           <TouchableOpacity
                             onPress={() =>

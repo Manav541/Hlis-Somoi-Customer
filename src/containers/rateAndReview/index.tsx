@@ -175,7 +175,7 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
   const handleRateVendorApi = async () => {
     const dictData = {
       vendor_id: storeDetail?.id,
-      rating: product_rating,
+      rating: product_rating.toString(),
       review: product_review,
     };
     try {
@@ -186,6 +186,7 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
         const data = response.data as any;
         if (response.code === statusCodes.success) {
           setIsReviewSuccessModalVisible(true);
+          
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }

@@ -464,9 +464,9 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     height: 192,
     width: 120,
-    justifyContent : 'space-between',
-    paddingTop : 15,
-    paddingBottom : 14
+    justifyContent: "space-between",
+    paddingTop: 15,
+    paddingBottom: 14,
   },
   btnViewAll: {
     flexDirection: "row",
@@ -474,6 +474,7 @@ export const styles = StyleSheet.create({
     gap: 5,
     marginTop: 9,
     marginHorizontal: 20,
+    marginBottom: 20,
   },
   btnIsFavourite: {
     height: 50,

@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 20,
     gap: 19,
+    alignSelf : 'center'
   },
   vwGroceriesFoodLogo: {
     height: 122,
@@ -147,7 +148,7 @@ export const styles = StyleSheet.create({
   },
   lblGroceriesFood: {
     color: colors.blue4e,
-    fontSize: fontSize.size1371,
+    fontSize: fontSize.size18,
     fontFamily: fontsfamily.semibold,
   },
   lblLocation: {
@@ -221,8 +222,9 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
   btnGroceriesFood: {
-    height: 122,
-    width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
+    // height: 122,
+    height : 50,
+    width: (ScreenDimensions.screenWidth - 20 * 2 - 20) / 2,
     borderRadius: 11.42,
     backgroundColor: colors.orange1c,
     overflow: "hidden",
@@ -255,8 +257,9 @@ export const styles = StyleSheet.create({
 
   // Image Styles
   imgGroceriesFood: {
-    height: 87.36,
-    width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
+    // height: 87.36,
+    height:65,
+    width: (ScreenDimensions.screenWidth - 60 * 2 - 20) / 2,
     borderRadius: 11.42,
   },
   imgLocation: {

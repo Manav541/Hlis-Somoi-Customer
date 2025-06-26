@@ -399,6 +399,13 @@ export interface Highlight {
   value?: string;
 }
 
+export interface ReviewData {
+  average_rating: string;
+  total_reviews: string;
+  rating_summary: RatingSummary[];
+  reviews: Review[];
+}
+
 export interface RatingSummary {
   rate_number: number;
   rate_percentage: number;
@@ -557,6 +564,40 @@ export interface AddToCartDictData {
   is_variation?: boolean;
   is_color?: boolean;
   is_size?: boolean;
+}
+
+// Compare Product
+export interface ComapareProductData {
+  id: string;
+  name: string;
+  description: string;
+  gst_percentage: string;
+  is_size: boolean;
+  is_color: boolean;
+  is_variation: boolean;
+  image: string;
+  rating: string;
+  price: string;
+  color_id: string;
+  size_id: string;
+  variation_id: string;
+}
+
+export interface SimilarCompareProductData {
+  id: string;
+  name: string;
+  description: string;
+  gst_percentage: string;
+  is_size: boolean;
+  is_color: boolean;
+  is_variation: boolean;
+  image: string;
+  rating: string;
+  price: string;
+  weight?: string;
+  color_id: string;
+  size_id: string;
+  variation_id: string;
 }
 
 // Cart

@@ -44,6 +44,9 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const removeFromCartApi = zustandStore.ProductListingStore(
     (state) => state.removeFromCart
   );
+  const addCompareProductApi = zustandStore.CompareProductStore(
+    (state) => state.addCompareProduct
+  );
   const cartListingApi = zustandStore.CartStore((state) => state.cartListing);
 
   const itemData = route.params;
@@ -58,6 +61,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const is_size = itemData?.is_size;
   const color_id = itemData?.color_id;
   const size_id = itemData?.size_id;
+  const navigateFromCompareProduct = itemData?.navigateFromCompareProduct;
 
   const [productDetails, setProductDetails] = useState<ProductData | null>(
     null
@@ -104,7 +108,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   };
 
   const onPressBack = () => {
-    navigation.goBack();
+    navigation.pop();
   };
 
   const onPressShare = async () => {
@@ -134,7 +138,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   };
 
   const onPressGoToCompareProduct = () => {
-    navigation.navigate(ScreenNames.compareProduct);
+    handleAddCompareProductApi(product_id);
   };
 
   const onPressFavourite = (product_id: string, variation_id: string) => {
@@ -204,8 +208,11 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     flashMessageWarning(getTranslation("underDevelopment"));
   };
 
-  const onPressViewAll = () => {
-    flashMessageWarning(getTranslation("underDevelopment"));
+  const onPressViewAllReview = (product_id: string) => {
+    navigation.navigate(ScreenNames.review, {
+      product_id: product_id,
+      type: "product",
+    });
   };
 
   const onPressSize = (selectedSize: string, size_id: string) => {
@@ -293,10 +300,6 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
 
     setTimeout(() => setIsNavigating(false), 1000); // unlock after 1 sec
   }, [isNavigating, navigation]);
-
-  const onPressReview = () => {
-    navigation.navigate(ScreenNames.review);
-  };
 
   // Utility to format delivery time
   const formatDeliveryTime = (minutes: number): string => {
@@ -461,10 +464,9 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   // handleWishlistProductApi
   const handleWishlistProductApi = async (
     product_id: string,
-    variation_id?: string,
-
+    variation_id?: string
   ) => {
-    const dictData : AddRemoveWishlistDictData = {
+    const dictData: AddRemoveWishlistDictData = {
       product_id: product_id,
     };
 
@@ -646,21 +648,29 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     }
   };
 
-  // handleCartListingApi
-  const handleCartListingApi = async () => {
-    const dictData = {};
+  // handleAddCompareProductApi
+  const handleAddCompareProductApi = async (product_id: string) => {
+    const dictData = {
+      product_id: product_id,
+    };
     try {
-      const response = await cartListingApi(dictData, navigation);
+      const response = await addCompareProductApi(dictData, navigation);
       if (response !== undefined && response !== null) {
         __DEV__ &&
-          console.log("CART LISTING RESPONSE===>", JSON.stringify(response));
+          console.log(
+            "ADD COMPARE PRODUCT RESPONSE===>",
+            JSON.stringify(response)
+          );
         if (response.code === statusCodes.success) {
-          const rawData = response.data as any;
-          setCartItemTotal(rawData?.total_quantity);
+          navigation.navigate(ScreenNames.compareProduct, {
+            main_category: productDetails?.main_category,
+            customer_latitude: customer_latitude,
+            customer_longitude: customer_longitude,
+          });
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         } else if (response.code === statusCodes.emptyData) {
-          setCartItemTotal("");
+          flashMessageWarning(response.message);
         }
       }
     } catch (error) {
@@ -671,7 +681,6 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   useFocusEffect(
     React.useCallback(() => {
       handleProductDetailsApi(product_id, variation_id, size_id, color_id);
-      // handleCartListingApi();
       StatusBar.setBarStyle("light-content");
       return () => {};
     }, [navigation, product_id, variation_id, size_id, color_id])
@@ -690,14 +699,13 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       onPressBuyNow={onPressBuyNow}
       onPressSize={onPressSize}
       onPressColor={onPressColor}
-      onPressImageVideo={onPressImageVideo}
-      onPressViewAll={onPressViewAll}
+      onPressViewAllReview={onPressViewAllReview}
       onPressFavourite={onPressFavourite}
-      onPressReview={onPressReview}
       onPressBack={onPressBack}
       onPressShare={onPressShare}
       onPressCartIcon={onPressCartIcon}
       isNavigating={isNavigating}
+      onPressImageVideo={onPressImageVideo}
       mediaModalVisible={mediaModalVisible}
       handleCloseMediaModal={handleCloseMediaModal}
       selectedMedia={selectedMedia}
@@ -708,6 +716,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       is_variation={is_variation}
       is_size={is_size}
       is_color={is_color}
+      navigateFromCompareProduct={navigateFromCompareProduct}
     />
   );
 };

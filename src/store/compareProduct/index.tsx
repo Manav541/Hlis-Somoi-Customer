@@ -4,7 +4,11 @@ import { APIManager } from "../../api/ApiManager";
 import { APIResponseType } from "../../constants/interfaces";
 
 interface Store {
-  compareProductList: (
+  compareProductDetail: (
+    dictData: object,
+    navigation: any
+  ) => Promise<APIResponseType>;
+  similarProductList: (
     dictData: object,
     navigation: any
   ) => Promise<APIResponseType>;
@@ -19,7 +23,7 @@ interface Store {
 }
 
 const CompareProductStore = create<Store>((set) => ({
-  compareProductList(dictData, navigation) {
+  compareProductDetail(dictData, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -36,8 +40,34 @@ const CompareProductStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.postServerRequestWithToken({
-        apiEndPoint: apiEndPoint.compareProductList,
+      APIManager.getServerRequestWithToken({
+        apiEndPoint: apiEndPoint.compareProductDetails,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  similarProductList(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.getServerRequestWithToken({
+        apiEndPoint: apiEndPoint.similarProductListing,
         callback: callback,
         dictData: dictData,
         navigation: navigation,

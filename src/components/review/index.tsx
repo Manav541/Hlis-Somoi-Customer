@@ -5,26 +5,42 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
+  Modal,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { images } from "../../constants/Images";
 import { activityOpacity, hitSlop } from "../../constants/GConstant";
-import { RateProgress, Review } from "../../constants/interfaces";
+import { Media, RatingSummary, Review } from "../../constants/interfaces";
 import { colors } from "../../constants/Colors";
+import { DateFormatsManager } from "../../constants/utils/DateFormats";
+import Video from "react-native-video";
+import { FlatList } from "react-native-gesture-handler";
+import { ScreenDimensions } from "../../constants/utils/Dimensions";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface PropsType {
-  totalRate: number;
+  totalRate: string;
   totalReviews: string;
-  arrRateProgress: RateProgress[];
+  arrRateProgress: RatingSummary[];
   arrRevieews: Review[];
   onPressViewAll: () => void;
   onPressImageVideo: () => void;
+  mediaModalVisible: boolean;
+  handleCloseMediaModal: () => void;
+  selectedMedia: { link: string; type: "image" | "video" } | null;
+  handleSelectMedia: (
+    mediaList: { link: string; type: "image" | "video" }[],
+    index: number
+  ) => void;
+  allMedia: Media[];
+  selectedIndex: number;
 }
 
 const ReviewComponent = (props: PropsType) => {
-  const renderItemArrRateProgress = (item: RateProgress, index: number) => {
+  const insets = useSafeAreaInsets();
+  const renderItemArrRateProgress = (item: RatingSummary, index: number) => {
     return (
       <View style={styles.vwRateProgressItem} key={index}>
         <View
@@ -51,7 +67,7 @@ const ReviewComponent = (props: PropsType) => {
             />
           </View>
         </View>
-        <View style={{ width: 30, flexDirection: "row-reverse" }}>
+        <View style={{ width: 35, flexDirection: "row-reverse" }}>
           <Text style={styles.lblRatePercentage}>{item?.rate_percentage}%</Text>
         </View>
       </View>
@@ -61,7 +77,7 @@ const ReviewComponent = (props: PropsType) => {
   const renderItemArrReviews = (item: Review, index: number) => {
     return (
       <View style={styles.vwReviewItem} key={index}>
-        <Text style={styles.lblReviewName}>{item?.review_personName}</Text>
+        <Text style={styles.lblReviewName}>{item?.name}</Text>
         <View style={styles.vwReviewRateDate}>
           <View style={styles.vwRateNumber}>
             <Image
@@ -69,35 +85,69 @@ const ReviewComponent = (props: PropsType) => {
               source={images.star}
               resizeMode="stretch"
             />
-            <Text style={styles.lblReviewRateNumber}>{item?.review_rate}</Text>
+            <Text style={styles.lblReviewRateNumber}>
+              {parseFloat(item?.rating).toFixed(1)}
+            </Text>
           </View>
-          <Text style={styles.lblReviewDate}>{item?.review_date}</Text>
+          <Text style={styles.lblReviewDate}>
+            {" "}
+            {DateFormatsManager.formatDate(
+              item?.date,
+              DateFormatsManager.DateFormats.DD_MM_YYYY
+            )}
+          </Text>
         </View>
-        <Text style={styles.lblReviewDesc}>{item?.review_description}</Text>
-        <View style={styles.vwImgeVideo}>
-          <TouchableOpacity
-            style={styles.vwReviewImage}
-            activeOpacity={activityOpacity}
-            hitSlop={hitSlop}
-            onPress={props?.onPressImageVideo}
-          >
-            <Image
-              style={styles.imgReview}
-              source={item?.review_image}
-              resizeMode="stretch"
-            />
-          </TouchableOpacity>
-          {item?.type === "video" && (
-            <TouchableOpacity
-              style={styles.vwReviewVideo}
-              activeOpacity={activityOpacity}
-              hitSlop={hitSlop}
-              onPress={props?.onPressImageVideo}
-            >
-              <Image style={styles.imgVideo} source={images.videocircle} />
-            </TouchableOpacity>
-          )}
-        </View>
+        <Text style={styles.lblReviewDesc}>{item?.comment}</Text>
+        {item?.media.length > 0 && (
+          <FlatList
+            data={item?.media}
+            horizontal
+            bounces={false}
+            contentContainerStyle={{ gap: 20 }}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item: itemMedia, index }) => (
+              <>
+                <TouchableOpacity
+                  style={styles.btnReviewImage}
+                  activeOpacity={activityOpacity}
+                  hitSlop={hitSlop}
+                  onPress={() => props?.handleSelectMedia(item?.media, index)}
+                >
+                  {itemMedia.type === "image" ? (
+                    <Image
+                      source={{ uri: itemMedia.link }}
+                      style={styles.imgReview}
+                      resizeMode="cover"
+                    />
+                  ) : (
+                    <Video
+                      source={{ uri: itemMedia.link }}
+                      style={styles.imgReview}
+                      paused={true} // Don't autoplay
+                      controls={true} // Native play/pause buttons
+                      resizeMode="cover"
+                      repeat={false}
+                    />
+                  )}
+                </TouchableOpacity>
+                {itemMedia?.type === "video" && (
+                  <TouchableOpacity
+                    style={styles.btnReviewVideo}
+                    activeOpacity={activityOpacity}
+                    hitSlop={hitSlop}
+                    onPress={() => props?.handleSelectMedia(item?.media, index)}
+                  >
+                    <Image
+                      style={styles.imgVideo}
+                      source={images.videocircle}
+                    />
+                  </TouchableOpacity>
+                )}
+              </>
+            )}
+          />
+        )}
+
         {index !== props?.arrRevieews.length - 1 && (
           <View style={styles.vwLine} />
         )}
@@ -159,6 +209,63 @@ const ReviewComponent = (props: PropsType) => {
           />
         </TouchableOpacity>
       </ScrollView>
+
+      {/* Media Modal */}
+      <Modal
+        visible={props?.mediaModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={props?.handleCloseMediaModal}
+      >
+        <View style={styles.modalOverlay}>
+          {/* Close Button */}
+          <TouchableOpacity
+            style={[styles.btnClose, { top: insets.top + 20 }]}
+            onPress={props?.handleCloseMediaModal}
+            hitSlop={hitSlop}
+            activeOpacity={activityOpacity}
+          >
+            <Image
+              source={images.closeImage}
+              style={{ height: 35, width: 35 }}
+            />
+          </TouchableOpacity>
+
+          {/* Media Gallery of Review */}
+          <FlatList
+            data={props?.allMedia || []} // ✅ full media array
+            horizontal
+            pagingEnabled
+            keyExtractor={(_, index) => index.toString()}
+            initialScrollIndex={props?.selectedIndex || 0} // start at tapped index
+            getItemLayout={(_, index) => ({
+              length: ScreenDimensions.screenWidth,
+              offset: ScreenDimensions.screenWidth * index,
+              index,
+            })}
+            renderItem={({ item }) => (
+              <View style={styles.mediaItem}>
+                {item?.type === "image" ? (
+                  <Image
+                    source={{ uri: item.link }}
+                    style={styles.fullScreenMedia}
+                    resizeMode="contain"
+                  />
+                ) : (
+                  <Video
+                    source={{ uri: item.link }}
+                    style={styles.fullScreenMedia}
+                    resizeMode="contain"
+                    controls
+                    paused={false}
+                    fullscreen={false}
+                  />
+                )}
+              </View>
+            )}
+          />
+        </View>
+      </Modal>
     </View>
   );
 };

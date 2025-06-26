@@ -54,10 +54,9 @@ interface PropsType {
   onPressSize: (selectedSize: string, size_id: string) => void;
   onPressColor: (selectedColor: string) => void;
   onPressImageVideo: () => void;
-  onPressViewAll: () => void;
+  onPressViewAllReview: (product_id: string) => void;
   onPressFavourite: (product_id: string, variation_id: string) => void;
-  onPressReview: () => void;
-  
+
   onPressBack: () => void;
   onPressShare: () => void;
   onPressCartIcon: () => void;
@@ -72,10 +71,12 @@ interface PropsType {
   ) => void;
   allMedia: Media[];
   selectedIndex: number;
+  
   cartItemTotal: string;
   is_variation: boolean;
   is_size: boolean;
   is_color: boolean;
+  navigateFromCompareProduct: boolean;
 }
 
 const ViewProductDetailComponent = (props: PropsType) => {
@@ -155,14 +156,14 @@ const ViewProductDetailComponent = (props: PropsType) => {
           source={{ uri: item?.image }}
         />
         <View style={styles.vwPriceWeight}>
-         <Text
-          style={{
-            ...styles.lblProdcuctFinalPrice,
-            color: colors.blue4e,
-          }}
-        >
-          {rupeeSymbol + parseInt(item?.price).toFixed()}
-        </Text>
+          <Text
+            style={{
+              ...styles.lblProdcuctFinalPrice,
+              color: colors.blue4e,
+            }}
+          >
+            {rupeeSymbol + parseInt(item?.price).toFixed()}
+          </Text>
           <Text style={styles.lblProductWeight1}>{item?.weight}</Text>
         </View>
       </TouchableOpacity>
@@ -439,18 +440,14 @@ const ViewProductDetailComponent = (props: PropsType) => {
                 tintColor={colors.greyd9}
                 resizeMode="stretch"
               />
-              <TouchableOpacity
-                activeOpacity={activityOpacity}
-                hitSlop={hitSlop}
-                onPress={props?.onPressReview}
-              >
+              <View>
                 <Text style={styles.lblProduct_reviews}>
                   {props?.productDetails?.total_reviews}{" "}
                   <Text style={styles.lblReviews}>
                     {getTranslation("reviews")}
                   </Text>
                 </Text>
-              </TouchableOpacity>
+              </View>
             </View>
           </View>
 
@@ -614,7 +611,11 @@ const ViewProductDetailComponent = (props: PropsType) => {
               style={styles.btnViewAll}
               activeOpacity={activityOpacity}
               hitSlop={hitSlop}
-              onPress={props?.onPressViewAll}
+              onPress={() => {
+                if (props?.productDetails?.product_id) {
+                  props.onPressViewAllReview(props.productDetails.product_id);
+                }
+              }}
             >
               <Text style={styles.lblViewAll}>{getTranslation("viewAll")}</Text>
               <Image
@@ -625,13 +626,15 @@ const ViewProductDetailComponent = (props: PropsType) => {
           )}
 
           {/* Go to Comapare Products */}
-          <View style={styles.vwGotoComapreButton}>
-            <GlobalButton
-              isOrangeWithBorder
-              title={getTranslation("goToCompareProduct")}
-              onPress={props?.onPressGoToCompareProduct}
-            />
-          </View>
+          {!props?.navigateFromCompareProduct && (
+            <View style={styles.vwGotoComapreButton}>
+              <GlobalButton
+                isOrangeWithBorder
+                title={getTranslation("goToCompareProduct")}
+                onPress={props?.onPressGoToCompareProduct}
+              />
+            </View>
+          )}
         </ScrollView>
 
         {/* Like buy Now */}
