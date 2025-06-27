@@ -22,7 +22,6 @@ import { fontsfamily } from "../../../constants/FontFamily";
 import {
   ApplyCouponResponseData,
   GroceryProduct,
-  OrderDetail,
 } from "../../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 
@@ -38,7 +37,7 @@ interface PropsType {
   deliverToAddress: string;
   approxDeliveryTime: string;
   onPressChangeDeliveryAddress: () => void;
-  onPressPlaceOrder: () => void;
+  onPressPlaceOrder: (total_bill:string) => void;
   handleQuantityChange: (index: number, type: "add" | "remove") => void;
   offerResponse: ApplyCouponResponseData;
 }
@@ -58,7 +57,7 @@ const CartComponent = (props: PropsType) => {
           <Text style={styles.lblProductName}>{item?.product_data?.name}</Text>
           <View style={styles.vwProductPriceWeight}>
             <Text style={styles.lblProductPrice}>
-              {rupeeSymbol + item?.product_data?.variation_data?.price}
+              {rupeeSymbol + item?.per_product_price}
             </Text>
             {item?.product_data?.variation_data?.amount && (
               <>
@@ -139,7 +138,7 @@ const CartComponent = (props: PropsType) => {
             overflow: "hidden",
           }}
         >
-          <View style={styles.vwOfferDetail}>
+          {/* <View style={styles.vwOfferDetail}>
             <Image
               style={styles.imgTickCircle}
               source={images.tickCircle}
@@ -166,7 +165,7 @@ const CartComponent = (props: PropsType) => {
               </Text>{" "}
               through free delivery!
             </Text>
-          </View>
+          </View> */}
           {/* Coupon Code */}
           <View style={styles.vwApplyCouponCode}>
             <Image
@@ -184,11 +183,14 @@ const CartComponent = (props: PropsType) => {
               <View style={styles.vwApplidCouponCodeDesc}>
                 <Text style={styles.lblAppliedCouponCodeTitle}>
                   Coupon{" "}
-                  {props?.cartDetails?.offer_data?.type +
-                    "-" +
-                    parseInt(
-                      props?.cartDetails?.offer_data?.discount_percentage
-                    ).toFixed()}{" "}
+                  {props?.cartDetails?.offer_data?.type == "flat"
+                    ? "Flat"
+                    : "Extra" +
+                      "-" +
+                      parseInt(
+                        props?.cartDetails?.offer_data?.discount_percentage
+                      ).toFixed()}
+                  {props?.cartDetails?.offer_data?.type == "percentage" && "%"}{" "}
                   applied!
                 </Text>
                 <Text style={styles.lblAppliedCouponCodeDec}>
@@ -327,7 +329,7 @@ const CartComponent = (props: PropsType) => {
             <GlobalButton
               isOrange
               title={getTranslation("placeOrder")}
-              onPress={props?.onPressPlaceOrder}
+              onPress={()=> {props?.onPressPlaceOrder(props?.cartDetails?.total_bill)}}
             />
           </View>
         </ScrollView>

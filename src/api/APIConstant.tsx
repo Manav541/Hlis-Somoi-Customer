@@ -61,6 +61,13 @@ export const apiEndPoint = {
   applyCouponCode: "/home/customer/apply-offer",
   removeCouponCode: "/home/customer/remove-offer",
   cartListing: "/home/customer/get-cart-data",
+  placeOrder: "/home/customer/insert-order",
+
+  // My Orders Module
+  orderList: "/home/customer/order-listing",
+  cancelReturnOrderReasonList:
+    "/home/customer/cancel-reject-order-reason-listing",
+  cancelOrder: "/home/customer/cancel-order",
 
   // Setting Module
   contactUs: "/home/customer/contact-us",

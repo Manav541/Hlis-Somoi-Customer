@@ -660,11 +660,13 @@ export interface Order {
 export interface FilterOrderType {
   id: number;
   type: string;
+  value : string;
 }
 
 export interface FilterDate {
   id: number;
   date: string;
+  value: string
 }
 
 // Order Summary

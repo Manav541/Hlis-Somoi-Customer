@@ -181,6 +181,7 @@ const CartContainer = ({ navigation }: any) => {
   const [approxDeliveryTime, setApproxDeliveryTime] =
     useState<string>("25 mins");
   const [offerResponse, setOfferResponse] = useState<ApplyCouponResponseData>();
+  const [location_id, setLocation_id] = useState<string>("");
 
   const handleQuantityChange = (index: number, type: "add" | "remove") => {
     const cartArray = [...cartDetails?.cart_details];
@@ -227,7 +228,6 @@ const CartContainer = ({ navigation }: any) => {
     if (couponCode === "") {
       flashMessageWarning(getTranslation("coupon_code_required"));
     } else {
-      setCouponCode("");
       handleApplyCouponCodeApi(couponCode);
     }
   };
@@ -245,12 +245,16 @@ const CartContainer = ({ navigation }: any) => {
 
         const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
         setDeliverToAddress(formatted);
+        setLocation_id(selectedAddress?.id);
         hasSelectedAddressRef.current = true;
       },
     });
   };
-  const onPressPlaceOrder = () => {
-    navigation.navigate(ScreenNames.paymentMethod);
+  const onPressPlaceOrder = (total_bill: string) => {
+    navigation.navigate(ScreenNames.paymentMethod, {
+      location_id: location_id,
+      total_bill: total_bill,
+    });
   };
 
   // ----------------------- API Calling -------------------------
@@ -291,8 +295,10 @@ const CartContainer = ({ navigation }: any) => {
             JSON.stringify(response)
           );
         if (response.code === statusCodes.success) {
+          const rawData = response.data as any;
           setIsApplyCoupon(true);
-          handleCartListingApi();
+          setCouponCode("");
+          setCartDetails(rawData);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -314,8 +320,9 @@ const CartContainer = ({ navigation }: any) => {
             JSON.stringify(response)
           );
         if (response.code === statusCodes.success) {
+          const rawData = response.data as any;
           setIsApplyCoupon(false);
-          handleCartListingApi();
+          setCartDetails(rawData);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -340,8 +347,11 @@ const CartContainer = ({ navigation }: any) => {
               (item) => item.is_default === true
             );
             if (defaultAddress) {
+              console.log("defaultAddress => ", defaultAddress);
+
               const formattedAddress = `${defaultAddress.building_details}, ${defaultAddress.address}, ${defaultAddress.description}`;
               setDeliverToAddress(formattedAddress);
+              setLocation_id(defaultAddress?.id);
             }
           }
         } else if (response.code === statusCodes.invaildOrFail) {

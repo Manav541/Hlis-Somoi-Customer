@@ -16,6 +16,10 @@ interface Store {
     dictData: object,
     navigation: any
   ) => Promise<APIResponseType>;
+  placeOrder: (
+    dictData: object,
+    navigation: any
+  ) => Promise<APIResponseType>;
 }
 
 const CartStore = create<Store>((set) => ({
@@ -90,6 +94,32 @@ const CartStore = create<Store>((set) => ({
 
       APIManager.postServerRequestWithToken({
         apiEndPoint: apiEndPoint.cartListing,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  placeOrder(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.placeOrder,
         callback: callback,
         dictData: dictData,
         navigation: navigation,

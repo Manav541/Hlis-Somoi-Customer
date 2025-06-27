@@ -10,6 +10,12 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.orange1c,
   },
+  vwMainEmpty: {
+    flex: 1,
+    backgroundColor: colors.blue4e,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   vwMainContainer: {
     flex: 1,
     backgroundColor: colors.blue4e,
@@ -25,9 +31,9 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 14,
-    paddingVertical : 10
+    paddingVertical: 10,
   },
-  
+
   vwWhiteBox: {
     marginVertical: 15,
   },
@@ -58,13 +64,13 @@ export const styles = StyleSheet.create({
     marginLeft: 7.07,
     marginTop: 6.37,
   },
-  vwPrice: { flexDirection: "row",alignItems : 'center' },
+  vwPrice: { flexDirection: "row", alignItems: "center" },
   vwDot: {
     marginHorizontal: 2.83,
     height: 2.83,
     width: 2.83,
     backgroundColor: colors.blue4e,
-    borderRadius : 100
+    borderRadius: 100,
   },
   vwStatusDate: {
     marginHorizontal: 15,
@@ -74,6 +80,11 @@ export const styles = StyleSheet.create({
   },
 
   //Text style
+  lblEmptyCart: {
+    fontSize: fontSize.size20,
+    fontFamily: fontsfamily.bold,
+    color: colors.white,
+  },
   lblOrderNumber: {
     color: colors.grey62,
     fontSize: fontSize.size12,
@@ -105,7 +116,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
     marginBottom: 10,
-    marginHorizontal : 15.5
+    marginHorizontal: 15.5,
   },
   lblProductName: {
     color: colors.black35,

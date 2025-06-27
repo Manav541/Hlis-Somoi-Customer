@@ -7,8 +7,15 @@ import { flashMessageWarning } from "../../constants/GConstant";
 import { ScreenNames } from "../../routers";
 import { CancelOrderReason } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
+import { zustandStore } from "../../store";
+import { statusCodes } from "../../api/APIConstant";
 
 const CancelOrderContainer = ({ navigation }: any) => {
+  // API zustand store
+  const cancelReturnOrderReasonListApi = zustandStore.MyOrdersStore(
+    (state) => state.cancelReturnOrderReasonList
+  );
+
   const [arrCancelOrderReason, setArrCancelOrderReason] = useState<
     CancelOrderReason[]
   >([
@@ -144,6 +151,32 @@ const CancelOrderContainer = ({ navigation }: any) => {
   useEffect(() => {
     header();
   }, []);
+
+  // ----------------------- API Calling -------------------------
+  // handleCancelReturnOrderReasonListApi
+  const handleCancelReturnOrderReasonListApi = async () => {
+    const dictData = {};
+    try {
+      const response = await cancelReturnOrderReasonListApi(
+        dictData,
+        navigation
+      );
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("CART LISTING RESPONSE===>", JSON.stringify(response));
+        if (response.code === statusCodes.success) {
+          const rawData = response.data as any;
+          // setCartDetails(rawData);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          // setCartDetails(null);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
 
   useFocusEffect(
     React.useCallback(() => {

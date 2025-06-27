@@ -40,11 +40,13 @@ const AvailableOffersComponent = (props: PropsType) => {
         <View style={{ gap: 4 }}>
           <Text style={styles.lblOfferTitle}>{item?.name}</Text>
           <Text style={styles.lblOffer}>
-            {item?.type +
-              " " +
-              parseInt(item?.discount_percentage) +
-              (item?.type === "flat" ? rupeeSymbol : "%") +
-              " Off"}
+            {item?.type == "flat"
+              ? "Flat"
+              : "Extra" +
+                " " +
+                parseInt(item?.discount_percentage) +
+                (item?.type === "flat" ? rupeeSymbol : "%") +
+                " Off"}
           </Text>
           <Text style={styles.lblOfferDesc}>
             {item?.description}{" "}

@@ -5,6 +5,7 @@ import CartStore from "./cart";
 import CompareProductStore from "./compareProduct";
 import HomeStore from "./home";
 import KeyStore from "./keys";
+import MyOrdersStore from "./myOrders";
 import MyWishlistStore from "./myWishlist";
 import ProductListingStore from "./productListing";
 import RateAndReviewStore from "./rateAndReview";
@@ -23,7 +24,10 @@ export const zustandStore = {
   // Category Module
   ProductListingStore: ProductListingStore,
   CompareProductStore: CompareProductStore,
-  RateAndReviewStore:RateAndReviewStore,
+  RateAndReviewStore: RateAndReviewStore,
+
+  // My Orders Module
+  MyOrdersStore: MyOrdersStore,
 
   // Cart Module
   CartStore: CartStore,

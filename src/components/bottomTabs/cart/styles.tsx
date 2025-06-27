@@ -12,9 +12,8 @@ export const styles = StyleSheet.create({
   vwMainEmpty: {
     flex: 1,
     backgroundColor: colors.blue4e,
-    justifyContent:'center',
-    alignItems : 'center',
-    
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   vwMainContent: {
@@ -24,13 +23,13 @@ export const styles = StyleSheet.create({
     borderBottomRightRadius: 40,
     overflow: "hidden",
   },
-  vwOfferDetail:{
-    height : 44,
-    backgroundColor : colors.white,
-    flexDirection : 'row',
-    alignItems : 'center',
-    paddingHorizontal : 20,
-    gap : 5
+  vwOfferDetail: {
+    height: 44,
+    backgroundColor: colors.white,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    gap: 5,
   },
   vwApplyCouponCode: {
     flexDirection: "row",
@@ -98,72 +97,72 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
     marginVertical: 9,
     flex: 1,
-    justifyContent : 'space-between'
+    justifyContent: "space-between",
   },
   vwProductPriceWeight: {
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
-    marginTop : 5
+    marginTop: 5,
   },
-  vwProductQuantity:{
-    height : 28,
-    width : 74,
-    borderRadius : 6,
-    backgroundColor : colors.whiteff,
-    justifyContent : 'space-between',
-    alignItems : 'center',
-    flexDirection : 'row',
-    gap : 5,
-    marginHorizontal : 9,
-    marginBottom : 9,
-    alignSelf : 'flex-end',
-    paddingHorizontal : 2
+  vwProductQuantity: {
+    height: 28,
+    width: 74,
+    borderRadius: 6,
+    backgroundColor: colors.whiteff,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 5,
+    marginHorizontal: 9,
+    marginBottom: 9,
+    alignSelf: "flex-end",
+    paddingHorizontal: 2,
   },
-  vwDelivertoChange:{
-    flexDirection : 'row',
-    alignItems : 'center',
-    justifyContent : 'space-between',
-    height:20,
-    gap : 20,
-    marginHorizontal : 20,
-    marginTop : 20,
-    marginBottom : 7
+  vwDelivertoChange: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: 20,
+    gap: 20,
+    marginHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 7,
   },
-  vwOrderDetails:{
-    marginHorizontal : 20,
-    gap : 15
+  vwOrderDetails: {
+    marginHorizontal: 20,
+    gap: 15,
   },
-  vwOrderDetailsItemMain:{
-    gap : 11,
+  vwOrderDetailsItemMain: {
+    gap: 11,
   },
-  vwOrderDetailsItem:{
-    flexDirection : 'row',
-    alignItems : 'center',
-    justifyContent :'space-between',
-    height:18,
+  vwOrderDetailsItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: 18,
   },
-  vwLine:{
-    height : 1,
-    backgroundColor : colors.grey62,
+  vwLine: {
+    height: 1,
+    backgroundColor: colors.grey62,
   },
-  vwTotal:{
-    flexDirection : 'row',
-    alignItems : 'center',
-    justifyContent :'space-between',
-    height:25
+  vwTotal: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: 25,
   },
-  vwPlaceOrder:{
-    marginHorizontal : 20,
-    marginTop : 35,
-    marginBottom : 29
+  vwPlaceOrder: {
+    marginHorizontal: 20,
+    marginTop: 35,
+    marginBottom: 29,
   },
 
   // Text Styles
-  lblOfferDetails:{
-    fontSize : fontSize.size12,
-    fontFamily : fontsfamily.regular,
-    color : colors.black35,
+  lblOfferDetails: {
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.regular,
+    color: colors.black35,
   },
   lbkApplyCouponCode: {
     fontSize: fontSize.size14,
@@ -209,52 +208,52 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
     color: colors.blue4e,
-    width : 16,
-    textAlign : 'center',
-    height : 16
+    width: 16,
+    textAlign: "center",
+    height: 16,
   },
-  lblDeliverToName :{
-    fontSize : fontSize.size16,
-    fontFamily : fontsfamily.bold,
-    color : colors.white
+  lblDeliverToName: {
+    fontSize: fontSize.size16,
+    fontFamily: fontsfamily.bold,
+    color: colors.white,
   },
-  lblChange :{
-    fontSize : fontSize.size14,
-    fontFamily : fontsfamily.semibold,
-    color : colors.orange1c
+  lblChange: {
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+    color: colors.orange1c,
   },
-  lblDeliverToAddress :{
-    fontSize : fontSize.size12,
-    fontFamily : fontsfamily.medium,
-    color : colors.whiteff,
-    marginHorizontal : 20,
-    lineHeight : 16,
-    marginBottom : 20
+  lblDeliverToAddress: {
+    fontSize: fontSize.size12,
+    fontFamily: fontsfamily.medium,
+    color: colors.whiteff,
+    marginHorizontal: 20,
+    lineHeight: 16,
+    marginBottom: 20,
   },
-  lblOrderDetails:{
-    fontSize : fontSize.size16,
-    fontFamily : fontsfamily.semibold,
-    color : colors.white
+  lblOrderDetails: {
+    fontSize: fontSize.size16,
+    fontFamily: fontsfamily.semibold,
+    color: colors.white,
   },
-  lblOrderDetailsTitle:{
-    fontSize : fontSize.size14,
-    fontFamily : fontsfamily.medium,
-    color : colors.whiteff,
+  lblOrderDetailsTitle: {
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.medium,
+    color: colors.whiteff,
   },
-  lblOrderDetailsValue:{
-    fontSize : fontSize.size14,
-    fontFamily : fontsfamily.semibold,
-    color : colors.whiteff
+  lblOrderDetailsValue: {
+    fontSize: fontSize.size14,
+    fontFamily: fontsfamily.semibold,
+    color: colors.whiteff,
   },
-  lblTotal :{
-    fontSize : fontSize.size20,
-    fontFamily : fontsfamily.bold,
-    color : colors.white
+  lblTotal: {
+    fontSize: fontSize.size20,
+    fontFamily: fontsfamily.bold,
+    color: colors.white,
   },
-  lblEmptyCart :{
-    fontSize : fontSize.size20,
-    fontFamily : fontsfamily.bold,
-    color : colors.white
+  lblEmptyCart: {
+    fontSize: fontSize.size20,
+    fontFamily: fontsfamily.bold,
+    color: colors.white,
   },
 
   // Image Styles
@@ -262,17 +261,17 @@ export const styles = StyleSheet.create({
     width: 15.35,
     height: 16,
   },
-  imgBlueDot :{
-    height : 4,
-    width : 4
+  imgBlueDot: {
+    height: 4,
+    width: 4,
   },
-  imgPlusMinus :{
-    height : 24,
-    width : 24
+  imgPlusMinus: {
+    height: 24,
+    width: 24,
   },
-  imgTickCircle:{
-    height : 16,
-    width : 16
+  imgTickCircle: {
+    height: 16,
+    width: 16,
   },
 
   // Touchable Opacity Styles
@@ -298,7 +297,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.regular,
     color: colors.blue4e,
-    padding : 0,
-    margin : 0,
+    padding: 0,
+    margin: 0,
   },
 });

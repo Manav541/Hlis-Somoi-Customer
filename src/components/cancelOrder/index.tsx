@@ -5,7 +5,6 @@ import {
   Image,
   TextInput,
   StatusBar,
-  Platform,
 } from "react-native";
 import React, { Ref } from "react";
 import { styles } from "./styles";

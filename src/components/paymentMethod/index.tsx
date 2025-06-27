@@ -10,7 +10,11 @@ import {
 import React from "react";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { styles } from "./styles";
-import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
+import {
+  activityOpacity,
+  hitSlop,
+  rupeeSymbol,
+} from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { colors } from "../../constants/Colors";
 import GlobalButton from "../../global/GlobalButton";
@@ -20,7 +24,7 @@ import { CardDetails } from "../../constants/interfaces";
 interface PropsType {
   onPressAddNewCard: () => void;
   arrCards: CardDetails[];
-  total: string;
+  total_bill: string;
   onPressPlaceOrder: () => void;
   isCodSelected: boolean;
   onPressCodSelect: () => void;
@@ -60,7 +64,7 @@ const PaymentMethodComponent = (props: PropsType) => {
             {item?.card_number?.slice(-4)}
           </Text>
         </View>
-        <View style={{ alignItems : 'flex-end'}}>
+        <View style={{ alignItems: "flex-end" }}>
           <Image
             style={styles.imgCheckBox}
             source={
@@ -81,7 +85,11 @@ const PaymentMethodComponent = (props: PropsType) => {
         backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
-      <ScrollView bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom : 20}}>
+      <ScrollView
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      >
         <Text style={styles.lblPaymentMethodDesc}>
           {getTranslation("paymentMethodsDesc")}
         </Text>
@@ -94,7 +102,11 @@ const PaymentMethodComponent = (props: PropsType) => {
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
         >
-          <Image style={styles.imgGpay} source={images.gPayLogo} resizeMode="stretch" />
+          <Image
+            style={styles.imgGpay}
+            source={images.gPayLogo}
+            resizeMode="stretch"
+          />
         </TouchableOpacity>
 
         {/* cash on delivery */}
@@ -105,7 +117,11 @@ const PaymentMethodComponent = (props: PropsType) => {
           onPress={props?.onPressCodSelect}
         >
           <View style={styles.vwCOD}>
-            <Image style={styles.imgCOD} source={images.codLogo} resizeMode="stretch"/>
+            <Image
+              style={styles.imgCOD}
+              source={images.codLogo}
+              resizeMode="stretch"
+            />
             <Text style={styles.lblCOD}>
               {getTranslation("cashonDelivery")}
             </Text>
@@ -131,7 +147,11 @@ const PaymentMethodComponent = (props: PropsType) => {
           hitSlop={hitSlop}
           onPress={props?.onPressAddNewCard}
         >
-          <Image style={styles.imgAdd} source={images.add} resizeMode="stretch" />
+          <Image
+            style={styles.imgAdd}
+            source={images.add}
+            resizeMode="stretch"
+          />
           <Text style={styles.lblAddNewCard}>
             {getTranslation("addNewCard")}
           </Text>
@@ -146,7 +166,9 @@ const PaymentMethodComponent = (props: PropsType) => {
           <Text style={styles.lblTotalAmount}>
             {getTranslation("totalAmount")}
           </Text>
-          <Text style={styles.lblTotalAmountValue}>{rupeeSymbol+ " "+ props?.total}</Text>
+          <Text style={styles.lblTotalAmountValue}>
+            {rupeeSymbol + " " + props?.total_bill}
+          </Text>
         </View>
         {/* Place Order */}
         <View style={styles.vwPlaceOrder}>
@@ -169,7 +191,6 @@ const PaymentMethodComponent = (props: PropsType) => {
         subTitle={getTranslation("orderSuccessMSG")}
         onPress={props?.onPressTrackOrder}
         onPressSecondBtn={props?.onPressContinueShopping}
-        orderNumber={props?.orderNumber}
       />
     </View>
   );

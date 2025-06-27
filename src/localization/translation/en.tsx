@@ -226,6 +226,7 @@ export default {
   yourOrderis: "Your Order is ",
   itemsadded: "items added",
   qty: "QTY",
+  noOrder: "No Orders Available!",
 
   // Order Summary
   cancelOrderQue: "Cancel Order?",

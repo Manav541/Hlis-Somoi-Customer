@@ -79,16 +79,16 @@ const GlobalSuccessModal = (props: PropsType) => {
           <Text
             style={{
               ...styles.lblSubtitle,
-              marginBottom: props?.isContinueShopping ? 8 : 30,
+              marginBottom: 30,
             }}
           >
             {props.subTitle}
           </Text>
-          {props?.isContinueShopping && (
+          {/* {props?.isContinueShopping && (
             <Text style={styles.lblOrderNumber}>
               {getTranslation("order") + " " + props?.orderNumber}
             </Text>
-          )}
+          )} */}
           <View style={{ gap: 10 }}>
             <GlobalButton
               isOrange

@@ -27,9 +27,10 @@ import {
   Order,
   OrderProduct,
 } from "../../../constants/interfaces";
+import { DateFormatsManager } from "../../../constants/utils/DateFormats";
 
 interface PropsType {
-  arrOrderList: Order[];
+  arrOrderList: any[];
   filterModal: boolean;
   selectOrderType: string;
   selectOrderDate: string;
@@ -37,33 +38,41 @@ interface PropsType {
   closeFilterModal: () => void;
   arrFilterDate: FilterDate[];
   arrFilterOrderType: FilterOrderType[];
-  handleSelectOrderType: (type: string) => void;
-  handleSelectOrderDate: (date: string) => void;
+  handleSelectOrderType: (value: string) => void;
+  handleSelectOrderDate: (value: string) => void;
   handleNavigateOrderSummary: (status: string) => void;
   onPressApply: () => void;
   onPressReset: () => void;
 }
 
 const statusColors: { [key: string]: string } = {
-  Confirmed: colors.black35,
-  Preparing: colors.black35,
-  On_the_way: colors.black35,
-  Delivered: colors.green4f,
-  Returned: colors.green4f,
-  Request_return: colors.orange1c,
+  "Order Accepted": colors.black35,
+  "Order Requested": colors.black35,
+  "Order Preparing": colors.black35,
+  "Order Prepared": colors.black35,
+  "Order Packaging": colors.black35,
+  "Order Out for Delivery": colors.black35,
+  "Order Delivered": colors.green4f,
+  "Order Cancelled": colors.red2e,
+  "Order Rejected": colors.red2e,
+  "Order Replacement Requested": colors.orange1c,
   Request_exchange: colors.orange1c,
-  Cancelled: colors.red2e,
+  "Order Returned": colors.green4f,
 };
 
 const statusTexts: { [key: string]: string } = {
-  Confirmed: "Your Order Confirmed",
-  Preparing: "Your Order is Preparing",
-  On_the_way: "Your Order is On The Way",
-  Delivered: "Your Order Delivered",
-  Request_return: "Requested for Returned",
-  Request_exchange: "Requested for Exchange",
-  Returned: "Your Order is Returned",
-  Cancelled: "Your Order is Cancelled",
+  "Order Requested": "Your Order is Placed",
+  "Order Accepted": "Your Order is Confirmed",
+  "Order Preparing": "Your Order is Preparing",
+  "Order Prepared": "Your Order is Prepared",
+  "Order Packaging": "Your Order is Packaging",
+  "Order Out for Delivery": "Your Order is On The Way",
+  "Order Delivered": "Your Order Delivered",
+  "Order Cancelled": "Your Order is Cancelled",
+  "Order Rejected": "Your Order is Rejected",
+  "Order Replacement Requested": "Requested for Returned",
+  // "Order Replacement Requested": "Requested for Exchange",
+  "Order Returned": "Your Order is Returned",
 };
 
 const MyOrdersComponent = (props: PropsType) => {
@@ -71,12 +80,12 @@ const MyOrdersComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: Order;
+    item: any;
     index: number;
   }) => {
     return (
       <TouchableOpacity
-        key={index}
+        key={item?.order_id}
         activeOpacity={activityOpacity}
         style={styles.btnOrderItems}
         onPress={() => {
@@ -89,59 +98,57 @@ const MyOrdersComponent = (props: PropsType) => {
             <Text style={styles.lblOrderNumber}>
               {getTranslation("orderNumber")}
             </Text>
-            <Text style={styles.lblOrderNumberValue}>{item.order_number}</Text>
+            <Text style={styles.lblOrderNumberValue}>#{item.order_number}</Text>
           </View>
           <View style={{ justifyContent: "space-between" }}>
             <Text style={styles.lblTotal}>{getTranslation("total")}</Text>
             <Text style={styles.lblTotalValue}>
-              {rupeeSymbol + " " + item.total}
+              {rupeeSymbol + " " + parseFloat(item?.total_price).toFixed(2)}
             </Text>
           </View>
         </View>
 
         {/* Order Item Details */}
         <View style={styles.vwWhiteBox}>
-          <Text style={styles.lblItemLength}>
-            {item.arrProduct?.length} items
-          </Text>
+          <Text style={styles.lblItemLength}>{item.items?.length} items</Text>
           <View style={styles.vwProductlist}>
-            {item.arrProduct?.map(
-              (product: OrderProduct, productIndex: number) => (
-                <View style={styles.vwProductData} key={productIndex}>
-                  <View style={styles.vwLeftProductData}>
-                    <View style={styles.vwProductImage}>
-                      <Image
-                        source={product.product_img}
-                        style={{
-                          height: product.height,
-                          width: product.width,
-                        }}
-                        resizeMode="stretch"
-                      />
-                    </View>
-                    <View style={styles.vwProductName}>
-                      <Text style={styles.lblProductName}>
-                        {product.product_name}
+            {item.items?.map((product: any, productIndex: number) => (
+              <View style={styles.vwProductData} key={productIndex}>
+                <View style={styles.vwLeftProductData}>
+                  <View style={styles.vwProductImage}>
+                    <Image
+                      source={{ uri: product.image }}
+                      style={{
+                        height: 40.74,
+                        width: 27.98,
+                      }}
+                      resizeMode="stretch"
+                    />
+                  </View>
+                  <View style={styles.vwProductName}>
+                    <Text style={styles.lblProductName}>{product.name}</Text>
+                    <View style={styles.vwPrice}>
+                      <Text style={styles.lblPrice}>
+                        {rupeeSymbol + parseFloat(product.price).toFixed(2)}
                       </Text>
-                      <View style={styles.vwPrice}>
-                        <Text style={styles.lblPrice}>
-                          {rupeeSymbol + product.price}
-                        </Text>
-                        <View style={styles.vwDot} />
-                        <Text style={styles.lblUnit}>{product.unit}</Text>
-                      </View>
+                      {product?.weight && (
+                        <>
+                          <View style={styles.vwDot} />
+                          <Text style={styles.lblUnit}>{product.weight}</Text>
+                        </>
+                      )}
                     </View>
                   </View>
-
-                  <Text style={styles.lblQuantity}>
-                    QTY{" "}
-                    <Text style={styles.lblQuantityCount}>
-                      {product.quantity}
-                    </Text>
-                  </Text>
                 </View>
-              )
-            )}
+
+                <Text style={styles.lblQuantity}>
+                  QTY{" "}
+                  <Text style={styles.lblQuantityCount}>
+                    {product.quantity}
+                  </Text>
+                </Text>
+              </View>
+            ))}
           </View>
           <View style={styles.vwStatusDate}>
             <View>
@@ -155,7 +162,13 @@ const MyOrdersComponent = (props: PropsType) => {
                 {statusTexts[item.status] || "Status Unknown"}
               </Text>
 
-              <Text style={styles.lblOrderDate}>on {item.date}</Text>
+              <Text style={styles.lblOrderDate}>
+                on{" "}
+                {DateFormatsManager.formatDate(
+                  item?.date,
+                  DateFormatsManager.DateFormats.ddMMMYYYY
+                )}
+              </Text>
             </View>
             <Image
               source={images.rightarrowBlue}
@@ -167,6 +180,22 @@ const MyOrdersComponent = (props: PropsType) => {
       </TouchableOpacity>
     );
   };
+
+   // Empty Cart
+  if (props?.arrOrderList.length == 0) {
+    return (
+      <View style={styles.vwMainEmpty}>
+        <StatusBar
+          translucent={false}
+          backgroundColor={"transparent"}
+          barStyle={"dark-content"}
+        />
+        <Text style={styles.lblEmptyCart}>
+          {getTranslation("noOrder")}
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.vwMain}>
@@ -230,13 +259,13 @@ const MyOrdersComponent = (props: PropsType) => {
                       style={styles.btnArrItems}
                       activeOpacity={activityOpacity}
                       onPress={() => {
-                        props.handleSelectOrderType(item.type);
+                        props.handleSelectOrderType(item?.value);
                       }}
                     >
                       <Image
                         style={styles.imgRadioButton}
                         source={
-                          props.selectOrderType == item.type
+                          props.selectOrderType == item?.value
                             ? images.radioButtonSelected
                             : images.radioButtonUnSelected
                         }
@@ -260,19 +289,19 @@ const MyOrdersComponent = (props: PropsType) => {
                     style={styles.btnArrItems}
                     activeOpacity={activityOpacity}
                     onPress={() => {
-                      props.handleSelectOrderDate(item.date);
+                      props.handleSelectOrderDate(item?.value);
                     }}
                   >
                     <Image
                       style={styles.imgRadioButton}
                       source={
-                        props.selectOrderDate == item.date
+                        props.selectOrderDate == item?.value
                           ? images.radioButtonSelected
                           : images.radioButtonUnSelected
                       }
                       resizeMode="stretch"
                     />
-                    <Text style={styles.lblRadioLabel}>{item.date}</Text>
+                    <Text style={styles.lblRadioLabel}>{item?.date}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
