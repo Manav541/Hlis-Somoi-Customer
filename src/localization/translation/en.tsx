@@ -224,6 +224,7 @@ export default {
   // My Orders Module
   orderNumber: "Order Number",
   yourOrderis: "Your Order is ",
+  itemadded: "item added",
   itemsadded: "items added",
   qty: "QTY",
   noOrder: "No Orders Available!",

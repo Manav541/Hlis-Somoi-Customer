@@ -293,9 +293,9 @@ const MyOrdersContainer = ({ navigation }: any) => {
     setSelectOrderDate(value);
   };
 
-  const handleNavigateOrderSummary = (status: string) => {
+  const handleNavigateOrderSummary = (order_id: string) => {
     navigation.navigate(ScreenNames.orderSummary, {
-      orderMainStatus: status,
+      order_id: order_id,
     });
   };
 
@@ -337,6 +337,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
     header();
   }, []);
 
+  // -------------------------API Calling----------------------------
   // handleOrderListApi
   const handleOrderListApi = async (order_type: string, order_date: string) => {
     const dictData = {

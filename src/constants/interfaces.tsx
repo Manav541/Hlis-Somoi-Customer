@@ -660,40 +660,81 @@ export interface Order {
 export interface FilterOrderType {
   id: number;
   type: string;
-  value : string;
+  value: string;
 }
 
 export interface FilterDate {
   id: number;
   date: string;
-  value: string
+  value: string;
 }
 
 // Order Summary
-export interface OrderStatus {
-  status_icon: ImageSourcePropType;
-  status_icon1: ImageSourcePropType;
-  status_title: string;
-  status_date: string;
-  status_time: string;
-  status_isdone: boolean;
+export interface OrderDetailsData {
+  order_number: string;
+  placed_on_date: string;
+  placed_on_time: string;
+  total_bill: number;
+  total_amount: number;
+  total_quantity: string;
+  discount_price: string;
+  payment_type: string;
+  delivery_charges: string;
+  status: string;
+  cancel_reason: string;
+  return_reason: string;
+  status_timeline: StatusTimeline[];
+  items: OrderItem[];
+  delivery_details: DeliveryDetails;
+  driver_details: DriverDetails;
 }
 
-export interface OrderReviewProduct {
-  product_name: string;
-  product_img: FastImageSource;
-  product_price: string;
-  product_quantity: number;
-  product_weight: string;
-  height: number;
-  width: number;
-  product_rating: string;
-  isRateReview: boolean;
-  isSelected: boolean;
+export interface StatusTimeline {
+  id?: number;
+  order_id?: string;
+  status: string;
+  time: string;
+  is_active: boolean;
+  is_delete?: boolean;
+  created_at: string;
+  updated_at: string;
+  status_icon: ImageSourcePropType;
+  status_icon1: ImageSourcePropType;
+}
+
+export interface OrderItem {
+  product_id: string;
+  variation_id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  unit: string;
+  image_url: string;
+  is_rated: boolean;
+  rating: number | null;
+  rating_summary?: {
+    rating_id: string;
+    rating: string;
+    review: string;
+  };
+}
+
+export interface DeliveryDetails {
+  name: string;
+  address: string;
+}
+
+export interface DriverDetails {
+  id: string;
+  image: string;
+  name: string;
+  mobile_number: string;
+  country_code: string;
 }
 
 // Cancel Order
 export interface CancelOrderReason {
+  id?: string;
   reason: string;
   isSelected: boolean;
 }

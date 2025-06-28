@@ -10,36 +10,19 @@ import { constnatStyles } from "../../constants/Styles";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
 
-const CancelOrderContainer = ({ navigation }: any) => {
+const CancelOrderContainer = ({ navigation, route }: any) => {
   // API zustand store
   const cancelReturnOrderReasonListApi = zustandStore.MyOrdersStore(
     (state) => state.cancelReturnOrderReasonList
   );
+  const cancelOrderApi = zustandStore.MyOrdersStore(
+    (state) => state.cancelOrder
+  );
+  const order_id = route?.params?.order_id;
 
   const [arrCancelOrderReason, setArrCancelOrderReason] = useState<
     CancelOrderReason[]
-  >([
-    {
-      reason: "Change of mind",
-      isSelected: false,
-    },
-    {
-      reason: "Found a better price",
-      isSelected: false,
-    },
-    {
-      reason: "Order error",
-      isSelected: false,
-    },
-    {
-      reason: "Delayed delivery",
-      isSelected: false,
-    },
-    {
-      reason: "Other (please specify)",
-      isSelected: false,
-    },
-  ]);
+  >([]);
 
   const [otherReason, setOtherReason] = useState<string>("");
   const otherReasonRef = useRef<TextInput>(null);
@@ -47,8 +30,6 @@ const CancelOrderContainer = ({ navigation }: any) => {
 
   const [isCancelSuccessModalVisible, setIsCancelSuccessModalVisible] =
     useState(false);
-
-  const [finalCancelReason, setFinalCancelReason] = useState<string>("");
 
   const handleOnChangeText = (text: string, type: string) => {
     if (type === "description") {
@@ -106,14 +87,8 @@ const CancelOrderContainer = ({ navigation }: any) => {
       return;
     }
 
-    // ✅ Set final reason
-    const reasonToSubmit =
-      selectedReason.reason === "Other (please specify)"
-        ? otherReason.trim()
-        : selectedReason.reason;
-
-    setFinalCancelReason(reasonToSubmit);
-    setIsCancelSuccessModalVisible(true);
+    // ✅ Call cancel API here
+    handleCancelOrderApi(selectedReason, otherReason.trim());
   };
 
   const onPressOkCancel = () => {
@@ -153,9 +128,11 @@ const CancelOrderContainer = ({ navigation }: any) => {
   }, []);
 
   // ----------------------- API Calling -------------------------
-  // handleCancelReturnOrderReasonListApi
-  const handleCancelReturnOrderReasonListApi = async () => {
-    const dictData = {};
+  // handleCancelOrderReasonListApi
+  const handleCancelOrderReasonListApi = async () => {
+    const dictData = {
+      type: "cancel",
+    };
     try {
       const response = await cancelReturnOrderReasonListApi(
         dictData,
@@ -163,14 +140,60 @@ const CancelOrderContainer = ({ navigation }: any) => {
       );
       if (response !== undefined && response !== null) {
         __DEV__ &&
-          console.log("CART LISTING RESPONSE===>", JSON.stringify(response));
+          console.log(
+            "CANCEL REASON LISTING RESPONSE===>",
+            JSON.stringify(response)
+          );
         if (response.code === statusCodes.success) {
-          const rawData = response.data as any;
-          // setCartDetails(rawData);
+          const rawData = response.data as CancelOrderReason[];
+          // Map API reasons to your CancelOrderReason type
+          const apiReasons: CancelOrderReason[] = rawData.map((item: any) => ({
+            id: item.id,
+            reason: item.reason,
+            isSelected: false,
+          }));
+
+          // Add 'Other (please specify)' at the end
+          const finalReasons: CancelOrderReason[] = [
+            ...apiReasons,
+            {
+              reason: "Other (please specify)",
+              isSelected: false,
+            },
+          ];
+
+          setArrCancelOrderReason(finalReasons);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
-        } else if (response.code === statusCodes.emptyData) {
-          // setCartDetails(null);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  // handleCancelOrderApi
+  const handleCancelOrderApi = async (
+    selectedReason: CancelOrderReason,
+    description?: string
+  ) => {
+    const dictData: any = {
+      order_id: order_id,
+    };
+    if (selectedReason.reason === "Other (please specify)") {
+      dictData.description = description;
+    } else {
+      dictData.reason_id = selectedReason.id;
+    }
+    try {
+      const response = await cancelOrderApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("CANCEL ORDER RESPONSE===>", JSON.stringify(response));
+        if (response.code === statusCodes.success) {
+          setIsCancelSuccessModalVisible(true);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
         }
       }
     } catch (error) {
@@ -180,6 +203,7 @@ const CancelOrderContainer = ({ navigation }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      handleCancelOrderReasonListApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])

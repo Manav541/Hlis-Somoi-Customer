@@ -14,8 +14,15 @@ import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import { ScreenNames } from "../../routers";
 import ReportIssueComponent from "../../components/reportIssue";
 import { constnatStyles } from "../../constants/Styles";
+import { zustandStore } from "../../store";
+import { statusCodes } from "../../api/APIConstant";
 
-const ReportIssueContainer = ({ navigation }: any) => {
+const ReportIssueContainer = ({ navigation, route }: any) => {
+  // API zustand store
+  const reportIssueApi = zustandStore.MyOrdersStore(
+    (state) => state.reportIssue
+  );
+  const order_id = route?.params?.order_id;
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
   const [reportIssue, setReportIssue] = useState<string>("");
   const reportIssueRef = useRef<TextInput>(null);
@@ -95,7 +102,7 @@ const ReportIssueContainer = ({ navigation }: any) => {
       reportIssueRef?.current?.focus();
       return;
     } else {
-      navigation.goBack();
+      handleReportIssueApi(reportIssue, multiImagesArray);
     }
   };
 
@@ -122,6 +129,30 @@ const ReportIssueContainer = ({ navigation }: any) => {
       return () => {};
     }, [navigation])
   );
+
+  // -------------------------API Calling----------------------------
+  // handleOrderDetailsApi
+  const handleReportIssueApi = async (message: string, media?: Asset[]) => {
+    const dictData = {
+      order_id: order_id,
+      message: message,
+      media: media,
+    };
+    try {
+      const response = await reportIssueApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("REPORT ISSUE RESPONSE===>", JSON.stringify(response));
+        if (response.code === statusCodes.success) {
+          navigation.goBack();
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
   return (
     <ReportIssueComponent
       reportIssue={reportIssue}

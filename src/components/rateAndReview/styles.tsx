@@ -34,7 +34,6 @@ export const styles = StyleSheet.create({
     paddingVertical: 12.2,
   },
   vwProductItemDetails: {
-    flexDirection: "row",
     justifyContent: "space-between",
     flex: 1,
     marginRight: 14,

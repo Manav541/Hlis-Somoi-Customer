@@ -37,7 +37,7 @@ interface PropsType {
   deliverToAddress: string;
   approxDeliveryTime: string;
   onPressChangeDeliveryAddress: () => void;
-  onPressPlaceOrder: (total_bill:string) => void;
+  onPressPlaceOrder: (total_bill: string) => void;
   handleQuantityChange: (index: number, type: "add" | "remove") => void;
   offerResponse: ApplyCouponResponseData;
 }
@@ -263,6 +263,7 @@ const CartComponent = (props: PropsType) => {
             {props?.deliverToAddress}
           </Text>
 
+          {/* Order Details */}
           <View style={styles.vwOrderDetails}>
             <Text style={styles.lblOrderDetails}>
               {getTranslation("orderDetails")}
@@ -329,7 +330,9 @@ const CartComponent = (props: PropsType) => {
             <GlobalButton
               isOrange
               title={getTranslation("placeOrder")}
-              onPress={()=> {props?.onPressPlaceOrder(props?.cartDetails?.total_bill)}}
+              onPress={() => {
+                props?.onPressPlaceOrder(props?.cartDetails?.total_bill);
+              }}
             />
           </View>
         </ScrollView>

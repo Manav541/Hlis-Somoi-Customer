@@ -15,6 +15,8 @@ import {
   activityOpacity,
   hitSlop,
   rupeeSymbol,
+  statusColors,
+  statusTexts,
 } from "../../../constants/GConstant";
 import { images } from "../../../constants/Images";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
@@ -40,40 +42,10 @@ interface PropsType {
   arrFilterOrderType: FilterOrderType[];
   handleSelectOrderType: (value: string) => void;
   handleSelectOrderDate: (value: string) => void;
-  handleNavigateOrderSummary: (status: string) => void;
+  handleNavigateOrderSummary: (order_id: string) => void;
   onPressApply: () => void;
   onPressReset: () => void;
 }
-
-const statusColors: { [key: string]: string } = {
-  "Order Accepted": colors.black35,
-  "Order Requested": colors.black35,
-  "Order Preparing": colors.black35,
-  "Order Prepared": colors.black35,
-  "Order Packaging": colors.black35,
-  "Order Out for Delivery": colors.black35,
-  "Order Delivered": colors.green4f,
-  "Order Cancelled": colors.red2e,
-  "Order Rejected": colors.red2e,
-  "Order Replacement Requested": colors.orange1c,
-  Request_exchange: colors.orange1c,
-  "Order Returned": colors.green4f,
-};
-
-const statusTexts: { [key: string]: string } = {
-  "Order Requested": "Your Order is Placed",
-  "Order Accepted": "Your Order is Confirmed",
-  "Order Preparing": "Your Order is Preparing",
-  "Order Prepared": "Your Order is Prepared",
-  "Order Packaging": "Your Order is Packaging",
-  "Order Out for Delivery": "Your Order is On The Way",
-  "Order Delivered": "Your Order Delivered",
-  "Order Cancelled": "Your Order is Cancelled",
-  "Order Rejected": "Your Order is Rejected",
-  "Order Replacement Requested": "Requested for Returned",
-  // "Order Replacement Requested": "Requested for Exchange",
-  "Order Returned": "Your Order is Returned",
-};
 
 const MyOrdersComponent = (props: PropsType) => {
   const renderItemOrderList = ({
@@ -89,7 +61,7 @@ const MyOrdersComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         style={styles.btnOrderItems}
         onPress={() => {
-          props.handleNavigateOrderSummary(item?.status);
+          props.handleNavigateOrderSummary(item?.order_id);
         }}
       >
         {/* Oreder Number Total Price */}
@@ -181,7 +153,7 @@ const MyOrdersComponent = (props: PropsType) => {
     );
   };
 
-   // Empty Cart
+  // Empty Cart
   if (props?.arrOrderList.length == 0) {
     return (
       <View style={styles.vwMainEmpty}>
@@ -190,9 +162,7 @@ const MyOrdersComponent = (props: PropsType) => {
           backgroundColor={"transparent"}
           barStyle={"dark-content"}
         />
-        <Text style={styles.lblEmptyCart}>
-          {getTranslation("noOrder")}
-        </Text>
+        <Text style={styles.lblEmptyCart}>{getTranslation("noOrder")}</Text>
       </View>
     );
   }

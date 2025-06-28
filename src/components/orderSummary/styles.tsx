@@ -59,14 +59,14 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     overflow: "hidden",
+    paddingVertical: 12.2,
   },
   vwProductItemDetails: {
-    flexDirection: "row",
     justifyContent: "space-between",
-    flex: 1,
     marginRight: 14,
     marginVertical: 9,
     marginLeft: 11,
+    flex: 1,
   },
   vwOrderDetails: {
     marginHorizontal: 20,
@@ -127,7 +127,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 20,
     gap: 15,
-    flex : 1
+    flex: 1,
+    marginBottom : 20
   },
   vwOrderReturned: {
     flexDirection: "row",
@@ -294,7 +295,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.semibold,
     color: colors.black35,
-    alignSelf : 'center'
+    alignSelf: "center",
   },
   lblDriverInfo: {
     fontSize: fontSize.size16,

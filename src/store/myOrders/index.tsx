@@ -10,7 +10,10 @@ type StoreFunction = (
 
 interface Store {
   orderList: StoreFunction;
-  cancelReturnOrderReasonList :  StoreFunction;
+  orderDetails: StoreFunction;
+  cancelReturnOrderReasonList: StoreFunction;
+  cancelOrder: StoreFunction;
+  reportIssue: StoreFunction;
 }
 
 const MyOrdersStore = create<Store>((set) => ({
@@ -33,6 +36,32 @@ const MyOrdersStore = create<Store>((set) => ({
 
       APIManager.postServerRequestWithToken({
         apiEndPoint: apiEndPoint.orderList,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  orderDetails(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.orderDetails,
         callback: callback,
         dictData: dictData,
         navigation: navigation,
@@ -66,6 +95,57 @@ const MyOrdersStore = create<Store>((set) => ({
     });
   },
 
+  cancelOrder(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.cancelOrder,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  reportIssue(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.reportIssue,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
 }));
 
 export default MyOrdersStore;

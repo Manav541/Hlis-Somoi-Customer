@@ -8,191 +8,160 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { ScreenNames } from "../../routers";
 import {
   OrderDetail,
-  OrderReviewProduct,
-  OrderStatus,
+  OrderDetailsData,
+  OrderItem,
+  OrderProduct,
+  StatusTimeline,
 } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
-import { rupeeSymbol } from "../../constants/GConstant";
+import {
+  backendToUIStatusMap,
+  flashMessageWarning,
+  rupeeSymbol,
+} from "../../constants/GConstant";
+import { zustandStore } from "../../store";
+import { statusCodes } from "../../api/APIConstant";
 
 const ONE_MIN = 60000;
 
 const OrderSummaryContainer = ({ navigation, route }: any) => {
-  const indexRef = useRef(0);
-  const [orderNumber, setOrderNumber] = useState<string>("#12343235");
-  const [orderPlacedDate, setOrderPlacedDate] = useState<string>("10/03/2025");
-  const [orderPlacedTime, setOrderPlacedTime] = useState<string>("1:00 pm");
-  const [totalAmount, setTotalAmount] = useState<string>("732.00");
-  const [delivertoName, setDelivertoName] = useState<string>("John");
-  const [delivertoAddress, setDelivertoAddress] = useState<string>(
-    "3465 Hanover Street, Locust Court Burbank New York, NY 10038"
+  // API zustand store
+  const orderDetailsApi = zustandStore.MyOrdersStore(
+    (state) => state.orderDetails
   );
-  const defaultOrderStatus: OrderStatus[] = [
+
+  const deleteRateApi = zustandStore.RateAndReviewStore(
+    (state) => state.deleteRate
+  );
+
+  const order_id = route?.params?.order_id;
+
+  const [orderDetails, setOrderDetails] = useState<OrderDetailsData | null>(
+    null
+  );
+  const [cancelledDate, setCancelledDate] = useState<string>("");
+
+  const defaultOrderStatus: StatusTimeline[] = [
     {
       status_icon: images.orderPlaced,
       status_icon1: images.orderPlacedUn,
-      status_title: "Order Placed",
-      status_date: "10/03/2025",
-      status_time: "10:00 am",
-      status_isdone: true,
+      status: "Order Placed",
+      created_at: "",
+      updated_at: "",
+      time: "",
+      is_active: false,
     },
     {
       status_icon: images.orderConfirmed,
       status_icon1: images.orderConfirmedUn,
-      status_title: "Order Confirmed",
-      status_date: "17/03/2025",
-      status_time: "10:00 am",
-      status_isdone: true,
+      status: "Order Confirmed",
+      created_at: "",
+      updated_at: "",
+      time: "",
+      is_active: false,
     },
     {
       status_icon: images.preparing,
       status_icon1: images.preparingUn,
-      status_title: "Preparing",
-      status_date: "17/03/2025",
-      status_time: "10:00 am",
-      status_isdone: false,
+      status: "Preparing",
+      created_at: "",
+      updated_at: "",
+      time: "",
+      is_active: false,
+    },
+    {
+      status_icon: images.orderConfirmed,
+      status_icon1: images.orderConfirmedUn,
+      status: "Order Prepared",
+      created_at: "",
+      updated_at: "",
+      time: "",
+      is_active: false,
     },
     {
       status_icon: images.onTheWay,
       status_icon1: images.onTheWayUn,
-      status_title: "On The Way",
-      status_date: "17/03/2025",
-      status_time: "10:00 am",
-      status_isdone: false,
+      status: "On The Way",
+      created_at: "",
+      updated_at: "",
+      time: "",
+      is_active: false,
     },
     {
       status_icon: images.orderDelivered,
       status_icon1: images.orderDeliveredUn,
-      status_title: "Order Delivered",
-      status_date: "17/03/2025",
-      status_time: "10:00 am",
-      status_isdone: false,
+      status: "Order Delivered",
+      created_at: "",
+      updated_at: "",
+      time: "",
+      is_active: false,
     },
   ];
-   const pickupDateTimeStatus = {
+  const pickupDateTimeStatus = {
     status_icon: images.orderReturnedUn,
     status_icon1: images.orderReturnedUn,
-    status_title: "Order pickup date & Time",
-    status_date: "18/03/2025",
-    status_time: "10:00 am",
-    status_isdone: false,
+    status: "Order pickup date & Time",
+    created_at: "",
+    updated_at: "",
+    time: "",
+    is_active: false,
   };
 
   const orederReturnedStatus = {
     status_icon: images.orderReturned,
     status_icon1: images.orderReturned,
-    status_title: "Order Returned",
-    status_date: "20/03/2025",
-    status_time: "10:00 am",
-    status_isdone: false,
+    status: "Order Returned",
+    created_at: "",
+    updated_at: "",
+    time: "",
+    is_active: false,
   };
 
-  const [status_title, setStatus_title] = useState<string>("");
+  const [arrOrderStatus, setArrOrderStatus] =
+    useState<StatusTimeline[]>(defaultOrderStatus);
 
-  const [arrOrderStatus, setArrOrderStatus] = useState(defaultOrderStatus);
+  const [arrProducts, setArrProducts] = useState<OrderItem[]>([]);
 
- 
-
-  const [arrProducts, setArrProducts] = useState<OrderReviewProduct[]>([
-    {
-      product_name: `India Gate Basmati ${"\n"}Rice`,
-      product_img: images.rice,
-      product_price: "199",
-      product_quantity: 1,
-      product_weight: "1 kg",
-      height: 61.6,
-      width: 42.3,
-      product_rating: "4.5",
-      isRateReview: true,
-      isSelected: false,
-    },
-    {
-      product_name: `Fortune Premium Mustard ${"\n"}Oil`,
-      product_img: images.oil,
-      product_price: "499",
-      product_quantity: 1,
-      product_weight: "500 ml",
-      height: 66,
-      width: 47.52,
-      product_rating: "4.5",
-      isRateReview: false,
-      isSelected: false,
-    },
-  ]);
-
-  const [arrOrderDetails, setArrOrderDetails] = useState<OrderDetail[]>([
-    {
-      orderDetailTitle: getTranslation("itemTotal"),
-      orderDetailValue: "2",
-    },
-    {
-      orderDetailTitle: getTranslation("subTotal"),
-      orderDetailValue: rupeeSymbol + "698",
-    },
-    {
-      orderDetailTitle: getTranslation("tax"),
-      orderDetailValue: rupeeSymbol + "34",
-    },
-    {
-      orderDetailTitle: getTranslation("discount"),
-      orderDetailValue: "-" + rupeeSymbol + "10.00",
-    },
-    {
-      orderDetailTitle: getTranslation("delivery"),
-      orderDetailValue: "Free",
-    },
-    {
-      orderDetailTitle: getTranslation("paymentType"),
-      orderDetailValue: "Cash on Delivery",
-    },
-  ]);
-  const [currentStatus, setCurrentStatus] = useState<string>(
-    arrOrderStatus[0].status_title
-  );
-  const [cancelDisabled, setCancelDisabled] = useState<boolean>(false);
+  const [cancelDisabled, setCancelDisabled] = useState<boolean>(true);
   const [driverProfile, setDriverProfile] = useState<ImageSourcePropType>(
     images.driverProfile
   );
-  const [driverName, setDriverName] = useState<string>("Jaylon Carder");
-  const [driverMobileNumber, setDriverMobileNumber] =
-    useState<string>("9876543210");
-  const [cancelOrderDate, setCancelOrderDate] = useState<string>("22/03/2025");
-  const [cancelReason, setCancelReason] = useState<string>(
-    () => getTranslation("cancelOrderSelectedReason") || ""
-  );
-  const [orderMainStatus, setOrderMainStatus] = useState<string>("");
+  const [ratingData, setRatingData] = useState<OrderItem>();
 
   const [isEditReviewModalVisible, setIsEditReviewModalVisible] =
     useState<boolean>(false);
 
-  const onPressOpenEditReview = () => {
+  const onPressOpenEditReview = (item: OrderItem) => {
     setIsEditReviewModalVisible(true);
+    setRatingData(item);
   };
 
   const onPressCloseEditReviewModal = () => {
     setIsEditReviewModalVisible(false);
   };
 
-  const onPressEditReview = () => {
+  const onPressEditReview = (prodcutDetail: OrderItem) => {
     setIsEditReviewModalVisible(false);
-    navigation.navigate(ScreenNames.rateAndReview);
+    navigation.navigate(ScreenNames.rateAndReview, {
+      prodcutDetail: prodcutDetail,
+      isEditRating: true,
+    });
   };
 
-  const onPressDeleteReview = () => {
-    setArrProducts((prevProducts) =>
-      prevProducts.map((product) => ({
-        ...product,
-        isRateReview: false,
-      }))
-    );
-    setIsEditReviewModalVisible(false);
+  const onPressDeleteReview = (rating_id: string) => {
+    handleDeleteRateApi(rating_id);
   };
 
   const onPressReportIssue = () => {
-    navigation.navigate(ScreenNames.reportIssue);
+    navigation.navigate(ScreenNames.reportIssue, {
+      order_id: order_id,
+    });
   };
 
   const onPressCancelOrder = () => {
-    navigation.navigate(ScreenNames.cancelOrder);
+    navigation.navigate(ScreenNames.cancelOrder, {
+      order_id: order_id,
+    });
   };
 
   const onPressReturnOrder = () => {
@@ -201,29 +170,33 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     });
   };
 
-  const onPressRateReview = (item: OrderReviewProduct) => {
-    navigation.navigate(ScreenNames.rateAndReview, { item: item });
+  const onPressRateReview = (prodcutDetail: OrderItem) => {
+    navigation.navigate(ScreenNames.rateAndReview, {
+      prodcutDetail: prodcutDetail,
+    });
   };
 
   const onPressTrackDriver = () => {
     navigation.navigate(ScreenNames.driverTracking, {
       driverProfile: driverProfile,
-      driverName: driverName,
-      driverMobileNumber: driverMobileNumber,
-      delivertoName: delivertoName,
-      delivertoAddress: delivertoAddress,
+      driverName: orderDetails?.driver_details?.name,
+      driverCountryCode: orderDetails?.driver_details?.country_code,
+      driverMobileNumber: orderDetails?.driver_details?.mobile_number,
+      delivertoName: orderDetails?.delivery_details?.name,
+      delivertoAddress: orderDetails?.delivery_details?.address,
     });
   };
 
   const onPressChatDriver = () => {
     navigation.navigate(ScreenNames.chat, {
-      driverName: driverName,
-      driverMobileNumber: driverMobileNumber,
+      driverName: orderDetails?.driver_details?.name,
+      driverCountryCode: orderDetails?.driver_details?.country_code,
+      driverMobileNumber: orderDetails?.driver_details?.mobile_number,
     });
   };
 
   const onPressCallDriver = () => {
-    Linking.openURL(`tel:${driverMobileNumber}`);
+    Linking.openURL(`tel:${orderDetails?.driver_details?.mobile_number}`);
   };
 
   const header = () => {
@@ -239,132 +212,159 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     });
   };
 
+  // cancel order after 1 minute
   useEffect(() => {
     header();
-    if (route?.params) {
-      console.log("route?.params", route?.params);
-      setOrderMainStatus(route?.params?.orderMainStatus);
+    if (!orderDetails?.placed_on_time) return;
+
+    const placedTime = new Date(orderDetails.placed_on_time).getTime();
+    const now = Date.now();
+    const ONE_MIN = 60 * 1000;
+
+    const timeElapsed = now - placedTime;
+
+    if (timeElapsed >= 0 && timeElapsed < ONE_MIN) {
+      const remaining = ONE_MIN - timeElapsed;
+      console.log("Cancel allowed for next (ms):", remaining);
+
+      setCancelDisabled(false);
+
+      const timer = setTimeout(() => {
+        console.log("Cancel disabled");
+        setCancelDisabled(true);
+      }, remaining);
+
+      return () => clearTimeout(timer);
     } else {
-      setCancelReason("");
+      console.log("More than 1 min passed — cancel disabled");
+      setCancelDisabled(true);
     }
-  }, [route]);
+  }, [orderDetails?.placed_on_time]);
+
+  // -------------------------API Calling----------------------------
+  // handleOrderDetailsApi
+  const handleOrderDetailsApi = async (order_id: string) => {
+    const dictData = {
+      order_id: order_id,
+    };
+    try {
+      const response = await orderDetailsApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("ORDER DETAILS RESPONSE===>", JSON.stringify(response));
+        if (response.code === statusCodes.success) {
+          const rawData = response.data as OrderDetailsData;
+          setOrderDetails(rawData);
+          setArrProducts(rawData?.items as OrderItem[]);
+
+          // ✅ Extract "Order Cancelled" created_at time
+          const cancelledStatus = rawData.status_timeline.find(
+            (item) => item.status === "Order Cancelled"
+          );
+
+          if (cancelledStatus) {
+            const cancelledDate = cancelledStatus.created_at;
+            console.log("Cancelled Date:", cancelledDate);
+
+            // 💡 Optionally store it in a state variable
+            setCancelledDate(cancelledDate);
+          }
+
+          // ✅ Map backend status to UI status
+          const mappedTimeline = rawData.status_timeline.map((item) => ({
+            ...item,
+            mapped_status: backendToUIStatusMap[item.status] || "", // fallback to empty if not found
+          }));
+
+          // ✅ Update defaultOrderStatus
+          const updatedStatusArray = defaultOrderStatus.map((defaultStatus) => {
+            const matched = mappedTimeline.find(
+              (item) => item.mapped_status === defaultStatus.status
+            );
+
+            return matched
+              ? {
+                  ...defaultStatus,
+                  created_at: matched.created_at,
+                  updated_at: matched.updated_at,
+                  time: matched.time,
+                  is_active: true,
+                }
+              : {
+                  ...defaultStatus,
+                  is_active: false,
+                };
+          });
+
+          setArrOrderStatus(updatedStatusArray);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          setOrderDetails(null);
+        } else if (response.code === statusCodes.emptyData) {
+          setOrderDetails(null);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  // handleDeleteRateApi
+  const handleDeleteRateApi = async (rating_id: string) => {
+    const dictData = {
+      rating_id: rating_id,
+    };
+    try {
+      const response = await deleteRateApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("RATE VENDOR RESPONSE===>", JSON.stringify(response));
+        const data = response.data as any;
+        if (response.code === statusCodes.success) {
+          setIsEditReviewModalVisible(false);
+          setArrProducts((prevProducts) =>
+            prevProducts.map((product) => ({
+              ...product,
+              is_rated: false,
+            }))
+          );
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
 
   useFocusEffect(
     React.useCallback(() => {
+      handleOrderDetailsApi(order_id);
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
   );
 
-  // cancel order after 1 minute
-  useEffect(() => {
-    if (orderMainStatus !== "Confirmed") return;
-    const timer = setTimeout(() => setCancelDisabled(true), ONE_MIN);
-    setStatus_title("Confirmed");
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [orderMainStatus]);
-
-  useEffect(() => {
-    if (orderMainStatus === "Confirmed") {
-    
-      setStatus_title("Confirmed");
-    }
-    if (orderMainStatus === "Preparing") {
-      const preparingIndex = defaultOrderStatus.findIndex(
-        (item) => item.status_title === "Preparing"
-      );
-      const updatedStatus = defaultOrderStatus.map((item, index) => ({
-        ...item,
-        status_isdone: index <= preparingIndex,
-      }));
-      setStatus_title("Preparing");
-      setArrOrderStatus(updatedStatus);
-    } else if (orderMainStatus === "On_the_way") {
-      const onTheWayIndex = defaultOrderStatus.findIndex(
-        (item) => item.status_title === "On The Way"
-      );
-      const updatedStatus = defaultOrderStatus.map((item, index) => ({
-        ...item,
-        status_isdone: index <= onTheWayIndex,
-      }));
-      setStatus_title("On the Way");
-      setArrOrderStatus(updatedStatus);
-    } else if (
-      orderMainStatus === "Request_return" ||
-      orderMainStatus === "Request_exchange"
-    ) {
-      const updatedStatus = defaultOrderStatus.map((item) => ({
-        ...item,
-        status_isdone: true,
-      }));
-
-      updatedStatus.push({
-        ...pickupDateTimeStatus,
-        status_isdone: true,
-      });
-
-      setArrOrderStatus(updatedStatus);
-    } else if (orderMainStatus === "Returned") {
-      const updatedStatus = defaultOrderStatus.map((item) => ({
-        ...item,
-        status_isdone: true,
-      }));
-
-      updatedStatus.push({
-        ...orederReturnedStatus,
-        status_isdone: true,
-      });
-      setStatus_title("Returned");
-      setArrOrderStatus(updatedStatus);
-    } else if (orderMainStatus === "Delivered") {
-      // ✅ Mark all items in the main array as done
-      const updatedStatus = defaultOrderStatus.map((item) => ({
-        ...item,
-        status_isdone: true,
-      }));
-      setStatus_title("Delivered");
-      setArrOrderStatus(updatedStatus);
-    } else if (orderMainStatus === "Cancelled") {
-      setStatus_title("Cancelled");
-    } else {
-      // Default: show base status with isdone false
-      setArrOrderStatus(defaultOrderStatus);
-    }
-  }, [orderMainStatus]);
-
   return (
     <OrderSummaryComponent
-      orderNumber={orderNumber}
-      orderPlacedDate={orderPlacedDate}
-      orderPlacedTime={orderPlacedTime}
-      totalAmount={totalAmount}
+      orderDetails={orderDetails || ({} as OrderDetailsData)}
+      arrProducts={arrProducts || []}
+      cancelledDate={cancelledDate}
       arrOrderStatus={arrOrderStatus}
-      arrProducts={arrProducts}
-      delivertoName={delivertoName}
-      delivertoAddress={delivertoAddress}
-      arrOrderDetails={arrOrderDetails}
       onPressCancelOrder={onPressCancelOrder}
-      currentStatus={currentStatus}
       cancelDisabled={cancelDisabled}
       driverProfile={driverProfile}
-      driverName={driverName}
       onPressTrackDriver={onPressTrackDriver}
       onPressChatDriver={onPressChatDriver}
       onPressCallDriver={onPressCallDriver}
-      cancelReason={cancelReason}
-      orderMainStatus={orderMainStatus}
-      cancelOrderDate={cancelOrderDate}
       onPressReturnOrder={onPressReturnOrder}
       onPressRateReview={onPressRateReview}
+      ratingData={ratingData || ({} as OrderItem)}
       isEditReviewModalVisible={isEditReviewModalVisible}
       onPressOpenEditReview={onPressOpenEditReview}
       onPressCloseEditReviewModal={onPressCloseEditReviewModal}
       onPressEditReview={onPressEditReview}
       onPressDeleteReview={onPressDeleteReview}
       onPressReportIssue={onPressReportIssue}
-      status_title={status_title}
     />
   );
 };

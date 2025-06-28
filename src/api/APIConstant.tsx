@@ -65,9 +65,11 @@ export const apiEndPoint = {
 
   // My Orders Module
   orderList: "/home/customer/order-listing",
+  orderDetails: "/home/customer/order-details",
   cancelReturnOrderReasonList:
     "/home/customer/cancel-reject-order-reason-listing",
   cancelOrder: "/home/customer/cancel-order",
+  reportIssue : "/home/customer/insert-report",
 
   // Setting Module
   contactUs: "/home/customer/contact-us",

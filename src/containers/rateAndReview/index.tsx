@@ -18,27 +18,26 @@ import { images } from "../../constants/Images";
 import { constnatStyles } from "../../constants/Styles";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
-import { RestaurantInfo } from "../../constants/interfaces";
+import { OrderItem, RestaurantInfo } from "../../constants/interfaces";
 
 const RateAndReviewContainer = ({ navigation, route }: any) => {
   // API Store
   const rateVendorApi = zustandStore.RateAndReviewStore(
     (state) => state.rateVendor
   );
+  const rateProductApi = zustandStore.RateAndReviewStore(
+    (state) => state.rateProduct
+  );
+  const editRateApi = zustandStore.RateAndReviewStore(
+    (state) => state.editRate
+  );
 
-  console.log("route?.params", route?.params?.storeDetail);
   const itemData = route?.params;
   const navigateFromStoreReview = itemData?.navigateFromStoreReview;
   const storeDetail: RestaurantInfo = itemData?.storeDetail;
-  const [product_img, setProduct_img] = useState<any>(images.rice);
-  const [product_name, setProduct_name] = useState<string>(
-    `India Gate Basmati ${"\n"}Rice`
-  );
-  const [product_price, setProduct_price] = useState<string>("199");
-  const [product_quantity, setProduct_quantity] = useState<string>("1");
-  const [product_weight, setProduct_weight] = useState<string>("1 kg");
-  const [height, setHeight] = useState<number>(61.6);
-  const [width, setWidth] = useState<number>(42.3);
+  const prodcutDetail: OrderItem = itemData?.prodcutDetail;
+  const isEditRating = itemData?.isEditRating;
+
   const [product_rating, setProduct_rating] = useState(0);
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
 
@@ -128,6 +127,10 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
     } else {
       if (navigateFromStoreReview == true) {
         handleRateVendorApi();
+      } else if (isEditRating == true) {
+        handleEditRateApi();
+      } else {
+        handleRateProductApi();
       }
     }
   };
@@ -156,19 +159,14 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
 
   useEffect(() => {
     header();
-    if (route?.params) {
-      if (!route?.params?.navigateFromStoreReview) {
-        setProduct_img(route.params?.item.product_img);
-        setProduct_name(route.params?.item.product_name);
-        setProduct_price(route.params?.item.product_price);
-        setProduct_quantity(route.params?.item.product_quantity);
-        setProduct_weight(route.params?.item.product_weight);
-        setHeight(route.params?.item.height);
-        setWidth(route.params?.item.width);
-      }
-    } else {
+  }, []);
+
+  useEffect(() => {
+    if (isEditRating && prodcutDetail?.rating_summary) {
+      setProduct_rating(Number(prodcutDetail.rating_summary.rating));
+      setproduct_review(prodcutDetail.rating_summary.review);
     }
-  }, [route]);
+  }, [isEditRating, prodcutDetail]);
 
   // --------------------------API Calling--------------------------
   // handleRateVendorApi
@@ -186,7 +184,56 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
         const data = response.data as any;
         if (response.code === statusCodes.success) {
           setIsReviewSuccessModalVisible(true);
-          
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  // handleRateProductApi
+  const handleRateProductApi = async () => {
+    const dictData = {
+      product_id: prodcutDetail?.product_id,
+      rating: product_rating.toString(),
+      review: product_review,
+      media: multiImagesArray,
+    };
+    try {
+      const response = await rateProductApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("RATE VENDOR RESPONSE===>", JSON.stringify(response));
+        const data = response.data as any;
+        if (response.code === statusCodes.success) {
+          setIsReviewSuccessModalVisible(true);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  // handleEditRateApi
+  const handleEditRateApi = async () => {
+    const dictData = {
+      rating_id: prodcutDetail?.rating_summary?.rating_id,
+      rating: product_rating.toString(),
+      review: product_review,
+      media: multiImagesArray,
+    };
+    try {
+      const response = await editRateApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("RATE VENDOR RESPONSE===>", JSON.stringify(response));
+        const data = response.data as any;
+        if (response.code === statusCodes.success) {
+          setIsReviewSuccessModalVisible(true);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -205,14 +252,9 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
   return (
     <RateAndReviewComponent
       navigateFromStoreReview={navigateFromStoreReview}
+      isEditRating={isEditRating}
       storeDetail={storeDetail}
-      product_img={product_img}
-      product_name={product_name}
-      product_price={product_price}
-      product_quantity={product_quantity}
-      product_weight={product_weight}
-      height={height}
-      width={width}
+      prodcutDetail={prodcutDetail}
       product_rating={product_rating}
       onPressRating={onPressRating}
       product_review={product_review}

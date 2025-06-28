@@ -217,3 +217,49 @@ export const containsEmoji = (str: string): boolean => {
   const regex = emojiRegex();
   return regex.test(str);
 };
+
+export const statusColors: { [key: string]: string } = {
+  "Order Accepted": colors.black35,
+  "Order Requested": colors.black35,
+  "Order Preparing": colors.black35,
+  "Order Prepared": colors.black35,
+  "Order Packaging": colors.black35,
+  "Order Out for Delivery": colors.black35,
+  "Order Delivered": colors.green4f,
+  "Order Cancelled": colors.red2e,
+  "Order Rejected": colors.red2e,
+  "Order Replacement Requested": colors.orange1c,
+  Request_exchange: colors.orange1c,
+  "Order Returned": colors.green4f,
+};
+
+export const statusTexts: { [key: string]: string } = {
+  "Order Requested": "Your Order is Placed",
+  "Order Accepted": "Your Order is Confirmed",
+  "Order Preparing": "Your Order is Preparing",
+  "Order Prepared": "Your Order is Prepared",
+  "Order Packaging": "Your Order is Packaging",
+  "Order Out for Delivery": "Your Order is On The Way",
+  "Order Delivered": "Your Order Delivered",
+  "Order Cancelled": "Your Order is Cancelled",
+  "Order Rejected": "Your Order is Rejected",
+  "Order Replacement Requested": "Requested for Returned",
+  // "Order Replacement Requested": "Requested for Exchange",
+  "Order Returned": "Your Order is Returned",
+  
+};
+
+export const backendToUIStatusMap : {[key : string] : string} = { 
+  "Order Requested": "Order Placed",
+  "Order Accepted": "Order Confirmed",
+  "Order Preparing": "Preparing",
+  "Order Prepared": "Order Prepared",
+  "Order Packaging": "Order Packaging",
+  "Order Out for Delivery": "On The Way",
+  "Order Delivered": "Order Delivered",
+  "Order Cancelled": "Order Cancelled",
+  "Order Rejected": "Order Rejected",
+  "Order Replacement Requested": "Order pickup date & Time",
+  // "Order Replacement Requested": "Requested for Exchange",
+  "Order Returned": "Order Returned",
+}

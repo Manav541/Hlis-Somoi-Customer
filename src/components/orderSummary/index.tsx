@@ -19,6 +19,7 @@ import {
   activityOpacity,
   hitSlop,
   rupeeSymbol,
+  statusTexts,
 } from "../../constants/GConstant";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -26,55 +27,47 @@ import GlobalButton from "../../global/GlobalButton";
 import { constnatStyles } from "../../constants/Styles";
 import {
   OrderDetail,
-  OrderReviewProduct,
-  OrderStatus,
+  OrderDetailsData,
+  OrderItem,
+  OrderProduct,
+  StatusTimeline,
 } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 
 interface PropsType {
-  orderNumber: string;
-  orderPlacedDate: string;
-  orderPlacedTime: string;
-  totalAmount: string;
-  delivertoName: string;
-  delivertoAddress: string;
-  arrOrderStatus: OrderStatus[];
-  arrProducts: OrderReviewProduct[];
-  arrOrderDetails: OrderDetail[];
+  orderDetails: OrderDetailsData;
+  arrProducts: OrderItem[];
+  cancelledDate: string;
+  arrOrderStatus: StatusTimeline[];
   onPressCancelOrder: () => void;
-  currentStatus: string;
   cancelDisabled: boolean;
   driverProfile: ImageSourcePropType;
-  driverName: string;
   onPressTrackDriver: () => void;
   onPressChatDriver: () => void;
   onPressCallDriver: () => void;
-  orderMainStatus: string;
-  cancelReason: string;
-  cancelOrderDate: string;
   onPressReturnOrder: () => void;
-  onPressRateReview: (item: OrderReviewProduct) => void;
+  onPressRateReview: (prodcutDetail: OrderItem) => void;
+  ratingData: OrderItem;
   isEditReviewModalVisible: boolean;
-  onPressOpenEditReview: () => void;
+  onPressOpenEditReview: (item: OrderItem) => void;
   onPressCloseEditReviewModal: () => void;
-  onPressEditReview: () => void;
-  onPressDeleteReview: () => void;
+  onPressEditReview: (prodcutDetail: OrderItem) => void;
+  onPressDeleteReview: (rating_id: string) => void;
   onPressReportIssue: () => void;
-  status_title: string;
 }
 
 const OrderSummaryComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
   const rating = 4;
-  const totalItems = props?.arrProducts?.length;
-  const renderItemOrderStatus = (item: OrderStatus, index: number) => {
+
+  const renderItemOrderStatus = (item: StatusTimeline, index: number) => {
     return (
       <View style={styles.vwOrderStatusItem} key={index}>
         <View
           style={[
             styles.line,
             {
-              backgroundColor: item?.status_isdone
+              backgroundColor: item?.is_active
                 ? colors.orange1c
                 : colors.greya7,
               // hide the line for the very last item
@@ -84,33 +77,32 @@ const OrderSummaryComponent = (props: PropsType) => {
         />
         <Image
           style={styles.imgOrderStatusIcon}
-          source={item?.status_isdone ? item?.status_icon : item?.status_icon1}
+          source={item?.is_active ? item?.status_icon : item?.status_icon1}
           resizeMode="stretch"
         />
         <View>
           <Text
             style={{
               ...styles.lblOrderStatusTitle,
-              color: item?.status_isdone ? colors.white : colors.greya7,
+              color: item?.is_active ? colors.white : colors.greya7,
             }}
           >
-            {item?.status_title}
+            {item?.status}
           </Text>
-          {item?.status_isdone && (
+          {item?.is_active && (
             <Text style={styles.lblOrderStatusDate}>
               <Text>{"on "}</Text>
               <Text>
                 {DateFormatsManager.formatDate(
-                  item?.status_date,
-                  DateFormatsManager.DateFormats.ddMMMYYYY,
-                  DateFormatsManager.DateFormats.DDMMYYYY_SLASH
+                  item?.created_at,
+                  DateFormatsManager.DateFormats.ddMMMYYYY
                 )}
               </Text>
-              {(props?.orderMainStatus === "Request_return" ||
-                props?.orderMainStatus === "Request_exchange") &&
-                  index === props?.arrOrderStatus.length - 1 && (
-                    <Text>- {item?.status_time ?? ""}</Text>
-                  )}
+              {(props?.orderDetails?.status === "Request_return" ||
+                props?.orderDetails?.status === "Request_exchange") &&
+                index === props?.arrOrderStatus.length - 1 && (
+                  <Text>- {item?.time ?? ""}</Text>
+                )}
             </Text>
           )}
         </View>
@@ -118,101 +110,88 @@ const OrderSummaryComponent = (props: PropsType) => {
     );
   };
 
-  const renderItemProducts = (item: OrderReviewProduct, index: number) => {
+  const renderItemProducts = (item: OrderItem, index: number) => {
     return (
       <View style={styles.vwProductsItems} key={index}>
         <View style={styles.vwProductImage}>
           <FastImage
-            style={{ height: item?.height, width: item?.width }}
-            source={item?.product_img}
+            style={{
+              height: 61.6,
+              width: 42.3,
+            }}
+            source={{ uri: item?.image_url }}
           />
         </View>
         <View style={styles.vwProductItemDetails}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.lblProductName}>{item?.product_name}</Text>
-            <View
+          <Text style={styles.lblProductName}>{item?.name}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.lblProductPrice}>
+                {rupeeSymbol + item?.price}
+              </Text>
+              <Image
+                style={styles.imgDot}
+                source={images.dotOrange}
+                tintColor={colors.blue4e}
+                resizeMode="stretch"
+              />
+              <Text style={styles.lblProductWeight}>{item?.unit}</Text>
+            </View>
+            <Text style={styles.lblQuantity}>
+              <Text>{getTranslation("qty")}</Text>{" "}
+              <Text style={styles.lblQuantityCount}>{item?.quantity}</Text>
+            </Text>
+          </View>
+          {(props?.orderDetails?.status === "Order Cancelled" ||
+            props?.orderDetails?.status === "Request_return" ||
+            props?.orderDetails?.status === "Request_exchange" ||
+            props?.orderDetails?.status === "Order Returned" ||
+            props?.orderDetails?.status === "Order Delivered") && (
+            <TouchableOpacity
               style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
+                ...styles.btnRateReview,
+                width: item?.is_rated ? 48.2 : 99,
+              }}
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={() => {
+                item?.is_rated
+                  ? props?.onPressOpenEditReview(item)
+                  : props?.onPressRateReview(item);
               }}
             >
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text style={styles.lblProductPrice}>
-                  {rupeeSymbol + item?.product_price}
-                </Text>
-                <Image
-                  style={styles.imgDot}
-                  source={images.dotOrange}
-                  tintColor={colors.blue4e}
-                  resizeMode="stretch"
-                />
-                <Text style={styles.lblProductWeight}>
-                  {item?.product_weight}
-                </Text>
-              </View>
-              <Text style={styles.lblQuantity}>
-                <Text>{getTranslation("qty")}</Text>{" "}
-                <Text style={styles.lblQuantityCount}>
-                  {item?.product_quantity}
-                </Text>
-              </Text>
-            </View>
-            {(props?.currentStatus === "Order Delivered" ||
-              props?.orderMainStatus === "Cancelled" ||
-              props?.orderMainStatus === "Request_return" ||
-              props?.orderMainStatus === "Request_exchange" ||
-              props?.orderMainStatus === "Returned" ||
-              props?.orderMainStatus === "Delivered") && (
-              <TouchableOpacity
-                style={{
-                  ...styles.btnRateReview,
-                  width: item?.isRateReview ? 48.2 : 99,
-                }}
-                activeOpacity={activityOpacity}
-                hitSlop={hitSlop}
-                onPress={() => {
-                  item?.isRateReview
-                    ? props?.onPressOpenEditReview()
-                    : props?.onPressRateReview(item);
-                }}
-              >
-                {item?.isRateReview ? (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 2,
-                    }}
-                  >
-                    <Image style={styles.imgStar} source={images.star} resizeMode="stretch"/>
-                    <Text style={styles.lblRateReview}>
-                      {item?.product_rating}
-                    </Text>
-                  </View>
-                ) : (
+              {item?.is_rated ? (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 2,
+                  }}
+                >
+                  <Image
+                    style={styles.imgStar}
+                    source={images.star}
+                    resizeMode="stretch"
+                  />
                   <Text style={styles.lblRateReview}>
-                    {getTranslation("rateReview")}
+                    {item?.rating_summary?.rating}
                   </Text>
-                )}
-              </TouchableOpacity>
-            )}
-          </View>
+                </View>
+              ) : (
+                <Text style={styles.lblRateReview}>
+                  {getTranslation("rateReview")}
+                </Text>
+              )}
+            </TouchableOpacity>
+          )}
         </View>
-      </View>
-    );
-  };
-
-  const renderItemOrderDetails = (item: OrderDetail, index: number) => {
-    return (
-      <View style={styles.vwOrderDetailsItem} key={index}>
-        <Text style={styles.lblOrderDetailsTitle}>
-          {item?.orderDetailTitle}
-        </Text>
-        <Text style={styles.lblOrderDetailsValue}>
-          {item?.orderDetailValue}
-        </Text>
       </View>
     );
   };
@@ -235,17 +214,29 @@ const OrderSummaryComponent = (props: PropsType) => {
             <Text style={styles.lblOrderNumber}>
               {getTranslation("orderNumber")}
             </Text>
-            <Text style={styles.lblOrderNumberValue}>{props?.orderNumber}</Text>
+            <Text style={styles.lblOrderNumberValue}>
+              {props?.orderDetails?.order_number}
+            </Text>
             <Text style={styles.lblOrderDateTime}>
-              <Text>{props?.orderPlacedDate}</Text>
+              <Text>
+                {DateFormatsManager.formatDate(
+                  props?.orderDetails?.placed_on_date,
+                  DateFormatsManager.DateFormats.DDMMYYYY_SLASH
+                )}
+              </Text>
               <Text>{" | "}</Text>
-              <Text>{props?.orderPlacedTime}</Text>
+              <Text>
+                {DateFormatsManager.formatDate(
+                  props?.orderDetails?.placed_on_time,
+                  DateFormatsManager.TimeFormats.hhmma
+                )}
+              </Text>
             </Text>
           </View>
           <View style={{ alignSelf: "flex-end" }}>
             <Text style={styles.lblTotal}>{getTranslation("total")}</Text>
             <Text style={styles.lblTotalAmount}>
-              {rupeeSymbol + " " + props?.totalAmount}
+              {rupeeSymbol + " " + props?.orderDetails?.total_bill}
             </Text>
           </View>
         </View>
@@ -256,44 +247,50 @@ const OrderSummaryComponent = (props: PropsType) => {
             style={{
               ...styles.lblYourOrderisConfirmed,
               color:
-                props?.orderMainStatus === "Cancelled" ||
-                props?.orderMainStatus === "Request_return" ||
-                props?.orderMainStatus === "Request_exchange"
+                props?.orderDetails?.status === "Order Cancelled" ||
+                props?.orderDetails?.status === "Order Rejected" ||
+                props?.orderDetails?.status === "Order Replacement Requested"
                   ? colors.red2e
                   : colors.white,
             }}
           >
-            {props?.orderMainStatus === "Request_return" ? (
+            {props?.orderDetails?.status === "Order Replacement Requested" ? (
               <Text>{getTranslation("requestReturn")}</Text>
-            ) : props?.orderMainStatus === "Request_exchange" ? (
+            ) : props?.orderDetails?.status === "Request_exchange" ? (
               <Text>{getTranslation("requestExchange")}</Text>
             ) : (
               <Text>
-                <Text>{getTranslation("yourOrderis")}</Text>
-                <Text>{props?.status_title}</Text>
+                <Text>
+                  {statusTexts[props?.orderDetails?.status] || "Status Unknown"}
+                </Text>
               </Text>
             )}
           </Text>
-          {props?.orderMainStatus === "Cancelled" ? (
+
+          {/* Cancel Oreder View */}
+          {props?.orderDetails?.status === "Order Cancelled" ? (
             <View style={styles.vwCancelledOrder}>
-              <Image style={styles.imgCancel} source={images.orderCancel} resizeMode="stretch"/>
+              <Image
+                style={styles.imgCancel}
+                source={images.orderCancel}
+                resizeMode="stretch"
+              />
               <View style={{ gap: 5, flex: 1 }}>
                 <Text style={{ ...styles.lblReportIssueQue, marginBottom: 0 }}>
-                  {getTranslation("orderCancelled")}
+                  {props?.orderDetails?.status}
                 </Text>
                 <Text style={styles.lblOrderStatusDate}>
                   <Text>{"On "}</Text>
                   <Text>
                     {DateFormatsManager.formatDate(
-                      props?.cancelOrderDate,
-                      DateFormatsManager.DateFormats.ddMMMYYYY,
-                      DateFormatsManager.DateFormats.DDMMYYYY_SLASH
+                      props?.cancelledDate,
+                      DateFormatsManager.DateFormats.ddMMMYYYY
                     )}
                   </Text>
                 </Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.lblReportIssueDesc}>
-                    {props?.cancelReason}
+                    {props?.orderDetails?.cancel_reason}
                   </Text>
                 </View>
               </View>
@@ -301,7 +298,7 @@ const OrderSummaryComponent = (props: PropsType) => {
           ) : (
             <View>
               {props?.arrOrderStatus.map(renderItemOrderStatus)}
-              {props?.orderMainStatus === "Returned" && (
+              {props?.orderDetails?.status === "Order Returned" && (
                 <View style={styles.vwOrderReturned}>
                   <Image
                     style={styles.imgReportIssue}
@@ -310,10 +307,10 @@ const OrderSummaryComponent = (props: PropsType) => {
                   />
                   <View style={{ flex: 1, marginRight: 15 }}>
                     <Text style={styles.lblReportIssueQue}>
-                      {getTranslation("orderReturned")}
+                      {props?.orderDetails?.status}
                     </Text>
                     <Text style={styles.lblReportIssueDesc}>
-                      {getTranslation("returnReason")}
+                      {props?.orderDetails?.return_reason}
                     </Text>
                     <Text style={styles.lblRefundDesc}>
                       {getTranslation("refundDesc")}
@@ -329,14 +326,19 @@ const OrderSummaryComponent = (props: PropsType) => {
 
         {/* Products */}
         <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
-          <Text style={styles.lblItemsAdded}>
-            <Text>{totalItems}</Text>
-            <Text> </Text>
-            <Text>{getTranslation("itemsadded")}</Text>
-          </Text>
-          <View style={{ gap: 10 }}>
-            {props?.arrProducts.map(renderItemProducts)}
-          </View>
+          {Array.isArray(props?.arrProducts) && (
+            <>
+              <Text style={styles.lblItemsAdded}>
+                {props?.orderDetails?.total_quantity + " "}
+                {props?.orderDetails?.total_quantity == "1"
+                  ? getTranslation("itemadded")
+                  : getTranslation("itemsadded")}
+              </Text>
+              <View style={{ gap: 10 }}>
+                {props?.arrProducts.map(renderItemProducts)}
+              </View>
+            </>
+          )}
         </View>
         <View style={styles.vwLine} />
 
@@ -344,17 +346,16 @@ const OrderSummaryComponent = (props: PropsType) => {
         <Text style={styles.lblDelivertoName}>
           <Text>{getTranslation("deliverto")}</Text>
           <Text> </Text>
-          <Text>{props?.delivertoName}</Text>
+          <Text>{props?.orderDetails?.delivery_details?.name}</Text>
         </Text>
         <Text style={styles.lblDelivertoAddress}>
-          {props?.delivertoAddress}
+          {props?.orderDetails?.delivery_details?.address}
         </Text>
 
-        {props?.orderMainStatus !== "Cancelled" && (
+        {props?.orderDetails?.status !== "Order Cancelled" && (
           <>
             {/* Cancel Order & Return Oreder */}
-            {props?.currentStatus === "Order Delivered" ||
-            props?.orderMainStatus === "Delivered" ? (
+            {props?.orderDetails?.status === "Order Delivered" ? (
               <TouchableOpacity
                 style={{ ...styles.btnReportIssue, marginBottom: 10 }}
                 activeOpacity={activityOpacity}
@@ -380,15 +381,18 @@ const OrderSummaryComponent = (props: PropsType) => {
                   resizeMode="stretch"
                 />
               </TouchableOpacity>
-            ) : !props?.cancelDisabled &&
-              props?.orderMainStatus === "Confirmed" ? (
+            ) : !props?.cancelDisabled ? (
               <TouchableOpacity
                 style={styles.btnCancelOrder}
                 activeOpacity={activityOpacity}
                 hitSlop={hitSlop}
                 onPress={props?.onPressCancelOrder}
               >
-                <Image style={styles.imgCancel} source={images.orderCancel} resizeMode="stretch" />
+                <Image
+                  style={styles.imgCancel}
+                  source={images.orderCancel}
+                  resizeMode="stretch"
+                />
                 <View>
                   <Text style={styles.lblCancelOrderQue}>
                     {getTranslation("cancelOrderQue")}
@@ -409,9 +413,8 @@ const OrderSummaryComponent = (props: PropsType) => {
             ) : null}
 
             {/* Report Issue */}
-            {props?.orderMainStatus !== "Request_return" &&
-              props?.orderMainStatus !== "Request_exchange" &&
-              props?.orderMainStatus !== "Returned" && (
+            {props?.orderDetails?.status !== "Order Cancelled" &&
+              props?.orderDetails?.status !== "Order Returned" && (
                 <TouchableOpacity
                   style={styles.btnReportIssue}
                   activeOpacity={activityOpacity}
@@ -440,19 +443,15 @@ const OrderSummaryComponent = (props: PropsType) => {
               )}
 
             {/* Driver Details */}
-            {(props?.currentStatus === "On The Way" ||
-              props?.currentStatus === "Order Delivered" ||
-              props?.orderMainStatus === "Delivered" ||
-              props?.orderMainStatus === "On_the_way") && (
+            {(props?.orderDetails?.status == "Order Out for Delivery" ||
+              props?.orderDetails?.status == "Order Delivered") && (
               <View>
                 <Text style={styles.lblDriverInfo}>
                   {getTranslation("driverInfo")}
                 </Text>
-
                 <View
                   style={
-                    props?.currentStatus === "Order Delivered" ||
-                    props?.orderMainStatus === "Delivered"
+                    props?.orderDetails?.status === "Order Delivered"
                       ? styles.vwDriverDetails1
                       : styles.vwDriverDetails
                   }
@@ -467,14 +466,11 @@ const OrderSummaryComponent = (props: PropsType) => {
                   {/* Name + (optionally) actions */}
                   <View>
                     <Text style={styles.lblDriverName}>
-                      {props?.driverName}
+                      {props?.orderDetails?.driver_details?.name}
                     </Text>
 
                     {/* 👉 Hide this row after delivery */}
-                    {!(
-                      props?.currentStatus === "Order Delivered" ||
-                      props?.orderMainStatus === "Delivered"
-                    ) && (
+                    {!(props?.orderDetails?.status === "Order Delivered") && (
                       <View style={styles.vwTrackCallChat}>
                         <TouchableOpacity
                           style={styles.btnTrack}
@@ -531,13 +527,57 @@ const OrderSummaryComponent = (props: PropsType) => {
           </Text>
           <View style={styles.vwOrderDetailsItemMain}>
             <View style={{ gap: 11 }}>
-              {props?.arrOrderDetails?.map(renderItemOrderDetails)}
+              {/* Item Total */}
+              <View style={styles.vwOrderDetailsItem}>
+                <Text style={styles.lblOrderDetailsTitle}>Item total</Text>
+                <Text style={styles.lblOrderDetailsValue}>
+                  {props?.orderDetails?.total_quantity}
+                </Text>
+              </View>
+
+              {/* Sub Total */}
+              <View style={styles.vwOrderDetailsItem}>
+                <Text style={styles.lblOrderDetailsTitle}>Sub Total</Text>
+                <Text style={styles.lblOrderDetailsValue}>
+                  {rupeeSymbol + " " + props?.orderDetails?.total_amount}
+                </Text>
+              </View>
+
+              {/* Discount */}
+              <View style={styles.vwOrderDetailsItem}>
+                <Text style={styles.lblOrderDetailsTitle}>Discount</Text>
+                <Text style={styles.lblOrderDetailsValue}>
+                  -{rupeeSymbol + props?.orderDetails?.discount_price}
+                </Text>
+              </View>
+
+              {/* Delivery */}
+              <View style={styles.vwOrderDetailsItem}>
+                <Text style={styles.lblOrderDetailsTitle}>Delivery</Text>
+                <Text style={styles.lblOrderDetailsValue}>
+                  {props?.orderDetails?.delivery_charges === "0.00"
+                    ? "Free"
+                    : rupeeSymbol + props?.orderDetails?.delivery_charges}
+                </Text>
+              </View>
+
+              {/* Payment Type */}
+              <View style={styles.vwOrderDetailsItem}>
+                <Text style={styles.lblOrderDetailsTitle}>Payment Type</Text>
+                <Text style={styles.lblOrderDetailsValue}>
+                  {props?.orderDetails?.payment_type == "cod"
+                    ? "Cash on Delivery"
+                    : "Online Payment"}
+                </Text>
+              </View>
+
+              {/* {props?.arrOrderDetails?.map(renderItemOrderDetails)} */}
             </View>
             <View style={styles.vwLineFull} />
             <View style={styles.vwTotal}>
               <Text style={styles.lblTotalBold}>{getTranslation("total")}</Text>
               <Text style={styles.lblTotalBold}>
-                {rupeeSymbol + " " + props?.totalAmount}
+                {rupeeSymbol + " " + props?.orderDetails?.total_bill}
               </Text>
             </View>
           </View>
@@ -576,27 +616,38 @@ const OrderSummaryComponent = (props: PropsType) => {
                       key={index}
                       style={styles.imgStarModal}
                       source={
-                        item <= rating ? images.starFilled : images.starEmpty
+                        Number(item) <=
+                        Number(props?.ratingData?.rating_summary?.rating)
+                          ? images.starFilled
+                          : images.starEmpty
                       }
                       resizeMode="stretch"
                     />
                   ))}
                 </View>
                 <Text style={styles.lblReviewDesc}>
-                  {getTranslation("reviewDesc")}
+                  {props?.ratingData?.rating_summary?.review}
                 </Text>
                 <View style={styles.vwEditDeleteReview}>
                   <GlobalButton
                     isOrange
                     title={getTranslation("edit")}
                     flex={1}
-                    onPress={props?.onPressEditReview}
+                    onPress={() => {
+                      props?.onPressEditReview(props?.ratingData);
+                    }}
                   />
                   <TouchableOpacity
                     style={styles.btnDelete}
                     activeOpacity={activityOpacity}
                     hitSlop={hitSlop}
-                    onPress={props?.onPressDeleteReview}
+                    onPress={() => {
+                      const ratingId =
+                        props?.ratingData?.rating_summary?.rating_id;
+                      if (ratingId) {
+                        props.onPressDeleteReview(ratingId);
+                      }
+                    }}
                   >
                     <Image
                       style={constnatStyles.img24}

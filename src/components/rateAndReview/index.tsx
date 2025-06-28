@@ -25,20 +25,15 @@ import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FastImage, { Source as FastImageSource } from "react-native-fast-image";
-import { RestaurantInfo } from "../../constants/interfaces";
+import { OrderItem, RestaurantInfo } from "../../constants/interfaces";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
 import { fontsfamily } from "../../constants/FontFamily";
 
 interface PropsType {
   navigateFromStoreReview: boolean;
+  isEditRating: boolean;
   storeDetail: RestaurantInfo;
-  product_img: FastImageSource;
-  product_name: string;
-  product_price: string;
-  product_weight: string;
-  product_quantity: string;
-  height: number;
-  width: number;
+  prodcutDetail: OrderItem;
   product_rating: number;
   onPressRating: (index: number) => void;
   product_review: string;
@@ -160,41 +155,41 @@ const RateAndReviewComponent = (props: PropsType) => {
           <View style={styles.vwProductsItems}>
             <View style={styles.vwProductImage}>
               <FastImage
-                style={{ height: props?.height, width: props?.width }}
-                source={props?.product_img}
+                style={{ height: 61.6, width: 42.3 }}
+                source={{ uri: props?.prodcutDetail?.image_url }}
               />
             </View>
             <View style={styles.vwProductItemDetails}>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.lblProductName}>{props?.product_name}</Text>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Text style={styles.lblProductPrice}>
-                      {rupeeSymbol + props?.product_price}
-                    </Text>
-                    <Image
-                      style={styles.imgDot}
-                      source={images.dotOrange}
-                      tintColor={colors.blue4e}
-                      resizeMode="stretch"
-                    />
-                    <Text style={styles.lblProductWeight}>
-                      {props?.product_weight}
-                    </Text>
-                  </View>
-                  <Text style={styles.lblQuantity}>
-                    {getTranslation("qty") + " "}
-                    <Text style={styles.lblQuantityCount}>
-                      {props?.product_quantity}
-                    </Text>
+              <Text style={styles.lblProductName}>
+                {props?.prodcutDetail?.name}
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text style={styles.lblProductPrice}>
+                    {rupeeSymbol + props?.prodcutDetail?.price}
+                  </Text>
+                  <Image
+                    style={styles.imgDot}
+                    source={images.dotOrange}
+                    tintColor={colors.blue4e}
+                    resizeMode="stretch"
+                  />
+                  <Text style={styles.lblProductWeight}>
+                    {props?.prodcutDetail?.unit}
                   </Text>
                 </View>
+                <Text style={styles.lblQuantity}>
+                  {getTranslation("qty") + " "}
+                  <Text style={styles.lblQuantityCount}>
+                    {props?.prodcutDetail?.quantity}
+                  </Text>
+                </Text>
               </View>
             </View>
           </View>
@@ -292,7 +287,11 @@ const RateAndReviewComponent = (props: PropsType) => {
       >
         <GlobalButton
           isOrange
-          title={getTranslation("submit")}
+          title={
+            props?.isEditRating
+              ? getTranslation("update")
+              : getTranslation("submit")
+          }
           onPress={props?.onPressSubmit}
         />
       </View>
