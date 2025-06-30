@@ -2,6 +2,7 @@ import AddressStore from "./addAddress";
 import AuthStore from "./authentication";
 import AvailableOffersStore from "./availableOffers";
 import CartStore from "./cart";
+import { CartItemCountStore } from "./cartItemCount";
 import CompareProductStore from "./compareProduct";
 import HomeStore from "./home";
 import KeyStore from "./keys";
@@ -36,4 +37,7 @@ export const zustandStore = {
   AddressStore: AddressStore,
   AvailableOffersStore: AvailableOffersStore,
   MyWishlistStore: MyWishlistStore,
+
+  // Cart Item Count
+  CartItemCountStore: CartItemCountStore,
 };

@@ -153,6 +153,7 @@ const ReportIssueContainer = ({ navigation, route }: any) => {
       __DEV__ && console.log(error);
     }
   };
+  
   return (
     <ReportIssueComponent
       reportIssue={reportIssue}

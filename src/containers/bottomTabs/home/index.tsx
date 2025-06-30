@@ -21,6 +21,7 @@ import {
 import { statusCodes } from "../../../api/APIConstant";
 import { zustandStore } from "../../../store";
 import LocationManager from "../../../constants/utils/LocationManager";
+import { MmkvManager } from "../../../constants/utils/MmkvManager";
 
 const HomeContainer = ({ navigation }: any) => {
   // API zustand store
@@ -35,6 +36,7 @@ const HomeContainer = ({ navigation }: any) => {
     (state) => state.bestProductsSellerList
   );
 
+  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   const [arrMainCategoryList, setArrMainCategoryList] = useState<
     MainCategoryListItem[]
   >([]);
@@ -49,6 +51,7 @@ const HomeContainer = ({ navigation }: any) => {
   const [isGroceriesFoodSelected, setIsGroceriesFoodSelected] =
     useState<string>("Groceries");
   const [mainCategoryId, setMainCategoryId] = useState<string>("1");
+  const [mainCategoryName, setMainCategoryName] = useState<string>("");
   const [currentAddress, setCurrentAddress] = useState<string | null>("");
   const [currentLatLong, setCurrentLatLong] = useState<{
     latitude: number;
@@ -66,7 +69,9 @@ const HomeContainer = ({ navigation }: any) => {
   };
 
   const onPressSearch = () => {
-    navigation.navigate(ScreenNames.search);
+    navigation.navigate(ScreenNames.search, {
+      currentLatLong: currentLatLong,
+    });
   };
 
   const onPressLocation = () => {
@@ -81,6 +86,7 @@ const HomeContainer = ({ navigation }: any) => {
     console.log("mainCategoryId", mainCategoryId, name);
     setIsGroceriesFoodSelected(name);
     setMainCategoryId(mainCategoryId);
+    setMainCategoryName(name);
     handleSubCategoryListApi(mainCategoryId);
     if (currentLatLong) {
       handleBestProductsSellerListApi(
@@ -96,6 +102,8 @@ const HomeContainer = ({ navigation }: any) => {
   const handleSellAllCategories = () => {
     navigation.navigate(ScreenNames.allCategories, {
       mainCategoryId: mainCategoryId,
+      mainCategoryName: mainCategoryName,
+      currentLatLong: currentLatLong,
     });
   };
 
@@ -103,6 +111,7 @@ const HomeContainer = ({ navigation }: any) => {
   const handleSellAllBestSellers = () => {
     navigation.navigate(ScreenNames.allBestSellers, {
       mainCategoryId: mainCategoryId,
+
       type: isGroceriesFoodSelected.toLowerCase(),
       currentLatLong: currentLatLong,
     });
@@ -165,7 +174,11 @@ const HomeContainer = ({ navigation }: any) => {
       page_number: mainCategoryPageNumber,
     };
     try {
-      const response = await mainCategoryListApi(dictData, navigation);
+      const response = await mainCategoryListApi(
+        dictData,
+        isGuestUser,
+        navigation
+      );
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log(
@@ -174,8 +187,10 @@ const HomeContainer = ({ navigation }: any) => {
           );
         const data = response.data as MainCategoryListItem;
         if (response.code === statusCodes.success) {
-          // console.log("Dataaa => ", JSON.stringify(data));
           setArrMainCategoryList(Array.isArray(data) ? data : [data]);
+          setMainCategoryName(
+            Array.isArray(data) && data.length > 0 ? data[0].name : ""
+          );
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -188,7 +203,7 @@ const HomeContainer = ({ navigation }: any) => {
   // handleBannerListApi
   const handleBannerListApi = async () => {
     try {
-      const response = await bannerListApi({}, navigation);
+      const response = await bannerListApi({}, isGuestUser, navigation);
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log("BANNER LIST RESPONSE===>", JSON.stringify(response));
@@ -211,7 +226,11 @@ const HomeContainer = ({ navigation }: any) => {
       page_number: subCategoryPageNumber,
     };
     try {
-      const response = await subCategoryListApi(dictData, navigation);
+      const response = await subCategoryListApi(
+        dictData,
+        isGuestUser,
+        navigation
+      );
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log(
@@ -245,7 +264,11 @@ const HomeContainer = ({ navigation }: any) => {
       customer_longitude: customer_longitude?.toString(),
     };
     try {
-      const response = await bestProductsSellerListApi(dictData, navigation);
+      const response = await bestProductsSellerListApi(
+        dictData,
+        isGuestUser,
+        navigation
+      );
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log(
@@ -264,6 +287,7 @@ const HomeContainer = ({ navigation }: any) => {
     }
   };
 
+  // handleCurrentLocation
   const handleCurrentLocation = async () => {
     toggleLoader(true);
     const current = await LocationManager.getCurrentLocation();
@@ -275,7 +299,7 @@ const HomeContainer = ({ navigation }: any) => {
 
       // ✅ Other initial APIs
       handleMainCategoryListApi();
-      handleBannerListApi();
+
       handleSubCategoryListApi(mainCategoryId);
 
       // ✅ Now call the API after lat/long is ready
@@ -292,11 +316,16 @@ const HomeContainer = ({ navigation }: any) => {
   useFocusEffect(
     React.useCallback(() => {
       setIsGroceriesFoodSelected("Groceries");
-
       // ✅ Get location & then call product API
       handleCurrentLocation();
-
+      handleBannerListApi();
       StatusBar.setBarStyle("light-content");
+      // Fetch Guest User
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
+        console.log("isGuestUser=====>", Boolean(storedValue));
+
+        setIsGuestUser(Boolean(storedValue));
+      });
 
       return () => {};
     }, [navigation])

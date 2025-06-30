@@ -1,9 +1,9 @@
-import {Platform} from 'react-native';
-import Geolocation from '@react-native-community/geolocation';
-import MapView, {Marker, Region} from 'react-native-maps';
-import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {getDistance as geolibGetDistance} from 'geolib';
-import {RefObject} from 'react';
+import { Platform } from "react-native";
+import Geolocation from "@react-native-community/geolocation";
+import MapView, { Marker, Region } from "react-native-maps";
+import { check, request, PERMISSIONS, RESULTS } from "react-native-permissions";
+import { getDistance as geolibGetDistance } from "geolib";
+import { RefObject } from "react";
 
 export type Coordinates = {
   latitude: number;
@@ -42,27 +42,27 @@ class LocationManager {
   static async getCurrentLocation(): Promise<Coordinates | null> {
     const hasPermission = await this.checkLocationPermission();
     if (!hasPermission) {
-      console.log('Location permission not granted');
+      console.log("Location permission not granted");
       return null;
     }
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       Geolocation.getCurrentPosition(
-        position => {
+        (position) => {
           resolve({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           });
         },
-        error => {
-          console.log('Location error:', error.message);
+        (error) => {
+          console.log("Location error:", error.message);
           resolve(null);
         },
         {
           enableHighAccuracy: false,
           timeout: 15000,
           maximumAge: 10000,
-        },
+        }
       );
     });
   }
@@ -88,16 +88,22 @@ class LocationManager {
   // }
 
   static async getFormattedAddress(
-    coords: Coordinates,
+    coords: Coordinates
   ): Promise<string | null> {
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords.latitude}&lon=${coords.longitude}`,
+        {
+          headers: {
+            // Minimal valid header required by OpenStreetMap
+            "User-Agent": "ReactNativeApp/1.0",
+          },
+        }
       );
       const data = await response.json();
       return data?.display_name || null;
     } catch (error) {
-      console.log('Reverse geocoding error:', error);
+      console.log("Reverse geocoding error:", error);
       return null;
     }
   }
@@ -114,17 +120,17 @@ class LocationManager {
   static estimateETA(
     origin: Coordinates,
     destination: Coordinates,
-    avgSpeedKmph = 40,
+    avgSpeedKmph = 40
   ): ETAResult {
     const distanceInKm = this.getDistanceInKm(origin, destination);
     const durationInMinutes = Math.round((distanceInKm / avgSpeedKmph) * 60);
-    return {distanceInKm, durationInMinutes};
+    return { distanceInKm, durationInMinutes };
   }
 
   static zoomIn(
     region: Region,
     setRegion: (r: Region) => void,
-    mapRef: RefObject<MapView | null>,
+    mapRef: RefObject<MapView | null>
   ) {
     const newRegion = {
       ...region,
@@ -138,7 +144,7 @@ class LocationManager {
   static zoomOut(
     region: Region,
     setRegion: (r: Region) => void,
-    mapRef: RefObject<MapView | null>,
+    mapRef: RefObject<MapView | null>
   ) {
     const newRegion = {
       ...region,
@@ -150,7 +156,7 @@ class LocationManager {
   }
 
   static renderCurrentMarker(
-    currentLocation: Coordinates | null,
+    currentLocation: Coordinates | null
   ): React.ReactNode {
     if (!currentLocation) return null;
     return (
@@ -163,9 +169,9 @@ class LocationManager {
   }
 
   static renderMultipleMarkers(
-    markerList: LocationMarker[],
+    markerList: LocationMarker[]
   ): React.ReactNode[] {
-    return markerList.map(marker => (
+    return markerList.map((marker) => (
       <Marker
         key={marker.id}
         coordinate={marker.coordinate}

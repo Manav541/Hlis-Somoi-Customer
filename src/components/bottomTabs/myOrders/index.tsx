@@ -153,20 +153,6 @@ const MyOrdersComponent = (props: PropsType) => {
     );
   };
 
-  // Empty Cart
-  if (props?.arrOrderList.length == 0) {
-    return (
-      <View style={styles.vwMainEmpty}>
-        <StatusBar
-          translucent={false}
-          backgroundColor={"transparent"}
-          barStyle={"dark-content"}
-        />
-        <Text style={styles.lblEmptyCart}>{getTranslation("noOrder")}</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.vwMain}>
       <StatusBar
@@ -174,18 +160,28 @@ const MyOrdersComponent = (props: PropsType) => {
         barStyle={"dark-content"}
         backgroundColor={colors.orange1c}
       />
-      <View style={styles.vwMainContainer}>
-        <FlatList
-          data={props.arrOrderList}
-          contentContainerStyle={{ paddingTop: 20, paddingBottom: 20, gap: 12 }}
-          keyExtractor={(item, index) =>
-            item.order_number?.toString() ?? index.toString()
-          }
-          showsVerticalScrollIndicator={false}
-          bounces={false}
-          renderItem={renderItemOrderList}
-        />
-      </View>
+      {props?.arrOrderList.length > 0 ? (
+        <View style={styles.vwMainContainer}>
+          <FlatList
+            data={props.arrOrderList}
+            contentContainerStyle={{
+              paddingTop: 20,
+              paddingBottom: 20,
+              gap: 12,
+            }}
+            keyExtractor={(item, index) =>
+              item.order_number?.toString() ?? index.toString()
+            }
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            renderItem={renderItemOrderList}
+          />
+        </View>
+      ) : (
+        <View style={styles.vwMainEmpty}>
+          <Text style={styles.lblEmptyCart}>{getTranslation("noOrder")}</Text>
+        </View>
+      )}
 
       {/* Filter Modal */}
       <Modal

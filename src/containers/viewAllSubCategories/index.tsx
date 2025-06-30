@@ -5,10 +5,7 @@ import { StatusBar, Text } from "react-native";
 import { SubCategoryListItem } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
-import {
-  flashMessageWarning,
-  toggleLoader,
-} from "../../constants/GConstant";
+import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import ViewAllSubCategoriesComponent from "../../components/viewAllSubCategories";
 import { zustandStore } from "../../store";
@@ -19,7 +16,9 @@ const ViewAllSubCategoriesContainer = ({ navigation, route }: any) => {
     (state) => state.subCategoryList
   );
 
-  const [arrSubCategory, setArrSubCategory] = useState<SubCategoryListItem[]>([]);
+  const [arrSubCategory, setArrSubCategory] = useState<SubCategoryListItem[]>(
+    []
+  );
   const [subCategoryPageNumber, setSubCategoryPageNumber] = useState<number>(1);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [hasMoreData, setHasMoreData] = useState<boolean>(true);
@@ -27,9 +26,21 @@ const ViewAllSubCategoriesContainer = ({ navigation, route }: any) => {
   const [canLoadMore, setCanLoadMore] = useState(false);
 
   const mainCategoryId = route.params.mainCategoryId;
+  const mainCategoryName = route.params.mainCategoryName;
+  const currentLatLong = route.params.currentLatLong;
+  console.log("mainCategoryName sub", mainCategoryName);
 
-  const onPressCategory = () => {
-    flashMessageWarning(getTranslation("underDevelopment"));
+  const onPressCategory = (
+    sub_category_id: string,
+    subCategoryName: string
+  ) => {
+    navigation.navigate(ScreenNames.productListing, {
+      mainCategoryId: mainCategoryId,
+      mainCategoryName: mainCategoryName,
+      sub_category_id: sub_category_id,
+      subCategoryName: subCategoryName,
+      currentLatLong: currentLatLong,
+    });
   };
 
   const handleSubCategoryListApi = async (
@@ -53,9 +64,7 @@ const ViewAllSubCategoriesContainer = ({ navigation, route }: any) => {
         const data = response.data as SubCategoryListItem[];
 
         if (Array.isArray(data) && data.length > 0) {
-          setArrSubCategory((prev) =>
-            isLoadMore ? [...prev, ...data] : data
-          );
+          setArrSubCategory((prev) => (isLoadMore ? [...prev, ...data] : data));
 
           // Only update the page number if data exists
           setSubCategoryPageNumber(page);

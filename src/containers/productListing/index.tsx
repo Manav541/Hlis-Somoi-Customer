@@ -5,7 +5,10 @@ import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
 import { ScreenNames } from "../../routers";
 import { useFocusEffect } from "@react-navigation/native";
-import { flashMessageWarning } from "../../constants/GConstant";
+import {
+  flashMessageWarning,
+  showConfirmForGuest,
+} from "../../constants/GConstant";
 import { constnatStyles } from "../../constants/Styles";
 import {
   AddRemoveWishlistDictData,
@@ -17,6 +20,7 @@ import {
 } from "../../constants/interfaces";
 import { statusCodes } from "../../api/APIConstant";
 import { zustandStore } from "../../store";
+import { MmkvManager } from "../../constants/utils/MmkvManager";
 
 const ProductListingContainer = ({ navigation, route }: any) => {
   // API Zustand store
@@ -41,7 +45,13 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const wishlistStoreApi = zustandStore.MyWishlistStore(
     (state) => state.wishlistStore
   );
-
+  const incrementCartItemCount = zustandStore.CartItemCountStore(
+    (state) => state.incrementCartItemCount
+  );
+  const decrementCartItemCount = zustandStore.CartItemCountStore(
+    (state) => state.decrementCartItemCount
+  );
+  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   const mainCategoryId = route.params?.mainCategoryId;
   const mainCategoryName = route.params?.mainCategoryName;
   const [arrSubCategoryProduct, setArrSubCategoryProduct] = useState<Product[]>(
@@ -214,47 +224,53 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     is_color?: boolean,
     is_size?: boolean
   ) => {
-    const currentItem = arrSubCategoryProduct[index];
-    const currentQty = Number(currentItem.quantity) || 0;
-    let newQty = currentQty;
-
-    if (type === "add") {
-      newQty = currentQty + 1;
-    } else if (type === "remove" && currentQty > 0) {
-      newQty = currentQty - 1;
-    }
-
-    const { id: product_id, variation_id, color, size } = currentItem;
-    const size_id = size?.size_id;
-    const color_id = color?.color_id;
-
-    if (newQty === 0) {
-      await handleRemoveFromCartApi(
-        product_id,
-        index,
-        variation_id,
-        is_variation
-      );
-    } else if (currentQty === 0 && newQty === 1) {
-      await handleAddToCartApi(
-        product_id,
-        newQty,
-        variation_id,
-        size_id,
-        color_id,
-        index,
-        is_variation,
-        is_color,
-        is_size
-      );
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+      });
     } else {
-      await handleUpdateCartQuantityApi(
-        product_id,
-        newQty,
-        variation_id,
-        index,
-        is_variation
-      );
+      const currentItem = arrSubCategoryProduct[index];
+      const currentQty = Number(currentItem.quantity) || 0;
+      let newQty = currentQty;
+
+      if (type === "add") {
+        newQty = currentQty + 1;
+      } else if (type === "remove" && currentQty > 0) {
+        newQty = currentQty - 1;
+      }
+
+      const { id: product_id, variation_id, color, size } = currentItem;
+      const size_id = size?.size_id;
+      const color_id = color?.color_id;
+
+      if (newQty === 0) {
+        await handleRemoveFromCartApi(
+          product_id,
+          index,
+          variation_id,
+          is_variation
+        );
+      } else if (currentQty === 0 && newQty === 1) {
+        await handleAddToCartApi(
+          product_id,
+          newQty,
+          variation_id,
+          size_id,
+          color_id,
+          index,
+          is_variation,
+          is_color,
+          is_size
+        );
+      } else {
+        await handleUpdateCartQuantityApi(
+          product_id,
+          newQty,
+          variation_id,
+          index,
+          is_variation
+        );
+      }
     }
   };
 
@@ -263,11 +279,23 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     variation_id?: string,
     is_variation?: boolean
   ) => {
-    handleWishlistProductApi(product_id, variation_id, is_variation);
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+      });
+    } else {
+      handleWishlistProductApi(product_id, variation_id, is_variation);
+    }
   };
 
   const onPressFavouriteStore = (index: number, vendor_id: string) => {
-    handleWishlistStoreApi(vendor_id, index);
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+      });
+    } else {
+      handleWishlistStoreApi(vendor_id, index);
+    }
   };
 
   const onPressRestaurant = (vendor_id: string) => {
@@ -275,7 +303,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       vendor_id: vendor_id,
       customer_latitude: currentLatLong?.latitude,
       customer_longitude: currentLatLong?.longitude,
-      mainCategoryId:mainCategoryId
+      mainCategoryId: mainCategoryId,
     });
   };
 
@@ -346,6 +374,9 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   // -------------------------API Calling------------------------
   // handleProductListingApi
   const handleProductListingApi = async (subCategoryId?: string) => {
+    const selectedSubCategoryId =
+      subCategoryId || route?.params?.sub_category_id || undefined;
+
     const dictData: ProductListDictData = {
       category_id: mainCategoryId,
       page_no: 1,
@@ -354,12 +385,16 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       customer_longitude: currentLatLong?.longitude.toString(),
     };
 
-    if (subCategoryId) {
-      dictData.sub_category_id = subCategoryId;
+    if (selectedSubCategoryId) {
+      dictData.sub_category_id = selectedSubCategoryId;
     }
 
     try {
-      const response = await productListingApi(dictData, navigation);
+      const response = await productListingApi(
+        dictData,
+        isGuestUser,
+        navigation
+      );
 
       if (response !== undefined && response !== null) {
         __DEV__ &&
@@ -391,15 +426,16 @@ const ProductListingContainer = ({ navigation, route }: any) => {
           if (subCategoryTitle.length === 0) {
             const subCategoryTitleArray = [
               {
-                image: images.allSubIcon,
                 name: "All",
                 isSelected: !subCategoryId,
               },
-              ...subCategories.map((sub: { id: string; name: string }) => ({
-                image: subCategoryImageMap[sub.name] || images.allSubIcon,
-                name: sub.name,
-                isSelected: sub.id === subCategoryId,
-              })),
+              ...subCategories.map(
+                (sub: { id: string; name: string; icon_image: string }) => ({
+                  image: sub.icon_image,
+                  name: sub.name,
+                  isSelected: sub.id === subCategoryId,
+                })
+              ),
             ];
             setSubCategoryTitle(subCategoryTitleArray);
           }
@@ -487,7 +523,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     };
 
     try {
-      const response = await filterSortApi(dictData, navigation);
+      const response = await filterSortApi(dictData, isGuestUser, navigation);
 
       if (response !== undefined && response !== null) {
         __DEV__ &&
@@ -524,7 +560,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     };
 
     try {
-      const response = await filterSortApi(dictData, navigation);
+      const response = await filterSortApi(dictData, isGuestUser, navigation);
 
       if (response !== undefined && response !== null) {
         __DEV__ &&
@@ -596,6 +632,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
             updated[index].quantity = quantity;
           }
           setArrSubCategoryProduct(updated);
+          incrementCartItemCount(1);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -677,6 +714,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
             updated[index].quantity = 0;
           }
           setArrSubCategoryProduct(updated);
+          decrementCartItemCount(1);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -712,6 +750,15 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      // Fetch Guest User
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
+        console.log("isGuestUser=====>", Boolean(storedValue));
+
+        setIsGuestUser(Boolean(storedValue));
+      });
+      if (route?.params?.subCategoryName) {
+        setSelectedTitle(route?.params?.subCategoryName);
+      }
       handleProductListingApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};

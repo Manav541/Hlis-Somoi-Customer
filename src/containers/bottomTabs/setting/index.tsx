@@ -5,6 +5,7 @@ import {
   appName,
   flashMessageSucess,
   flashMessageWarning,
+  showConfirmAlert,
   showConfirmForGuest,
   toggleLoader,
 } from "../../../constants/GConstant";
@@ -35,6 +36,7 @@ const SettingContainer = ({ navigation, route }: any) => {
   const deleteAccountApi = zustandStore.AuthStore(
     (state) => state.deleteAccount
   );
+  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
 
   const [profileImage, setProfileImage] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -59,10 +61,11 @@ const SettingContainer = ({ navigation, route }: any) => {
     navigation.navigate(ScreenNames.cmsPage, { navigateFrom: page });
 
   // Utility function for change navigation
-  const navigateToChange = (type: string) => () =>
+  const navigateToChange = (type: string) => () => {
     navigation.navigate(ScreenNames.changeEmailPhoneNumber, {
       navigateFrom: type,
     });
+  };
 
   const handleOnShareApp = async () => {
     if (!isSharing) return;
@@ -94,62 +97,123 @@ const SettingContainer = ({ navigation, route }: any) => {
     {
       titleMain: getTranslation("manage"),
       subArr: [
-        {
-          icon: images.editProfileIcon,
-          title: getTranslation("editProfile"),
-          ...ICON_SIZE,
-          onPress: () => navigation.navigate(ScreenNames.editProfile),
-        },
+        ...(!isGuestUser
+          ? [
+              {
+                icon: images.editProfileIcon,
+                title: getTranslation("editProfile"),
+                ...ICON_SIZE,
+                onPress: () => navigation.navigate(ScreenNames.editProfile),
+              },
+            ]
+          : []),
         {
           icon: images.changePasswordIcon,
           title: getTranslation("changePassword"),
           ...ICON_SIZE,
-          onPress: () =>
-            navigation.navigate(ScreenNames.changePassword, {
-              navigateFromForgotPassword: false,
-            }),
+          onPress: () => {
+            if (isGuestUser) {
+              showConfirmForGuest(() => {
+                navigation.navigate(ScreenNames.signin);
+              });
+            } else {
+              navigation.navigate(ScreenNames.changePassword, {
+                navigateFromForgotPassword: false,
+              });
+            }
+          },
         },
         {
           icon: images.changeEmailIcon,
           title: getTranslation("changeEmail"),
           ...ICON_SIZE,
-          onPress: navigateToChange("ChangeEmail"),
+          onPress: () => {
+            if (isGuestUser) {
+              showConfirmForGuest(() => {
+                navigation.navigate(ScreenNames.signin);
+              });
+            } else {
+              navigation.navigate(ScreenNames.changeEmailPhoneNumber, {
+                navigateFrom: "ChangeEmail",
+              });
+            }
+          },
         },
         {
           icon: images.changePhoneIcon,
           title: getTranslation("changePhoneNumber"),
           ...ICON_SIZE,
-          onPress: navigateToChange("ChangePhoneNumber"),
+          onPress: () => {
+            if (isGuestUser) {
+              showConfirmForGuest(() => {
+                navigation.navigate(ScreenNames.signin);
+              });
+            } else {
+              navigation.navigate(ScreenNames.changeEmailPhoneNumber, {
+                navigateFrom: "ChangePhoneNumber",
+              });
+            }
+          },
         },
         {
           icon: images.managePaymentIcon,
           title: getTranslation("managePaymentMethods"),
           ...ICON_SIZE,
-          onPress: () => navigation.navigate(ScreenNames.managePaymentMethods),
+          onPress: () => {
+            if (isGuestUser) {
+              showConfirmForGuest(() => {
+                navigation.navigate(ScreenNames.signin);
+              });
+            } else {
+              navigation.navigate(ScreenNames.managePaymentMethods);
+            }
+          },
         },
         {
           icon: images.myWishlistIcon,
           title: getTranslation("myWishlist"),
           ...ICON_SIZE,
-          onPress: () =>
-            navigation.navigate(ScreenNames.myWishlist, {
-              currentLatLong: currentLatLong,
-            }),
+          onPress: () => {
+            if (isGuestUser) {
+              showConfirmForGuest(() => {
+                navigation.navigate(ScreenNames.signin);
+              });
+            } else {
+              navigation.navigate(ScreenNames.myWishlist, {
+                currentLatLong: currentLatLong,
+              });
+            }
+          },
         },
         {
           icon: images.manageAddressIcon,
           title: getTranslation("manageAddresses"),
           ...ICON_SIZE,
-          onPress: () =>
-            navigation.navigate(ScreenNames.manageAddress, {
-              navigateFromCart: false,
-            }),
+          onPress: () => {
+            if (isGuestUser) {
+              showConfirmForGuest(() => {
+                navigation.navigate(ScreenNames.signin);
+              });
+            } else {
+              navigation.navigate(ScreenNames.manageAddress, {
+                navigateFromCart: false,
+              });
+            }
+          },
         },
         {
           icon: images.availableOffersIcon,
           title: getTranslation("availableOffers"),
           ...ICON_SIZE,
-          onPress: () => navigation.navigate(ScreenNames.availableOffers),
+          onPress: () => {
+            if (isGuestUser) {
+              showConfirmForGuest(() => {
+                navigation.navigate(ScreenNames.signin);
+              });
+            } else {
+              navigation.navigate(ScreenNames.availableOffers);
+            }
+          },
         },
       ],
     },
@@ -167,7 +231,6 @@ const SettingContainer = ({ navigation, route }: any) => {
           icon: images.shareAppIcon,
           title: getTranslation("shareApp"),
           disabled: !isSharing,
-
           ...ICON_SIZE,
           onPress() {
             handleOnShareApp();
@@ -205,33 +268,38 @@ const SettingContainer = ({ navigation, route }: any) => {
         },
       ],
     },
-    {
-      titleMain: getTranslation("logoutDeleteProfile"),
-      subArr: [
-        {
-          icon: images.deleteProfileIcon,
-          title: getTranslation("deleteProfile"),
-          ...ICON_SIZE,
-          onPress: () => setIsModalDeleteVisible(true),
-        },
-        {
-          icon: images.logoutIcon,
-          title: getTranslation("logout"),
-          ...ICON_SIZE,
-          onPress: () => setIsModalSignOutVisible(true),
-        },
-      ],
-    },
+    // ✅ Conditionally include Logout/Delete section only if NOT guest user
+    ...(!isGuestUser
+      ? [
+          {
+            titleMain: getTranslation("logoutDeleteProfile"),
+            subArr: [
+              {
+                icon: images.deleteProfileIcon,
+                title: getTranslation("deleteProfile"),
+                ...ICON_SIZE,
+                onPress: () => setIsModalDeleteVisible(true),
+              },
+              {
+                icon: images.logoutIcon,
+                title: getTranslation("logout"),
+                ...ICON_SIZE,
+                onPress: () => setIsModalSignOutVisible(true),
+              },
+            ],
+          },
+        ]
+      : []),
   ];
 
-  useEffect(() => {
-    if (route.params?.profileImage && route.params?.name) {
-      setProfileImage(route.params?.profileImage);
-      setName(route.params?.name);
-    }
-    {
-    }
-  }, [route.params]);
+  // useEffect(() => {
+  //   if (route.params?.profileImage && route.params?.name) {
+  //     setProfileImage(route.params?.profileImage);
+  //     setName(route.params?.name);
+  //   }
+  //   {
+  //   }
+  // }, [route.params]);
 
   const handleOnPressNoThanks = () => {
     setIsModalDeleteVisible(false);
@@ -309,6 +377,12 @@ const SettingContainer = ({ navigation, route }: any) => {
     React.useCallback(() => {
       handleCurrentLocation();
       StatusBar.setBarStyle("dark-content");
+      // Fetch Guest User
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
+        console.log("isGuestUser=====>", Boolean(storedValue));
+
+        setIsGuestUser(Boolean(storedValue));
+      });
 
       // Fetch customer data
       MmkvManager.getData(
@@ -339,6 +413,7 @@ const SettingContainer = ({ navigation, route }: any) => {
 
   return (
     <SettingComponent
+      isGuestUser={isGuestUser}
       arrSettingData={arrSettingData}
       isModalDeleteVisible={isModalDeleteVisible}
       isModalSignOutVisible={isModalSignOutVisible}

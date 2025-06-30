@@ -8,18 +8,24 @@ type StoreFunction = (
   navigation: any
 ) => Promise<APIResponseType>;
 
+type StoreFunctionGuest = (
+  dictData: object,
+  isGuestUser: boolean,
+  navigation: any
+) => Promise<APIResponseType>;
+
 interface Store {
-  productListing: StoreFunction;
-  filterSort: StoreFunction;
-  productDetails: StoreFunction;
-  foodDetails: StoreFunction;
+  productListing: StoreFunctionGuest;
+  filterSort: StoreFunctionGuest;
+  productDetails: StoreFunctionGuest;
+  foodDetails: StoreFunctionGuest;
   addToCart: StoreFunction;
   updateCartQuantity: StoreFunction;
   removeFromCart: StoreFunction;
 }
 
 const ProductListingStore = create<Store>((set) => ({
-  productListing(dictData, navigation) {
+  productListing(dictData, isGuestUser, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -36,16 +42,23 @@ const ProductListingStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.postServerRequestWithToken({
+      const requestParams = {
         apiEndPoint: apiEndPoint.productListing,
-        callback: callback,
-        dictData: dictData,
-        navigation: navigation,
-      });
+        callback,
+        dictData,
+        navigation,
+      };
+
+      // ✅ Call appropriate method based on guest status
+      if (isGuestUser === true) {
+        APIManager.postServerRequestWithoutToken(requestParams);
+      } else {
+        APIManager.postServerRequestWithToken(requestParams);
+      }
     });
   },
 
-  filterSort(dictData, navigation) {
+  filterSort(dictData, isGuestUser, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -62,16 +75,23 @@ const ProductListingStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.postServerRequestWithToken({
+      const requestParams = {
         apiEndPoint: apiEndPoint.filterSort,
-        callback: callback,
-        dictData: dictData,
-        navigation: navigation,
-      });
+        callback,
+        dictData,
+        navigation,
+      };
+
+      // ✅ Call appropriate method based on guest status
+      if (isGuestUser === true) {
+        APIManager.postServerRequestWithoutToken(requestParams);
+      } else {
+        APIManager.postServerRequestWithToken(requestParams);
+      }
     });
   },
 
-  productDetails(dictData, navigation) {
+  productDetails(dictData, isGuestUser, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -88,16 +108,23 @@ const ProductListingStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.postServerRequestWithToken({
+      const requestParams = {
         apiEndPoint: apiEndPoint.productDetails,
-        callback: callback,
-        dictData: dictData,
-        navigation: navigation,
-      });
+        callback,
+        dictData,
+        navigation,
+      };
+
+      // ✅ Call appropriate method based on guest status
+      if (isGuestUser === true) {
+        APIManager.postServerRequestWithoutToken(requestParams);
+      } else {
+        APIManager.postServerRequestWithToken(requestParams);
+      }
     });
   },
 
-  foodDetails(dictData, navigation) {
+  foodDetails(dictData, isGuestUser, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -114,12 +141,19 @@ const ProductListingStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.postServerRequestWithToken({
+      const requestParams = {
         apiEndPoint: apiEndPoint.foodDetails,
-        callback: callback,
-        dictData: dictData,
-        navigation: navigation,
-      });
+        callback,
+        dictData,
+        navigation,
+      };
+
+      // ✅ Call appropriate method based on guest status
+      if (isGuestUser === true) {
+        APIManager.postServerRequestWithoutToken(requestParams);
+      } else {
+        APIManager.postServerRequestWithToken(requestParams);
+      }
     });
   },
 

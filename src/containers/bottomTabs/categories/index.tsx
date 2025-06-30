@@ -14,13 +14,14 @@ import {
 } from "../../../constants/GConstant";
 import { zustandStore } from "../../../store";
 import LocationManager from "../../../constants/utils/LocationManager";
+import { MmkvManager } from "../../../constants/utils/MmkvManager";
 
 const CategoriesContainer = ({ navigation }: any) => {
   // API zustand store
   const mainCategoryList = zustandStore.HomeStore(
     (state) => state.mainCategoryList
   );
-
+  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   const [arrMainCategoryList, setArrMainCategoryList] = useState<
     MainCategoryListItem[]
   >([]);
@@ -30,9 +31,10 @@ const CategoriesContainer = ({ navigation }: any) => {
   const [hasMoreData, setHasMoreData] = useState<boolean>(true);
   const hasMountedOnce = useRef(false);
   const [canLoadMore, setCanLoadMore] = useState(false);
-  const [currentLatLong, setCurrentLatLong] = useState<
-    { latitude: number; longitude: number } | null
-  >(null);
+  const [currentLatLong, setCurrentLatLong] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
   const [currentAddress, setCurrentAddress] = useState<string | null>("");
 
   const onPressMainCategories = (
@@ -42,7 +44,7 @@ const CategoriesContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.productListing, {
       mainCategoryId: mainCategoryId,
       mainCategoryName: mainCategoryName,
-      currentLatLong: currentLatLong
+      currentLatLong: currentLatLong,
     });
   };
 
@@ -55,7 +57,10 @@ const CategoriesContainer = ({ navigation }: any) => {
   };
 
   // handleMainCategoryListApi
-  const handleMainCategoryListApi = async (page: number, isLoadMore = false) => {
+  const handleMainCategoryListApi = async (
+    page: number,
+    isLoadMore = false
+  ) => {
     if (isLoadMore && isLoadingMore) return;
 
     if (!isLoadMore) toggleLoader(true);
@@ -65,7 +70,11 @@ const CategoriesContainer = ({ navigation }: any) => {
       page_number: page,
     };
     try {
-      const response = await mainCategoryList(dictData, navigation);
+      const response = await mainCategoryList(
+        dictData,
+        isGuestUser,
+        navigation
+      );
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log(
@@ -108,6 +117,8 @@ const CategoriesContainer = ({ navigation }: any) => {
     const current = await LocationManager.getCurrentLocation();
     if (current) {
       setCurrentLatLong(current);
+      console.log("current ", current);
+
       const address = await LocationManager.getFormattedAddress(current);
       console.log("currentAddress", address);
       setCurrentAddress(address);
@@ -117,6 +128,12 @@ const CategoriesContainer = ({ navigation }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      // Fetch Guest User
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
+        console.log("isGuestUser=====>", Boolean(storedValue));
+
+        setIsGuestUser(Boolean(storedValue));
+      });
       handleCurrentLocation();
       setMainCategoryPageNumber(1);
       setHasMoreData(true);

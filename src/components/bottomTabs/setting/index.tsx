@@ -17,6 +17,7 @@ import { colors } from "../../../constants/Colors";
 import FastImage from "react-native-fast-image";
 
 interface PropsType {
+  isGuestUser: boolean;
   arrSettingData: SettingDataItem[];
   isModalDeleteVisible: boolean;
   isModalSignOutVisible: boolean;
@@ -85,11 +86,13 @@ const SettingComponent = (props: PropsType) => {
             <View style={styles.vwProfileImage}>
               <FastImage
                 style={
-                  props?.profileImage!= props?.baseImagePath
+                  !props?.isGuestUser &&
+                  props?.profileImage != props?.baseImagePath
                     ? styles.imgPrfileImage
                     : styles.imgProfileIcon
                 }
                 source={
+                  !props?.isGuestUser &&
                   props?.profileImage != props?.baseImagePath
                     ? { uri: props.profileImage }
                     : images.profileBigIcon

@@ -17,34 +17,49 @@ import {
   hitSlop,
   rupeeSymbol,
 } from "../../constants/GConstant";
-import { GroceryProduct } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrProducts: any[];
-  onPressProduct: (item: GroceryProduct) => void;
+  onPressProduct: (
+    product_id: string,
+    variation_id?: string,
+    size_id?: string,
+    color_id?: string,
+    is_variation?: boolean,
+    is_color?: boolean,
+    is_size?: boolean,
+    category_id?: string,
+    vendor_id?: string
+  ) => void;
 }
 
 const SearchComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
 
-  const renderItemSearch = ({
-    item,
-    index,
-  }: {
-    item: any;
-    index: number;
-  }) => {
+  const renderItemSearch = ({ item, index }: { item: any; index: number }) => {
     return (
       <TouchableOpacity
         style={styles.btnProductItem}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         key={index}
-        // onPress={() => props.onPressProduct(item)}
+        onPress={() =>
+          props.onPressProduct(
+            item?.id,
+            item?.variation_data?.variation_id,
+            item?.variation_data?.size_id,
+            item?.variation_data?.color_id,
+            item?.is_variation,
+            item?.is_color,
+            item?.is_size,
+            item?.category_id,
+            item?.vendor_id
+          )
+        }
       >
         <View style={styles.vwProductImage}>
-          <FastImage style={styles.imgProduct} source={{uri : item?.product_img}} />
+          <FastImage style={styles.imgProduct} source={{ uri: item?.image }} />
         </View>
         <View style={styles.vwProductDetails}>
           <Text style={styles.lblProductName}>{item?.name}</Text>
@@ -58,7 +73,19 @@ const SearchComponent = (props: PropsType) => {
               source={images.dotOrange}
               resizeMode="stretch"
             />
-            <Text style={styles.lblProductWeight}>{item?.variation_data?.amount+item?.variation_data?.unit}</Text>
+            <Text style={styles.lblProductWeight}>
+              {item?.is_variation && !item?.is_size && !item?.is_color
+                ? item?.variation_data?.amount + item?.variation_data?.unit
+                : item?.is_variation && item?.is_size && item?.is_color
+                ? item?.variation_data?.size +
+                  " - " +
+                  item?.variation_data?.color
+                : item?.is_variation && item?.is_size && !item?.is_color
+                ? item?.variation_data?.size
+                : item?.is_variation && item?.is_color && !item?.is_size
+                ? item?.variation_data?.color
+                : null}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>

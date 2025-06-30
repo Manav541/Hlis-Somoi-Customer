@@ -9,7 +9,11 @@ import {
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import ViewRestaurantDetailComponent from "../../components/viewRestaurantDetail";
-import { appName, flashMessageWarning } from "../../constants/GConstant";
+import {
+  appName,
+  flashMessageWarning,
+  showConfirmForGuest,
+} from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { ScreenNames } from "../../routers";
@@ -24,6 +28,7 @@ import {
   ProductRestaurant,
   RestaurantDetailResponse,
 } from "../../constants/interfaces";
+import { MmkvManager } from "../../constants/utils/MmkvManager";
 
 const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   // API Zustand store
@@ -42,6 +47,17 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   const removeFromCartApi = zustandStore.ProductListingStore(
     (state) => state.removeFromCart
   );
+  const cartItemCount = zustandStore.CartItemCountStore(
+    (state) => state.cartItemCount
+  );
+  const incrementCartItemCount = zustandStore.CartItemCountStore(
+    (state) => state.incrementCartItemCount
+  );
+  const decrementCartItemCount = zustandStore.CartItemCountStore(
+    (state) => state.decrementCartItemCount
+  );
+  const cartItemTotal = cartItemCount;
+  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   // console.log("route", route.params?.item);
   const itemData = route.params;
   const vendor_id = itemData?.vendor_id;
@@ -102,52 +118,58 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     is_variation?: boolean,
     variation_id?: string
   ) => {
-    const currentItem = arrSubCategoryFoodData[index];
-
-    let variationQty = 0;
-
-    if (is_variation && variation_id) {
-      const selectedVar = currentItem.variations.find(
-        (v: any) => v.variation_id === variation_id
-      );
-      variationQty = Number(selectedVar?.quantity) || 0;
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+      });
     } else {
-      variationQty = Number(currentItem.quantity) || 0;
-    }
+      const currentItem = arrSubCategoryFoodData[index];
 
-    let newQty = variationQty;
+      let variationQty = 0;
 
-    if (type === "add") {
-      newQty = variationQty + 1;
-    } else if (type === "remove" && variationQty > 0) {
-      newQty = variationQty - 1;
-    }
+      if (is_variation && variation_id) {
+        const selectedVar = currentItem.variations.find(
+          (v: any) => v.variation_id === variation_id
+        );
+        variationQty = Number(selectedVar?.quantity) || 0;
+      } else {
+        variationQty = Number(currentItem.quantity) || 0;
+      }
 
-    if (newQty === 0) {
-      await handleRemoveFromCartApi(
-        product_id,
-        index,
-        variation_id,
-        is_variation
-      );
-    } else if (variationQty === 0 && newQty === 1) {
-      // ✅ CORRECT: Only call this for first-time add
-      await handleAddToCartApi(
-        product_id,
-        newQty,
-        index,
-        variation_id,
-        is_variation
-      );
-    } else {
-      // ✅ Now only calls update if already present
-      await handleUpdateCartQuantityApi(
-        product_id,
-        newQty,
-        index,
-        variation_id,
-        is_variation
-      );
+      let newQty = variationQty;
+
+      if (type === "add") {
+        newQty = variationQty + 1;
+      } else if (type === "remove" && variationQty > 0) {
+        newQty = variationQty - 1;
+      }
+
+      if (newQty === 0) {
+        await handleRemoveFromCartApi(
+          product_id,
+          index,
+          variation_id,
+          is_variation
+        );
+      } else if (variationQty === 0 && newQty === 1) {
+        // ✅ CORRECT: Only call this for first-time add
+        await handleAddToCartApi(
+          product_id,
+          newQty,
+          index,
+          variation_id,
+          is_variation
+        );
+      } else {
+        // ✅ Now only calls update if already present
+        await handleUpdateCartQuantityApi(
+          product_id,
+          newQty,
+          index,
+          variation_id,
+          is_variation
+        );
+      }
     }
   };
 
@@ -156,7 +178,13 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   };
 
   const onPressFavourite = (product_id: string, index: number) => {
-    handleWishlistProductApi(product_id, index);
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+      });
+    } else {
+      handleWishlistProductApi(product_id, index);
+    }
   };
 
   const onPressSubCategoryType = (selectedId: string, selectedName: string) => {
@@ -176,7 +204,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   const onPressReview = () => {
     navigation.navigate(ScreenNames.review, {
       storeDetail: foodData?.restaurant,
-      type: "vendor"
+      type: "vendor",
     });
   };
 
@@ -254,7 +282,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     }
 
     try {
-      const response = await foodDetailsApi(dictData, navigation);
+      const response = await foodDetailsApi(dictData, isGuestUser, navigation);
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log("STORE DETAILS RESPONSE===>", JSON.stringify(response));
@@ -390,6 +418,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
               selected_variation: selectedVariation,
             }));
           }
+          incrementCartItemCount(1);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -543,6 +572,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
               selected_variation: selectedVariation,
             }));
           }
+          decrementCartItemCount(1);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -554,6 +584,12 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      // Fetch Guest User
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
+        console.log("isGuestUser=====>", Boolean(storedValue));
+
+        setIsGuestUser(Boolean(storedValue));
+      });
       handleProductDetailsApi(vendor_id);
       StatusBar.setBarStyle("light-content");
       return () => {};
@@ -562,6 +598,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
 
   return (
     <ViewRestaurantDetailComponent
+      cartItemTotal={cartItemTotal}
       foodData={foodData || ({} as RestaurantDetailResponse)}
       arrSubCategoryType={arrSubCategoryType}
       onPressSubCategoryType={onPressSubCategoryType}

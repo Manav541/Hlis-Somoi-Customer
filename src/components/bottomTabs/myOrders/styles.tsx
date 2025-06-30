@@ -12,9 +12,9 @@ export const styles = StyleSheet.create({
   },
   vwMainEmpty: {
     flex: 1,
-    backgroundColor: colors.blue4e,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.blue4e,
   },
   vwMainContainer: {
     flex: 1,
@@ -84,6 +84,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size20,
     fontFamily: fontsfamily.bold,
     color: colors.white,
+    textAlign: "center",
   },
   lblOrderNumber: {
     color: colors.grey62,

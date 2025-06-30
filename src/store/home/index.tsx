@@ -5,6 +5,7 @@ import { APIResponseType } from "../../constants/interfaces";
 
 type StoreFunction = (
   dictData: object,
+  isGuestUser: boolean,
   navigation: any
 ) => Promise<APIResponseType>;
 
@@ -18,7 +19,7 @@ interface Store {
 }
 
 const HomeStore = create<Store>((set) => ({
-  mainCategoryList(dictData, navigation) {
+  mainCategoryList(dictData, isGuestUser, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -35,16 +36,23 @@ const HomeStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.postServerRequestWithToken({
+      const requestParams = {
         apiEndPoint: apiEndPoint.mainCategoryList,
-        callback: callback,
-        dictData: dictData,
-        navigation: navigation,
-      });
+        callback,
+        dictData,
+        navigation,
+      };
+
+      // ✅ Call appropriate method based on guest status
+      if (isGuestUser === true) {
+        APIManager.postServerRequestWithoutToken(requestParams);
+      } else {
+        APIManager.postServerRequestWithToken(requestParams);
+      }
     });
   },
 
-  bannerList(dictData, navigation) {
+  bannerList(dictData, isGuestUser, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -61,16 +69,23 @@ const HomeStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.getServerRequestWithToken({
+      const requestParams = {
         apiEndPoint: apiEndPoint.bannerList,
-        callback: callback,
-        dictData: dictData,
-        navigation: navigation,
-      });
+        callback,
+        dictData,
+        navigation,
+      };
+
+      // ✅ Call appropriate method based on guest status
+      if (isGuestUser === true) {
+        APIManager.getServerRequestWithoutToken(requestParams);
+      } else {
+        APIManager.getServerRequestWithToken(requestParams);
+      }
     });
   },
 
-  subCategoryList(dictData, navigation) {
+  subCategoryList(dictData, isGuestUser, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -87,16 +102,23 @@ const HomeStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.postServerRequestWithToken({
+      const requestParams = {
         apiEndPoint: apiEndPoint.subCategoryList,
-        callback: callback,
-        dictData: dictData,
-        navigation: navigation,
-      });
+        callback,
+        dictData,
+        navigation,
+      };
+
+      // ✅ Call appropriate method based on guest status
+      if (isGuestUser === true) {
+        APIManager.postServerRequestWithoutToken(requestParams);
+      } else {
+        APIManager.postServerRequestWithToken(requestParams);
+      }
     });
   },
 
-  bestProductsSellerList(dictData, navigation) {
+  bestProductsSellerList(dictData, isGuestUser, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -113,16 +135,23 @@ const HomeStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.postServerRequestWithToken({
+      const requestParams = {
         apiEndPoint: apiEndPoint.bestProductsSellerList,
-        callback: callback,
-        dictData: dictData,
-        navigation: navigation,
-      });
+        callback,
+        dictData,
+        navigation,
+      };
+
+      // ✅ Call appropriate method based on guest status
+      if (isGuestUser === true) {
+        APIManager.postServerRequestWithoutToken(requestParams);
+      } else {
+        APIManager.postServerRequestWithToken(requestParams);
+      }
     });
   },
 
-  searchProduct(dictData, navigation) {
+  searchProduct(dictData, isGuestUser, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -139,15 +168,21 @@ const HomeStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.postServerRequestWithToken({
+      const requestParams = {
         apiEndPoint: apiEndPoint.searchProduct,
-        callback: callback,
-        dictData: dictData,
-        navigation: navigation,
-      });
+        callback,
+        dictData,
+        navigation,
+      };
+
+      // ✅ Call appropriate method based on guest status
+      if (isGuestUser === true) {
+        APIManager.postServerRequestWithoutToken(requestParams);
+      } else {
+        APIManager.postServerRequestWithToken(requestParams);
+      }
     });
   },
-  
 }));
 
 export default HomeStore;

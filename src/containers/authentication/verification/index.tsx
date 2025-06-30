@@ -247,6 +247,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
           MmkvManager.setData(MmkvManager.Keys.customerId, customerId);
 
           MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
+          MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
 
           navigation.navigate(ScreenNames.addAddress, {
             navigateFromManageAddress: false,
@@ -361,6 +362,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
           } else {
             flashMessageSucess(response.message);
             MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
+            MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
             navigation.dispatch(
               CommonActions.reset({
                 index: 1,

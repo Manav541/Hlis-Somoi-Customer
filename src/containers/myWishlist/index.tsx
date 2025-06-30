@@ -36,6 +36,12 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   const wishlistStoreApi = zustandStore.MyWishlistStore(
     (state) => state.wishlistStore
   );
+  const incrementCartItemCount = zustandStore.CartItemCountStore(
+    (state) => state.incrementCartItemCount
+  );
+  const decrementCartItemCount = zustandStore.CartItemCountStore(
+    (state) => state.decrementCartItemCount
+  );
 
   const currentLatLong = route?.params?.currentLatLong;
 
@@ -301,6 +307,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
             updated[index].quantity = quantity;
           }
           setArrMyWishlistProduct(updated);
+          incrementCartItemCount(1);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -383,6 +390,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
             updated[index].quantity = 0;
           }
           setArrMyWishlistProduct(updated);
+          decrementCartItemCount(1);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }

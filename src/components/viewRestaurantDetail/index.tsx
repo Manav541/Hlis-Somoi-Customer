@@ -22,7 +22,6 @@ import {
 } from "../../constants/GConstant";
 import { colors } from "../../constants/Colors";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
-import { fontSize } from "../../constants/FontSizes";
 import FastImage from "react-native-fast-image";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GlobalBackButton from "../../global/GlobalBackButton";
@@ -34,6 +33,7 @@ import {
 } from "../../constants/interfaces";
 
 interface PropsType {
+  cartItemTotal: number;
   foodData: RestaurantDetailResponse;
   arrSubCategoryType: Category[];
   onPressSubCategoryType: (selectedId: string, selectedName: string) => void;
@@ -264,8 +264,6 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
     );
   };
 
-  console.log("Selected Food ", props?.selectedFoodItem);
-
   return (
     <View style={styles.vwMain}>
       <StatusBar
@@ -306,6 +304,13 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                     source={images.cartBagIcon}
                     tintColor={colors.white}
                   />
+                  {props?.cartItemTotal > 0 && (
+                    <View style={styles.vwBedge}>
+                      <Text style={styles.lblBedge}>
+                        {props?.cartItemTotal}
+                      </Text>
+                    </View>
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -335,8 +340,10 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
               </Text>
             </View>
             <View style={styles.vwRestaurantTimeDistance}>
-              <Text style={styles.lblRestaurant_deliverytime}>
-                {getTranslation("deliveryTiming")}{" "}
+              <View style={{ flexDirection: "row" }}>
+                <Text style={styles.lblRestaurant_deliverytime}>
+                  {getTranslation("deliveryTiming") + " "}
+                </Text>
                 <Text
                   style={{
                     ...styles.lblRestaurant_deliverytime,
@@ -345,7 +352,8 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                 >
                   {props?.foodData?.restaurant?.delivery_time}
                 </Text>
-              </Text>
+              </View>
+
               <View style={styles.vwRestaurantDistance}>
                 <Image
                   style={styles.imgDot}
@@ -382,12 +390,14 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                 hitSlop={hitSlop}
                 onPress={props?.onPressReview}
               >
-                <Text style={styles.lblRestaurant_reviews}>
-                  {props?.foodData?.restaurant?.review_count}{" "}
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.lblRestaurant_reviews}>
+                    {props?.foodData?.restaurant?.review_count + " "}
+                  </Text>
                   <Text style={styles.lblReviews}>
                     {getTranslation("reviews")}
                   </Text>
-                </Text>
+                </View>
               </TouchableOpacity>
             </View>
           </View>
@@ -559,7 +569,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
 
                     {/* Add To Cart */}
                     <View style={styles.fixedBottom}>
-                      {props?.selectedFoodItem?.quantity == 0  ? (
+                      {props?.selectedFoodItem?.quantity == 0 ? (
                         <TouchableOpacity
                           style={styles.btnModalAddToCart}
                           activeOpacity={activityOpacity}

@@ -7,7 +7,7 @@ import {
   Modal,
   StatusBar,
 } from "react-native";
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { styles } from "./styles";
 import { colors } from "../../constants/Colors";
 import {
@@ -21,18 +21,12 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { fontsfamily } from "../../constants/FontFamily";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
-import { fontSize } from "../../constants/FontSizes";
 import GlobalButton from "../../global/GlobalButton";
-import DropDownPicker from "react-native-dropdown-picker";
 import {
-  CategoryItem,
   Product,
   Restaurant,
-  SubCategoryData,
-  SubCategoryItem,
   SubCategoryTitle,
 } from "../../constants/interfaces";
-import GlobalDropdown from "../../global/GlobalDropdown";
 import FastImage from "react-native-fast-image";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
 
@@ -91,6 +85,8 @@ const ProductListingComponent = (props: PropsType) => {
     item: SubCategoryTitle;
     index: number;
   }) => {
+    console.log("Icon Image => ", item?.name, item?.image);
+
     return (
       <TouchableOpacity
         style={
@@ -103,11 +99,20 @@ const ProductListingComponent = (props: PropsType) => {
         key={index}
         onPress={() => props.onPressSubCategoryTitle(item?.name)}
       >
-        <Image
-          style={styles.imgSubIcon}
-          tintColor={item?.isSelected ? colors.blue4e : colors.greya7}
-          source={item?.image}
-        />
+        {item?.name == "All" || item?.image == undefined ? (
+          <Image
+            style={styles.imgSubIcon}
+            tintColor={item?.isSelected ? colors.blue4e : colors.greya7}
+            source={images.allSubIcon}
+          />
+        ) : (
+          <Image
+            style={styles.imgSubIcon}
+            tintColor={item?.isSelected ? colors.blue4e : colors.greya7}
+            source={{ uri: item?.image }}
+          />
+        )}
+
         <Text
           style={
             item?.isSelected
@@ -296,7 +301,13 @@ const ProductListingComponent = (props: PropsType) => {
     );
   };
 
-  const renderArrFoodSubCategory = ({ item, index }: { item: Restaurant; index: number }) => {
+  const renderArrFoodSubCategory = ({
+    item,
+    index,
+  }: {
+    item: Restaurant;
+    index: number;
+  }) => {
     return (
       <TouchableOpacity
         style={styles.btnAllBestSellersItem}
@@ -306,7 +317,7 @@ const ProductListingComponent = (props: PropsType) => {
       >
         <FastImage
           style={styles.imgBestSellers}
-          source={{uri : item?.image}}
+          source={{ uri: item?.image }}
           resizeMode="stretch"
         />
         <TouchableOpacity
@@ -317,14 +328,14 @@ const ProductListingComponent = (props: PropsType) => {
         >
           <Image
             style={styles.imgRedHeart}
-            source={item?.is_store_wishlisted ? images.redHeart : images.emptyHeart}
+            source={
+              item?.is_store_wishlisted ? images.redHeart : images.emptyHeart
+            }
             resizeMode="stretch"
           />
         </TouchableOpacity>
         <View style={styles.vwBestSellersItemDetails}>
-          <Text style={styles.lblBestSellersItemName}>
-            {item?.name}
-          </Text>
+          <Text style={styles.lblBestSellersItemName}>{item?.name}</Text>
           <View style={styles.vwLocation}>
             <Image
               style={styles.imgLocation}
@@ -362,9 +373,7 @@ const ProductListingComponent = (props: PropsType) => {
                   source={images.dotOrange}
                   resizeMode="stretch"
                 />
-                <Text style={styles.lblDistance}>
-                  {item?.distance}
-                </Text>
+                <Text style={styles.lblDistance}>{item?.distance}</Text>
               </View>
             </View>
             <View style={styles.vwRating}>
@@ -378,7 +387,7 @@ const ProductListingComponent = (props: PropsType) => {
           </View>
           <FastImage
             style={styles.imgLogo}
-            source={{uri : item?.logo}}
+            source={{ uri: item?.logo }}
             resizeMode="stretch"
           />
         </View>
@@ -441,7 +450,7 @@ const ProductListingComponent = (props: PropsType) => {
             paddingHorizontal: 20,
             paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
           }}
-           ListEmptyComponent={
+          ListEmptyComponent={
             <View style={styles.vwNoData}>
               <Text style={styles.lblNoData}>
                 {getTranslation("noDataFound")}

@@ -34,7 +34,7 @@ export const showConfirmAlert = (
     [
       {
         text: cancelText,
-        style: "cancel",
+        style: "destructive",
         onPress: OnCancel,
       },
       {
@@ -47,21 +47,18 @@ export const showConfirmAlert = (
 };
 
 export const showConfirmForGuest = (
-  message: string,
   onConfirm: () => void,
-  cancelText: string = "Cancel",
-  confirmText: string = "Sign In"
 ) => {
   Alert.alert(
     appName,
-    message,
+    "To access this feature, Please sign in!",
     [
       {
-        text: cancelText,
-        style: "cancel",
+        text: "Cancel",
+        style: "destructive",
       },
       {
-        text: confirmText,
+        text: "Sign In",
         onPress: onConfirm,
       },
     ],

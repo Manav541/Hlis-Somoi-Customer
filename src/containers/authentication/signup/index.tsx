@@ -194,7 +194,7 @@ const SignupContainer = ({ navigation }: any) => {
 
   const handleRequestOtpApi = async () => {
     const dictData: RequestOTPResponseType = {
-      type : 'signup'
+      type: "signup",
     };
     if (isEmailSelected) {
       dictData.email = email;
@@ -209,7 +209,7 @@ const SignupContainer = ({ navigation }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log("SIGNUP SCREEN OTP REQUEST RESPONSE===>", response);
-        
+
         if (response.code === statusCodes.success) {
           setName("");
           setEmail("");
@@ -226,7 +226,7 @@ const SignupContainer = ({ navigation }: any) => {
             mobileNumber: mobileNumber,
             countryCode: countryCode,
             isEmailSelected: isEmailSelected,
-            responseOTP: (response.data as { otp: string }).otp
+            responseOTP: (response.data as { otp: string }).otp,
           });
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
@@ -236,8 +236,6 @@ const SignupContainer = ({ navigation }: any) => {
       __DEV__ && console.log(error);
     }
   };
-
-  
 
   const handleOnPressSignIn = () => {
     if (isNavigating) return;
@@ -250,19 +248,18 @@ const SignupContainer = ({ navigation }: any) => {
   };
 
   const handleOnPressGuest = () => {
-    flashMessageWarning(getTranslation("underDevelopment"));
-    // if (isNavigating) return;
-    // setIsNavigating(true);
-    // MmkvManager.setData(MmkvManager.Keys.isGuestUser, "true");
-    // navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 1,
-    //     routes: [{ name: ScreenNames.bottomTabsNavigation }],
-    //   })
-    // );
-    // setTimeout(() => {
-    //   setIsNavigating(false);
-    // }, 1000);
+    if (isNavigating) return;
+    setIsNavigating(true);
+    MmkvManager.setData(MmkvManager.Keys.isGuestUser, "true");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: ScreenNames.bottomTabsNavigation }],
+      })
+    );
+    setTimeout(() => {
+      setIsNavigating(false);
+    }, 1000);
   };
 
   const onPressCMS = (page: string) => {
@@ -277,7 +274,6 @@ const SignupContainer = ({ navigation }: any) => {
       ),
     });
   }, []);
-
 
   return (
     <SignupComponent

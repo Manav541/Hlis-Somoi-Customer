@@ -71,8 +71,8 @@ interface PropsType {
   ) => void;
   allMedia: Media[];
   selectedIndex: number;
-  
-  cartItemTotal: string;
+
+  cartItemTotal: number;
   is_variation: boolean;
   is_size: boolean;
   is_color: boolean;
@@ -214,7 +214,6 @@ const ViewProductDetailComponent = (props: PropsType) => {
             <Text style={styles.lblReviewRateNumber}>{item?.rating}</Text>
           </View>
           <Text style={styles.lblReviewDate}>
-            {" "}
             {DateFormatsManager.formatDate(
               item?.date,
               DateFormatsManager.DateFormats.DD_MM_YYYY
@@ -362,7 +361,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
                     source={images.cartBagIcon}
                     tintColor={colors.blue4e}
                   />
-                  {props?.cartItemTotal && (
+                  {props?.cartItemTotal > 0 && (
                     <View style={styles.vwBedge}>
                       <Text style={styles.lblBedge}>
                         {props?.cartItemTotal}
@@ -442,7 +441,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
               />
               <View>
                 <Text style={styles.lblProduct_reviews}>
-                  {props?.productDetails?.total_reviews}{" "}
+                  {props?.productDetails?.total_reviews + " "}
                   <Text style={styles.lblReviews}>
                     {getTranslation("reviews")}
                   </Text>

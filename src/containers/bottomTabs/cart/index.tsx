@@ -35,7 +35,10 @@ const CartContainer = ({ navigation }: any) => {
   const removeFromCartApi = zustandStore.ProductListingStore(
     (state) => state.removeFromCart
   );
-
+  const decrementCartItemCount = zustandStore.CartItemCountStore(
+    (state) => state.decrementCartItemCount
+  );
+  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   const current_date = new Date().toISOString().split("T")[0];
   const [couponCode, setCouponCode] = useState<string>("");
   const [isApplyCoupon, setIsApplyCoupon] = useState<boolean>(false);
@@ -250,6 +253,7 @@ const CartContainer = ({ navigation }: any) => {
       },
     });
   };
+
   const onPressPlaceOrder = (total_bill: string) => {
     navigation.navigate(ScreenNames.paymentMethod, {
       location_id: location_id,
@@ -449,6 +453,7 @@ const CartContainer = ({ navigation }: any) => {
             cart_details: updated,
           }));
           setCartDetails(rawData);
+          decrementCartItemCount(1);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -460,11 +465,22 @@ const CartContainer = ({ navigation }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleCartListingApi();
-      // Only load default address if no address selected yet
-      if (!hasSelectedAddressRef.current) {
-        handleAddressListApi();
-      }
+      // Fetch Guest User
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
+        const isGuest = Boolean(storedValue);
+        console.log("isGuestUser=====>", isGuest);
+        setIsGuestUser(isGuest);
+
+        if (isGuest) {
+          setCartDetails(null); // Empty cart for guest users
+        } else {
+          handleCartListingApi(); // Only call if not guest
+          if (!hasSelectedAddressRef.current) {
+            handleAddressListApi(); // Only call if not guest and address not selected
+          }
+        }
+      });
+
       StatusBar.setBarStyle("dark-content");
 
       // Fetch customer data

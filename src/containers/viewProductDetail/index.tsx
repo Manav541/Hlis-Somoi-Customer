@@ -7,7 +7,11 @@ import {
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import { images } from "../../constants/Images";
-import { appName, flashMessageWarning } from "../../constants/GConstant";
+import {
+  appName,
+  flashMessageWarning,
+  showConfirmForGuest,
+} from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import ViewProductDetailComponent from "../../components/viewProductDetail";
@@ -26,6 +30,7 @@ import {
 } from "../../constants/interfaces";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
+import { MmkvManager } from "../../constants/utils/MmkvManager";
 
 const ViewProductDetailContainer = ({ navigation, route }: any) => {
   // API Zustand store
@@ -47,8 +52,17 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const addCompareProductApi = zustandStore.CompareProductStore(
     (state) => state.addCompareProduct
   );
-  const cartListingApi = zustandStore.CartStore((state) => state.cartListing);
-
+  const cartItemCount = zustandStore.CartItemCountStore(
+    (state) => state.cartItemCount
+  );
+  const incrementCartItemCount = zustandStore.CartItemCountStore(
+    (state) => state.incrementCartItemCount
+  );
+  const decrementCartItemCount = zustandStore.CartItemCountStore(
+    (state) => state.decrementCartItemCount
+  );
+  const cartItemTotal = cartItemCount;
+  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   const itemData = route.params;
   console.log("itemData", itemData);
 
@@ -81,7 +95,9 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const [arrColorVariations, setArrColorVariations] = useState<
     ColorVariation[]
   >([]);
-  const [cartItemTotal, setCartItemTotal] = useState<string>("");
+
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const handleCloseMediaModal = () => {
     setMediaModalVisible(false);
@@ -97,9 +113,6 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     setSelectedIndex(index);
     setMediaModalVisible(true);
   };
-
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [isNavigating, setIsNavigating] = useState(false);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const scrollPosition = event.nativeEvent.contentOffset.x;
@@ -138,11 +151,23 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   };
 
   const onPressGoToCompareProduct = () => {
-    handleAddCompareProductApi(product_id);
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+      });
+    } else {
+      handleAddCompareProductApi(product_id);
+    }
   };
 
   const onPressFavourite = (product_id: string, variation_id: string) => {
-    handleWishlistProductApi(product_id, variation_id);
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+      });
+    } else {
+      handleWishlistProductApi(product_id, variation_id);
+    }
   };
 
   const onPressVariationProduct = (variation_id: string) => {
@@ -151,56 +176,65 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
 
   // onPressBuyNow
   const onPressBuyNow = (type: "add" | "remove") => {
-    if (!productDetails) return;
-
-    const currentQty = Number(productDetails.cart?.quantity) || 0;
-    let newQty = currentQty;
-
-    if (type === "add") {
-      newQty = currentQty + 1;
-    } else if (type === "remove") {
-      newQty = currentQty > 0 ? currentQty - 1 : 0;
-    }
-
-    // ✅ Extract selected size and color from variations
-    const selectedSize = productDetails.variations?.find((v) => v.is_selected);
-    const selectedColor = (selectedSize as SizeVariation)?.colors?.find(
-      (c) => c.is_selected
-    );
-
-    const product_id = productDetails?.product_id;
-    const variation_id = productDetails?.variation_id; // You must pass this
-    const size_id = (selectedSize as SizeVariation)?.size_id;
-    const color_id = selectedColor?.color_id;
-
-    if (newQty === 1 && currentQty === 0) {
-      // Add to cart first time
-      handleAddToCartApi(
-        product_id,
-        newQty,
-        variation_id,
-        size_id,
-        color_id,
-        productDetails,
-        setProductDetails
-      );
-    } else if (newQty === 0) {
-      // Remove from cart
-      handleRemoveFromCartApi(
-        product_id,
-        variation_id,
-        productDetails,
-        setProductDetails
-      );
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+      });
     } else {
-      // Update quantity
-      handleUpdateCartQuantityApi(
-        product_id,
-        newQty,
-        variation_id,
-        productDetails,
-        setProductDetails
+      if (!productDetails) return;
+
+      const currentQty = Number(productDetails.cart?.quantity) || 0;
+      let newQty = currentQty;
+
+      if (type === "add") {
+        newQty = currentQty + 1;
+      } else if (type === "remove") {
+        newQty = currentQty > 0 ? currentQty - 1 : 0;
+      }
+
+      // ✅ Extract selected size and color from variations
+      const selectedSize = productDetails.variations?.find(
+        (v) => v.is_selected
       );
+      const selectedColor = (selectedSize as SizeVariation)?.colors?.find(
+        (c) => c.is_selected
+      );
+
+      const product_id = productDetails?.product_id;
+      const variation_id = productDetails?.variation_id; // You must pass this
+      const size_id = (selectedSize as SizeVariation)?.size_id;
+      const color_id = selectedColor?.color_id;
+
+      if (newQty === 1 && currentQty === 0) {
+        // Add to cart first time
+        handleAddToCartApi(
+          product_id,
+          newQty,
+          variation_id,
+          size_id,
+          color_id,
+          productDetails,
+          setProductDetails
+        );
+      } else if (newQty === 0) {
+        // Remove from cart
+        handleRemoveFromCartApi(
+          product_id,
+          variation_id,
+          productDetails,
+          setProductDetails
+        );
+        decrementCartItemCount(1);
+      } else {
+        // Update quantity
+        handleUpdateCartQuantityApi(
+          product_id,
+          newQty,
+          variation_id,
+          productDetails,
+          setProductDetails
+        );
+      }
     }
   };
 
@@ -340,7 +374,11 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     }
 
     try {
-      const response = await productDetailsApi(dictData, navigation);
+      const response = await productDetailsApi(
+        dictData,
+        isGuestUser,
+        navigation
+      );
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log("PRODUCT DETAILS RESPONSE===>", JSON.stringify(response));
@@ -545,7 +583,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
               },
             });
           }
-          // handleCartListingApi();
+          incrementCartItemCount(1);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -638,7 +676,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
               },
             });
           }
-          // handleCartListingApi();
+          decrementCartItemCount(1);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -680,6 +718,12 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      // Fetch Guest User
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
+        console.log("isGuestUser=====>", Boolean(storedValue));
+
+        setIsGuestUser(Boolean(storedValue));
+      });
       handleProductDetailsApi(product_id, variation_id, size_id, color_id);
       StatusBar.setBarStyle("light-content");
       return () => {};

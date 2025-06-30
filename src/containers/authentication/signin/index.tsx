@@ -7,7 +7,12 @@ import {
 } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { regex } from "../../../constants/Regex";
-import { CountryDataType, CustomerDetails, DeviceInfoType, SignupResponse } from "../../../constants/interfaces";
+import {
+  CountryDataType,
+  CustomerDetails,
+  DeviceInfoType,
+  SignupResponse,
+} from "../../../constants/interfaces";
 import { CountryData } from "../../../constants/utils/CountryData";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
@@ -180,16 +185,17 @@ const SignInContainer = ({ navigation }: any) => {
     try {
       const response = await signinApi(dictData, navigation);
       if (response !== undefined && response !== null) {
-        __DEV__ && console.log("SIGNUP RESPONSE===>", response);
+        __DEV__ && console.log("SIGNIN RESPONSE===>", response);
         if (response.code === statusCodes.success) {
           if (isEmailSelected) {
-          flashMessageSucess(response.message);
+            flashMessageSucess(response.message);
           }
-          const userTokenFromBackend = (response?.data as SignupResponse)?.device_info
-            ?.token;
+          const userTokenFromBackend = (response?.data as SignupResponse)
+            ?.device_info?.token;
           console.log("userTokenFromBackend", userTokenFromBackend);
           MmkvManager.setData(MmkvManager.Keys.userToken, userTokenFromBackend);
-          const customer_details = (response?.data as SignupResponse)?.customer_details;
+          const customer_details = (response?.data as SignupResponse)
+            ?.customer_details;
           MmkvManager.setData(
             MmkvManager.Keys.customerDetails,
             JSON.stringify(customer_details)
@@ -201,6 +207,7 @@ const SignInContainer = ({ navigation }: any) => {
             setEmail("");
             setPassword("");
             MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "true");
+            MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
             // flashMessageSucess(getTranslation("loginSuccessfully"));
             navigation.dispatch(
               CommonActions.reset({
@@ -243,19 +250,18 @@ const SignInContainer = ({ navigation }: any) => {
   };
 
   const handleOnPressGuest = () => {
-    flashMessageWarning(getTranslation("underDevelopment"));
-    // if (isNavigating) return;
-    // setIsNavigating(true);
-    // MmkvManager.setData(MmkvManager.Keys.isGuestUser, "true");
-    // navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 1,
-    //     routes: [{ name: ScreenNames.bottomTabsNavigation }],
-    //   })
-    // );
-    // setTimeout(() => {
-    //   setIsNavigating(false);
-    // }, 1000);
+    if (isNavigating) return;
+    setIsNavigating(true);
+    MmkvManager.setData(MmkvManager.Keys.isGuestUser, "true");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: ScreenNames.bottomTabsNavigation }],
+      })
+    );
+    setTimeout(() => {
+      setIsNavigating(false);
+    }, 1000);
   };
 
   useEffect(() => {

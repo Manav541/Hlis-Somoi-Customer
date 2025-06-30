@@ -15,7 +15,7 @@ import { colors } from "../../constants/Colors";
 
 interface PropsType {
   arrSubCategory: SubCategoryListItem[];
-  onPressCategory: () => void;
+  onPressCategory: (sub_category_id: string,subCategoryName:string) => void;
   loadMoreCategories: () => void;
   canLoadMore: boolean;
   setCanLoadMore: (value: boolean) => void;
@@ -23,7 +23,6 @@ interface PropsType {
 }
 
 const ViewAllSubCategoriesComponenet = (props: PropsType) => {
-
   const renderItemAllCategories = ({
     item,
     index,
@@ -37,7 +36,9 @@ const ViewAllSubCategoriesComponenet = (props: PropsType) => {
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         key={index}
-        onPress={props?.onPressCategory}
+        onPress={() => {
+          props?.onPressCategory(item?.id,item?.name);
+        }}
       >
         <FastImage
           style={styles.imgAllCategories}
@@ -55,18 +56,18 @@ const ViewAllSubCategoriesComponenet = (props: PropsType) => {
         barStyle={"dark-content"}
       />
       <FlatList
-         data={props.arrSubCategory}
-         renderItem={renderItemAllCategories}
-         keyExtractor={(item, index) => index.toString()}
-         numColumns={2}
-         bounces
-         showsVerticalScrollIndicator={false}
-         contentContainerStyle={{ paddingTop: 20, gap: 20 }}
-         columnWrapperStyle={{
-           marginHorizontal: 20,
-           justifyContent: "space-between",
-         }}
-         onEndReached={() => {
+        data={props.arrSubCategory}
+        renderItem={renderItemAllCategories}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={2}
+        bounces
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingTop: 20, gap: 20 }}
+        columnWrapperStyle={{
+          marginHorizontal: 20,
+          justifyContent: "space-between",
+        }}
+        onEndReached={() => {
           if (props.canLoadMore && props.hasMountedOnce.current) {
             props.loadMoreCategories();
           }

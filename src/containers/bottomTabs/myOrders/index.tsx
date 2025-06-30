@@ -11,14 +11,19 @@ import {
   Order,
 } from "../../../constants/interfaces";
 import { constnatStyles } from "../../../constants/Styles";
-import { flashMessageWarning } from "../../../constants/GConstant";
+import {
+  flashMessageWarning,
+  showConfirmForGuest,
+} from "../../../constants/GConstant";
 import { zustandStore } from "../../../store";
 import { statusCodes } from "../../../api/APIConstant";
+import { MmkvManager } from "../../../constants/utils/MmkvManager";
 
 const MyOrdersContainer = ({ navigation }: any) => {
   // API zustand store
   const orderListApi = zustandStore.MyOrdersStore((state) => state.orderList);
 
+  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   const [filterModal, setFilterModal] = useState(false);
   const [selectOrderType, setSelectOrderType] = useState<string>("orders");
   const [selectOrderDate, setSelectOrderDate] =
@@ -274,7 +279,13 @@ const MyOrdersContainer = ({ navigation }: any) => {
   ]);
 
   const onPressFilter = () => {
-    setFilterModal(true);
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+      });
+    } else {
+      setFilterModal(true);
+    }
   };
 
   const closeFilterModal = () => {
@@ -320,7 +331,9 @@ const MyOrdersContainer = ({ navigation }: any) => {
     navigation.setOptions({
       headerRight: () => (
         <GlobalBackButton
-          onPress={onPressFilter}
+          onPress={() => {
+            onPressFilter();
+          }}
           isRight
           rightImage={images.filterIconMyOreders}
         />
@@ -366,7 +379,19 @@ const MyOrdersContainer = ({ navigation }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleOrderListApi(selectOrderType, selectOrderDate);
+      // Fetch Guest User
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
+        const isGuest = Boolean(storedValue);
+        console.log("isGuestUser=====>", isGuest);
+        setIsGuestUser(isGuest);
+
+        if (isGuest) {
+          setArrOrderList([]); // Empty cart for guest users
+        } else {
+          handleOrderListApi(selectOrderType, selectOrderDate);
+        }
+      });
+
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])

@@ -257,7 +257,7 @@ export interface BestProduct {
 // Category tab
 export interface SubCategoryTitle {
   id: string;
-  image: any;
+  image?: any;
   name: string;
   isSelected: boolean;
 }
