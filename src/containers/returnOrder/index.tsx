@@ -16,29 +16,19 @@ import { Asset } from "react-native-image-picker";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import { CancelOrderReason } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
+import { zustandStore } from "../../store";
+import { statusCodes } from "../../api/APIConstant";
 
 const ReturnOrderContainer = ({ navigation }: any) => {
+  // API zustand store
+  const cancelReturnOrderReasonListApi = zustandStore.MyOrdersStore(
+    (state) => state.cancelReturnOrderReasonList
+  );
+
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
   const [arrReturnOrderReason, setArrReturnOrderReason] = useState<
     CancelOrderReason[]
-  >([
-    {
-      reason: "Faulty item",
-      isSelected: false,
-    },
-    {
-      reason: "Wrong item received",
-      isSelected: false,
-    },
-    {
-      reason: "Item not as described",
-      isSelected: false,
-    },
-    {
-      reason: "Other (please specify)",
-      isSelected: false,
-    },
-  ]);
+  >([]);
 
   const [otherReason, setOtherReason] = useState<string>("");
   const otherReasonRef = useRef<TextInput>(null);
@@ -201,8 +191,54 @@ const ReturnOrderContainer = ({ navigation }: any) => {
     header();
   }, []);
 
+  // ----------------------- API Calling -------------------------
+  // handleCancelOrderReasonListApi
+  const handleCancelOrderReasonListApi = async () => {
+    const dictData = {
+      type: "cancel",
+    };
+    try {
+      const response = await cancelReturnOrderReasonListApi(
+        dictData,
+        navigation
+      );
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "RETURN REASON LISTING RESPONSE===>",
+            JSON.stringify(response)
+          );
+        if (response.code === statusCodes.success) {
+          const rawData = response.data as CancelOrderReason[];
+          // Map API reasons to your CancelOrderReason type
+          const apiReasons: CancelOrderReason[] = rawData.map((item: any) => ({
+            id: item.id,
+            reason: item.reason,
+            isSelected: false,
+          }));
+
+          // Add 'Other (please specify)' at the end
+          const finalReasons: CancelOrderReason[] = [
+            ...apiReasons,
+            {
+              reason: "Other (please specify)",
+              isSelected: false,
+            },
+          ];
+
+          setArrReturnOrderReason(finalReasons);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
+      handleCancelOrderReasonListApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])

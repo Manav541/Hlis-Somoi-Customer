@@ -8,11 +8,10 @@ import { ScreenNames } from "../../routers";
 import { constnatStyles } from "../../constants/Styles";
 
 const DriverTrackingContainer = ({ navigation, route }: any) => {
-  const [driverProfile, setDriverProfile] = useState<string>("");
+  const driver_details = route?.params?.driver_details;
+  const customer_details = route?.params?.customer_details;
   const [driverName, setDriverName] = useState<string>("");
   const [driverMobileNumber, setDriverMobileNumber] = useState<string>("");
-  const [delivertoName, setDelivertoName] = useState<string>("");
-  const [delivertoAddress, setDelivertoAddress] = useState<string>("");
 
   const onPressChat = () => {
     navigation.navigate(ScreenNames.chat, {
@@ -35,19 +34,6 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
     header();
   }, []);
 
-  useEffect(() => {
-    header();
-    if (route?.params) {
-      setDriverProfile(route?.params?.driverProfile);
-      setDriverName(route?.params?.driverName);
-      setDriverMobileNumber(route?.params?.driverMobileNumber);
-      setDelivertoName(route?.params?.delivertoName);
-      setDelivertoAddress(route?.params?.delivertoAddress);
-    } else {
-      setDriverName("");
-    }
-  }, [route]);
-
   useFocusEffect(
     React.useCallback(() => {
       StatusBar.setBarStyle("dark-content");
@@ -56,10 +42,8 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
   );
   return (
     <DriverTrackingComponent
-      driverProfile={driverProfile}
-      driverName={driverName}
-      delivertoName={delivertoName}
-      delivertoAddress={delivertoAddress}
+      driver_details={driver_details}
+      customer_details={customer_details}
       onPressChat={onPressChat}
     />
   );

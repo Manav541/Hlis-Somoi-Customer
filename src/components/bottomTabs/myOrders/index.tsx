@@ -45,6 +45,11 @@ interface PropsType {
   handleNavigateOrderSummary: (order_id: string) => void;
   onPressApply: () => void;
   onPressReset: () => void;
+  // Pagination
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
 }
 
 const MyOrdersComponent = (props: PropsType) => {
@@ -57,7 +62,7 @@ const MyOrdersComponent = (props: PropsType) => {
   }) => {
     return (
       <TouchableOpacity
-        key={item?.order_id}
+        key={index}
         activeOpacity={activityOpacity}
         style={styles.btnOrderItems}
         onPress={() => {
@@ -175,6 +180,16 @@ const MyOrdersComponent = (props: PropsType) => {
             showsVerticalScrollIndicator={false}
             bounces={false}
             renderItem={renderItemOrderList}
+            onEndReached={() => {
+              if (props.canLoadMore && props.hasMountedOnce.current) {
+                props.loadMoreCategories();
+              }
+            }}
+            onEndReachedThreshold={0.4}
+            onContentSizeChange={(w, h) => {
+              props.setCanLoadMore(h > 600); // Adjust if needed
+              props.hasMountedOnce.current = true;
+            }}
           />
         </View>
       ) : (

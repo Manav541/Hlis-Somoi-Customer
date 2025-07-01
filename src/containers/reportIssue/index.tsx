@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, TextInput } from "react-native";
+import { Text, StatusBar, TextInput } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import GlobalBackButton from "../../global/GlobalBackButton";
@@ -9,6 +9,7 @@ import {
   flashMessageWarning,
   galleryPermission,
   messages,
+  toggleLoader,
 } from "../../constants/GConstant";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import { ScreenNames } from "../../routers";
@@ -16,19 +17,72 @@ import ReportIssueComponent from "../../components/reportIssue";
 import { constnatStyles } from "../../constants/Styles";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
+import ImageUpload, { FolderName } from "../../constants/utils/S3ImageUpload";
+import { SecretKeyItem } from "../../constants/interfaces";
 
 const ReportIssueContainer = ({ navigation, route }: any) => {
   // API zustand store
   const reportIssueApi = zustandStore.MyOrdersStore(
     (state) => state.reportIssue
   );
+  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
+
   const order_id = route?.params?.order_id;
+  const [s3AccessKey, setS3AccessKey] = useState<string>("");
+  const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
+  const uploadedS3ImageUrlsRef = useRef<string[] | null>(null);
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
   const [reportIssue, setReportIssue] = useState<string>("");
   const reportIssueRef = useRef<TextInput>(null);
   const [reportIssueFocused, setReportIssueFocused] = useState<boolean>(false);
 
   // Image uplaod
+  const uploadImageInS3 = async () => {
+    const imagesURIArray =
+      multiImagesArray.map((image: Asset) => image.uri) || [];
+    __DEV__ && console.log("All Image URIs:", imagesURIArray);
+
+    try {
+      toggleLoader(true);
+
+      let newlyUploadedUrls: string[] = [];
+
+      // 🆕 Only upload new images (local file URIs)
+      if (imagesURIArray.length > 0) {
+        const uploadPromises = imagesURIArray.map(
+          (uri: string | undefined) =>
+            new Promise<string>((resolve, reject) => {
+              ImageUpload.uploadImage(
+                s3AccessKey,
+                s3SecretAccessKey,
+                uri,
+                FolderName.REPORTS_MEDIA,
+                "image/png",
+                ".png",
+                (response: string) => {
+                  __DEV__ && console.log("✅ Uploaded image:", response);
+                  resolve(response);
+                }
+              );
+            })
+        );
+
+        newlyUploadedUrls = await Promise.all(uploadPromises);
+        uploadedS3ImageUrlsRef.current = newlyUploadedUrls;
+      }
+
+      const allUrls = [...newlyUploadedUrls];
+
+      console.log("🧾 Final image file names:", allUrls);
+
+      await handleReportIssueApi(reportIssue, allUrls);
+    } catch (error) {
+      console.error("❌ Error:", error);
+    } finally {
+      toggleLoader(false);
+    }
+  };
+
   const handleOnPressUploadImages = () => {
     checkPermission(cameraPermission, messages.cameraPermission).then(
       (isAllow) => {
@@ -38,7 +92,7 @@ const ReportIssueContainer = ({ navigation, route }: any) => {
               if (isAllow) {
                 const isMultiSelection = true;
                 ImagePickerManager.choosePickerOptions(
-                  "photo",
+                  "mixed",
                   isMultiSelection
                 )
                   .then((result: unknown) => {
@@ -102,7 +156,8 @@ const ReportIssueContainer = ({ navigation, route }: any) => {
       reportIssueRef?.current?.focus();
       return;
     } else {
-      handleReportIssueApi(reportIssue, multiImagesArray);
+      uploadImageInS3();
+      // handleReportIssueApi(reportIssue, multiImagesArray);
     }
   };
 
@@ -123,16 +178,9 @@ const ReportIssueContainer = ({ navigation, route }: any) => {
     header();
   }, []);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      StatusBar.setBarStyle("dark-content");
-      return () => {};
-    }, [navigation])
-  );
-
   // -------------------------API Calling----------------------------
   // handleOrderDetailsApi
-  const handleReportIssueApi = async (message: string, media?: Asset[]) => {
+  const handleReportIssueApi = async (message: string, media?: string[]) => {
     const dictData = {
       order_id: order_id,
       message: message,
@@ -153,7 +201,44 @@ const ReportIssueContainer = ({ navigation, route }: any) => {
       __DEV__ && console.log(error);
     }
   };
-  
+
+  // handleSecretKeyApi
+  const handleSecretKeyApi = async () => {
+    try {
+      const response = await secretKeyApi({}, navigation);
+      if (
+        response?.code === statusCodes.success &&
+        Array.isArray(response.data)
+      ) {
+        const keysData = response.data as SecretKeyItem[];
+        keysData.forEach((item) => {
+          switch (item.name) {
+            case "S3_ACCESS_KEY":
+              if (item.keys) setS3AccessKey(item.keys);
+              break;
+            case "S3_SECRET_KEY":
+              if (item.keys) setS3SecretAccessKey(item.keys);
+              break;
+            default:
+              break;
+          }
+        });
+      } else if (response?.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
+      }
+    } catch (error) {
+      __DEV__ && console.log("Secret Key API Error:", error);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      handleSecretKeyApi();
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
+  );
+
   return (
     <ReportIssueComponent
       reportIssue={reportIssue}

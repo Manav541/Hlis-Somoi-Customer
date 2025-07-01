@@ -5,7 +5,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import SearchComponent from "../../components/search";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -20,6 +20,7 @@ import { statusCodes } from "../../api/APIConstant";
 import { constnatStyles } from "../../constants/Styles";
 import { debounceQuery } from "../../constants/utils/Debounce";
 import { MmkvManager } from "../../constants/utils/MmkvManager";
+import { toggleLoader } from "../../constants/GConstant";
 
 const SearchContainer = ({ navigation, route }: any) => {
   // API zustand store
@@ -31,7 +32,15 @@ const SearchContainer = ({ navigation, route }: any) => {
   const insets = useSafeAreaInsets();
   const [search, setSearch] = useState<string>("");
   const debounce = debounceQuery(search, 300);
-  const [arrProducts, setArrProducts] = useState([]);
+  const [arrProducts, setArrProducts] = useState<any[]>([]);
+
+  // Pagination state
+  const [searchProductListPageNumber, setSearchProductListPageNumber] =
+    useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
+  const hasMountedOnce = useRef(false);
+  const [canLoadMore, setCanLoadMore] = useState(false);
 
   const onChangeSearch = (text: string) => {
     setSearch(text);
@@ -80,10 +89,26 @@ const SearchContainer = ({ navigation, route }: any) => {
     }
   };
 
+  const loadMoreCategories = () => {
+    if (hasMoreData && !isLoadingMore) {
+      const nextPage = searchProductListPageNumber + 1;
+      handleSearchProductApi(search, nextPage, true);
+    }
+  };
+
   // handleSubCategoryListApi
-  const handleSearchProductApi = async (text: String) => {
+  const handleSearchProductApi = async (
+    text: String,
+    page: number,
+    isLoadMore = false
+  ) => {
+    if (isLoadMore && isLoadingMore) return;
+
+    if (!isLoadMore) toggleLoader(true);
+    else setIsLoadingMore(true);
     const dictData = {
       search_text: text,
+      page_no: page,
     };
     try {
       const response = await searchProductApi(
@@ -94,13 +119,23 @@ const SearchContainer = ({ navigation, route }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log("SEARCH PRODUCT RESPONSE===>", JSON.stringify(response));
-        const data = response.data as any;
         if (response.code === statusCodes.success) {
-          setArrProducts(data);
+          const rawData = response.data as any;
+          if (Array.isArray(rawData) && rawData.length > 0) {
+            setArrProducts((prev) =>
+              isLoadMore ? [...prev, ...rawData] : rawData
+            );
+            setSearchProductListPageNumber(page);
+            setHasMoreData(true);
+          } else {
+            if (!isLoadMore) setArrProducts([]);
+            setHasMoreData(false);
+          }
         } else if (response.code === statusCodes.invaildOrFail) {
           setArrProducts([]);
         } else if (response.code === statusCodes.emptyData) {
-          setArrProducts([]);
+          if (!isLoadMore) setArrProducts([]);
+          setHasMoreData(false);
         }
       }
     } catch (error) {
@@ -155,7 +190,7 @@ const SearchContainer = ({ navigation, route }: any) => {
       });
       if (debounce) {
         console.log("Search Text==>", debounce);
-        handleSearchProductApi(debounce);
+        handleSearchProductApi(debounce, 1, false);
       }
       setArrProducts([]);
       StatusBar.setBarStyle("dark-content");
@@ -169,6 +204,11 @@ const SearchContainer = ({ navigation, route }: any) => {
         <SearchComponent
           arrProducts={arrProducts}
           onPressProduct={onPressProduct}
+           // pagination
+      loadMoreCategories={loadMoreCategories}
+      canLoadMore={canLoadMore}
+      setCanLoadMore={setCanLoadMore}
+      hasMountedOnce={hasMountedOnce}
         />
       </View>
     </TouchableWithoutFeedback>

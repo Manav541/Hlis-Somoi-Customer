@@ -15,6 +15,8 @@ export const styles = StyleSheet.create({
     paddingRight: 17,
     alignSelf: "flex-end",
     width: ScreenDimensions.screenWidth,
+    position: "absolute",
+    bottom: 0,
   },
   vwDriverInfo: {
     flexDirection: "row",
@@ -67,5 +69,13 @@ export const styles = StyleSheet.create({
   imgChat: {
     height: 27,
     width: 27,
+  },
+  imgDriverMarker: {
+    width: 54,
+    height: 60,
+  },
+  imgCustomerMarker: {
+    width: 24,
+    height: 24,
   },
 });

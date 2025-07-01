@@ -10,12 +10,13 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import ViewAllSubCategoriesComponent from "../../components/viewAllSubCategories";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
+import { MmkvManager } from "../../constants/utils/MmkvManager";
 
 const ViewAllSubCategoriesContainer = ({ navigation, route }: any) => {
   const subCategoryListApi = zustandStore.HomeStore(
     (state) => state.subCategoryList
   );
-
+  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   const [arrSubCategory, setArrSubCategory] = useState<SubCategoryListItem[]>(
     []
   );
@@ -58,7 +59,11 @@ const ViewAllSubCategoriesContainer = ({ navigation, route }: any) => {
     };
 
     try {
-      const response = await subCategoryListApi(dictData, navigation);
+      const response = await subCategoryListApi(
+        dictData,
+        isGuestUser,
+        navigation
+      );
 
       if (response?.code === statusCodes.success) {
         const data = response.data as SubCategoryListItem[];
@@ -91,6 +96,12 @@ const ViewAllSubCategoriesContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      // Fetch Guest User
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
+        console.log("isGuestUser=====>", Boolean(storedValue));
+
+        setIsGuestUser(Boolean(storedValue));
+      });
       setSubCategoryPageNumber(1);
       setHasMoreData(true);
       setArrSubCategory([]);

@@ -9,6 +9,7 @@ import { constnatStyles } from "../../constants/Styles";
 import { statusCodes } from "../../api/APIConstant";
 import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
 import { zustandStore } from "../../store";
+import { MmkvManager } from "../../constants/utils/MmkvManager";
 
 const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
   const bestProductsSellerListApi = zustandStore.HomeStore(
@@ -17,7 +18,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
   const wishlistStoreApi = zustandStore.MyWishlistStore(
     (state) => state.wishlistStore
   );
-
+  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   const [arrBestProductsSellers, setArrBestProductsSellers] = useState<
     BestProductSellerData[]
   >([]);
@@ -66,7 +67,11 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
       customer_longitude: currentLatLong?.longitude.toString(),
     };
     try {
-      const response = await bestProductsSellerListApi(dictData, navigation);
+      const response = await bestProductsSellerListApi(
+        dictData,
+        isGuestUser,
+        navigation
+      );
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log(
@@ -151,6 +156,12 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      // Fetch Guest User
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
+        console.log("isGuestUser=====>", Boolean(storedValue));
+
+        setIsGuestUser(Boolean(storedValue));
+      });
       setBestProductsSellerPageNumber(1);
       setHasMoreData(true);
       setArrBestProductsSellers([]);

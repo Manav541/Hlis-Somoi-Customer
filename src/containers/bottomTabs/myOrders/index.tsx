@@ -1,19 +1,16 @@
 import { StatusBar, Text } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MyOrdersComponent from "../../../components/bottomTabs/myOrders";
 import { useFocusEffect } from "@react-navigation/native";
 import { images } from "../../../constants/Images";
 import { ScreenNames } from "../../../routers";
 import GlobalBackButton from "../../../global/GlobalBackButton";
-import {
-  FilterDate,
-  FilterOrderType,
-  Order,
-} from "../../../constants/interfaces";
+import { FilterDate, FilterOrderType } from "../../../constants/interfaces";
 import { constnatStyles } from "../../../constants/Styles";
 import {
   flashMessageWarning,
   showConfirmForGuest,
+  toggleLoader,
 } from "../../../constants/GConstant";
 import { zustandStore } from "../../../store";
 import { statusCodes } from "../../../api/APIConstant";
@@ -28,224 +25,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
   const [selectOrderType, setSelectOrderType] = useState<string>("orders");
   const [selectOrderDate, setSelectOrderDate] =
     useState<string>("last_30_days");
-  const [arrOrderList, setArrOrderList] = useState<any[]>([
-    // {
-    //   order_number: "#12343235",
-    //   total: "732.00",
-    //   items_Count: 2,
-    //   status: "Confirmed",
-    //   date: "10 Mar, 2025",
-    //   arrProduct: [
-    //     {
-    //       product_name: `Fortune Premium Mustard ${"\n"}Oil`,
-    //       product_img: images.oil,
-    //       price: "199",
-    //       quantity: 1,
-    //       unit: "500 ml",
-    //       height: 46.69,
-    //       width: 33.62,
-    //     },
-    //     {
-    //       product_name: `India Gate Basmati ${"\n"}Rice`,
-    //       product_img: images.rice,
-    //       price: "499",
-    //       quantity: 1,
-    //       unit: "1 kg",
-    //       height: 40.74,
-    //       width: 27.98,
-    //     },
-    //   ],
-    // },
-    // {
-    //   order_number: "#12343245",
-    //   total: "732.00",
-    //   items_Count: 2,
-    //   status: "Preparing",
-    //   date: "10 Mar, 2025",
-    //   arrProduct: [
-    //     {
-    //       product_name: `Fortune Premium Mustard ${"\n"}Oil`,
-    //       product_img: images.oil,
-    //       price: "199",
-    //       quantity: 1,
-    //       unit: "500 ml",
-    //       height: 46.69,
-    //       width: 33.62,
-    //     },
-    //     {
-    //       product_name: `India Gate Basmati ${"\n"}Rice`,
-    //       product_img: images.rice,
-    //       price: "499",
-    //       quantity: 1,
-    //       unit: "1 kg",
-    //       height: 40.74,
-    //       width: 27.98,
-    //     },
-    //   ],
-    // },
-    // {
-    //   order_number: "#12343246",
-    //   total: "732.00",
-    //   items_Count: 2,
-    //   status: "On_the_way",
-    //   date: "10 Mar, 2025",
-    //   arrProduct: [
-    //     {
-    //       product_name: `Fortune Premium Mustard ${"\n"}Oil`,
-    //       product_img: images.oil,
-    //       price: "199",
-    //       quantity: 1,
-    //       unit: "500 ml",
-    //       height: 46.69,
-    //       width: 33.62,
-    //     },
-    //     {
-    //       product_name: `India Gate Basmati ${"\n"}Rice`,
-    //       product_img: images.rice,
-    //       price: "499",
-    //       quantity: 1,
-    //       unit: "1 kg",
-    //       height: 40.74,
-    //       width: 27.98,
-    //     },
-    //   ],
-    // },
-    // {
-    //   order_number: "#12343236",
-    //   total: "732.00",
-    //   items_Count: 2,
-    //   status: "Delivered",
-    //   date: "10 Mar, 2025",
-    //   arrProduct: [
-    //     {
-    //       product_name: `Fortune Premium Mustard ${"\n"}Oil`,
-    //       product_img: images.oil,
-    //       price: "199",
-    //       quantity: 1,
-    //       unit: "500 ml",
-    //       height: 46.69,
-    //       width: 33.62,
-    //     },
-    //     {
-    //       product_name: `India Gate Basmati ${"\n"}Rice`,
-    //       product_img: images.rice,
-    //       price: "499",
-    //       quantity: 1,
-    //       unit: "1 kg",
-    //       height: 40.74,
-    //       width: 27.98,
-    //     },
-    //   ],
-    // },
-    // {
-    //   order_number: "#12343237",
-    //   total: "732.00",
-    //   items_Count: 2,
-    //   status: "Request_return",
-    //   date: "10 Mar, 2025",
-    //   arrProduct: [
-    //     {
-    //       product_name: `Fortune Premium Mustard ${"\n"}Oil`,
-    //       product_img: images.oil,
-    //       price: "199",
-    //       quantity: 1,
-    //       unit: "500 ml",
-    //       height: 46.69,
-    //       width: 33.62,
-    //     },
-    //     {
-    //       product_name: `India Gate Basmati ${"\n"}Rice`,
-    //       product_img: images.rice,
-    //       price: "499",
-    //       quantity: 1,
-    //       unit: "1 kg",
-    //       height: 40.74,
-    //       width: 27.98,
-    //     },
-    //   ],
-    // },
-    // {
-    //   order_number: "#12343247",
-    //   total: "732.00",
-    //   items_Count: 2,
-    //   status: "Request_exchange",
-    //   date: "10 Mar, 2025",
-    //   arrProduct: [
-    //     {
-    //       product_name: `Fortune Premium Mustard ${"\n"}Oil`,
-    //       product_img: images.oil,
-    //       price: "199",
-    //       quantity: 1,
-    //       unit: "500 ml",
-    //       height: 46.69,
-    //       width: 33.62,
-    //     },
-    //     {
-    //       product_name: `India Gate Basmati ${"\n"}Rice`,
-    //       product_img: images.rice,
-    //       price: "499",
-    //       quantity: 1,
-    //       unit: "1 kg",
-    //       height: 40.74,
-    //       width: 27.98,
-    //     },
-    //   ],
-    // },
-    // {
-    //   order_number: "#12343238",
-    //   total: "732.00",
-    //   items_Count: 2,
-    //   status: "Returned",
-    //   date: "10 Mar, 2025",
-    //   arrProduct: [
-    //     {
-    //       product_name: `Fortune Premium Mustard ${"\n"}Oil`,
-    //       product_img: images.oil,
-    //       price: "199",
-    //       quantity: 1,
-    //       unit: "500 ml",
-    //       height: 46.69,
-    //       width: 33.62,
-    //     },
-    //     {
-    //       product_name: `India Gate Basmati ${"\n"}Rice`,
-    //       product_img: images.rice,
-    //       price: "499",
-    //       quantity: 1,
-    //       unit: "1 kg",
-    //       height: 40.74,
-    //       width: 27.98,
-    //     },
-    //   ],
-    // },
-    // {
-    //   order_number: "#12343239",
-    //   total: "732.00",
-    //   items_Count: 2,
-    //   status: "Cancelled",
-    //   date: "10 Mar, 2025",
-    //   arrProduct: [
-    //     {
-    //       product_name: `Fortune Premium Mustard ${"\n"}Oil`,
-    //       product_img: images.oil,
-    //       price: "199",
-    //       quantity: 1,
-    //       unit: "500 ml",
-    //       height: 46.69,
-    //       width: 33.62,
-    //     },
-    //     {
-    //       product_name: `India Gate Basmati ${"\n"}Rice`,
-    //       product_img: images.rice,
-    //       price: "499",
-    //       quantity: 1,
-    //       unit: "1 kg",
-    //       height: 40.74,
-    //       width: 27.98,
-    //     },
-    //   ],
-    // },
-  ]);
+  const [arrOrderList, setArrOrderList] = useState<any[]>([]);
   const [arrFilterOrderType, setArrFilterOrderType] = useState<
     FilterOrderType[]
   >([
@@ -277,6 +57,13 @@ const MyOrdersContainer = ({ navigation }: any) => {
       value: "last_3_months",
     },
   ]);
+
+  // Pagination state
+  const [orderListPageNumber, setOrderListPageNumber] = useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
+  const hasMountedOnce = useRef(false);
+  const [canLoadMore, setCanLoadMore] = useState(false);
 
   const onPressFilter = () => {
     if (isGuestUser) {
@@ -315,9 +102,10 @@ const MyOrdersContainer = ({ navigation }: any) => {
       flashMessageWarning("Please select at least one filter.");
       return;
     }
-
+    setHasMoreData(true); // Reset pagination
+    setOrderListPageNumber(1);
     setFilterModal(false);
-    handleOrderListApi(selectOrderType, selectOrderDate);
+    handleOrderListApi(selectOrderType, selectOrderDate, 1, false);
     // Apply filtering logic here if needed
   };
 
@@ -350,11 +138,27 @@ const MyOrdersContainer = ({ navigation }: any) => {
     header();
   }, []);
 
+  const loadMoreCategories = () => {
+    if (hasMoreData && !isLoadingMore) {
+      const nextPage = orderListPageNumber + 1;
+      handleOrderListApi(selectOrderType, selectOrderDate, nextPage, true);
+    }
+  };
+
   // -------------------------API Calling----------------------------
   // handleOrderListApi
-  const handleOrderListApi = async (order_type: string, order_date: string) => {
+  const handleOrderListApi = async (
+    order_type: string,
+    order_date: string,
+    page: number,
+    isLoadMore = false
+  ) => {
+    if (isLoadMore && isLoadingMore) return;
+
+    if (!isLoadMore) toggleLoader(true);
+    else setIsLoadingMore(true);
     const dictData = {
-      page_no: 1,
+      page_no: page,
       order_type: order_type,
       order_date: order_date,
     };
@@ -365,15 +169,28 @@ const MyOrdersContainer = ({ navigation }: any) => {
           console.log("ORDER LISTING RESPONSE===>", JSON.stringify(response));
         if (response.code === statusCodes.success) {
           const rawData = response.data as any;
-          setArrOrderList(rawData);
+          if (Array.isArray(rawData) && rawData.length > 0) {
+            setArrOrderList((prev) =>
+              isLoadMore ? [...prev, ...rawData] : rawData
+            );
+            setOrderListPageNumber(page);
+            setHasMoreData(true); 
+          } else {
+            if (!isLoadMore) setArrOrderList([]);
+            setHasMoreData(false); 
+          }
         } else if (response.code === statusCodes.invaildOrFail) {
           setArrOrderList([]);
         } else if (response.code === statusCodes.emptyData) {
-          setArrOrderList([]);
+          if (!isLoadMore) setArrOrderList([]);
+          setHasMoreData(false);
         }
       }
     } catch (error) {
       __DEV__ && console.log(error);
+    } finally {
+      if (!isLoadMore) toggleLoader(false);
+      else setIsLoadingMore(false);
     }
   };
 
@@ -388,7 +205,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
         if (isGuest) {
           setArrOrderList([]); // Empty cart for guest users
         } else {
-          handleOrderListApi(selectOrderType, selectOrderDate);
+          handleOrderListApi(selectOrderType, selectOrderDate, 1, false);
         }
       });
 
@@ -412,6 +229,11 @@ const MyOrdersContainer = ({ navigation }: any) => {
       handleNavigateOrderSummary={handleNavigateOrderSummary}
       onPressApply={onPressApply}
       onPressReset={onPressReset}
+      // pagination
+      loadMoreCategories={loadMoreCategories}
+      canLoadMore={canLoadMore}
+      setCanLoadMore={setCanLoadMore}
+      hasMountedOnce={hasMountedOnce}
     />
   );
 };

@@ -1,5 +1,5 @@
 import { View, Text, StatusBar } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProductListingComponent from "../../components/productListing";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
@@ -8,6 +8,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import {
   flashMessageWarning,
   showConfirmForGuest,
+  toggleLoader,
 } from "../../constants/GConstant";
 import { constnatStyles } from "../../constants/Styles";
 import {
@@ -54,6 +55,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   const mainCategoryId = route.params?.mainCategoryId;
   const mainCategoryName = route.params?.mainCategoryName;
+  const subCategoryName = route.params?.subCategoryName;
   const [arrSubCategoryProduct, setArrSubCategoryProduct] = useState<Product[]>(
     []
   );
@@ -65,19 +67,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const [subCategoryTitle, setSubCategoryTitle] = useState<SubCategoryTitle[]>(
     []
   );
-
-  const subCategoryImageMap: Record<string, any> = {
-    Rice: images.riceSubIcon,
-    Flour: images.flourSubIcon,
-    Oil: images.cookingoilSubIcon,
-    Dairy: images.cookingoilSubIcon,
-    "T-shirt": images.tshirtIcon,
-    "Nail Polishes": images.nailpolishSubIcon,
-    Makeup: images.makeupsetSubIcon,
-    "Skin Care": images.skincareSubIcon,
-  };
-
-  const [selectedTitle, setSelectedTitle] = useState("All");
+  const [selectedTitle, setSelectedTitle] = useState("");
 
   const [subCategoryFoodTitle, setSubCategoryFoodTitle] = useState([
     {
@@ -143,6 +133,13 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   ]);
   const [selectedSortTitle, setSelectedSortTitle] = useState("");
 
+  // Pagination state
+  const [productListPageNumber, setProductListPageNumber] = useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
+  const hasMountedOnce = useRef(false);
+  const [canLoadMore, setCanLoadMore] = useState(false);
+
   const onPressInstantDelivery = () => {
     setIsCheckInstantDelivery(!isCheckInstantDelivery);
   };
@@ -207,13 +204,14 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     setIsCheckInstantDelivery(false);
     setSelectedSortTitle("");
 
+    console.log("selectedName => ", selectedName);
     if (selectedName === "All") {
-      handleProductListingApi();
+      handleProductListingApi(1, false, selectedName);
     } else {
       const selectedSub = allSubCategories.find(
         (sub: any) => sub.name === selectedName
       );
-      handleProductListingApi(selectedSub?.id);
+      handleProductListingApi(1, false, selectedName, selectedSub?.id);
     }
   };
 
@@ -371,11 +369,33 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     header();
   }, [mainCategoryName]);
 
+  const loadMoreCategories = () => {
+    if (hasMoreData && !isLoadingMore) {
+      const nextPage = productListPageNumber + 1;
+      // handleProductListingApi( nextPage, true);
+    }
+  };
+
   // -------------------------API Calling------------------------
   // handleProductListingApi
-  const handleProductListingApi = async (subCategoryId?: string) => {
+  const handleProductListingApi = async (
+    page: number,
+    isLoadMore = false,
+    selectedName?: string,
+    subCategoryId?: string
+  ) => {
+    console.log("subCategoryId in API => ", subCategoryId);
+    console.log("selectedTitle in API => ", selectedTitle);
+    if (isLoadMore && isLoadingMore) return;
+
+    if (!isLoadMore) toggleLoader(true);
+    else setIsLoadingMore(true);
     const selectedSubCategoryId =
-      subCategoryId || route?.params?.sub_category_id || undefined;
+      subCategoryId !== undefined
+        ? subCategoryId
+        : selectedName !== "All"
+        ? route?.params?.sub_category_id
+        : undefined;
 
     const dictData: ProductListDictData = {
       category_id: mainCategoryId,
@@ -414,7 +434,8 @@ const ProductListingContainer = ({ navigation, route }: any) => {
                   (res: any) => res.subCategoryId === subCategoryId
                 )
               : (data as any).restaurants;
-            setArrRestaurants(filteredRestaurants);
+            if (page === 1) setArrRestaurants(filteredRestaurants);
+            else setArrRestaurants((prev) => [...prev, ...filteredRestaurants]);
           }
 
           // Save only once if empty
@@ -427,13 +448,13 @@ const ProductListingContainer = ({ navigation, route }: any) => {
             const subCategoryTitleArray = [
               {
                 name: "All",
-                isSelected: !subCategoryId,
+                isSelected: !selectedSubCategoryId,
               },
               ...subCategories.map(
                 (sub: { id: string; name: string; icon_image: string }) => ({
                   image: sub.icon_image,
                   name: sub.name,
-                  isSelected: sub.id === subCategoryId,
+                  isSelected: sub.id === selectedSubCategoryId,
                 })
               ),
             ];
@@ -446,7 +467,16 @@ const ProductListingContainer = ({ navigation, route }: any) => {
                 ?.products || []
             : subCategories.flatMap((sub: any) => sub.products || []);
 
-          setArrSubCategoryProduct(productList);
+          if (productList.length > 0) {
+            setArrSubCategoryProduct((prev) =>
+              isLoadMore ? [...prev, ...productList] : productList
+            );
+            setProductListPageNumber(page); // update page
+            setHasMoreData(true);
+          } else {
+            if (!isLoadMore) setArrSubCategoryProduct([]);
+            setHasMoreData(false);
+          }
         } else if (response.code === statusCodes.emptyData) {
           setArrSubCategoryProduct([]);
           setArrRestaurants([]);
@@ -759,7 +789,27 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       if (route?.params?.subCategoryName) {
         setSelectedTitle(route?.params?.subCategoryName);
       }
-      handleProductListingApi();
+      handleProductListingApi(1, false);
+      // After API call, set selected tab (subcategory) if passed
+      setTimeout(() => {
+        if (subCategoryName && allSubCategories.length > 0) {
+          const updatedTabs = [
+            {
+              name: "All",
+              isSelected: false,
+            },
+            ...allSubCategories.map((sub) => ({
+              name: sub.name,
+              image: sub.icon_image,
+              isSelected: sub.name === subCategoryName,
+            })),
+          ];
+          console.log("updatedTabs", updatedTabs);
+
+          // setSubCategoryTitle(updatedTabs);
+        }
+      }, 500);
+
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
@@ -792,6 +842,12 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       onPressSortList={onPressSortList}
       isCheckInstantDelivery={isCheckInstantDelivery}
       onPressInstantDelivery={onPressInstantDelivery}
+
+       // pagination
+      loadMoreCategories={loadMoreCategories}
+      canLoadMore={canLoadMore}
+      setCanLoadMore={setCanLoadMore}
+      hasMountedOnce={hasMountedOnce}
     />
   );
 };

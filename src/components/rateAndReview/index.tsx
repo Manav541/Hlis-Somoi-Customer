@@ -271,7 +271,7 @@ const RateAndReviewComponent = (props: PropsType) => {
                 </TouchableOpacity>
                 {props?.multiImagesArray?.length > 0 && (
                   <View style={{ flexDirection: "row", gap: 9.02 }}>
-                    {props?.multiImagesArray.map(renderUploadImageVideo)}
+                    {props?.multiImagesArray?.map(renderUploadImageVideo)}
                   </View>
                 )}
               </View>

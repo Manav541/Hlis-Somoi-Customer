@@ -682,6 +682,7 @@ export interface OrderDetailsData {
   delivery_charges: string;
   status: string;
   cancel_reason: string;
+  reject_reason: string;
   return_reason: string;
   status_timeline: StatusTimeline[];
   items: OrderItem[];
@@ -716,12 +717,16 @@ export interface OrderItem {
     rating_id: string;
     rating: string;
     review: string;
+    rating_media?: string[];
   };
+  isSelected?: boolean;
 }
 
 export interface DeliveryDetails {
   name: string;
   address: string;
+  latitude: string;
+  longitude: string;
 }
 
 export interface DriverDetails {
@@ -730,6 +735,8 @@ export interface DriverDetails {
   name: string;
   mobile_number: string;
   country_code: string;
+  latitude: string;
+  longitude: string;
 }
 
 // Cancel Order

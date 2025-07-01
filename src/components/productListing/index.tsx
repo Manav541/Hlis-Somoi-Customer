@@ -74,6 +74,11 @@ interface PropsType {
   onPressSortList: (sort_by: string) => void;
   isCheckInstantDelivery: boolean;
   onPressInstantDelivery: () => void;
+  // Pagination
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
 }
 
 const ProductListingComponent = (props: PropsType) => {
@@ -85,8 +90,6 @@ const ProductListingComponent = (props: PropsType) => {
     item: SubCategoryTitle;
     index: number;
   }) => {
-    console.log("Icon Image => ", item?.name, item?.image);
-
     return (
       <TouchableOpacity
         style={
@@ -450,6 +453,16 @@ const ProductListingComponent = (props: PropsType) => {
             paddingHorizontal: 20,
             paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
           }}
+          onEndReached={() => {
+            if (props.canLoadMore && props.hasMountedOnce.current) {
+              props.loadMoreCategories();
+            }
+          }}
+          onEndReachedThreshold={0.4}
+          onContentSizeChange={(w, h) => {
+            props.setCanLoadMore(h > 600); // Adjust if needed
+            props.hasMountedOnce.current = true;
+          }}
           ListEmptyComponent={
             <View style={styles.vwNoData}>
               <Text style={styles.lblNoData}>
@@ -474,6 +487,16 @@ const ProductListingComponent = (props: PropsType) => {
           }}
           showsVerticalScrollIndicator={false}
           bounces={false}
+          onEndReached={() => {
+            if (props.canLoadMore && props.hasMountedOnce.current) {
+              props.loadMoreCategories();
+            }
+          }}
+          onEndReachedThreshold={0.4}
+          onContentSizeChange={(w, h) => {
+            props.setCanLoadMore(h > 600); // Adjust if needed
+            props.hasMountedOnce.current = true;
+          }}
           ListEmptyComponent={
             <View style={styles.vwNoData}>
               <Text style={styles.lblNoData}>

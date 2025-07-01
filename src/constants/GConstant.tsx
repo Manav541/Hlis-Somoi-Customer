@@ -237,7 +237,7 @@ export const statusTexts: { [key: string]: string } = {
   "Order Prepared": "Your Order is Prepared",
   "Order Packaging": "Your Order is Packaging",
   "Order Out for Delivery": "Your Order is On The Way",
-  "Order Delivered": "Your Order Delivered",
+  "Order Delivered": "Your Order is Delivered",
   "Order Cancelled": "Your Order is Cancelled",
   "Order Rejected": "Your Order is Rejected",
   "Order Replacement Requested": "Requested for Returned",

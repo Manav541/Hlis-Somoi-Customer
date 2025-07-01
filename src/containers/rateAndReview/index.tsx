@@ -9,16 +9,22 @@ import {
   checkPermission,
   flashMessageWarning,
   galleryPermission,
+  GlobalVar,
   messages,
+  toggleLoader,
 } from "../../constants/GConstant";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import { TextInput } from "react-native-gesture-handler";
 import { ScreenNames } from "../../routers";
-import { images } from "../../constants/Images";
 import { constnatStyles } from "../../constants/Styles";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
-import { OrderItem, RestaurantInfo } from "../../constants/interfaces";
+import {
+  OrderItem,
+  RestaurantInfo,
+  SecretKeyItem,
+} from "../../constants/interfaces";
+import ImageUpload, { FolderName } from "../../constants/utils/S3ImageUpload";
 
 const RateAndReviewContainer = ({ navigation, route }: any) => {
   // API Store
@@ -31,8 +37,10 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
   const editRateApi = zustandStore.RateAndReviewStore(
     (state) => state.editRate
   );
+  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
 
   const itemData = route?.params;
+  console.log("Item Data", itemData?.prodcutDetail?.rating_summary);
   const navigateFromStoreReview = itemData?.navigateFromStoreReview;
   const storeDetail: RestaurantInfo = itemData?.storeDetail;
   const prodcutDetail: OrderItem = itemData?.prodcutDetail;
@@ -40,7 +48,9 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
 
   const [product_rating, setProduct_rating] = useState(0);
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
-
+  const [s3AccessKey, setS3AccessKey] = useState<string>("");
+  const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
+  const uploadedS3ImageUrlsRef = useRef<string[] | null>(null);
   const [product_review, setproduct_review] = useState<string>("");
   const product_reviewRef = useRef<TextInput>(null);
   const [product_reviewFocused, setproduct_reviewFocused] =
@@ -59,7 +69,7 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
               if (isAllow) {
                 const isMultiSelection = true;
                 ImagePickerManager.choosePickerOptions(
-                  "photo",
+                  "mixed",
                   isMultiSelection
                 )
                   .then((result: unknown) => {
@@ -87,6 +97,75 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
         }
       }
     );
+  };
+
+  const uploadImagesInS3 = async () => {
+    const imagesURIArray =
+      multiImagesArray.map((image: Asset) => image.uri) || [];
+    __DEV__ && console.log("All Image URIs:", imagesURIArray);
+
+    const baseS3Url = `${GlobalVar.url}somoiapp`;
+
+    const newImagesToUpload = imagesURIArray.filter(
+      (uri) => uri && !uri.includes(baseS3Url)
+    );
+    __DEV__ && console.log("🆕 New images to upload:", newImagesToUpload);
+
+    const alreadyUploadedUrls = imagesURIArray.filter(
+      (uri) => uri && uri.includes(baseS3Url)
+    );
+
+    try {
+      toggleLoader(true);
+
+      let newlyUploadedUrls: string[] = [];
+
+      // 🆕 Only upload new images (local file URIs)
+      if (newImagesToUpload.length > 0) {
+        const uploadPromises = newImagesToUpload.map(
+          (uri: string | undefined) =>
+            new Promise<string>((resolve, reject) => {
+              ImageUpload.uploadImage(
+                s3AccessKey,
+                s3SecretAccessKey,
+                uri,
+                FolderName.RATING_MEDIA,
+                "image/png",
+                ".png",
+                (response: string) => {
+                  __DEV__ && console.log("✅ Uploaded image:", response);
+                  resolve(response);
+                }
+              );
+            })
+        );
+
+        newlyUploadedUrls = await Promise.all(uploadPromises);
+        uploadedS3ImageUrlsRef.current = newlyUploadedUrls;
+      }
+
+      const allUrls = [...alreadyUploadedUrls, ...newlyUploadedUrls];
+
+      const allImageFileNames = allUrls.map((url: string | undefined) => {
+        try {
+          return url?.split("/").pop() || "";
+        } catch {
+          return "";
+        }
+      });
+
+      console.log("🧾 Final image file names:", allImageFileNames);
+
+      if (isEditRating == true) {
+        handleEditRateApi(allImageFileNames);
+      } else {
+        handleRateProductApi(allImageFileNames);
+      }
+    } catch (error) {
+      console.error("❌ Error:", error);
+    } finally {
+      toggleLoader(false);
+    }
   };
 
   const handleOnPressDeleteUploadedImage = (index: number) => {
@@ -127,10 +206,8 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
     } else {
       if (navigateFromStoreReview == true) {
         handleRateVendorApi();
-      } else if (isEditRating == true) {
-        handleEditRateApi();
       } else {
-        handleRateProductApi();
+        uploadImagesInS3();
       }
     }
   };
@@ -194,12 +271,12 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
   };
 
   // handleRateProductApi
-  const handleRateProductApi = async () => {
+  const handleRateProductApi = async (media: string[]) => {
     const dictData = {
       product_id: prodcutDetail?.product_id,
       rating: product_rating.toString(),
       review: product_review,
-      media: multiImagesArray,
+      media: media,
     };
     try {
       const response = await rateProductApi(dictData, navigation);
@@ -219,12 +296,12 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
   };
 
   // handleEditRateApi
-  const handleEditRateApi = async () => {
+  const handleEditRateApi = async (media: string[]) => {
     const dictData = {
       rating_id: prodcutDetail?.rating_summary?.rating_id,
       rating: product_rating.toString(),
       review: product_review,
-      media: multiImagesArray,
+      media: media,
     };
     try {
       const response = await editRateApi(dictData, navigation);
@@ -243,12 +320,67 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
     }
   };
 
+  // handleSecretKeyApi
+  const handleSecretKeyApi = async () => {
+    try {
+      const response = await secretKeyApi({}, navigation);
+      if (
+        response?.code === statusCodes.success &&
+        Array.isArray(response.data)
+      ) {
+        const keysData = response.data as SecretKeyItem[];
+        keysData.forEach((item) => {
+          switch (item.name) {
+            case "S3_ACCESS_KEY":
+              if (item.keys) setS3AccessKey(item.keys);
+              break;
+            case "S3_SECRET_KEY":
+              if (item.keys) setS3SecretAccessKey(item.keys);
+              break;
+            default:
+              break;
+          }
+        });
+      } else if (response?.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
+      }
+    } catch (error) {
+      __DEV__ && console.log("Secret Key API Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!isEditRating || !prodcutDetail?.rating_summary?.rating_media) return;
+
+    const mediaArray = prodcutDetail.rating_summary.rating_media;
+
+    const mappedAssets = mediaArray
+      .map((item: any) => {
+        const uri = typeof item === "string" ? item : item?.image;
+        if (!uri) return null;
+
+        const fileName = uri.split("/").pop() || "";
+        const ext = fileName.split(".").pop()?.toLowerCase();
+
+        const isVideo = ext === "mp4" || ext === "mov";
+        const type = isVideo ? "video/mp4" : "image/png";
+
+        return { uri, fileName, type } as Asset;
+      })
+      .filter(Boolean);
+
+    console.log("🧾 mappedAssets:", mappedAssets);
+    setMultiImagesArray(mappedAssets as Asset[]);
+  }, [isEditRating, prodcutDetail]);
+
   useFocusEffect(
     React.useCallback(() => {
+      handleSecretKeyApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
   );
+
   return (
     <RateAndReviewComponent
       navigateFromStoreReview={navigateFromStoreReview}

@@ -56,6 +56,7 @@ const CategoriesContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.notification);
   };
 
+   // -------------------------API Calling----------------------------
   // handleMainCategoryListApi
   const handleMainCategoryListApi = async (
     page: number,

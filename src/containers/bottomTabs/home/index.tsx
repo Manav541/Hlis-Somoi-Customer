@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HomeComponent from "../../../components/bottomTabs/home";
 import { images } from "../../../constants/Images";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
@@ -58,11 +58,16 @@ const HomeContainer = ({ navigation }: any) => {
     longitude: number;
   } | null>(null);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+  // Pagination state
   const [mainCategoryPageNumber, setMainCategoryPageNumber] =
     useState<number>(1);
   const [subCategoryPageNumber, setSubCategoryPageNumber] = useState<number>(1);
   const [bestProductsSellerPageNumber, setBestProductsSellerPageNumber] =
     useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
+  const hasMountedOnce = useRef(false);
+  const [canLoadMore, setCanLoadMore] = useState(false);
 
   const handleSetBannerIndex = (index: number) => {
     setCurrentBannerIndex(index);
@@ -93,7 +98,9 @@ const HomeContainer = ({ navigation }: any) => {
         mainCategoryId,
         name.toLowerCase(),
         currentLatLong.latitude,
-        currentLatLong.longitude
+        currentLatLong.longitude,
+        1,
+        false
       );
     }
   };
@@ -126,14 +133,17 @@ const HomeContainer = ({ navigation }: any) => {
     });
   };
 
-  const onPressSubCategories = () => {
-    // navigation.navigate(ScreenNames.productListing, {
-    //   mainCategoryName: isGroceriesFoodSelected,
-    //   arrSubCategory:
-    //     isGroceriesFoodSelected === "Groceries"
-    //       ? arrSubCategory
-    //       : arrBestSellers,
-    // });
+  const onPressSubCategories = (
+    sub_category_id: string,
+    subCategoryName: string
+  ) => {
+    navigation.navigate(ScreenNames.productListing, {
+      mainCategoryId: mainCategoryId,
+      mainCategoryName: mainCategoryName,
+      sub_category_id: sub_category_id,
+      subCategoryName: subCategoryName,
+      currentLatLong: currentLatLong,
+    });
   };
 
   const onPressBestProducts = (
@@ -164,6 +174,20 @@ const HomeContainer = ({ navigation }: any) => {
   // handleOnPressNotifaicationIcon
   const handleOnPressNotifaicationIcon = () => {
     navigation.navigate(ScreenNames.notification);
+  };
+
+  const loadMoreCategories = () => {
+    if (hasMoreData && !isLoadingMore) {
+      const nextPage = bestProductsSellerPageNumber + 1;
+      handleBestProductsSellerListApi(
+        mainCategoryId,
+        isGroceriesFoodSelected.toLowerCase(),
+        currentLatLong?.latitude ?? 0,
+        currentLatLong?.longitude ?? 0,
+        nextPage,
+        true
+      );
+    }
   };
 
   // ----------------------- API Calling -----------------------
@@ -254,11 +278,18 @@ const HomeContainer = ({ navigation }: any) => {
     mainCategoryId: String,
     name: string,
     customer_latitude: number,
-    customer_longitude: number
+    customer_longitude: number,
+    page: number,
+    isLoadMore = false
   ) => {
+    if (isLoadMore && isLoadingMore) return;
+
+    if (!isLoadMore) toggleLoader(true);
+    else setIsLoadingMore(true);
+
     const dictData = {
       category_id: mainCategoryId,
-      page_number: bestProductsSellerPageNumber,
+      page_number: page,
       type: name,
       customer_latitude: customer_latitude?.toString(),
       customer_longitude: customer_longitude?.toString(),
@@ -275,11 +306,23 @@ const HomeContainer = ({ navigation }: any) => {
             "BEST PRODUCTS SELLERS LIST RESPONSE===>",
             JSON.stringify(response)
           );
-        const data = response.data as BestProductSellerData;
+        const rawData = response.data as BestProductSellerData;
         if (response.code === statusCodes.success) {
-          setArrBestProductsSellers(Array.isArray(data) ? data : [data]);
+          if (Array.isArray(rawData) && rawData.length > 0) {
+            setArrBestProductsSellers((prev) =>
+              isLoadMore ? [...prev, ...rawData] : rawData
+            );
+            setBestProductsSellerPageNumber(page);
+            setHasMoreData(true);
+          } else {
+            if (!isLoadMore) setArrBestProductsSellers([]);
+            setHasMoreData(false);
+          }
         } else if (response.code === statusCodes.invaildOrFail) {
           setArrBestProductsSellers([]);
+        } else if (response.code === statusCodes.emptyData) {
+          if (!isLoadMore) setArrBestProductsSellers([]);
+          setHasMoreData(false);
         }
       }
     } catch (error) {
@@ -307,7 +350,9 @@ const HomeContainer = ({ navigation }: any) => {
         mainCategoryId,
         isGroceriesFoodSelected,
         current.latitude,
-        current.longitude
+        current.longitude,
+        1,
+        false
       );
     }
     toggleLoader(false);
@@ -350,6 +395,11 @@ const HomeContainer = ({ navigation }: any) => {
       onPressSubCategories={onPressSubCategories}
       onPressBestProducts={onPressBestProducts}
       currentAddress={currentAddress}
+       // pagination
+      loadMoreCategories={loadMoreCategories}
+      canLoadMore={canLoadMore}
+      setCanLoadMore={setCanLoadMore}
+      hasMountedOnce={hasMountedOnce}
     />
   );
 };

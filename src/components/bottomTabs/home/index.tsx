@@ -41,7 +41,7 @@ interface PropsType {
   handleOnPressNotifaicationIcon: () => void;
   onPressLocation: () => void;
   onPressRestaurant: (vendor_id: string) => void;
-  onPressSubCategories: () => void;
+  onPressSubCategories: (sub_category_id: string,subCategoryName:string) => void;
   onPressBestProducts: (
     product_id: string,
     variation_id?: string,
@@ -51,15 +51,17 @@ interface PropsType {
     color_id?: string,
     size_id?: string
   ) => void;
-
   handleSetBannerIndex: (index: number) => void;
   currentBannerIndex: number;
-
   currentAddress: string | null;
+   // Pagination
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
 }
 
 const HomeComponent = (props: PropsType) => {
-  // console.log('arrmaincategorylist',props?.arrMainCategoryList)
 
   const insets = useSafeAreaInsets();
 
@@ -140,7 +142,7 @@ const HomeComponent = (props: PropsType) => {
         key={index}
         style={styles.btnSubCategories}
         activeOpacity={activityOpacity}
-        onPress={() => props?.onPressSubCategories()}
+        onPress={() => props?.onPressSubCategories(item?.id,item?.name)}
       >
         <FastImage
           style={styles.imgSubCategories}

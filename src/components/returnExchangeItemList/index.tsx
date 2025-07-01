@@ -1,18 +1,29 @@
-import { View, Text, FlatList, TouchableOpacity, Image, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+} from "react-native";
 import React from "react";
-import { OrderReviewProduct } from "../../constants/interfaces";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { colors } from "../../constants/Colors";
 import { getTranslation } from "../../localization/i18n/i18n.config";
-import { activityOpacity, hitSlop, rupeeSymbol } from "../../constants/GConstant";
+import {
+  activityOpacity,
+  hitSlop,
+  rupeeSymbol,
+} from "../../constants/GConstant";
 import GlobalButton from "../../global/GlobalButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FastImage from "react-native-fast-image";
+import { OrderItem } from "../../constants/interfaces";
 
 interface PropsType {
-  arrProducts: OrderReviewProduct[];
-  onPressItem: (item: OrderReviewProduct, index: number) => void;
+  arrProducts: OrderItem[];
+  onPressItem: (item: OrderItem, index: number) => void;
   onPressContinue: () => void;
 }
 
@@ -22,7 +33,7 @@ const ReturnExchangeItemListComponent = (props: PropsType) => {
     item,
     index,
   }: {
-    item: OrderReviewProduct;
+    item: OrderItem;
     index: number;
   }) => (
     <TouchableOpacity
@@ -34,12 +45,12 @@ const ReturnExchangeItemListComponent = (props: PropsType) => {
     >
       <View style={styles.vwProductImage}>
         <FastImage
-          source={item?.product_img}
-          style={{ height: item?.height, width: item?.width }}
+          source={{ uri: item?.image_url }}
+          style={{ height: 61.6, width: 42.3 }}
         />
       </View>
       <View style={styles.vwProductDetails}>
-        <Text style={styles.lblProductName}>{item?.product_name}</Text>
+        <Text style={styles.lblProductName}>{item?.name}</Text>
         <View
           style={{
             flexDirection: "row",
@@ -49,18 +60,20 @@ const ReturnExchangeItemListComponent = (props: PropsType) => {
             marginBottom: 10,
           }}
         >
-          <Text style={styles.lblProductPrice}>{rupeeSymbol+item?.product_price}</Text>
+          <Text style={styles.lblProductPrice}>
+            {rupeeSymbol + item?.price}
+          </Text>
           <Image
             style={styles.imgDotBlue}
             source={images.dotOrange}
             tintColor={colors.blue4e}
             resizeMode="stretch"
           />
-          <Text style={styles.lblProductWeight}>{item?.product_weight}</Text>
+          <Text style={styles.lblProductWeight}>{item?.unit}</Text>
         </View>
         <Text style={styles.lblQuantity}>
           <Text>{getTranslation("qty")}</Text>{" "}
-          <Text style={styles.lblQuantityCount}>{item?.product_quantity}</Text>
+          <Text style={styles.lblQuantityCount}>{item?.quantity}</Text>
         </Text>
       </View>
       <Image

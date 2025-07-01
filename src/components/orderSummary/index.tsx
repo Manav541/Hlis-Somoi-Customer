@@ -38,6 +38,7 @@ interface PropsType {
   orderDetails: OrderDetailsData;
   arrProducts: OrderItem[];
   cancelledDate: string;
+  rejectedDate: string;
   arrOrderStatus: StatusTimeline[];
   onPressCancelOrder: () => void;
   cancelDisabled: boolean;
@@ -268,7 +269,8 @@ const OrderSummaryComponent = (props: PropsType) => {
           </Text>
 
           {/* Cancel Oreder View */}
-          {props?.orderDetails?.status === "Order Cancelled" ? (
+          {props?.orderDetails?.status === "Order Cancelled" ||
+          props?.orderDetails?.status === "Order Rejected" ? (
             <View style={styles.vwCancelledOrder}>
               <Image
                 style={styles.imgCancel}
@@ -282,15 +284,22 @@ const OrderSummaryComponent = (props: PropsType) => {
                 <Text style={styles.lblOrderStatusDate}>
                   <Text>{"On "}</Text>
                   <Text>
-                    {DateFormatsManager.formatDate(
-                      props?.cancelledDate,
-                      DateFormatsManager.DateFormats.ddMMMYYYY
-                    )}
+                    {props?.orderDetails?.status === "Order Cancelled"
+                      ? DateFormatsManager.formatDate(
+                          props?.cancelledDate,
+                          DateFormatsManager.DateFormats.ddMMMYYYY
+                        )
+                      : DateFormatsManager.formatDate(
+                          props?.rejectedDate,
+                          DateFormatsManager.DateFormats.ddMMMYYYY
+                        )}
                   </Text>
                 </Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.lblReportIssueDesc}>
-                    {props?.orderDetails?.cancel_reason}
+                    {props?.orderDetails?.status === "Order Cancelled"
+                      ? props?.orderDetails?.cancel_reason
+                      : props?.orderDetails?.reject_reason}
                   </Text>
                 </View>
               </View>
@@ -457,9 +466,9 @@ const OrderSummaryComponent = (props: PropsType) => {
                   }
                 >
                   {/* Driver photo */}
-                  <Image
+                  <FastImage
                     style={styles.imgDriverProfile}
-                    source={props?.driverProfile}
+                    source={{ uri: props?.orderDetails?.driver_details?.image }}
                     resizeMode="stretch"
                   />
 

@@ -26,7 +26,7 @@ export const images = {
 
   // Home
   g1: require("../assets/images/g1.png"),
-  f1 : require("../assets/images/f1.png"),
+  f1: require("../assets/images/f1.png"),
   linearBG: require("../assets/images/linearBG.png"),
   linearBG1: require("../assets/images/linearBG1.png"),
   groceriesLogo: require("../assets/images/groceriesLogo.png"),
@@ -101,11 +101,11 @@ export const images = {
   filterCheckbox: require("../assets/images/filterCheckbox.png"),
   dropdown: require("../assets/images/dropdown.png"),
   dashLine: require("../assets/images/dashLine.png"),
-  tshirtIcon :require("../assets/images/tshirtIcon.png"),
-  tickSort : require("../assets/images/tickSort.png"),
-  nailpolishSubIcon : require("../assets/images/nailpolishSubIcon.png"),
-  makeupsetSubIcon : require("../assets/images/makeupsetSubIcon.png"),
-  skincareSubIcon : require("../assets/images/skincareSubIcon.png"),
+  tshirtIcon: require("../assets/images/tshirtIcon.png"),
+  tickSort: require("../assets/images/tickSort.png"),
+  nailpolishSubIcon: require("../assets/images/nailpolishSubIcon.png"),
+  makeupsetSubIcon: require("../assets/images/makeupsetSubIcon.png"),
+  skincareSubIcon: require("../assets/images/skincareSubIcon.png"),
 
   // Product Detail
   shareIcon: require("../assets/images/shareIcon.png"),
@@ -168,25 +168,27 @@ export const images = {
   orderCancel: require("../assets/images/orderCancel.png"),
   reportIssue: require("../assets/images/reportIssue.png"),
   rightArrowGrey: require("../assets/images/rightArrowGrey.png"),
-  whiteCheckBox : require("../assets/images/whiteCheckBox.png"),
-  trackIcon : require("../assets/images/trackIcon.png"),
-  callIcon : require("../assets/images/callIcon.png"),
-  chatIcon : require("../assets/images/chatIcon.png"),
-  driverProfile : require("../assets/images/driverProfile.png"),
-  closeImage : require("../assets/images/closeImage.png"),
-  dummyImg : require("../assets/images/dummyImg.png"),
-  returnIcon : require("../assets/images/returnIcon.png"),
-  delete1 : require("../assets/images/delete1.png"),
+  whiteCheckBox: require("../assets/images/whiteCheckBox.png"),
+  trackIcon: require("../assets/images/trackIcon.png"),
+  callIcon: require("../assets/images/callIcon.png"),
+  chatIcon: require("../assets/images/chatIcon.png"),
+  driverProfile: require("../assets/images/driverProfile.png"),
+  closeImage: require("../assets/images/closeImage.png"),
+  dummyImg: require("../assets/images/dummyImg.png"),
+  returnIcon: require("../assets/images/returnIcon.png"),
+  delete1: require("../assets/images/delete1.png"),
 
   // Tracking Order
   map: require("../assets/images/map.png"),
-  mapDirection : require("../assets/images/mapDirection.png"),
+  mapDirection: require("../assets/images/mapDirection.png"),
+  driverMarker: require("../assets/images/driverMarker.png"),
+  customerMarker: require("../assets/images/customerMarker.png"),
 
   // Chat
-  call : require("../assets/images/call.png"),
-  sendIcon : require("../assets/images/sendIcon.png"),
-  attachIcon : require("../assets/images/attachIcon.png"),
-  emojiIcon : require("../assets/images/emojiIcon.png"),
+  call: require("../assets/images/call.png"),
+  sendIcon: require("../assets/images/sendIcon.png"),
+  attachIcon: require("../assets/images/attachIcon.png"),
+  emojiIcon: require("../assets/images/emojiIcon.png"),
 
   // Setting
   profileIcon: require("../assets/images/profileIcon.png"),

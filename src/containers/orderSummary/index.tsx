@@ -40,6 +40,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     null
   );
   const [cancelledDate, setCancelledDate] = useState<string>("");
+  const [rejectedDate, setRejectedDate] = useState<string>("");
 
   const defaultOrderStatus: StatusTimeline[] = [
     {
@@ -178,12 +179,8 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
 
   const onPressTrackDriver = () => {
     navigation.navigate(ScreenNames.driverTracking, {
-      driverProfile: driverProfile,
-      driverName: orderDetails?.driver_details?.name,
-      driverCountryCode: orderDetails?.driver_details?.country_code,
-      driverMobileNumber: orderDetails?.driver_details?.mobile_number,
-      delivertoName: orderDetails?.delivery_details?.name,
-      delivertoAddress: orderDetails?.delivery_details?.address,
+      driver_details: orderDetails?.driver_details,
+      customer_details: orderDetails?.delivery_details,
     });
   };
 
@@ -270,6 +267,19 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
             setCancelledDate(cancelledDate);
           }
 
+          // ✅ Extract "Order Rejected" created_at time
+          const rejectedStatus = rawData.status_timeline.find(
+            (item) => item.status === "Order Rejected"
+          );
+
+          if (rejectedStatus) {
+            const rejectedDate = rejectedStatus.created_at;
+            console.log("Rejected Date:", rejectedDate);
+
+            // 💡 Optionally store it in a state variable
+            setRejectedDate(rejectedDate);
+          }
+
           // ✅ Map backend status to UI status
           const mappedTimeline = rawData.status_timeline.map((item) => ({
             ...item,
@@ -349,6 +359,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       orderDetails={orderDetails || ({} as OrderDetailsData)}
       arrProducts={arrProducts || []}
       cancelledDate={cancelledDate}
+      rejectedDate={rejectedDate}
       arrOrderStatus={arrOrderStatus}
       onPressCancelOrder={onPressCancelOrder}
       cancelDisabled={cancelDisabled}

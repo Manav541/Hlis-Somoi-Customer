@@ -32,6 +32,11 @@ interface PropsType {
     category_id?: string,
     vendor_id?: string
   ) => void;
+  // Pagination
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
 }
 
 const SearchComponent = (props: PropsType) => {
@@ -108,6 +113,16 @@ const SearchComponent = (props: PropsType) => {
           contentContainerStyle={{
             ...styles.vwContentContainer,
             paddingBottom: insets.bottom ? insets.bottom : 20,
+          }}
+          onEndReached={() => {
+            if (props.canLoadMore && props.hasMountedOnce.current) {
+              props.loadMoreCategories();
+            }
+          }}
+          onEndReachedThreshold={0.4}
+          onContentSizeChange={(w, h) => {
+            props.setCanLoadMore(h > 600); // Adjust if needed
+            props.hasMountedOnce.current = true;
           }}
         />
       ) : (

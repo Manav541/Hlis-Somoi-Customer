@@ -7,7 +7,8 @@ import { GlobalVar, toggleLoader } from "../GConstant";
 
 export const FolderName = {
   USER_IMAGE: "somoiapp/customers_images/",
-  // REPORTS_MEDIA: "reports_media/",
+  REPORTS_MEDIA: "somoiapp/reports_media/",
+  RATING_MEDIA: "somoiapp/rating_media/",
   // CONTACT_US: "contact_us_media/",
   // CHAT: "chat_files/",
 };
