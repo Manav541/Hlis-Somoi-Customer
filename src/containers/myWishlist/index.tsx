@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import MyWishlistComponent from "../../components/myWishlist";
 import { useFocusEffect } from "@react-navigation/native";
@@ -13,7 +13,7 @@ import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
 import { statusCodes } from "../../api/APIConstant";
 import { zustandStore } from "../../store";
-import { flashMessageWarning } from "../../constants/GConstant";
+import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
 import { debounceQuery } from "../../constants/utils/Debounce";
 
 const MyWishlistContainer = ({ navigation, route }: any) => {
@@ -54,6 +54,12 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   const [arrMyWhislistStore, setArrMyWishlistStore] = useState<Restaurant[]>(
     []
   );
+  // Pagination state
+  const [wishlistPageNumber, setWishlistPageNumber] = useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
+  const hasMountedOnce = useRef(false);
+  const [canLoadMore, setCanLoadMore] = useState(false);
 
   const onChangeSearch = (text: string) => {
     setSearch(text);
@@ -62,7 +68,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   const handleTabPress = (tab: string) => {
     setSearch("");
     setSelectedTab(tab);
-    handleMyWhilistApi(search, tab);
+    handleMyWhilistApi(search, tab, 1, false);
   };
 
   // Add to cart
@@ -162,12 +168,28 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
     handleWishlistStoreApi(vendor_id, index);
   };
 
+  const loadMoreCategories = () => {
+    if (hasMoreData && !isLoadingMore) {
+      const nextPage = wishlistPageNumber + 1;
+      handleMyWhilistApi(search, selectedTab, nextPage, false);
+    }
+  };
+
   // -----------------------API Call-----------------------
 
   // handleMyWhilistApi
-  const handleMyWhilistApi = async (text: string, type: string) => {
+  const handleMyWhilistApi = async (
+    text: string,
+    type: string,
+    page: number,
+    isLoadMore = false
+  ) => {
+    if (isLoadMore && isLoadingMore) return;
+
+    if (!isLoadMore) toggleLoader(true);
+    else setIsLoadingMore(true);
     const dictData: any = {
-      page_number: 1,
+      page_number: page,
       type: type.toLowerCase(),
       customer_latitude: currentLatLong?.latitude.toString(),
       customer_longitude: currentLatLong?.longitude.toString(),
@@ -185,25 +207,42 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
 
         if (response.code === statusCodes.success) {
           const wishlistData = response.data;
-          if (Array.isArray(wishlistData)) {
-            if (type == "Store") {
-              setArrMyWishlistStore(wishlistData);
+          if (Array.isArray(wishlistData) && wishlistData.length > 0) {
+            if (type === "Store") {
+              setArrMyWishlistStore((prev) =>
+                isLoadMore ? [...prev, ...wishlistData] : wishlistData
+              );
             } else {
-              setArrMyWishlistProduct(wishlistData);
+              setArrMyWishlistProduct((prev) =>
+                isLoadMore ? [...prev, ...wishlistData] : wishlistData
+              );
             }
+            setWishlistPageNumber(page);
+            setHasMoreData(true);
+          } else {
+            if (!isLoadMore) {
+              setArrMyWishlistProduct([]);
+              setArrMyWishlistStore([]);
+            }
+            setHasMoreData(false);
           }
         } else if (response.code === statusCodes.invaildOrFail) {
           // flashMessageWarning(response.message);
           setArrMyWishlistProduct([]);
           setArrMyWishlistStore([]);
         } else if (response.code === statusCodes.emptyData) {
-          // flashMessageWarning(response.message);
-          setArrMyWishlistProduct([]);
-          setArrMyWishlistStore([]);
+          if (!isLoadMore) {
+            setArrMyWishlistProduct([]);
+            setArrMyWishlistStore([]);
+          }
+          setHasMoreData(false);
         }
       }
     } catch (error) {
       __DEV__ && console.log("Customer Detail API Error:", error);
+    } finally {
+      if (!isLoadMore) toggleLoader(false);
+      else setIsLoadingMore(false);
     }
   };
 
@@ -423,7 +462,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleMyWhilistApi(debounce, selectedTab);
+      handleMyWhilistApi(debounce, selectedTab, 1, false);
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation, debounce])
@@ -442,6 +481,11 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
       onPressRestaurant={onPressRestaurant}
       selectedTab={selectedTab}
       handleTabPress={handleTabPress}
+       // pagination
+      loadMoreCategories={loadMoreCategories}
+      canLoadMore={canLoadMore}
+      setCanLoadMore={setCanLoadMore}
+      hasMountedOnce={hasMountedOnce}
     />
   );
 };

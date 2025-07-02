@@ -98,9 +98,7 @@ const HomeContainer = ({ navigation }: any) => {
         mainCategoryId,
         name.toLowerCase(),
         currentLatLong.latitude,
-        currentLatLong.longitude,
-        1,
-        false
+        currentLatLong.longitude
       );
     }
   };
@@ -114,11 +112,19 @@ const HomeContainer = ({ navigation }: any) => {
     });
   };
 
+  // handleSellAllBestProducts
+  const handleSellAllBestProducts = () => {
+    navigation.navigate(ScreenNames.allBestProducts, {
+      mainCategoryId: mainCategoryId,
+      type: isGroceriesFoodSelected.toLowerCase(),
+      currentLatLong: currentLatLong,
+    });
+  };
+
   // handleSellAllBestSellers
   const handleSellAllBestSellers = () => {
     navigation.navigate(ScreenNames.allBestSellers, {
       mainCategoryId: mainCategoryId,
-
       type: isGroceriesFoodSelected.toLowerCase(),
       currentLatLong: currentLatLong,
     });
@@ -174,20 +180,6 @@ const HomeContainer = ({ navigation }: any) => {
   // handleOnPressNotifaicationIcon
   const handleOnPressNotifaicationIcon = () => {
     navigation.navigate(ScreenNames.notification);
-  };
-
-  const loadMoreCategories = () => {
-    if (hasMoreData && !isLoadingMore) {
-      const nextPage = bestProductsSellerPageNumber + 1;
-      handleBestProductsSellerListApi(
-        mainCategoryId,
-        isGroceriesFoodSelected.toLowerCase(),
-        currentLatLong?.latitude ?? 0,
-        currentLatLong?.longitude ?? 0,
-        nextPage,
-        true
-      );
-    }
   };
 
   // ----------------------- API Calling -----------------------
@@ -273,23 +265,16 @@ const HomeContainer = ({ navigation }: any) => {
     }
   };
 
-  // handleSubCategoryListApi
+  // handleBestProductsSellerListApi
   const handleBestProductsSellerListApi = async (
     mainCategoryId: String,
     name: string,
     customer_latitude: number,
-    customer_longitude: number,
-    page: number,
-    isLoadMore = false
+    customer_longitude: number
   ) => {
-    if (isLoadMore && isLoadingMore) return;
-
-    if (!isLoadMore) toggleLoader(true);
-    else setIsLoadingMore(true);
-
     const dictData = {
       category_id: mainCategoryId,
-      page_number: page,
+      page_number: 1,
       type: name,
       customer_latitude: customer_latitude?.toString(),
       customer_longitude: customer_longitude?.toString(),
@@ -309,20 +294,12 @@ const HomeContainer = ({ navigation }: any) => {
         const rawData = response.data as BestProductSellerData;
         if (response.code === statusCodes.success) {
           if (Array.isArray(rawData) && rawData.length > 0) {
-            setArrBestProductsSellers((prev) =>
-              isLoadMore ? [...prev, ...rawData] : rawData
-            );
-            setBestProductsSellerPageNumber(page);
-            setHasMoreData(true);
-          } else {
-            if (!isLoadMore) setArrBestProductsSellers([]);
-            setHasMoreData(false);
+            setArrBestProductsSellers(rawData);
           }
         } else if (response.code === statusCodes.invaildOrFail) {
           setArrBestProductsSellers([]);
         } else if (response.code === statusCodes.emptyData) {
-          if (!isLoadMore) setArrBestProductsSellers([]);
-          setHasMoreData(false);
+          setArrBestProductsSellers([]);
         }
       }
     } catch (error) {
@@ -350,9 +327,7 @@ const HomeContainer = ({ navigation }: any) => {
         mainCategoryId,
         isGroceriesFoodSelected,
         current.latitude,
-        current.longitude,
-        1,
-        false
+        current.longitude
       );
     }
     toggleLoader(false);
@@ -387,6 +362,7 @@ const HomeContainer = ({ navigation }: any) => {
       handleSetBannerIndex={handleSetBannerIndex}
       currentBannerIndex={currentBannerIndex}
       handleSellAllCategories={handleSellAllCategories}
+      handleSellAllBestProducts={handleSellAllBestProducts}
       handleSellAllBestSellers={handleSellAllBestSellers}
       onPressSearch={onPressSearch}
       handleOnPressNotifaicationIcon={handleOnPressNotifaicationIcon}
@@ -395,11 +371,6 @@ const HomeContainer = ({ navigation }: any) => {
       onPressSubCategories={onPressSubCategories}
       onPressBestProducts={onPressBestProducts}
       currentAddress={currentAddress}
-       // pagination
-      loadMoreCategories={loadMoreCategories}
-      canLoadMore={canLoadMore}
-      setCanLoadMore={setCanLoadMore}
-      hasMountedOnce={hasMountedOnce}
     />
   );
 };

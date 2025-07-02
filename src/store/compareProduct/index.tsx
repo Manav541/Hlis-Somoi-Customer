@@ -40,7 +40,7 @@ const CompareProductStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.getServerRequestWithToken({
+      APIManager.postServerRequestWithToken({
         apiEndPoint: apiEndPoint.compareProductDetails,
         callback: callback,
         dictData: dictData,
@@ -66,7 +66,7 @@ const CompareProductStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.getServerRequestWithToken({
+      APIManager.postServerRequestWithToken({
         apiEndPoint: apiEndPoint.similarProductListing,
         callback: callback,
         dictData: dictData,

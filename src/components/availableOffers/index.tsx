@@ -20,6 +20,11 @@ import { colors } from "../../constants/Colors";
 interface PropsType {
   arrAvailableOffers: AvailableOfferItem[];
   copyToClipboard: (offerCode: string) => void;
+  // Pagination
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
 }
 
 const AvailableOffersComponent = (props: PropsType) => {
@@ -100,6 +105,16 @@ const AvailableOffersComponent = (props: PropsType) => {
         renderItem={renderAvailableOffers}
         bounces={false}
         showsVerticalScrollIndicator={false}
+        onEndReached={() => {
+          if (props.canLoadMore && props.hasMountedOnce.current) {
+            props.loadMoreCategories();
+          }
+        }}
+        onEndReachedThreshold={0.4}
+        onContentSizeChange={(w, h) => {
+          props.setCanLoadMore(h > 600); // Adjust if needed
+          props.hasMountedOnce.current = true;
+        }}
         ListEmptyComponent={
           <Text style={styles.lblNoData}>{getTranslation("noDataFound")}</Text>
         }

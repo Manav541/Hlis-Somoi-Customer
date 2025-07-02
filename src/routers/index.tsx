@@ -34,6 +34,7 @@ import ReturnExchangeItemListContainer from "../containers/returnExchangeItemLis
 import ReturnOrderContainer from "../containers/returnOrder";
 import ReviewContainer from "../containers/review";
 import SearchContainer from "../containers/search";
+import ViewAllBestProductsContainer from "../containers/viewAllBestProducts";
 import ViewAllBestSellersContainer from "../containers/viewAllBestSellers";
 import ViewAllSubCategoriesContainer from "../containers/viewAllSubCategories";
 import ViewProductDetailContainer from "../containers/viewProductDetail";
@@ -52,32 +53,33 @@ export const ScreenNames = {
 
   // Home page screens
   allCategories: "All Categories",
+  allBestProducts: "Best Products",
   allBestSellers: "Best Sellers",
   search: "Search",
   notification: "Notification",
 
   // Categories tabs
   productListing: "Product Listing",
-  productDetail:"Product Detail",
-  restaurantDetail:"Restaurant Detail",
-  review:"Review",
-  compareProduct : "Compare Product",
-  addCompareProduct : "Add Compare Product",
+  productDetail: "Product Detail",
+  restaurantDetail: "Restaurant Detail",
+  review: "Review",
+  compareProduct: "Compare Product",
+  addCompareProduct: "Add Compare Product",
 
   // Payment Method
   paymentMethod: "Payment Method",
 
   // My Orders
-  orderSummary : "Order Summary",
-  cancelOrder:"Cancel Order",
-  returnExchangeItemList:"Item List",
-  returnOrder:"Return Order",
-  rateAndReview : "Rate & Review",
-  reportIssue : "Report Issue", 
+  orderSummary: "Order Summary",
+  cancelOrder: "Cancel Order",
+  returnExchangeItemList: "Item List",
+  returnOrder: "Return Order",
+  rateAndReview: "Rate & Review",
+  reportIssue: "Report Issue",
 
   // Driver Tracking
-  driverTracking : "Tracking",
-  chat : "Chat",
+  driverTracking: "Tracking",
+  chat: "Chat",
 
   // Bottom Tabs
   bottomTabsNavigation: "BottomTabs",
@@ -120,6 +122,7 @@ export const MyScreens = {
 
   // Home page
   ViewAllSubCategoriesContainer,
+  ViewAllBestProductsContainer,
   ViewAllBestSellersContainer,
   SearchContainer,
   NotificationContainer,

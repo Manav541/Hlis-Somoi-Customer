@@ -36,6 +36,12 @@ interface PropsType {
   ) => void;
   allMedia: Media[];
   selectedIndex: number;
+  // Pagination
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
+  hasMoreData: boolean;
 }
 
 const ReviewComponent = (props: PropsType) => {
@@ -195,19 +201,21 @@ const ReviewComponent = (props: PropsType) => {
         <View style={{ marginTop: 20 }}>
           {props?.arrRevieews.map(renderItemArrReviews)}
         </View>
-        <TouchableOpacity
-          style={styles.btnViewAll}
-          activeOpacity={activityOpacity}
-          hitSlop={hitSlop}
-          onPress={props?.onPressViewAll}
-        >
-          <Text style={styles.lblViewAll}>{getTranslation("viewAll")}</Text>
-          <Image
-            style={styles.imgRightOrangeArrow}
-            source={images.rightArrowOrange}
-            resizeMode="stretch"
-          />
-        </TouchableOpacity>
+        {props?.hasMoreData && (
+          <TouchableOpacity
+            style={styles.btnViewAll}
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={props?.loadMoreCategories} 
+          >
+            <Text style={styles.lblViewAll}>{getTranslation("viewMore")}</Text>
+            <Image
+              style={styles.imgRightOrangeArrow}
+              source={images.rightArrowOrange}
+              resizeMode="stretch"
+            />
+          </TouchableOpacity>
+        )}
       </ScrollView>
 
       {/* Media Modal */}

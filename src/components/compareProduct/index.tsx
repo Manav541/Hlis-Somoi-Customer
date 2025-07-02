@@ -36,6 +36,11 @@ interface PropsType {
     color_id?: string,
     size_id?: string
   ) => void;
+  // Pagination
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
 }
 
 const CompareProductComponent = (props: PropsType) => {
@@ -71,7 +76,9 @@ const CompareProductComponent = (props: PropsType) => {
           <Text style={styles.lblProductName}>{item?.name}</Text>
           <View style={styles.vwProductRate}>
             <Image style={styles.imgStar} source={images.star} />
-            <Text style={styles.lblProductRate}>{item?.rating}</Text>
+            <Text style={styles.lblProductRate}>
+              {parseFloat(item?.rating).toFixed(2)}
+            </Text>
           </View>
           <View style={styles.vwPrice}>
             <Text style={styles.lblProductFinalPrice}>
@@ -122,6 +129,16 @@ const CompareProductComponent = (props: PropsType) => {
           gap: 15,
           marginHorizontal: 20,
           paddingBottom: PlatformVersion.isIOS ? insets.bottom + 20 : 40,
+        }}
+        onEndReached={() => {
+          if (props.canLoadMore && props.hasMountedOnce.current) {
+            props.loadMoreCategories();
+          }
+        }}
+        onEndReachedThreshold={0.4}
+        onContentSizeChange={(w, h) => {
+          props.setCanLoadMore(h > 600); // Adjust if needed
+          props.hasMountedOnce.current = true;
         }}
       />
     </View>

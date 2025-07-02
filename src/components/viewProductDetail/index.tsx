@@ -146,7 +146,11 @@ const ViewProductDetailComponent = (props: PropsType) => {
     return (
       <TouchableOpacity
         key={index}
-        style={styles.btnSimilarProduct}
+        style={
+          item?.is_selected
+            ? styles.btnSimilarProductSelected
+            : styles.btnSimilarProduct
+        }
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         onPress={() => props?.onPressVariationProduct(item?.variation_id)}

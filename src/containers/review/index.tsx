@@ -1,9 +1,9 @@
 import { View, Text, StatusBar } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReviewComponent from "../../components/review";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
-import { flashMessageWarning } from "../../constants/GConstant";
+import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
 import {
@@ -43,6 +43,12 @@ const ReviewContainer = ({ navigation, route }: any) => {
     type: "image" | "video";
   } | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  // Pagination state
+  const [reviewPageNumber, setReviewPageNumber] = useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
+  const hasMountedOnce = useRef(false);
+  const [canLoadMore, setCanLoadMore] = useState(false);
 
   const onPressImageVideo = () => {
     flashMessageWarning(getTranslation("underDevelopment"));
@@ -100,13 +106,32 @@ const ReviewContainer = ({ navigation, route }: any) => {
     header();
   }, []);
 
+  const loadMoreCategories = () => {
+    if (hasMoreData && !isLoadingMore) {
+      const nextPage = reviewPageNumber + 1;
+      handleRateAndReviewListApi(
+        type,
+        nextPage,
+        true,
+        type === "product" ? product_id : undefined,
+        type === "vendor" ? vendor_id : undefined
+      );
+    }
+  };
+
+  // -------------------------API Calling------------------------
   // handleRateAndReviewListApi
   const handleRateAndReviewListApi = async (
     type: string,
     page_no: number,
+    isLoadMore = false,
     product_id?: string,
     vendor_id?: string
   ) => {
+    if (isLoadMore && isLoadingMore) return;
+
+    if (!isLoadMore) toggleLoader(true);
+    else setIsLoadingMore(true);
     const dictData: any = {
       type: type,
       page_no: page_no,
@@ -151,15 +176,29 @@ const ReviewContainer = ({ navigation, route }: any) => {
             })
           );
 
-          setArrReviews(formattedReviews);
+          setArrReviews((prev) =>
+            isLoadMore ? [...prev, ...formattedReviews] : formattedReviews
+          );
+
+          setReviewPageNumber(page_no);
+          if (isLoadMore && formattedReviews.length === 0) {
+            setHasMoreData(false); // reached last page
+          } else if (!isLoadMore) {
+            setHasMoreData(true); // reset for fresh listing
+          }
         } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
+          if (!isLoadMore) setArrReviews([]);
+          setHasMoreData(false);
         } else if (response.code === statusCodes.emptyData) {
-          flashMessageWarning(response.message);
+          if (!isLoadMore) setArrReviews([]);
+          setHasMoreData(false);
         }
       }
     } catch (error) {
       __DEV__ && console.log(error);
+    } finally {
+      if (!isLoadMore) toggleLoader(false);
+      else setIsLoadingMore(false);
     }
   };
 
@@ -168,6 +207,7 @@ const ReviewContainer = ({ navigation, route }: any) => {
       handleRateAndReviewListApi(
         type,
         1,
+        false,
         type === "product" ? product_id : undefined,
         type === "vendor" ? vendor_id : undefined
       );
@@ -190,6 +230,12 @@ const ReviewContainer = ({ navigation, route }: any) => {
       handleSelectMedia={handleSelectMedia}
       allMedia={allMedia}
       selectedIndex={selectedIndex}
+      // pagination
+      loadMoreCategories={loadMoreCategories}
+      canLoadMore={canLoadMore}
+      setCanLoadMore={setCanLoadMore}
+      hasMountedOnce={hasMountedOnce}
+      hasMoreData={hasMoreData}
     />
   );
 };

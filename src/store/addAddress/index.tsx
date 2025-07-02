@@ -34,7 +34,7 @@ const AddressStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.getServerRequestWithToken({
+      APIManager.postServerRequestWithToken({
         apiEndPoint: apiEndPoint.locationList,
         callback: callback,
         dictData: dictData,

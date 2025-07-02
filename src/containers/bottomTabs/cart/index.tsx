@@ -338,31 +338,60 @@ const CartContainer = ({ navigation }: any) => {
 
   // handleAddressListApi
   const handleAddressListApi = async () => {
+    let page = 1;
+    let foundDefault = false;
+
     try {
-      const response = await addressListApi({}, navigation);
-      if (response !== undefined && response !== null) {
-        __DEV__ &&
-          console.log("ADDRESS LIST RESPONSE===>", JSON.stringify(response));
+      while (!foundDefault) {
+        const dictData = {
+          page_no: page,
+        };
 
-        if (response.code === statusCodes.success) {
-          const locationData = response.data;
-          if (Array.isArray(locationData)) {
-            const defaultAddress = locationData.find(
-              (item) => item.is_default === true
+        const response = await addressListApi(dictData, navigation);
+
+        if (response !== undefined && response !== null) {
+          __DEV__ &&
+            console.log(
+              `ADDRESS LIST RESPONSE (page ${page}) ===>`,
+              JSON.stringify(response)
             );
-            if (defaultAddress) {
-              console.log("defaultAddress => ", defaultAddress);
 
-              const formattedAddress = `${defaultAddress.building_details}, ${defaultAddress.address}, ${defaultAddress.description}`;
-              setDeliverToAddress(formattedAddress);
-              setLocation_id(defaultAddress?.id);
+          if (response.code === statusCodes.success) {
+            const locationData = response.data;
+
+            if (Array.isArray(locationData) && locationData.length > 0) {
+              const defaultAddress = locationData.find(
+                (item) => item.is_default === true
+              );
+
+              if (defaultAddress) {
+                console.log("defaultAddress => ", defaultAddress);
+
+                const formattedAddress = `${defaultAddress.building_details}, ${defaultAddress.address}, ${defaultAddress.description}`;
+                setDeliverToAddress(formattedAddress);
+                setLocation_id(defaultAddress?.id);
+                foundDefault = true;
+                break; // ✅ Stop pagination once found
+              } else {
+                page++; // ✅ Go to next page
+              }
+            } else {
+              break; // ✅ No more pages
             }
+          } else if (
+            response.code === statusCodes.invaildOrFail ||
+            response.code === statusCodes.emptyData
+          ) {
+            setDeliverToAddress("");
+            break;
           }
-        } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
-        } else if (response.code === statusCodes.emptyData) {
-          flashMessageWarning(response.message);
+        } else {
+          break;
         }
+      }
+
+      if (!foundDefault) {
+        setDeliverToAddress("No default address found.");
       }
     } catch (error) {
       __DEV__ && console.log("ADDRESS LIST API Error:", error);

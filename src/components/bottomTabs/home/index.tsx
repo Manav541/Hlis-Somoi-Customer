@@ -36,12 +36,16 @@ interface PropsType {
   arrSubCategory: SubCategoryListItem[];
   arrBestProductsSellers: BestProductSellerData[];
   handleSellAllCategories: () => void;
+  handleSellAllBestProducts: () => void;
   handleSellAllBestSellers: () => void;
   onPressSearch: () => void;
   handleOnPressNotifaicationIcon: () => void;
   onPressLocation: () => void;
   onPressRestaurant: (vendor_id: string) => void;
-  onPressSubCategories: (sub_category_id: string,subCategoryName:string) => void;
+  onPressSubCategories: (
+    sub_category_id: string,
+    subCategoryName: string
+  ) => void;
   onPressBestProducts: (
     product_id: string,
     variation_id?: string,
@@ -54,15 +58,9 @@ interface PropsType {
   handleSetBannerIndex: (index: number) => void;
   currentBannerIndex: number;
   currentAddress: string | null;
-   // Pagination
-  loadMoreCategories: () => void;
-  canLoadMore: boolean;
-  setCanLoadMore: (value: boolean) => void;
-  hasMountedOnce: { current: boolean };
 }
 
 const HomeComponent = (props: PropsType) => {
-
   const insets = useSafeAreaInsets();
 
   const renderMainCategoryListItem = (
@@ -142,7 +140,7 @@ const HomeComponent = (props: PropsType) => {
         key={index}
         style={styles.btnSubCategories}
         activeOpacity={activityOpacity}
-        onPress={() => props?.onPressSubCategories(item?.id,item?.name)}
+        onPress={() => props?.onPressSubCategories(item?.id, item?.name)}
       >
         <FastImage
           style={styles.imgSubCategories}
@@ -168,8 +166,7 @@ const HomeComponent = (props: PropsType) => {
             item?.variation_data?.variation_id,
             item?.is_variation,
             item?.is_color,
-            item?.is_size,
-            
+            item?.is_size
           )
         }
       >
@@ -375,16 +372,25 @@ const HomeComponent = (props: PropsType) => {
           {/* Best Products & Best Sellers */}
           {props?.arrBestProductsSellers.length != 0 &&
             (props?.isGroceriesFoodSelected === "Groceries" ? (
-              <View style={styles.vwBestProducts}>
-                <Text
-                  style={{ ...styles.lblBestProducts, marginHorizontal: 20 }}
-                >
-                  {getTranslation("bestProducts")}
-                </Text>
+              <View>
+                <View style={styles.vwBestProducts}>
+                  <Text style={styles.lblBestProducts}>
+                    {getTranslation("bestProducts")}
+                  </Text>
+                  <TouchableOpacity
+                    activeOpacity={activityOpacity}
+                    hitSlop={hitSlop}
+                    onPress={props?.handleSellAllBestProducts}
+                  >
+                    <Text style={styles.lblSeeAll}>
+                      {getTranslation("seeAll")}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
                 <View style={styles.vwBestProductsGrid}>
-                  {props?.arrBestProductsSellers.map((item, index) =>
-                    renderBestProducts(item, index)
-                  )}
+                  {props?.arrBestProductsSellers
+                    .slice(0, 4)
+                    .map((item, index) => renderBestProducts(item, index))}
                 </View>
               </View>
             ) : (

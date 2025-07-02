@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { View, Text, Alert, StatusBar } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -9,6 +9,7 @@ import {
   flashMessageSucess,
   flashMessageWarning,
   showConfirmAlert,
+  toggleLoader,
 } from "../../constants/GConstant";
 import { constnatStyles } from "../../constants/Styles";
 import { statusCodes } from "../../api/APIConstant";
@@ -30,15 +31,19 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
   const deleteAddressApi = zustandStore.AddressStore(
     (state) => state.deleteAddress
   );
-
   const updateAddressApi = zustandStore.AddressStore(
     (state) => state.updateAddress
   );
 
   const navigateFromCart = route.params?.navigateFromCart;
   const navigateFromHome = route.params?.navigateFromHome;
-
   const [arrManageAddress, setArrManageAddress] = useState<LocationData[]>([]);
+  // Pagination state
+  const [addressListPageNumber, setAddressListPageNumber] = useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
+  const hasMountedOnce = useRef(false);
+  const [canLoadMore, setCanLoadMore] = useState(false);
 
   const handleSetDefault = (item: LocationData) => {
     showConfirmAlert(
@@ -56,28 +61,6 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
     showConfirmAlert(getTranslation("confirmDeleteAddress"), () => {
       handleDeleteAddressApi(location_id);
     });
-  };
-
-  const handleDeleteAddressApi = async (location_id: string) => {
-    const dictData = {
-      location_id: location_id,
-    };
-    try {
-      const response = await deleteAddressApi(dictData, navigation);
-      if (response !== undefined && response !== null) {
-        __DEV__ &&
-          console.log("DELETE ADDRESS RESPONSE===>", JSON.stringify(response));
-
-        if (response.code === statusCodes.success) {
-          flashMessageSucess(response.message);
-          handleAddressListApi();
-        } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
-        }
-      }
-    } catch (error) {
-      __DEV__ && console.log("Customer Detail API Error:", error);
-    }
   };
 
   const handleOnPressEditAddress = (item: LocationData) => {
@@ -101,31 +84,57 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
     }
   };
 
+  const loadMoreCategories = () => {
+    if (hasMoreData && !isLoadingMore) {
+      const nextPage = addressListPageNumber + 1;
+      handleAddressListApi(nextPage, true);
+    }
+  };
+
   // ----------------------- API Calling -------------------------
-  const handleAddressListApi = async () => {
+  // handleAddressListApi
+  const handleAddressListApi = async (page: number, isLoadMore = false) => {
+    if (isLoadMore && isLoadingMore) return;
+
+    if (!isLoadMore) toggleLoader(true);
+    else setIsLoadingMore(true);
+    const dictData = {
+      page_no: page,
+    };
     try {
-      const response = await addressListApi({}, navigation);
+      const response = await addressListApi(dictData, navigation);
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log("ADDRESS LIST RESPONSE===>", JSON.stringify(response));
 
         if (response.code === statusCodes.success) {
-          const locationData = response.data;
-          if (Array.isArray(locationData)) {
-            setArrManageAddress(locationData as LocationData[]);
+          const locationData = response.data as LocationData[];
+          if (Array.isArray(locationData) && locationData.length > 0) {
+            setArrManageAddress((prev) =>
+              isLoadMore ? [...prev, ...locationData] : locationData
+            );
+            setAddressListPageNumber(page);
+            setHasMoreData(true);
+          } else {
+            if (!isLoadMore) setArrManageAddress([]);
+            setHasMoreData(false);
           }
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
-        }
-        else if (response.code === statusCodes.emptyData) {
-          setArrManageAddress([]);
+        } else if (response.code === statusCodes.emptyData) {
+          if (!isLoadMore) setArrManageAddress([]);
+          setHasMoreData(false);
         }
       }
     } catch (error) {
-      __DEV__ && console.log("Customer Detail API Error:", error);
+      __DEV__ && console.log("Address List API Error:", error);
+    } finally {
+      if (!isLoadMore) toggleLoader(false);
+      else setIsLoadingMore(false);
     }
   };
 
+  // handleUpdateLocationApi
   const handleUpdateLocationApi = async (
     item: LocationData,
     isDefault: boolean
@@ -146,13 +155,36 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
         __DEV__ && console.log("UPDATE LOCATION RESPONSE===>", response);
         if (response.code === statusCodes.success) {
           // flashMessageSucess(response.message);
-          handleAddressListApi();
+          handleAddressListApi(addressListPageNumber, false);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
       }
     } catch (error) {
       __DEV__ && console.log(error);
+    }
+  };
+
+  // handleDeleteAddressApi
+  const handleDeleteAddressApi = async (location_id: string) => {
+    const dictData = {
+      location_id: location_id,
+    };
+    try {
+      const response = await deleteAddressApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("DELETE ADDRESS RESPONSE===>", JSON.stringify(response));
+
+        if (response.code === statusCodes.success) {
+          flashMessageSucess(response.message);
+          handleAddressListApi(addressListPageNumber, false);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log("Customer Detail API Error:", error);
     }
   };
 
@@ -175,7 +207,7 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     useCallback(() => {
-      handleAddressListApi();
+      handleAddressListApi(1, false);
       StatusBar.setBarStyle("dark-content");
     }, [navigation])
   );
@@ -190,6 +222,11 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
       navigateFromCart={navigateFromCart}
       navigateFromHome={navigateFromHome}
       onPressAddress={onPressAddress}
+      // pagination
+      loadMoreCategories={loadMoreCategories}
+      canLoadMore={canLoadMore}
+      setCanLoadMore={setCanLoadMore}
+      hasMountedOnce={hasMountedOnce}
     />
   );
 };

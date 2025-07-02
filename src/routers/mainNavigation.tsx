@@ -109,6 +109,11 @@ const MainNavigation = (props: PropsType) => {
             true
           )}
           {handleStackScreens(
+            ScreenNames.allBestProducts,
+            MyScreens.ViewAllBestProductsContainer,
+            true
+          )}
+          {handleStackScreens(
             ScreenNames.allBestSellers,
             MyScreens.ViewAllBestSellersContainer,
             true

@@ -1,5 +1,5 @@
 import { View, Text, StatusBar } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { styles } from "./styles";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import AvailableOffersComponent from "../../components/availableOffers";
@@ -13,6 +13,7 @@ import {
   flashMessageSucess,
   flashMessageWarning,
   rupeeSymbol,
+  toggleLoader,
 } from "../../constants/GConstant";
 import { statusCodes } from "../../api/APIConstant";
 import { zustandStore } from "../../store";
@@ -26,14 +27,38 @@ const AvailableOffersContainer = ({ navigation }: any) => {
     AvailableOfferItem[]
   >([]);
 
+  // Pagination state
+  const [availableOffersPageNumber, setAvailableOffersPageNumber] =
+    useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
+  const hasMountedOnce = useRef(false);
+  const [canLoadMore, setCanLoadMore] = useState(false);
+
   const copyToClipboard = (offerCode: string) => {
     Clipboard.setString(offerCode);
     flashMessageSucess(getTranslation("offerCodeCopySuccess"));
   };
 
-  const handleAvailableOffersApi = async () => {
+  const loadMoreCategories = () => {
+    if (hasMoreData && !isLoadingMore) {
+      const nextPage = availableOffersPageNumber + 1;
+      handleAvailableOffersApi(nextPage, true);
+    }
+  };
+
+  // -------------------------API Calling----------------------------
+  // handleAvailableOffersApi
+  const handleAvailableOffersApi = async (page: number, isLoadMore = false) => {
+    if (isLoadMore && isLoadingMore) return;
+
+    if (!isLoadMore) toggleLoader(true);
+    else setIsLoadingMore(true);
+    const dictData = {
+      page_no: page,
+    };
     try {
-      const response = await availableOffersApi({}, navigation);
+      const response = await availableOffersApi(dictData, navigation);
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log(
@@ -41,17 +66,29 @@ const AvailableOffersContainer = ({ navigation }: any) => {
             JSON.stringify(response)
           );
         if (response.code === statusCodes.success) {
-          setArrAvailableOffers(response.data as AvailableOfferItem[]);
+          const rawData = response.data as AvailableOfferItem[];
+          if (Array.isArray(rawData) && rawData.length > 0) {
+            setArrAvailableOffers((prev) =>
+              isLoadMore ? [...prev, ...rawData] : rawData
+            );
+            setAvailableOffersPageNumber(page);
+            setHasMoreData(true);
+          } else {
+            if (!isLoadMore) setArrAvailableOffers([]);
+            setHasMoreData(false);
+          }
         } else if (response.code === statusCodes.invaildOrFail) {
-          // flashMessageWarning(response.message);
           setArrAvailableOffers([]);
         } else if (response.code === statusCodes.emptyData) {
-          flashMessageWarning(response.message);
-          setArrAvailableOffers([]);
+          if (!isLoadMore) setArrAvailableOffers([]);
+          setHasMoreData(false);
         }
       }
     } catch (error) {
       __DEV__ && console.log(error);
+    } finally {
+      if (!isLoadMore) toggleLoader(false);
+      else setIsLoadingMore(false);
     }
   };
 
@@ -78,7 +115,7 @@ const AvailableOffersContainer = ({ navigation }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleAvailableOffersApi();
+      handleAvailableOffersApi(1, false);
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
@@ -88,6 +125,11 @@ const AvailableOffersContainer = ({ navigation }: any) => {
     <AvailableOffersComponent
       arrAvailableOffers={arrAvailableOffers}
       copyToClipboard={copyToClipboard}
+      // pagination
+      loadMoreCategories={loadMoreCategories}
+      canLoadMore={canLoadMore}
+      setCanLoadMore={setCanLoadMore}
+      hasMountedOnce={hasMountedOnce}
     />
   );
 };

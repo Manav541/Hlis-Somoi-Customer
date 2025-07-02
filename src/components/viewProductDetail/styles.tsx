@@ -468,6 +468,17 @@ export const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 14,
   },
+   btnSimilarProductSelected: {
+    backgroundColor: colors.creamee,
+    borderRadius: 20,
+    height: 192,
+    width: 120,
+    justifyContent: "space-between",
+    paddingTop: 11,
+    paddingBottom: 10,
+    borderColor : colors.orange1c,
+    borderWidth : 4
+  },
   btnViewAll: {
     flexDirection: "row",
     alignItems: "center",

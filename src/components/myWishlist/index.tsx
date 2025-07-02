@@ -59,6 +59,11 @@ interface PropsType {
   onPressRestaurant: (vendor_id: string) => void;
   selectedTab: string;
   handleTabPress: (tab: string) => void;
+  // Pagination
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
 }
 
 const MyWishlistComponent = (props: PropsType) => {
@@ -394,6 +399,16 @@ const MyWishlistComponent = (props: PropsType) => {
             paddingHorizontal: 20,
             paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
           }}
+          onEndReached={() => {
+            if (props.canLoadMore && props.hasMountedOnce.current) {
+              props.loadMoreCategories();
+            }
+          }}
+          onEndReachedThreshold={0.4}
+          onContentSizeChange={(w, h) => {
+            props.setCanLoadMore(h > 600); // Adjust if needed
+            props.hasMountedOnce.current = true;
+          }}
           ListEmptyComponent={
             <Text style={styles.lblNoData}>
               {getTranslation("noDataFound")}
@@ -417,6 +432,16 @@ const MyWishlistComponent = (props: PropsType) => {
           }}
           showsVerticalScrollIndicator={false}
           bounces={false}
+          onEndReached={() => {
+            if (props.canLoadMore && props.hasMountedOnce.current) {
+              props.loadMoreCategories();
+            }
+          }}
+          onEndReachedThreshold={0.4}
+          onContentSizeChange={(w, h) => {
+            props.setCanLoadMore(h > 600); // Adjust if needed
+            props.hasMountedOnce.current = true;
+          }}
           ListEmptyComponent={
             <Text style={styles.lblNoData}>
               {getTranslation("noDataFound")}

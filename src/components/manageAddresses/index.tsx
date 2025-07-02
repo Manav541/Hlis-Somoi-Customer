@@ -23,6 +23,11 @@ interface PropsType {
   navigateFromCart: boolean;
   navigateFromHome: boolean;
   onPressAddress: (selectedAddress: LocationData) => void;
+   // Pagination
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
 }
 
 const ManageAddressesComponent = (props: PropsType) => {
@@ -132,6 +137,16 @@ const ManageAddressesComponent = (props: PropsType) => {
         }}
         showsVerticalScrollIndicator={false}
         bounces={false}
+         onEndReached={() => {
+              if (props.canLoadMore && props.hasMountedOnce.current) {
+                props.loadMoreCategories();
+              }
+            }}
+            onEndReachedThreshold={0.4}
+            onContentSizeChange={(w, h) => {
+              props.setCanLoadMore(h > 600); // Adjust if needed
+              props.hasMountedOnce.current = true;
+            }}
         ListEmptyComponent={
           <Text style={styles.lblNoData}>
             {getTranslation("noDataFound")}

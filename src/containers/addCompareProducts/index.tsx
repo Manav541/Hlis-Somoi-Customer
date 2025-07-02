@@ -1,5 +1,5 @@
 import { View, Text, StatusBar } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AddCompareProductsComponent from "../../components/addCompareProducts";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
@@ -11,7 +11,7 @@ import {
 import { constnatStyles } from "../../constants/Styles";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
-import { flashMessageWarning } from "../../constants/GConstant";
+import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
 import { ScreenNames } from "../../routers";
 
 const AddCompareProductsContainer = ({ navigation, route }: any) => {
@@ -31,6 +31,15 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
   const [arrSimilarCompareProducts, setArrSimilarCompareProducts] = useState<
     SimilarCompareProductData[]
   >([]);
+  // Pagination state
+  const [
+    similarCompareProductListPageNumber,
+    setSimilarCompareProductListPageNumber,
+  ] = useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
+  const hasMountedOnce = useRef(false);
+  const [canLoadMore, setCanLoadMore] = useState(false);
 
   const onPressProduct = (
     product_id: string,
@@ -51,7 +60,7 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
       size_id: size_id,
       customer_latitude: customer_latitude,
       customer_longitude: customer_longitude,
-      navigateFromCompareProduct: true
+      navigateFromCompareProduct: true,
     });
   };
 
@@ -74,28 +83,58 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
     header();
   }, [main_category]);
 
+  const loadMoreCategories = () => {
+    if (hasMoreData && !isLoadingMore) {
+      const nextPage = similarCompareProductListPageNumber + 1;
+      handleSimilarProductListApi(nextPage, true);
+    }
+  };
+
   // ----------------------API Calling--------------------
   // handleSimilarProductListApi
-  const handleSimilarProductListApi = async () => {
+  const handleSimilarProductListApi = async (
+    page: number,
+    isLoadMore = false
+  ) => {
+    if (isLoadMore && isLoadingMore) return;
+
+    if (!isLoadMore) toggleLoader(true);
+    else setIsLoadingMore(true);
+    const dictData = {
+      page_no: page,
+    };
     try {
-      const response = await similarProductListApi({}, navigation);
+      const response = await similarProductListApi(dictData, navigation);
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log(
             "SIMILAR PRODUCT LIST RESPONSE===>",
             JSON.stringify(response)
           );
-        const data = response.data as SimilarCompareProductData[];
         if (response.code === statusCodes.success) {
-          setArrSimilarCompareProducts(data);
+          const rawData = response.data as SimilarCompareProductData[];
+          if (Array.isArray(rawData) && rawData.length > 0) {
+            setArrSimilarCompareProducts((prev) =>
+              isLoadMore ? [...prev, ...rawData] : rawData
+            );
+            setSimilarCompareProductListPageNumber(page);
+            setHasMoreData(true);
+          } else {
+            if (!isLoadMore) setArrSimilarCompareProducts([]);
+            setHasMoreData(false);
+          }
         } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
+          setArrSimilarCompareProducts([]);
         } else if (response.code === statusCodes.emptyData) {
-          flashMessageWarning(response.message);
+          if (!isLoadMore) setArrSimilarCompareProducts([]);
+          setHasMoreData(false);
         }
       }
     } catch (error) {
       __DEV__ && console.log(error);
+    } finally {
+      if (!isLoadMore) toggleLoader(false);
+      else setIsLoadingMore(false);
     }
   };
 
@@ -127,7 +166,7 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleSimilarProductListApi();
+      handleSimilarProductListApi(1, false);
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
@@ -138,6 +177,11 @@ const AddCompareProductsContainer = ({ navigation, route }: any) => {
       arrSimilarCompareProducts={arrSimilarCompareProducts}
       onPressAdd={onPressAdd}
       onPressProduct={onPressProduct}
+      // pagination
+      loadMoreCategories={loadMoreCategories}
+      canLoadMore={canLoadMore}
+      setCanLoadMore={setCanLoadMore}
+      hasMountedOnce={hasMountedOnce}
     />
   );
 };

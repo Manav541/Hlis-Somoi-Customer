@@ -12,16 +12,14 @@ import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { images } from "../../constants/Images";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import {
-  SimilarCompareProductData,
-} from "../../constants/interfaces";
+import { SimilarCompareProductData } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 import { colors } from "../../constants/Colors";
 
 interface PropsType {
   arrSimilarCompareProducts: SimilarCompareProductData[];
   onPressAdd: (product_id: string) => void;
-   onPressProduct: (
+  onPressProduct: (
     product_id: string,
     variation_id?: string,
     is_variation?: boolean,
@@ -30,6 +28,11 @@ interface PropsType {
     color_id?: string,
     size_id?: string
   ) => void;
+  // Pagination
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
 }
 
 const AddCompareProductsComponent = (props: PropsType) => {
@@ -61,16 +64,16 @@ const AddCompareProductsComponent = (props: PropsType) => {
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
           onPress={() => {
-          props?.onPressProduct(
-            item?.id,
-            item?.variation_id,
-            item?.is_variation,
-            item?.is_color,
-            item?.is_size,
-            item?.color_id,
-            item?.size_id
-          );
-        }}
+            props?.onPressProduct(
+              item?.id,
+              item?.variation_id,
+              item?.is_variation,
+              item?.is_color,
+              item?.is_size,
+              item?.color_id,
+              item?.size_id
+            );
+          }}
         >
           {/* Product Image and Favourite button */}
           <View style={styles.vwProductImgLike}>
@@ -104,7 +107,9 @@ const AddCompareProductsComponent = (props: PropsType) => {
               </View>
               <View style={styles.vwProductRating}>
                 <Image style={styles.imgStar} source={images.star} />
-                <Text style={styles.lblProductRating}>{parseFloat(item?.rating).toFixed(1)}</Text>
+                <Text style={styles.lblProductRating}>
+                  {parseFloat(item?.rating).toFixed(1)}
+                </Text>
               </View>
             </View>
           </View>
@@ -145,6 +150,16 @@ const AddCompareProductsComponent = (props: PropsType) => {
         }}
         showsVerticalScrollIndicator={false}
         bounces={false}
+        onEndReached={() => {
+          if (props.canLoadMore && props.hasMountedOnce.current) {
+            props.loadMoreCategories();
+          }
+        }}
+        onEndReachedThreshold={0.4}
+        onContentSizeChange={(w, h) => {
+          props.setCanLoadMore(h > 600); // Adjust if needed
+          props.hasMountedOnce.current = true;
+        }}
       />
     </View>
   );

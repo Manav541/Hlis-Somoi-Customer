@@ -81,6 +81,7 @@ export default {
   addToCart: "Add to Cart",
   addToWishlist: "Add to Wishlist",
   viewAll: "View All",
+  viewMore: "View More",
   goToCompareProduct: "Go to Compare Product",
   buyNow: "Buy Now",
   change: "Change",

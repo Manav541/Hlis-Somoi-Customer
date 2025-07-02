@@ -1,5 +1,5 @@
 import { Text, StatusBar } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import CompareProductComponent from "../../components/compareProduct";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
@@ -9,7 +9,7 @@ import { ComapareProductData } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
-import { flashMessageWarning } from "../../constants/GConstant";
+import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
 
 const CompareProductConteiner = ({ navigation, route }: any) => {
   // API Zustand store
@@ -29,6 +29,13 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
   const [arrCompareProducts, setArrCompareProducts] = useState<
     ComapareProductData[]
   >([]);
+  // Pagination state
+  const [compareProductListPageNumber, setCompareProductListPageNumber] =
+    useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
+  const hasMountedOnce = useRef(false);
+  const [canLoadMore, setCanLoadMore] = useState(false);
 
   const onPressAddButton = () => {
     navigation.navigate(ScreenNames.addCompareProduct, {
@@ -65,20 +72,46 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
     });
   };
 
+  const loadMoreCategories = () => {
+    if (hasMoreData && !isLoadingMore) {
+      const nextPage = compareProductListPageNumber + 1;
+      handleCompareProductDetailApi(nextPage, true);
+    }
+  };
+
   // ----------------------API Calling--------------------
   // handleCompareProductDetailApi
-  const handleCompareProductDetailApi = async () => {
+  const handleCompareProductDetailApi = async (
+    page: number,
+    isLoadMore = false
+  ) => {
+    if (isLoadMore && isLoadingMore) return;
+
+    if (!isLoadMore) toggleLoader(true);
+    else setIsLoadingMore(true);
+    const dictData = {
+      page_no: page,
+    };
     try {
-      const response = await compareProductDetailApi({}, navigation);
+      const response = await compareProductDetailApi(dictData, navigation);
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log(
             "COMPARE PRODUCT DETAIL RESPONSE===>",
             JSON.stringify(response)
           );
-        const data = response.data as ComapareProductData[];
         if (response.code === statusCodes.success) {
-          setArrCompareProducts(data);
+          const rawData = response.data as ComapareProductData[];
+          if (Array.isArray(rawData) && rawData.length > 0) {
+            setArrCompareProducts((prev) =>
+              isLoadMore ? [...prev, ...rawData] : rawData
+            );
+            setCompareProductListPageNumber(page);
+            setHasMoreData(true);
+          } else {
+            if (!isLoadMore) setArrCompareProducts([]);
+            setHasMoreData(false);
+          }
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         } else if (response.code === statusCodes.emptyData) {
@@ -87,6 +120,9 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
       }
     } catch (error) {
       __DEV__ && console.log(error);
+    } finally {
+      if (!isLoadMore) toggleLoader(false);
+      else setIsLoadingMore(false);
     }
   };
 
@@ -142,7 +178,7 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleCompareProductDetailApi();
+      handleCompareProductDetailApi(1, false);
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
@@ -153,6 +189,11 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
       arrCompareProducts={arrCompareProducts}
       onPressDeleteButton={onPressDeleteButton}
       onPressProduct={onPressProduct}
+      // pagination
+      loadMoreCategories={loadMoreCategories}
+      canLoadMore={canLoadMore}
+      setCanLoadMore={setCanLoadMore}
+      hasMountedOnce={hasMountedOnce}
     />
   );
 };

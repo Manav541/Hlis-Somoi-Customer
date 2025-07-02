@@ -372,7 +372,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
   const loadMoreCategories = () => {
     if (hasMoreData && !isLoadingMore) {
       const nextPage = productListPageNumber + 1;
-      // handleProductListingApi( nextPage, true);
+      handleProductListingApi(nextPage, true);
     }
   };
 
@@ -399,7 +399,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
     const dictData: ProductListDictData = {
       category_id: mainCategoryId,
-      page_no: 1,
+      page_no: page,
       type: mainCategoryName.toLowerCase(),
       customer_latitude: currentLatLong?.latitude.toString(),
       customer_longitude: currentLatLong?.longitude.toString(),
@@ -842,8 +842,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       onPressSortList={onPressSortList}
       isCheckInstantDelivery={isCheckInstantDelivery}
       onPressInstantDelivery={onPressInstantDelivery}
-
-       // pagination
+      // pagination
       loadMoreCategories={loadMoreCategories}
       canLoadMore={canLoadMore}
       setCanLoadMore={setCanLoadMore}

@@ -104,7 +104,7 @@ const CategoriesComponent = (props: PropsType) => {
         </View>
         <FlatList
           data={props?.arrMainCategoryList}
-          bounces={true}
+          bounces={false}
           showsVerticalScrollIndicator={false}
           renderItem={renderItemAllCategories}
           numColumns={2}

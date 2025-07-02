@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 20,
     gap: 19,
-    alignSelf : 'center'
+    alignSelf: "center",
   },
   vwGroceriesFoodLogo: {
     height: 122,
@@ -88,7 +88,9 @@ export const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   vwBestProducts: {
-    // marginTop: 24,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 20,
   },
   vwBestProductsGrid: {
     flexDirection: "row",
@@ -189,7 +191,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 6,
     marginBottom: 6,
-    marginHorizontal : 10
+    marginHorizontal: 10,
   },
   lblBestProductsUsed: {
     color: colors.white,
@@ -223,7 +225,7 @@ export const styles = StyleSheet.create({
   },
   btnGroceriesFood: {
     // height: 122,
-    height : 50,
+    height: 50,
     width: (ScreenDimensions.screenWidth - 20 * 2 - 20) / 2,
     borderRadius: 11.42,
     backgroundColor: colors.orange1c,
@@ -258,7 +260,7 @@ export const styles = StyleSheet.create({
   // Image Styles
   imgGroceriesFood: {
     // height: 87.36,
-    height:65,
+    height: 65,
     width: (ScreenDimensions.screenWidth - 60 * 2 - 20) / 2,
     borderRadius: 11.42,
   },
