@@ -267,11 +267,11 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        // translucent
-        backgroundColor={colors.blue4e}
-        barStyle={"light-content"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
+        barStyle={"dark-content"}
       />
-      <View style={{ flex: 1, marginTop: insets.top }}>
+      <View style={{ flex: 1}}>
         <ScrollView
           style={styles.vwMain}
           bounces={false}
@@ -279,7 +279,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
         >
           <View>
             {/* Stick header */}
-            <View style={styles.vwHeader}>
+            {/* <View style={styles.vwHeader}>
               <GlobalBackButton onPress={props?.onPressBack} isWhite />
               <View style={styles.vwHeaderRight}>
                 <TouchableOpacity
@@ -313,7 +313,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                   )}
                 </TouchableOpacity>
               </View>
-            </View>
+            </View> */}
             <FastImage
               style={styles.imgRestaurant_imgMain}
               source={{ uri: props?.foodData?.restaurant?.banner_image }}

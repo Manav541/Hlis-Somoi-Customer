@@ -9,7 +9,7 @@ import {
   flashMessageWarning,
 } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
-import { MmkvManager } from "../../../constants/utils/MmkvManager";
+import { MmkvManager, storage } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
 import { constnatStyles } from "../../../constants/Styles";
@@ -132,13 +132,12 @@ const VerificationContainer = ({ navigation, route }: any) => {
   const handleOnPressResendOtp = async () => {
     const dictData: RequestOTPResponseType = {
       type: navigateFromSignup
-        ? 'signup'
+        ? "signup"
         : changeEmail
-        ? 'changeEmail'
+        ? "changeEmail"
         : changePhone
-        ? 'changePhone'
-        : 'login',
-
+        ? "changePhone"
+        : "login",
     };
 
     if (email) {
@@ -157,7 +156,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ && console.log("REQUEST OTP RESPONSE===>", response);
         if (response.code === statusCodes.success) {
-          flashMessageSucess(getTranslation('otpResendSuccessfully'));
+          flashMessageSucess(getTranslation("otpResendSuccessfully"));
           const clearedOtpArray = otpArray.map((item) => ({
             ...item,
             value: "",
@@ -198,9 +197,10 @@ const VerificationContainer = ({ navigation, route }: any) => {
   };
 
   const handleAPISignup = async () => {
+    const fcmToken = storage.getString(MmkvManager.Keys.fcmToken);
     const dictData: DeviceInfoType = {
       device_type: DeviceInfoManager.getPlatformType(),
-      device_token: "0",
+      device_token: fcmToken || "0",
       os_version: await DeviceInfoManager.getVersion(),
       device_name: await DeviceInfoManager.getDeviceName(),
       model_name: await DeviceInfoManager.getModel(),
@@ -329,7 +329,6 @@ const VerificationContainer = ({ navigation, route }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ && console.log("OTP VERIFICATION RESPONSE===>", response);
         if (response.code === statusCodes.success) {
-          
           // Clear OTP fields after successful validation
           const clearedOtpArray = otpArray.map((item) => ({
             ...item,
@@ -338,7 +337,7 @@ const VerificationContainer = ({ navigation, route }: any) => {
           setOtpArray(clearedOtpArray);
           setFullOtp("");
           if (navigateFromForgotPassword) {
-            flashMessageSucess(getTranslation('otpVerifiedSucessfully'));
+            flashMessageSucess(getTranslation("otpVerifiedSucessfully"));
             navigation.navigate(ScreenNames.changePassword, {
               navigateFromForgotPassword,
               email: email,

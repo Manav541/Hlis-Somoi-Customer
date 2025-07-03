@@ -20,6 +20,7 @@ require Pod::Executable.execute_command('node', ['-p',
 
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
+use_frameworks! :linkage => :static
 
 # ⬇️ uncomment the permissions you need
 setup_permissions([
@@ -36,7 +37,7 @@ setup_permissions([
   'MediaLibrary',
   # 'Microphone',
   # 'Motion',
-  # 'Notifications',
+  'Notifications',
   'PhotoLibrary',
   'PhotoLibraryAddOnly',
   # 'Reminders',
@@ -59,6 +60,8 @@ target 'somoi' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
+
+  $RNFirebaseAsStaticFramework = true
 
   post_install do |installer|
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202

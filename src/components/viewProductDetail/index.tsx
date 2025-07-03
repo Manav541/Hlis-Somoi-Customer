@@ -332,15 +332,15 @@ const ViewProductDetailComponent = (props: PropsType) => {
   return (
     <View style={styles.vwMain}>
       <StatusBar
-        // translucent
-        backgroundColor={colors.blue4e}
-        barStyle={"light-content"}
+        translucent={false}
+        backgroundColor={colors.orange1c}
+        barStyle={"dark-content"}
       />
-      <View style={{ flex: 1, marginTop: insets.top }}>
+      <View style={{ flex: 1 }}>
         <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
           <View style={[styles.vwImgMainLogo, { position: "relative" }]}>
             {/* Stick header */}
-            <View style={styles.vwHeader}>
+            {/* <View style={styles.vwHeader}>
               <GlobalBackButton onPress={props?.onPressBack} />
               <View style={styles.vwHeaderRight}>
                 <TouchableOpacity
@@ -374,7 +374,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
                   )}
                 </TouchableOpacity>
               </View>
-            </View>
+            </View> */}
             <FlatList
               data={props?.productDetails?.images}
               horizontal

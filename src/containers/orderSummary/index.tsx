@@ -1,41 +1,33 @@
 import { ImageSourcePropType, Linking, StatusBar, Text } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import OrderSummaryComponent from "../../components/orderSummary";
 import { useFocusEffect } from "@react-navigation/native";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
-import { getTranslation } from "../../localization/i18n/i18n.config";
 import { ScreenNames } from "../../routers";
 import {
-  OrderDetail,
   OrderDetailsData,
   OrderItem,
-  OrderProduct,
   StatusTimeline,
 } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import {
   backendToUIStatusMap,
   flashMessageWarning,
-  rupeeSymbol,
 } from "../../constants/GConstant";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
-
-const ONE_MIN = 60000;
 
 const OrderSummaryContainer = ({ navigation, route }: any) => {
   // API zustand store
   const orderDetailsApi = zustandStore.MyOrdersStore(
     (state) => state.orderDetails
   );
-
   const deleteRateApi = zustandStore.RateAndReviewStore(
     (state) => state.deleteRate
   );
 
   const order_id = route?.params?.order_id;
-
   const [orderDetails, setOrderDetails] = useState<OrderDetailsData | null>(
     null
   );
@@ -98,6 +90,8 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       is_active: false,
     },
   ];
+  const [arrOrderStatus, setArrOrderStatus] =
+    useState<StatusTimeline[]>(defaultOrderStatus);
   const pickupDateTimeStatus = {
     status_icon: images.orderReturnedUn,
     status_icon1: images.orderReturnedUn,
@@ -107,7 +101,6 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     time: "",
     is_active: false,
   };
-
   const orederReturnedStatus = {
     status_icon: images.orderReturned,
     status_icon1: images.orderReturned,
@@ -117,18 +110,9 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     time: "",
     is_active: false,
   };
-
-  const [arrOrderStatus, setArrOrderStatus] =
-    useState<StatusTimeline[]>(defaultOrderStatus);
-
   const [arrProducts, setArrProducts] = useState<OrderItem[]>([]);
-
   const [cancelDisabled, setCancelDisabled] = useState<boolean>(true);
-  const [driverProfile, setDriverProfile] = useState<ImageSourcePropType>(
-    images.driverProfile
-  );
   const [ratingData, setRatingData] = useState<OrderItem>();
-
   const [isEditReviewModalVisible, setIsEditReviewModalVisible] =
     useState<boolean>(false);
 
@@ -168,6 +152,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
   const onPressReturnOrder = () => {
     navigation.navigate(ScreenNames.returnExchangeItemList, {
       arrProducts: arrProducts,
+      order_id: order_id,
     });
   };
 
@@ -363,7 +348,6 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
       arrOrderStatus={arrOrderStatus}
       onPressCancelOrder={onPressCancelOrder}
       cancelDisabled={cancelDisabled}
-      driverProfile={driverProfile}
       onPressTrackDriver={onPressTrackDriver}
       onPressChatDriver={onPressChatDriver}
       onPressCallDriver={onPressCallDriver}

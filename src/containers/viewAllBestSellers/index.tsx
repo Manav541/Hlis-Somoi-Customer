@@ -1,10 +1,10 @@
-import { View, Text, StatusBar } from "react-native";
+import { Text, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import ViewAllBestSellersComponent from "../../components/viewAllBestSellers";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../routers";
-import { BestProductSellerData, Restaurant } from "../../constants/interfaces";
+import { BestProductSellerData } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { statusCodes } from "../../api/APIConstant";
 import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
@@ -170,6 +170,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
       return () => {};
     }, [navigation])
   );
+  
   return (
     <ViewAllBestSellersComponent
       arrBestProductsSellers={arrBestProductsSellers}

@@ -46,9 +46,7 @@ export const showConfirmAlert = (
   );
 };
 
-export const showConfirmForGuest = (
-  onConfirm: () => void,
-) => {
+export const showConfirmForGuest = (onConfirm: () => void) => {
   Alert.alert(
     appName,
     "To access this feature, Please sign in!",
@@ -209,7 +207,6 @@ export const checkPermission = (permission: any, message: string) => {
   });
 };
 
-
 export const containsEmoji = (str: string): boolean => {
   const regex = emojiRegex();
   return regex.test(str);
@@ -243,10 +240,9 @@ export const statusTexts: { [key: string]: string } = {
   "Order Replacement Requested": "Requested for Returned",
   // "Order Replacement Requested": "Requested for Exchange",
   "Order Returned": "Your Order is Returned",
-  
 };
 
-export const backendToUIStatusMap : {[key : string] : string} = { 
+export const backendToUIStatusMap: { [key: string]: string } = {
   "Order Requested": "Order Placed",
   "Order Accepted": "Order Confirmed",
   "Order Preparing": "Preparing",
@@ -259,4 +255,16 @@ export const backendToUIStatusMap : {[key : string] : string} = {
   "Order Replacement Requested": "Order pickup date & Time",
   // "Order Replacement Requested": "Requested for Exchange",
   "Order Returned": "Order Returned",
-}
+};
+
+// App States
+export const AppStates = {
+  FOREGROUND: "FOREGROUND",
+  BACKGROUND: "BACKGROUND",
+  KILL: "KILL",
+};
+
+// Notification Types
+export const NotificationTypes = {
+  ADMIN_NOTIFICATION: "ADMIN_NOTIFICATION",
+};

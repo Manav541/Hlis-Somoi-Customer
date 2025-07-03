@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "731406595254",
+    "project_id": "somoi-3c4b0",
+    "storage_bucket": "somoi-3c4b0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:731406595254:android:e01572a1123e9486e5e217",
+        "android_client_info": {
+          "package_name": "com.somoi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpmqsGUVX88fD0EG5vgXVxrMf9fVWK5pY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:731406595254:android:cb9eb854a2a47dbee5e217",
+        "android_client_info": {
+          "package_name": "com.somoidriver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpmqsGUVX88fD0EG5vgXVxrMf9fVWK5pY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:731406595254:android:dbbebd9255dbc67ce5e217",
+        "android_client_info": {
+          "package_name": "com.somoivendor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpmqsGUVX88fD0EG5vgXVxrMf9fVWK5pY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -14,7 +14,7 @@ import {
   SignupResponse,
 } from "../../../constants/interfaces";
 import { CountryData } from "../../../constants/utils/CountryData";
-import { MmkvManager } from "../../../constants/utils/MmkvManager";
+import { MmkvManager, storage } from "../../../constants/utils/MmkvManager";
 import { CommonActions } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
 import { constnatStyles } from "../../../constants/Styles";
@@ -146,7 +146,7 @@ const SignInContainer = ({ navigation }: any) => {
       //   flashMessageWarning(getTranslation('invalidPassword'));
       // }
       else {
-        handleAPISignup();
+        handleAPISignIn();
       }
     } else {
       if (mobileNumber.trim() === "") {
@@ -154,16 +154,17 @@ const SignInContainer = ({ navigation }: any) => {
       } else if (!regex.mobile.test(mobileNumber)) {
         flashMessageWarning(getTranslation("invalidMobileNumber"));
       } else {
-        handleAPISignup();
+        handleAPISignIn();
       }
     }
   };
 
-  const handleAPISignup = async () => {
+  const handleAPISignIn = async () => {
+    const fcmToken = storage.getString(MmkvManager.Keys.fcmToken);
     console.log("type ===>>", DeviceInfoManager.getPlatformType());
     const dictData: DeviceInfoType = {
       device_type: DeviceInfoManager.getPlatformType(),
-      device_token: "0",
+      device_token: fcmToken || '0',
       os_version: await DeviceInfoManager.getVersion(),
       device_name: await DeviceInfoManager.getDeviceName(),
       model_name: await DeviceInfoManager.getModel(),

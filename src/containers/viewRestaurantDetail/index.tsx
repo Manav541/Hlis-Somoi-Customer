@@ -7,11 +7,13 @@ import {
   Alert,
   Share,
 } from "react-native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ViewRestaurantDetailComponent from "../../components/viewRestaurantDetail";
 import {
+  activityOpacity,
   appName,
   flashMessageWarning,
+  hitSlop,
   showConfirmForGuest,
 } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
@@ -29,6 +31,9 @@ import {
   RestaurantDetailResponse,
 } from "../../constants/interfaces";
 import { MmkvManager } from "../../constants/utils/MmkvManager";
+import { styles } from "./styles";
+import { colors } from "../../constants/Colors";
+import GlobalBackButton from "../../global/GlobalBackButton";
 
 const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   // API Zustand store
@@ -418,7 +423,10 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
               selected_variation: selectedVariation,
             }));
           }
+          console.log("cartItemCount ===>> ", cartItemCount);
+
           incrementCartItemCount(1);
+          // header();
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -573,6 +581,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
             }));
           }
           decrementCartItemCount(1);
+          // header();
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -591,10 +600,59 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
         setIsGuestUser(Boolean(storedValue));
       });
       handleProductDetailsApi(vendor_id);
-      StatusBar.setBarStyle("light-content");
+      StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation, vendor_id])
   );
+
+  const header = () => {
+    navigation.setOptions({
+      title: "",
+      headerLeft: () => (
+        <GlobalBackButton
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+      ),
+      headerRight: () => (
+        <View style={styles.vwHeaderRight}>
+          <TouchableOpacity
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={onPressShare}
+          >
+            <Image
+              style={styles.imgButton}
+              source={images.shareIcon}
+              tintColor={colors.blue4e}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={onPressCartIcon}
+            disabled={isNavigating}
+          >
+            <Image
+              style={styles.imgButton}
+              source={images.cartBagIcon}
+              tintColor={colors.blue4e}
+            />
+            {cartItemTotal > 0 && (
+              <View style={styles.vwBedge}>
+                <Text style={styles.lblBedge}>{cartItemTotal}</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+        </View>
+      ),
+    });
+  };
+
+  useEffect(() => {
+    header();
+  }, [cartItemTotal]);
 
   return (
     <ViewRestaurantDetailComponent

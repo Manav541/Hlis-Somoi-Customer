@@ -15,10 +15,16 @@ import { colors } from "./src/constants/Colors";
 import { setLoaderRef } from "./src/constants/GConstant";
 import Loader from "./src/constants/Loader";
 import { constnatStyles } from "./src/constants/Styles";
+import {requestUserForNotificationPermission} from './src/constants/utils/Notification/PushNotificationHelper';
+import useNotificationService from './src/constants/utils/Notification/useNotificationService';
+import {PlatformVersion} from './src/constants/utils/Platform';
+
 
 const App = () => {
   const flashMessageRef = useRef<any>(null);
   const [initialRoute, setInitialRoute] = useState<string | null>(null);
+
+  PlatformVersion.isAndroid && useNotificationService();
 
   useEffect(() => {
     if (initialRoute !== null) {
@@ -28,6 +34,7 @@ const App = () => {
 
       return () => clearTimeout(timeout);
     }
+    PlatformVersion.isAndroid && requestUserForNotificationPermission();
   }, [initialRoute]);
 
   // For Navigation

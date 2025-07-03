@@ -8,6 +8,7 @@ import { fontsfamily } from "../constants/FontFamily";
 import { enableScreens } from "react-native-screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createStackNavigator } from "@react-navigation/stack";
+import { navigationRef } from "../constants/utils/Notification/notificationNavigation";
 
 enableScreens();
 
@@ -46,7 +47,7 @@ const MainNavigation = (props: PropsType) => {
 
   return (
     <View style={{ backgroundColor: colors.blue4e, flex: 1 }}>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <Stack.Navigator
           screenOptions={{ animation: "slide_from_right" }}
           initialRouteName={props?.initialRoute}
@@ -128,12 +129,12 @@ const MainNavigation = (props: PropsType) => {
           {handleStackScreens(
             ScreenNames.productDetail,
             MyScreens.ViewProductDetailContainer,
-            false
+            true
           )}
           {handleStackScreens(
             ScreenNames.restaurantDetail,
             MyScreens.ViewRestaurantDetailContainer,
-            false
+            true
           )}
           {handleStackScreens(
             ScreenNames.review,

@@ -4,12 +4,17 @@ import {
   NativeScrollEvent,
   Alert,
   Share,
+  View,
+  Image,
+  TouchableOpacity,
 } from "react-native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { images } from "../../constants/Images";
 import {
+  activityOpacity,
   appName,
   flashMessageWarning,
+  hitSlop,
   showConfirmForGuest,
 } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -31,6 +36,11 @@ import {
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
 import { MmkvManager } from "../../constants/utils/MmkvManager";
+import { constnatStyles } from "../../constants/Styles";
+import { Text } from "react-native-gesture-handler";
+import GlobalBackButton from "../../global/GlobalBackButton";
+import { colors } from "../../constants/Colors";
+import { styles } from "./styles";
 
 const ViewProductDetailContainer = ({ navigation, route }: any) => {
   // API Zustand store
@@ -725,10 +735,59 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
         setIsGuestUser(Boolean(storedValue));
       });
       handleProductDetailsApi(product_id, variation_id, size_id, color_id);
-      StatusBar.setBarStyle("light-content");
+      StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation, product_id, variation_id, size_id, color_id])
   );
+
+  const header = () => {
+    navigation.setOptions({
+      title: "",
+      headerLeft: () => (
+        <GlobalBackButton
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+      ),
+      headerRight: () => (
+        <View style={styles.vwHeaderRight}>
+          <TouchableOpacity
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={onPressShare}
+          >
+            <Image
+              style={styles.imgButton}
+              source={images.shareIcon}
+              tintColor={colors.blue4e}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={onPressCartIcon}
+            disabled={isNavigating}
+          >
+            <Image
+              style={styles.imgButton}
+              source={images.cartBagIcon}
+              tintColor={colors.blue4e}
+            />
+            {cartItemTotal > 0 && (
+              <View style={styles.vwBedge}>
+                <Text style={styles.lblBedge}>{cartItemTotal}</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+        </View>
+      ),
+    });
+  };
+
+  useEffect(() => {
+    header();
+  }, [cartItemCount]);
 
   return (
     <ViewProductDetailComponent

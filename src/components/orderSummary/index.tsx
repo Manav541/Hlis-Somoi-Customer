@@ -42,7 +42,6 @@ interface PropsType {
   arrOrderStatus: StatusTimeline[];
   onPressCancelOrder: () => void;
   cancelDisabled: boolean;
-  driverProfile: ImageSourcePropType;
   onPressTrackDriver: () => void;
   onPressChatDriver: () => void;
   onPressCallDriver: () => void;

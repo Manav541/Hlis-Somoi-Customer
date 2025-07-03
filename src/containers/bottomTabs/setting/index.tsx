@@ -325,6 +325,11 @@ const SettingContainer = ({ navigation, route }: any) => {
               routes: [{ name: ScreenNames.signup }],
             })
           );
+          MmkvManager.clearAllExcept([
+            MmkvManager.Keys.isOnBoardingVisisted,
+            MmkvManager.Keys.fcmToken,
+            MmkvManager.Keys.notificationPermission,
+          ]);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
@@ -348,6 +353,11 @@ const SettingContainer = ({ navigation, route }: any) => {
           flashMessageSucess(response.message);
           MmkvManager.setData(MmkvManager.Keys.isLoggedIn, "false");
           MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
+          MmkvManager.clearAllExcept([
+            MmkvManager.Keys.isOnBoardingVisisted,
+            MmkvManager.Keys.fcmToken,
+            MmkvManager.Keys.notificationPermission,
+          ]);
           navigation.dispatch(
             CommonActions.reset({
               index: 1,

@@ -42,9 +42,9 @@
         "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/Debug/2z453i34/obj/armeabi-v7a/libreact-native-mmkv.so",
         "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/Debug/2z453i34/obj/armeabi-v7a/libreact_codegen_safeareacontext.so",
         "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/Debug/2z453i34/obj/armeabi-v7a/libreact_codegen_rnscreens.so",
-        "/Users/hyperlink/.gradle/caches/8.13/transforms/490740573f38e6ed55cd7cd0f0ce2cff/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.armeabi-v7a/libfbjni.so",
-        "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab/modules/jsi/libs/android.armeabi-v7a/libjsi.so",
-        "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab/modules/reactnative/libs/android.armeabi-v7a/libreactnative.so"
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/0b061f55bf713daab6875ce1f4aa3a92/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.armeabi-v7a/libfbjni.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/a4b5208288dc8b52817600ea83601ecc/transformed/jetified-react-android-0.79.1-debug/prefab/modules/jsi/libs/android.armeabi-v7a/libjsi.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/a4b5208288dc8b52817600ea83601ecc/transformed/jetified-react-android-0.79.1-debug/prefab/modules/reactnative/libs/android.armeabi-v7a/libreactnative.so"
       ]
     },
     "core::@1b9a7d546b295b7d0867": {
@@ -59,9 +59,9 @@
       "artifactName": "react-native-mmkv",
       "output": "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/Debug/2z453i34/obj/armeabi-v7a/libreact-native-mmkv.so",
       "runtimeFiles": [
-        "/Users/hyperlink/.gradle/caches/8.13/transforms/490740573f38e6ed55cd7cd0f0ce2cff/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.armeabi-v7a/libfbjni.so",
-        "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab/modules/jsi/libs/android.armeabi-v7a/libjsi.so",
-        "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab/modules/reactnative/libs/android.armeabi-v7a/libreactnative.so"
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/0b061f55bf713daab6875ce1f4aa3a92/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.armeabi-v7a/libfbjni.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/a4b5208288dc8b52817600ea83601ecc/transformed/jetified-react-android-0.79.1-debug/prefab/modules/jsi/libs/android.armeabi-v7a/libjsi.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/a4b5208288dc8b52817600ea83601ecc/transformed/jetified-react-android-0.79.1-debug/prefab/modules/reactnative/libs/android.armeabi-v7a/libreactnative.so"
       ]
     },
     "react_codegen_Compressor::@408161e29a6d5b274579": {
@@ -130,9 +130,9 @@
       "artifactName": "react_codegen_rnscreens",
       "output": "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/Debug/2z453i34/obj/armeabi-v7a/libreact_codegen_rnscreens.so",
       "runtimeFiles": [
-        "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab/modules/reactnative/libs/android.armeabi-v7a/libreactnative.so",
-        "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab/modules/jsi/libs/android.armeabi-v7a/libjsi.so",
-        "/Users/hyperlink/.gradle/caches/8.13/transforms/490740573f38e6ed55cd7cd0f0ce2cff/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.armeabi-v7a/libfbjni.so"
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/a4b5208288dc8b52817600ea83601ecc/transformed/jetified-react-android-0.79.1-debug/prefab/modules/reactnative/libs/android.armeabi-v7a/libreactnative.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/a4b5208288dc8b52817600ea83601ecc/transformed/jetified-react-android-0.79.1-debug/prefab/modules/jsi/libs/android.armeabi-v7a/libjsi.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/0b061f55bf713daab6875ce1f4aa3a92/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.armeabi-v7a/libfbjni.so"
       ]
     },
     "react_codegen_safeareacontext::@7984cd80db47aa7b952a": {
@@ -141,9 +141,9 @@
       "artifactName": "react_codegen_safeareacontext",
       "output": "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/Debug/2z453i34/obj/armeabi-v7a/libreact_codegen_safeareacontext.so",
       "runtimeFiles": [
-        "/Users/hyperlink/.gradle/caches/8.13/transforms/490740573f38e6ed55cd7cd0f0ce2cff/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.armeabi-v7a/libfbjni.so",
-        "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab/modules/jsi/libs/android.armeabi-v7a/libjsi.so",
-        "/Users/hyperlink/.gradle/caches/8.13/transforms/3c1b8552f424070fcb903c042a3c03e8/transformed/jetified-react-android-0.79.1-debug/prefab/modules/reactnative/libs/android.armeabi-v7a/libreactnative.so"
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/0b061f55bf713daab6875ce1f4aa3a92/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.armeabi-v7a/libfbjni.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/a4b5208288dc8b52817600ea83601ecc/transformed/jetified-react-android-0.79.1-debug/prefab/modules/jsi/libs/android.armeabi-v7a/libjsi.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/a4b5208288dc8b52817600ea83601ecc/transformed/jetified-react-android-0.79.1-debug/prefab/modules/reactnative/libs/android.armeabi-v7a/libreactnative.so"
       ]
     }
   },
