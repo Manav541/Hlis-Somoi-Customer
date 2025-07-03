@@ -22,7 +22,7 @@ import FastImage from "react-native-fast-image";
 import { ChatMessage } from "../../constants/interfaces";
 
 interface PropsType {
-  messagesList: ChatMessage[];
+  chatHistory: ChatMessage[];
   messageValue: string;
   isMsgInputFocused: boolean;
   handleOnChangeText: (text: string) => void;
@@ -42,17 +42,19 @@ const ChatComponent = (props: PropsType) => {
     item: ChatMessage;
     index: number;
   }) => {
+    console.log("Media url", index, item?.media_url);
+
     // Logic for comparsion of current and previous dates
-    const reversedMessages = props?.messagesList?.slice().reverse();
+    const reversedMessages = props?.chatHistory?.slice().reverse();
     const currentDate = DateFormatsManager.formatDate(
-      item.time,
+      item.created_at,
       DateFormatsManager.DateFormats.YYYYMMDD
     );
     const nextMessage =
       index < reversedMessages.length - 1 ? reversedMessages[index + 1] : null;
     const nextDate = nextMessage
       ? DateFormatsManager.formatDate(
-          nextMessage.time,
+          nextMessage.created_at,
           DateFormatsManager.DateFormats.YYYYMMDD
         )
       : null;
@@ -67,7 +69,7 @@ const ChatComponent = (props: PropsType) => {
             <View style={styles.vwTimeLineInner} />
             <Text style={styles.lblMainTime}>
               {DateFormatsManager.formatDate(
-                item?.time,
+                item?.created_at,
                 DateFormatsManager.DateFormats.dddDDMM
               )}
             </Text>
@@ -77,67 +79,82 @@ const ChatComponent = (props: PropsType) => {
 
         {/* View Message */}
         <View
-          style={{ alignItems: item.isSender ? "flex-end" : "flex-start" }}
+          style={{
+            alignItems:
+              item.sender_role === "customer" ? "flex-end" : "flex-start",
+          }}
           key={index}
         >
           <View
             style={[
               styles.vwFlatlistMessage,
               {
-                backgroundColor: item?.isSender
-                  ? colors.orange1c
-                  : colors.white,
-                borderBottomLeftRadius: item.isSender ? 16 : 0,
-                borderBottomRightRadius: item.isSender ? 0 : 16,
-                alignItems: item.isSender ? "flex-end" : "flex-start",
+                backgroundColor:
+                  item?.sender_role === "customer"
+                    ? colors.orange1c
+                    : colors.white,
+                borderBottomLeftRadius:
+                  item.sender_role === "customer" ? 16 : 0,
+                borderBottomRightRadius:
+                  item.sender_role === "customer" ? 0 : 16,
+                alignItems:
+                  item.sender_role === "customer" ? "flex-end" : "flex-start",
               },
             ]}
           >
             {/* Text Message */}
-            {item?.type === "text" && item?.text != "" && (
-              <Text style={styles.lblMessage}>{item.text}</Text>
+            {item?.message_type === "text" && item?.message != "" && (
+              <Text style={styles.lblMessage}>{item.message}</Text>
             )}
 
             {/* Image Message */}
-            {item?.type === "image" && item?.image != "" && (
+            {item?.message_type === "image" && item?.media_url != "" && (
               <TouchableOpacity
                 disabled
                 style={{ borderRadius: 10 }}
                 activeOpacity={activityOpacity}
               >
                 <FastImage
-                  source={{ uri: item?.image }}
+                  source={{ uri: item?.media_url || undefined }}
                   style={{ height: 150, width: 230, borderRadius: 10 }}
-                  resizeMode="contain"
+                  resizeMode={FastImage.resizeMode.contain}
                 />
               </TouchableOpacity>
             )}
 
             {/* Text Messsage Time - Status */}
-            {item?.time && (
+            {item?.created_at && (
               <View style={{ alignItems: "center", flexDirection: "row" }}>
                 <Text
                   style={[
                     styles.lblTime,
-                    { color: item?.isSender ? colors.black35 : colors.greya7 },
+                    {
+                      color:
+                        item?.sender_role === "customer"
+                          ? colors.black35
+                          : colors.greya7,
+                    },
                   ]}
                 >
                   {DateFormatsManager.formatDate(
-                    item.time,
+                    item.created_at,
                     DateFormatsManager.TimeFormats.HH_mm
                   )}
                 </Text>
-                {item?.isSender && (
+                {item?.sender_role === "customer" && (
                   <Text
                     style={[
                       styles.lblTime,
                       {
-                        color: item?.isSender ? colors.black35 : colors.greya7,
+                        color:
+                          item?.sender_role === "customer"
+                            ? colors.black35
+                            : colors.greya7,
                       },
                     ]}
                   >
                     {" "}
-                    · {item?.status}
+                    {/* · {item?.status} */}
                   </Text>
                 )}
               </View>
@@ -172,7 +189,7 @@ const ChatComponent = (props: PropsType) => {
           <FlatList
             inverted
             showsVerticalScrollIndicator={false}
-            data={props?.messagesList?.slice().reverse()}
+            data={props?.chatHistory?.slice().reverse()}
             contentContainerStyle={styles.flatlistContainer}
             renderItem={renderItemMessages}
           />

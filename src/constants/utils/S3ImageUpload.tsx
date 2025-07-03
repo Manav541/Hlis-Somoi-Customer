@@ -9,6 +9,7 @@ export const FolderName = {
   USER_IMAGE: "somoiapp/customers_images/",
   REPORTS_MEDIA: "somoiapp/reports_media/",
   RATING_MEDIA: "somoiapp/rating_media/",
+  CHAT_MEDIA: "somoiapp/chat_media/",
   // CONTACT_US: "contact_us_media/",
   // CHAT: "chat_files/",
 };

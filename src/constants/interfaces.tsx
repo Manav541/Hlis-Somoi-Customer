@@ -148,12 +148,16 @@ export interface CountryDataType {
 }
 
 export interface ChatMessage {
-  text: string;
-  time: string;
-  isSender: boolean;
-  status?: "Read" | "Delivered" | "Sent";
-  type: "text" | "image" | "video";
-  image?: string;
+  message_id?: number;
+  chat_list_id?: string;
+  sender_role: "customer" | "driver" | string;
+  receiver_role: "customer" | "driver" | string;
+  sender_id: string;
+  receiver_id: string;
+  message: string;
+  message_type: "text" | "image" | "video" | string;
+  media_url: string;
+  created_at: string; // format: "YYYY-MM-DD HH:mm:ss"
 }
 
 // Home

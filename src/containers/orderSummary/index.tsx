@@ -171,9 +171,8 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
 
   const onPressChatDriver = () => {
     navigation.navigate(ScreenNames.chat, {
-      driverName: orderDetails?.driver_details?.name,
-      driverCountryCode: orderDetails?.driver_details?.country_code,
-      driverMobileNumber: orderDetails?.driver_details?.mobile_number,
+      driver_details: orderDetails?.driver_details,
+      customer_details: orderDetails?.delivery_details,
     });
   };
 

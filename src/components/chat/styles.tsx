@@ -64,12 +64,12 @@ export const styles = StyleSheet.create({
   },
   lblMessage: {
     fontSize: fontSize.size14,
-    fontFamily: fontsfamily.regular,
+    fontFamily: fontsfamily.regularPublicSans,
     color: colors.black35,
   },
   lblTime: {
     fontSize: fontSize.size10,
-    fontFamily: fontsfamily.regular,
+    fontFamily: fontsfamily.regularPublicSans,
   },
   lblMainTime: {
     color: colors.greya7,
