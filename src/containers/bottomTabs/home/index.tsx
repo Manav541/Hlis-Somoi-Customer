@@ -58,16 +58,11 @@ const HomeContainer = ({ navigation }: any) => {
     longitude: number;
   } | null>(null);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+  const hasSelectedAddressRef = React.useRef(false);
   // Pagination state
   const [mainCategoryPageNumber, setMainCategoryPageNumber] =
     useState<number>(1);
   const [subCategoryPageNumber, setSubCategoryPageNumber] = useState<number>(1);
-  const [bestProductsSellerPageNumber, setBestProductsSellerPageNumber] =
-    useState<number>(1);
-  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
-  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
-  const hasMountedOnce = useRef(false);
-  const [canLoadMore, setCanLoadMore] = useState(false);
 
   const handleSetBannerIndex = (index: number) => {
     setCurrentBannerIndex(index);
@@ -80,7 +75,29 @@ const HomeContainer = ({ navigation }: any) => {
   };
 
   const onPressLocation = () => {
-    navigation.navigate(ScreenNames.manageAddress, { navigateFromHome: true });
+    navigation.navigate(ScreenNames.manageAddress, {
+      navigateFromHome: true,
+      onSelectAddress: (selectedAddress: any) => {
+        console.log("ADDRESS SELECTED IN CART SCREEN ===>", selectedAddress); // ✅ Log the full selected address
+
+        const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
+        setCurrentAddress(formatted);
+        // ✅ Set currentLatLong from selected address
+        setCurrentLatLong({
+          latitude: parseFloat(selectedAddress.latitude),
+          longitude: parseFloat(selectedAddress.longitude),
+        });
+
+        // ✅ Optional: Call Best Products/Seller API after updating
+        handleBestProductsSellerListApi(
+          mainCategoryId,
+          isGroceriesFoodSelected.toLowerCase(),
+          parseFloat(selectedAddress.latitude),
+          parseFloat(selectedAddress.longitude)
+        );
+        hasSelectedAddressRef.current = true;
+      },
+    });
   };
 
   const onPressMainCategory = (name: string, mainCategoryId: string) => {
@@ -89,6 +106,7 @@ const HomeContainer = ({ navigation }: any) => {
       return;
     }
     console.log("mainCategoryId", mainCategoryId, name);
+    setArrBestProductsSellers([]);
     setIsGroceriesFoodSelected(name);
     setMainCategoryId(mainCategoryId);
     setMainCategoryName(name);
@@ -115,7 +133,7 @@ const HomeContainer = ({ navigation }: any) => {
   // handleSellAllBestProducts
   const handleSellAllBestProducts = () => {
     navigation.navigate(ScreenNames.allBestProducts, {
-      mainCategoryId: mainCategoryId,
+      mainCategoryId: "1",
       type: isGroceriesFoodSelected.toLowerCase(),
       currentLatLong: currentLatLong,
     });
@@ -124,7 +142,7 @@ const HomeContainer = ({ navigation }: any) => {
   // handleSellAllBestSellers
   const handleSellAllBestSellers = () => {
     navigation.navigate(ScreenNames.allBestSellers, {
-      mainCategoryId: mainCategoryId,
+      mainCategoryId: "2",
       type: isGroceriesFoodSelected.toLowerCase(),
       currentLatLong: currentLatLong,
     });
@@ -316,7 +334,7 @@ const HomeContainer = ({ navigation }: any) => {
       const address = await LocationManager.getFormattedAddress(current);
       console.log("currentAddress", address);
       setCurrentAddress(address);
-
+      setIsGroceriesFoodSelected("Groceries");
       // ✅ Other initial APIs
       handleMainCategoryListApi();
 
@@ -335,9 +353,11 @@ const HomeContainer = ({ navigation }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      setIsGroceriesFoodSelected("Groceries");
       // ✅ Get location & then call product API
-      handleCurrentLocation();
+      if (!hasSelectedAddressRef.current) {
+        handleCurrentLocation(); 
+      }
+
       handleBannerListApi();
       StatusBar.setBarStyle("light-content");
       // Fetch Guest User

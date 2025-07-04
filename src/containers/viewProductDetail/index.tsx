@@ -790,37 +790,43 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   }, [cartItemCount]);
 
   return (
-    <ViewProductDetailComponent
-      productDetails={productDetails}
-      arrTags={arrTags}
-      arrSizeVariations={arrSizeVariations}
-      arrColorVariations={arrColorVariations}
-      currentIndex={currentIndex}
-      handleScroll={handleScroll}
-      onPressVariationProduct={onPressVariationProduct}
-      onPressGoToCompareProduct={onPressGoToCompareProduct}
-      onPressBuyNow={onPressBuyNow}
-      onPressSize={onPressSize}
-      onPressColor={onPressColor}
-      onPressViewAllReview={onPressViewAllReview}
-      onPressFavourite={onPressFavourite}
-      onPressBack={onPressBack}
-      onPressShare={onPressShare}
-      onPressCartIcon={onPressCartIcon}
-      isNavigating={isNavigating}
-      onPressImageVideo={onPressImageVideo}
-      mediaModalVisible={mediaModalVisible}
-      handleCloseMediaModal={handleCloseMediaModal}
-      selectedMedia={selectedMedia}
-      handleSelectMedia={handleSelectMedia}
-      allMedia={allMedia}
-      selectedIndex={selectedIndex}
-      cartItemTotal={cartItemTotal}
-      is_variation={is_variation}
-      is_size={is_size}
-      is_color={is_color}
-      navigateFromCompareProduct={navigateFromCompareProduct}
-    />
+    <>
+      {productDetails ? (
+        <ViewProductDetailComponent
+          productDetails={productDetails}
+          arrTags={arrTags}
+          arrSizeVariations={arrSizeVariations}
+          arrColorVariations={arrColorVariations}
+          currentIndex={currentIndex}
+          handleScroll={handleScroll}
+          onPressVariationProduct={onPressVariationProduct}
+          onPressGoToCompareProduct={onPressGoToCompareProduct}
+          onPressBuyNow={onPressBuyNow}
+          onPressSize={onPressSize}
+          onPressColor={onPressColor}
+          onPressViewAllReview={onPressViewAllReview}
+          onPressFavourite={onPressFavourite}
+          onPressBack={onPressBack}
+          onPressShare={onPressShare}
+          onPressCartIcon={onPressCartIcon}
+          isNavigating={isNavigating}
+          onPressImageVideo={onPressImageVideo}
+          mediaModalVisible={mediaModalVisible}
+          handleCloseMediaModal={handleCloseMediaModal}
+          selectedMedia={selectedMedia}
+          handleSelectMedia={handleSelectMedia}
+          allMedia={allMedia}
+          selectedIndex={selectedIndex}
+          cartItemTotal={cartItemTotal}
+          is_variation={is_variation}
+          is_size={is_size}
+          is_color={is_color}
+          navigateFromCompareProduct={navigateFromCompareProduct}
+        />
+      ) : (
+        <View style={{ flex: 1, backgroundColor: colors.blue4e }}></View>
+      )}
+    </>
   );
 };
 

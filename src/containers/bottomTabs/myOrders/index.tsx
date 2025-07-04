@@ -64,6 +64,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
   const [hasMoreData, setHasMoreData] = useState<boolean>(true);
   const hasMountedOnce = useRef(false);
   const [canLoadMore, setCanLoadMore] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const onPressFilter = () => {
     if (isGuestUser) {
@@ -138,6 +139,13 @@ const MyOrdersContainer = ({ navigation }: any) => {
     header();
   }, []);
 
+  const onRefresh = () => {
+    setIsRefreshing(true);
+    setHasMoreData(true);
+    setOrderListPageNumber(1);
+    handleOrderListApi(selectOrderType, selectOrderDate, 1, false);
+  };
+
   const loadMoreCategories = () => {
     if (hasMoreData && !isLoadingMore) {
       const nextPage = orderListPageNumber + 1;
@@ -154,9 +162,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
     isLoadMore = false
   ) => {
     if (isLoadMore && isLoadingMore) return;
-
-    if (!isLoadMore) toggleLoader(true);
-    else setIsLoadingMore(true);
+    if (isLoadMore) setIsLoadingMore(true);
     const dictData = {
       page_no: page,
       order_type: order_type,
@@ -168,16 +174,17 @@ const MyOrdersContainer = ({ navigation }: any) => {
         __DEV__ &&
           console.log("ORDER LISTING RESPONSE===>", JSON.stringify(response));
         if (response.code === statusCodes.success) {
+          setIsRefreshing(false);
           const rawData = response.data as any;
           if (Array.isArray(rawData) && rawData.length > 0) {
             setArrOrderList((prev) =>
               isLoadMore ? [...prev, ...rawData] : rawData
             );
             setOrderListPageNumber(page);
-            setHasMoreData(true); 
+            setHasMoreData(true);
           } else {
             if (!isLoadMore) setArrOrderList([]);
-            setHasMoreData(false); 
+            setHasMoreData(false);
           }
         } else if (response.code === statusCodes.invaildOrFail) {
           setArrOrderList([]);
@@ -234,6 +241,8 @@ const MyOrdersContainer = ({ navigation }: any) => {
       canLoadMore={canLoadMore}
       setCanLoadMore={setCanLoadMore}
       hasMountedOnce={hasMountedOnce}
+      isRefreshing={isRefreshing}
+      onRefresh={onRefresh}
     />
   );
 };

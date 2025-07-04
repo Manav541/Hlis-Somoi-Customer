@@ -1,4 +1,4 @@
-import { View, Text, StatusBar } from "react-native";
+import { Text, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import PaymentMethodComponent from "../../components/paymentMethod";
 import { CommonActions, useFocusEffect } from "@react-navigation/native";
@@ -13,14 +13,16 @@ import { flashMessageWarning } from "../../constants/GConstant";
 const PaymentMethodContainer = ({ navigation, route }: any) => {
   // API zustand store
   const placeOrderApi = zustandStore.CartStore((state) => state.placeOrder);
+  const setCartItemCount = zustandStore.CartItemCountStore(
+    (state) => state.setCartItemCount
+  );
   const location_id = route?.params?.location_id;
-  const total_bill= route?.params?.total_bill;
+  const total_bill = route?.params?.total_bill;
   console.log("location_id", location_id);
   const [orderNumber, setOrderNumber] = useState<string>("");
   const [isCodSelected, setIsCodSelected] = useState<boolean>(false);
   const [isSuccessModalVisible, setIsSuccessModalVisible] =
     useState<boolean>(false);
-
   const [arrCards, setArrCards] = useState<CardDetails[]>([
     {
       card_number: "4567890123453266",
@@ -144,8 +146,9 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
           console.log("PLACE ORDER RESPONSE===>", JSON.stringify(response));
         if (response.code === statusCodes.success) {
           const rawData = response.data as any;
-          setOrderNumber(rawData?.order_number)
+          setOrderNumber(rawData?.order_number);
           setIsSuccessModalVisible(true);
+          setCartItemCount(0);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         } else if (response.code === statusCodes.emptyData) {
@@ -163,6 +166,7 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
       return () => {};
     }, [navigation])
   );
+  
   return (
     <PaymentMethodComponent
       total_bill={total_bill}

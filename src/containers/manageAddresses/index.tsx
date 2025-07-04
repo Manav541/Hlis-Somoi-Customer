@@ -78,7 +78,10 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
   };
 
   const onPressAddress = (selectedAddress: LocationData) => {
-    if (navigateFromCart && route.params?.onSelectAddress) {
+    if (
+      (navigateFromCart || navigateFromHome) &&
+      route.params?.onSelectAddress
+    ) {
       route.params.onSelectAddress(selectedAddress); // call the callback
       navigation.goBack();
     }

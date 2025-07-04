@@ -36,6 +36,7 @@ const CategoriesContainer = ({ navigation }: any) => {
     longitude: number;
   } | null>(null);
   const [currentAddress, setCurrentAddress] = useState<string | null>("");
+  const hasSelectedAddressRef = React.useRef(false);
 
   const onPressMainCategories = (
     mainCategoryId: string,
@@ -49,14 +50,30 @@ const CategoriesContainer = ({ navigation }: any) => {
   };
 
   const onPressLocation = () => {
-    navigation.navigate(ScreenNames.manageAddress);
+    navigation.navigate(ScreenNames.manageAddress, {
+      navigateFromHome: true,
+      onSelectAddress: (selectedAddress: any) => {
+        console.log("ADDRESS SELECTED IN CART SCREEN ===>", selectedAddress); // ✅ Log the full selected address
+
+        const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
+        setCurrentAddress(formatted);
+        // ✅ Set currentLatLong from selected address
+        setCurrentLatLong({
+          latitude: parseFloat(selectedAddress.latitude),
+          longitude: parseFloat(selectedAddress.longitude),
+        });
+
+        hasSelectedAddressRef.current = true;
+      },
+    });
   };
+
   // handleOnPressNotifaicationIcon
   const handleOnPressNotifaicationIcon = () => {
     navigation.navigate(ScreenNames.notification);
   };
 
-   // -------------------------API Calling----------------------------
+  // -------------------------API Calling----------------------------
   // handleMainCategoryListApi
   const handleMainCategoryListApi = async (
     page: number,
@@ -123,6 +140,8 @@ const CategoriesContainer = ({ navigation }: any) => {
       const address = await LocationManager.getFormattedAddress(current);
       console.log("currentAddress", address);
       setCurrentAddress(address);
+
+      handleMainCategoryListApi(1, false);
     }
     toggleLoader(false);
   };
@@ -135,11 +154,13 @@ const CategoriesContainer = ({ navigation }: any) => {
 
         setIsGuestUser(Boolean(storedValue));
       });
-      handleCurrentLocation();
+      if (!hasSelectedAddressRef.current) {
+        handleCurrentLocation();
+      }
       setMainCategoryPageNumber(1);
       setHasMoreData(true);
       setArrMainCategoryList([]);
-      handleMainCategoryListApi(1, false);
+
       StatusBar.setBarStyle("light-content");
       return () => {};
     }, [navigation])

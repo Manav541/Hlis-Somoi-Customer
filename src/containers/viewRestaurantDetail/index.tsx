@@ -655,26 +655,32 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   }, [cartItemTotal]);
 
   return (
-    <ViewRestaurantDetailComponent
-      cartItemTotal={cartItemTotal}
-      foodData={foodData || ({} as RestaurantDetailResponse)}
-      arrSubCategoryType={arrSubCategoryType}
-      onPressSubCategoryType={onPressSubCategoryType}
-      arrSubCategoryFoodData={arrSubCategoryFoodData}
-      handleQuantityChange={handleQuantityChange}
-      onPressFavourite={onPressFavourite}
-      isFoodModalVisible={isFoodModalVisible}
-      handleOnPressFoodItem={handleOnPressFoodItem}
-      onPressVariationFood={onPressVariationFood}
-      selectedFoodItem={selectedFoodItem}
-      selectedFoodItemIndex={selectedFoodItemIndex}
-      handleCloseFoodModal={handleCloseFoodModal}
-      onPressShare={onPressShare}
-      onPressReview={onPressReview}
-      onPressCartIcon={onPressCartIcon}
-      onPressBack={onPressBack}
-      isNavigating={isNavigating}
-    />
+    <>
+      {foodData ? (
+        <ViewRestaurantDetailComponent
+          cartItemTotal={cartItemTotal}
+          foodData={foodData || ({} as RestaurantDetailResponse)}
+          arrSubCategoryType={arrSubCategoryType}
+          onPressSubCategoryType={onPressSubCategoryType}
+          arrSubCategoryFoodData={arrSubCategoryFoodData}
+          handleQuantityChange={handleQuantityChange}
+          onPressFavourite={onPressFavourite}
+          isFoodModalVisible={isFoodModalVisible}
+          handleOnPressFoodItem={handleOnPressFoodItem}
+          onPressVariationFood={onPressVariationFood}
+          selectedFoodItem={selectedFoodItem}
+          selectedFoodItemIndex={selectedFoodItemIndex}
+          handleCloseFoodModal={handleCloseFoodModal}
+          onPressShare={onPressShare}
+          onPressReview={onPressReview}
+          onPressCartIcon={onPressCartIcon}
+          onPressBack={onPressBack}
+          isNavigating={isNavigating}
+        />
+      ) : (
+        <View style={{ flex: 1, backgroundColor: colors.blue4e }}></View>
+      )}
+    </>
   );
 };
 

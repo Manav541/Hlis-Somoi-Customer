@@ -2,11 +2,11 @@ import {
   View,
   Text,
   Modal,
-  TouchableWithoutFeedback,
   TouchableOpacity,
   Image,
   FlatList,
   StatusBar,
+  RefreshControl,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -23,12 +23,7 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import GlobalButton from "../../../global/GlobalButton";
 import { fontSize } from "../../../constants/FontSizes";
 import { fontsfamily } from "../../../constants/FontFamily";
-import {
-  FilterDate,
-  FilterOrderType,
-  Order,
-  OrderProduct,
-} from "../../../constants/interfaces";
+import { FilterDate, FilterOrderType } from "../../../constants/interfaces";
 import { DateFormatsManager } from "../../../constants/utils/DateFormats";
 
 interface PropsType {
@@ -45,11 +40,14 @@ interface PropsType {
   handleNavigateOrderSummary: (order_id: string) => void;
   onPressApply: () => void;
   onPressReset: () => void;
+
   // Pagination
   loadMoreCategories: () => void;
   canLoadMore: boolean;
   setCanLoadMore: (value: boolean) => void;
   hasMountedOnce: { current: boolean };
+  isRefreshing: boolean;
+  onRefresh: () => void;
 }
 
 const MyOrdersComponent = (props: PropsType) => {
@@ -178,7 +176,7 @@ const MyOrdersComponent = (props: PropsType) => {
               item.order_number?.toString() ?? index.toString()
             }
             showsVerticalScrollIndicator={false}
-            bounces={false}
+            bounces={true}
             renderItem={renderItemOrderList}
             onEndReached={() => {
               if (props.canLoadMore && props.hasMountedOnce.current) {
@@ -186,10 +184,18 @@ const MyOrdersComponent = (props: PropsType) => {
               }
             }}
             onEndReachedThreshold={0.4}
-            onContentSizeChange={(w, h) => {
-              props.setCanLoadMore(h > 600); // Adjust if needed
+            onContentSizeChange={(h) => {
+              props.setCanLoadMore(h > 600);
               props.hasMountedOnce.current = true;
             }}
+            refreshControl={
+              <RefreshControl
+                refreshing={props.isRefreshing}
+                onRefresh={props.onRefresh}
+                colors={[colors.orange1c]}
+                tintColor={colors.orange1c}
+              />
+            }
           />
         </View>
       ) : (
@@ -302,9 +308,6 @@ const MyOrdersComponent = (props: PropsType) => {
                 onPress={props?.onPressReset}
               />
             </View>
-
-            {/* <GlobalButton title={getTranslation('apply')} isOrange flex={1}/>
-                 <GlobalButton title={getTranslation('reset')} isTransparentWithBorder flex={1}/> */}
           </View>
         </View>
       </Modal>

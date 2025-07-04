@@ -8,6 +8,7 @@ import {
   ImageSourcePropType,
   StatusBar,
   TouchableWithoutFeedback,
+  RefreshControl,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -54,6 +55,8 @@ interface PropsType {
   onPressEditReview: (prodcutDetail: OrderItem) => void;
   onPressDeleteReview: (rating_id: string) => void;
   onPressReportIssue: () => void;
+  isRefreshing: boolean;
+  onRefresh: () => void;
 }
 
 const OrderSummaryComponent = (props: PropsType) => {
@@ -205,8 +208,16 @@ const OrderSummaryComponent = (props: PropsType) => {
       />
       <ScrollView
         contentContainerStyle={{ paddingBottom: 40 }}
-        bounces={false}
+        bounces={true}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={props.isRefreshing}
+            onRefresh={props.onRefresh}
+            colors={[colors.orange1c]}
+            tintColor={colors.orange1c}
+          />
+        }
       >
         {/* Order Number Date Time Total Amount */}
         <View style={styles.vwOrderNumDateTimeTotal}>

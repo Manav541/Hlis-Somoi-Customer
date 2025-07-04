@@ -85,11 +85,11 @@ const CategoriesComponent = (props: PropsType) => {
             hitSlop={hitSlop}
             onPress={props?.onPressLocation}
           >
-            <Image style={styles.imgLocation} source={images.locationWhite} />
+            <Image style={styles.imgLocation} source={images.locationWhite} resizeMode="stretch" />
             <Text style={styles.lblLocation} numberOfLines={1}>
               {props?.currentAddress}
             </Text>
-            <Image style={styles.imgDownArrow} source={images.whiteDownArrow} />
+            <Image style={styles.imgDownArrow} source={images.whiteDownArrow} resizeMode="stretch"/>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={activityOpacity}
@@ -99,6 +99,7 @@ const CategoriesComponent = (props: PropsType) => {
             <Image
               style={styles.imgNotification}
               source={images.notificationWhite}
+              resizeMode="stretch"
             />
           </TouchableOpacity>
         </View>

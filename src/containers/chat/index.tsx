@@ -204,7 +204,7 @@ const ChatConatiner = ({ navigation, route }: any) => {
       FolderName.CHAT_MEDIA,
       "image/png",
       ".png",
-      (response: any,fullUrl : any) => {
+      (response: any, fullUrl: any) => {
         console.log("Media uploaded sucessfully ===>", response);
         if (response) {
           const sendMessagePayload = {
@@ -221,8 +221,8 @@ const ChatConatiner = ({ navigation, route }: any) => {
             JSON.stringify(sendMessagePayload),
             (encryptedData: string) => {
               socket.emit("send_message", encryptedData);
-              console.log("sendMessagePayload==>",sendMessagePayload);
-              
+              console.log("sendMessagePayload==>", sendMessagePayload);
+
               const messageObj: ChatMessage = {
                 sender_role: "customer",
                 receiver_role: "driver",
@@ -262,7 +262,7 @@ const ChatConatiner = ({ navigation, route }: any) => {
           }}
         />
       ),
-      headerTitle:()=> (
+      headerTitle: () => (
         <Text style={constnatStyles.lblHeaderTitle}>
           {route?.params?.driver_details?.name}
         </Text>
@@ -407,6 +407,13 @@ const ChatConatiner = ({ navigation, route }: any) => {
         }
       };
     }, [])
+  );
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBarStyle("dark-content");
+      return () => {};
+    }, [navigation])
   );
 
   return (

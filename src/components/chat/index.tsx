@@ -42,7 +42,7 @@ const ChatComponent = (props: PropsType) => {
     item: ChatMessage;
     index: number;
   }) => {
-    console.log("Media url", index, item?.media_url);
+    // console.log("Media url", index, item?.message,item?.message_type);
 
     // Logic for comparsion of current and previous dates
     const reversedMessages = props?.chatHistory?.slice().reverse();
@@ -105,7 +105,7 @@ const ChatComponent = (props: PropsType) => {
             {/* Text Message */}
             {item?.message_type === "text" && item?.message != "" && (
               <Text style={styles.lblMessage}>{item.message}</Text>
-            )}
+             )}
 
             {/* Image Message */}
             {item?.message_type === "image" && item?.media_url != "" && (

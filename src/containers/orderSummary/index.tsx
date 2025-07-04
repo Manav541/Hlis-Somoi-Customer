@@ -1,4 +1,10 @@
-import { ImageSourcePropType, Linking, StatusBar, Text } from "react-native";
+import {
+  ImageSourcePropType,
+  Linking,
+  StatusBar,
+  Text,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import OrderSummaryComponent from "../../components/orderSummary";
 import { useFocusEffect } from "@react-navigation/native";
@@ -17,6 +23,7 @@ import {
 } from "../../constants/GConstant";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
+import { colors } from "../../constants/Colors";
 
 const OrderSummaryContainer = ({ navigation, route }: any) => {
   // API zustand store
@@ -115,6 +122,13 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
   const [ratingData, setRatingData] = useState<OrderItem>();
   const [isEditReviewModalVisible, setIsEditReviewModalVisible] =
     useState<boolean>(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await handleOrderDetailsApi(order_id);
+    setIsRefreshing(false);
+  };
 
   const onPressOpenEditReview = (item: OrderItem) => {
     setIsEditReviewModalVisible(true);
@@ -234,6 +248,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
         __DEV__ &&
           console.log("ORDER DETAILS RESPONSE===>", JSON.stringify(response));
         if (response.code === statusCodes.success) {
+          setIsRefreshing(false);
           const rawData = response.data as OrderDetailsData;
           setOrderDetails(rawData);
           setArrProducts(rawData?.items as OrderItem[]);
@@ -339,27 +354,35 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
   );
 
   return (
-    <OrderSummaryComponent
-      orderDetails={orderDetails || ({} as OrderDetailsData)}
-      arrProducts={arrProducts || []}
-      cancelledDate={cancelledDate}
-      rejectedDate={rejectedDate}
-      arrOrderStatus={arrOrderStatus}
-      onPressCancelOrder={onPressCancelOrder}
-      cancelDisabled={cancelDisabled}
-      onPressTrackDriver={onPressTrackDriver}
-      onPressChatDriver={onPressChatDriver}
-      onPressCallDriver={onPressCallDriver}
-      onPressReturnOrder={onPressReturnOrder}
-      onPressRateReview={onPressRateReview}
-      ratingData={ratingData || ({} as OrderItem)}
-      isEditReviewModalVisible={isEditReviewModalVisible}
-      onPressOpenEditReview={onPressOpenEditReview}
-      onPressCloseEditReviewModal={onPressCloseEditReviewModal}
-      onPressEditReview={onPressEditReview}
-      onPressDeleteReview={onPressDeleteReview}
-      onPressReportIssue={onPressReportIssue}
-    />
+    <>
+      {orderDetails ? (
+        <OrderSummaryComponent
+          orderDetails={orderDetails || ({} as OrderDetailsData)}
+          arrProducts={arrProducts || []}
+          cancelledDate={cancelledDate}
+          rejectedDate={rejectedDate}
+          arrOrderStatus={arrOrderStatus}
+          onPressCancelOrder={onPressCancelOrder}
+          cancelDisabled={cancelDisabled}
+          onPressTrackDriver={onPressTrackDriver}
+          onPressChatDriver={onPressChatDriver}
+          onPressCallDriver={onPressCallDriver}
+          onPressReturnOrder={onPressReturnOrder}
+          onPressRateReview={onPressRateReview}
+          ratingData={ratingData || ({} as OrderItem)}
+          isEditReviewModalVisible={isEditReviewModalVisible}
+          onPressOpenEditReview={onPressOpenEditReview}
+          onPressCloseEditReviewModal={onPressCloseEditReviewModal}
+          onPressEditReview={onPressEditReview}
+          onPressDeleteReview={onPressDeleteReview}
+          onPressReportIssue={onPressReportIssue}
+          isRefreshing={isRefreshing}
+          onRefresh={onRefresh}
+        />
+      ) : (
+        <View style={{ flex: 1, backgroundColor: colors.blue4e }}></View>
+      )}
+    </>
   );
 };
 

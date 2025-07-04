@@ -260,8 +260,6 @@ const HomeComponent = (props: PropsType) => {
             overflow: "hidden",
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,
-
-            flexGrow: 1,
           }}
           bounces={false}
           showsVerticalScrollIndicator={false}
@@ -370,7 +368,7 @@ const HomeComponent = (props: PropsType) => {
           </View>
 
           {/* Best Products & Best Sellers */}
-          {props?.arrBestProductsSellers.length != 0 &&
+          {props?.arrBestProductsSellers.length > 0 &&
             (props?.isGroceriesFoodSelected === "Groceries" ? (
               <View>
                 <View style={styles.vwBestProducts}>
@@ -394,7 +392,7 @@ const HomeComponent = (props: PropsType) => {
                 </View>
               </View>
             ) : (
-              <View style={{ marginBottom: 35, marginTop: 30 }}>
+              <View style={{ marginBottom: 35 }}>
                 <View style={styles.vwBestSellerSeeAll}>
                   <Text style={styles.lblBestProducts}>
                     {getTranslation("bestSellers")}
