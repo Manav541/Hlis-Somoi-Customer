@@ -1,42 +1,42 @@
-import messaging from '@react-native-firebase/messaging';
-import {PermissionsAndroid, Platform} from 'react-native';
-import {PlatformVersion} from '../Platform';
-import {MmkvManager, storage} from '../MmkvManager';
+import messaging, { getMessaging } from '@react-native-firebase/messaging';
+import { PermissionsAndroid, Platform } from 'react-native';
+import { PlatformVersion } from '../Platform';
+import { MmkvManager, storage } from '../MmkvManager';
 
 export async function requestUserForNotificationPermission() {
   __DEV__ && console.log('In request user for notification!!');
 
   if (PlatformVersion.isAndroid && Platform.Version >= 33) {
-    // Explicitly request notification permission for Android 13+
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
     );
 
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      // Permission granted, proceed with getting FCM token
       await getFCMToken();
     } else {
       __DEV__ && console.log('Notification permission denied!');
     }
   } else {
     // For older Android versions or iOS
-    __DEV__ && console.log('enabled out');
-    __DEV__ && console.log('Checking iOS notification permission...');
+    __DEV__ &&
+      console.log(
+        'Checking permissions for android older versions / iOS Permissions',
+      );
 
     // Ensure device is registered for remote messages
-    if (!messaging().isDeviceRegisteredForRemoteMessages) {
+    if (!getMessaging().isDeviceRegisteredForRemoteMessages) {
       __DEV__ && console.log('Registering device for remote messages...');
-      await messaging().registerDeviceForRemoteMessages();
+      await getMessaging().registerDeviceForRemoteMessages();
     }
 
     // Request permission from the user
-    const authStatus = await messaging().requestPermission();
+    const authStatus = await getMessaging().requestPermission();
     __DEV__ && console.log('Authorization status received ==>', authStatus);
 
     // Check if permission is granted
     let enabled =
-      authStatus === messaging().AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging().AuthorizationStatus.PROVISIONAL;
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
     __DEV__ && console.log('Initial Permission Enabled ==>', enabled);
 
@@ -45,20 +45,14 @@ export async function requestUserForNotificationPermission() {
       __DEV__ && console.log('Checking permission again after 1 second...');
       await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
 
-      const currentPermission = await messaging().hasPermission();
+      const currentPermission = await getMessaging().hasPermission();
       enabled =
-        currentPermission === messaging().AuthorizationStatus.AUTHORIZED ||
-        currentPermission === messaging().AuthorizationStatus.PROVISIONAL;
+        currentPermission === messaging.AuthorizationStatus.AUTHORIZED ||
+        currentPermission === messaging.AuthorizationStatus.PROVISIONAL;
 
       __DEV__ &&
         console.log('Final permission enabled after retry ==>', enabled);
     }
-
-    // Store permission status to prevent future inconsistencies
-    storage.setItem(
-      MmkvManager.Keys.notificationPermission,
-      enabled ? 'true' : 'false',
-    );
 
     if (enabled) {
       __DEV__ &&
@@ -77,7 +71,7 @@ const getFCMToken = async () => {
     __DEV__ && console.log('GETTING FCM TOKEN FROM MMKV ==>', token);
 
     if (!token) {
-      const fcmToken = await messaging().getToken();
+      const fcmToken = await getMessaging().getToken();
       if (fcmToken) {
         __DEV__ && console.log('GENERATED FCM TOKEN ==>', fcmToken);
         storage.set(MmkvManager.Keys.fcmToken, fcmToken);
@@ -91,3 +85,4 @@ const getFCMToken = async () => {
     return null;
   }
 };
+ 

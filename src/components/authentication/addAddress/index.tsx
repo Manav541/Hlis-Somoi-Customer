@@ -17,6 +17,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { activityOpacity, hitSlop } from "../../../constants/GConstant";
 import { images } from "../../../constants/Images";
 import { colors } from "../../../constants/Colors";
+import GooglePlacesTextInput, {
+  GooglePlacesTextInputRef,
+} from "react-native-google-places-textinput";
+import { fontSize } from "../../../constants/FontSizes";
+import { fontsfamily } from "../../../constants/FontFamily";
 
 interface PropsType {
   address: string;
@@ -40,6 +45,9 @@ interface PropsType {
   handleSetDefault: () => void;
   isNavigateFromManageAddress: boolean;
   isEditAddress: boolean;
+  handlePlaceSelect: (place: any) => void;
+  googleApiKey: string;
+  isAddressInitialized: boolean;
 }
 
 const AddAddressComponent = (props: PropsType) => {
@@ -62,24 +70,42 @@ const AddAddressComponent = (props: PropsType) => {
         <View style={styles.vwAddress}>
           <Text style={styles.lblAddress}>{getTranslation("address")}</Text>
           <View style={{ gap: 10, flex: 1 }}>
-            <GlobalTextInput
-              placeholder={getTranslation("address")}
-              value={props?.address}
-              reference={props.addressRef}
-              secureTextEntry={false}
-              onChangeText={(text) => {
+            <GooglePlacesTextInput
+              key={
+                props.isEditAddress && props.isAddressInitialized
+                  ? props.address
+                  : undefined
+              }
+              style={{
+                container: styles.container,
+                input: {
+                  ...styles.input,
+                  borderColor:
+                    props?.addressFocused ||
+                    (props.isEditAddress && props.isAddressInitialized)
+                      ? colors.white
+                      : colors.greya7,
+                },
+                placeholder: styles.placeholder,
+                loadingIndicator: styles.loadingIndicator,
+                suggestionsContainer: styles.suggestionsContainer,
+              }}
+              onTextChange={(text) => {
+                if (text.length > 0) {
+                  props.handleOnFocus("address");
+                }
                 props.handleOnChangeText(text, "address");
               }}
-              onSubmitEditing={() => {
-                props.handleOnSubmit("address");
-              }}
-              onBlur={() => {
-                props.handleOnBlur("address");
-              }}
-              onFocus={() => {
-                props.handleOnFocus("address");
-              }}
-              focusValue={props.addressFocused}
+              placeHolderText={getTranslation("address") || undefined}
+              ref={
+                props?.addressRef as unknown as Ref<GooglePlacesTextInputRef>
+              }
+              value={props?.address}
+              apiKey={props?.googleApiKey}
+              onPlaceSelect={props?.handlePlaceSelect}
+              debounceDelay={300}
+              showClearButton={false}
+              hideOnKeyboardDismiss={true}
             />
 
             <GlobalTextInput
@@ -132,7 +158,12 @@ const AddAddressComponent = (props: PropsType) => {
                 activeOpacity={activityOpacity}
                 hitSlop={hitSlop}
                 onPress={props?.handleSetDefault}
-                style={{flexDirection : 'row', alignItems : 'center', height : 24, gap : 10}}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  height: 24,
+                  gap: 10,
+                }}
               >
                 <Image
                   source={
@@ -141,10 +172,9 @@ const AddAddressComponent = (props: PropsType) => {
                   style={styles.imgCheck}
                 />
                 <Text style={styles.lblSetAsDefault}>
-                {getTranslation("setAsDefault")}
-              </Text>
+                  {getTranslation("setAsDefault")}
+                </Text>
               </TouchableOpacity>
-              
             </View>
           )}
         </View>

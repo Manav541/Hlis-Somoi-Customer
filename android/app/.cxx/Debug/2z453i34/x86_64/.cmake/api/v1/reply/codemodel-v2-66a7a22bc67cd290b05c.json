@@ -17,12 +17,11 @@
 						7,
 						8,
 						9,
-						10,
+						11,
 						12,
 						13,
 						14,
-						15,
-						16
+						15
 					],
 					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
@@ -48,7 +47,7 @@
 					"source" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni",
 					"targetIndexes" : 
 					[
-						12
+						11
 					]
 				},
 				{
@@ -108,7 +107,7 @@
 					"source" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni",
 					"targetIndexes" : 
 					[
-						13
+						12
 					]
 				},
 				{
@@ -142,21 +141,6 @@
 					]
 				},
 				{
-					"build" : "RNMapsSpecs_autolinked_build",
-					"jsonFile" : "directory-RNMapsSpecs_autolinked_build-Debug-f8263d7bacda6beeee5f.json",
-					"minimumCMakeVersion" : 
-					{
-						"string" : "3.13"
-					},
-					"parentIndex" : 0,
-					"projectIndex" : 0,
-					"source" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni",
-					"targetIndexes" : 
-					[
-						9
-					]
-				},
-				{
 					"build" : "RNMmkvSpec_autolinked_build",
 					"jsonFile" : "directory-RNMmkvSpec_autolinked_build-Debug-a610e1a730082e295811.json",
 					"minimumCMakeVersion" : 
@@ -168,14 +152,14 @@
 					"source" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/android/build/generated/source/codegen/jni",
 					"targetIndexes" : 
 					[
-						10
+						9
 					]
 				},
 				{
 					"build" : "RNMmkvSpec_cxxmodule_autolinked_build",
 					"childIndexes" : 
 					[
-						11
+						10
 					],
 					"jsonFile" : "directory-RNMmkvSpec_cxxmodule_autolinked_build-Debug-0f47db2d15d4fded29d8.json",
 					"minimumCMakeVersion" : 
@@ -197,7 +181,7 @@
 					{
 						"string" : "3.10.0"
 					},
-					"parentIndex" : 10,
+					"parentIndex" : 9,
 					"projectIndex" : 2,
 					"source" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/MMKV/Core",
 					"targetIndexes" : 
@@ -217,7 +201,7 @@
 					"source" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-permissions/android/build/generated/source/codegen/jni",
 					"targetIndexes" : 
 					[
-						11
+						10
 					]
 				},
 				{
@@ -232,7 +216,7 @@
 					"source" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni",
 					"targetIndexes" : 
 					[
-						14
+						13
 					]
 				},
 				{
@@ -247,7 +231,7 @@
 					"source" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-safe-area-context/android/src/main/jni",
 					"targetIndexes" : 
 					[
-						16
+						15
 					]
 				},
 				{
@@ -262,7 +246,7 @@
 					"source" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-screens/android/src/main/jni",
 					"targetIndexes" : 
 					[
-						15
+						14
 					]
 				},
 				{
@@ -300,12 +284,11 @@
 						6,
 						7,
 						8,
-						9,
+						11,
 						12,
 						13,
 						14,
-						15,
-						16
+						15
 					],
 					"name" : "appmodules",
 					"targetIndexes" : 
@@ -323,8 +306,7 @@
 						12,
 						13,
 						14,
-						15,
-						16
+						15
 					]
 				},
 				{
@@ -334,7 +316,7 @@
 					],
 					"directoryIndexes" : 
 					[
-						10
+						9
 					],
 					"name" : "ReactNativeMmkv",
 					"parentIndex" : 0,
@@ -346,7 +328,7 @@
 				{
 					"directoryIndexes" : 
 					[
-						11
+						10
 					],
 					"name" : "core",
 					"parentIndex" : 1,
@@ -361,119 +343,112 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "appmodules::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-appmodules-Debug-79de33e38f30bb80e695.json",
+					"jsonFile" : "target-appmodules-Debug-d3d2462b9d041702d48e.json",
 					"name" : "appmodules",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 11,
+					"directoryIndex" : 10,
 					"id" : "core::@1b9a7d546b295b7d0867",
-					"jsonFile" : "target-core-Debug-72b8a5c2304d4836925f.json",
+					"jsonFile" : "target-core-Debug-08b47b4b4a3ac6525123.json",
 					"name" : "core",
 					"projectIndex" : 2
 				},
 				{
-					"directoryIndex" : 10,
+					"directoryIndex" : 9,
 					"id" : "react-native-mmkv::@4ae6a1e65d3e68ba0197",
-					"jsonFile" : "target-react-native-mmkv-Debug-9d6b6427c9ba7a7057a2.json",
+					"jsonFile" : "target-react-native-mmkv-Debug-8151e794c2963b7d529b.json",
 					"name" : "react-native-mmkv",
 					"projectIndex" : 1
 				},
 				{
 					"directoryIndex" : 3,
 					"id" : "react_codegen_Compressor::@408161e29a6d5b274579",
-					"jsonFile" : "target-react_codegen_Compressor-Debug-f24bc8372cc922b89631.json",
+					"jsonFile" : "target-react_codegen_Compressor-Debug-8bd07a19b5ce3d265515.json",
 					"name" : "react_codegen_Compressor",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 2,
 					"id" : "react_codegen_RNCGeolocationSpec::@1b959fcb56e23f7716ba",
-					"jsonFile" : "target-react_codegen_RNCGeolocationSpec-Debug-eb5fcf24fa29dae00af7.json",
+					"jsonFile" : "target-react_codegen_RNCGeolocationSpec-Debug-632efde3fca7edffb836.json",
 					"name" : "react_codegen_RNCGeolocationSpec",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 16,
+					"directoryIndex" : 15,
 					"id" : "react_codegen_RNCWebViewSpec::@eb48929f9f7453740a6c",
-					"jsonFile" : "target-react_codegen_RNCWebViewSpec-Debug-9b00ee34540523ad2456.json",
+					"jsonFile" : "target-react_codegen_RNCWebViewSpec-Debug-c77540c452388ecc16f0.json",
 					"name" : "react_codegen_RNCWebViewSpec",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 4,
 					"id" : "react_codegen_RNDatePickerSpecs::@c00f981c6e74346c63d4",
-					"jsonFile" : "target-react_codegen_RNDatePickerSpecs-Debug-ae2582b3a7169c8fb5d4.json",
+					"jsonFile" : "target-react_codegen_RNDatePickerSpecs-Debug-140dd243e782988e1f2a.json",
 					"name" : "react_codegen_RNDatePickerSpecs",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 6,
 					"id" : "react_codegen_RNImagePickerSpec::@f66ee9a2efecfb28bee4",
-					"jsonFile" : "target-react_codegen_RNImagePickerSpec-Debug-3023b5e1ca5c574d3f16.json",
+					"jsonFile" : "target-react_codegen_RNImagePickerSpec-Debug-57901fa69012dc44ef77.json",
 					"name" : "react_codegen_RNImagePickerSpec",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 7,
 					"id" : "react_codegen_RNLocalizeSpec::@f3ba5298aff84514e205",
-					"jsonFile" : "target-react_codegen_RNLocalizeSpec-Debug-3fb4fd23b59640c2f93d.json",
+					"jsonFile" : "target-react_codegen_RNLocalizeSpec-Debug-5772fa0715fc23334bc1.json",
 					"name" : "react_codegen_RNLocalizeSpec",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 8,
-					"id" : "react_codegen_RNMapsSpecs::@5748abef1962d24942ec",
-					"jsonFile" : "target-react_codegen_RNMapsSpecs-Debug-33dd82fb98d881eaf980.json",
-					"name" : "react_codegen_RNMapsSpecs",
-					"projectIndex" : 0
-				},
-				{
-					"directoryIndex" : 9,
 					"id" : "react_codegen_RNMmkvSpec::@7541eabbae598da31a69",
-					"jsonFile" : "target-react_codegen_RNMmkvSpec-Debug-8d511d196884e8ff4dd1.json",
+					"jsonFile" : "target-react_codegen_RNMmkvSpec-Debug-3b9f07bc5ffa560c2628.json",
 					"name" : "react_codegen_RNMmkvSpec",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 12,
+					"directoryIndex" : 11,
 					"id" : "react_codegen_RNPermissionsSpec::@7ad697819b753921c957",
-					"jsonFile" : "target-react_codegen_RNPermissionsSpec-Debug-5e27a974481fce11ee02.json",
+					"jsonFile" : "target-react_codegen_RNPermissionsSpec-Debug-297765b18c0a62fbcb42.json",
 					"name" : "react_codegen_RNPermissionsSpec",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "react_codegen_rnclipboard::@6385240493dfcaf22ab7",
-					"jsonFile" : "target-react_codegen_rnclipboard-Debug-fb7538d3235f8f0acb95.json",
+					"jsonFile" : "target-react_codegen_rnclipboard-Debug-02af2cdb0277590c9883.json",
 					"name" : "react_codegen_rnclipboard",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 5,
 					"id" : "react_codegen_rngesturehandler_codegen::@39f233abcd2c728bc6ec",
-					"jsonFile" : "target-react_codegen_rngesturehandler_codegen-Debug-afb68934c63ef7de029b.json",
+					"jsonFile" : "target-react_codegen_rngesturehandler_codegen-Debug-baa2e632efb20ece1a68.json",
 					"name" : "react_codegen_rngesturehandler_codegen",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 13,
+					"directoryIndex" : 12,
 					"id" : "react_codegen_rnreanimated::@8afabad14bfffa3f8b9a",
-					"jsonFile" : "target-react_codegen_rnreanimated-Debug-66f424e6c83703e46cb9.json",
+					"jsonFile" : "target-react_codegen_rnreanimated-Debug-64785cd9b08a93b303a1.json",
 					"name" : "react_codegen_rnreanimated",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 15,
+					"directoryIndex" : 14,
 					"id" : "react_codegen_rnscreens::@25bcbd507e98d3a854ad",
-					"jsonFile" : "target-react_codegen_rnscreens-Debug-cb6d954ff8dc62f0f47c.json",
+					"jsonFile" : "target-react_codegen_rnscreens-Debug-474de8f99d6b4caf14f5.json",
 					"name" : "react_codegen_rnscreens",
 					"projectIndex" : 0
 				},
 				{
-					"directoryIndex" : 14,
+					"directoryIndex" : 13,
 					"id" : "react_codegen_safeareacontext::@7984cd80db47aa7b952a",
-					"jsonFile" : "target-react_codegen_safeareacontext-Debug-c7c6356643ac347ceaa4.json",
+					"jsonFile" : "target-react_codegen_safeareacontext-Debug-ef37ba92600760514cc9.json",
 					"name" : "react_codegen_safeareacontext",
 					"projectIndex" : 0
 				}
@@ -483,7 +458,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a",
+		"build" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64",
 		"source" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native/ReactAndroid/cmake-utils/default-app-setup"
 	},
 	"version" : 

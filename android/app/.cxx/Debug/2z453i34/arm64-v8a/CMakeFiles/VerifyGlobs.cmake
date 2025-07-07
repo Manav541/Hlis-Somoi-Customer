@@ -187,31 +187,6 @@ if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/arm64-v8a/CMakeFiles/cmake.verify_globs")
 endif()
 
-# react_codegen_SRCS at /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/CMakeLists.txt:9 (file)
-file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/*.cpp")
-set(OLD_GLOB
-  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/RNMapsSpecs-generated.cpp"
-  )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
-  message("-- GLOB mismatch!")
-  file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/arm64-v8a/CMakeFiles/cmake.verify_globs")
-endif()
-
-# react_codegen_SRCS at /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/CMakeLists.txt:9 (file)
-file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/react/renderer/components/RNMapsSpecs/*.cpp")
-set(OLD_GLOB
-  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/react/renderer/components/RNMapsSpecs/ComponentDescriptors.cpp"
-  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/react/renderer/components/RNMapsSpecs/EventEmitters.cpp"
-  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/react/renderer/components/RNMapsSpecs/Props.cpp"
-  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/react/renderer/components/RNMapsSpecs/RNMapsSpecsJSI-generated.cpp"
-  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/react/renderer/components/RNMapsSpecs/ShadowNodes.cpp"
-  "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/react/renderer/components/RNMapsSpecs/States.cpp"
-  )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
-  message("-- GLOB mismatch!")
-  file(TOUCH_NOCREATE "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/arm64-v8a/CMakeFiles/cmake.verify_globs")
-endif()
-
 # react_codegen_SRCS at /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/android/build/generated/source/codegen/jni/CMakeLists.txt:9 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/android/build/generated/source/codegen/jni/*.cpp")
 set(OLD_GLOB

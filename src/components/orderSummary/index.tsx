@@ -101,10 +101,17 @@ const OrderSummaryComponent = (props: PropsType) => {
                   DateFormatsManager.DateFormats.ddMMMYYYY
                 )}
               </Text>
-              {(props?.orderDetails?.status === "Request_return" ||
+              {(props?.orderDetails?.status === "Order Return Accepted" ||
                 props?.orderDetails?.status === "Request_exchange") &&
                 index === props?.arrOrderStatus.length - 1 && (
-                  <Text>- {item?.time ?? ""}</Text>
+                  <Text>
+                    {" "}
+                    -{" "}
+                    {DateFormatsManager.formatDate(
+                      props?.orderDetails?.placed_on_time,
+                      DateFormatsManager.TimeFormats.hhmma
+                    ) ?? ""}
+                  </Text>
                 )}
             </Text>
           )}

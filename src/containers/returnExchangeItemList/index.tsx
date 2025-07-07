@@ -11,6 +11,8 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 
 const ReturnExchangeItemListContainer = ({ navigation, route }: any) => {
   const order_id = route?.params?.order_id;
+  console.log("order_id => ", order_id);
+  
   const [arrProducts, setArrProducts] = useState<OrderItem[]>([]);
 
   const onPressItem = (item: OrderItem, index: number) => {

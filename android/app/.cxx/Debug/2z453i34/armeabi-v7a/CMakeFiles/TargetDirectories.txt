@@ -22,9 +22,6 @@
 /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/RNLocalizeSpec_autolinked_build/CMakeFiles/react_codegen_RNLocalizeSpec.dir
 /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/RNLocalizeSpec_autolinked_build/CMakeFiles/edit_cache.dir
 /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/RNLocalizeSpec_autolinked_build/CMakeFiles/rebuild_cache.dir
-/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/RNMapsSpecs_autolinked_build/CMakeFiles/react_codegen_RNMapsSpecs.dir
-/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/RNMapsSpecs_autolinked_build/CMakeFiles/edit_cache.dir
-/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/RNMapsSpecs_autolinked_build/CMakeFiles/rebuild_cache.dir
 /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/RNMmkvSpec_autolinked_build/CMakeFiles/react_codegen_RNMmkvSpec.dir
 /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/RNMmkvSpec_autolinked_build/CMakeFiles/edit_cache.dir
 /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/armeabi-v7a/RNMmkvSpec_autolinked_build/CMakeFiles/rebuild_cache.dir

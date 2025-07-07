@@ -14,6 +14,7 @@ interface Store {
   cancelReturnOrderReasonList: StoreFunction;
   cancelOrder: StoreFunction;
   reportIssue: StoreFunction;
+  returnOrder: StoreFunction;
 }
 
 const MyOrdersStore = create<Store>((set) => ({
@@ -140,6 +141,32 @@ const MyOrdersStore = create<Store>((set) => ({
 
       APIManager.postServerRequestWithToken({
         apiEndPoint: apiEndPoint.reportIssue,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  returnOrder(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.returnOrder,
         callback: callback,
         dictData: dictData,
         navigation: navigation,

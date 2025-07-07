@@ -169,7 +169,7 @@ const ReturnOrderComponent = (props: PropsType) => {
           </>
         )}
         {/* Choose refund or replace */}
-        <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
+        {/* <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
           <Text style={styles.lblChooseResolution}>
             {getTranslation("chooseResolution")}
           </Text>
@@ -217,7 +217,7 @@ const ReturnOrderComponent = (props: PropsType) => {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
       </KeyboardAwareScrollView>
       <View
         style={{

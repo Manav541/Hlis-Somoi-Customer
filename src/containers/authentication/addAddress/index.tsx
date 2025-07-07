@@ -42,7 +42,7 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
 
   const [googleApiKey, setGoogleApiKey] = useState<string>("");
-
+  const [isAddressInitialized, setIsAddressInitialized] = useState(false);
   const [address, setAddress] = useState("");
   const [house, setHouse] = useState("");
   const [additionalDescription, setAdditionalDescription] = useState("");
@@ -64,6 +64,46 @@ const AddAddressContainer = ({ navigation, route }: any) => {
     route?.params?.isNavigateFromManageAddress;
 
   const isEditAddress = route?.params?.isEditAddress;
+
+  const handlePlaceSelect = async (place: any) => {
+    handleOnFocus("address");
+    console.log("Selected place:", JSON.stringify(place));
+    const mainText = place.structuredFormat?.mainText?.text;
+    const secondaryText = place.structuredFormat?.secondaryText?.text;
+    setAddress(mainText);
+    setAdditionalDescription(secondaryText);
+
+    // Get the place ID from the response
+    const placeId = place.placeId;
+
+    // Now fetch lat/lng
+    const location = await fetchPlaceDetails(placeId);
+    if (location) {
+      setLatitude(location.lat);
+      setLongitude(location.lng);
+    }
+    console.log("Location:", location);
+  };
+
+  const fetchPlaceDetails = async (placeId: string) => {
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${googleApiKey}`;
+
+    try {
+      const response = await fetch(url);
+      const result = await response.json();
+
+      if (result.status === "OK") {
+        const location = result.result.geometry.location;
+        console.log("Latitude:", location.lat);
+        console.log("Longitude:", location.lng);
+        return location;
+      } else {
+        console.warn("Google Place Details Error:", result.status);
+      }
+    } catch (err) {
+      console.error("Failed to fetch place details:", err);
+    }
+  };
 
   const handleOnSubmit = (type: string) => {
     if (type === "address") {
@@ -124,8 +164,8 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       address: address,
       building_details: house,
       description: additionalDescription,
-      latitude: "23.0764644081957",
-      longitude: "72.5285412099873",
+      latitude: latitude.toString(),
+      longitude: longitude.toString(),
     };
     if (isNavigateFromManageAddress) {
       dictData.is_default = isDefault;
@@ -302,6 +342,8 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       setLatitude("");
       setLongitude("");
     }
+     // ✅ Mark it as initialized
+  setIsAddressInitialized(true);
   }, [route]);
 
   useFocusEffect(
@@ -332,6 +374,9 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       handleSetDefault={handleSetDefault}
       isNavigateFromManageAddress={isNavigateFromManageAddress}
       isEditAddress={isEditAddress}
+      handlePlaceSelect={handlePlaceSelect}
+      googleApiKey={googleApiKey}
+      isAddressInitialized={isAddressInitialized}
     />
   );
 };

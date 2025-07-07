@@ -10,8 +10,7 @@ export const FolderName = {
   REPORTS_MEDIA: "somoiapp/reports_media/",
   RATING_MEDIA: "somoiapp/rating_media/",
   CHAT_MEDIA: "somoiapp/chat_media/",
-  // CONTACT_US: "contact_us_media/",
-  // CHAT: "chat_files/",
+  ORDER_RETURN_MEDIA: "somoiapp/order_return_media/",
 };
 
 export const requestStoragePermission = async () => {

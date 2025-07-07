@@ -20,6 +20,7 @@ import { styles } from "./styles";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
 import FastImage from "react-native-fast-image";
 import { ChatMessage } from "../../constants/interfaces";
+import EmojiSelector, { Categories } from "react-native-emoji-selector";
 
 interface PropsType {
   chatHistory: ChatMessage[];
@@ -30,6 +31,9 @@ interface PropsType {
   handleOnPressEmoji: () => void;
   handleOnPressSendMessage: () => void;
   handleOnPressAttachment: () => void;
+  isEmojiPickerVisible: boolean;
+handleEmojiSelected: (emoji: string) => void;
+
 }
 
 const ChatComponent = (props: PropsType) => {
@@ -247,6 +251,21 @@ const ChatComponent = (props: PropsType) => {
               <Image source={images.attachIcon} style={constnatStyles.img24} />
             </TouchableOpacity>
           </View>
+          {/* Emoji Picker */}
+          {props.isEmojiPickerVisible && (
+            <View style={styles.vwEmoji}>
+              <EmojiSelector
+                onEmojiSelected={emoji => props.handleEmojiSelected(emoji)}
+                showSearchBar={false}
+                showSectionTitles={false}
+                showTabs={true}
+                showHistory={true}
+                theme={colors.orange1c}
+                columns={9}
+                category={Categories.emotion}
+              />
+            </View>
+          )}
         </View>
       </KeyboardAvoidingView>
     </View>

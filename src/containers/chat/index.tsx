@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ChatComponent from "../../components/chat";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
-import { Linking, StatusBar, Text } from "react-native";
+import { Keyboard, Linking, StatusBar, Text } from "react-native";
 import { Asset } from "react-native-image-picker";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import {
@@ -19,10 +19,11 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { MmkvManager } from "../../constants/utils/MmkvManager";
 import { useFocusEffect } from "@react-navigation/native";
 import { apiBaseURL, statusCodes } from "../../api/APIConstant";
-import SocketIOClient, { Socket } from "socket.io-client";
+import SocketIOClient from "socket.io-client";
 import { zustandStore } from "../../store";
 import { APIManager } from "../../api/ApiManager";
 import ImageUpload, { FolderName } from "../../constants/utils/S3ImageUpload";
+import { PlatformVersion } from "../../constants/utils/Platform";
 
 const ChatConatiner = ({ navigation, route }: any) => {
   // API Zustand store
@@ -35,66 +36,12 @@ const ChatConatiner = ({ navigation, route }: any) => {
   const socketRef = useRef<any>(null);
   const driver_details = route?.params?.driver_details;
   const customer_details = route?.params?.customer_details;
-  const [messagesList, setMessagesList] = useState<ChatMessage[]>([
-    // {
-    //   text: "",
-    //   time: "2025-03-15T14:20:00Z",
-    //   isSender: false,
-    //   type: "image",
-    //   image: "https://randomuser.me/api/portraits/men/32.jpg",
-    //   status: "Delivered",
-    // },
-    // {
-    //   text: "Look at above image like this.",
-    //   time: "2025-03-15T14:20:00Z",
-    //   isSender: false,
-    //   type: "text",
-    // },
-    // {
-    //   text: "Of course, let me know if you're on your Of course, let me know if you're on your Of course, let me know if you're on your.",
-    //   time: "2025-03-15T14:21:00Z",
-    //   isSender: false,
-    //   type: "text",
-    // },
-    // {
-    //   text: "K, I’m on the way",
-    //   time: "2025-03-15T14:22:00Z",
-    //   isSender: true,
-    //   status: "Read",
-    //   type: "text",
-    // },
-    // {
-    //   text: "Good morning",
-    //   time: "2025-03-17T06:45:00Z",
-    //   isSender: false,
-    //   type: "text",
-    // },
-    // {
-    //   text: "How are you?",
-    //   time: "2025-03-17T06:45:00Z",
-    //   isSender: false,
-    //   type: "text",
-    // },
-    // {
-    //   text: "Very Good Morning Very Good Morning Very Good Morning Very Good Morning.",
-    //   time: "2025-04-05T13:35:00.000Z",
-    //   isSender: true,
-    //   type: "text",
-    //   image: "https://randomuser.me/api/portraits/men/32.jpg",
-    //   status: "Delivered",
-    // },
-    // {
-    //   text: "",
-    //   time: "2025-04-05T13:35:00.000Z",
-    //   isSender: true,
-    //   type: "image",
-    //   image: "https://randomuser.me/api/portraits/men/32.jpg",
-    //   status: "Delivered",
-    // },
-  ]);
-
+  const customer_id = customer_details?.customer_id;
+  const driver_id = driver_details?.id;
+  const sender_role = "customer";
+  const receiver_role = "driver";
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
-
+  const [isEmojiPickerVisible, setEmojiPickerVisible] = useState(false);
   const [messageValue, setMessageValue] = useState("");
   const [isMsgInputFocused, setIsMsgInputFocused] = useState(false);
 
@@ -117,10 +64,10 @@ const ChatConatiner = ({ navigation, route }: any) => {
       return;
     }
     const sendMessagePayload = {
-      sender_role: "customer",
-      sender_id: customer_details?.customer_id,
-      receiver_role: "driver",
-      receiver_id: driver_details?.id,
+      sender_role: sender_role,
+      sender_id: customer_id,
+      receiver_role: receiver_role,
+      receiver_id: driver_id,
       message: messageValue.trim(),
       message_type: "text",
     };
@@ -130,10 +77,10 @@ const ChatConatiner = ({ navigation, route }: any) => {
         socket.emit("send_message", encryptedData);
 
         const messageObj: ChatMessage = {
-          sender_role: "customer",
-          receiver_role: "driver",
-          sender_id: customer_details?.customer_id,
-          receiver_id: driver_details?.id,
+          sender_role: sender_role,
+          receiver_role: receiver_role,
+          sender_id: customer_id,
+          receiver_id: driver_id,
           message: messageValue.trim(),
           created_at: new Date().toISOString(),
           message_type: "text",
@@ -208,10 +155,10 @@ const ChatConatiner = ({ navigation, route }: any) => {
         console.log("Media uploaded sucessfully ===>", response);
         if (response) {
           const sendMessagePayload = {
-            sender_role: "customer",
-            sender_id: customer_details?.customer_id,
-            receiver_role: "driver",
-            receiver_id: driver_details?.id,
+            sender_role: sender_role,
+            sender_id: customer_id,
+            receiver_role: receiver_role,
+            receiver_id: driver_id,
             message: messageValue.trim(),
             message_type: "image",
             media_url: response,
@@ -224,10 +171,10 @@ const ChatConatiner = ({ navigation, route }: any) => {
               console.log("sendMessagePayload==>", sendMessagePayload);
 
               const messageObj: ChatMessage = {
-                sender_role: "customer",
-                receiver_role: "driver",
-                sender_id: customer_details?.customer_id,
-                receiver_id: driver_details?.id,
+                sender_role: sender_role,
+                receiver_role: receiver_role,
+                sender_id: customer_id,
+                receiver_id: driver_id,
                 message: messageValue.trim(),
                 created_at: new Date().toISOString(),
                 message_type: "image",
@@ -246,7 +193,17 @@ const ChatConatiner = ({ navigation, route }: any) => {
   };
 
   const handleOnPressEmoji = () => {
-    flashMessageWarning(getTranslation("underDevelopment"));
+    Keyboard.dismiss();
+    setTimeout(
+      () => {
+        setEmojiPickerVisible(true);
+      },
+      PlatformVersion.isAndroid ? 50 : 200
+    );
+  };
+
+  const handleEmojiSelected = (emoji: string) => {
+    setMessageValue((prevText) => prevText + emoji);
   };
 
   const onPressCallDriver = () => {
@@ -285,10 +242,10 @@ const ChatConatiner = ({ navigation, route }: any) => {
   // handleChatHistoryApi
   const handleChatHistoryApi = async () => {
     const dictData = {
-      receiver_role: "driver",
-      sender_id: customer_details?.customer_id,
-      sender_role: "customer",
-      receiver_id: driver_details?.id,
+      receiver_role: receiver_role,
+      sender_id: customer_id,
+      sender_role: sender_role,
+      receiver_id: driver_id,
     };
     try {
       const response = await chatHistoryApi(dictData, navigation);
@@ -301,14 +258,6 @@ const ChatConatiner = ({ navigation, route }: any) => {
               ? (response.data.chat_history as ChatMessage[])
               : [];
           setChatHistory(chatdata);
-          //       {
-          //   text: "",
-          //   time: "2025-03-15T14:20:00Z",
-          //   isSender: false,
-          //   type: "image",
-          //   image: "https://randomuser.me/api/portraits/men/32.jpg",
-          //   status: "Delivered",
-          // },
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         } else if (response.code === statusCodes.emptyData) {
@@ -350,36 +299,10 @@ const ChatConatiner = ({ navigation, route }: any) => {
   };
 
   // Socket Connection
-  const handleSocketConnection = () => {
-    MmkvManager.getData(MmkvManager.Keys.customerId, (customerId) => {
-      if (customerId) {
-        const socket = SocketIOClient(
-          `${apiBaseURL.socketUrl}${customerId}&role=customer`
-        );
-        socket.connect();
-        console.log("Socket connected:", socket.active);
-
-        socket.on("receive_message", (msg) => {
-          console.log("receive_message msg===>:", msg);
-          APIManager.decryptData(JSON.stringify(msg), (decryptData: string) => {
-            console.log("Sending message:", decryptData);
-
-            console.log("decryptData:", decryptData);
-            if (decryptData != undefined) {
-              const parsedData = JSON.parse(decryptData);
-              setChatHistory([...chatHistory, parsedData.data]);
-            }
-          });
-        });
-        socketRef.current = socket;
-      }
-    });
-  };
-
   useFocusEffect(
     React.useCallback(() => {
       const socket = SocketIOClient(
-        `${apiBaseURL.socketUrl}${customer_details?.customer_id}&role=customer`
+        `${apiBaseURL.socketUrl}${customer_id}&role=${sender_role}`
       );
 
       socket.connect();
@@ -426,6 +349,8 @@ const ChatConatiner = ({ navigation, route }: any) => {
       handleOnPressEmoji={handleOnPressEmoji}
       handleOnPressSendMessage={handleOnPressSendMessage}
       handleOnPressAttachment={handleOnPressAttachment}
+      isEmojiPickerVisible={isEmojiPickerVisible}
+      handleEmojiSelected={handleEmojiSelected}
     />
   );
 };

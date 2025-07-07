@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../constants/Colors";
 import { fontSize } from "../../constants/FontSizes";
 import { fontsfamily } from "../../constants/FontFamily";
+import { ScreenDimensions } from "../../constants/utils/Dimensions";
 
 export const styles = StyleSheet.create({
   vwMain: {
@@ -43,6 +44,7 @@ export const styles = StyleSheet.create({
     gap: 16,
   },
   vwTimeLineInner: { flex: 1, height: 1, backgroundColor: colors.greya7 },
+  vwEmoji: { height: ScreenDimensions.screenHeight / 4, marginTop: 5 },
   messageInput: {
     flex: 1,
     maxHeight: 100,

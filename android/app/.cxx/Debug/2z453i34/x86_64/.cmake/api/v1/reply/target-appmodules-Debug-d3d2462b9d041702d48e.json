@@ -239,14 +239,6 @@
 				},
 				{
 					"backtrace" : 4,
-					"path" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/."
-				},
-				{
-					"backtrace" : 4,
-					"path" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-maps/android/src/main/jni/react/renderer/components/RNMapsSpecs"
-				},
-				{
-					"backtrace" : 4,
 					"path" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/android/build/generated/source/codegen/jni/."
 				},
 				{
@@ -378,10 +370,6 @@
 		{
 			"backtrace" : 4,
 			"id" : "react_codegen_RNLocalizeSpec::@f3ba5298aff84514e205"
-		},
-		{
-			"backtrace" : 4,
-			"id" : "react_codegen_RNMapsSpecs::@5748abef1962d24942ec"
 		},
 		{
 			"backtrace" : 4,
@@ -579,14 +567,7 @@
 				75,
 				76,
 				77,
-				78,
-				79,
-				80,
-				81,
-				82,
-				83,
-				84,
-				85
+				78
 			]
 		}
 	],
@@ -896,48 +877,6 @@
 			"backtrace" : 4,
 			"isGenerated" : true,
 			"path" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/RNLocalizeSpec_autolinked_build/CMakeFiles/react_codegen_RNLocalizeSpec.dir/react/renderer/components/RNLocalizeSpec/States.cpp.o",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 4,
-			"isGenerated" : true,
-			"path" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/RNMapsSpecs_autolinked_build/CMakeFiles/react_codegen_RNMapsSpecs.dir/RNMapsSpecs-generated.cpp.o",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 4,
-			"isGenerated" : true,
-			"path" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/RNMapsSpecs_autolinked_build/CMakeFiles/react_codegen_RNMapsSpecs.dir/react/renderer/components/RNMapsSpecs/ComponentDescriptors.cpp.o",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 4,
-			"isGenerated" : true,
-			"path" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/RNMapsSpecs_autolinked_build/CMakeFiles/react_codegen_RNMapsSpecs.dir/react/renderer/components/RNMapsSpecs/EventEmitters.cpp.o",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 4,
-			"isGenerated" : true,
-			"path" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/RNMapsSpecs_autolinked_build/CMakeFiles/react_codegen_RNMapsSpecs.dir/react/renderer/components/RNMapsSpecs/Props.cpp.o",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 4,
-			"isGenerated" : true,
-			"path" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/RNMapsSpecs_autolinked_build/CMakeFiles/react_codegen_RNMapsSpecs.dir/react/renderer/components/RNMapsSpecs/RNMapsSpecsJSI-generated.cpp.o",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 4,
-			"isGenerated" : true,
-			"path" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/RNMapsSpecs_autolinked_build/CMakeFiles/react_codegen_RNMapsSpecs.dir/react/renderer/components/RNMapsSpecs/ShadowNodes.cpp.o",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 4,
-			"isGenerated" : true,
-			"path" : "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/Debug/2z453i34/x86_64/RNMapsSpecs_autolinked_build/CMakeFiles/react_codegen_RNMapsSpecs.dir/react/renderer/components/RNMapsSpecs/States.cpp.o",
 			"sourceGroupIndex" : 1
 		},
 		{

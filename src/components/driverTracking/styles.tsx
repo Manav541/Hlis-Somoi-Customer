@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
     width: 27,
   },
   imgDriverMarker: {
-    width: 54,
+    width: 50,
     height: 60,
   },
   imgCustomerMarker: {

@@ -285,8 +285,29 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
             mapped_status: backendToUIStatusMap[item.status] || "", // fallback to empty if not found
           }));
 
-          // ✅ Update defaultOrderStatus
-          const updatedStatusArray = defaultOrderStatus.map((defaultStatus) => {
+           // ✅ Clone default UI statuses
+        let updatedDefaultOrderStatus = [...defaultOrderStatus];
+
+        // ✅ Check if "Order Return Requested" exists
+        const hasReturnRequested = rawData.status_timeline.some(
+          (item) => item.status === "Order Return Accepted"
+        );
+
+        // ✅ Inject "Order pickup date & Time" UI status if needed
+        if (hasReturnRequested) {
+          updatedDefaultOrderStatus.push({
+            status: "Order pickup date & Time",
+            status_icon: images.orderReturnedUn,
+            status_icon1: images.orderReturnedUn,
+            created_at: "",
+            updated_at: "",
+            time: "",
+            is_active: false,
+          });
+        }
+
+        // ✅ Update defaultOrderStatus
+          const updatedStatusArray = updatedDefaultOrderStatus.map((defaultStatus) => {
             const matched = mappedTimeline.find(
               (item) => item.mapped_status === defaultStatus.status
             );

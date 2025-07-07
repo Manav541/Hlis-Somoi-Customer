@@ -9,23 +9,37 @@ import {
   checkPermission,
   flashMessageWarning,
   galleryPermission,
+  GlobalVar,
   messages,
+  toggleLoader,
 } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
 import { Asset } from "react-native-image-picker";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
-import { CancelOrderReason } from "../../constants/interfaces";
+import { CancelOrderReason, SecretKeyItem } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
+import ImageUpload, { FolderName } from "../../constants/utils/S3ImageUpload";
 
-const ReturnOrderContainer = ({ navigation }: any) => {
+const ReturnOrderContainer = ({ navigation, route }: any) => {
   // API zustand store
   const cancelReturnOrderReasonListApi = zustandStore.MyOrdersStore(
     (state) => state.cancelReturnOrderReasonList
   );
+  const returnOrderApi = zustandStore.MyOrdersStore(
+    (state) => state.returnOrder
+  );
+  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
+  console.log("selected item", route?.params?.items);
 
+  const order_id = route.params?.order_id;
+  const selectedItems = route.params?.items;
+  const arrProductIds = selectedItems.map((item : any) => item.product_id);
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
+  const [s3AccessKey, setS3AccessKey] = useState<string>("");
+  const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
+  const uploadedS3ImageUrlsRef = useRef<string[] | null>(null);
   const [arrReturnOrderReason, setArrReturnOrderReason] = useState<
     CancelOrderReason[]
   >([]);
@@ -40,8 +54,6 @@ const ReturnOrderContainer = ({ navigation }: any) => {
   const [isRefundReplacement, setIsRefundReplacement] =
     useState<string>("Refund");
 
-  const [finalReturnReason, setFinalReturnReason] = useState<string>("");
-
   // Image uplaod
   const handleOnPressUploadImages = () => {
     checkPermission(cameraPermission, messages.cameraPermission).then(
@@ -52,7 +64,7 @@ const ReturnOrderContainer = ({ navigation }: any) => {
               if (isAllow) {
                 const isMultiSelection = true;
                 ImagePickerManager.choosePickerOptions(
-                  "photo",
+                  "mixed",
                   isMultiSelection
                 )
                   .then((result: unknown) => {
@@ -80,6 +92,74 @@ const ReturnOrderContainer = ({ navigation }: any) => {
         }
       }
     );
+  };
+
+  const uploadImagesInS3 = async (
+    selectedReason: CancelOrderReason,
+    description?: string
+  ) => {
+    const imagesURIArray =
+      multiImagesArray.map((image: Asset) => image.uri) || [];
+    __DEV__ && console.log("All Image URIs:", imagesURIArray);
+
+    const baseS3Url = `${GlobalVar.url}somoiapp`;
+
+    const newImagesToUpload = imagesURIArray.filter(
+      (uri) => uri && !uri.includes(baseS3Url)
+    );
+    __DEV__ && console.log("🆕 New images to upload:", newImagesToUpload);
+
+    const alreadyUploadedUrls = imagesURIArray.filter(
+      (uri) => uri && uri.includes(baseS3Url)
+    );
+
+    try {
+      toggleLoader(true);
+
+      let newlyUploadedUrls: string[] = [];
+
+      // 🆕 Only upload new images (local file URIs)
+      if (newImagesToUpload.length > 0) {
+        const uploadPromises = newImagesToUpload.map(
+          (uri: string | undefined) =>
+            new Promise<string>((resolve, reject) => {
+              ImageUpload.uploadImage(
+                s3AccessKey,
+                s3SecretAccessKey,
+                uri,
+                FolderName.ORDER_RETURN_MEDIA,
+                "image/png",
+                ".png",
+                (response: string) => {
+                  __DEV__ && console.log("✅ Uploaded image:", response);
+                  resolve(response);
+                }
+              );
+            })
+        );
+
+        newlyUploadedUrls = await Promise.all(uploadPromises);
+        uploadedS3ImageUrlsRef.current = newlyUploadedUrls;
+      }
+
+      const allUrls = [...alreadyUploadedUrls, ...newlyUploadedUrls];
+
+      const allImageFileNames = allUrls.map((url: string | undefined) => {
+        try {
+          return url?.split("/").pop() || "";
+        } catch {
+          return "";
+        }
+      });
+
+      console.log("🧾 Final image file names:", allImageFileNames);
+
+      handleReturnOrderApi(selectedReason, description, allImageFileNames);
+    } catch (error) {
+      console.error("❌ Error:", error);
+    } finally {
+      toggleLoader(false);
+    }
   };
 
   const handleOnPressDeleteUploadedImage = (index: number) => {
@@ -141,14 +221,13 @@ const ReturnOrderContainer = ({ navigation }: any) => {
       return;
     }
 
-    // ✅ Set final reason
-    const reasonToSubmit =
-      selectedReason.reason === "Other (please specify)"
-        ? otherReason.trim()
-        : selectedReason.reason;
-
-    setFinalReturnReason(reasonToSubmit);
-    setIsReturnSuccessModalVisible(true);
+    // 🟡 If images are selected, upload them to S3 first
+    if (selectedReason.reason === "Other (please specify)") {
+      uploadImagesInS3(selectedReason, otherReason.trim());
+    } else {
+      // 🟢 Directly call API if no media selected
+      handleReturnOrderApi(selectedReason, otherReason.trim());
+    }
   };
 
   const onPressSelectRefundReplacement = (type: string) => {
@@ -225,7 +304,6 @@ const ReturnOrderContainer = ({ navigation }: any) => {
               isSelected: false,
             },
           ];
-
           setArrReturnOrderReason(finalReasons);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
@@ -236,8 +314,71 @@ const ReturnOrderContainer = ({ navigation }: any) => {
     }
   };
 
+  // handleReturnOrderApi
+  const handleReturnOrderApi = async (
+    selectedReason: CancelOrderReason,
+    description?: string,
+    media?: string[]
+  ) => {
+    const dictData: any = {
+      order_id: order_id,
+      product_id: arrProductIds,
+    };
+    if (selectedReason.reason === "Other (please specify)") {
+      dictData.description = description;
+      dictData.media = media;
+    } else {
+      dictData.reason_id = selectedReason.id;
+    }
+
+    try {
+      const response = await returnOrderApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("RETURN ORDER RESPONSE===>", JSON.stringify(response));
+        if (response.code === statusCodes.success) {
+          setIsReturnSuccessModalVisible(true);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  // handleSecretKeyApi
+  const handleSecretKeyApi = async () => {
+    try {
+      const response = await secretKeyApi({}, navigation);
+      if (
+        response?.code === statusCodes.success &&
+        Array.isArray(response.data)
+      ) {
+        const keysData = response.data as SecretKeyItem[];
+        keysData.forEach((item) => {
+          switch (item.name) {
+            case "S3_ACCESS_KEY":
+              if (item.keys) setS3AccessKey(item.keys);
+              break;
+            case "S3_SECRET_KEY":
+              if (item.keys) setS3SecretAccessKey(item.keys);
+              break;
+            default:
+              break;
+          }
+        });
+      } else if (response?.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
+      }
+    } catch (error) {
+      __DEV__ && console.log("Secret Key API Error:", error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
+      handleSecretKeyApi();
       handleCancelOrderReasonListApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};

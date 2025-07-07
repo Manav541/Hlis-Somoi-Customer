@@ -11,6 +11,9 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven{
+            url 'https://maps.googleapis.com/maps/api/android'
+        }
     }
     dependencies {
         classpath("com.android.tools.build:gradle")

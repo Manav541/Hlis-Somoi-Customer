@@ -46,4 +46,29 @@ export const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
+
+  // Googleplaces TextInput Styles
+  container: { backgroundColor: colors.blue4e },
+  input: {
+    fontSize: fontSize.size14,
+    color: colors.white,
+    fontFamily: fontsfamily.medium,
+    backgroundColor: colors.blue4e,
+    borderRadius: 100,
+    height: 52,
+    borderWidth: 1,
+  },
+  placeholder: {
+    color: colors.greya7,
+  },
+  loadingIndicator: {
+    color: colors.orange1c,
+  },
+  suggestionsContainer: {
+    position: "absolute",
+    top: 52,
+    maxHeight: 250,
+    zIndex: 1000,
+    width: "100%",
+  },
 });

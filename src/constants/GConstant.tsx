@@ -222,7 +222,8 @@ export const statusColors: { [key: string]: string } = {
   "Order Delivered": colors.green4f,
   "Order Cancelled": colors.red2e,
   "Order Rejected": colors.red2e,
-  "Order Replacement Requested": colors.orange1c,
+  "Order Return Requested": colors.orange1c,
+  "Order Return Accepted": colors.black35,
   Request_exchange: colors.orange1c,
   "Order Returned": colors.green4f,
 };
@@ -237,7 +238,8 @@ export const statusTexts: { [key: string]: string } = {
   "Order Delivered": "Your Order is Delivered",
   "Order Cancelled": "Your Order is Cancelled",
   "Order Rejected": "Your Order is Rejected",
-  "Order Replacement Requested": "Requested for Returned",
+  "Order Return Requested": "Requested for Returned",
+  "Order Return Accepted": "Return Request is Accepted",
   // "Order Replacement Requested": "Requested for Exchange",
   "Order Returned": "Your Order is Returned",
 };
@@ -252,7 +254,7 @@ export const backendToUIStatusMap: { [key: string]: string } = {
   "Order Delivered": "Order Delivered",
   "Order Cancelled": "Order Cancelled",
   "Order Rejected": "Order Rejected",
-  "Order Replacement Requested": "Order pickup date & Time",
+  "Order Return Requested": "Order pickup date & Time",
   // "Order Replacement Requested": "Requested for Exchange",
   "Order Returned": "Order Returned",
 };

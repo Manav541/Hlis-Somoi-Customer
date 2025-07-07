@@ -197,7 +197,7 @@ const HomeContainer = ({ navigation }: any) => {
 
   // handleOnPressNotifaicationIcon
   const handleOnPressNotifaicationIcon = () => {
-    navigation.navigate(ScreenNames.notification);
+    navigation.navigate(ScreenNames.driverTracking);
   };
 
   // ----------------------- API Calling -----------------------
@@ -355,7 +355,7 @@ const HomeContainer = ({ navigation }: any) => {
     React.useCallback(() => {
       // ✅ Get location & then call product API
       if (!hasSelectedAddressRef.current) {
-        handleCurrentLocation(); 
+        handleCurrentLocation();
       }
 
       handleBannerListApi();
