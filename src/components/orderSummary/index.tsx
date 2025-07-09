@@ -101,18 +101,18 @@ const OrderSummaryComponent = (props: PropsType) => {
                   DateFormatsManager.DateFormats.ddMMMYYYY
                 )}
               </Text>
-              {(props?.orderDetails?.status === "Order Return Accepted" ||
+              {/* {(props?.orderDetails?.status === "Order Return Accepted" ||
                 props?.orderDetails?.status === "Request_exchange") &&
-                index === props?.arrOrderStatus.length - 1 && (
-                  <Text>
-                    {" "}
-                    -{" "}
-                    {DateFormatsManager.formatDate(
-                      props?.orderDetails?.placed_on_time,
-                      DateFormatsManager.TimeFormats.hhmma
-                    ) ?? ""}
-                  </Text>
-                )}
+                index === props?.arrOrderStatus.length - 1 && ( */}
+              <Text>
+                {" "}
+                -{" "}
+                {DateFormatsManager.formatDate(
+                  props?.orderDetails?.placed_on_time,
+                  DateFormatsManager.TimeFormats.hhmma
+                ) ?? ""}
+              </Text>
+              {/* )} */}
             </Text>
           )}
         </View>
@@ -145,13 +145,17 @@ const OrderSummaryComponent = (props: PropsType) => {
               <Text style={styles.lblProductPrice}>
                 {rupeeSymbol + item?.price}
               </Text>
-              <Image
-                style={styles.imgDot}
-                source={images.dotOrange}
-                tintColor={colors.blue4e}
-                resizeMode="stretch"
-              />
-              <Text style={styles.lblProductWeight}>{item?.unit}</Text>
+              {item?.unit != "N/A" && (
+                <>
+                  <Image
+                    style={styles.imgDot}
+                    source={images.dotOrange}
+                    tintColor={colors.blue4e}
+                    resizeMode="stretch"
+                  />
+                  <Text style={styles.lblProductWeight}>{item?.unit}</Text>
+                </>
+              )}
             </View>
             <Text style={styles.lblQuantity}>
               <Text>{getTranslation("qty")}</Text>{" "}
@@ -159,8 +163,8 @@ const OrderSummaryComponent = (props: PropsType) => {
             </Text>
           </View>
           {(props?.orderDetails?.status === "Order Cancelled" ||
-            props?.orderDetails?.status === "Request_return" ||
-            props?.orderDetails?.status === "Request_exchange" ||
+            props?.orderDetails?.status === "Order Return Requested" ||
+            props?.orderDetails?.status === "Order Return Accepted" ||
             props?.orderDetails?.status === "Order Returned" ||
             props?.orderDetails?.status === "Order Delivered") && (
             <TouchableOpacity
@@ -267,12 +271,12 @@ const OrderSummaryComponent = (props: PropsType) => {
               color:
                 props?.orderDetails?.status === "Order Cancelled" ||
                 props?.orderDetails?.status === "Order Rejected" ||
-                props?.orderDetails?.status === "Order Replacement Requested"
+                props?.orderDetails?.status === "Order Return Requested" 
                   ? colors.red2e
                   : colors.white,
             }}
           >
-            {props?.orderDetails?.status === "Order Replacement Requested" ? (
+            {props?.orderDetails?.status === "Order Return Requested"  ? (
               <Text>{getTranslation("requestReturn")}</Text>
             ) : props?.orderDetails?.status === "Request_exchange" ? (
               <Text>{getTranslation("requestExchange")}</Text>

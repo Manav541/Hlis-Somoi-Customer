@@ -1,4 +1,4 @@
-import { StatusBar, Text } from "react-native";
+import { DeviceEventEmitter, StatusBar, Text } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import MyOrdersComponent from "../../../components/bottomTabs/myOrders";
 import { useFocusEffect } from "@react-navigation/native";
@@ -112,8 +112,8 @@ const MyOrdersContainer = ({ navigation }: any) => {
 
   const onPressReset = () => {
     // setFilterModal(false);
-    setSelectOrderType("");
-    setSelectOrderDate("");
+    setSelectOrderType("orders");
+    setSelectOrderDate("last_30_days");
   };
 
   const header = () => {
@@ -147,7 +147,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
   };
 
   const loadMoreCategories = () => {
-    if (hasMoreData && !isLoadingMore) {
+    if (hasMoreData && !isLoadingMore && hasMountedOnce.current) {
       const nextPage = orderListPageNumber + 1;
       handleOrderListApi(selectOrderType, selectOrderDate, nextPage, true);
     }
@@ -182,6 +182,9 @@ const MyOrdersContainer = ({ navigation }: any) => {
             );
             setOrderListPageNumber(page);
             setHasMoreData(true);
+            // ✅ Set mounted + canLoadMore
+            hasMountedOnce.current = true;
+            setCanLoadMore(rawData.length >= 10);
           } else {
             if (!isLoadMore) setArrOrderList([]);
             setHasMoreData(false);
@@ -220,6 +223,16 @@ const MyOrdersContainer = ({ navigation }: any) => {
       return () => {};
     }, [navigation])
   );
+
+  useEffect(() => {
+    const refreshListener = DeviceEventEmitter.addListener("refresh", () => {
+      handleOrderListApi(selectOrderType, selectOrderDate, 1, false);
+    });
+
+    return () => {
+      refreshListener.remove();
+    };
+  }, []);
 
   return (
     <MyOrdersComponent

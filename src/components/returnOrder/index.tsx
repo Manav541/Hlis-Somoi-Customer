@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  FlatList,
   StatusBar,
 } from "react-native";
 import React, { Ref } from "react";
@@ -138,36 +137,36 @@ const ReturnOrderComponent = (props: PropsType) => {
                 focusValue={props.otherReasonFocused}
               />
             </View>
-            {/* Upload Image and Videos */}
-            <View style={styles.vwUploadImageVideos}>
-              <Text style={styles.lblUploadImageVideo}>
-                {getTranslation("uploadImagesVideo")}
-              </Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View style={{ flexDirection: "row", gap: 9.02 }}>
-                  <TouchableOpacity
-                    style={styles.btnUploadImageVideo}
-                    activeOpacity={activityOpacity}
-                    hitSlop={hitSlop}
-                    onPress={props?.handleOnPressUploadImages}
-                  >
-                    <Image
-                      style={styles.imgAdd}
-                      tintColor={colors.black13}
-                      source={images.add}
-                      resizeMode="stretch"
-                    />
-                  </TouchableOpacity>
-                  {props?.multiImagesArray?.length > 0 && (
-                    <View style={{ flexDirection: "row", gap: 9.02 }}>
-                      {props?.multiImagesArray.map(renderUploadImageVideo)}
-                    </View>
-                  )}
-                </View>
-              </ScrollView>
-            </View>
           </>
         )}
+        {/* Upload Image and Videos */}
+        <View style={styles.vwUploadImageVideos}>
+          <Text style={styles.lblUploadImageVideo}>
+            {getTranslation("uploadImagesVideo")}
+          </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={{ flexDirection: "row", gap: 9.02 }}>
+              <TouchableOpacity
+                style={styles.btnUploadImageVideo}
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={props?.handleOnPressUploadImages}
+              >
+                <Image
+                  style={styles.imgAdd}
+                  tintColor={colors.black13}
+                  source={images.add}
+                  resizeMode="stretch"
+                />
+              </TouchableOpacity>
+              {props?.multiImagesArray?.length > 0 && (
+                <View style={{ flexDirection: "row", gap: 9.02 }}>
+                  {props?.multiImagesArray.map(renderUploadImageVideo)}
+                </View>
+              )}
+            </View>
+          </ScrollView>
+        </View>
         {/* Choose refund or replace */}
         {/* <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
           <Text style={styles.lblChooseResolution}>

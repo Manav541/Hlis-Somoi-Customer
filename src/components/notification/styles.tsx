@@ -44,6 +44,12 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.regular,
     marginRight: 18,
   },
+   lblNoData: {
+    fontSize: fontSize.size20,
+    color: colors.greya7,
+    fontFamily: fontsfamily.semibold,
+    textAlign: "center",
+  },
 
   // TouchableOpacity Styles
   btnNotification: {

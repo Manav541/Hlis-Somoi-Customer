@@ -1,4 +1,5 @@
 import {
+  DeviceEventEmitter,
   ImageSourcePropType,
   Linking,
   StatusBar,
@@ -99,10 +100,10 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
   ];
   const [arrOrderStatus, setArrOrderStatus] =
     useState<StatusTimeline[]>(defaultOrderStatus);
-  const pickupDateTimeStatus = {
+  const returnRequestStatus = {
+    status: "Order pickup date & Time",
     status_icon: images.orderReturnedUn,
     status_icon1: images.orderReturnedUn,
-    status: "Order pickup date & Time",
     created_at: "",
     updated_at: "",
     time: "",
@@ -126,7 +127,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
 
   const onRefresh = async () => {
     setIsRefreshing(true);
-    await handleOrderDetailsApi(order_id);
+    await handleOrderDetailsApi();
     setIsRefreshing(false);
   };
 
@@ -185,8 +186,8 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
 
   const onPressChatDriver = () => {
     navigation.navigate(ScreenNames.chat, {
-      driver_details: orderDetails?.driver_details,
-      customer_details: orderDetails?.delivery_details,
+      driver_id : orderDetails?.driver_details?.id,
+      customer_id : orderDetails?.delivery_details?.customer_id,
     });
   };
 
@@ -238,7 +239,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
 
   // -------------------------API Calling----------------------------
   // handleOrderDetailsApi
-  const handleOrderDetailsApi = async (order_id: string) => {
+  const handleOrderDetailsApi = async () => {
     const dictData = {
       order_id: order_id,
     };
@@ -285,46 +286,58 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
             mapped_status: backendToUIStatusMap[item.status] || "", // fallback to empty if not found
           }));
 
-           // ✅ Clone default UI statuses
-        let updatedDefaultOrderStatus = [...defaultOrderStatus];
+          // ✅ Clone default UI statuses
+          let updatedDefaultOrderStatus = [...defaultOrderStatus];
 
-        // ✅ Check if "Order Return Requested" exists
-        const hasReturnRequested = rawData.status_timeline.some(
-          (item) => item.status === "Order Return Accepted"
-        );
+          // Flags for return flow
+          const hasReturnRequested = rawData.status_timeline.some(
+            (item) => item.status === "Order Return Requested"
+          );
+          const hasOrderReturned = rawData.status_timeline.some(
+            (item) => item.status === "Order Returned"
+          );
 
-        // ✅ Inject "Order pickup date & Time" UI status if needed
-        if (hasReturnRequested) {
-          updatedDefaultOrderStatus.push({
-            status: "Order pickup date & Time",
-            status_icon: images.orderReturnedUn,
-            status_icon1: images.orderReturnedUn,
-            created_at: "",
-            updated_at: "",
-            time: "",
-            is_active: false,
-          });
-        }
+          // 1️⃣ Step 1: If "Return Requested", add pickup time status
+          if (hasReturnRequested) {
+            updatedDefaultOrderStatus.push(returnRequestStatus);
+          }
 
-        // ✅ Update defaultOrderStatus
-          const updatedStatusArray = updatedDefaultOrderStatus.map((defaultStatus) => {
-            const matched = mappedTimeline.find(
-              (item) => item.mapped_status === defaultStatus.status
+          // 2️⃣ Step 2: If "Returned", replace pickup with returned
+          if (hasOrderReturned) {
+            const index = updatedDefaultOrderStatus.findIndex(
+              (item) => item.status === returnRequestStatus.status
             );
 
-            return matched
-              ? {
-                  ...defaultStatus,
-                  created_at: matched.created_at,
-                  updated_at: matched.updated_at,
-                  time: matched.time,
-                  is_active: true,
-                }
-              : {
-                  ...defaultStatus,
-                  is_active: false,
-                };
-          });
+            if (index !== -1) {
+              // Replace pickup status with returned
+              updatedDefaultOrderStatus[index] = orederReturnedStatus;
+            } else {
+              // If pickup status wasn't there, just add returned
+              updatedDefaultOrderStatus.push(orederReturnedStatus);
+            }
+          }
+
+          // ✅ Update defaultOrderStatus
+          const updatedStatusArray = updatedDefaultOrderStatus.map(
+            (defaultStatus) => {
+              const matched = mappedTimeline.find(
+                (item) => item.mapped_status === defaultStatus.status
+              );
+
+              return matched
+                ? {
+                    ...defaultStatus,
+                    created_at: matched.created_at,
+                    updated_at: matched.updated_at,
+                    time: matched.time,
+                    is_active: true,
+                  }
+                : {
+                    ...defaultStatus,
+                    is_active: false,
+                  };
+            }
+          );
 
           setArrOrderStatus(updatedStatusArray);
         } else if (response.code === statusCodes.invaildOrFail) {
@@ -366,9 +379,20 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     }
   };
 
+  useEffect(() => {
+    const refreshListener = DeviceEventEmitter.addListener("refresh", () => {
+      handleOrderDetailsApi();
+    });
+
+    return () => {
+      refreshListener.remove();
+    };
+  }, []);
+
+
   useFocusEffect(
     React.useCallback(() => {
-      handleOrderDetailsApi(order_id);
+      handleOrderDetailsApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])

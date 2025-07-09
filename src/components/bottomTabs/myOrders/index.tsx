@@ -179,15 +179,15 @@ const MyOrdersComponent = (props: PropsType) => {
             bounces={true}
             renderItem={renderItemOrderList}
             onEndReached={() => {
-              if (props.canLoadMore && props.hasMountedOnce.current) {
+              if (
+                props.canLoadMore &&
+                props.hasMountedOnce.current &&
+                !props.isRefreshing
+              ) {
                 props.loadMoreCategories();
               }
             }}
             onEndReachedThreshold={0.4}
-            onContentSizeChange={(h) => {
-              props.setCanLoadMore(h > 600);
-              props.hasMountedOnce.current = true;
-            }}
             refreshControl={
               <RefreshControl
                 refreshing={props.isRefreshing}

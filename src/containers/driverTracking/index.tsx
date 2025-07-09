@@ -15,8 +15,8 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
 
   const onPressChat = () => {
     navigation.navigate(ScreenNames.chat, {
-      driver_details: driver_details,
-      customer_details: customer_details,
+      driver_id : driver_details?.id,
+      customer_id : customer_details?.customer_id,
     });
   };
   const header = () => {

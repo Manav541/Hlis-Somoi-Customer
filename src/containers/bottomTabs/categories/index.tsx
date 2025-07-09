@@ -18,6 +18,8 @@ import { MmkvManager } from "../../../constants/utils/MmkvManager";
 
 const CategoriesContainer = ({ navigation }: any) => {
   // API zustand store
+   const currentLatLong = zustandStore.AddressStore((state) => state.currentLocation);
+   const currentAddress = zustandStore.AddressStore((state) => state.formattedAddress);
   const mainCategoryList = zustandStore.HomeStore(
     (state) => state.mainCategoryList
   );
@@ -31,11 +33,11 @@ const CategoriesContainer = ({ navigation }: any) => {
   const [hasMoreData, setHasMoreData] = useState<boolean>(true);
   const hasMountedOnce = useRef(false);
   const [canLoadMore, setCanLoadMore] = useState(false);
-  const [currentLatLong, setCurrentLatLong] = useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
-  const [currentAddress, setCurrentAddress] = useState<string | null>("");
+  // const [currentLatLong, setCurrentLatLong] = useState<{
+  //   latitude: number;
+  //   longitude: number;
+  // } | null>(null);
+  // const [currentAddress, setCurrentAddress] = useState<string | null>("");
   const hasSelectedAddressRef = React.useRef(false);
 
   const onPressMainCategories = (
@@ -52,19 +54,19 @@ const CategoriesContainer = ({ navigation }: any) => {
   const onPressLocation = () => {
     navigation.navigate(ScreenNames.manageAddress, {
       navigateFromHome: true,
-      onSelectAddress: (selectedAddress: any) => {
-        console.log("ADDRESS SELECTED IN CART SCREEN ===>", selectedAddress); // ✅ Log the full selected address
+      // onSelectAddress: (selectedAddress: any) => {
+      //   console.log("ADDRESS SELECTED IN CART SCREEN ===>", selectedAddress); // ✅ Log the full selected address
 
-        const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
-        setCurrentAddress(formatted);
-        // ✅ Set currentLatLong from selected address
-        setCurrentLatLong({
-          latitude: parseFloat(selectedAddress.latitude),
-          longitude: parseFloat(selectedAddress.longitude),
-        });
+      //   const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
+      //   setCurrentAddress(formatted);
+      //   // ✅ Set currentLatLong from selected address
+      //   setCurrentLatLong({
+      //     latitude: parseFloat(selectedAddress.latitude),
+      //     longitude: parseFloat(selectedAddress.longitude),
+      //   });
 
-        hasSelectedAddressRef.current = true;
-      },
+      //   hasSelectedAddressRef.current = true;
+      // },
     });
   };
 
@@ -130,21 +132,21 @@ const CategoriesContainer = ({ navigation }: any) => {
   };
 
   // Current Location
-  const handleCurrentLocation = async () => {
-    toggleLoader(true);
-    const current = await LocationManager.getCurrentLocation();
-    if (current) {
-      setCurrentLatLong(current);
-      console.log("current ", current);
+  // const handleCurrentLocation = async () => {
+  //   toggleLoader(true);
+  //   const current = await LocationManager.getCurrentLocation();
+  //   if (current) {
+  //     setCurrentLatLong(current);
+  //     console.log("current ", current);
 
-      const address = await LocationManager.getFormattedAddress(current);
-      console.log("currentAddress", address);
-      setCurrentAddress(address);
+  //     const address = await LocationManager.getFormattedAddress(current);
+  //     console.log("currentAddress", address);
+  //     setCurrentAddress(address);
 
-      handleMainCategoryListApi(1, false);
-    }
-    toggleLoader(false);
-  };
+  //     handleMainCategoryListApi(1, false);
+  //   }
+  //   toggleLoader(false);
+  // };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -154,9 +156,10 @@ const CategoriesContainer = ({ navigation }: any) => {
 
         setIsGuestUser(Boolean(storedValue));
       });
-      if (!hasSelectedAddressRef.current) {
-        handleCurrentLocation();
-      }
+      // if (!hasSelectedAddressRef.current) {
+      //   handleCurrentLocation();
+      // }
+      handleMainCategoryListApi(1, false);
       setMainCategoryPageNumber(1);
       setHasMoreData(true);
       setArrMainCategoryList([]);

@@ -4,6 +4,16 @@ import { APIManager } from "../../api/ApiManager";
 import { APIResponseType } from "../../constants/interfaces";
 
 interface Store {
+  currentLocation: {
+    latitude: number;
+    longitude: number;
+  } | null;
+  setCurrentLocation: (location: {
+    latitude: number;
+    longitude: number;
+  }) => void;
+  formattedAddress: string | null;
+  setFormattedAddress: (address: string) => void;
   addressList: (dictData: object, navigation: any) => Promise<APIResponseType>;
   addAddress: (dictData: object, navigation: any) => Promise<APIResponseType>;
   updateAddress: (
@@ -17,6 +27,10 @@ interface Store {
 }
 
 const AddressStore = create<Store>((set) => ({
+  currentLocation: null,
+  setCurrentLocation: (location) => set({ currentLocation: location }),
+  formattedAddress: "",
+  setFormattedAddress: (address) => set({ formattedAddress: address }),
   addressList(dictData, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (

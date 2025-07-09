@@ -13,6 +13,8 @@ import {
 } from "react-native-permissions";
 import NetInfo from "@react-native-community/netinfo";
 import emojiRegex from "emoji-regex";
+import { NotificationData, NotificationGroup } from "./interfaces";
+import moment from "moment";
 
 export const appName = "Somoi";
 
@@ -226,6 +228,7 @@ export const statusColors: { [key: string]: string } = {
   "Order Return Accepted": colors.black35,
   Request_exchange: colors.orange1c,
   "Order Returned": colors.green4f,
+  "Delivery Person Not Available": colors.red2e,
 };
 
 export const statusTexts: { [key: string]: string } = {
@@ -242,6 +245,7 @@ export const statusTexts: { [key: string]: string } = {
   "Order Return Accepted": "Return Request is Accepted",
   // "Order Replacement Requested": "Requested for Exchange",
   "Order Returned": "Your Order is Returned",
+  "Delivery Person Not Available": "Delivery Person Not Available",
 };
 
 export const backendToUIStatusMap: { [key: string]: string } = {
@@ -257,6 +261,7 @@ export const backendToUIStatusMap: { [key: string]: string } = {
   "Order Return Requested": "Order pickup date & Time",
   // "Order Replacement Requested": "Requested for Exchange",
   "Order Returned": "Order Returned",
+  "Delivery Person Not Available": "Delivery Person Not Available",
 };
 
 // App States
@@ -269,4 +274,77 @@ export const AppStates = {
 // Notification Types
 export const NotificationTypes = {
   ADMIN_NOTIFICATION: "ADMIN_NOTIFICATION",
+  ORDER_PLACED: "ORDER_PLACED",
+  ORDER_ACCEPTED: "ORDER_ACCEPTED",
+  ORDER_PREPARING: "ORDER_PREPARING",
+  ORDER_PREPARED: "ORDER_PREPARED",
+  ORDER_PACKAGING: "ORDER_PACKAGING",
+  ORDER_OUT_FOR_DELIVERY: "ORDER_OUT_FOR_DELIVERY",
+  ORDER_DELIVERED: "ORDER_DELIVERED",
+  ORDER_CANCELLED: "ORDER_CANCELLED",
+  ORDER_REJECTED: "ORDER_REJECTED",
+  ORDER_RETURN_REQUESTED: "ORDER_RETURN_REQUESTED",
+  ORDER_RETURN_ACCEPTED: "ORDER_RETURN_ACCEPTED",
+  ORDER_RETURNED: "ORDER_RETURNED",
+  DELIVERY_PERSON_NOT_AVAILABLE:"DELIVERY_PERSON_NOT_AVAILABLE",
+  CHAT: "CHAT",
+  NEW_CHAT_RECEIVED:"NEW_CHAT_RECEIVED"
+};
+
+// Emitter Types
+export const EmitterTypes = {
+  ORDER_ACCEPTED: "ORDER_ACCEPTED",
+  ORDER_PREPARING: "ORDER_PREPARING",
+  ORDER_PREPARED: "ORDER_PREPARED",
+  ORDER_PACKAGING: "ORDER_PACKAGING",
+  ORDER_OUT_FOR_DELIVERY: "ORDER_OUT_FOR_DELIVERY",
+  ORDER_DELIVERED: "ORDER_DELIVERED",
+  ORDER_CANCELLED: "ORDER_CANCELLED",
+  ORDER_REJECTED: "ORDER_REJECTED",
+  ORDER_RETURN_REQUESTED: "ORDER_RETURN_REQUESTED",
+  ORDER_RETURN_ACCEPTED: "ORDER_RETURN_ACCEPTED",
+  ORDER_RETURNED: "ORDER_RETURNED",
+  CHAT : "CHAT"
+};
+
+// Formate Notification
+export const formatNotifications = (rawData: any[]): NotificationGroup[] => {
+  const today = moment().startOf("day");
+  const yesterday = moment().subtract(1, "day").startOf("day");
+
+  const grouped: Record<string, NotificationData[]> = {
+    Today: [],
+    Yesterday: [],
+    Older: [],
+  };
+
+  rawData.forEach((item) => {
+    const createdAt = moment(item.created_at);
+    const formattedTime = createdAt.format("hh:mm A");
+
+    const notificationItem: NotificationData = {
+      title: item.title,
+      desc: item.body,
+      time: formattedTime,
+      tag: item.tag,
+      other_data: item.other_data,
+    };
+
+    if (createdAt.isSame(today, "d")) {
+      grouped["Today"].push(notificationItem);
+    } else if (createdAt.isSame(yesterday, "d")) {
+      grouped["Yesterday"].push(notificationItem);
+    } else {
+      grouped["Older"].push(notificationItem);
+    }
+  });
+
+  const sections: NotificationGroup[] = Object.entries(grouped)
+    .filter(([_, data]) => data.length > 0)
+    .map(([titleMain, data]) => ({
+      titleMain,
+      data,
+    }));
+
+  return sections;
 };

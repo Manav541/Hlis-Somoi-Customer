@@ -211,6 +211,15 @@ export interface NotificationData {
   title: string;
   desc: string;
   time: string;
+  tag: string;
+  other_data: NotificationOtherData;
+}
+
+export interface NotificationOtherData {
+  order_id?: string;
+  sender_id?: string;
+  receiver_id?: string;
+  [key: string]: any;
 }
 
 export interface NotificationGroup {
@@ -727,6 +736,7 @@ export interface OrderItem {
 }
 
 export interface DeliveryDetails {
+  customer_id: string;
   name: string;
   address: string;
   latitude: string;

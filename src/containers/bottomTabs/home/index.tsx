@@ -25,6 +25,12 @@ import { MmkvManager } from "../../../constants/utils/MmkvManager";
 
 const HomeContainer = ({ navigation }: any) => {
   // API zustand store
+  const currentLatLong = zustandStore.AddressStore(
+    (state) => state.currentLocation
+  );
+  const formattedAddress = zustandStore.AddressStore(
+    (state) => state.formattedAddress
+  );
   const mainCategoryListApi = zustandStore.HomeStore(
     (state) => state.mainCategoryList
   );
@@ -52,11 +58,11 @@ const HomeContainer = ({ navigation }: any) => {
     useState<string>("Groceries");
   const [mainCategoryId, setMainCategoryId] = useState<string>("1");
   const [mainCategoryName, setMainCategoryName] = useState<string>("");
-  const [currentAddress, setCurrentAddress] = useState<string | null>("");
-  const [currentLatLong, setCurrentLatLong] = useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
+  // const [currentAddress, setCurrentAddress] = useState<string | null>("");
+  // const [currentLatLong, setCurrentLatLong] = useState<{
+  //   latitude: number;
+  //   longitude: number;
+  // } | null>(null);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const hasSelectedAddressRef = React.useRef(false);
   // Pagination state
@@ -77,26 +83,6 @@ const HomeContainer = ({ navigation }: any) => {
   const onPressLocation = () => {
     navigation.navigate(ScreenNames.manageAddress, {
       navigateFromHome: true,
-      onSelectAddress: (selectedAddress: any) => {
-        console.log("ADDRESS SELECTED IN CART SCREEN ===>", selectedAddress); // ✅ Log the full selected address
-
-        const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
-        setCurrentAddress(formatted);
-        // ✅ Set currentLatLong from selected address
-        setCurrentLatLong({
-          latitude: parseFloat(selectedAddress.latitude),
-          longitude: parseFloat(selectedAddress.longitude),
-        });
-
-        // ✅ Optional: Call Best Products/Seller API after updating
-        handleBestProductsSellerListApi(
-          mainCategoryId,
-          isGroceriesFoodSelected.toLowerCase(),
-          parseFloat(selectedAddress.latitude),
-          parseFloat(selectedAddress.longitude)
-        );
-        hasSelectedAddressRef.current = true;
-      },
     });
   };
 
@@ -115,8 +101,7 @@ const HomeContainer = ({ navigation }: any) => {
       handleBestProductsSellerListApi(
         mainCategoryId,
         name.toLowerCase(),
-        currentLatLong.latitude,
-        currentLatLong.longitude
+        currentLatLong
       );
     }
   };
@@ -197,7 +182,7 @@ const HomeContainer = ({ navigation }: any) => {
 
   // handleOnPressNotifaicationIcon
   const handleOnPressNotifaicationIcon = () => {
-    navigation.navigate(ScreenNames.driverTracking);
+    navigation.navigate(ScreenNames.notification);
   };
 
   // ----------------------- API Calling -----------------------
@@ -287,15 +272,14 @@ const HomeContainer = ({ navigation }: any) => {
   const handleBestProductsSellerListApi = async (
     mainCategoryId: String,
     name: string,
-    customer_latitude: number,
-    customer_longitude: number
+    currentLatLong: any
   ) => {
     const dictData = {
       category_id: mainCategoryId,
       page_number: 1,
       type: name,
-      customer_latitude: customer_latitude?.toString(),
-      customer_longitude: customer_longitude?.toString(),
+      customer_latitude: currentLatLong?.latitude?.toString(),
+      customer_longitude: currentLatLong?.longitude?.toString(),
     };
     try {
       const response = await bestProductsSellerListApi(
@@ -325,40 +309,22 @@ const HomeContainer = ({ navigation }: any) => {
     }
   };
 
-  // handleCurrentLocation
-  const handleCurrentLocation = async () => {
-    toggleLoader(true);
-    const current = await LocationManager.getCurrentLocation();
-    if (current) {
-      setCurrentLatLong(current);
-      const address = await LocationManager.getFormattedAddress(current);
-      console.log("currentAddress", address);
-      setCurrentAddress(address);
-      setIsGroceriesFoodSelected("Groceries");
+  useFocusEffect(
+    React.useCallback(() => {
+      handleBannerListApi();
       // ✅ Other initial APIs
       handleMainCategoryListApi();
 
       handleSubCategoryListApi(mainCategoryId);
 
       // ✅ Now call the API after lat/long is ready
-      handleBestProductsSellerListApi(
-        mainCategoryId,
-        isGroceriesFoodSelected,
-        current.latitude,
-        current.longitude
-      );
-    }
-    toggleLoader(false);
-  };
-
-  useFocusEffect(
-    React.useCallback(() => {
-      // ✅ Get location & then call product API
-      if (!hasSelectedAddressRef.current) {
-        handleCurrentLocation();
+      if (currentLatLong) {
+        handleBestProductsSellerListApi(
+          mainCategoryId,
+          isGroceriesFoodSelected,
+          currentLatLong
+        );
       }
-
-      handleBannerListApi();
       StatusBar.setBarStyle("light-content");
       // Fetch Guest User
       MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
@@ -368,8 +334,12 @@ const HomeContainer = ({ navigation }: any) => {
       });
 
       return () => {};
-    }, [navigation])
+    }, [navigation, currentLatLong, mainCategoryId, isGroceriesFoodSelected])
   );
+
+  useEffect(() => {
+    setIsGroceriesFoodSelected("Groceries");
+  }, []);
 
   return (
     <HomeComponent
@@ -390,7 +360,7 @@ const HomeContainer = ({ navigation }: any) => {
       onPressRestaurant={onPressRestaurant}
       onPressSubCategories={onPressSubCategories}
       onPressBestProducts={onPressBestProducts}
-      currentAddress={currentAddress}
+      currentAddress={formattedAddress}
     />
   );
 };

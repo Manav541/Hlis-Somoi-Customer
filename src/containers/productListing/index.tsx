@@ -352,13 +352,11 @@ const ProductListingContainer = ({ navigation, route }: any) => {
             isRight
             onPress={onPressSort}
             rightImage={images.sort}
-            style={{ marginBottom: 0 }}
           />
           <GlobalBackButton
             isRight
             onPress={onPressFilter}
             rightImage={images.filter}
-            style={{ marginBottom: 0 }}
           />
         </View>
       ),

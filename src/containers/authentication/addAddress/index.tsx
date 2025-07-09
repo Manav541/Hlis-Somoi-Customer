@@ -36,9 +36,6 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const updateAddressApi = zustandStore.AddressStore(
     (state) => state.updateAddress
   );
-  const customerDetailApi = zustandStore.AuthStore(
-    (state) => state.getCustomerDetail
-  );
   const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
 
   const [googleApiKey, setGoogleApiKey] = useState<string>("");
@@ -342,8 +339,8 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       setLatitude("");
       setLongitude("");
     }
-     // ✅ Mark it as initialized
-  setIsAddressInitialized(true);
+    // ✅ Mark it as initialized
+    setIsAddressInitialized(true);
   }, [route]);
 
   useFocusEffect(

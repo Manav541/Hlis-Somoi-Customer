@@ -9,6 +9,7 @@ import HomeStore from "./home";
 import KeyStore from "./keys";
 import MyOrdersStore from "./myOrders";
 import MyWishlistStore from "./myWishlist";
+import NotificationListStore from "./notification";
 import ProductListingStore from "./productListing";
 import RateAndReviewStore from "./rateAndReview";
 import userOtpVerificationStore from "./verfication";
@@ -23,6 +24,7 @@ export const zustandStore = {
 
   // Home Module
   HomeStore: HomeStore,
+  NotificationListStore : NotificationListStore,
 
   // Category Module
   ProductListingStore: ProductListingStore,

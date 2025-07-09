@@ -13,12 +13,19 @@ import { activityOpacity, hitSlop } from "../../constants/GConstant";
 import {
   NotificationData,
   NotificationGroup,
+  NotificationOtherData,
 } from "../../constants/interfaces";
 import { colors } from "../../constants/Colors";
+import { getTranslation } from "../../localization/i18n/i18n.config";
 
 interface PropsType {
-  arrNotification: NotificationGroup[];
-  onPressNotification: () => void;
+  arrNotificationList: NotificationGroup[];
+  onPressNotification: (tag: string, other_data: NotificationOtherData) => void;
+  // Pagination
+  loadMoreCategories: () => void;
+  canLoadMore: boolean;
+  setCanLoadMore: (value: boolean) => void;
+  hasMountedOnce: { current: boolean };
 }
 
 const NotificationComponent = (props: PropsType) => {
@@ -35,7 +42,7 @@ const NotificationComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         key={index}
-        onPress={props?.onPressNotification}
+        onPress={() => props.onPressNotification(item.tag, item.other_data)}
       >
         <Image
           source={images.notificationBell}
@@ -60,7 +67,7 @@ const NotificationComponent = (props: PropsType) => {
         backgroundColor={colors.orange1c}
       />
       <SectionList
-        sections={props?.arrNotification}
+        sections={props?.arrNotificationList}
         keyExtractor={(item, index) => `${item.title}_${index}`}
         bounces={false}
         showsVerticalScrollIndicator={false}
@@ -69,6 +76,9 @@ const NotificationComponent = (props: PropsType) => {
           <Text style={styles.lblTitleMain}>{titleMain}</Text>
         )}
         contentContainerStyle={{ paddingTop: 20, gap: 20 }}
+        ListEmptyComponent={
+          <Text style={styles.lblNoData}>{getTranslation("noDataFound")}</Text>
+        }
       />
     </View>
   );

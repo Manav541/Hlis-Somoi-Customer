@@ -35,7 +35,7 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
 
   const order_id = route.params?.order_id;
   const selectedItems = route.params?.items;
-  const arrProductIds = selectedItems.map((item : any) => item.product_id);
+  const arrProductIds = selectedItems.map((item: any) => item.product_id);
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
   const [s3AccessKey, setS3AccessKey] = useState<string>("");
   const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
@@ -104,34 +104,38 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
 
     const baseS3Url = `${GlobalVar.url}somoiapp`;
 
-    const newImagesToUpload = imagesURIArray.filter(
-      (uri) => uri && !uri.includes(baseS3Url)
+    // 🔁 Use full Asset objects to detect type
+    const newImagesToUpload = multiImagesArray.filter(
+      (image: Asset) => image.uri && !image.uri.includes(baseS3Url)
     );
-    __DEV__ && console.log("🆕 New images to upload:", newImagesToUpload);
 
-    const alreadyUploadedUrls = imagesURIArray.filter(
-      (uri) => uri && uri.includes(baseS3Url)
-    );
+    const alreadyUploadedUrls = multiImagesArray
+      .filter((image: Asset) => image.uri && image.uri.includes(baseS3Url))
+      .map((image: Asset) => image.uri);
 
     try {
       toggleLoader(true);
 
       let newlyUploadedUrls: string[] = [];
 
-      // 🆕 Only upload new images (local file URIs)
       if (newImagesToUpload.length > 0) {
         const uploadPromises = newImagesToUpload.map(
-          (uri: string | undefined) =>
+          (image: Asset) =>
             new Promise<string>((resolve, reject) => {
+              const isVideo = image.type?.includes("video"); // ✅ proper check
+
+              const contentType = isVideo ? "video/mp4" : "image/png";
+              const extension = isVideo ? ".mp4" : ".png";
+
               ImageUpload.uploadImage(
                 s3AccessKey,
                 s3SecretAccessKey,
-                uri,
+                image.uri,
                 FolderName.ORDER_RETURN_MEDIA,
-                "image/png",
-                ".png",
+                contentType,
+                extension,
                 (response: string) => {
-                  __DEV__ && console.log("✅ Uploaded image:", response);
+                  __DEV__ && console.log("✅ Uploaded file:", response);
                   resolve(response);
                 }
               );
@@ -152,7 +156,7 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
         }
       });
 
-      console.log("🧾 Final image file names:", allImageFileNames);
+      console.log("🧾 Final file names:", allImageFileNames);
 
       handleReturnOrderApi(selectedReason, description, allImageFileNames);
     } catch (error) {
@@ -161,6 +165,78 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
       toggleLoader(false);
     }
   };
+
+  // const uploadImagesInS3 = async (
+  //   selectedReason: CancelOrderReason,
+  //   description?: string
+  // ) => {
+  //   const imagesURIArray =
+  //     multiImagesArray.map((image: Asset) => image.uri) || [];
+  //   __DEV__ && console.log("All Image URIs:", imagesURIArray);
+
+  //   const baseS3Url = `${GlobalVar.url}somoiapp`;
+
+  //   const newImagesToUpload = imagesURIArray.filter(
+  //     (uri) => uri && !uri.includes(baseS3Url)
+  //   );
+  //   __DEV__ && console.log("🆕 New images to upload:", newImagesToUpload);
+
+  //   const alreadyUploadedUrls = imagesURIArray.filter(
+  //     (uri) => uri && uri.includes(baseS3Url)
+  //   );
+
+  //   try {
+  //     toggleLoader(true);
+
+  //     let newlyUploadedUrls: string[] = [];
+
+  //     // 🆕 Only upload new images (local file URIs)
+  //     if (newImagesToUpload.length > 0) {
+  //       const uploadPromises = newImagesToUpload.map(
+  //         (uri: string | undefined) =>
+  //           new Promise<string>((resolve, reject) => {
+  //             const isVideo = uri?.includes("video");
+
+  //             const contentType = isVideo ? "video/mp4" : "image/png";
+  //             const extension = isVideo ? ".mp4" : ".png";
+  //             ImageUpload.uploadImage(
+  //               s3AccessKey,
+  //               s3SecretAccessKey,
+  //               uri,
+  //               FolderName.ORDER_RETURN_MEDIA,
+  //               contentType,
+  //               extension,
+  //               (response: string) => {
+  //                 __DEV__ && console.log("✅ Uploaded image:", response);
+  //                 resolve(response);
+  //               }
+  //             );
+  //           })
+  //       );
+
+  //       newlyUploadedUrls = await Promise.all(uploadPromises);
+  //       uploadedS3ImageUrlsRef.current = newlyUploadedUrls;
+  //     }
+
+  //     const allUrls = [...alreadyUploadedUrls, ...newlyUploadedUrls];
+
+  //     const allImageFileNames = allUrls.map((url: string | undefined) => {
+  //       try {
+  //         return url?.split("/").pop() || "";
+  //       } catch {
+  //         return "";
+  //       }
+  //     });
+
+  //     console.log("🧾 Final image file names:", allImageFileNames);
+
+  //     handleReturnOrderApi(selectedReason, description, allImageFileNames);
+  //   } catch (error) {
+  //     console.error("❌ Error:", error);
+  //   } finally {
+  //     toggleLoader(false);
+  //   }
+  // };
 
   const handleOnPressDeleteUploadedImage = (index: number) => {
     const updatedArray = [...multiImagesArray];
@@ -210,24 +286,27 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
     if (!selectedReason) {
       flashMessageWarning("Please select a reason for Return.");
       return;
-    }
-
-    if (
+    } else if (
       selectedReason.reason === "Other (please specify)" &&
       !otherReason.trim()
     ) {
       flashMessageWarning("Please specify your reason.");
       otherReasonRef?.current?.focus();
       return;
+    } else if (multiImagesArray.length == 0) {
+      flashMessageWarning("Please upload at least one image/video.");
+      return;
+    } else {
+      uploadImagesInS3(selectedReason, otherReason.trim());
     }
 
     // 🟡 If images are selected, upload them to S3 first
-    if (selectedReason.reason === "Other (please specify)") {
-      uploadImagesInS3(selectedReason, otherReason.trim());
-    } else {
-      // 🟢 Directly call API if no media selected
-      handleReturnOrderApi(selectedReason, otherReason.trim());
-    }
+    // if (multiImagesArray.length > 0) {
+    //   uploadImagesInS3(selectedReason, otherReason.trim());
+    // } else {
+    //   // 🟢 Directly call API if no media selected
+    //   handleReturnOrderApi(selectedReason, otherReason.trim());
+    // }
   };
 
   const onPressSelectRefundReplacement = (type: string) => {
@@ -323,10 +402,10 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
     const dictData: any = {
       order_id: order_id,
       product_id: arrProductIds,
+      media: media,
     };
     if (selectedReason.reason === "Other (please specify)") {
       dictData.description = description;
-      dictData.media = media;
     } else {
       dictData.reason_id = selectedReason.id;
     }

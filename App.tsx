@@ -17,14 +17,18 @@ import Loader from "./src/constants/Loader";
 import { constnatStyles } from "./src/constants/Styles";
 import {requestUserForNotificationPermission} from './src/constants/utils/Notification/PushNotificationHelper';
 import {PlatformVersion} from './src/constants/utils/Platform';
+import { zustandStore } from "./src/store";
+import LocationManager from "./src/constants/utils/LocationManager";
 
 
 const App = () => {
+  const setCurrentLocation = zustandStore.AddressStore((state) => state.setCurrentLocation);
+  const setFormattedAddress = zustandStore.AddressStore((state) => state.setFormattedAddress);
   const flashMessageRef = useRef<any>(null);
   const [initialRoute, setInitialRoute] = useState<string | null>(null);
 
   
-
+  // Notofication
   useEffect(() => {
     if (initialRoute !== null) {
       const timeout = setTimeout(() => {
@@ -35,6 +39,20 @@ const App = () => {
     }
     PlatformVersion.isAndroid && requestUserForNotificationPermission();
   }, [initialRoute]);
+
+  // Set Current Location
+  useEffect(() => {
+    const fetchLocation = async () => {
+      const location = await LocationManager.getCurrentLocation();
+      if (location) {
+        setCurrentLocation(location);
+        const address = await LocationManager.getFormattedAddress(location);
+        setFormattedAddress(address || '');
+      }
+    };
+
+    fetchLocation();
+  }, []);
 
   // For Navigation
   useEffect(() => {

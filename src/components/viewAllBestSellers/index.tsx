@@ -119,12 +119,13 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
               />
             </View>
           </View>
-          <FastImage
+         
+        </View>
+         <FastImage
             style={styles.imgLogo}
             source={{ uri: item?.store_image }}
             resizeMode="stretch"
           />
-        </View>
       </TouchableOpacity>
     );
   };

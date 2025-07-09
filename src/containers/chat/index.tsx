@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import ChatComponent from "../../components/chat";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
-import { Keyboard, Linking, StatusBar, Text } from "react-native";
+import { DeviceEventEmitter, Keyboard, Linking, StatusBar, Text } from "react-native";
 import { Asset } from "react-native-image-picker";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import {
   cameraPermission,
   checkPermission,
+  EmitterTypes,
   flashMessageWarning,
   galleryPermission,
   messages,
@@ -34,12 +35,12 @@ const ChatConatiner = ({ navigation, route }: any) => {
   const [s3AccessKey, setS3AccessKey] = useState<string>("");
   const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
   const socketRef = useRef<any>(null);
-  const driver_details = route?.params?.driver_details;
-  const customer_details = route?.params?.customer_details;
-  const customer_id = customer_details?.customer_id;
-  const driver_id = driver_details?.id;
+  const customer_id = route?.params?.customer_id;
+  const driver_id = route?.params?.driver_id;
   const sender_role = "customer";
   const receiver_role = "driver";
+  const [driverName,setDriverName] = useState("");
+  const [driverMobileNumber,setDriverMobileNumber] = useState("");
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [isEmojiPickerVisible, setEmojiPickerVisible] = useState(false);
   const [messageValue, setMessageValue] = useState("");
@@ -207,7 +208,7 @@ const ChatConatiner = ({ navigation, route }: any) => {
   };
 
   const onPressCallDriver = () => {
-    Linking.openURL(`tel:${driver_details?.mobile_number}`);
+    Linking.openURL(`tel:${driverMobileNumber}`);
   };
 
   const header = () => {
@@ -221,7 +222,7 @@ const ChatConatiner = ({ navigation, route }: any) => {
       ),
       headerTitle: () => (
         <Text style={constnatStyles.lblHeaderTitle}>
-          {route?.params?.driver_details?.name}
+          {driverName}
         </Text>
       ),
       headerRight: () => (
@@ -236,7 +237,17 @@ const ChatConatiner = ({ navigation, route }: any) => {
 
   useEffect(() => {
     header();
-  }, [route?.params]);
+  }, [driverName]);
+
+  useEffect(() => {
+    const refreshListener = DeviceEventEmitter.addListener(EmitterTypes.CHAT,
+      handleChatHistoryApi
+    );
+
+    return () => {
+      refreshListener.remove();
+    };
+  }, []);
 
   // ------------------------API Calling---------------------------
   // handleChatHistoryApi
@@ -253,15 +264,18 @@ const ChatConatiner = ({ navigation, route }: any) => {
         __DEV__ &&
           console.log("CHAT HISTORY RESPONSE===>", JSON.stringify(response));
         if (response.code === statusCodes.success) {
+          const driverData = (response?.data as { receiver_details?: any })?.receiver_details;
+          setDriverName(driverData?.name);
+          setDriverMobileNumber(driverData?.mobile_number);
           const chatdata =
             response?.data && "chat_history" in response.data
               ? (response.data.chat_history as ChatMessage[])
               : [];
           setChatHistory(chatdata);
         } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
+          setChatHistory([]);
         } else if (response.code === statusCodes.emptyData) {
-          flashMessageWarning(response.message);
+          setChatHistory([]);
         }
       }
     } catch (error) {

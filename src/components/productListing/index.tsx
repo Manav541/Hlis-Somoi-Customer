@@ -388,12 +388,13 @@ const ProductListingComponent = (props: PropsType) => {
               />
             </View>
           </View>
-          <FastImage
+          
+        </View>
+        <FastImage
             style={styles.imgLogo}
             source={{ uri: item?.logo }}
             resizeMode="stretch"
           />
-        </View>
       </TouchableOpacity>
     );
   };

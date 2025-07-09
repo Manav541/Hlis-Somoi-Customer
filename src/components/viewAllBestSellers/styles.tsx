@@ -12,19 +12,18 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   vwBestSellersItemDetails: {
-    paddingHorizontal: 12.5,
     paddingTop: 14,
     paddingBottom: 10,
-    height : 102
   },
   vwLocation: {
     marginTop: 5,
     flexDirection: "row",
     alignItems: "center",
     gap: 5,
-    height: 22,
+    marginHorizontal : 12.5
   },
   vwTimeDistanceRating: {
+    marginHorizontal : 12.5,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -60,11 +59,13 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.bold,
     lineHeight: 22,
+    marginHorizontal : 12.5
   },
   lblLocation: {
     color: colors.black35,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regularOutFit,
+    marginRight : 20
   },
   lblTime: {
     color: colors.black35,
@@ -80,12 +81,11 @@ export const styles = StyleSheet.create({
     color: colors.blue4e,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.regularOutFit,
-    alignSelf :'center',
+    alignSelf: "center",
   },
 
   // TouchableOpacity Style
   btnAllBestSellersItem: {
-    height: 250,
     width: ScreenDimensions.screenWidth - 40,
     borderRadius: 20,
     overflow: "hidden",
@@ -108,7 +108,7 @@ export const styles = StyleSheet.create({
       height: 4,
     },
     shadowOpacity: 0.07,
-    shadowRadius: 0.30,
+    shadowRadius: 0.3,
     elevation: 4,
   },
 
@@ -138,7 +138,7 @@ export const styles = StyleSheet.create({
     width: 40.48,
     borderRadius: 100,
     position: "absolute",
-    bottom: 81.03,
+    top: 127.49,
     right: 13,
   },
 });

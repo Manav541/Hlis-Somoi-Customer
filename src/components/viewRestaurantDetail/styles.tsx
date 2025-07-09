@@ -39,6 +39,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 5.39,
+    marginRight : 20
   },
   vwRestaurantTimeDistance: {
     flexDirection: "row",

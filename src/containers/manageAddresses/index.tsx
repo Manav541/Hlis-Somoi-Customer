@@ -34,6 +34,12 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
   const updateAddressApi = zustandStore.AddressStore(
     (state) => state.updateAddress
   );
+  const setCurrentLocation = zustandStore.AddressStore(
+    (state) => state.setCurrentLocation
+  );
+  const setFormattedAddress = zustandStore.AddressStore(
+    (state) => state.setFormattedAddress
+  );
 
   const navigateFromCart = route.params?.navigateFromCart;
   const navigateFromHome = route.params?.navigateFromHome;
@@ -78,13 +84,15 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
   };
 
   const onPressAddress = (selectedAddress: LocationData) => {
-    if (
-      (navigateFromCart || navigateFromHome) &&
-      route.params?.onSelectAddress
-    ) {
-      route.params.onSelectAddress(selectedAddress); // call the callback
+    console.log("SELECTED ADDRESS===>", selectedAddress);
+    const location = {
+      latitude: Number(selectedAddress.latitude),
+      longitude: Number(selectedAddress.longitude),
+    };
+    const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
+     setCurrentLocation(location);
+      setFormattedAddress(formatted);
       navigation.goBack();
-    }
   };
 
   const loadMoreCategories = () => {

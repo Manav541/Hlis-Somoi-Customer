@@ -1,60 +1,85 @@
 import { View, Text, StatusBar } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import NotificationComponent from "../../components/notification";
 import GlobalBackButton from "../../global/GlobalBackButton";
-import { flashMessageWarning } from "../../constants/GConstant";
+import {
+  flashMessageWarning,
+  formatNotifications,
+  NotificationTypes,
+  toggleLoader,
+} from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
-import { NotificationGroup } from "../../constants/interfaces";
+import {
+  NotificationGroup,
+  NotificationOtherData,
+} from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
+import { zustandStore } from "../../store";
+import { statusCodes } from "../../api/APIConstant";
 
 const NotificationContainer = ({ navigation }: any) => {
-  const [arrNotification, setArrNotification] = useState<NotificationGroup[]>([
-    {
-      titleMain: "Today",
-      data: [
-        {
-          title: "Payment Successful!",
-          desc: "Your payment of $49.99 for order #123456 has been processed successfully.",
-          time: "01:00 PM",
-        },
-        {
-          title: "John Doe",
-          desc: "please hurry up i need urgent basis,before 25 min",
-          time: "05:00 PM",
-        },
-        {
-          title: "Your Order is On Its Way!",
-          desc: "Your order #123456 has been shipped and is expected to arrive by Today",
-          time: "05:00 PM",
-        },
-      ],
-    },
-    {
-      titleMain: "Yesterday",
-      data: [
-        {
-          title: "Your Order is Delivered ",
-          desc: "Your order has been delivered. order  id #123456.",
-          time: "04:30 PM",
-        },
-        {
-          title: "Payment Failed",
-          desc: "Your payment for order #321 was declined.",
-          time: "04:30 PM",
-        },
-        {
-          title: "Jaylon Carder Assign as Driver",
-          desc: "Jaylon Carder Delivery Your Order",
-          time: "03:34 PM",
-        },
-      ],
-    },
-  ]);
+  // API Zustand Store
+  const notificationListApi = zustandStore.NotificationListStore(
+    (state) => state.notificationList
+  );
+  const [arrNotificationList, setArrNotificationList] = useState<
+    NotificationGroup[]
+  >([]);
 
-  const onPressNotification = () => {
-    flashMessageWarning(getTranslation("underDevelopment"));
+  // Pagination state
+  const [notificationListPageNumber, setNotificationListPageNumber] =
+    useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
+  const hasMountedOnce = useRef(false);
+  const [canLoadMore, setCanLoadMore] = useState(false);
+
+  const onPressNotification = (
+    tag: string,
+    other_data: NotificationOtherData
+  ) => {
+    switch (tag) {
+      case NotificationTypes.ADMIN_NOTIFICATION:
+        navigation.navigate(ScreenNames.home);
+        break;
+      case NotificationTypes.ORDER_PLACED:
+      case NotificationTypes.ORDER_ACCEPTED:
+      case NotificationTypes.ORDER_PREPARING:
+      case NotificationTypes.ORDER_PREPARED:
+      case NotificationTypes.ORDER_PACKAGING:
+      case NotificationTypes.ORDER_OUT_FOR_DELIVERY:
+      case NotificationTypes.ORDER_DELIVERED:
+      case NotificationTypes.ORDER_CANCELLED:
+      case NotificationTypes.ORDER_REJECTED:
+      case NotificationTypes.ORDER_RETURN_REQUESTED:
+      case NotificationTypes.ORDER_RETURN_ACCEPTED:
+      case NotificationTypes.ORDER_RETURNED:
+      case NotificationTypes.DELIVERY_PERSON_NOT_AVAILABLE:
+        navigation.navigate(ScreenNames.orderSummary, {
+          order_id: other_data?.order_id,
+        });
+        break;
+
+      case NotificationTypes.NEW_CHAT_RECEIVED:
+        navigation.navigate(ScreenNames.chat, {
+          driver_id: other_data?.sender_id,
+          customer_id: other_data?.receiver_id,
+        });
+        break;
+
+      default:
+        console.log("Unhandled notification tag:", tag);
+        break;
+    }
+  };
+
+  const loadMoreCategories = () => {
+    if (hasMoreData && !isLoadingMore) {
+      const nextPage = notificationListPageNumber + 1;
+      handleNotificationListApi(nextPage, true);
+    }
   };
 
   const header = () => {
@@ -67,7 +92,9 @@ const NotificationContainer = ({ navigation }: any) => {
         />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.notification}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.notification}
+        </Text>
       ),
     });
   };
@@ -76,8 +103,58 @@ const NotificationContainer = ({ navigation }: any) => {
     header();
   }, []);
 
+  // -------------------------API Calling----------------------------
+  // handleNotificationListApi
+  const handleNotificationListApi = async (
+    page: number,
+    isLoadMore = false
+  ) => {
+    if (isLoadMore && isLoadingMore) return;
+
+    if (!isLoadMore) toggleLoader(true);
+    else setIsLoadingMore(true);
+    const dictData = {
+      page_no: page,
+    };
+    try {
+      const response = await notificationListApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "NOTIFICATION LIST RESPONSE===>",
+            JSON.stringify(response)
+          );
+        if (response.code === statusCodes.success) {
+          const rawData = response.data as NotificationGroup[];
+          const formattedSections = formatNotifications(rawData);
+          if (formattedSections.length > 0) {
+            setArrNotificationList((prev) =>
+              isLoadMore ? [...prev, ...formattedSections] : formattedSections
+            );
+            setNotificationListPageNumber(page);
+            setHasMoreData(true);
+          } else {
+            if (!isLoadMore) setArrNotificationList([]);
+            setHasMoreData(false);
+          }
+        } else if (response.code === statusCodes.invaildOrFail) {
+          setArrNotificationList([]);
+        } else if (response.code === statusCodes.emptyData) {
+          if (!isLoadMore) setArrNotificationList([]);
+          setHasMoreData(false);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    } finally {
+      if (!isLoadMore) toggleLoader(false);
+      else setIsLoadingMore(false);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
+      handleNotificationListApi(1, false);
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
@@ -85,8 +162,13 @@ const NotificationContainer = ({ navigation }: any) => {
 
   return (
     <NotificationComponent
-      arrNotification={arrNotification}
+      arrNotificationList={arrNotificationList}
       onPressNotification={onPressNotification}
+      // pagination
+      loadMoreCategories={loadMoreCategories}
+      canLoadMore={canLoadMore}
+      setCanLoadMore={setCanLoadMore}
+      hasMountedOnce={hasMountedOnce}
     />
   );
 };
