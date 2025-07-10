@@ -258,6 +258,11 @@ const CartContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.paymentMethod, {
       location_id: location_id,
       total_bill: total_bill,
+      customer_details: {
+        name : cartDetails?.name,
+        email : cartDetails?.email,
+        contact : cartDetails?.mobile_number
+      }
     });
   };
 

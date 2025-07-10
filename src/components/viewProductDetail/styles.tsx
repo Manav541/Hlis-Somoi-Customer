@@ -497,11 +497,12 @@ export const styles = StyleSheet.create({
   },
   btnSize: {
     height: 42,
-    width: 42,
+    // width: 42,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
     backgroundColor: colors.orange1c,
+    paddingHorizontal : 13.5
   },
   btnColor: {
     height: 42,

@@ -188,11 +188,12 @@ export default {
   yourCartIsEmpty: "Your cart is empty!",
 
   // Payment Method
-  paymentMethods: "Payment Methods",
+  paymentMethods: "Select Payment Method",
   paymentMethodsDesc:
     "Select a saved card or enter new card details for payment.",
   creditorDebitCard: "Credit or Debit Card",
   cashonDelivery: "Cash on Delivery",
+  razorpay: "Razorpay",
   totalAmount: "Total Amount",
 
   // Success

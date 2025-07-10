@@ -86,21 +86,28 @@ const HomeContainer = ({ navigation }: any) => {
     });
   };
 
-  const onPressMainCategory = (name: string, mainCategoryId: string) => {
-    if (isGroceriesFoodSelected === name) {
-      // Already selected, so do nothing
+  const onPressMainCategory = (
+    name: string,
+    selectedMainCategoryId: string
+  ) => {
+    const selectedType = name.toLowerCase(); // Normalize to lowercase
+
+    if (isGroceriesFoodSelected.toLowerCase() === selectedType) {
+      // Already selected
       return;
     }
-    console.log("mainCategoryId", mainCategoryId, name);
+
+    console.log("mainCategoryId", selectedMainCategoryId, name);
     setArrBestProductsSellers([]);
     setIsGroceriesFoodSelected(name);
-    setMainCategoryId(mainCategoryId);
+    setMainCategoryId(selectedMainCategoryId);
     setMainCategoryName(name);
-    handleSubCategoryListApi(mainCategoryId);
+    handleSubCategoryListApi(selectedMainCategoryId);
+
     if (currentLatLong) {
       handleBestProductsSellerListApi(
-        mainCategoryId,
-        name.toLowerCase(),
+        selectedMainCategoryId,
+        selectedType, // use this instead of waiting on state update
         currentLatLong
       );
     }
@@ -274,13 +281,18 @@ const HomeContainer = ({ navigation }: any) => {
     name: string,
     currentLatLong: any
   ) => {
-    const dictData = {
+    const dictData: any = {
       category_id: mainCategoryId,
       page_number: 1,
-      type: name,
       customer_latitude: currentLatLong?.latitude?.toString(),
       customer_longitude: currentLatLong?.longitude?.toString(),
     };
+
+    if (name.toLowerCase() === "food") {
+      dictData.type = "food";
+    } else {
+      dictData.type = "groceries";
+    }
     try {
       const response = await bestProductsSellerListApi(
         dictData,

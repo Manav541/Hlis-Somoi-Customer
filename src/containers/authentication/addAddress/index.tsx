@@ -63,22 +63,30 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const isEditAddress = route?.params?.isEditAddress;
 
   const handlePlaceSelect = async (place: any) => {
-    handleOnFocus("address");
-    console.log("Selected place:", JSON.stringify(place));
-    const mainText = place.structuredFormat?.mainText?.text;
-    const secondaryText = place.structuredFormat?.secondaryText?.text;
-    setAddress(mainText);
-    setAdditionalDescription(secondaryText);
+    // handleOnFocus("address");
+    console.log("place", place);
 
-    // Get the place ID from the response
-    const placeId = place.placeId;
+    const mainText = place.structuredFormat?.mainText?.text || "";
+    const secondaryText = place.structuredFormat?.secondaryText?.text || "";
 
-    // Now fetch lat/lng
+    console.log("Main Text:", mainText);
+    console.log("Secondary Text:", secondaryText);
+
+    // 👇 Set after slight delay for Android input refresh
+    setTimeout(() => {
+      setAddress(mainText);
+      setAdditionalDescription(secondaryText);
+    }, 100); // 100ms works best for Android
+
+    const placeId = place.place_id || place.placeId;
+    if (!placeId) return;
+
     const location = await fetchPlaceDetails(placeId);
     if (location) {
       setLatitude(location.lat);
       setLongitude(location.lng);
     }
+
     console.log("Location:", location);
   };
 

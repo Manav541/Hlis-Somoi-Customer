@@ -45,6 +45,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size16,
     marginHorizontal: 20,
     marginTop: 20,
+    marginBottom : 10,
     lineHeight: 29,
   },
   lblCreditOrDebit: {

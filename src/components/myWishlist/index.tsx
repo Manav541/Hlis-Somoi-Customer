@@ -315,12 +315,12 @@ const MyWishlistComponent = (props: PropsType) => {
               />
             </View>
           </View>
-          <FastImage
-            style={styles.imgLogo}
-            source={{ uri: item?.logo }}
-            resizeMode="stretch"
-          />
         </View>
+        <FastImage
+          style={styles.imgLogo}
+          source={{ uri: item?.logo }}
+          resizeMode="stretch"
+        />
       </TouchableOpacity>
     );
   };

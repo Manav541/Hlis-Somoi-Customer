@@ -27,12 +27,13 @@ interface PropsType {
   total_bill: string;
   onPressPlaceOrder: () => void;
   isCodSelected: boolean;
-  onPressCodSelect: () => void;
+  onPressSelectPaymentType: (type: string) => void;
   onPressCardSelect: (index: number) => void;
   isSuccessModalVisible: boolean;
   orderNumber: string;
   onPressTrackOrder: () => void;
   onPressContinueShopping: () => void;
+  payment_type:string;
 }
 
 const PaymentMethodComponent = (props: PropsType) => {
@@ -96,15 +97,30 @@ const PaymentMethodComponent = (props: PropsType) => {
         <Text style={styles.lblPaymentMethods}>
           {getTranslation("paymentMethods")}
         </Text>
-        {/* Google pay */}
+        {/* razor pay */}
         <TouchableOpacity
-          style={styles.btnGPay}
+          style={[styles.btnCOD,{marginBottom : 15}]}
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
+          onPress={() => props?.onPressSelectPaymentType("card")}
         >
+          <View style={styles.vwCOD}>
+            <Image
+              style={styles.imgCOD}
+              source={images.razorpayLogo}
+              resizeMode="stretch"
+            />
+            <Text style={styles.lblCOD}>
+              {getTranslation("razorpay")}
+            </Text>
+          </View>
           <Image
-            style={styles.imgGpay}
-            source={images.gPayLogo}
+            style={styles.imgCheckBox}
+            source={
+              props?.payment_type == "card"
+                ? images.blueFillCheckbox
+                : images.emptyBlackCheckBox
+            }
             resizeMode="stretch"
           />
         </TouchableOpacity>
@@ -114,7 +130,7 @@ const PaymentMethodComponent = (props: PropsType) => {
           style={styles.btnCOD}
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
-          onPress={props?.onPressCodSelect}
+          onPress={() => props?.onPressSelectPaymentType("cod")}
         >
           <View style={styles.vwCOD}>
             <Image
@@ -129,7 +145,7 @@ const PaymentMethodComponent = (props: PropsType) => {
           <Image
             style={styles.imgCheckBox}
             source={
-              props?.isCodSelected
+              props?.payment_type == "cod"
                 ? images.blueFillCheckbox
                 : images.emptyBlackCheckBox
             }
@@ -138,7 +154,7 @@ const PaymentMethodComponent = (props: PropsType) => {
         </TouchableOpacity>
 
         {/* Card */}
-        <Text style={styles.lblCreditOrDebit}>
+        {/* <Text style={styles.lblCreditOrDebit}>
           {getTranslation("creditorDebitCard")}
         </Text>
         <TouchableOpacity
@@ -158,7 +174,7 @@ const PaymentMethodComponent = (props: PropsType) => {
         </TouchableOpacity>
         <View style={{ gap: 16, marginHorizontal: 20 }}>
           {props?.arrCards.map(renderItemCard)}
-        </View>
+        </View> */}
       </ScrollView>
       <View style={{ gap: 15 }}>
         <View style={styles.vwLine} />

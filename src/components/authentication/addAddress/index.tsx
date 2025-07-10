@@ -73,7 +73,7 @@ const AddAddressComponent = (props: PropsType) => {
             <GooglePlacesTextInput
               key={
                 props.isEditAddress && props.isAddressInitialized
-                  ? props.address
+                  ? 'location-initialization'
                   : undefined
               }
               style={{
