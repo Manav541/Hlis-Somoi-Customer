@@ -77,9 +77,6 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
   vwPriceWeight: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
     marginHorizontal: 9,
     marginTop: 4,
   },

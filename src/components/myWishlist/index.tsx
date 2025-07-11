@@ -378,7 +378,7 @@ const MyWishlistComponent = (props: PropsType) => {
                 : styles.lblProductsRestaurantsUnSelected
             }
           >
-            Restaurants
+            Sellers
           </Text>
           {props?.selectedTab == "Store" ? (
             <View style={styles.vwLine} />

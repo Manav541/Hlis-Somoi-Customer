@@ -134,31 +134,50 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     navigation.pop();
   };
 
-  const onPressShare = async () => {
-    if (!isSharing) return;
-
-    setIsSharing(false);
+  const onShareProduct = async (productId: string, productName: string) => {
     try {
+      const universalLink = `https://yourapp.com/product/${productId}`;
+
       const result = await Share.share({
-        message: `${appName} App`,
+        message: `Check out this product "${productName}" on ${appName}:\n${universalLink}`,
+        url: universalLink, // For iOS, some apps use this
+        title: `${productName} - ${appName}`,
       });
+
       if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
+        console.log("Product shared successfully!");
       } else if (result.action === Share.dismissedAction) {
-        // dismissed
+        console.log("Share dismissed.");
       }
     } catch (error: any) {
-      Alert.alert(error.message);
+      console.error("Error sharing product:", error.message);
     }
-
-    setTimeout(() => {
-      setIsSharing(true);
-    }, 1000);
   };
+  // const onPressShare = async () => {
+  //   if (!isSharing) return;
+
+  //   setIsSharing(false);
+  //   try {
+  //     const result = await Share.share({
+  //       message: `${appName} App`,
+  //     });
+  //     if (result.action === Share.sharedAction) {
+  //       if (result.activityType) {
+  //         // shared with activity type of result.activityType
+  //       } else {
+  //         // shared
+  //       }
+  //     } else if (result.action === Share.dismissedAction) {
+  //       // dismissed
+  //     }
+  //   } catch (error: any) {
+  //     Alert.alert(error.message);
+  //   }
+
+  //   setTimeout(() => {
+  //     setIsSharing(true);
+  //   }, 1000);
+  // };
 
   const onPressGoToCompareProduct = () => {
     if (isGuestUser) {
@@ -260,38 +279,46 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   };
 
   const onPressSize = (selectedSize: string, size_id: string) => {
-    // Step 1: Update the size selection
     const updatedSizes = arrSizeVariations.map((item) => ({
       ...item,
       is_selected: item.size === selectedSize,
     }));
     setArrSizeVariations(updatedSizes);
 
-    // Step 2: Get the selected size object
     const selectedSizeObj = updatedSizes.find(
       (item) => item.size === selectedSize
     );
 
-    if (selectedSizeObj && Array.isArray(selectedSizeObj.colors)) {
-      // Step 3: Get the color where is_selected is true
-      const selectedColor = selectedSizeObj.colors.find(
-        (color) => color.is_selected
-      );
+    if (!selectedSizeObj) return;
 
-      console.log("selectedColor", selectedColor);
+    // ✅ CASE: Size + Color
+    if (
+      is_color &&
+      Array.isArray(selectedSizeObj.colors) &&
+      selectedSizeObj.colors.length > 0
+    ) {
+      const selectedColor =
+        selectedSizeObj.colors.find((c) => c.is_selected) ||
+        selectedSizeObj.colors[0];
 
-      // Step 4: Update the color variation state
-      setArrColorVariations(selectedSizeObj.colors);
+      const updatedColors = selectedSizeObj.colors.map((color) => ({
+        ...color,
+        is_selected: color.color_id === selectedColor.color_id,
+      }));
+      setArrColorVariations(updatedColors);
 
-      // Step 5: Call API with selected values
       handleProductDetailsApi(
         product_id,
-        selectedColor?.variation_id ?? "",
+        selectedColor.variation_id,
         size_id,
-        selectedColor?.color_id ?? ""
+        selectedColor.color_id
       );
     } else {
+      // ✅ CASE: Only Size — Get variation_id directly from selected size
       setArrColorVariations([]);
+
+      const variation_id = (selectedSizeObj as any).variation_id; // Type assertion to handle missing property
+      handleProductDetailsApi(product_id, variation_id, size_id, undefined);
     }
   };
 
@@ -306,15 +333,24 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     // Step 2: Get selected color object
     const selectedColor = updatedColors.find((color) => color.is_selected);
 
-    // Step 3: Get the selected size object
+    // Step 3: Get the selected size object (if any)
     const selectedSizeObj = arrSizeVariations.find((item) => item.is_selected);
 
-    // Step 4: Call API with selected values
-    if (selectedSizeObj && selectedColor) {
+    // Step 4: Call API
+    if (is_size && selectedSizeObj && selectedColor) {
+      // ✅ Case: both size & color
       handleProductDetailsApi(
         product_id,
         selectedColor.variation_id,
         selectedSizeObj.size_id,
+        selectedColor.color_id
+      );
+    } else if (!is_size && selectedColor) {
+      // ✅ Case: only color
+      handleProductDetailsApi(
+        product_id,
+        selectedColor.variation_id,
+        undefined,
         selectedColor.color_id
       );
     }
@@ -755,7 +791,10 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
           <TouchableOpacity
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
-            onPress={onPressShare}
+            onPress={() =>
+              productDetails?.product_name &&
+              onShareProduct(product_id, productDetails.product_name)
+            }
           >
             <Image
               style={styles.imgButton}
@@ -787,7 +826,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
 
   useEffect(() => {
     header();
-  }, [cartItemCount]);
+  }, [cartItemCount,product_id,productDetails]);
 
   return (
     <>
@@ -806,10 +845,6 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
           onPressColor={onPressColor}
           onPressViewAllReview={onPressViewAllReview}
           onPressFavourite={onPressFavourite}
-          onPressBack={onPressBack}
-          onPressShare={onPressShare}
-          onPressCartIcon={onPressCartIcon}
-          isNavigating={isNavigating}
           onPressImageVideo={onPressImageVideo}
           mediaModalVisible={mediaModalVisible}
           handleCloseMediaModal={handleCloseMediaModal}

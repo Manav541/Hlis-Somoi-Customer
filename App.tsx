@@ -1,8 +1,4 @@
-import {
-  View,
-  ActivityIndicator,
-  StatusBar,
-} from "react-native";
+import { View, ActivityIndicator, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import SplashScreen from "react-native-splash-screen";
 import MainNavigation from "./src/routers/mainNavigation";
@@ -15,19 +11,21 @@ import { colors } from "./src/constants/Colors";
 import { setLoaderRef } from "./src/constants/GConstant";
 import Loader from "./src/constants/Loader";
 import { constnatStyles } from "./src/constants/Styles";
-import {requestUserForNotificationPermission} from './src/constants/utils/Notification/PushNotificationHelper';
-import {PlatformVersion} from './src/constants/utils/Platform';
+import { requestUserForNotificationPermission } from "./src/constants/utils/Notification/PushNotificationHelper";
+import { PlatformVersion } from "./src/constants/utils/Platform";
 import { zustandStore } from "./src/store";
 import LocationManager from "./src/constants/utils/LocationManager";
 
-
 const App = () => {
-  const setCurrentLocation = zustandStore.AddressStore((state) => state.setCurrentLocation);
-  const setFormattedAddress = zustandStore.AddressStore((state) => state.setFormattedAddress);
+  const setCurrentLocation = zustandStore.AddressStore(
+    (state) => state.setCurrentLocation
+  );
+  const setFormattedAddress = zustandStore.AddressStore(
+    (state) => state.setFormattedAddress
+  );
   const flashMessageRef = useRef<any>(null);
   const [initialRoute, setInitialRoute] = useState<string | null>(null);
 
-  
   // Notofication
   useEffect(() => {
     if (initialRoute !== null) {
@@ -40,6 +38,14 @@ const App = () => {
     PlatformVersion.isAndroid && requestUserForNotificationPermission();
   }, [initialRoute]);
 
+  useEffect(() => {
+    const checkLocation = async () => {
+      await LocationManager.ensureLocationServicesEnabled();
+    };
+
+    checkLocation();
+  }, []);
+
   // Set Current Location
   useEffect(() => {
     const fetchLocation = async () => {
@@ -47,7 +53,7 @@ const App = () => {
       if (location) {
         setCurrentLocation(location);
         const address = await LocationManager.getFormattedAddress(location);
-        setFormattedAddress(address || '');
+        setFormattedAddress(address || "");
       }
     };
 

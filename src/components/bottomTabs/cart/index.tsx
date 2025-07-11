@@ -113,7 +113,7 @@ const CartComponent = (props: PropsType) => {
       <View style={styles.vwMainEmpty}>
         <StatusBar
           translucent={false}
-          backgroundColor={"transparent"}
+          backgroundColor={colors.orange1c}
           barStyle={"dark-content"}
         />
         <Text style={styles.lblEmptyCart}>
@@ -127,7 +127,7 @@ const CartComponent = (props: PropsType) => {
     <View style={styles.vwMain}>
       <StatusBar
         translucent={false}
-        backgroundColor={colors.blue4e}
+        backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
       <View style={styles.vwMainContent}>

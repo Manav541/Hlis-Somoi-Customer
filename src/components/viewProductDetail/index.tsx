@@ -57,10 +57,6 @@ interface PropsType {
   onPressViewAllReview: (product_id: string) => void;
   onPressFavourite: (product_id: string, variation_id: string) => void;
 
-  onPressBack: () => void;
-  onPressShare: () => void;
-  onPressCartIcon: () => void;
-  isNavigating: boolean;
 
   mediaModalVisible: boolean;
   handleCloseMediaModal: () => void;
@@ -312,7 +308,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
   }) => {
     return (
       <TouchableOpacity
-        style={{ ...styles.btnSize, backgroundColor: item?.hex }}
+        style={{ ...styles.btnColor, backgroundColor: item?.hex }}
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         onPress={() => props?.onPressColor(item?.hex)}

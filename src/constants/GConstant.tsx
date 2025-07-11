@@ -258,7 +258,7 @@ export const backendToUIStatusMap: { [key: string]: string } = {
   "Order Delivered": "Order Delivered",
   "Order Cancelled": "Order Cancelled",
   "Order Rejected": "Order Rejected",
-  "Order Return Requested": "Order pickup date & Time",
+  "Order Return Requested": "Order Return Requested",
   // "Order Replacement Requested": "Requested for Exchange",
   "Order Returned": "Order Returned",
   "Delivery Person Not Available": "Delivery Person Not Available",

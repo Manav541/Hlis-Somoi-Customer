@@ -94,7 +94,7 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
         console.log(`Success: `,data);
         console.log(`Success: ${data.razorpay_payment_id}`);
         // Call backend API to verify payment
-        // handlePlaceOrderApi(location_id, payment_type);
+        handlePlaceOrderApi(location_id, payment_type);
       })
       .catch((error) => {
         console.log(`Error: ${error.code} | ${error.description}`);

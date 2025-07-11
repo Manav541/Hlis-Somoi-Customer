@@ -515,8 +515,8 @@ const ProductListingComponent = (props: PropsType) => {
         animationType="fade"
       >
         <StatusBar
-          translucent
-          backgroundColor={colors.black50}
+          translucent={false}
+          backgroundColor={colors.orange1c}
           barStyle={"dark-content"}
         />
         <View style={styles.vwFilterModal}>
@@ -675,8 +675,8 @@ const ProductListingComponent = (props: PropsType) => {
         animationType="fade"
       >
         <StatusBar
-          translucent
-          backgroundColor={colors.black50}
+          translucent={false}
+          backgroundColor={colors.orange1c}
           barStyle={"dark-content"}
         />
         <View style={styles.vwFilterModal}>

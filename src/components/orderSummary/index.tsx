@@ -108,7 +108,7 @@ const OrderSummaryComponent = (props: PropsType) => {
                 {" "}
                 -{" "}
                 {DateFormatsManager.formatDate(
-                  props?.orderDetails?.placed_on_time,
+                  item?.time,
                   DateFormatsManager.TimeFormats.hhmma
                 ) ?? ""}
               </Text>

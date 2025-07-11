@@ -1,9 +1,10 @@
-import { Platform } from "react-native";
+import { Alert, Linking, Platform } from "react-native";
 import Geolocation from "@react-native-community/geolocation";
 import MapView, { Marker, Region } from "react-native-maps";
 import { check, request, PERMISSIONS, RESULTS } from "react-native-permissions";
 import { getDistance as geolibGetDistance } from "geolib";
 import { RefObject } from "react";
+import DeviceInfo from "react-native-device-info";
 
 export type Coordinates = {
   latitude: number;
@@ -23,6 +24,30 @@ export type LocationMarker = {
 };
 
 class LocationManager {
+  static async ensureLocationServicesEnabled(): Promise<boolean> {
+    if (Platform.OS === "android") {
+      const isLocationEnabled = await DeviceInfo.isLocationEnabled();
+
+      if (!isLocationEnabled) {
+        Alert.alert(
+          "Location Required",
+          "Please turn on your device location.",
+          [
+            {
+              text: "Turn On",
+              onPress: () => {
+                Linking.openSettings(); // opens Android location settings
+              },
+            },
+          ],
+          { cancelable: false }
+        );
+        return false;
+      }
+    }
+
+    return true;
+  }
   static async checkLocationPermission(): Promise<boolean> {
     const permission = Platform.select({
       ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,

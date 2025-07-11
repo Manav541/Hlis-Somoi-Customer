@@ -101,7 +101,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
   const [arrOrderStatus, setArrOrderStatus] =
     useState<StatusTimeline[]>(defaultOrderStatus);
   const returnRequestStatus = {
-    status: "Order pickup date & Time",
+    status: "Order Return Requested",
     status_icon: images.orderReturnedUn,
     status_icon1: images.orderReturnedUn,
     created_at: "",

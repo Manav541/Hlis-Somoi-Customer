@@ -85,14 +85,19 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
 
   const onPressAddress = (selectedAddress: LocationData) => {
     console.log("SELECTED ADDRESS===>", selectedAddress);
-    const location = {
-      latitude: Number(selectedAddress.latitude),
-      longitude: Number(selectedAddress.longitude),
-    };
-    const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
-     setCurrentLocation(location);
+    if (navigateFromCart == true) {
+      route.params?.onSelectAddress(selectedAddress);
+      navigation.goBack();
+    } else if (navigateFromHome == true) {
+      const location = {
+        latitude: Number(selectedAddress.latitude),
+        longitude: Number(selectedAddress.longitude),
+      };
+      const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
+      setCurrentLocation(location);
       setFormattedAddress(formatted);
       navigation.goBack();
+    }
   };
 
   const loadMoreCategories = () => {
