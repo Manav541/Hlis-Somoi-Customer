@@ -17,13 +17,14 @@ import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
+import { MmkvManager } from "../../constants/utils/MmkvManager";
 
 const ReviewContainer = ({ navigation, route }: any) => {
   // API Zustand store
   const rateAndReviewListApi = zustandStore.RateAndReviewStore(
     (state) => state.rateAndReviewList
   );
-
+  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   const storeDetail: RestaurantInfo = route?.params?.storeDetail;
   console.log("storeDetail", storeDetail);
   const type = route?.params?.type;
@@ -145,7 +146,11 @@ const ReviewContainer = ({ navigation, route }: any) => {
     }
 
     try {
-      const response = await rateAndReviewListApi(dictData, navigation);
+      const response = await rateAndReviewListApi(
+        dictData,
+        isGuestUser,
+        navigation
+      );
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log(
@@ -212,6 +217,9 @@ const ReviewContainer = ({ navigation, route }: any) => {
         type === "vendor" ? vendor_id : undefined
       );
       StatusBar.setBarStyle("dark-content");
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
+        setIsGuestUser(Boolean(storedValue));
+      });
       return () => {};
     }, [navigation])
   );

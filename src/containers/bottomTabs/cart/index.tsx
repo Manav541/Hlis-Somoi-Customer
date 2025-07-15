@@ -255,15 +255,19 @@ const CartContainer = ({ navigation }: any) => {
   };
 
   const onPressPlaceOrder = (total_bill: string) => {
-    navigation.navigate(ScreenNames.paymentMethod, {
-      location_id: location_id,
-      total_bill: total_bill,
-      customer_details: {
-        name : cartDetails?.name,
-        email : cartDetails?.email,
-        contact : cartDetails?.mobile_number
-      }
-    });
+    if (deliverToAddress == "No default address found.") {
+      flashMessageWarning("Please select address");
+    } else {
+      navigation.navigate(ScreenNames.paymentMethod, {
+        location_id: location_id,
+        total_bill: total_bill,
+        customer_details: {
+          name: cartDetails?.name,
+          email: cartDetails?.email,
+          contact: cartDetails?.mobile_number,
+        },
+      });
+    }
   };
 
   // ----------------------- API Calling -------------------------

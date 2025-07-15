@@ -312,11 +312,7 @@ export const formatNotifications = (rawData: any[]): NotificationGroup[] => {
   const today = moment().startOf("day");
   const yesterday = moment().subtract(1, "day").startOf("day");
 
-  const grouped: Record<string, NotificationData[]> = {
-    Today: [],
-    Yesterday: [],
-    Older: [],
-  };
+  const grouped: Record<string, NotificationData[]> = {};
 
   rawData.forEach((item) => {
     const createdAt = moment(item.created_at);
@@ -330,17 +326,32 @@ export const formatNotifications = (rawData: any[]): NotificationGroup[] => {
       other_data: item.other_data,
     };
 
-    if (createdAt.isSame(today, "d")) {
-      grouped["Today"].push(notificationItem);
-    } else if (createdAt.isSame(yesterday, "d")) {
-      grouped["Yesterday"].push(notificationItem);
+    let groupKey: string;
+
+    if (createdAt.isSame(today, "day")) {
+      groupKey = "Today";
+    } else if (createdAt.isSame(yesterday, "day")) {
+      groupKey = "Yesterday";
     } else {
-      grouped["Older"].push(notificationItem);
+      groupKey = createdAt.format("DD MMMM YYYY"); // e.g., "12 July 2025"
     }
+
+    if (!grouped[groupKey]) {
+      grouped[groupKey] = [];
+    }
+
+    grouped[groupKey].push(notificationItem);
   });
 
   const sections: NotificationGroup[] = Object.entries(grouped)
-    .filter(([_, data]) => data.length > 0)
+    .sort((a, b) => {
+      // Sort so "Today", "Yesterday", then by date descending
+      if (a[0] === "Today") return -1;
+      if (b[0] === "Today") return 1;
+      if (a[0] === "Yesterday") return -1;
+      if (b[0] === "Yesterday") return 1;
+      return moment(b[0], "DD MMMM YYYY").diff(moment(a[0], "DD MMMM YYYY"));
+    })
     .map(([titleMain, data]) => ({
       titleMain,
       data,

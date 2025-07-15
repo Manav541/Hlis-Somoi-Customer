@@ -5,7 +5,8 @@ import { APIResponseType } from "../../constants/interfaces";
 
 type StoreFunction = (
   dictData: object,
-  navigation: any
+  navigation: any,
+  showLoader?: boolean
 ) => Promise<APIResponseType>;
 
 interface Store {
@@ -44,7 +45,7 @@ const MyOrdersStore = create<Store>((set) => ({
     });
   },
 
-  orderDetails(dictData, navigation) {
+  orderDetails(dictData, navigation, showLoader) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -66,6 +67,7 @@ const MyOrdersStore = create<Store>((set) => ({
         callback: callback,
         dictData: dictData,
         navigation: navigation,
+        showLoader: showLoader
       });
     });
   },

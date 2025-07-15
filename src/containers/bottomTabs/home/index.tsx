@@ -1,30 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import HomeComponent from "../../../components/bottomTabs/home";
-import { images } from "../../../constants/Images";
-import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { ScreenNames } from "../../../routers";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "react-native";
 import {
   AdItem,
-  BestProduct,
   BestProductSellerData,
   MainCategoryListItem,
-  Restaurant,
-  SubCategory,
   SubCategoryListItem,
 } from "../../../constants/interfaces";
-import {
-  flashMessageWarning,
-  toggleLoader,
-} from "../../../constants/GConstant";
+import { flashMessageWarning } from "../../../constants/GConstant";
 import { statusCodes } from "../../../api/APIConstant";
 import { zustandStore } from "../../../store";
-import LocationManager from "../../../constants/utils/LocationManager";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 
 const HomeContainer = ({ navigation }: any) => {
-  // API zustand store
   const currentLatLong = zustandStore.AddressStore(
     (state) => state.currentLocation
   );
@@ -58,94 +48,79 @@ const HomeContainer = ({ navigation }: any) => {
     useState<string>("Groceries");
   const [mainCategoryId, setMainCategoryId] = useState<string>("1");
   const [mainCategoryName, setMainCategoryName] = useState<string>("");
-  // const [currentAddress, setCurrentAddress] = useState<string | null>("");
-  // const [currentLatLong, setCurrentLatLong] = useState<{
-  //   latitude: number;
-  //   longitude: number;
-  // } | null>(null);
+
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
-  const hasSelectedAddressRef = React.useRef(false);
-  // Pagination state
-  const [mainCategoryPageNumber, setMainCategoryPageNumber] =
-    useState<number>(1);
-  const [subCategoryPageNumber, setSubCategoryPageNumber] = useState<number>(1);
+  const [mainCategoryPageNumber] = useState<number>(1);
+  const [subCategoryPageNumber] = useState<number>(1);
+  const [hasLoadedMainCategories, setHasLoadedMainCategories] =
+    useState<boolean>(false);
 
   const handleSetBannerIndex = (index: number) => {
     setCurrentBannerIndex(index);
   };
 
   const onPressSearch = () => {
-    navigation.navigate(ScreenNames.search, {
-      currentLatLong: currentLatLong,
-    });
+    navigation.navigate(ScreenNames.search, { currentLatLong });
   };
 
   const onPressLocation = () => {
-    navigation.navigate(ScreenNames.manageAddress, {
-      navigateFromHome: true,
-    });
+    navigation.navigate(ScreenNames.manageAddress, { navigateFromHome: true });
   };
 
   const onPressMainCategory = (
     name: string,
     selectedMainCategoryId: string
   ) => {
-    const selectedType = name.toLowerCase(); // Normalize to lowercase
+    const selectedType = name.toLowerCase();
 
-    if (isGroceriesFoodSelected.toLowerCase() === selectedType) {
-      // Already selected
-      return;
-    }
+    if (isGroceriesFoodSelected.toLowerCase() === selectedType) return;
 
-    console.log("mainCategoryId", selectedMainCategoryId, name);
     setArrBestProductsSellers([]);
     setIsGroceriesFoodSelected(name);
     setMainCategoryId(selectedMainCategoryId);
     setMainCategoryName(name);
+
     handleSubCategoryListApi(selectedMainCategoryId);
 
     if (currentLatLong) {
       handleBestProductsSellerListApi(
         selectedMainCategoryId,
-        selectedType, // use this instead of waiting on state update
+        selectedType,
         currentLatLong
       );
     }
   };
 
-  // handleSellAllCategories
   const handleSellAllCategories = () => {
     navigation.navigate(ScreenNames.allCategories, {
-      mainCategoryId: mainCategoryId,
-      mainCategoryName: mainCategoryName,
-      currentLatLong: currentLatLong,
+      mainCategoryId,
+      mainCategoryName,
+      currentLatLong,
     });
   };
 
-  // handleSellAllBestProducts
   const handleSellAllBestProducts = () => {
     navigation.navigate(ScreenNames.allBestProducts, {
       mainCategoryId: "1",
       type: isGroceriesFoodSelected.toLowerCase(),
-      currentLatLong: currentLatLong,
+      currentLatLong,
     });
   };
 
-  // handleSellAllBestSellers
   const handleSellAllBestSellers = () => {
     navigation.navigate(ScreenNames.allBestSellers, {
       mainCategoryId: "2",
       type: isGroceriesFoodSelected.toLowerCase(),
-      currentLatLong: currentLatLong,
+      currentLatLong,
     });
   };
 
   const onPressRestaurant = (vendor_id: string) => {
     navigation.navigate(ScreenNames.restaurantDetail, {
-      vendor_id: vendor_id,
+      vendor_id,
       customer_latitude: currentLatLong?.latitude,
       customer_longitude: currentLatLong?.longitude,
-      mainCategoryId: mainCategoryId,
+      mainCategoryId,
     });
   };
 
@@ -154,11 +129,11 @@ const HomeContainer = ({ navigation }: any) => {
     subCategoryName: string
   ) => {
     navigation.navigate(ScreenNames.productListing, {
-      mainCategoryId: mainCategoryId,
+      mainCategoryId,
       mainCategoryName: mainCategoryName,
-      sub_category_id: sub_category_id,
-      subCategoryName: subCategoryName,
-      currentLatLong: currentLatLong,
+      sub_category_id,
+      subCategoryName,
+      currentLatLong,
     });
   };
 
@@ -171,82 +146,67 @@ const HomeContainer = ({ navigation }: any) => {
     color_id?: string,
     size_id?: string
   ) => {
-    console.log("color_id", color_id);
-    console.log("size_id", size_id);
-
     navigation.navigate(ScreenNames.productDetail, {
-      product_id: product_id,
-      variation_id: variation_id,
+      product_id,
+      variation_id,
       customer_latitude: currentLatLong?.latitude,
       customer_longitude: currentLatLong?.longitude,
-      is_variation: is_variation,
-      is_color: is_color,
-      is_size: is_size,
-      color_id: color_id,
-      size_id: size_id,
+      is_variation,
+      is_color,
+      is_size,
+      color_id,
+      size_id,
     });
   };
 
-  // handleOnPressNotifaicationIcon
   const handleOnPressNotifaicationIcon = () => {
     navigation.navigate(ScreenNames.notification);
   };
 
-  // ----------------------- API Calling -----------------------
-
-  // handleMainCategoryListApi
   const handleMainCategoryListApi = async () => {
-    const dictData = {
-      page_number: mainCategoryPageNumber,
-    };
+    if (hasLoadedMainCategories) return;
+
+    const dictData = { page_number: mainCategoryPageNumber };
     try {
       const response = await mainCategoryListApi(
         dictData,
         isGuestUser,
         navigation
       );
-      if (response !== undefined && response !== null) {
-        __DEV__ &&
-          console.log(
-            "MAIN CATEGORY LIST RESPONSE===>",
-            JSON.stringify(response)
-          );
+      if (response?.code === statusCodes.success) {
         const data = response.data as MainCategoryListItem;
-        if (response.code === statusCodes.success) {
-          setArrMainCategoryList(Array.isArray(data) ? data : [data]);
+        setArrMainCategoryList(Array.isArray(data) ? data : [data]);
+
+        if (!mainCategoryName) {
           setMainCategoryName(
             Array.isArray(data) && data.length > 0 ? data[0].name : ""
           );
-        } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
         }
+
+        setHasLoadedMainCategories(true);
+      } else if (response?.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
       }
     } catch (error) {
       __DEV__ && console.log(error);
     }
   };
 
-  // handleBannerListApi
   const handleBannerListApi = async () => {
     try {
       const response = await bannerListApi({}, isGuestUser, navigation);
-      if (response !== undefined && response !== null) {
-        __DEV__ &&
-          console.log("BANNER LIST RESPONSE===>", JSON.stringify(response));
+      if (response?.code === statusCodes.success) {
         const data = response.data as AdItem;
-        if (response.code === statusCodes.success) {
-          setArrAds(Array.isArray(data) ? data : [data]);
-        } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
-        }
+        setArrAds(Array.isArray(data) ? data : [data]);
+      } else if (response?.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
       }
     } catch (error) {
       __DEV__ && console.log(error);
     }
   };
 
-  // handleSubCategoryListApi
-  const handleSubCategoryListApi = async (mainCategoryId: String) => {
+  const handleSubCategoryListApi = async (mainCategoryId: string) => {
     const dictData = {
       category_id: mainCategoryId,
       page_number: subCategoryPageNumber,
@@ -257,27 +217,19 @@ const HomeContainer = ({ navigation }: any) => {
         isGuestUser,
         navigation
       );
-      if (response !== undefined && response !== null) {
-        __DEV__ &&
-          console.log(
-            "SUB CATEGORY LIST RESPONSE===>",
-            JSON.stringify(response)
-          );
+      if (response?.code === statusCodes.success) {
         const data = response.data as SubCategoryListItem;
-        if (response.code === statusCodes.success) {
-          setArrSubCategory(Array.isArray(data) ? data : [data]);
-        } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
-        }
+        setArrSubCategory(Array.isArray(data) ? data : [data]);
+      } else if (response?.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
       }
     } catch (error) {
       __DEV__ && console.log(error);
     }
   };
 
-  // handleBestProductsSellerListApi
   const handleBestProductsSellerListApi = async (
-    mainCategoryId: String,
+    mainCategoryId: string,
     name: string,
     currentLatLong: any
   ) => {
@@ -286,35 +238,20 @@ const HomeContainer = ({ navigation }: any) => {
       page_number: 1,
       customer_latitude: currentLatLong?.latitude?.toString(),
       customer_longitude: currentLatLong?.longitude?.toString(),
+      type: name.toLowerCase() === "food" ? "food" : "groceries",
     };
 
-    if (name.toLowerCase() === "food") {
-      dictData.type = "food";
-    } else {
-      dictData.type = "groceries";
-    }
     try {
       const response = await bestProductsSellerListApi(
         dictData,
         isGuestUser,
         navigation
       );
-      if (response !== undefined && response !== null) {
-        __DEV__ &&
-          console.log(
-            "BEST PRODUCTS SELLERS LIST RESPONSE===>",
-            JSON.stringify(response)
-          );
+      if (response?.code === statusCodes.success) {
         const rawData = response.data as BestProductSellerData;
-        if (response.code === statusCodes.success) {
-          if (Array.isArray(rawData) && rawData.length > 0) {
-            setArrBestProductsSellers(rawData);
-          }
-        } else if (response.code === statusCodes.invaildOrFail) {
-          setArrBestProductsSellers([]);
-        } else if (response.code === statusCodes.emptyData) {
-          setArrBestProductsSellers([]);
-        }
+        setArrBestProductsSellers(Array.isArray(rawData) ? rawData : []);
+      } else {
+        setArrBestProductsSellers([]);
       }
     } catch (error) {
       __DEV__ && console.log(error);
@@ -324,12 +261,9 @@ const HomeContainer = ({ navigation }: any) => {
   useFocusEffect(
     React.useCallback(() => {
       handleBannerListApi();
-      // ✅ Other initial APIs
       handleMainCategoryListApi();
-
       handleSubCategoryListApi(mainCategoryId);
 
-      // ✅ Now call the API after lat/long is ready
       if (currentLatLong) {
         handleBestProductsSellerListApi(
           mainCategoryId,
@@ -337,11 +271,10 @@ const HomeContainer = ({ navigation }: any) => {
           currentLatLong
         );
       }
-      StatusBar.setBarStyle("light-content");
-      // Fetch Guest User
-      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
-        console.log("isGuestUser=====>", Boolean(storedValue));
 
+      StatusBar.setBarStyle("light-content");
+
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
         setIsGuestUser(Boolean(storedValue));
       });
 
@@ -355,6 +288,7 @@ const HomeContainer = ({ navigation }: any) => {
 
   return (
     <HomeComponent
+      mainCategoryName={mainCategoryName}
       arrMainCategoryList={arrMainCategoryList}
       arrAds={arrAds}
       arrSubCategory={arrSubCategory}

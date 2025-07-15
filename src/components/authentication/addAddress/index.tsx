@@ -57,6 +57,7 @@ const AddAddressComponent = (props: PropsType) => {
       contentContainerStyle={styles.vwMain}
       bounces={false}
       showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps='handled'
     >
       <StatusBar
         translucent={false}

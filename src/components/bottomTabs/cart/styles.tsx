@@ -140,7 +140,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    height: 18,
   },
   vwLine: {
     height: 1,
@@ -150,7 +149,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    height: 25,
   },
   vwPlaceOrder: {
     marginHorizontal: 20,
@@ -210,7 +208,6 @@ export const styles = StyleSheet.create({
     color: colors.blue4e,
     width: 16,
     textAlign: "center",
-    height: 16,
   },
   lblDeliverToName: {
     fontSize: fontSize.size16,

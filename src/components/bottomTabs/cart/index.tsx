@@ -59,7 +59,7 @@ const CartComponent = (props: PropsType) => {
             <Text style={styles.lblProductPrice}>
               {rupeeSymbol + item?.per_product_price}
             </Text>
-            {item?.product_data?.variation_data?.amount && (
+            {item?.product_data?.variation_data && (
               <>
                 <Image
                   style={styles.imgBlueDot}
@@ -68,9 +68,33 @@ const CartComponent = (props: PropsType) => {
                   tintColor={colors.blue4e}
                 />
                 <Text style={styles.lblProductWeight}>
-                  {item?.product_data?.variation_data?.amount +
-                    " " +
-                    item?.product_data?.variation_data?.unit}
+                  {item?.product_data?.is_variation &&
+                  !item?.product_data?.is_color &&
+                  !item?.product_data?.is_size
+                    ? `${item?.product_data?.variation_data?.amount} ${item?.product_data?.variation_data?.unit}`
+                    : item?.product_data?.is_color &&
+                      !item?.product_data?.is_size &&
+                      item?.product_data?.is_variation
+                    ? item?.product_data?.variation_data?.name ||
+                      item?.product_data?.variation_data?.color_name
+                    : item?.product_data?.is_size &&
+                      !item?.product_data?.is_color &&
+                      item?.product_data?.is_variation
+                    ? item?.product_data?.variation_data?.size
+                    : item?.product_data?.is_color &&
+                      item?.product_data?.is_size &&
+                      !item?.product_data?.is_variation
+                    ? `${item?.product_data?.variation_data?.size} - ${
+                        item?.product_data?.variation_data?.name ||
+                        item?.product_data?.variation_data?.color_name
+                      }`
+                    : item?.product_data?.is_variation &&
+                      item?.product_data?.is_color &&
+                      item?.product_data?.is_size
+                    ? `${item?.product_data?.variation_data?.size} - ${
+                        item?.product_data?.variation_data?.color_name
+                      }`
+                    : ""}
                 </Text>
               </>
             )}

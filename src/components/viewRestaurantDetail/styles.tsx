@@ -30,16 +30,14 @@ export const styles = StyleSheet.create({
     borderRadius: 5 / 2,
   },
   vwRestaurantDetails: {
-    height: 73.49,
     marginHorizontal: 20,
     marginTop: 32,
-    justifyContent: "space-between",
   },
   vwRestaurantAddress: {
     flexDirection: "row",
-    alignItems: "center",
     gap: 5.39,
-    marginRight : 20
+    marginRight : 20,
+    marginTop : 5.39
   },
   vwRestaurantTimeDistance: {
     flexDirection: "row",
@@ -52,7 +50,6 @@ export const styles = StyleSheet.create({
     gap: 4.31,
   },
   vwRestaurantRateReview: {
-    height: 17,
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
@@ -143,6 +140,7 @@ export const styles = StyleSheet.create({
     color: colors.white,
     fontSize: fontSize.size1294,
     fontFamily: fontsfamily.regularOutFit,
+    lineHeight : 20
   },
   lblRestaurant_deliverytime: {
     color: colors.white,
@@ -188,7 +186,7 @@ export const styles = StyleSheet.create({
     color: colors.black35,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
-    lineHeight: 22,
+    lineHeight: 20,
   },
   lblFoodWeight: {
     color: colors.greya7,
@@ -197,7 +195,7 @@ export const styles = StyleSheet.create({
   },
   lblFoodFinalPrice: {
     color: colors.blue4e,
-    fontSize: fontSize.size14,
+    fontSize: fontSize.size13,
     fontFamily: fontsfamily.bold,
   },
    lblFoodPrice: {

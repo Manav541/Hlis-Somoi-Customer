@@ -45,10 +45,6 @@ const SettingContainer = ({ navigation, route }: any) => {
   const [isSharing, setIsSharing] = useState<boolean>(true);
   const baseImagePath =
     "https://hlik-deep-bhaumik.s3.amazonaws.com/somoiapp/customers_images/";
-  const [currentLatLong, setCurrentLatLong] = useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
 
   // Constants for common values
   const ICON_SIZE = {
@@ -59,13 +55,6 @@ const SettingContainer = ({ navigation, route }: any) => {
   // Utility function for CMS page navigation
   const navigateToCMS = (page: string) => () =>
     navigation.navigate(ScreenNames.cmsPage, { navigateFrom: page });
-
-  // Utility function for change navigation
-  const navigateToChange = (type: string) => () => {
-    navigation.navigate(ScreenNames.changeEmailPhoneNumber, {
-      navigateFrom: type,
-    });
-  };
 
   const handleOnShareApp = async () => {
     if (!isSharing) return;
@@ -179,9 +168,7 @@ const SettingContainer = ({ navigation, route }: any) => {
                 navigation.navigate(ScreenNames.signin);
               });
             } else {
-              navigation.navigate(ScreenNames.myWishlist, {
-                currentLatLong: currentLatLong,
-              });
+              navigation.navigate(ScreenNames.myWishlist);
             }
           },
         },
@@ -292,15 +279,6 @@ const SettingContainer = ({ navigation, route }: any) => {
       : []),
   ];
 
-  // useEffect(() => {
-  //   if (route.params?.profileImage && route.params?.name) {
-  //     setProfileImage(route.params?.profileImage);
-  //     setName(route.params?.name);
-  //   }
-  //   {
-  //   }
-  // }, [route.params]);
-
   const handleOnPressNoThanks = () => {
     setIsModalDeleteVisible(false);
     setIsModalSignOutVisible(false);
@@ -373,19 +351,8 @@ const SettingContainer = ({ navigation, route }: any) => {
     }
   };
 
-  // Current Location
-  const handleCurrentLocation = async () => {
-    toggleLoader(true);
-    const current = await LocationManager.getCurrentLocation();
-    if (current) {
-      setCurrentLatLong(current);
-    }
-    toggleLoader(false);
-  };
-
   useFocusEffect(
     React.useCallback(() => {
-      handleCurrentLocation();
       StatusBar.setBarStyle("dark-content");
       // Fetch Guest User
       MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {

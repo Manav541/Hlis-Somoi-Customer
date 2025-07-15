@@ -128,7 +128,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 14,
     paddingTop: 8,
-    height: 72,
+    paddingBottom : 10
   },
   vwRatingContainer: {
     flexDirection: "row",
@@ -252,7 +252,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 10,
     width: 299,
     marginTop: 10,
-    height: 231,
+    // height: 231,
     borderRadius: 20,
     overflow: "hidden",
   },
@@ -290,7 +290,7 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     position: "absolute",
     right: 12.29,
-    bottom: 52.16,
+    top : 138.16,
   },
   imgStar: {
     height: 24,

@@ -106,37 +106,64 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
 
     const baseS3Url = `${GlobalVar.url}somoiapp`;
 
-    const newImagesToUpload = imagesURIArray.filter(
-      (uri) => uri && !uri.includes(baseS3Url)
+    // 🔁 Use full Asset objects to detect type
+    const newImagesToUpload = multiImagesArray.filter(
+      (image: Asset) => image.uri && !image.uri.includes(baseS3Url)
     );
-    __DEV__ && console.log("🆕 New images to upload:", newImagesToUpload);
 
-    const alreadyUploadedUrls = imagesURIArray.filter(
-      (uri) => uri && uri.includes(baseS3Url)
-    );
+    const alreadyUploadedUrls = multiImagesArray
+      .filter((image: Asset) => image.uri && image.uri.includes(baseS3Url))
+      .map((image: Asset) => image.uri);
 
     try {
       toggleLoader(true);
 
       let newlyUploadedUrls: string[] = [];
 
-      // 🆕 Only upload new images (local file URIs)
       if (newImagesToUpload.length > 0) {
         const uploadPromises = newImagesToUpload.map(
-          (uri: string | undefined) =>
+          (image: Asset) =>
             new Promise<string>((resolve, reject) => {
-              ImageUpload.uploadImage(
-                s3AccessKey,
-                s3SecretAccessKey,
-                uri,
-                FolderName.RATING_MEDIA,
-                "image/png",
-                ".png",
-                (response: string) => {
-                  __DEV__ && console.log("✅ Uploaded image:", response);
-                  resolve(response);
-                }
-              );
+              const isVideo = image.type?.includes("video/mp4");
+
+              if (isVideo) {
+                ImageUpload.uploadVideo(
+                  s3AccessKey,
+                  s3SecretAccessKey,
+                  image.uri,
+                  FolderName.RATING_MEDIA,
+                  "video/mp4",
+                  ".mp4",
+                  (response: string) => {
+                    try {
+                      const parsed =
+                        typeof response === "string"
+                          ? JSON.parse(response)
+                          : response;
+                      const videoName = parsed?.videoName || "";
+                      __DEV__ &&
+                        console.log("✅ Extracted videoName:", videoName);
+                      resolve(videoName);
+                    } catch (err) {
+                      console.error("❌ Error parsing video response:", err);
+                      resolve(""); // or reject(err);
+                    }
+                  }
+                );
+              } else {
+                ImageUpload.uploadImage(
+                  s3AccessKey,
+                  s3SecretAccessKey,
+                  image.uri,
+                  FolderName.RATING_MEDIA,
+                  "image/png",
+                  ".png",
+                  (response: string) => {
+                    __DEV__ && console.log("✅ Uploaded file Image:", response);
+                    resolve(response);
+                  }
+                );
+              }
             })
         );
 
@@ -154,7 +181,7 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
         }
       });
 
-      console.log("🧾 Final image file names:", allImageFileNames);
+      console.log("🧾 Final file names:", allImageFileNames);
 
       if (isEditRating == true) {
         handleEditRateApi(allImageFileNames);

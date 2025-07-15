@@ -18,6 +18,9 @@ import { debounceQuery } from "../../constants/utils/Debounce";
 
 const MyWishlistContainer = ({ navigation, route }: any) => {
   // API Zustand store
+  const currentLatLong = zustandStore.AddressStore(
+    (state) => state.currentLocation
+  );
   const myWhilistApi = zustandStore.MyWishlistStore(
     (state) => state.myWishlist
   );
@@ -42,8 +45,6 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
   const decrementCartItemCount = zustandStore.CartItemCountStore(
     (state) => state.decrementCartItemCount
   );
-
-  const currentLatLong = route?.params?.currentLatLong;
 
   const [search, setSearch] = useState<string>("");
   const debounce = debounceQuery(search, 300);
@@ -271,7 +272,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
           );
 
         if (response.code === statusCodes.success) {
-          setArrMyWishlistStore((prev: Restaurant[]) =>
+          setArrMyWishlistProduct((prev: Product[]) =>
             prev.filter((item) => item.id !== product_id)
           );
         } else if (response.code === statusCodes.invaildOrFail) {
@@ -294,7 +295,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
         __DEV__ &&
           console.log("WISHLIST STORE RESPONSE===>", JSON.stringify(response));
         if (response.code === statusCodes.success) {
-          setArrMyWishlistProduct((prev: Product[]) =>
+          setArrMyWishlistStore((prev: Restaurant[]) =>
             prev.filter((item) => item.id !== vendor_id)
           );
         } else if (response.code === statusCodes.invaildOrFail) {
@@ -481,7 +482,7 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
       onPressRestaurant={onPressRestaurant}
       selectedTab={selectedTab}
       handleTabPress={handleTabPress}
-       // pagination
+      // pagination
       loadMoreCategories={loadMoreCategories}
       canLoadMore={canLoadMore}
       setCanLoadMore={setCanLoadMore}

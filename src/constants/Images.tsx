@@ -184,6 +184,8 @@ export const images = {
   mapDirection: require("../assets/images/mapDirection.png"),
   driverMarker: require("../assets/images/driverMarker.png"),
   customerMarker: require("../assets/images/customerMarker.png"),
+  vehicleIconAndroid : require("../assets/images/vehicleIconAndroid.png"),
+  vehicleIconiOS : require("../assets/images/vehicleIconiOS.png"),
 
   // Chat
   call: require("../assets/images/call.png"),

@@ -217,11 +217,9 @@ const ProductListingComponent = (props: PropsType) => {
             {/* Price and Rating */}
             <View style={styles.vwPriceRating}>
               {/* Price */}
-              <View style={styles.vwPrice}>
                 <Text style={styles.lblProductFinalPrice}>
                   {rupeeSymbol + parseFloat(item?.price).toFixed(2)}
                 </Text>
-              </View>
 
               {/* Rating */}
               <View style={styles.vwProductRating}>

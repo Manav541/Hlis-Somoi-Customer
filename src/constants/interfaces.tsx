@@ -751,6 +751,7 @@ export interface DriverDetails {
   country_code: string;
   latitude: string;
   longitude: string;
+  heading: string;
 }
 
 // Cancel Order

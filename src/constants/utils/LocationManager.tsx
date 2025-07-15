@@ -24,46 +24,63 @@ export type LocationMarker = {
 };
 
 class LocationManager {
-  static async ensureLocationServicesEnabled(): Promise<boolean> {
-    if (Platform.OS === "android") {
-      const isLocationEnabled = await DeviceInfo.isLocationEnabled();
+  static async ensureDeviceLocationOn(): Promise<boolean> {
+  const isEnabled = await DeviceInfo.isLocationEnabled();
+  if (isEnabled) return true;
 
-      if (!isLocationEnabled) {
-        Alert.alert(
-          "Location Required",
-          "Please turn on your device location.",
-          [
-            {
-              text: "Turn On",
-              onPress: () => {
-                Linking.openSettings(); // opens Android location settings
-              },
-            },
-          ],
-          { cancelable: false }
-        );
-        return false;
-      }
-    }
-
-    return true;
+  if (Platform.OS === "android") {
+    Alert.alert(
+      "Turn On Location",
+      "Please turn on your device location (GPS) to continue.",
+      [
+        {
+          text: "Open Settings",
+          onPress: () => Linking.sendIntent("android.settings.LOCATION_SOURCE_SETTINGS"),
+        },
+      ],
+      { cancelable: false }
+    );
+  } else {
+    Alert.alert(
+      "Location Disabled",
+      "Please enable Location Services from Settings."
+    );
   }
-  static async checkLocationPermission(): Promise<boolean> {
+
+  return false;
+}
+
+  static async checkLocationPermission(): Promise<
+    "granted" | "denied" | "blocked"
+  > {
     const permission = Platform.select({
       ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
       android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
     });
 
-    if (!permission) return false;
+    if (!permission) return "denied";
 
-    let result = await check(permission);
-    if (result === RESULTS.DENIED || result === RESULTS.BLOCKED) {
-      result = await request(permission);
-    }
-
-    return result === RESULTS.GRANTED;
+    const result = await check(permission);
+    if (result === RESULTS.GRANTED) return "granted";
+    if (result === RESULTS.BLOCKED) return "blocked";
+    return "denied";
   }
 
+  static async requestPermission(): Promise<"granted" | "denied" | "blocked"> {
+    const permission = Platform.select({
+      ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+      android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+    });
+
+    if (!permission) return "denied";
+
+    const result = await request(permission);
+    if (result === RESULTS.GRANTED) return "granted";
+    if (result === RESULTS.BLOCKED) return "blocked";
+    return "denied";
+  }
+
+  // Fetch Current Location
   static async getCurrentLocation(): Promise<Coordinates | null> {
     const hasPermission = await this.checkLocationPermission();
     if (!hasPermission) {

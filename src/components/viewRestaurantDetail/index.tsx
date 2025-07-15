@@ -271,7 +271,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
         backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
-      <View style={{ flex: 1}}>
+      <View style={{ flex: 1 }}>
         <ScrollView
           style={styles.vwMain}
           bounces={false}

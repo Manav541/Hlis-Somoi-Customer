@@ -122,23 +122,46 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
         const uploadPromises = newImagesToUpload.map(
           (image: Asset) =>
             new Promise<string>((resolve, reject) => {
-              const isVideo = image.type?.includes("video"); // ✅ proper check
+              const isVideo = image.type?.includes("video/mp4");
 
-              const contentType = isVideo ? "video/mp4" : "image/png";
-              const extension = isVideo ? ".mp4" : ".png";
-
-              ImageUpload.uploadImage(
-                s3AccessKey,
-                s3SecretAccessKey,
-                image.uri,
-                FolderName.ORDER_RETURN_MEDIA,
-                contentType,
-                extension,
-                (response: string) => {
-                  __DEV__ && console.log("✅ Uploaded file:", response);
-                  resolve(response);
-                }
-              );
+              if (isVideo) {
+                ImageUpload.uploadVideo(
+                  s3AccessKey,
+                  s3SecretAccessKey,
+                  image.uri,
+                  FolderName.ORDER_RETURN_MEDIA,
+                  "video/mp4",
+                  ".mp4",
+                  (response: string) => {
+                    try {
+                      const parsed =
+                        typeof response === "string"
+                          ? JSON.parse(response)
+                          : response;
+                      const videoName = parsed?.videoName || "";
+                      __DEV__ &&
+                        console.log("✅ Extracted videoName:", videoName);
+                      resolve(videoName);
+                    } catch (err) {
+                      console.error("❌ Error parsing video response:", err);
+                      resolve(""); // or reject(err);
+                    }
+                  }
+                );
+              } else {
+                ImageUpload.uploadImage(
+                  s3AccessKey,
+                  s3SecretAccessKey,
+                  image.uri,
+                  FolderName.ORDER_RETURN_MEDIA,
+                  "image/png",
+                  ".png",
+                  (response: string) => {
+                    __DEV__ && console.log("✅ Uploaded file Image:", response);
+                    resolve(response);
+                  }
+                );
+              }
             })
         );
 

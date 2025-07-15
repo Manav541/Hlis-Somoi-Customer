@@ -63,7 +63,7 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const isEditAddress = route?.params?.isEditAddress;
 
   const handlePlaceSelect = async (place: any) => {
-    // handleOnFocus("address");
+    handleOnFocus("address");
     console.log("place", place);
 
     const mainText = place.structuredFormat?.mainText?.text || "";
@@ -71,12 +71,8 @@ const AddAddressContainer = ({ navigation, route }: any) => {
 
     console.log("Main Text:", mainText);
     console.log("Secondary Text:", secondaryText);
-
-    // 👇 Set after slight delay for Android input refresh
-    setTimeout(() => {
-      setAddress(mainText);
-      setAdditionalDescription(secondaryText);
-    }, 100); // 100ms works best for Android
+    setAddress(mainText);
+    setAdditionalDescription(secondaryText);
 
     const placeId = place.place_id || place.placeId;
     if (!placeId) return;

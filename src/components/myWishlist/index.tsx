@@ -132,8 +132,8 @@ const MyWishlistComponent = (props: PropsType) => {
 
           {/* Product Details */}
           <View style={styles.vwProductDetails}>
-            <View style={{ height: 59 }}>
-              <View style={{ height: 44 }}>
+            <View style={{ height: 60 }}>
+              <View style={{ flex : 1 }}>
                 <Text style={styles.lblProductName} numberOfLines={2}>
                   {item?.name}
                 </Text>
@@ -144,14 +144,14 @@ const MyWishlistComponent = (props: PropsType) => {
             </View>
 
             <View style={styles.vwPriceRating}>
-              <View style={styles.vwPrice}>
+             
                 <Text style={styles.lblProductFinalPrice}>
                   {rupeeSymbol + item?.price}
                 </Text>
                 {/* <Text style={styles.lblProductPrice}>
                   {rupeeSymbol + item?.originalPrice}
                 </Text> */}
-              </View>
+              
               <View style={styles.vwRating}>
                 <Image
                   style={styles.imgStar}

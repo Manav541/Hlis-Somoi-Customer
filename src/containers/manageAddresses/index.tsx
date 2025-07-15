@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { View, Text, Alert, StatusBar } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
 import GlobalBackButton from "../../global/GlobalBackButton";
 import ManageAddressesComponent from "../../components/manageAddresses";
@@ -24,6 +24,7 @@ import { getTranslation } from "../../localization/i18n/i18n.config";
 import { ScreenNames } from "../../routers";
 
 const ManageAddressesContainer = ({ navigation, route }: any) => {
+  const isFocused = useIsFocused();
   //  API Zustand Store
   const addressListApi = zustandStore.AddressStore(
     (state) => state.addressList
@@ -101,15 +102,18 @@ const ManageAddressesContainer = ({ navigation, route }: any) => {
   };
 
   const loadMoreCategories = () => {
-    if (hasMoreData && !isLoadingMore) {
-      const nextPage = addressListPageNumber + 1;
-      handleAddressListApi(nextPage, true);
-    }
+    if (!isFocused) return; 
+    if (!canLoadMore || isLoadingMore || !hasMoreData) return;
+
+    const nextPage = addressListPageNumber + 1;
+    setCanLoadMore(false);
+    handleAddressListApi(nextPage, true);
   };
 
   // ----------------------- API Calling -------------------------
   // handleAddressListApi
   const handleAddressListApi = async (page: number, isLoadMore = false) => {
+     if (!isFocused) return;
     if (isLoadMore && isLoadingMore) return;
 
     if (!isLoadMore) toggleLoader(true);

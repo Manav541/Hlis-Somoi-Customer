@@ -79,7 +79,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    height: 18,
   },
   vwLineFull: {
     height: 1,
@@ -89,7 +88,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    height: 25,
   },
   vwDriverDetails: {
     height: 79,

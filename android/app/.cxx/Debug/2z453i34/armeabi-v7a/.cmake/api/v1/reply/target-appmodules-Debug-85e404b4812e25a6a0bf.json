@@ -345,6 +345,22 @@
 	[
 		{
 			"backtrace" : 4,
+			"id" : "react_codegen_rnclipboard::@6385240493dfcaf22ab7"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "react_codegen_RNCGeolocationSpec::@1b959fcb56e23f7716ba"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "react_codegen_Compressor::@408161e29a6d5b274579"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "react_codegen_RNDatePickerSpecs::@c00f981c6e74346c63d4"
+		},
+		{
+			"backtrace" : 4,
 			"id" : "react_codegen_rngesturehandler_codegen::@39f233abcd2c728bc6ec"
 		},
 		{
@@ -386,22 +402,6 @@
 		{
 			"backtrace" : 4,
 			"id" : "react_codegen_RNCWebViewSpec::@eb48929f9f7453740a6c"
-		},
-		{
-			"backtrace" : 4,
-			"id" : "react_codegen_rnclipboard::@6385240493dfcaf22ab7"
-		},
-		{
-			"backtrace" : 4,
-			"id" : "react_codegen_RNCGeolocationSpec::@1b959fcb56e23f7716ba"
-		},
-		{
-			"backtrace" : 4,
-			"id" : "react_codegen_Compressor::@408161e29a6d5b274579"
-		},
-		{
-			"backtrace" : 4,
-			"id" : "react_codegen_RNDatePickerSpecs::@c00f981c6e74346c63d4"
 		}
 	],
 	"id" : "appmodules::@6890427a1f51a3e7e1df",

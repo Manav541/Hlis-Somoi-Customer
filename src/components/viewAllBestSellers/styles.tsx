@@ -27,13 +27,13 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: 23,
     marginTop: 5,
   },
   vwTimeDistance: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
+    flex : 1,
+    flexWrap : "wrap"
   },
   vwDistance: {
     flexDirection: "row",
@@ -71,6 +71,7 @@ export const styles = StyleSheet.create({
     color: colors.black35,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regularOutFit,
+    marginRight : 5
   },
   lblDistance: {
     color: colors.black35,

@@ -20,8 +20,8 @@ import { DateFormatsManager } from "../../constants/utils/DateFormats";
 
 interface PropsType {
   arrBestProductsSellers: BestProductSellerData[];
-  onPressFavourite: (index: number,vendor_id: string) => void;
-  onPressRestaurant: (vendor_id : string) => void;
+  onPressFavourite: (index: number, vendor_id: string) => void;
+  onPressRestaurant: (vendor_id: string) => void;
   loadMoreCategories: () => void;
   canLoadMore: boolean;
   setCanLoadMore: (value: boolean) => void;
@@ -52,7 +52,7 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
           style={styles.btnFavourite}
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
-          onPress={() => props?.onPressFavourite(index,item?.vendor_id)}
+          onPress={() => props?.onPressFavourite(index, item?.vendor_id)}
         >
           <Image
             style={styles.imgHeart}
@@ -78,34 +78,33 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
             <View style={styles.vwTimeDistance}>
               <Text style={styles.lblTime}>
                 {getTranslation("openCloseTime")}
-                <Text
-                  style={{
-                    ...styles.lblTime,
-                    fontFamily: fontsfamily.semiboldOutFit,
-                  }}
-                >
-                  {DateFormatsManager.formatDate(
-                    item?.opening_time,
+              </Text>
+              <Text
+                style={{
+                  ...styles.lblTime,
+                  fontFamily: fontsfamily.semiboldOutFit,
+                }}
+              >
+                {DateFormatsManager.formatDate(
+                  item?.opening_time,
+                  DateFormatsManager.TimeFormats.HHmm,
+                  DateFormatsManager.TimeFormats.HHmmss
+                ) +
+                  "-" +
+                  DateFormatsManager.formatDate(
+                    item?.closing_time,
                     DateFormatsManager.TimeFormats.HHmm,
                     DateFormatsManager.TimeFormats.HHmmss
-                  ) +
-                    "-" +
-                    DateFormatsManager.formatDate(
-                      item?.closing_time,
-                      DateFormatsManager.TimeFormats.HHmm,
-                      DateFormatsManager.TimeFormats.HHmmss
-                    )}
-                </Text>
+                  )}
               </Text>
+
               <View style={styles.vwDistance}>
                 <Image
                   style={styles.imgDot}
                   source={images.dotOrange}
                   resizeMode="stretch"
                 />
-                <Text style={styles.lblDistance}>
-                  {item?.distance}
-                </Text>
+                <Text style={styles.lblDistance}>{item?.distance}</Text>
               </View>
             </View>
             <View style={styles.vwRating}>
@@ -119,13 +118,12 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
               />
             </View>
           </View>
-         
         </View>
-         <FastImage
-            style={styles.imgLogo}
-            source={{ uri: item?.store_image }}
-            resizeMode="stretch"
-          />
+        <FastImage
+          style={styles.imgLogo}
+          source={{ uri: item?.store_image }}
+          resizeMode="stretch"
+        />
       </TouchableOpacity>
     );
   };

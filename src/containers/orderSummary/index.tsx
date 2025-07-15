@@ -181,6 +181,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     navigation.navigate(ScreenNames.driverTracking, {
       driver_details: orderDetails?.driver_details,
       customer_details: orderDetails?.delivery_details,
+      order_id : order_id
     });
   };
 

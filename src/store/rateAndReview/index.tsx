@@ -6,6 +6,7 @@ import { APIResponseType } from "../../constants/interfaces";
 interface Store {
   rateAndReviewList: (
     dictData: object,
+    isGuestUser: boolean,
     navigation: any
   ) => Promise<APIResponseType>;
   rateVendor: (dictData: object, navigation: any) => Promise<APIResponseType>;
@@ -15,7 +16,7 @@ interface Store {
 }
 
 const RateAndReviewStore = create<Store>((set) => ({
-  rateAndReviewList(dictData, navigation) {
+  rateAndReviewList(dictData, navigation, isGuestUser) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -32,12 +33,19 @@ const RateAndReviewStore = create<Store>((set) => ({
         }
       };
 
-      APIManager.postServerRequestWithToken({
+      const requestParams = {
         apiEndPoint: apiEndPoint.rateAndReviewList,
-        callback: callback,
-        dictData: dictData,
-        navigation: navigation,
-      });
+        callback,
+        dictData,
+        navigation,
+      };
+
+      // ✅ Call appropriate method based on guest status
+      if (isGuestUser === true) {
+        APIManager.postServerRequestWithoutToken(requestParams);
+      } else {
+        APIManager.postServerRequestWithToken(requestParams);
+      }
     });
   },
 

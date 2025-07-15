@@ -1,4 +1,11 @@
-import { View, ActivityIndicator, StatusBar } from "react-native";
+import {
+  View,
+  ActivityIndicator,
+  StatusBar,
+  AppState,
+  Linking,
+  Alert,
+} from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import SplashScreen from "react-native-splash-screen";
 import MainNavigation from "./src/routers/mainNavigation";
@@ -23,10 +30,61 @@ const App = () => {
   const setFormattedAddress = zustandStore.AddressStore(
     (state) => state.setFormattedAddress
   );
-  const flashMessageRef = useRef<any>(null);
-  const [initialRoute, setInitialRoute] = useState<string | null>(null);
 
-  // Notofication
+  const flashMessageRef = useRef<any>(null);
+  const hasShownAlertRef = useRef(false);
+  const [initialRoute, setInitialRoute] = useState<string | null>(null);
+  const [permissionStatus, setPermissionStatus] = useState<
+    "granted" | "denied" | "blocked" | null
+  >(null);
+
+  // ✅ 1. Location permission logic
+  useEffect(() => {
+    const checkAndPrompt = async () => {
+      // ✅ Step 1: Ensure Device Location is ON (GPS enabled)
+      const isLocationEnabled = await LocationManager.ensureDeviceLocationOn();
+
+      if (!isLocationEnabled) {
+        // Don't proceed unless GPS is on
+        return;
+      }
+
+      // ✅ Step 2: Check location permission
+      const status = await LocationManager.checkLocationPermission();
+      setPermissionStatus(status);
+
+      if (status === "granted") {
+        hasShownAlertRef.current = false;
+      } else if (!hasShownAlertRef.current) {
+        hasShownAlertRef.current = true;
+
+        Alert.alert(
+          "Location Permission Required",
+          "You must allow location access to use this app.",
+          [
+            {
+              text: "Open Settings",
+              onPress: () => Linking.openSettings(), // opens app settings
+            },
+          ],
+          { cancelable: false }
+        );
+      }
+    };
+
+    checkAndPrompt();
+
+    const subscription = AppState.addEventListener("change", (state) => {
+      if (state === "active") {
+        hasShownAlertRef.current = false; // allow showing alert again
+        checkAndPrompt(); // re-check on app resume
+      }
+    });
+
+    return () => subscription.remove();
+  }, []);
+
+  // ✅ 2. Notification permission logic (unchanged)
   useEffect(() => {
     if (initialRoute !== null) {
       const timeout = setTimeout(() => {
@@ -35,18 +93,11 @@ const App = () => {
 
       return () => clearTimeout(timeout);
     }
+
     PlatformVersion.isAndroid && requestUserForNotificationPermission();
   }, [initialRoute]);
 
-  useEffect(() => {
-    const checkLocation = async () => {
-      await LocationManager.ensureLocationServicesEnabled();
-    };
-
-    checkLocation();
-  }, []);
-
-  // Set Current Location
+  // ✅ 3. Fetch location only if granted
   useEffect(() => {
     const fetchLocation = async () => {
       const location = await LocationManager.getCurrentLocation();
@@ -57,11 +108,15 @@ const App = () => {
       }
     };
 
-    fetchLocation();
-  }, []);
+    if (permissionStatus === "granted") {
+      fetchLocation();
+    }
+  }, [permissionStatus]);
 
-  // For Navigation
+  // ✅ 4. Navigation route setup
   useEffect(() => {
+    if (!permissionStatus) return;
+
     MmkvManager.getData(
       MmkvManager.Keys.isOnBoardingVisisted,
       (isOnBoardingVisited) => {
@@ -87,9 +142,10 @@ const App = () => {
         }
       }
     );
-  }, []);
+  }, [permissionStatus]);
 
-  if (initialRoute === null) {
+  // ✅ 5. Show loader until route & permission ready
+  if (initialRoute === null || permissionStatus === null) {
     return (
       <View style={constnatStyles.vwActivityIndicator}>
         <ActivityIndicator size="large" color={colors.orange1c} />

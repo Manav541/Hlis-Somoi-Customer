@@ -133,7 +133,7 @@ const ManageAddressesComponent = (props: PropsType) => {
           justifyContent:
             props.arrManageAddress.length === 0 ? "center" : "flex-start",
           alignItems: "center",
-          paddingTop: 20,
+          paddingBottom : 40
         }}
         showsVerticalScrollIndicator={false}
         bounces={false}

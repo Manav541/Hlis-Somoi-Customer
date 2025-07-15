@@ -58,6 +58,7 @@ interface PropsType {
   handleSetBannerIndex: (index: number) => void;
   currentBannerIndex: number;
   currentAddress: string | null;
+  mainCategoryName: string;
 }
 
 const HomeComponent = (props: PropsType) => {
@@ -229,11 +230,8 @@ const HomeComponent = (props: PropsType) => {
               (+{item?.total_reviews})
             </Text>
           </View>
-          <FastImage
-            style={styles.imgLogo}
-            source={{ uri: item?.store_image }}
-          />
         </View>
+        <FastImage style={styles.imgLogo} source={{ uri: item?.store_image }} />
       </TouchableOpacity>
     );
   };
@@ -270,7 +268,6 @@ const HomeComponent = (props: PropsType) => {
               .slice(0, 2)
               .map((item, index) => renderMainCategoryListItem(item, index))}
           </View>
-
           {/* Location Notification */}
           <View style={styles.vwLocationNotification}>
             <TouchableOpacity
