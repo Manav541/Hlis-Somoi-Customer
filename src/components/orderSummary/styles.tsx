@@ -126,7 +126,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 20,
     gap: 15,
     flex: 1,
-    marginBottom : 20
+    marginBottom: 20,
   },
   vwOrderReturned: {
     flexDirection: "row",
@@ -396,7 +396,20 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 6,
-    height: 23,
+    paddingVertical: 2.9,
+    paddingHorizontal: 5,
+    alignSelf: "flex-start",
+    flexDirection: "row",
+    gap: 2,
+  },
+  btnRateReviewText: {
+    borderRadius: 3,
+    borderColor: colors.greya7,
+    borderWidth: 1,
+    marginTop: 6,
+    paddingVertical: 4.5,
+    paddingHorizontal: 5,
+    alignSelf: "flex-start",
   },
   btnTrack: {
     height: 27.4,

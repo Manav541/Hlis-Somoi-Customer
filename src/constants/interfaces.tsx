@@ -7,6 +7,19 @@ export interface SecretKeyItem {
   keys: string | null;
 }
 
+export interface RegionType {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+}
+
+export interface CoordinatesType {
+  latitude: number;
+  longitude: number;
+}
+
+
 export interface editProfileResponse {
   name: string;
   profile_image?: string | null;

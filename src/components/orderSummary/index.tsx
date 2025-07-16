@@ -166,45 +166,35 @@ const OrderSummaryComponent = (props: PropsType) => {
             props?.orderDetails?.status === "Order Return Requested" ||
             props?.orderDetails?.status === "Order Return Accepted" ||
             props?.orderDetails?.status === "Order Returned" ||
-            props?.orderDetails?.status === "Order Delivered") && (
-            <TouchableOpacity
-              style={{
-                ...styles.btnRateReview,
-                width: item?.is_rated ? 48.2 : 99,
-              }}
-              activeOpacity={activityOpacity}
-              hitSlop={hitSlop}
-              onPress={() => {
-                item?.is_rated
-                  ? props?.onPressOpenEditReview(item)
-                  : props?.onPressRateReview(item);
-              }}
-            >
-              {item?.is_rated ? (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 2,
-                  }}
-                >
-                  <Image
-                    style={styles.imgStar}
-                    source={images.star}
-                    resizeMode="stretch"
-                  />
-                  <Text style={styles.lblRateReview}>
-                    {item?.rating_summary?.rating}
-                  </Text>
-                </View>
-              ) : (
+            props?.orderDetails?.status === "Order Delivered") &&
+            (item?.is_rated ? (
+              <TouchableOpacity
+                style={styles.btnRateReview}
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={() => props?.onPressOpenEditReview(item)}
+              >
+                <Image
+                  style={styles.imgStar}
+                  source={images.star}
+                  resizeMode="stretch"
+                />
+                <Text style={styles.lblRateReview}>
+                  {item?.rating_summary?.rating}
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.btnRateReviewText}
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={() => props?.onPressRateReview(item)}
+              >
                 <Text style={styles.lblRateReview}>
                   {getTranslation("rateReview")}
                 </Text>
-              )}
-            </TouchableOpacity>
-          )}
+              </TouchableOpacity>
+            ))}
         </View>
       </View>
     );
@@ -271,12 +261,12 @@ const OrderSummaryComponent = (props: PropsType) => {
               color:
                 props?.orderDetails?.status === "Order Cancelled" ||
                 props?.orderDetails?.status === "Order Rejected" ||
-                props?.orderDetails?.status === "Order Return Requested" 
+                props?.orderDetails?.status === "Order Return Requested"
                   ? colors.red2e
                   : colors.white,
             }}
           >
-            {props?.orderDetails?.status === "Order Return Requested"  ? (
+            {props?.orderDetails?.status === "Order Return Requested" ? (
               <Text>{getTranslation("requestReturn")}</Text>
             ) : props?.orderDetails?.status === "Request_exchange" ? (
               <Text>{getTranslation("requestExchange")}</Text>

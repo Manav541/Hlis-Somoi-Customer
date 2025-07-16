@@ -2,17 +2,21 @@ import React, { useEffect, useState } from "react";
 import HomeComponent from "../../../components/bottomTabs/home";
 import { ScreenNames } from "../../../routers";
 import { useFocusEffect } from "@react-navigation/native";
-import { StatusBar } from "react-native";
+import { Alert, Linking, StatusBar } from "react-native";
 import {
   AdItem,
   BestProductSellerData,
   MainCategoryListItem,
   SubCategoryListItem,
 } from "../../../constants/interfaces";
-import { flashMessageWarning } from "../../../constants/GConstant";
+import {
+  flashMessageWarning,
+  showConfirmForGuest,
+} from "../../../constants/GConstant";
 import { statusCodes } from "../../../api/APIConstant";
 import { zustandStore } from "../../../store";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
+import LocationManager from "../../../constants/utils/LocationManager";
 
 const HomeContainer = ({ navigation }: any) => {
   const currentLatLong = zustandStore.AddressStore(
@@ -30,6 +34,12 @@ const HomeContainer = ({ navigation }: any) => {
   );
   const bestProductsSellerListApi = zustandStore.HomeStore(
     (state) => state.bestProductsSellerList
+  );
+  const setCurrentLocation = zustandStore.AddressStore(
+    (state) => state.setCurrentLocation
+  );
+  const setFormattedAddress = zustandStore.AddressStore(
+    (state) => state.setFormattedAddress
   );
 
   const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
@@ -64,7 +74,15 @@ const HomeContainer = ({ navigation }: any) => {
   };
 
   const onPressLocation = () => {
-    navigation.navigate(ScreenNames.manageAddress, { navigateFromHome: true });
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+      });
+    } else {
+      navigation.navigate(ScreenNames.manageAddress, {
+        navigateFromHome: true,
+      });
+    }
   };
 
   const onPressMainCategory = (
@@ -257,6 +275,25 @@ const HomeContainer = ({ navigation }: any) => {
       __DEV__ && console.log(error);
     }
   };
+
+  // fetch and store current location in zustand
+  useEffect(() => {
+    const checkAndFetchLocation = async () => {
+      const granted = await LocationManager.ensureLocationPermission();
+
+      if (granted) {
+        // ✅ Permission granted – now fetch and store location
+        const location = await LocationManager.getCurrentLocation();
+        if (location) {
+          setCurrentLocation(location);
+          const address = await LocationManager.getFormattedAddress(location);
+          setFormattedAddress(address || "");
+        }
+      }
+    };
+
+    checkAndFetchLocation();
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {

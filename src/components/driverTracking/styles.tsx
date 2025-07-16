@@ -27,6 +27,13 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 12,
     height: 66,
   },
+  vwDestinationMarker: {
+    height: 24,
+    width: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
 
   // Text styles
   lblDriverInfo: {
@@ -70,12 +77,7 @@ export const styles = StyleSheet.create({
     height: 27,
     width: 27,
   },
-  imgDriverMarker: {
-    width: 50,
-    height: 60,
-  },
-  imgCustomerMarker: {
-    width: 24,
-    height: 24,
-  },
+  imgDestinationMarker: {height: 24, width: 24},
+  imgDriverMarker: {height: 37, width: 37},
+
 });

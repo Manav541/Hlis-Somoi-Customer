@@ -10,6 +10,7 @@ import {
 import { statusCodes } from "../../../api/APIConstant";
 import {
   flashMessageWarning,
+  showConfirmForGuest,
   toggleLoader,
 } from "../../../constants/GConstant";
 import { zustandStore } from "../../../store";
@@ -18,8 +19,12 @@ import { MmkvManager } from "../../../constants/utils/MmkvManager";
 
 const CategoriesContainer = ({ navigation }: any) => {
   // API zustand store
-   const currentLatLong = zustandStore.AddressStore((state) => state.currentLocation);
-   const currentAddress = zustandStore.AddressStore((state) => state.formattedAddress);
+  const currentLatLong = zustandStore.AddressStore(
+    (state) => state.currentLocation
+  );
+  const currentAddress = zustandStore.AddressStore(
+    (state) => state.formattedAddress
+  );
   const mainCategoryList = zustandStore.HomeStore(
     (state) => state.mainCategoryList
   );
@@ -52,22 +57,15 @@ const CategoriesContainer = ({ navigation }: any) => {
   };
 
   const onPressLocation = () => {
-    navigation.navigate(ScreenNames.manageAddress, {
-      navigateFromHome: true,
-      // onSelectAddress: (selectedAddress: any) => {
-      //   console.log("ADDRESS SELECTED IN CART SCREEN ===>", selectedAddress); // ✅ Log the full selected address
-
-      //   const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
-      //   setCurrentAddress(formatted);
-      //   // ✅ Set currentLatLong from selected address
-      //   setCurrentLatLong({
-      //     latitude: parseFloat(selectedAddress.latitude),
-      //     longitude: parseFloat(selectedAddress.longitude),
-      //   });
-
-      //   hasSelectedAddressRef.current = true;
-      // },
-    });
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+      });
+    } else {
+      navigation.navigate(ScreenNames.manageAddress, {
+        navigateFromHome: true,
+      });
+    }
   };
 
   // handleOnPressNotifaicationIcon

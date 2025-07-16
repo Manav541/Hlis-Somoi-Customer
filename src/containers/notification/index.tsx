@@ -18,12 +18,14 @@ import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
+import { MmkvManager } from "../../constants/utils/MmkvManager";
 
 const NotificationContainer = ({ navigation }: any) => {
   // API Zustand Store
   const notificationListApi = zustandStore.NotificationListStore(
     (state) => state.notificationList
   );
+  const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
   const [arrNotificationList, setArrNotificationList] = useState<
     NotificationGroup[]
   >([]);
@@ -154,7 +156,19 @@ const NotificationContainer = ({ navigation }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleNotificationListApi(1, false);
+      // Fetch Guest User
+      MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
+        const isGuest = Boolean(storedValue);
+        console.log("isGuestUser=====>", isGuest);
+        setIsGuestUser(isGuest);
+
+        if (isGuest) {
+          setArrNotificationList([]); // Empty cart for guest users
+        } else {
+          handleNotificationListApi(1, false);
+        }
+        });
+      
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
