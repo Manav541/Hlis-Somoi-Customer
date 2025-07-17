@@ -421,20 +421,24 @@ const ProductListingContainer = ({ navigation, route }: any) => {
         if (response.code === statusCodes.success) {
           const data = response.data;
           const subCategories = (data as any)?.subCategories ?? [];
+          const allRestaurants = (data as any)?.restaurants ?? [];
 
           // ✅ SET RESTAURANTS if Food category
-          if (
-            mainCategoryName === "Food" &&
-            Array.isArray((data as any)?.restaurants)
-          ) {
-            const filteredRestaurants = subCategoryId
-              ? (data as any).restaurants.filter(
-                  (res: any) => res.subCategoryId === subCategoryId
-                )
-              : (data as any).restaurants;
-            if (page === 1) setArrRestaurants(filteredRestaurants);
-            else setArrRestaurants((prev) => [...prev, ...filteredRestaurants]);
-          }
+           if (mainCategoryName === "Food" && Array.isArray(allRestaurants)) {
+          const filteredRestaurants = selectedSubCategoryId
+            ? allRestaurants.filter(
+                (res: any) => res.subCategoryId === selectedSubCategoryId
+              )
+            : allRestaurants;
+
+          const finalRestaurants =
+            filteredRestaurants.length > 0 ? filteredRestaurants : allRestaurants;
+
+          if (page === 1) setArrRestaurants(finalRestaurants);
+          else setArrRestaurants((prev) => [...prev, ...finalRestaurants]);
+
+         
+        }
 
           // Save only once if empty
           if (allSubCategories.length === 0) {
