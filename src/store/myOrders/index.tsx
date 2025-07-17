@@ -5,8 +5,7 @@ import { APIResponseType } from "../../constants/interfaces";
 
 type StoreFunction = (
   dictData: object,
-  navigation: any,
-  showLoader?: boolean
+  navigation: any
 ) => Promise<APIResponseType>;
 
 interface Store {
@@ -16,6 +15,10 @@ interface Store {
   cancelOrder: StoreFunction;
   reportIssue: StoreFunction;
   returnOrder: StoreFunction;
+  deliveryBoyLocation: (
+    dictData: object,
+    navigation: any
+  ) => Promise<APIResponseType>;
 }
 
 const MyOrdersStore = create<Store>((set) => ({
@@ -45,7 +48,7 @@ const MyOrdersStore = create<Store>((set) => ({
     });
   },
 
-  orderDetails(dictData, navigation, showLoader) {
+  orderDetails(dictData, navigation) {
     return new Promise<APIResponseType>((resolve, reject) => {
       const callback = (
         data: APIResponseType | null,
@@ -67,7 +70,6 @@ const MyOrdersStore = create<Store>((set) => ({
         callback: callback,
         dictData: dictData,
         navigation: navigation,
-        showLoader: showLoader
       });
     });
   },
@@ -171,6 +173,33 @@ const MyOrdersStore = create<Store>((set) => ({
         apiEndPoint: apiEndPoint.returnOrder,
         callback: callback,
         dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  deliveryBoyLocation(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.deliveryBoyLocation,
+        callback: callback,
+        dictData: dictData,
+        showLoader: false,
         navigation: navigation,
       });
     });

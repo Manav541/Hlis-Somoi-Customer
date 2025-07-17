@@ -1,5 +1,5 @@
-import { View, Text, Image, TouchableOpacity, Platform } from "react-native";
-import React, { RefObject } from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import React, { RefObject, useCallback } from "react";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -11,8 +11,8 @@ import { colors } from "../../constants/Colors";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import {
   CoordinatesType,
-  OrderDetailsData,
   RegionType,
+  TrackingData,
 } from "../../constants/interfaces";
 import MapViewDirections, {
   MapDirectionsResponse,
@@ -20,28 +20,44 @@ import MapViewDirections, {
 
 interface PropsType {
   onPressChat: () => void;
+  // Tracking
   region: RegionType | undefined;
   mapRef: RefObject<MapView | null>;
   markersReady: boolean;
-  orderDetails: OrderDetailsData | null;
+  trackingDetails: TrackingData | null;
   routeCoordinates: CoordinatesType[];
   handleOnReadyDirections: (result: MapDirectionsResponse) => void;
   googleApiKey: string;
 }
 
-const isValidCoordinate = (lat: any, lng: any) =>
-  typeof lat === "number" &&
-  typeof lng === "number" &&
-  !isNaN(lat) &&
-  !isNaN(lng);
-
 const DriverTrackingComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
-
-  const driverLat = Number(props?.orderDetails?.driver_details?.latitude);
-  const driverLng = Number(props?.orderDetails?.driver_details?.longitude);
-  const customerLat = Number(props?.orderDetails?.delivery_details?.latitude);
-  const customerLng = Number(props?.orderDetails?.delivery_details?.longitude);
+  const PathDraw = useCallback(() => {
+    return (
+      props.googleApiKey != "" &&
+      props?.trackingDetails != null && (
+        <MapViewDirections
+          origin={{
+            latitude: Number(props?.trackingDetails?.driver_latitude),
+            longitude: Number(props?.trackingDetails?.driver_longitude),
+          }}
+          destination={{
+            latitude: Number(props?.trackingDetails?.customer_latitude),
+            longitude: Number(props?.trackingDetails?.customer_longitude),
+          }}
+          apikey={props.googleApiKey}
+          strokeWidth={3}
+          strokeColor={colors.black35}
+          strokeColors={[colors.black35]}
+          mode="DRIVING"
+          onError={(error) => {
+            __DEV__ && console.log("Maps Directions Error ===>", error);
+          }}
+          onReady={props?.handleOnReadyDirections}
+        />
+      )
+    );
+  }, [props]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -59,23 +75,29 @@ const DriverTrackingComponent = (props: PropsType) => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        region={props?.region}
       >
-        {props?.orderDetails && isValidCoordinate(driverLat, driverLng) && (
+        {/* Driver Marker */}
+        {props?.trackingDetails != null && (
           <Marker
-            coordinate={{ latitude: driverLat, longitude: driverLng }}
-            rotation={Number(props?.orderDetails?.driver_details?.heading)}
-            flat
+            coordinate={{
+              latitude: Number(props?.trackingDetails?.driver_latitude),
+              longitude: Number(props?.trackingDetails?.driver_longitude),
+            }}
+            rotation={Number(props?.trackingDetails?.driver_heading)}
+            flat={true}
             anchor={{ x: 0.5, y: 0.5 }}
             tracksViewChanges={!props?.markersReady}
           >
             <Image source={images.vehicleIcon} style={styles.imgDriverMarker} />
           </Marker>
         )}
-
-        {props?.orderDetails && isValidCoordinate(customerLat, customerLng) && (
+        {/* Customer Marker */}
+        {props?.trackingDetails != null && (
           <Marker
-            coordinate={{ latitude: customerLat, longitude: customerLng }}
+            coordinate={{
+              latitude: Number(props?.trackingDetails?.customer_latitude),
+              longitude: Number(props?.trackingDetails?.customer_longitude),
+            }}
             tracksViewChanges={!props?.markersReady}
           >
             <View style={styles.vwDestinationMarker}>
@@ -86,42 +108,14 @@ const DriverTrackingComponent = (props: PropsType) => {
             </View>
           </Marker>
         )}
-
-        {props.googleApiKey &&
-          props?.orderDetails &&
-          isValidCoordinate(driverLat, driverLng) &&
-          isValidCoordinate(customerLat, customerLng) && (
-            <MapViewDirections
-              origin={{ latitude: driverLat, longitude: driverLng }}
-              destination={{ latitude: customerLat, longitude: customerLng }}
-              apikey={props.googleApiKey}
-              strokeWidth={3}
-              strokeColor={colors.black35}
-              mode="DRIVING"
-              onError={(errorMessage) => {
-                __DEV__ &&
-                  console.log("MapViewDirections ERROR: ", errorMessage);
-
-                // Prevent crashing when receiving error
-                if (
-                  errorMessage.includes("NOT_FOUND") ||
-                  errorMessage.includes("ZERO_RESULTS") ||
-                  errorMessage.includes("invalid")
-                ) {
-                  // Optional: suppress directions temporarily
-                }
-              }}
-              onReady={props?.handleOnReadyDirections}
-            />
-          )}
-
-        {false && (
-  <Polyline
-    coordinates={props?.routeCoordinates}
-    strokeColor={colors.black35}
-    strokeWidth={3}
-  />
-)}
+        <PathDraw />
+        {/* Restrict Path Blinking */}
+        <Polyline
+          coordinates={props?.routeCoordinates}
+          strokeColor={colors.black35}
+          strokeColors={[colors.black35]}
+          strokeWidth={3}
+        />
       </MapView>
 
       {/* Driver Info Section */}
@@ -135,11 +129,11 @@ const DriverTrackingComponent = (props: PropsType) => {
         <View style={styles.vwDriverInfo}>
           <FastImage
             style={styles.imgDriverProfile}
-            source={{ uri: props?.orderDetails?.driver_details?.image }}
+            source={{ uri: props?.trackingDetails?.driver_image }}
             resizeMode="stretch"
           />
           <Text style={styles.lblDriverName}>
-            {props?.orderDetails?.driver_details?.name}
+            {props?.trackingDetails?.driver_name}
           </Text>
           <TouchableOpacity
             activeOpacity={activityOpacity}
@@ -156,10 +150,10 @@ const DriverTrackingComponent = (props: PropsType) => {
         <Text style={styles.lblDriverInfo}>
           {getTranslation("deliverto") +
             " " +
-            props?.orderDetails?.delivery_details?.name}
+            props?.trackingDetails?.customer_name}
         </Text>
         <Text style={styles.lblDeliverToAddress}>
-          {props?.orderDetails?.delivery_details?.address}
+          {props?.trackingDetails?.customer_address}
         </Text>
       </View>
     </View>

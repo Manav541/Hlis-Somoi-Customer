@@ -19,7 +19,6 @@ export interface CoordinatesType {
   longitude: number;
 }
 
-
 export interface editProfileResponse {
   name: string;
   profile_image?: string | null;
@@ -765,6 +764,25 @@ export interface DriverDetails {
   latitude: string;
   longitude: string;
   heading: string;
+}
+
+export interface TrackingData {
+  driver_id: string;
+  driver_latitude: string;
+  driver_longitude: string;
+  driver_heading: string;
+  customer_latitude: string;
+  customer_longitude: string;
+  customer_address: string;
+  order_status: string;
+  customer_id: string;
+  vendor_latitude: string;
+  vendor_longitude: string;
+  customer_name: string;
+  driver_name: string;
+  driver_mobile_number: string;
+  driver_country_code: string;
+  driver_image: string;
 }
 
 // Cancel Order

@@ -40,7 +40,7 @@ export const apiEndPoint = {
   subCategoryList: "/home/customer/sub-listing",
   bestProductsSellerList: "/home/customer/home-product-listing",
   searchProduct: "/home/customer/search-product",
-  notificationList : "/home/customer/notification-listing",
+  notificationList: "/home/customer/notification-listing",
 
   // Categories Module
   productListing: "/home/customer/categroywise-products",
@@ -78,6 +78,9 @@ export const apiEndPoint = {
   cancelOrder: "/home/customer/cancel-order",
   reportIssue: "/home/customer/insert-report",
   returnOrder: "/home/customer/return-order",
+
+  // Tracking
+  deliveryBoyLocation: "/home/customer/delivery-boy-location",
 
   // Setting Module
   contactUs: "/home/customer/contact-us",

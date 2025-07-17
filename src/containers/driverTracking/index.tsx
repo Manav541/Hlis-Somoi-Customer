@@ -12,6 +12,7 @@ import {
   OrderDetailsData,
   RegionType,
   SecretKeyItem,
+  TrackingData,
 } from "../../constants/interfaces";
 import { flashMessageWarning } from "../../constants/GConstant";
 import MapView from "react-native-maps";
@@ -19,14 +20,15 @@ import { MapDirectionsResponse } from "react-native-maps-directions";
 import LocationManager from "../../constants/utils/LocationManager";
 
 const DriverTrackingContainer = ({ navigation, route }: any) => {
-  const orderDetailsApi = zustandStore.MyOrdersStore(
-    (state) => state.orderDetails
+  // API zustand store
+  const deliveryBoyLocationApi = zustandStore.MyOrdersStore(
+    (state) => state.deliveryBoyLocation
   );
   const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
 
   const [googleApiKey, setGoogleApiKey] = useState<string>("");
   const order_id = route?.params?.order_id;
-  const [orderDetails, setOrderDetails] = useState<OrderDetailsData | null>(
+  const [trackingDetails, setTrackingDetails] = useState<TrackingData | null>(
     null
   );
   const [routeCoordinates, setRouteCoordinates] = useState<CoordinatesType[]>(
@@ -35,36 +37,17 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
   const [region, setRegion] = useState<RegionType | undefined>(undefined);
   const mapRef = useRef<MapView | null>(null);
   const [markersReady, setMarkersReady] = useState(false);
-  const lastLatLngRef = useRef<{ lat: number; lng: number } | null>(null);
-  const isUpdatingRef = useRef(false);
-
-  const isValidCoordinate = (lat: any, lng: any) =>
-    typeof lat === "number" &&
-    typeof lng === "number" &&
-    !isNaN(lat) &&
-    !isNaN(lng);
 
   const handleOnReadyDirections = async (result: MapDirectionsResponse) => {
-    if (
-      Array.isArray(result?.coordinates) &&
-      result.coordinates.length > 0 &&
-      result.coordinates.every((coord) =>
-        isValidCoordinate(coord.latitude, coord.longitude)
-      )
-    ) {
-      setRouteCoordinates(result.coordinates);
-    } else {
-      console.log("Invalid route data. Skipping polyline update.");
-    }
+    setRouteCoordinates(result.coordinates);
   };
 
   const onPressChat = () => {
     navigation.navigate(ScreenNames.chat, {
-      driver_id: orderDetails?.driver_details?.id,
-      customer_id: orderDetails?.delivery_details?.customer_id,
+      driver_id: trackingDetails?.driver_id,
+      customer_id: trackingDetails?.customer_id,
     });
   };
-
   const header = () => {
     navigation.setOptions({
       headerLeft: () => (
@@ -83,40 +66,43 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
     handleSecretKeyApi();
   }, []);
 
-  const handleOrderDetailsApi = async (showLoader: boolean) => {
+  // -------------------------API Calling----------------------------
+  // handleDeliveryBoyLocationApi
+  const handleDeliveryBoyLocationApi = async () => {
     const dictData = {
       order_id: order_id,
     };
     try {
-      const response = await orderDetailsApi(dictData, navigation, showLoader);
-      if (response?.code === statusCodes.success) {
-        const rawData = response.data as OrderDetailsData;
-        setOrderDetails(rawData);
-
-        const driverLat = Number(rawData?.driver_details?.latitude);
-        const driverLng = Number(rawData?.driver_details?.longitude);
-
-        if (
-          isValidCoordinate(driverLat, driverLng) &&
-          (lastLatLngRef.current?.lat !== driverLat ||
-            lastLatLngRef.current?.lng !== driverLng)
-        ) {
-          lastLatLngRef.current = { lat: driverLat, lng: driverLng };
-          const newRegion = {
-            latitude: driverLat,
-            longitude: driverLng,
-            latitudeDelta: 0.001,
-            longitudeDelta: 0.001,
-          };
-          setRegion(newRegion);
-
-          mapRef.current?.animateToRegion(newRegion, 1000);
+      const response = await deliveryBoyLocationApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log(
+            "DELIVERY BOY LOCATION RESPONSE===>",
+            JSON.stringify(response)
+          );
+        if (response.code === statusCodes.success) {
+          const trackingData = response.data as TrackingData;
+          setTrackingDetails(trackingData);
+          if (mapRef?.current && Number(trackingData?.driver_heading) !== 0) {
+            mapRef.current.animateCamera(
+              {
+                center: {
+                  latitude: Number(trackingData?.driver_latitude),
+                  longitude: Number(trackingData?.driver_longitude),
+                },
+                heading: Number(trackingData?.driver_heading),
+                pitch: 35,
+                zoom: 17,
+              },
+              { duration: 1000 } // Animation duration in milliseconds
+            );
+          }
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
         }
-      } else {
-        setOrderDetails(null);
       }
     } catch (error) {
-      __DEV__ && console.log("Order Details Error:", error);
+      __DEV__ && console.log(error);
     }
   };
 
@@ -129,12 +115,16 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
       ) {
         const keysData = response.data as SecretKeyItem[];
         keysData.forEach((item) => {
-          if (item.name === "googleApiKey" && item.keys) {
-            setGoogleApiKey(item.keys);
+          switch (item.name) {
+            case "googleApiKey":
+              if (item.keys) setGoogleApiKey(item.keys);
+              break;
+            default:
+              break;
           }
         });
-      } else {
-        flashMessageWarning(response?.message);
+      } else if (response?.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
       }
     } catch (error) {
       __DEV__ && console.log("Secret Key API Error:", error);
@@ -145,16 +135,25 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
     let intervalId: NodeJS.Timeout;
 
     const checkPermissionsAndTrackLocation = async () => {
+      __DEV__ && console.log("Checking Location Permissions...");
       const permissions = await LocationManager.ensureLocationPermission();
       if (permissions) {
-        handleOrderDetailsApi(false);
+        __DEV__ &&
+          console.log(
+            "Location Permissions are granted. Proceed to track location..."
+          );
+
+        handleDeliveryBoyLocationApi();
+      } else {
+        __DEV__ && console.log("Permissions not granted!!");
       }
     };
-
     checkPermissionsAndTrackLocation();
     intervalId = setInterval(checkPermissionsAndTrackLocation, 10000);
 
-    return () => clearInterval(intervalId);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   useEffect(() => {
@@ -168,14 +167,14 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
       return () => {};
     }, [navigation])
   );
-
   return (
     <DriverTrackingComponent
       onPressChat={onPressChat}
+      // Tracking
       region={region}
       mapRef={mapRef}
       markersReady={markersReady}
-      orderDetails={orderDetails}
+      trackingDetails={trackingDetails}
       routeCoordinates={routeCoordinates}
       handleOnReadyDirections={handleOnReadyDirections}
       googleApiKey={googleApiKey}
