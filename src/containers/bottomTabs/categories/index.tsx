@@ -16,6 +16,7 @@ import {
 import { zustandStore } from "../../../store";
 import LocationManager from "../../../constants/utils/LocationManager";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
+import { colors } from "../../../constants/Colors";
 
 const CategoriesContainer = ({ navigation }: any) => {
   // API zustand store
@@ -163,6 +164,8 @@ const CategoriesContainer = ({ navigation }: any) => {
       setArrMainCategoryList([]);
 
       StatusBar.setBarStyle("light-content");
+      StatusBar.setBackgroundColor(colors.blue4e);
+      StatusBar.setTranslucent(false);
       return () => {};
     }, [navigation])
   );

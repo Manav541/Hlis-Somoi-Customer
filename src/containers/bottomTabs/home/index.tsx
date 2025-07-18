@@ -17,6 +17,7 @@ import { statusCodes } from "../../../api/APIConstant";
 import { zustandStore } from "../../../store";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import LocationManager from "../../../constants/utils/LocationManager";
+import { colors } from "../../../constants/Colors";
 
 const HomeContainer = ({ navigation }: any) => {
   const currentLatLong = zustandStore.AddressStore(
@@ -310,6 +311,8 @@ const HomeContainer = ({ navigation }: any) => {
       }
 
       StatusBar.setBarStyle("light-content");
+      StatusBar.setBackgroundColor(colors.blue4e);
+      StatusBar.setTranslucent(false);
 
       MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
         setIsGuestUser(Boolean(storedValue));

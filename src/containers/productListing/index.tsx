@@ -388,12 +388,16 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
     if (!isLoadMore) toggleLoader(true);
     else setIsLoadingMore(true);
-    const selectedSubCategoryId =
-      subCategoryId !== undefined
-        ? subCategoryId
-        : selectedName !== "All"
-        ? route?.params?.sub_category_id
-        : undefined;
+
+    let selectedSubCategoryId: string | undefined;
+
+    if (selectedName === "All") {
+      selectedSubCategoryId = undefined; // ✅ Force clear
+    } else if (subCategoryId) {
+      selectedSubCategoryId = subCategoryId;
+    } else if (route?.params?.sub_category_id && selectedTitle !== "All") {
+      selectedSubCategoryId = route?.params?.sub_category_id;
+    }
 
     const dictData: ProductListDictData = {
       category_id: mainCategoryId,
@@ -424,21 +428,21 @@ const ProductListingContainer = ({ navigation, route }: any) => {
           const allRestaurants = (data as any)?.restaurants ?? [];
 
           // ✅ SET RESTAURANTS if Food category
-           if (mainCategoryName === "Food" && Array.isArray(allRestaurants)) {
-          const filteredRestaurants = selectedSubCategoryId
-            ? allRestaurants.filter(
-                (res: any) => res.subCategoryId === selectedSubCategoryId
-              )
-            : allRestaurants;
+          if (mainCategoryName === "Food" && Array.isArray(allRestaurants)) {
+            const filteredRestaurants = selectedSubCategoryId
+              ? allRestaurants.filter(
+                  (res: any) => res.subCategoryId === selectedSubCategoryId
+                )
+              : allRestaurants;
 
-          const finalRestaurants =
-            filteredRestaurants.length > 0 ? filteredRestaurants : allRestaurants;
+            const finalRestaurants =
+              filteredRestaurants.length > 0
+                ? filteredRestaurants
+                : allRestaurants;
 
-          if (page === 1) setArrRestaurants(finalRestaurants);
-          else setArrRestaurants((prev) => [...prev, ...finalRestaurants]);
-
-         
-        }
+            if (page === 1) setArrRestaurants(finalRestaurants);
+            else setArrRestaurants((prev) => [...prev, ...finalRestaurants]);
+          }
 
           // Save only once if empty
           if (allSubCategories.length === 0) {
@@ -491,6 +495,120 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       __DEV__ && console.log("Product Listing API Error:", error);
     }
   };
+  // const handleProductListingApi = async (
+  //   page: number,
+  //   isLoadMore = false,
+  //   selectedName?: string,
+  //   subCategoryId?: string
+  // ) => {
+  //   console.log("subCategoryId in API => ", subCategoryId);
+  //   console.log("selectedTitle in API => ", selectedTitle);
+  //   if (isLoadMore && isLoadingMore) return;
+
+  //   if (!isLoadMore) toggleLoader(true);
+  //   else setIsLoadingMore(true);
+  //   const selectedSubCategoryId =
+  //     subCategoryId !== undefined
+  //       ? subCategoryId
+  //       : selectedName !== "All"
+  //       ? route?.params?.sub_category_id
+  //       : undefined;
+
+  //   const dictData: ProductListDictData = {
+  //     category_id: mainCategoryId,
+  //     page_no: page,
+  //     type: mainCategoryName.toLowerCase(),
+  //     customer_latitude: currentLatLong?.latitude.toString(),
+  //     customer_longitude: currentLatLong?.longitude.toString(),
+  //   };
+
+  //   if (selectedSubCategoryId) {
+  //     dictData.sub_category_id = selectedSubCategoryId;
+  //   }
+
+  //   try {
+  //     const response = await productListingApi(
+  //       dictData,
+  //       isGuestUser,
+  //       navigation
+  //     );
+
+  //     if (response !== undefined && response !== null) {
+  //       __DEV__ &&
+  //         console.log("PRODUCT LISTING RESPONSE===>", JSON.stringify(response));
+
+  //       if (response.code === statusCodes.success) {
+  //         const data = response.data;
+  //         const subCategories = (data as any)?.subCategories ?? [];
+  //         const allRestaurants = (data as any)?.restaurants ?? [];
+
+  //         // ✅ SET RESTAURANTS if Food category
+  //          if (mainCategoryName === "Food" && Array.isArray(allRestaurants)) {
+  //         const filteredRestaurants = selectedSubCategoryId
+  //           ? allRestaurants.filter(
+  //               (res: any) => res.subCategoryId === selectedSubCategoryId
+  //             )
+  //           : allRestaurants;
+
+  //         const finalRestaurants =
+  //           filteredRestaurants.length > 0 ? filteredRestaurants : allRestaurants;
+
+  //         if (page === 1) setArrRestaurants(finalRestaurants);
+  //         else setArrRestaurants((prev) => [...prev, ...finalRestaurants]);
+
+  //       }
+
+  //         // Save only once if empty
+  //         if (allSubCategories.length === 0) {
+  //           setAllSubCategories(subCategories);
+  //         }
+
+  //         // Set tabs only once, preserve structure
+  //         if (subCategoryTitle.length === 0) {
+  //           const subCategoryTitleArray = [
+  //             {
+  //               name: "All",
+  //               isSelected: !selectedSubCategoryId,
+  //             },
+  //             ...subCategories.map(
+  //               (sub: { id: string; name: string; icon_image: string }) => ({
+  //                 image: sub.icon_image,
+  //                 name: sub.name,
+  //                 isSelected: sub.id === selectedSubCategoryId,
+  //               })
+  //             ),
+  //           ];
+  //           setSubCategoryTitle(subCategoryTitleArray);
+  //         }
+
+  //         // Filter product list
+  //         const productList: Product[] = subCategoryId
+  //           ? subCategories.find((sub: any) => sub.id === subCategoryId)
+  //               ?.products || []
+  //           : subCategories.flatMap((sub: any) => sub.products || []);
+
+  //         if (productList.length > 0) {
+  //           setArrSubCategoryProduct((prev) =>
+  //             isLoadMore ? [...prev, ...productList] : productList
+  //           );
+  //           setProductListPageNumber(page); // update page
+  //           setHasMoreData(true);
+  //         } else {
+  //           if (!isLoadMore) setArrSubCategoryProduct([]);
+  //           setHasMoreData(false);
+  //         }
+  //       } else if (response.code === statusCodes.emptyData) {
+  //         setArrSubCategoryProduct([]);
+  //         setArrRestaurants([]);
+  //       } else if (response.code === statusCodes.invaildOrFail) {
+  //         setArrSubCategoryProduct([]);
+  //         setArrRestaurants([]);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     __DEV__ && console.log("Product Listing API Error:", error);
+  //   }
+  // };
 
   // handleWishlistProductApi
   const handleWishlistProductApi = async (
@@ -552,6 +670,8 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       page: 1,
       category_id: mainCategoryId,
       ...(sub_category_id && { sub_category_id }),
+      customer_latitude: currentLatLong?.latitude.toString(),
+      customer_longitude: currentLatLong?.longitude.toString(),
     };
 
     try {
@@ -563,6 +683,9 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
         if (response.code === statusCodes.success) {
           const subCategories = (response.data as any)?.subCategories ?? [];
+          const restaurants = (response.data as any)?.restaurants ?? [];
+
+          console.log("restaurants =>", restaurants);
 
           // Update filtered products
           const productList: Product[] = sub_category_id
@@ -571,10 +694,23 @@ const ProductListingContainer = ({ navigation, route }: any) => {
             : subCategories.flatMap((sub: any) => sub.products || []);
 
           setArrSubCategoryProduct(productList);
+
+          // ✅ If category_id == 2, set restaurants
+          if (mainCategoryId === "2") {
+            const filteredRestaurants = sub_category_id
+              ? restaurants.filter(
+                  (res: any) => res.subCategoryId === sub_category_id
+                )
+              : restaurants;
+
+            setArrRestaurants(filteredRestaurants);
+          }
         } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
+          setArrSubCategoryProduct([]);
+          setArrRestaurants([]);
         } else if (response.code === statusCodes.emptyData) {
           setArrSubCategoryProduct([]);
+          setArrRestaurants([]);
         }
       }
     } catch (error) {
@@ -589,6 +725,8 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       page: 1,
       category_id: mainCategoryId,
       ...(sub_category_id && { sub_category_id }),
+      customer_latitude: currentLatLong?.latitude.toString(),
+      customer_longitude: currentLatLong?.longitude.toString(),
     };
 
     try {
@@ -600,6 +738,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
         if (response.code === statusCodes.success) {
           const subCategories = (response.data as any)?.subCategories ?? [];
+          const restaurants = (response.data as any)?.restaurants ?? [];
 
           // Update filtered products
           const productList: Product[] = sub_category_id
@@ -609,6 +748,17 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
           setArrSubCategoryProduct(productList);
 
+          // ✅ If category_id == 2, set restaurants
+          if (mainCategoryId === "2") {
+            const filteredRestaurants = sub_category_id
+              ? restaurants.filter(
+                  (res: any) => res.subCategoryId === sub_category_id
+                )
+              : restaurants;
+
+            setArrRestaurants(filteredRestaurants);
+          }
+
           // ✅ Update sort selection here
           const updatedSortList = arrSortList.map((item) => ({
             ...item,
@@ -616,7 +766,11 @@ const ProductListingContainer = ({ navigation, route }: any) => {
           }));
           setArrSortList(updatedSortList);
         } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
+          setArrSubCategoryProduct([]);
+          setArrRestaurants([]);
+        } else if (response.code === statusCodes.emptyData) {
+          setArrSubCategoryProduct([]);
+          setArrRestaurants([]);
         }
       }
     } catch (error) {
@@ -788,10 +942,16 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
         setIsGuestUser(Boolean(storedValue));
       });
-      if (route?.params?.subCategoryName) {
-        setSelectedTitle(route?.params?.subCategoryName);
-      }
-      handleProductListingApi(1, false);
+      const name = route?.params?.subCategoryName || "All";
+      setSelectedTitle(name);
+
+      handleProductListingApi(
+        1,
+        false,
+        name,
+        name !== "All" ? route?.params?.sub_category_id : undefined // ✅ Fix here too
+      );
+
       // After API call, set selected tab (subcategory) if passed
       setTimeout(() => {
         if (subCategoryName && allSubCategories.length > 0) {

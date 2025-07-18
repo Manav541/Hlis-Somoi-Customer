@@ -45,7 +45,7 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
       isSelected: false,
     },
   ]);
-  const [payment_type, setpayment_type] = useState<string>("card");
+  const [payment_type, setpayment_type] = useState<string>("cod");
 
   const onPressSelectPaymentType = (type : string) => {
     // setIsCodSelected(true);
