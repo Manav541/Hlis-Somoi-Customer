@@ -42,141 +42,7 @@ const CartContainer = ({ navigation }: any) => {
   const current_date = new Date().toISOString().split("T")[0];
   const [couponCode, setCouponCode] = useState<string>("");
   const [isApplyCoupon, setIsApplyCoupon] = useState<boolean>(false);
-  const [arrOrderProduts, setArrOrderProducts] = useState<GroceryProduct[]>([
-    {
-      mainCategoryTitle: "Groceries",
-      subCategoryTitle: "Rice",
-      product_imgMain: [
-        {
-          imgMain: images.rice,
-        },
-        {
-          imgMain: images.rice,
-        },
-        {
-          imgMain: images.rice,
-        },
-      ],
-      product_img: images.rice,
-      product_name: `India Gate Basmati ${"\n"}Rice`,
-      product_price: "600",
-      product_weight: "1 kg",
-      product_final_price: "499",
-      product_rating: "4.5",
-      product_review: 250,
-      isFavourite: true,
-      product_quantity: 1,
-      product_deliverytime: "10 Min",
-      product_distance: "5 km",
-      product_desc:
-        "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  using Lorem Ipsum is that it has a more-or-less normal distribution of  letters, as opposed to using 'Content here, content here', making it  look like readable English.",
-      product_highlight: [
-        {
-          highlightTitle: "Grain Size",
-          highlightDesc: "250",
-        },
-        {
-          highlightTitle: "Organic",
-          highlightDesc: "No",
-        },
-        {
-          highlightTitle: "Polished",
-          highlightDesc: "Yes",
-        },
-        {
-          highlightTitle: "Brand",
-          highlightDesc: "India Gate",
-        },
-        {
-          highlightTitle: "Fssai license ",
-          highlightDesc: "250",
-        },
-      ],
-      product_inStock: true,
-      product_deliveryData: [
-        {
-          deliveryDataImage: images.productReturn,
-          deliveryDataTitle: "3 day Return/ Exchange",
-        },
-        {
-          deliveryDataImage: images.cashOnDelivery,
-          deliveryDataTitle: "Cash on Delivery",
-        },
-        {
-          deliveryDataImage: images.fastDelivery,
-          deliveryDataTitle: "Fast Delivery",
-        },
-      ],
-      height: 61.6,
-      width: 42.3,
-    },
-    {
-      mainCategoryTitle: "Groceries",
-      subCategoryTitle: "Cooking Oil",
-      product_imgMain: [
-        {
-          imgMain: images.oil,
-        },
-        {
-          imgMain: images.oil,
-        },
-        {
-          imgMain: images.oil,
-        },
-      ],
-      product_img: images.oil,
-      product_name: "Fortune Premium Mustard Oil",
-      product_price: "600",
-      product_weight: "500 ml",
-      product_final_price: "499",
-      product_rating: "4.5",
-      isFavourite: false,
-      product_quantity: 2,
-      product_deliverytime: "10 Min",
-      product_distance: "5 km",
-      product_desc:
-        "It is a long established fact that a reader will be distracted by the  readable content of a page when looking at its layout. The point of  ",
-      product_highlight: [
-        {
-          highlightTitle: "Grain Size",
-          highlightDesc: "250",
-        },
-        {
-          highlightTitle: "Organic",
-          highlightDesc: "No",
-        },
-        {
-          highlightTitle: "Polished",
-          highlightDesc: "Yes",
-        },
-        {
-          highlightTitle: "Brand",
-          highlightDesc: "India Gate",
-        },
-        {
-          highlightTitle: "Fssai license ",
-          highlightDesc: "250",
-        },
-      ],
-      product_inStock: true,
-      product_deliveryData: [
-        {
-          deliveryDataImage: images.productReturn,
-          deliveryDataTitle: "3 day Return/ Exchange",
-        },
-        {
-          deliveryDataImage: images.cashOnDelivery,
-          deliveryDataTitle: "Cash on Delivery",
-        },
-        {
-          deliveryDataImage: images.fastDelivery,
-          deliveryDataTitle: "Fast Delivery",
-        },
-      ],
-      height: 66,
-      width: 47.52,
-    },
-  ]);
+
   const [cartDetails, setCartDetails] = useState<any>(null);
   const [deliverToName, setDeliverToName] = useState<string>("");
   const [deliverToAddress, setDeliverToAddress] = useState<string>("");
@@ -244,12 +110,11 @@ const CartContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.manageAddress, {
       navigateFromCart: true,
       onSelectAddress: (selectedAddress: any) => {
-        console.log("ADDRESS SELECTED IN CART SCREEN ===>", selectedAddress); // ✅ Log the full selected address
+        console.log("ADDRESS SELECTED IN CART SCREEN ===>", selectedAddress); 
 
         const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
         setDeliverToAddress(formatted);
         setLocation_id(selectedAddress?.id);
-        hasSelectedAddressRef.current = true;
       },
     });
   };
@@ -361,7 +226,7 @@ const CartContainer = ({ navigation }: any) => {
         if (response !== undefined && response !== null) {
           __DEV__ &&
             console.log(
-              `ADDRESS LIST RESPONSE (page ${page}) ===>`,
+              `ADDRESS LIST RESPONSE  ===>`,
               JSON.stringify(response)
             );
 
@@ -513,9 +378,7 @@ const CartContainer = ({ navigation }: any) => {
           setCartDetails(null); // Empty cart for guest users
         } else {
           handleCartListingApi(); // Only call if not guest
-          if (!hasSelectedAddressRef.current) {
-            handleAddressListApi(); // Only call if not guest and address not selected
-          }
+         
         }
       });
 
@@ -536,7 +399,10 @@ const CartContainer = ({ navigation }: any) => {
     }, [navigation])
   );
 
+
+
   useEffect(() => {
+    handleAddressListApi(); 
     navigation.setOptions({
       headerLeft: () => null,
       headerTitle: () => (
@@ -553,7 +419,6 @@ const CartContainer = ({ navigation }: any) => {
       onChangeCouponCode={onChangeCouponCode}
       onPressApplyCoupon={onPressApplyCoupon}
       onPressRemoveCoupon={onPressRemoveCoupon}
-      arrOrderProduts={arrOrderProduts}
       deliverToName={deliverToName}
       deliverToAddress={deliverToAddress}
       approxDeliveryTime={approxDeliveryTime}

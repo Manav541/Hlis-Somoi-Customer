@@ -217,9 +217,9 @@ const ProductListingComponent = (props: PropsType) => {
             {/* Price and Rating */}
             <View style={styles.vwPriceRating}>
               {/* Price */}
-                <Text style={styles.lblProductFinalPrice}>
-                  {rupeeSymbol + parseFloat(item?.price).toFixed(2)}
-                </Text>
+              <Text style={styles.lblProductFinalPrice}>
+                {rupeeSymbol + parseFloat(item?.price).toFixed(2)}
+              </Text>
 
               {/* Rating */}
               <View style={styles.vwProductRating}>
@@ -386,13 +386,12 @@ const ProductListingComponent = (props: PropsType) => {
               />
             </View>
           </View>
-          
         </View>
         <FastImage
-            style={styles.imgLogo}
-            source={{ uri: item?.logo }}
-            resizeMode="stretch"
-          />
+          style={styles.imgLogo}
+          source={{ uri: item?.logo }}
+          resizeMode="stretch"
+        />
       </TouchableOpacity>
     );
   };
@@ -451,6 +450,7 @@ const ProductListingComponent = (props: PropsType) => {
             // marginTop: 20,
             paddingHorizontal: 20,
             paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
+            flexGrow: 1,
           }}
           onEndReached={() => {
             if (props.canLoadMore && props.hasMountedOnce.current) {
@@ -480,6 +480,7 @@ const ProductListingComponent = (props: PropsType) => {
             paddingHorizontal: 20,
             paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
             gap: 19,
+            flexGrow : 1
           }}
           columnWrapperStyle={{
             justifyContent: "space-between",

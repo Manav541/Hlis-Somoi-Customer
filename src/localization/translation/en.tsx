@@ -6,8 +6,8 @@ export default {
   updateNow: "Update Now",
 
   underDevelopment: "Under Development",
-  noInternet: "No internet connection. Please check your network and try again.",
-
+  noInternet:
+    "No internet connection. Please check your network and try again.",
 
   // Validations
   emptyName: "Please enter your name",
@@ -36,7 +36,9 @@ export default {
   emptyConfirmPassword: "Please enter confirm password",
   passwordNotMatch: "New password and confirm password does not match",
   passwordChangedSucessfully: "Password Changed Sucessfully",
-  noDataFound: "No Data Found!",
+  noDataFound: "No data found!",
+  emptyNotification: "No notifications available",
+  emptyAddressList: "No saved addresses found",
   emptyCardNumber: "Please enter card number",
   emptyCardHolderName: "Please enter card holder name",
   emptyExpiryDate: "Please enter expiry date",
@@ -52,9 +54,10 @@ export default {
   emailUpdateSuccess: "Email updated successfully",
   phoneNumberUpdateSuccess: "Phone number updated successfully",
   emptyPfofileImage: "Please select profile image",
-  offerCodeCopySuccess:"Offer code copied successfully",
+  offerCodeCopySuccess: "Offer code copied successfully",
   addressRequired: "Please select address",
   houseRequired: "Please enter house no/building/sreet/area",
+  textOutOfStock: "This item is out of stock",
 
   // Onboarding
   onboardingTitle1: "Fast, Reliable, and Hassle-Free Deliveries",
@@ -212,7 +215,7 @@ export default {
   priceRange: "Price Range",
   ratingRange: "Rating Range",
   applyFilters: "Apply Filters",
-  sort : "Sort",
+  sort: "Sort",
   applySort: "Apply Sort",
 
   filterbyOrderType: "Filter by Order Type",
@@ -248,10 +251,10 @@ export default {
   orderReturned: "Order Returned",
   returnReason: "I want to return due to product quality issues",
   refundDesc: "You will get refund  3-4 business day",
-  chooseResolution:"Choose Resolution",
-  refund:"Refund",
-  replacement:"Replacement",
-  selectProductItem : "Please select item that you want to return or exchange.",
+  chooseResolution: "Choose Resolution",
+  refund: "Refund",
+  replacement: "Replacement",
+  selectProductItem: "Please select item that you want to return or exchange.",
 
   // Rate & Review
   rateReviewTitle: "Share your experience with the product",
@@ -337,12 +340,12 @@ export default {
 
   // Manage Addresses
   changeLocation: "Change Location",
-  updateAddress : "Update Address",
+  updateAddress: "Update Address",
   manageAddress: "Manage Address",
   addaNewAddress: "Add a New Address",
   setAsDefault: "Set as Default",
-  confirmSetDefault : "Are you sure want to set this as default?",
-  confirmDeleteAddress:"Are you sure want to delete this address?",
+  confirmSetDefault: "Are you sure want to set this as default?",
+  confirmDeleteAddress: "Are you sure want to delete this address?",
 
   // Add Address
   address: "Address",

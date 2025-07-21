@@ -139,7 +139,7 @@ function handleNotificationPress(notification) {
   setTimeout(() => {
     switch (tag) {
       case NotificationTypes.ADMIN_NOTIFICATION:
-        navigate(ScreenNames.home);
+        navigate(ScreenNames.notification);
         break;
       case NotificationTypes.ORDER_PLACED:
       case NotificationTypes.ORDER_ACCEPTED:

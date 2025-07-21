@@ -149,7 +149,7 @@ const ManageAddressesComponent = (props: PropsType) => {
             }}
         ListEmptyComponent={
           <Text style={styles.lblNoData}>
-            {getTranslation("noDataFound")}
+            {getTranslation("emptyAddressList")}
           </Text>
         }
       />

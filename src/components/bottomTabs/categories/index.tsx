@@ -7,28 +7,33 @@ import {
   StatusBar,
   FlatList,
   Platform,
+  RefreshControl,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import { images } from "../../../constants/Images";
 import { activityOpacity, hitSlop } from "../../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import {
-  MainCategoryListItem,
-} from "../../../constants/interfaces";
+import { MainCategoryListItem } from "../../../constants/interfaces";
 import { colors } from "../../../constants/Colors";
 import FastImage from "react-native-fast-image";
 
 interface PropsType {
   arrMainCategoryList: MainCategoryListItem[];
-  onPressMainCategories: (mainCategoryId:string,mainCategoryName: string) => void;
+  onPressMainCategories: (
+    mainCategoryId: string,
+    mainCategoryName: string
+  ) => void;
   handleOnPressNotifaicationIcon: () => void;
   onPressLocation: () => void;
+  currentAddress: string | null;
+  // Pagination
   loadMoreCategories: () => void;
   canLoadMore: boolean;
   setCanLoadMore: (value: boolean) => void;
   hasMountedOnce: { current: boolean };
-  currentAddress: string | null;
+  isRefreshing: boolean;
+  onRefresh: () => void;
 }
 
 const CategoriesComponent = (props: PropsType) => {
@@ -48,7 +53,7 @@ const CategoriesComponent = (props: PropsType) => {
         hitSlop={hitSlop}
         key={index}
         onPress={() => {
-          props?.onPressMainCategories(item?.id,item?.name);
+          props?.onPressMainCategories(item?.id, item?.name);
         }}
       >
         <FastImage
@@ -85,11 +90,19 @@ const CategoriesComponent = (props: PropsType) => {
             hitSlop={hitSlop}
             onPress={props?.onPressLocation}
           >
-            <Image style={styles.imgLocation} source={images.locationWhite} resizeMode="stretch" />
+            <Image
+              style={styles.imgLocation}
+              source={images.locationWhite}
+              resizeMode="stretch"
+            />
             <Text style={styles.lblLocation} numberOfLines={1}>
               {props?.currentAddress}
             </Text>
-            <Image style={styles.imgDownArrow} source={images.whiteDownArrow} resizeMode="stretch"/>
+            <Image
+              style={styles.imgDownArrow}
+              source={images.whiteDownArrow}
+              resizeMode="stretch"
+            />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={activityOpacity}
@@ -105,7 +118,7 @@ const CategoriesComponent = (props: PropsType) => {
         </View>
         <FlatList
           data={props?.arrMainCategoryList}
-          bounces={false}
+          bounces={true}
           showsVerticalScrollIndicator={false}
           renderItem={renderItemAllCategories}
           numColumns={2}
@@ -116,15 +129,23 @@ const CategoriesComponent = (props: PropsType) => {
             justifyContent: "space-between",
           }}
           onEndReached={() => {
-            if (props.canLoadMore && props.hasMountedOnce.current) {
+            if (
+              props.canLoadMore &&
+              props.hasMountedOnce.current &&
+              !props.isRefreshing
+            ) {
               props.loadMoreCategories();
             }
           }}
           onEndReachedThreshold={0.4}
-          onContentSizeChange={(w, h) => {
-            props.setCanLoadMore(h > 600); // Adjust if needed
-            props.hasMountedOnce.current = true;
-          }}
+          refreshControl={
+            <RefreshControl
+              refreshing={props.isRefreshing}
+              onRefresh={props.onRefresh}
+              colors={[colors.orange1c]}
+              tintColor={colors.orange1c}
+            />
+          }
         />
       </View>
     </View>

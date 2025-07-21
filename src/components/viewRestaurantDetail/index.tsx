@@ -529,6 +529,13 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                               source={images.cartBagIcon}
                               tintColor={colors.white}
                             />
+                            {props?.cartItemTotal > 0 && (
+                              <View style={styles.vwBedge}>
+                                <Text style={styles.lblBedge}>
+                                  {props?.cartItemTotal}
+                                </Text>
+                              </View>
+                            )}
                           </TouchableOpacity>
                           <TouchableOpacity
                             activeOpacity={activityOpacity}

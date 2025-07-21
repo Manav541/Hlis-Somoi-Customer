@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   StatusBar,
+  RefreshControl,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -26,6 +27,8 @@ interface PropsType {
   canLoadMore: boolean;
   setCanLoadMore: (value: boolean) => void;
   hasMountedOnce: { current: boolean };
+  isRefreshing: boolean;
+  onRefresh: () => void;
 }
 
 const NotificationComponent = (props: PropsType) => {
@@ -69,15 +72,42 @@ const NotificationComponent = (props: PropsType) => {
       <SectionList
         sections={props?.arrNotificationList}
         keyExtractor={(item, index) => `${item.title}_${index}`}
-        bounces={false}
+        bounces={true}
         showsVerticalScrollIndicator={false}
         renderItem={renderItemArrNotification}
         renderSectionHeader={({ section: { titleMain } }) => (
           <Text style={styles.lblTitleMain}>{titleMain}</Text>
         )}
-        contentContainerStyle={{ paddingTop: 20, gap: 20 }}
+        contentContainerStyle={{
+          paddingTop: 20,
+          gap: 20,
+          paddingBottom: 40,
+          flexGrow: 1,
+        }}
+        onEndReached={() => {
+          if (
+            props.canLoadMore &&
+            props.hasMountedOnce.current &&
+            !props.isRefreshing
+          ) {
+            props.loadMoreCategories();
+          }
+        }}
+        onEndReachedThreshold={0.4}
+        refreshControl={
+          <RefreshControl
+            refreshing={props.isRefreshing}
+            onRefresh={props.onRefresh}
+            colors={[colors.orange1c]}
+            tintColor={colors.orange1c}
+          />
+        }
         ListEmptyComponent={
-          <Text style={styles.lblNoData}>{getTranslation("noDataFound")}</Text>
+          <View style={styles.vwNoData}>
+            <Text style={styles.lblNoData}>
+              {getTranslation("noDataFound")}
+            </Text>
+          </View>
         }
       />
     </View>

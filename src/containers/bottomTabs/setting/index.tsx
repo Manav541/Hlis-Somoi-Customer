@@ -23,12 +23,10 @@ import {
 import {
   CustomerDetails,
   SettingDataItem,
-  SignupResponse,
 } from "../../../constants/interfaces";
 import { constnatStyles } from "../../../constants/Styles";
 import { zustandStore } from "../../../store";
 import { statusCodes } from "../../../api/APIConstant";
-import LocationManager from "../../../constants/utils/LocationManager";
 
 const SettingContainer = ({ navigation, route }: any) => {
   // API Zustand Store
@@ -56,30 +54,20 @@ const SettingContainer = ({ navigation, route }: any) => {
   const navigateToCMS = (page: string) => () =>
     navigation.navigate(ScreenNames.cmsPage, { navigateFrom: page });
 
-  const handleOnShareApp = async () => {
-    if (!isSharing) return;
+  const onShareCustomerApp = async () => {
+    const customerAppLink =
+      "https://play.google.com/store/apps/details?id=com.somoicustomer";
 
-    setIsSharing(false);
+    const message = `Feeling hungry? 🍕🍔 Order your favorite food with Somoi! 🚀\n\nBrowse nearby restaurants, get exclusive deals, and enjoy fast delivery right to your doorstep.\n\nDownload the Somoi app now:\n${customerAppLink}`;
+
     try {
-      const result = await Share.share({
-        message: `${appName} App`,
+      await Share.share({
+        title: "Download Somoi - Order Food Online",
+        message,
       });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error: any) {
-      Alert.alert(error.message);
+    } catch (error) {
+      console.error("Error sharing customer app:", error);
     }
-
-    setTimeout(() => {
-      setIsSharing(true);
-    }, 1000);
   };
 
   const arrSettingData: SettingDataItem[] = [
@@ -220,7 +208,7 @@ const SettingContainer = ({ navigation, route }: any) => {
           disabled: !isSharing,
           ...ICON_SIZE,
           onPress() {
-            handleOnShareApp();
+            onShareCustomerApp();
           },
         },
         {
@@ -233,7 +221,15 @@ const SettingContainer = ({ navigation, route }: any) => {
           icon: images.contactUsIcon,
           title: getTranslation("contactUs"),
           ...ICON_SIZE,
-          onPress: () => navigation.navigate(ScreenNames.contactUs),
+          onPress: () => {
+            if (isGuestUser) {
+              showConfirmForGuest(() => {
+                navigation.navigate(ScreenNames.signin);
+              });
+            } else {
+              navigation.navigate(ScreenNames.contactUs);
+            }
+          },
         },
         {
           icon: images.faqIcon,

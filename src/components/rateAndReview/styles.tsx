@@ -52,26 +52,22 @@ export const styles = StyleSheet.create({
     overflow: "hidden",
   },
   vwAllBestSellersItem: {
-    height: 250,
     width: ScreenDimensions.screenWidth - 40,
     borderRadius: 20,
     overflow: "hidden",
     backgroundColor: colors.white,
     marginBottom: 10,
-    marginHorizontal : 20
+    marginHorizontal: 20,
   },
   vwBestSellersItemDetails: {
     paddingHorizontal: 12.5,
     paddingTop: 14,
     paddingBottom: 10,
-    height: 102,
   },
   vwLocation: {
     marginTop: 5,
     flexDirection: "row",
-    alignItems: "center",
     gap: 5,
-    height: 22,
   },
   vwTimeDistanceRating: {
     flexDirection: "row",
@@ -164,7 +160,7 @@ export const styles = StyleSheet.create({
     color: colors.blue4e,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.regularOutFit,
-    alignSelf :'center',
+    alignSelf: "center",
   },
 
   // TouchableOpacity Styles
@@ -229,7 +225,7 @@ export const styles = StyleSheet.create({
     width: 40.48,
     borderRadius: 100,
     position: "absolute",
-    bottom: 81.03,
+    top: 127.49,
     right: 13,
   },
 });

@@ -28,6 +28,7 @@ import FastImage, { Source as FastImageSource } from "react-native-fast-image";
 import { OrderItem, RestaurantInfo } from "../../constants/interfaces";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
 import { fontsfamily } from "../../constants/FontFamily";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 interface PropsType {
   navigateFromStoreReview: boolean;
@@ -83,7 +84,7 @@ const RateAndReviewComponent = (props: PropsType) => {
         backgroundColor={colors.orange1c}
         barStyle={"dark-content"}
       />
-      <ScrollView
+      <KeyboardAwareScrollView
         contentContainerStyle={{ paddingBottom: 20 }}
         bounces={false}
         showsVerticalScrollIndicator={false}
@@ -144,12 +145,12 @@ const RateAndReviewComponent = (props: PropsType) => {
                   />
                 </View>
               </View>
-              <FastImage
-                style={styles.imgLogo}
-                source={{ uri: props?.storeDetail?.logo }}
-                resizeMode="stretch"
-              />
             </View>
+            <FastImage
+              style={styles.imgLogo}
+              source={{ uri: props?.storeDetail?.logo }}
+              resizeMode="stretch"
+            />
           </View>
         ) : (
           <View style={styles.vwProductsItems}>
@@ -278,7 +279,7 @@ const RateAndReviewComponent = (props: PropsType) => {
             </ScrollView>
           </View>
         )}
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <View
         style={{
           marginHorizontal: 20,

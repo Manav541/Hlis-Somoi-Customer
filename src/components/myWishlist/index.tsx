@@ -133,7 +133,7 @@ const MyWishlistComponent = (props: PropsType) => {
           {/* Product Details */}
           <View style={styles.vwProductDetails}>
             <View style={{ height: 60 }}>
-              <View style={{ flex : 1 }}>
+              <View style={{ flex: 1 }}>
                 <Text style={styles.lblProductName} numberOfLines={2}>
                   {item?.name}
                 </Text>
@@ -144,14 +144,13 @@ const MyWishlistComponent = (props: PropsType) => {
             </View>
 
             <View style={styles.vwPriceRating}>
-             
-                <Text style={styles.lblProductFinalPrice}>
-                  {rupeeSymbol + item?.price}
-                </Text>
-                {/* <Text style={styles.lblProductPrice}>
+              <Text style={styles.lblProductFinalPrice}>
+                {rupeeSymbol + item?.price}
+              </Text>
+              {/* <Text style={styles.lblProductPrice}>
                   {rupeeSymbol + item?.originalPrice}
                 </Text> */}
-              
+
               <View style={styles.vwRating}>
                 <Image
                   style={styles.imgStar}
@@ -398,6 +397,7 @@ const MyWishlistComponent = (props: PropsType) => {
             gap: 10,
             paddingHorizontal: 20,
             paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
+            flexGrow: 1,
           }}
           onEndReached={() => {
             if (props.canLoadMore && props.hasMountedOnce.current) {
@@ -410,9 +410,11 @@ const MyWishlistComponent = (props: PropsType) => {
             props.hasMountedOnce.current = true;
           }}
           ListEmptyComponent={
-            <Text style={styles.lblNoData}>
-              {getTranslation("noDataFound")}
-            </Text>
+            <View style={styles.vwNoData}>
+              <Text style={styles.lblNoData}>
+                {getTranslation("noDataFound")}
+              </Text>
+            </View>
           }
         />
       ) : (
@@ -425,6 +427,7 @@ const MyWishlistComponent = (props: PropsType) => {
           contentContainerStyle={{
             paddingHorizontal: 20,
             paddingBottom: PlatformVersion.isIOS ? insets.bottom : 19,
+            flexGrow: 1,
           }}
           columnWrapperStyle={{
             justifyContent: "space-between",
@@ -443,9 +446,11 @@ const MyWishlistComponent = (props: PropsType) => {
             props.hasMountedOnce.current = true;
           }}
           ListEmptyComponent={
-            <Text style={styles.lblNoData}>
-              {getTranslation("noDataFound")}
-            </Text>
+            <View style={styles.vwNoData}>
+              <Text style={styles.lblNoData}>
+                {getTranslation("noDataFound")}
+              </Text>
+            </View>
           }
         />
       )}

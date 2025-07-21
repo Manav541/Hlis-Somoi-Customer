@@ -18,12 +18,11 @@ export const styles = StyleSheet.create({
   vwLocation: {
     marginTop: 5,
     flexDirection: "row",
-    alignItems: "center",
     gap: 5,
-    marginHorizontal : 12.5
+    marginHorizontal: 12.5,
   },
   vwTimeDistanceRating: {
-    marginHorizontal : 12.5,
+    marginHorizontal: 12.5,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -32,8 +31,8 @@ export const styles = StyleSheet.create({
   vwTimeDistance: {
     flexDirection: "row",
     alignItems: "center",
-    flex : 1,
-    flexWrap : "wrap"
+    flex: 1,
+    flexWrap: "wrap",
   },
   vwDistance: {
     flexDirection: "row",
@@ -59,19 +58,19 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.bold,
     lineHeight: 22,
-    marginHorizontal : 12.5
+    marginHorizontal: 12.5,
   },
   lblLocation: {
     color: colors.black35,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regularOutFit,
-    marginRight : 20
+    marginRight: 20,
   },
   lblTime: {
     color: colors.black35,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regularOutFit,
-    marginRight : 5
+    marginRight: 5,
   },
   lblDistance: {
     color: colors.black35,

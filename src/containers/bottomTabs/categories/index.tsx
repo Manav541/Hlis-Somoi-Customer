@@ -39,12 +39,7 @@ const CategoriesContainer = ({ navigation }: any) => {
   const [hasMoreData, setHasMoreData] = useState<boolean>(true);
   const hasMountedOnce = useRef(false);
   const [canLoadMore, setCanLoadMore] = useState(false);
-  // const [currentLatLong, setCurrentLatLong] = useState<{
-  //   latitude: number;
-  //   longitude: number;
-  // } | null>(null);
-  // const [currentAddress, setCurrentAddress] = useState<string | null>("");
-  const hasSelectedAddressRef = React.useRef(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const onPressMainCategories = (
     mainCategoryId: string,
@@ -74,6 +69,20 @@ const CategoriesContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.notification);
   };
 
+  const onRefresh = () => {
+    setIsRefreshing(true);
+    setHasMoreData(true);
+    setMainCategoryPageNumber(1);
+    handleMainCategoryListApi(1, false);
+  };
+
+  const loadMoreCategories = () => {
+    if (hasMoreData && !isLoadingMore && hasMountedOnce.current) {
+      const nextPage = mainCategoryPageNumber + 1;
+      handleMainCategoryListApi(nextPage, true);
+    }
+  };
+
   // -------------------------API Calling----------------------------
   // handleMainCategoryListApi
   const handleMainCategoryListApi = async (
@@ -100,19 +109,28 @@ const CategoriesContainer = ({ navigation }: any) => {
             "MAIN CATEGORY LIST RESPONSE===>",
             JSON.stringify(response)
           );
-        const data = response.data as MainCategoryListItem;
+
         if (response.code === statusCodes.success) {
+          setIsRefreshing(false);
+          const data = response.data as MainCategoryListItem;
           if (Array.isArray(data) && data.length > 0) {
             setArrMainCategoryList((prev) =>
               isLoadMore ? [...prev, ...data] : data
             );
-            // Only update the page number if data exists
             setMainCategoryPageNumber(page);
+            setHasMoreData(true);
+            // ✅ Set mounted + canLoadMore
+            hasMountedOnce.current = true;
+            setCanLoadMore(data.length >= 10);
           } else {
+            if (!isLoadMore) setArrMainCategoryList([]);
             setHasMoreData(false);
           }
         } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
+          setArrMainCategoryList([]);
+        } else if (response.code === statusCodes.emptyData) {
+          if (!isLoadMore) setArrMainCategoryList([]);
+          setHasMoreData(false);
         }
       }
     } catch (error) {
@@ -123,30 +141,6 @@ const CategoriesContainer = ({ navigation }: any) => {
     }
   };
 
-  const loadMoreCategories = () => {
-    if (hasMoreData && !isLoadingMore) {
-      const nextPage = mainCategoryPageNumber + 1;
-      handleMainCategoryListApi(nextPage, true);
-    }
-  };
-
-  // Current Location
-  // const handleCurrentLocation = async () => {
-  //   toggleLoader(true);
-  //   const current = await LocationManager.getCurrentLocation();
-  //   if (current) {
-  //     setCurrentLatLong(current);
-  //     console.log("current ", current);
-
-  //     const address = await LocationManager.getFormattedAddress(current);
-  //     console.log("currentAddress", address);
-  //     setCurrentAddress(address);
-
-  //     handleMainCategoryListApi(1, false);
-  //   }
-  //   toggleLoader(false);
-  // };
-
   useFocusEffect(
     React.useCallback(() => {
       // Fetch Guest User
@@ -155,13 +149,7 @@ const CategoriesContainer = ({ navigation }: any) => {
 
         setIsGuestUser(Boolean(storedValue));
       });
-      // if (!hasSelectedAddressRef.current) {
-      //   handleCurrentLocation();
-      // }
       handleMainCategoryListApi(1, false);
-      setMainCategoryPageNumber(1);
-      setHasMoreData(true);
-      setArrMainCategoryList([]);
 
       StatusBar.setBarStyle("light-content");
       StatusBar.setBackgroundColor(colors.blue4e);
@@ -176,11 +164,14 @@ const CategoriesContainer = ({ navigation }: any) => {
       onPressMainCategories={onPressMainCategories}
       handleOnPressNotifaicationIcon={handleOnPressNotifaicationIcon}
       onPressLocation={onPressLocation}
+      currentAddress={currentAddress}
+      // pagination
       loadMoreCategories={loadMoreCategories}
       canLoadMore={canLoadMore}
       setCanLoadMore={setCanLoadMore}
       hasMountedOnce={hasMountedOnce}
-      currentAddress={currentAddress}
+      isRefreshing={isRefreshing}
+      onRefresh={onRefresh}
     />
   );
 };

@@ -18,6 +18,11 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 7,
   },
+  vwNoData: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
   // Text Styles
   lblTitleMain: {
@@ -44,9 +49,9 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.regular,
     marginRight: 18,
   },
-   lblNoData: {
+  lblNoData: {
     fontSize: fontSize.size20,
-    color: colors.greya7,
+    color: colors.white,
     fontFamily: fontsfamily.semibold,
     textAlign: "center",
   },

@@ -144,6 +144,7 @@ const AddCompareProductsComponent = (props: PropsType) => {
           paddingBottom: PlatformVersion.isIOS ? insets.bottom : 19,
           gap: 19,
           marginTop: 20,
+          flexGrow : 1
         }}
         columnWrapperStyle={{
           justifyContent: "space-between",
@@ -160,6 +161,13 @@ const AddCompareProductsComponent = (props: PropsType) => {
           props.setCanLoadMore(h > 600); // Adjust if needed
           props.hasMountedOnce.current = true;
         }}
+         ListEmptyComponent={
+          <View style={styles.vwNoData}>
+            <Text style={styles.lblNoData}>
+              {getTranslation("noDataFound")}
+            </Text>
+          </View>
+        }
       />
     </View>
   );

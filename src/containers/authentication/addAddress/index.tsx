@@ -11,6 +11,7 @@ import GlobalBackButton from "../../../global/GlobalBackButton";
 import AddAddressComponent from "../../../components/authentication/addAddress";
 import { regex } from "../../../constants/Regex";
 import {
+  containsEmoji,
   flashMessageSucess,
   flashMessageWarning,
   showConfirmAlert,
@@ -120,7 +121,10 @@ const AddAddressContainer = ({ navigation, route }: any) => {
         setAddress(text);
       }
     } else if (type === "house") {
-      setHouse(text.replace(/\s/g, ""));
+      const cleanedText = text.replace(/\s/g, "");
+      if (!containsEmoji(cleanedText)) {
+        setHouse(cleanedText);
+      }
     } else if (type === "description") {
       setAdditionalDescription(text);
     }

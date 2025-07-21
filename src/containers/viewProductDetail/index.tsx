@@ -211,6 +211,10 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       });
     } else {
       if (!productDetails) return;
+      if (!productDetails?.in_stock) {
+        flashMessageWarning(getTranslation("textOutOfStock"));
+        return;
+      }
 
       const currentQty = Number(productDetails.cart?.quantity) || 0;
       let newQty = currentQty;
@@ -826,7 +830,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
 
   useEffect(() => {
     header();
-  }, [cartItemCount,product_id,productDetails]);
+  }, [cartItemCount, product_id, productDetails]);
 
   return (
     <>

@@ -8,9 +8,7 @@ import {
   NativeScrollEvent,
   TouchableOpacity,
   StatusBar,
-  Platform,
   Modal,
-  TouchableWithoutFeedback,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -56,7 +54,6 @@ interface PropsType {
   onPressImageVideo: () => void;
   onPressViewAllReview: (product_id: string) => void;
   onPressFavourite: (product_id: string, variation_id: string) => void;
-
 
   mediaModalVisible: boolean;
   handleCloseMediaModal: () => void;
@@ -118,7 +115,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
       );
     }
     return (
-      <View key={index} style={{ alignItems: "center", width: 100 }}>
+      <View key={index} style={{ alignItems: "center", width: ScreenDimensions?.screenWidth/4 }}>
         <Image
           style={
             item?.title === "Fast Delivery"
@@ -669,7 +666,6 @@ const ViewProductDetailComponent = (props: PropsType) => {
               title={getTranslation("buyNow")}
               flex={1}
               onPress={() => props?.onPressBuyNow("add")}
-              disabled={props?.productDetails?.in_stock == false}
             />
           ) : (
             <View style={styles.vwBuyNow}>

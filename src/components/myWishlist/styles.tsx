@@ -93,7 +93,6 @@ export const styles = StyleSheet.create({
   vwLocation: {
     marginTop: 10,
     flexDirection: "row",
-    alignItems: "center",
     gap: 5,
   },
   vwTimeDistanceRating: {
@@ -271,7 +270,7 @@ export const styles = StyleSheet.create({
   },
   lblNoData: {
     fontSize: fontSize.size20,
-    color: colors.greya7,
+    color: colors.white,
     fontFamily: fontsfamily.semibold,
     textAlign: "center",
   },

@@ -44,6 +44,11 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
   },
+  vwNoData: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
   //   Text Styles
   lblAddToCart: {
@@ -77,6 +82,12 @@ export const styles = StyleSheet.create({
     color: colors.black13,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.semibold,
+  },
+  lblNoData: {
+    fontSize: fontSize.size20,
+    color: colors.white,
+    fontFamily: fontsfamily.semibold,
+    textAlign: "center",
   },
 
   //   TouchableOpacity Styles

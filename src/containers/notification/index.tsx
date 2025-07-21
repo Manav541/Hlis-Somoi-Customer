@@ -37,6 +37,7 @@ const NotificationContainer = ({ navigation }: any) => {
   const [hasMoreData, setHasMoreData] = useState<boolean>(true);
   const hasMountedOnce = useRef(false);
   const [canLoadMore, setCanLoadMore] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const onPressNotification = (
     tag: string,
@@ -77,8 +78,15 @@ const NotificationContainer = ({ navigation }: any) => {
     }
   };
 
+  const onRefresh = () => {
+    setIsRefreshing(true);
+    setHasMoreData(true);
+    setNotificationListPageNumber(1);
+    handleNotificationListApi(1, false);
+  };
+
   const loadMoreCategories = () => {
-    if (hasMoreData && !isLoadingMore) {
+    if (hasMoreData && !isLoadingMore && hasMountedOnce.current) {
       const nextPage = notificationListPageNumber + 1;
       handleNotificationListApi(nextPage, true);
     }
@@ -127,6 +135,7 @@ const NotificationContainer = ({ navigation }: any) => {
             JSON.stringify(response)
           );
         if (response.code === statusCodes.success) {
+          setIsRefreshing(false);
           const rawData = response.data as NotificationGroup[];
           const formattedSections = formatNotifications(rawData);
           if (formattedSections.length > 0) {
@@ -135,6 +144,9 @@ const NotificationContainer = ({ navigation }: any) => {
             );
             setNotificationListPageNumber(page);
             setHasMoreData(true);
+            // ✅ Set mounted + canLoadMore
+            hasMountedOnce.current = true;
+            setCanLoadMore(rawData.length >= 10);
           } else {
             if (!isLoadMore) setArrNotificationList([]);
             setHasMoreData(false);
@@ -167,8 +179,8 @@ const NotificationContainer = ({ navigation }: any) => {
         } else {
           handleNotificationListApi(1, false);
         }
-        });
-      
+      });
+
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])
@@ -183,6 +195,8 @@ const NotificationContainer = ({ navigation }: any) => {
       canLoadMore={canLoadMore}
       setCanLoadMore={setCanLoadMore}
       hasMountedOnce={hasMountedOnce}
+      isRefreshing={isRefreshing}
+      onRefresh={onRefresh}
     />
   );
 };

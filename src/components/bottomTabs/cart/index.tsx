@@ -32,7 +32,6 @@ interface PropsType {
   onChangeCouponCode: (text: string) => void;
   onPressApplyCoupon: () => void;
   onPressRemoveCoupon: () => void;
-  arrOrderProduts: GroceryProduct[];
   deliverToName: string;
   deliverToAddress: string;
   approxDeliveryTime: string;

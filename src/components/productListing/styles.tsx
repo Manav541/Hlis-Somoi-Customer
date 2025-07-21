@@ -79,7 +79,6 @@ export const styles = StyleSheet.create({
   vwLocation: {
     marginTop: 10,
     flexDirection: "row",
-    alignItems: "center",
     gap: 5,
   },
   vwTimeDistanceRating: {
@@ -140,7 +139,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
     lineHeight: 20,
-    flex : 1
+    flex: 1,
   },
   lblProductWeight: {
     color: colors.greya7,
@@ -165,8 +164,10 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.semibold,
   },
   lblNoData: {
-    fontSize: fontSize.size16,
-    color: colors.greya7,
+    fontSize: fontSize.size20,
+    color: colors.white,
+    fontFamily: fontsfamily.semibold,
+    textAlign: "center",
   },
   lblProductQuantity: {
     color: colors.blue4e,
@@ -184,13 +185,13 @@ export const styles = StyleSheet.create({
     color: colors.black35,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regularOutFit,
-    marginRight : 20
+    marginRight: 20,
   },
   lblTime: {
     color: colors.black35,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regularOutFit,
-    marginRight : 5
+    marginRight: 5,
   },
   lblDistance: {
     color: colors.black35,
@@ -204,12 +205,12 @@ export const styles = StyleSheet.create({
   },
 
   // Touchableopacity Styles
-   btnMyWishlistItem: {
+  btnMyWishlistItem: {
     height: 207,
-    borderTopLeftRadius:20,
+    borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: colors.white,
-    overflow :'hidden'
+    overflow: "hidden",
   },
   btnSubCategoryTitle: {
     paddingHorizontal: 7,
@@ -318,7 +319,7 @@ export const styles = StyleSheet.create({
     width: 40.48,
     borderRadius: 100,
     position: "absolute",
-    top : 127.29,
+    top: 127.29,
     right: 14.76,
   },
 
