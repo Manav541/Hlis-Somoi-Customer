@@ -107,11 +107,11 @@ const PaymentMethodComponent = (props: PropsType) => {
           <View style={styles.vwCOD}>
             <Image
               style={styles.imgCOD}
-              source={images.razorpayLogo}
+              source={images.onlinePayment}
               resizeMode="stretch"
             />
             <Text style={styles.lblCOD}>
-              {getTranslation("razorpay")}
+              {getTranslation("onlinePayment")}
             </Text>
           </View>
           <Image

@@ -196,7 +196,7 @@ export default {
     "Select a saved card or enter new card details for payment.",
   creditorDebitCard: "Credit or Debit Card",
   cashonDelivery: "Cash on Delivery",
-  razorpay: "Razorpay",
+  onlinePayment: "Online Payment",
   totalAmount: "Total Amount",
 
   // Success

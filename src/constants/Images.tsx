@@ -138,7 +138,7 @@ export const images = {
   // Payment Method
   gPayLogo: require("../assets/images/gPayLogo.png"),
   codLogo: require("../assets/images/codLogo.png"),
-  razorpayLogo: require("../assets/images/razorpayLogo.png"),
+  onlinePayment: require("../assets/images/onlinePayment.png"),
   blueFillCheckbox: require("../assets/images/blueFillCheckbox.png"),
   emptyBlackCheckBox: require("../assets/images/emptyBlackCheckBox.png"),
   visaIcon1: require("../assets/images/visaIcon1.png"),

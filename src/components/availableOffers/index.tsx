@@ -101,6 +101,8 @@ const AvailableOffersComponent = (props: PropsType) => {
             props.arrAvailableOffers.length === 0 ? "center" : undefined,
           alignItems:
             props.arrAvailableOffers.length === 0 ? "center" : undefined,
+            paddingBottom : 40,
+            paddingHorizontal : 20
         }}
         renderItem={renderAvailableOffers}
         bounces={false}

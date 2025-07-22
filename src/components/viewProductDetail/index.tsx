@@ -115,7 +115,13 @@ const ViewProductDetailComponent = (props: PropsType) => {
       );
     }
     return (
-      <View key={index} style={{ alignItems: "center", width: ScreenDimensions?.screenWidth/4 }}>
+      <View
+        key={index}
+        style={{
+          alignItems: "center",
+          width: ScreenDimensions?.screenWidth / 4,
+        }}
+      >
         <Image
           style={
             item?.title === "Fast Delivery"
@@ -332,42 +338,6 @@ const ViewProductDetailComponent = (props: PropsType) => {
       <View style={{ flex: 1 }}>
         <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
           <View style={[styles.vwImgMainLogo, { position: "relative" }]}>
-            {/* Stick header */}
-            {/* <View style={styles.vwHeader}>
-              <GlobalBackButton onPress={props?.onPressBack} />
-              <View style={styles.vwHeaderRight}>
-                <TouchableOpacity
-                  activeOpacity={activityOpacity}
-                  hitSlop={hitSlop}
-                  onPress={props?.onPressShare}
-                >
-                  <Image
-                    style={styles.imgButton}
-                    source={images.shareIcon}
-                    tintColor={colors.blue4e}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={activityOpacity}
-                  hitSlop={hitSlop}
-                  onPress={props?.onPressCartIcon}
-                  disabled={props?.isNavigating}
-                >
-                  <Image
-                    style={styles.imgButton}
-                    source={images.cartBagIcon}
-                    tintColor={colors.blue4e}
-                  />
-                  {props?.cartItemTotal > 0 && (
-                    <View style={styles.vwBedge}>
-                      <Text style={styles.lblBedge}>
-                        {props?.cartItemTotal}
-                      </Text>
-                    </View>
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View> */}
             <FlatList
               data={props?.productDetails?.images}
               horizontal

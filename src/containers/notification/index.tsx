@@ -11,6 +11,7 @@ import {
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { useFocusEffect } from "@react-navigation/native";
 import {
+  NotificationData,
   NotificationGroup,
   NotificationOtherData,
 } from "../../constants/interfaces";
@@ -19,6 +20,7 @@ import { ScreenNames } from "../../routers";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
 import { MmkvManager } from "../../constants/utils/MmkvManager";
+import moment from "moment";
 
 const NotificationContainer = ({ navigation }: any) => {
   // API Zustand Store
@@ -139,9 +141,45 @@ const NotificationContainer = ({ navigation }: any) => {
           const rawData = response.data as NotificationGroup[];
           const formattedSections = formatNotifications(rawData);
           if (formattedSections.length > 0) {
-            setArrNotificationList((prev) =>
-              isLoadMore ? [...prev, ...formattedSections] : formattedSections
-            );
+            setArrNotificationList((prev) => {
+              if (!isLoadMore) return formattedSections;
+
+              const mergedMap: Record<string, NotificationData[]> = {};
+
+              // Add previous notifications
+              prev.forEach(({ titleMain, data }) => {
+                mergedMap[titleMain] = [
+                  ...(mergedMap[titleMain] || []),
+                  ...data,
+                ];
+              });
+
+              // Add new notifications
+              formattedSections.forEach(({ titleMain, data }) => {
+                mergedMap[titleMain] = [
+                  ...(mergedMap[titleMain] || []),
+                  ...data,
+                ];
+              });
+
+              // Convert map to sorted array
+              const mergedArr: NotificationGroup[] = Object.entries(mergedMap)
+                .sort((a, b) => {
+                  if (a[0] === "Today") return -1;
+                  if (b[0] === "Today") return 1;
+                  if (a[0] === "Yesterday") return -1;
+                  if (b[0] === "Yesterday") return 1;
+                  return moment(b[0], "DD MMMM YYYY").diff(
+                    moment(a[0], "DD MMMM YYYY")
+                  );
+                })
+                .map(([titleMain, data]) => ({
+                  titleMain,
+                  data,
+                }));
+
+              return mergedArr;
+            });
             setNotificationListPageNumber(page);
             setHasMoreData(true);
             // ✅ Set mounted + canLoadMore

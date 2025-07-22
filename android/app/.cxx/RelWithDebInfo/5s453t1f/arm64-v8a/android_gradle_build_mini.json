@@ -1,0 +1,140 @@
+{
+  "buildFiles": [
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-community/geolocation/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-date-picker/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-image-picker/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-localize/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/MMKV/Core/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/android/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-mmkv/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-permissions/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-webview/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native/ReactAndroid/cmake-utils/default-app-setup/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/hyperlink/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/RelWithDebInfo/5s453t1f/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/hyperlink/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/RelWithDebInfo/5s453t1f/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "react_codegen_safeareacontext::@7984cd80db47aa7b952a": {
+      "artifactName": "react_codegen_safeareacontext",
+      "abi": "arm64-v8a",
+      "output": "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/RelWithDebInfo/5s453t1f/obj/arm64-v8a/libreact_codegen_safeareacontext.so",
+      "runtimeFiles": [
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/0b061f55bf713daab6875ce1f4aa3a92/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.arm64-v8a/libfbjni.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/cafe576227fd15ffdf892d096c27842f/transformed/jetified-react-android-0.79.1-release/prefab/modules/jsi/libs/android.arm64-v8a/libjsi.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/cafe576227fd15ffdf892d096c27842f/transformed/jetified-react-android-0.79.1-release/prefab/modules/reactnative/libs/android.arm64-v8a/libreactnative.so"
+      ]
+    },
+    "react_codegen_RNPermissionsSpec::@7ad697819b753921c957": {
+      "artifactName": "react_codegen_RNPermissionsSpec",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "react_codegen_rngesturehandler_codegen::@39f233abcd2c728bc6ec": {
+      "artifactName": "react_codegen_rngesturehandler_codegen",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "react_codegen_RNCWebViewSpec::@eb48929f9f7453740a6c": {
+      "artifactName": "react_codegen_RNCWebViewSpec",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "appmodules::@6890427a1f51a3e7e1df": {
+      "artifactName": "appmodules",
+      "abi": "arm64-v8a",
+      "output": "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/RelWithDebInfo/5s453t1f/obj/arm64-v8a/libappmodules.so",
+      "runtimeFiles": [
+        "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/RelWithDebInfo/5s453t1f/obj/arm64-v8a/libreact-native-mmkv.so",
+        "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/RelWithDebInfo/5s453t1f/obj/arm64-v8a/libreact_codegen_safeareacontext.so",
+        "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/RelWithDebInfo/5s453t1f/obj/arm64-v8a/libreact_codegen_rnscreens.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/0b061f55bf713daab6875ce1f4aa3a92/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.arm64-v8a/libfbjni.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/cafe576227fd15ffdf892d096c27842f/transformed/jetified-react-android-0.79.1-release/prefab/modules/jsi/libs/android.arm64-v8a/libjsi.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/cafe576227fd15ffdf892d096c27842f/transformed/jetified-react-android-0.79.1-release/prefab/modules/reactnative/libs/android.arm64-v8a/libreactnative.so"
+      ]
+    },
+    "react_codegen_Compressor::@408161e29a6d5b274579": {
+      "artifactName": "react_codegen_Compressor",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "react_codegen_RNCGeolocationSpec::@1b959fcb56e23f7716ba": {
+      "artifactName": "react_codegen_RNCGeolocationSpec",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "react_codegen_rnclipboard::@6385240493dfcaf22ab7": {
+      "artifactName": "react_codegen_rnclipboard",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "react_codegen_rnreanimated::@8afabad14bfffa3f8b9a": {
+      "artifactName": "react_codegen_rnreanimated",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "core::@1b9a7d546b295b7d0867": {
+      "artifactName": "core",
+      "abi": "arm64-v8a",
+      "output": "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/RelWithDebInfo/5s453t1f/arm64-v8a/RNMmkvSpec_cxxmodule_autolinked_build/core/libcore.a",
+      "runtimeFiles": []
+    },
+    "react-native-mmkv::@4ae6a1e65d3e68ba0197": {
+      "artifactName": "react-native-mmkv",
+      "abi": "arm64-v8a",
+      "output": "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/RelWithDebInfo/5s453t1f/obj/arm64-v8a/libreact-native-mmkv.so",
+      "runtimeFiles": [
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/0b061f55bf713daab6875ce1f4aa3a92/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.arm64-v8a/libfbjni.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/cafe576227fd15ffdf892d096c27842f/transformed/jetified-react-android-0.79.1-release/prefab/modules/jsi/libs/android.arm64-v8a/libjsi.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/cafe576227fd15ffdf892d096c27842f/transformed/jetified-react-android-0.79.1-release/prefab/modules/reactnative/libs/android.arm64-v8a/libreactnative.so"
+      ]
+    },
+    "react_codegen_RNImagePickerSpec::@f66ee9a2efecfb28bee4": {
+      "artifactName": "react_codegen_RNImagePickerSpec",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "react_codegen_rnscreens::@25bcbd507e98d3a854ad": {
+      "artifactName": "react_codegen_rnscreens",
+      "abi": "arm64-v8a",
+      "output": "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/build/intermediates/cxx/RelWithDebInfo/5s453t1f/obj/arm64-v8a/libreact_codegen_rnscreens.so",
+      "runtimeFiles": [
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/cafe576227fd15ffdf892d096c27842f/transformed/jetified-react-android-0.79.1-release/prefab/modules/reactnative/libs/android.arm64-v8a/libreactnative.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/cafe576227fd15ffdf892d096c27842f/transformed/jetified-react-android-0.79.1-release/prefab/modules/jsi/libs/android.arm64-v8a/libjsi.so",
+        "/Users/hyperlink/.gradle/caches/8.13/transforms/0b061f55bf713daab6875ce1f4aa3a92/transformed/jetified-fbjni-0.7.0/prefab/modules/fbjni/libs/android.arm64-v8a/libfbjni.so"
+      ]
+    },
+    "react_codegen_RNLocalizeSpec::@f3ba5298aff84514e205": {
+      "artifactName": "react_codegen_RNLocalizeSpec",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "react_codegen_RNMmkvSpec::@7541eabbae598da31a69": {
+      "artifactName": "react_codegen_RNMmkvSpec",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "react_codegen_RNDatePickerSpecs::@c00f981c6e74346c63d4": {
+      "artifactName": "react_codegen_RNDatePickerSpecs",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    }
+  }
+}

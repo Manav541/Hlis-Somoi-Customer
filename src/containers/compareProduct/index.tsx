@@ -108,14 +108,18 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
             );
             setCompareProductListPageNumber(page);
             setHasMoreData(true);
+             // ✅ Set mounted + canLoadMore
+            hasMountedOnce.current = true;
+            setCanLoadMore(rawData.length >= 10);
           } else {
             if (!isLoadMore) setArrCompareProducts([]);
             setHasMoreData(false);
           }
         } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
+          setArrCompareProducts([]);
         } else if (response.code === statusCodes.emptyData) {
-          flashMessageWarning(response.message);
+          if (!isLoadMore) setArrCompareProducts([]);
+          setHasMoreData(false);
         }
       }
     } catch (error) {
@@ -146,9 +150,9 @@ const CompareProductConteiner = ({ navigation, route }: any) => {
             prev.filter((item) => item.id !== product_id)
           );
         } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
+          setArrCompareProducts([]);
         } else if (response.code === statusCodes.emptyData) {
-          flashMessageWarning(response.message);
+          setArrCompareProducts([]);
         }
       }
     } catch (error) {

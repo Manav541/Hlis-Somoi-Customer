@@ -1,0 +1,3 @@
+/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/RelWithDebInfo/5s453t1f/arm64-v8a/CMakeFiles/appmodules.dir
+/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/RelWithDebInfo/5s453t1f/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/android/app/.cxx/RelWithDebInfo/5s453t1f/arm64-v8a/CMakeFiles/rebuild_cache.dir

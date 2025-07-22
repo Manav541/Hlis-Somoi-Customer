@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
   vwLine: {
     height: 1,
     backgroundColor: colors.greyd9_50,
+    marginHorizontal : 20
   },
   vwTotal: {
     marginHorizontal: 20,

@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   vwMain: {
     flex: 1,
     backgroundColor: colors.blue4e,
-    padding: 20,
+    paddingTop: 20,
   },
   vwOfferCodeValidity: {
     justifyContent: "space-between",
@@ -60,7 +60,7 @@ export const styles = StyleSheet.create({
   },
   lblNoData: {
     fontSize: fontSize.size20,
-    color: colors.greya7,
+    color: colors.white,
     fontFamily: fontsfamily.semibold,
     textAlign: "center",
   },

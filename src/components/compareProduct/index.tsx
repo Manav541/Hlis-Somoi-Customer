@@ -137,8 +137,10 @@ const CompareProductComponent = (props: PropsType) => {
         }}
         onEndReachedThreshold={0.4}
         onContentSizeChange={(w, h) => {
-          props.setCanLoadMore(h > 600); // Adjust if needed
-          props.hasMountedOnce.current = true;
+          if (!props.hasMountedOnce.current) {
+            props.setCanLoadMore(h > 600); // only once on first mount
+            props.hasMountedOnce.current = true;
+          }
         }}
       />
     </View>
