@@ -9,7 +9,7 @@ import {
   toggleLoader,
 } from "../../constants/GConstant";
 import { getTranslation } from "../../localization/i18n/i18n.config";
-import { useFocusEffect } from "@react-navigation/native";
+import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import {
   NotificationData,
   NotificationGroup,
@@ -47,7 +47,20 @@ const NotificationContainer = ({ navigation }: any) => {
   ) => {
     switch (tag) {
       case NotificationTypes.ADMIN_NOTIFICATION:
-        navigation.navigate(ScreenNames.home);
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              {
+                name: ScreenNames.bottomTabsNavigation,
+                state: {
+                  index: 0,
+                  routes: [{ name: ScreenNames.home }],
+                },
+              },
+            ],
+          })
+        );
         break;
       case NotificationTypes.ORDER_PLACED:
       case NotificationTypes.ORDER_ACCEPTED:

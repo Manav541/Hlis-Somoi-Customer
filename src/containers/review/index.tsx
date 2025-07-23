@@ -1,4 +1,4 @@
-import { View, Text, StatusBar } from "react-native";
+import { Text, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import ReviewComponent from "../../components/review";
 import GlobalBackButton from "../../global/GlobalBackButton";
@@ -44,12 +44,23 @@ const ReviewContainer = ({ navigation, route }: any) => {
     type: "image" | "video";
   } | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [showViewMore, setShowViewMore] = useState(false);
+  const [showMore, setShowMore] = useState(false);
+  const [expandedComments, setExpandedComments] = useState<{ [reviewId: string]: boolean }>({});
+
   // Pagination state
   const [reviewPageNumber, setReviewPageNumber] = useState<number>(1);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [hasMoreData, setHasMoreData] = useState<boolean>(true);
   const hasMountedOnce = useRef(false);
   const [canLoadMore, setCanLoadMore] = useState(false);
+
+  const toggleShowMore = (reviewId: string) => {
+  setExpandedComments((prev) => ({
+    ...prev,
+    [reviewId]: !prev[reviewId],
+  }));
+};
 
   const onPressImageVideo = () => {
     flashMessageWarning(getTranslation("underDevelopment"));
@@ -186,6 +197,8 @@ const ReviewContainer = ({ navigation, route }: any) => {
           );
 
           setReviewPageNumber(page_no);
+          // ✅ Set flag for showing the View More button
+          setShowViewMore(formattedReviews.length >= 10);
           if (isLoadMore && formattedReviews.length === 0) {
             setHasMoreData(false); // reached last page
           } else if (!isLoadMore) {
@@ -238,6 +251,10 @@ const ReviewContainer = ({ navigation, route }: any) => {
       handleSelectMedia={handleSelectMedia}
       allMedia={allMedia}
       selectedIndex={selectedIndex}
+      showViewMore={showViewMore}
+      showMore={showMore}
+      expandedComments={expandedComments}
+      toggleShowMore={toggleShowMore}
       // pagination
       loadMoreCategories={loadMoreCategories}
       canLoadMore={canLoadMore}

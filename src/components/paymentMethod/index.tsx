@@ -33,7 +33,8 @@ interface PropsType {
   orderNumber: string;
   onPressTrackOrder: () => void;
   onPressContinueShopping: () => void;
-  payment_type:string;
+  payment_type: string;
+  isCodRestricted: boolean;
 }
 
 const PaymentMethodComponent = (props: PropsType) => {
@@ -99,7 +100,7 @@ const PaymentMethodComponent = (props: PropsType) => {
         </Text>
         {/* razor pay */}
         <TouchableOpacity
-          style={[styles.btnCOD,{marginBottom : 15}]}
+          style={[styles.btnCOD, { marginBottom: 15 }]}
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
           onPress={() => props?.onPressSelectPaymentType("card")}
@@ -110,9 +111,7 @@ const PaymentMethodComponent = (props: PropsType) => {
               source={images.onlinePayment}
               resizeMode="stretch"
             />
-            <Text style={styles.lblCOD}>
-              {getTranslation("onlinePayment")}
-            </Text>
+            <Text style={styles.lblCOD}>{getTranslation("onlinePayment")}</Text>
           </View>
           <Image
             style={styles.imgCheckBox}
@@ -126,32 +125,34 @@ const PaymentMethodComponent = (props: PropsType) => {
         </TouchableOpacity>
 
         {/* cash on delivery */}
-        <TouchableOpacity
-          style={styles.btnCOD}
-          activeOpacity={activityOpacity}
-          hitSlop={hitSlop}
-          onPress={() => props?.onPressSelectPaymentType("cod")}
-        >
-          <View style={styles.vwCOD}>
+        {!props?.isCodRestricted && (
+          <TouchableOpacity
+            style={styles.btnCOD}
+            activeOpacity={activityOpacity}
+            hitSlop={hitSlop}
+            onPress={() => props?.onPressSelectPaymentType("cod")}
+          >
+            <View style={styles.vwCOD}>
+              <Image
+                style={styles.imgCOD}
+                source={images.codLogo}
+                resizeMode="stretch"
+              />
+              <Text style={styles.lblCOD}>
+                {getTranslation("cashonDelivery")}
+              </Text>
+            </View>
             <Image
-              style={styles.imgCOD}
-              source={images.codLogo}
+              style={styles.imgCheckBox}
+              source={
+                props?.payment_type == "cod"
+                  ? images.blueFillCheckbox
+                  : images.emptyBlackCheckBox
+              }
               resizeMode="stretch"
             />
-            <Text style={styles.lblCOD}>
-              {getTranslation("cashonDelivery")}
-            </Text>
-          </View>
-          <Image
-            style={styles.imgCheckBox}
-            source={
-              props?.payment_type == "cod"
-                ? images.blueFillCheckbox
-                : images.emptyBlackCheckBox
-            }
-            resizeMode="stretch"
-          />
-        </TouchableOpacity>
+          </TouchableOpacity>
+        )}
 
         {/* Card */}
         {/* <Text style={styles.lblCreditOrDebit}>

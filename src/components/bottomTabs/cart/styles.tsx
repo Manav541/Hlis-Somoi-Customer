@@ -104,6 +104,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
     marginTop: 5,
+    flexWrap : 'wrap',
   },
   vwProductQuantity: {
     height: 28,
@@ -196,6 +197,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.semibold,
     color: colors.greya7,
+    
   },
   lblProductPrice: {
     fontSize: fontSize.size14,
@@ -291,7 +293,7 @@ export const styles = StyleSheet.create({
 
   // Text Input Styles
   txtInputCouponCode: {
-    fontSize: fontSize.size14,
+    fontSize: fontSize.size13,
     fontFamily: fontsfamily.regular,
     color: colors.blue4e,
     padding: 0,

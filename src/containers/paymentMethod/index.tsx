@@ -21,6 +21,7 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
   );
   const location_id = route?.params?.location_id;
   const total_bill = route?.params?.total_bill;
+  const isCodRestricted = route?.params?.isCodRestricted;
   const customer_details = route?.params?.customer_details;
   console.log("location_id", location_id);
   const [orderNumber, setOrderNumber] = useState<string>("");
@@ -45,9 +46,9 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
       isSelected: false,
     },
   ]);
-  const [payment_type, setpayment_type] = useState<string>("cod");
+  const [payment_type, setpayment_type] = useState<string>("card");
 
-  const onPressSelectPaymentType = (type : string) => {
+  const onPressSelectPaymentType = (type: string) => {
     // setIsCodSelected(true);
     setpayment_type(type);
     // setArrCards((prev: CardDetails[]) =>
@@ -91,7 +92,7 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
 
     RazorpayCheckout.open(options as any)
       .then((data) => {
-        console.log(`Success: `,data);
+        console.log(`Success: `, data);
         console.log(`Success: ${data.razorpay_payment_id}`);
         // Call backend API to verify payment
         handlePlaceOrderApi(location_id, payment_type);
@@ -323,6 +324,7 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
       onPressTrackOrder={onPressTrackOrder}
       onPressContinueShopping={onPressContinueShopping}
       payment_type={payment_type}
+      isCodRestricted={isCodRestricted}
     />
   );
 };

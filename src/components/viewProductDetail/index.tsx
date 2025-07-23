@@ -38,6 +38,7 @@ import FastImage from "react-native-fast-image";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
 import Video from "react-native-video";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
+import { fontsfamily } from "../../constants/FontFamily";
 
 interface PropsType {
   productDetails: ProductData | null;
@@ -70,6 +71,8 @@ interface PropsType {
   is_size: boolean;
   is_color: boolean;
   navigateFromCompareProduct: boolean;
+  showMore: boolean;
+  toggleShowMore: () => void;
 }
 
 const ViewProductDetailComponent = (props: PropsType) => {
@@ -541,9 +544,22 @@ const ViewProductDetailComponent = (props: PropsType) => {
           <Text style={styles.lblHighlight}>
             {getTranslation("productDetails")}
           </Text>
-          <Text style={styles.lblProductDesc}>
-            {props?.productDetails?.description}
-          </Text>
+          <View style={{ marginTop: 10 }}>
+            <Text
+              style={styles.lblProductDesc}
+              numberOfLines={props?.showMore ? undefined : 3}
+            >
+              {props?.productDetails?.description}
+            </Text>
+
+            {props?.productDetails?.description && (
+              <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop} onPress={props?.toggleShowMore}>
+                <Text style={{...styles.lblProductDesc,fontFamily:fontsfamily.medium}}>
+                  {props?.showMore ? "Read Less" : "Read More"}
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
 
           {/* Reviews */}
           <Text style={styles.lblHighlight}>{getTranslation("reviews")}</Text>

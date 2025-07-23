@@ -83,6 +83,9 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   const [selectedFoodItem, setSelectedFoodItem] = useState<any>(null);
   const [selectedFoodItemIndex, setSelectedFoodItemIndex] = useState<any>(null);
   const [isNavigating, setIsNavigating] = useState(false);
+  const [showMore, setShowMore] = useState(false);
+
+  const toggleShowMore = () => setShowMore(!showMore);
 
   const handleOnPressFoodItem = (item: ProductRestaurant, index: number) => {
     setIsFoodModalVisible(true);
@@ -676,6 +679,8 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
           onPressCartIcon={onPressCartIcon}
           onPressBack={onPressBack}
           isNavigating={isNavigating}
+          showMore={showMore}
+          toggleShowMore={toggleShowMore}
         />
       ) : (
         <View style={{ flex: 1, backgroundColor: colors.blue4e }}></View>

@@ -437,6 +437,7 @@ export interface RatingSummary {
 }
 
 export interface Review {
+  rating_id: string;
   name: string;
   rating: string;
   comment: string;

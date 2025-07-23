@@ -398,7 +398,6 @@ export const styles = StyleSheet.create({
     color: colors.white,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regular,
-    marginTop: 30,
     marginBottom: 16,
   },
   lblModalFoodAdditionalInfo: {

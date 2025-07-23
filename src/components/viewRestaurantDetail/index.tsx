@@ -60,6 +60,8 @@ interface PropsType {
 
   onPressBack: () => void;
   isNavigating: boolean;
+  showMore: boolean;
+  toggleShowMore: () => void;
 }
 
 const ViewRestaurantDetailComponent = (props: PropsType) => {
@@ -550,9 +552,32 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                           </TouchableOpacity>
                         </View>
                       </View>
-                      <Text style={styles.lblModalFoodDesc}>
-                        {props?.selectedFoodItem.description}
-                      </Text>
+
+                      <View style={{ marginTop: 30 }}>
+                        <Text
+                          style={styles.lblModalFoodDesc}
+                          numberOfLines={props?.showMore ? undefined : 3}
+                        >
+                          {props?.selectedFoodItem?.description}
+                        </Text>
+
+                        {props?.selectedFoodItem?.description && (
+                          <TouchableOpacity
+                            activeOpacity={activityOpacity}
+                            hitSlop={hitSlop}
+                            onPress={props?.toggleShowMore}
+                          >
+                            <Text
+                              style={{
+                                ...styles.lblModalFoodDesc,
+                                fontFamily: fontsfamily.medium,
+                              }}
+                            >
+                              {props?.showMore ? "Read Less" : "Read More"}
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+                      </View>
                       {/* Food Product Variation */}
                       {props?.selectedFoodItem?.is_variation == true && (
                         <FlatList

@@ -184,6 +184,8 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
       console.log("🧾 Final file names:", allImageFileNames);
 
       if (isEditRating == true) {
+        console.log("Calllllll");
+
         handleEditRateApi(allImageFileNames);
       } else {
         handleRateProductApi(allImageFileNames);
@@ -275,11 +277,14 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
   // --------------------------API Calling--------------------------
   // handleRateVendorApi
   const handleRateVendorApi = async () => {
-    const dictData = {
+    const dictData: any = {
       vendor_id: storeDetail?.id,
       rating: product_rating.toString(),
-      review: product_review,
     };
+
+    if (product_review.trim() !== "") {
+      dictData.review = product_review;
+    }
     try {
       const response = await rateVendorApi(dictData, navigation);
       if (response !== undefined && response !== null) {
@@ -299,12 +304,19 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
 
   // handleRateProductApi
   const handleRateProductApi = async (media: string[]) => {
-    const dictData = {
+    const dictData: any = {
       product_id: prodcutDetail?.product_id,
       rating: product_rating.toString(),
-      review: product_review,
-      media: media,
     };
+
+    if (product_review.trim() !== "") {
+      dictData.review = product_review;
+    }
+
+    if (media && media.length > 0) {
+      dictData.media = media;
+    }
+
     try {
       const response = await rateProductApi(dictData, navigation);
       if (response !== undefined && response !== null) {
@@ -324,12 +336,20 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
 
   // handleEditRateApi
   const handleEditRateApi = async (media: string[]) => {
-    const dictData = {
+    const dictData: any = {
       rating_id: prodcutDetail?.rating_summary?.rating_id,
       rating: product_rating.toString(),
-      review: product_review,
-      media: media,
     };
+
+    if (typeof product_review === "string" && product_review.trim() !== "") {
+      dictData.review = product_review;
+    }
+
+    if (media && media.length > 0) {
+      dictData.media = media;
+    }
+    console.log("Dict data edit", dictData);
+
     try {
       const response = await editRateApi(dictData, navigation);
       if (response !== undefined && response !== null) {

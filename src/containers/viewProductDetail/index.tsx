@@ -108,6 +108,9 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isNavigating, setIsNavigating] = useState(false);
+  const [showMore, setShowMore] = useState(false);
+
+  const toggleShowMore = () => setShowMore(!showMore);
 
   const handleCloseMediaModal = () => {
     setMediaModalVisible(false);
@@ -861,6 +864,8 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
           is_size={is_size}
           is_color={is_color}
           navigateFromCompareProduct={navigateFromCompareProduct}
+          showMore={showMore}
+          toggleShowMore={toggleShowMore}
         />
       ) : (
         <View style={{ flex: 1, backgroundColor: colors.blue4e }}></View>

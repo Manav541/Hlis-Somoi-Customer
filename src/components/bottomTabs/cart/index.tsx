@@ -42,6 +42,8 @@ interface PropsType {
 }
 
 const CartComponent = (props: PropsType) => {
+  console.log("Cart Data=> ",JSON.stringify(props?.cartDetails));
+  
   const renderItemOrderProduct = (item: any, index: number) => {
     return (
       <View style={styles.vwOrderProductItem} key={index}>
@@ -59,7 +61,7 @@ const CartComponent = (props: PropsType) => {
               {rupeeSymbol + item?.per_product_price}
             </Text>
             {item?.product_data?.variation_data && (
-              <>
+              <View style={{flexDirection : 'row', alignItems : 'center',gap : 4}}>
                 <Image
                   style={styles.imgBlueDot}
                   source={images.dotOrange}
@@ -95,7 +97,7 @@ const CartComponent = (props: PropsType) => {
                       }`
                     : ""}
                 </Text>
-              </>
+              </View>
             )}
           </View>
         </View>
@@ -310,14 +312,16 @@ const CartComponent = (props: PropsType) => {
                 </View>
 
                 {/* Discount */}
+                {props?.cartDetails?.discount_price != "0.00" && 
                 <View style={styles.vwOrderDetailsItem}>
                   <Text style={styles.lblOrderDetailsTitle}>Discount</Text>
                   <Text style={styles.lblOrderDetailsValue}>
                     -{rupeeSymbol + props?.cartDetails?.discount_price}
                   </Text>
-                </View>
+                </View>}
 
                 {/* Delivery */}
+                {props?.cartDetails?.delivery_charges != "0.00" && 
                 <View style={styles.vwOrderDetailsItem}>
                   <Text style={styles.lblOrderDetailsTitle}>Delivery</Text>
                   <Text style={styles.lblOrderDetailsValue}>
@@ -325,7 +329,7 @@ const CartComponent = (props: PropsType) => {
                       ? "Free"
                       : rupeeSymbol + props?.cartDetails?.delivery_charges}
                   </Text>
-                </View>
+                </View>}
 
                 {/* Payment Type */}
                 <View style={styles.vwOrderDetailsItem}>

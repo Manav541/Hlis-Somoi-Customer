@@ -20,8 +20,6 @@ import { colors } from "../../../constants/Colors";
 import GooglePlacesTextInput, {
   GooglePlacesTextInputRef,
 } from "react-native-google-places-textinput";
-import { fontSize } from "../../../constants/FontSizes";
-import { fontsfamily } from "../../../constants/FontFamily";
 
 interface PropsType {
   address: string;
@@ -105,7 +103,7 @@ const AddAddressComponent = (props: PropsType) => {
               apiKey={props?.googleApiKey}
               onPlaceSelect={props?.handlePlaceSelect}
               debounceDelay={300}
-              showClearButton={false}
+              showClearButton={true}
               hideOnKeyboardDismiss={true}
             />
 

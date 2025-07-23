@@ -106,6 +106,7 @@ export const statusCodes = {
   emptyData: 2,
   success: 1,
   userSessionExpire: -1,
+  cartQuantityNotFound : 12
 };
 
 // API keys

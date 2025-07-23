@@ -19,6 +19,7 @@ import Video from "react-native-video";
 import { FlatList } from "react-native-gesture-handler";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { fontsfamily } from "../../constants/FontFamily";
 
 interface PropsType {
   totalRate: string;
@@ -36,6 +37,11 @@ interface PropsType {
   ) => void;
   allMedia: Media[];
   selectedIndex: number;
+  showViewMore: boolean;
+  showMore: boolean;
+  expandedComments: { [reviewId: string]: boolean };
+  toggleShowMore: (reviewId: string) => void;
+
   // Pagination
   loadMoreCategories: () => void;
   canLoadMore: boolean;
@@ -103,7 +109,31 @@ const ReviewComponent = (props: PropsType) => {
             )}
           </Text>
         </View>
-        <Text style={styles.lblReviewDesc}>{item?.comment}</Text>
+        <View style={{ marginTop: 10 }}>
+          <Text
+            style={styles.lblReviewDesc}
+            numberOfLines={props?.expandedComments[item.rating_id] ? undefined : 3}
+          >
+            {item?.comment}
+          </Text>
+
+          {item?.comment.length > 150 && (
+            <TouchableOpacity
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={() => props?.toggleShowMore(item.rating_id)}
+            >
+              <Text
+                style={{
+                  ...styles.lblReviewDesc,
+                  fontFamily: fontsfamily.medium,
+                }}
+              >
+                {props?.expandedComments[item.rating_id] ? "Read Less" : "Read More"}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
         {item?.media.length > 0 && (
           <FlatList
             data={item?.media}
@@ -201,12 +231,12 @@ const ReviewComponent = (props: PropsType) => {
         <View style={{ marginTop: 20 }}>
           {props?.arrRevieews.map(renderItemArrReviews)}
         </View>
-        {props?.hasMoreData && (
+        {props?.hasMoreData && props?.showViewMore && (
           <TouchableOpacity
             style={styles.btnViewAll}
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
-            onPress={props?.loadMoreCategories} 
+            onPress={props?.loadMoreCategories}
           >
             <Text style={styles.lblViewAll}>{getTranslation("viewMore")}</Text>
             <Image

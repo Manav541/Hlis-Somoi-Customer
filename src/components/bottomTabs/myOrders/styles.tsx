@@ -126,6 +126,7 @@ export const styles = StyleSheet.create({
     marginBottom: 3.54,
     flexWrap: "wrap",
     lineHeight: 15,
+    marginRight : 90,
   },
   lblPrice: {
     color: colors.blue4e,
@@ -142,6 +143,9 @@ export const styles = StyleSheet.create({
     color: colors.grey62,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.regularGolosText,
+    position :'absolute',
+    top:0,
+    right:0
   },
   lblQuantityCount: {
     color: colors.blue4e,

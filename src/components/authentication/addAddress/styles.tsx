@@ -57,6 +57,7 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     height: 52,
     borderWidth: 1,
+    padding : 8    
   },
   placeholder: {
     color: colors.greya7,

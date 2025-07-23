@@ -110,7 +110,7 @@ const CartContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.manageAddress, {
       navigateFromCart: true,
       onSelectAddress: (selectedAddress: any) => {
-        console.log("ADDRESS SELECTED IN CART SCREEN ===>", selectedAddress); 
+        console.log("ADDRESS SELECTED IN CART SCREEN ===>", selectedAddress);
 
         const formatted = `${selectedAddress.building_details}, ${selectedAddress.address}, ${selectedAddress.description}`;
         setDeliverToAddress(formatted);
@@ -123,9 +123,16 @@ const CartContainer = ({ navigation }: any) => {
     if (deliverToAddress == "No default address found.") {
       flashMessageWarning("Please select address");
     } else {
+      // handleCartListingApi();
+      const isCodRestricted = cartDetails?.cart_details?.some(
+        (item: any) => item?.product_data?.is_cod_available === false
+      );
+      console.log("isCodRestricted => ", isCodRestricted);
+
       navigation.navigate(ScreenNames.paymentMethod, {
         location_id: location_id,
         total_bill: total_bill,
+        isCodRestricted: isCodRestricted,
         customer_details: {
           name: cartDetails?.name,
           email: cartDetails?.email,
@@ -144,13 +151,15 @@ const CartContainer = ({ navigation }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log("CART LISTING RESPONSE===>", JSON.stringify(response));
+        const rawData = response.data as any;
         if (response.code === statusCodes.success) {
-          const rawData = response.data as any;
           setCartDetails(rawData);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         } else if (response.code === statusCodes.emptyData) {
           setCartDetails(null);
+        } else if (response.code === statusCodes.cartQuantityNotFound) {
+          setCartDetails(rawData);
         }
       }
     } catch (error) {
@@ -378,7 +387,6 @@ const CartContainer = ({ navigation }: any) => {
           setCartDetails(null); // Empty cart for guest users
         } else {
           handleCartListingApi(); // Only call if not guest
-         
         }
       });
 
@@ -399,10 +407,8 @@ const CartContainer = ({ navigation }: any) => {
     }, [navigation])
   );
 
-
-
   useEffect(() => {
-    handleAddressListApi(); 
+    handleAddressListApi();
     navigation.setOptions({
       headerLeft: () => null,
       headerTitle: () => (
