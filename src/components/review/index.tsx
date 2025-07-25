@@ -112,12 +112,14 @@ const ReviewComponent = (props: PropsType) => {
         <View style={{ marginTop: 10 }}>
           <Text
             style={styles.lblReviewDesc}
-            numberOfLines={props?.expandedComments[item.rating_id] ? undefined : 3}
+            numberOfLines={
+              props?.expandedComments[item.rating_id] ? undefined : 3
+            }
           >
             {item?.comment}
           </Text>
 
-          {item?.comment.length > 150 && (
+          {item?.comment?.length > 150 && (
             <TouchableOpacity
               activeOpacity={activityOpacity}
               hitSlop={hitSlop}
@@ -129,7 +131,9 @@ const ReviewComponent = (props: PropsType) => {
                   fontFamily: fontsfamily.medium,
                 }}
               >
-                {props?.expandedComments[item.rating_id] ? "Read Less" : "Read More"}
+                {props?.expandedComments[item.rating_id]
+                  ? "Read Less"
+                  : "Read More"}
               </Text>
             </TouchableOpacity>
           )}
@@ -139,7 +143,7 @@ const ReviewComponent = (props: PropsType) => {
             data={item?.media}
             horizontal
             bounces={false}
-            contentContainerStyle={{ gap: 20 }}
+            contentContainerStyle={{ gap: 20, marginTop: 10 }}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item: itemMedia, index }) => (
               <>
@@ -163,6 +167,7 @@ const ReviewComponent = (props: PropsType) => {
                       controls={true} // Native play/pause buttons
                       resizeMode="cover"
                       repeat={false}
+                      muted
                     />
                   )}
                 </TouchableOpacity>
@@ -297,6 +302,7 @@ const ReviewComponent = (props: PropsType) => {
                     controls
                     paused={false}
                     fullscreen={false}
+                    muted
                   />
                 )}
               </View>

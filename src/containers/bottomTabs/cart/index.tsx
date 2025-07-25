@@ -119,27 +119,19 @@ const CartContainer = ({ navigation }: any) => {
     });
   };
 
-  const onPressPlaceOrder = (total_bill: string) => {
-    if (deliverToAddress == "No default address found.") {
+  const onPressPlaceOrder = async (total_bill: string) => {
+    if (deliverToAddress === "No default address found.") {
       flashMessageWarning("Please select address");
-    } else {
-      // handleCartListingApi();
-      const isCodRestricted = cartDetails?.cart_details?.some(
-        (item: any) => item?.product_data?.is_cod_available === false
-      );
-      console.log("isCodRestricted => ", isCodRestricted);
-
-      navigation.navigate(ScreenNames.paymentMethod, {
-        location_id: location_id,
-        total_bill: total_bill,
-        isCodRestricted: isCodRestricted,
-        customer_details: {
-          name: cartDetails?.name,
-          email: cartDetails?.email,
-          contact: cartDetails?.mobile_number,
-        },
-      });
+      return;
     }
+
+    const customerDetails = {
+      name: cartDetails?.name,
+      email: cartDetails?.email,
+      contact: cartDetails?.mobile_number,
+    };
+
+    await recheckCartBeforePlaceOrder(total_bill, location_id, customerDetails);
   };
 
   // ----------------------- API Calling -------------------------
@@ -372,6 +364,55 @@ const CartContainer = ({ navigation }: any) => {
       }
     } catch (error) {
       __DEV__ && console.log("Remove From Cart API Error:", error);
+    }
+  };
+
+  // recheckCartBeforePlaceOrder
+  const recheckCartBeforePlaceOrder = async (
+    total_bill: string,
+    location_id: string,
+    customerDetails: any
+  ): Promise<void> => {
+    const prevCartIds = cartDetails?.cart_details?.map(
+      (item: any) => item.product_id
+    );
+
+    const dictData = {};
+    try {
+      const response = await cartListingApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        const updatedCart = response.data as any;
+        const updatedCartIds = updatedCart?.cart_details?.map(
+          (item: any) => item.product_id
+        );
+
+        const hasChanges =
+          prevCartIds.length !== updatedCartIds.length ||
+          !prevCartIds.every((id: string) => updatedCartIds.includes(id));
+
+        if (hasChanges) {
+          setCartDetails(updatedCart);
+          flashMessageWarning(
+            "Some items were removed from your cart due to unavailability. Please review your cart before ordering."
+          );
+          return;
+        }
+
+        // ✅ Proceed with navigation if cart is valid
+        setCartDetails(updatedCart); // update with latest
+        const isCodRestricted = updatedCart?.cart_details?.some(
+          (item: any) => item?.product_data?.is_cod_available === false
+        );
+
+        navigation.navigate(ScreenNames.paymentMethod, {
+          location_id: location_id,
+          total_bill: total_bill,
+          isCodRestricted: isCodRestricted,
+          customer_details: customerDetails,
+        });
+      }
+    } catch (error) {
+      __DEV__ && console.log("Recheck Cart Error:", error);
     }
   };
 

@@ -9,7 +9,6 @@ import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
 import {
   CoordinatesType,
-  OrderDetailsData,
   RegionType,
   SecretKeyItem,
   TrackingData,

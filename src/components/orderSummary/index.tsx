@@ -5,7 +5,6 @@ import {
   Image,
   TouchableOpacity,
   Modal,
-  ImageSourcePropType,
   StatusBar,
   TouchableWithoutFeedback,
   RefreshControl,
@@ -564,12 +563,13 @@ const OrderSummaryComponent = (props: PropsType) => {
               </View>
 
               {/* Discount */}
+              {props?.orderDetails?.discount_price != "0.00" &&
               <View style={styles.vwOrderDetailsItem}>
                 <Text style={styles.lblOrderDetailsTitle}>Discount</Text>
                 <Text style={styles.lblOrderDetailsValue}>
                   -{rupeeSymbol + props?.orderDetails?.discount_price}
                 </Text>
-              </View>
+              </View>}
 
               {/* Delivery */}
               <View style={styles.vwOrderDetailsItem}>

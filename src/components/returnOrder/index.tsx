@@ -21,6 +21,7 @@ import { CancelOrderReason } from "../../constants/interfaces";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FastImage from "react-native-fast-image";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Video from "react-native-video";
 
 interface PropsType {
   arrReturnOrderReason: CancelOrderReason[];
@@ -74,13 +75,26 @@ const ReturnOrderComponent = (props: PropsType) => {
   };
 
   const renderUploadImageVideo = (item: any, index: number) => {
+    console.log("item ==> ", item);
     return (
-      <View style={styles.vwUploadImageVideosItem}>
-        <FastImage
-          style={styles.imgUpload}
-          source={{ uri: item?.uri }}
-          resizeMode="stretch"
-        />
+      <View style={styles.vwUploadImageVideosItem} key={index}>
+        {item?.type == "video/mp4" ? (
+          <Video
+            source={{ uri: item?.uri }}
+            style={styles.imgUpload}
+            paused={true} // Don't autoplay
+            controls={true} // Native play/pause buttons
+            resizeMode="cover"
+            repeat={false}
+            muted
+          />
+        ) : (
+          <FastImage
+            style={styles.imgUpload}
+            source={{ uri: item?.uri }}
+            resizeMode="stretch"
+          />
+        )}
         <TouchableOpacity
           style={styles.btnCancelImage}
           activeOpacity={activityOpacity}

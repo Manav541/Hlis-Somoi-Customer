@@ -321,7 +321,7 @@ const CartComponent = (props: PropsType) => {
                 </View>}
 
                 {/* Delivery */}
-                {props?.cartDetails?.delivery_charges != "0.00" && 
+                {/* {props?.cartDetails?.delivery_charges != "0.00" &&  */}
                 <View style={styles.vwOrderDetailsItem}>
                   <Text style={styles.lblOrderDetailsTitle}>Delivery</Text>
                   <Text style={styles.lblOrderDetailsValue}>
@@ -329,17 +329,17 @@ const CartComponent = (props: PropsType) => {
                       ? "Free"
                       : rupeeSymbol + props?.cartDetails?.delivery_charges}
                   </Text>
-                </View>}
+                </View>
 
                 {/* Payment Type */}
-                <View style={styles.vwOrderDetailsItem}>
+                {/* <View style={styles.vwOrderDetailsItem}>
                   <Text style={styles.lblOrderDetailsTitle}>Payment Type</Text>
                   <Text style={styles.lblOrderDetailsValue}>
                     {props?.cartDetails?.payment_type == "cod"
                       ? "Cash on Delivery"
                       : "Online Payment"}
                   </Text>
-                </View>
+                </View> */}
 
                 {/* {props?.arrOrderDetails?.map(renderItemOrderDetails)} */}
               </View>

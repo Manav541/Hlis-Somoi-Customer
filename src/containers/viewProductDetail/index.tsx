@@ -109,8 +109,17 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isNavigating, setIsNavigating] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [showMoreReview, setShowMoreReview] = useState<{
+    [reviewId: string]: boolean;
+  }>({});
 
   const toggleShowMore = () => setShowMore(!showMore);
+  const toggleShowMoreReview = (reviewId: string) => {
+    setShowMoreReview((prev: any) => ({
+      ...prev,
+      [reviewId]: !prev[reviewId],
+    }));
+  };
 
   const handleCloseMediaModal = () => {
     setMediaModalVisible(false);
@@ -156,31 +165,6 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       console.error("Error sharing product:", error.message);
     }
   };
-  // const onPressShare = async () => {
-  //   if (!isSharing) return;
-
-  //   setIsSharing(false);
-  //   try {
-  //     const result = await Share.share({
-  //       message: `${appName} App`,
-  //     });
-  //     if (result.action === Share.sharedAction) {
-  //       if (result.activityType) {
-  //         // shared with activity type of result.activityType
-  //       } else {
-  //         // shared
-  //       }
-  //     } else if (result.action === Share.dismissedAction) {
-  //       // dismissed
-  //     }
-  //   } catch (error: any) {
-  //     Alert.alert(error.message);
-  //   }
-
-  //   setTimeout(() => {
-  //     setIsSharing(true);
-  //   }, 1000);
-  // };
 
   const onPressGoToCompareProduct = () => {
     if (isGuestUser) {
@@ -866,6 +850,8 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
           navigateFromCompareProduct={navigateFromCompareProduct}
           showMore={showMore}
           toggleShowMore={toggleShowMore}
+          showMoreReview={showMoreReview}
+          toggleShowMoreReview={toggleShowMoreReview}
         />
       ) : (
         <View style={{ flex: 1, backgroundColor: colors.blue4e }}></View>

@@ -73,6 +73,8 @@ interface PropsType {
   navigateFromCompareProduct: boolean;
   showMore: boolean;
   toggleShowMore: () => void;
+  showMoreReview:{ [reviewId: string]: boolean };
+  toggleShowMoreReview: (reviewId: string) => void;
 }
 
 const ViewProductDetailComponent = (props: PropsType) => {
@@ -226,13 +228,37 @@ const ViewProductDetailComponent = (props: PropsType) => {
             )}
           </Text>
         </View>
-        <Text style={styles.lblReviewDesc}>{item?.comment}</Text>
+        <View style={{ marginTop: 10 }}>
+          <Text
+            style={styles.lblReviewDesc}
+            numberOfLines={props?.showMoreReview[item.rating_id] ? undefined : 3}
+          >
+            {item?.comment}
+          </Text>
+
+          {item?.comment?.length > 150 && (
+            <TouchableOpacity
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={() => props?.toggleShowMoreReview(item.rating_id)}
+            >
+              <Text
+                style={{
+                  ...styles.lblReviewDesc,
+                  fontFamily: fontsfamily.medium,
+                }}
+              >
+                {props?.showMoreReview[item.rating_id] ? "Read Less" : "Read More"}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
         {/* Media */}
         <FlatList
           data={item?.media}
           horizontal
           bounces={false}
-          contentContainerStyle={{ gap: 20 }}
+          contentContainerStyle={{ gap: 20,marginTop : 10 }}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item: itemMedia, index }) => (
             <>

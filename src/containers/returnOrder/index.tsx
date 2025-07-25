@@ -13,7 +13,6 @@ import {
   messages,
   toggleLoader,
 } from "../../constants/GConstant";
-import { images } from "../../constants/Images";
 import { Asset } from "react-native-image-picker";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import { CancelOrderReason, SecretKeyItem } from "../../constants/interfaces";
@@ -122,6 +121,8 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
         const uploadPromises = newImagesToUpload.map(
           (image: Asset) =>
             new Promise<string>((resolve, reject) => {
+              console.log("Video Asset image", image);
+
               const isVideo = image.type?.includes("video/mp4");
 
               if (isVideo) {
@@ -188,78 +189,6 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
       toggleLoader(false);
     }
   };
-
-  // const uploadImagesInS3 = async (
-  //   selectedReason: CancelOrderReason,
-  //   description?: string
-  // ) => {
-  //   const imagesURIArray =
-  //     multiImagesArray.map((image: Asset) => image.uri) || [];
-  //   __DEV__ && console.log("All Image URIs:", imagesURIArray);
-
-  //   const baseS3Url = `${GlobalVar.url}somoiapp`;
-
-  //   const newImagesToUpload = imagesURIArray.filter(
-  //     (uri) => uri && !uri.includes(baseS3Url)
-  //   );
-  //   __DEV__ && console.log("🆕 New images to upload:", newImagesToUpload);
-
-  //   const alreadyUploadedUrls = imagesURIArray.filter(
-  //     (uri) => uri && uri.includes(baseS3Url)
-  //   );
-
-  //   try {
-  //     toggleLoader(true);
-
-  //     let newlyUploadedUrls: string[] = [];
-
-  //     // 🆕 Only upload new images (local file URIs)
-  //     if (newImagesToUpload.length > 0) {
-  //       const uploadPromises = newImagesToUpload.map(
-  //         (uri: string | undefined) =>
-  //           new Promise<string>((resolve, reject) => {
-  //             const isVideo = uri?.includes("video");
-
-  //             const contentType = isVideo ? "video/mp4" : "image/png";
-  //             const extension = isVideo ? ".mp4" : ".png";
-  //             ImageUpload.uploadImage(
-  //               s3AccessKey,
-  //               s3SecretAccessKey,
-  //               uri,
-  //               FolderName.ORDER_RETURN_MEDIA,
-  //               contentType,
-  //               extension,
-  //               (response: string) => {
-  //                 __DEV__ && console.log("✅ Uploaded image:", response);
-  //                 resolve(response);
-  //               }
-  //             );
-  //           })
-  //       );
-
-  //       newlyUploadedUrls = await Promise.all(uploadPromises);
-  //       uploadedS3ImageUrlsRef.current = newlyUploadedUrls;
-  //     }
-
-  //     const allUrls = [...alreadyUploadedUrls, ...newlyUploadedUrls];
-
-  //     const allImageFileNames = allUrls.map((url: string | undefined) => {
-  //       try {
-  //         return url?.split("/").pop() || "";
-  //       } catch {
-  //         return "";
-  //       }
-  //     });
-
-  //     console.log("🧾 Final image file names:", allImageFileNames);
-
-  //     handleReturnOrderApi(selectedReason, description, allImageFileNames);
-  //   } catch (error) {
-  //     console.error("❌ Error:", error);
-  //   } finally {
-  //     toggleLoader(false);
-  //   }
-  // };
 
   const handleOnPressDeleteUploadedImage = (index: number) => {
     const updatedArray = [...multiImagesArray];

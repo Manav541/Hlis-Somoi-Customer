@@ -29,6 +29,7 @@ import { OrderItem, RestaurantInfo } from "../../constants/interfaces";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
 import { fontsfamily } from "../../constants/FontFamily";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Video from "react-native-video";
 
 interface PropsType {
   navigateFromStoreReview: boolean;
@@ -59,11 +60,23 @@ const RateAndReviewComponent = (props: PropsType) => {
   const renderUploadImageVideo = (item: any, index: number) => {
     return (
       <View style={styles.vwUploadImageVideosItem} key={index}>
-        <FastImage
-          style={styles.imgUpload}
-          source={{ uri: item?.uri }}
-          resizeMode="stretch"
-        />
+        {item?.type == "video/mp4" ? (
+          <Video
+            source={{ uri: item?.uri }}
+            style={styles.imgUpload}
+            paused={true} // Don't autoplay
+            controls={true} // Native play/pause buttons
+            resizeMode="cover"
+            repeat={false}
+            muted
+          />
+        ) : (
+          <FastImage
+            style={styles.imgUpload}
+            source={{ uri: item?.uri }}
+            resizeMode="stretch"
+          />
+        )}
         <TouchableOpacity
           style={styles.btnCancelImage}
           activeOpacity={activityOpacity}

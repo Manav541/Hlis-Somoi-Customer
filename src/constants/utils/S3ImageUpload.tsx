@@ -233,10 +233,11 @@ export default class ImageUpload {
       // Compress the video before uploading
       const compressedVideoUri = await Video.compress(imgURI, {
         compressionMethod: "auto", // Automatically chooses the best compression
-        // quality: "medium", // Choose quality (low, medium, high)
+      }).catch((compressError) => {
+        throw new Error(`Video compression failed: ${compressError.message}`);
       });
 
-      // Check if the compressed URI is available
+      // Check if the compressed URI is valid
       if (!compressedVideoUri) {
         throw new Error("Video compression failed. No URI returned.");
       }
@@ -247,15 +248,9 @@ export default class ImageUpload {
         type: type,
       };
 
-      // const videoFile = {
-      //   uri: imgURI,
-      //   name: this.getRendomString() + ext,
-      //   type: type,
-      // };
-
       const s3Options = {
         acl: GlobalVar.permissionAccess,
-        keyPrefix: `${folderName}`, // for folder name refer FolderName object
+        keyPrefix: `${folderName}`,
         bucket: GlobalVar.bucketName,
         region: GlobalVar.region,
         accessKey: s3AccessKey,
@@ -265,83 +260,207 @@ export default class ImageUpload {
 
       console.log("Uploading video to S3 --->", s3Options, videoFile);
 
+      // Upload video to S3
+      const videoUploadResponse = await RNS3.put(videoFile, s3Options).progress(
+        (event: any) => {
+          videoSize = event.total;
+        }
+      );
+
+      if (videoUploadResponse.status !== 201) {
+        throw new Error("Failed to upload video to S3");
+      }
+
+      toggleLoader(false);
+      const videoName = videoUploadResponse.body.postResponse.key;
+      console.log("Video uploaded successfully --->", videoName);
+
+      // Attempt to generate and upload thumbnail
+      let thumbnailName = "";
       try {
-        // Step 1: Generate thumbnail before uploading the video
         const thumbnailResponse = await createThumbnail({
-          url: imgURI, // The video file URI
-          timeStamp: 1000, // Capture thumbnail at 1 second (adjust if needed)
+          url: imgURI, // Use original URI for thumbnail to avoid compression issues
+          timeStamp: 5000, // Capture thumbnail at 5 seconds
         });
 
-        const thumbnailPath = thumbnailResponse.path; // Get thumbnail path
+        const thumbnailPath = thumbnailResponse.path;
         console.log("Generated thumbnail path: ", thumbnailPath);
 
-        // Step 2: Upload video to S3
-        const videoUploadResponse = await RNS3.put(
-          videoFile,
+        const thumbnailFile = {
+          uri: thumbnailPath,
+          name: this.getRendomString() + ".png",
+          type: "image/png",
+        };
+
+        console.log("Uploading thumbnail to S3 --->", s3Options, thumbnailFile);
+
+        const thumbnailUploadResponse = await RNS3.put(
+          thumbnailFile,
           s3Options
-        ).progress((event: any) => {
-          videoSize = event.total;
-        });
+        );
 
-        if (videoUploadResponse.status === 201) {
-          toggleLoader(false);
-          const videoName = videoUploadResponse.body.postResponse.key;
-          console.log("Video uploaded successfully --->", videoName);
-
-          // Step 3: Now upload the thumbnail to S3
-          const thumbnailFile = {
-            uri: thumbnailPath,
-            name: this.getRendomString() + ".png", // Thumbnail as JPG
-            type: "image/png", // Mime type for thumbnail
-          };
-
-          console.log(
-            "Uploading thumbnail to S3 --->",
-            s3Options,
-            thumbnailFile
-          );
-
-          const thumbnailUploadResponse = await RNS3.put(
-            thumbnailFile,
-            s3Options
-          );
-
-          if (thumbnailUploadResponse.status === 201) {
-            const thumbnailName = thumbnailUploadResponse.body.postResponse.key;
-            console.log("Thumbnail uploaded successfully --->", thumbnailName);
-
-            // Step 4: Return both video and thumbnail names in the callback
-            callback(
-              {
-                videoName: videoName.substring(videoName.lastIndexOf("/") + 1),
-                videoSize: videoSize,
-                thumbnailName: thumbnailName.substring(
-                  thumbnailName.lastIndexOf("/") + 1
-                ), // Return thumbnail name
-              },
-              null
-            );
-          } else {
-            toggleLoader(false);
-            console.error("Failed to upload thumbnail to S3");
-            callback(null, Error("Failed to upload thumbnail to S3"));
-          }
+        if (thumbnailUploadResponse.status === 201) {
+          thumbnailName = thumbnailUploadResponse.body.postResponse.key;
+          console.log("Thumbnail uploaded successfully --->", thumbnailName);
         } else {
-          toggleLoader(false);
-          console.error("Failed to upload video to S3");
-          callback(null, Error("Failed to upload video to S3"));
+          console.warn(
+            "Failed to upload thumbnail to S3, proceeding without thumbnail"
+          );
         }
-      } catch (error) {
-        toggleLoader(false);
-        console.error("Error in video/thumbnail upload process: ", error);
-        callback(null, error);
+      } catch (thumbnailError) {
+        console.warn(
+          "Thumbnail generation/upload failed, proceeding without thumbnail: ",
+          thumbnailError
+        );
       }
+
+      // Return video and thumbnail (if available) in the callback
+      callback(
+        {
+          videoName: videoName.substring(videoName.lastIndexOf("/") + 1),
+          videoSize: videoSize,
+          thumbnailName: thumbnailName
+            ? thumbnailName.substring(thumbnailName.lastIndexOf("/") + 1)
+            : "",
+        },
+        null
+      );
     } catch (error) {
-      console.error("Image resizing failed", error);
       toggleLoader(false);
+      console.error("Error in video upload process: ", error);
       callback(null, error);
     }
   };
+
+  // static uploadVideo = async (
+  //   s3AccessKey: any,
+  //   s3SecretAccessKey: any,
+  //   imgURI: any,
+  //   folderName: any,
+  //   type: any,
+  //   ext: any,
+  //   callback: any
+  // ) => {
+  //   toggleLoader(true);
+  //   let videoSize = 0;
+
+  //   try {
+  //     if (!imgURI) {
+  //       throw new Error("Video URI is missing.");
+  //     }
+
+  //     // Compress the video before uploading
+  //     const compressedVideoUri = await Video.compress(imgURI, {
+  //       compressionMethod: "auto", // Automatically chooses the best compression
+  //       // quality: "medium", // Choose quality (low, medium, high)
+  //     });
+
+  //     // Check if the compressed URI is available
+  //     if (!compressedVideoUri) {
+  //       throw new Error("Video compression failed. No URI returned.");
+  //     }
+
+  //     const videoFile = {
+  //       uri: compressedVideoUri,
+  //       name: this.getRendomString() + ext,
+  //       type: type,
+  //     };
+
+  //     // const videoFile = {
+  //     //   uri: imgURI,
+  //     //   name: this.getRendomString() + ext,
+  //     //   type: type,
+  //     // };
+
+  //     const s3Options = {
+  //       acl: GlobalVar.permissionAccess,
+  //       keyPrefix: `${folderName}`, // for folder name refer FolderName object
+  //       bucket: GlobalVar.bucketName,
+  //       region: GlobalVar.region,
+  //       accessKey: s3AccessKey,
+  //       secretKey: s3SecretAccessKey,
+  //       successActionStatus: 201,
+  //     };
+
+  //     console.log("Uploading video to S3 --->", s3Options, videoFile);
+
+  //     try {
+  //       // Step 1: Generate thumbnail before uploading the video
+  //       const thumbnailResponse = await createThumbnail({
+  //         url: imgURI, // The video file URI
+  //         timeStamp: 5000, // Capture thumbnail at 1 second (adjust if needed)
+  //       });
+
+  //       const thumbnailPath = thumbnailResponse.path; // Get thumbnail path
+  //       console.log("Generated thumbnail path: ", thumbnailPath);
+
+  //       // Step 2: Upload video to S3
+  //       const videoUploadResponse = await RNS3.put(
+  //         videoFile,
+  //         s3Options
+  //       ).progress((event: any) => {
+  //         videoSize = event.total;
+  //       });
+
+  //       if (videoUploadResponse.status === 201) {
+  //         toggleLoader(false);
+  //         const videoName = videoUploadResponse.body.postResponse.key;
+  //         console.log("Video uploaded successfully --->", videoName);
+
+  //         // Step 3: Now upload the thumbnail to S3
+  //         const thumbnailFile = {
+  //           uri: thumbnailPath,
+  //           name: this.getRendomString() + ".png", // Thumbnail as JPG
+  //           type: "image/png", // Mime type for thumbnail
+  //         };
+
+  //         console.log(
+  //           "Uploading thumbnail to S3 --->",
+  //           s3Options,
+  //           thumbnailFile
+  //         );
+
+  //         const thumbnailUploadResponse = await RNS3.put(
+  //           thumbnailFile,
+  //           s3Options
+  //         );
+
+  //         if (thumbnailUploadResponse.status === 201) {
+  //           const thumbnailName = thumbnailUploadResponse.body.postResponse.key;
+  //           console.log("Thumbnail uploaded successfully --->", thumbnailName);
+
+  //           // Step 4: Return both video and thumbnail names in the callback
+  //           callback(
+  //             {
+  //               videoName: videoName.substring(videoName.lastIndexOf("/") + 1),
+  //               videoSize: videoSize,
+  //               thumbnailName: thumbnailName.substring(
+  //                 thumbnailName.lastIndexOf("/") + 1
+  //               ), // Return thumbnail name
+  //             },
+  //             null
+  //           );
+  //         } else {
+  //           toggleLoader(false);
+  //           console.error("Failed to upload thumbnail to S3");
+  //           callback(null, Error("Failed to upload thumbnail to S3"));
+  //         }
+  //       } else {
+  //         toggleLoader(false);
+  //         console.error("Failed to upload video to S3");
+  //         callback(null, Error("Failed to upload video to S3"));
+  //       }
+  //     } catch (error) {
+  //       toggleLoader(false);
+  //       console.error("Error in video/thumbnail upload process: ", error);
+  //       callback(null, error);
+  //     }
+  //   } catch (error) {
+  //     console.error("Image resizing failed", error);
+  //     toggleLoader(false);
+  //     callback(null, error);
+  //   }
+  // };
 
   static uploadAudio = async (
     s3AccessKey: any,

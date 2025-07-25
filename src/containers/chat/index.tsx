@@ -16,8 +16,6 @@ import {
 } from "../../constants/GConstant";
 import { ChatMessage, SecretKeyItem } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
-import { getTranslation } from "../../localization/i18n/i18n.config";
-import { MmkvManager } from "../../constants/utils/MmkvManager";
 import { useFocusEffect } from "@react-navigation/native";
 import { apiBaseURL, statusCodes } from "../../api/APIConstant";
 import SocketIOClient from "socket.io-client";
@@ -238,16 +236,6 @@ const ChatConatiner = ({ navigation, route }: any) => {
   useEffect(() => {
     header();
   }, [driverName]);
-
-  useEffect(() => {
-    const refreshListener = DeviceEventEmitter.addListener(EmitterTypes.CHAT,
-      handleChatHistoryApi
-    );
-
-    return () => {
-      refreshListener.remove();
-    };
-  }, []);
 
   // ------------------------API Calling---------------------------
   // handleChatHistoryApi

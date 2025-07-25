@@ -35,7 +35,11 @@ const DriverTrackingComponent = (props: PropsType) => {
   const PathDraw = useCallback(() => {
     return (
       props.googleApiKey != "" &&
-      props?.trackingDetails != null && (
+      props?.trackingDetails != null &&
+      props?.trackingDetails?.driver_latitude != null &&
+      props?.trackingDetails?.driver_longitude != null &&
+      props?.trackingDetails?.customer_latitude != null &&
+      props?.trackingDetails?.customer_longitude != null && (
         <MapViewDirections
           origin={{
             latitude: Number(props?.trackingDetails?.driver_latitude),
@@ -77,37 +81,44 @@ const DriverTrackingComponent = (props: PropsType) => {
         }}
       >
         {/* Driver Marker */}
-        {props?.trackingDetails != null && (
-          <Marker
-            coordinate={{
-              latitude: Number(props?.trackingDetails?.driver_latitude),
-              longitude: Number(props?.trackingDetails?.driver_longitude),
-            }}
-            rotation={Number(props?.trackingDetails?.driver_heading)}
-            flat={true}
-            anchor={{ x: 0.5, y: 0.5 }}
-            tracksViewChanges={!props?.markersReady}
-          >
-            <Image source={images.vehicleIcon} style={styles.imgDriverMarker} />
-          </Marker>
-        )}
-        {/* Customer Marker */}
-        {props?.trackingDetails != null && (
-          <Marker
-            coordinate={{
-              latitude: Number(props?.trackingDetails?.customer_latitude),
-              longitude: Number(props?.trackingDetails?.customer_longitude),
-            }}
-            tracksViewChanges={!props?.markersReady}
-          >
-            <View style={styles.vwDestinationMarker}>
+        {props?.trackingDetails != null &&
+          props?.trackingDetails?.driver_latitude != null &&
+          props?.trackingDetails?.driver_longitude != null && (
+            <Marker
+              coordinate={{
+                latitude: Number(props?.trackingDetails?.driver_latitude),
+                longitude: Number(props?.trackingDetails?.driver_longitude),
+              }}
+              rotation={Number(props?.trackingDetails?.driver_heading)}
+              flat={true}
+              anchor={{ x: 0.5, y: 0.5 }}
+              tracksViewChanges={!props?.markersReady}
+            >
               <Image
-                source={images.customerMarker}
-                style={styles.imgDestinationMarker}
+                source={images.vehicleIcon}
+                style={styles.imgDriverMarker}
               />
-            </View>
-          </Marker>
-        )}
+            </Marker>
+          )}
+        {/* Customer Marker */}
+        {props?.trackingDetails != null &&
+          props?.trackingDetails?.customer_latitude != null &&
+          props?.trackingDetails?.customer_longitude != null && (
+            <Marker
+              coordinate={{
+                latitude: Number(props?.trackingDetails?.customer_latitude),
+                longitude: Number(props?.trackingDetails?.customer_longitude),
+              }}
+              tracksViewChanges={!props?.markersReady}
+            >
+              <View style={styles.vwDestinationMarker}>
+                <Image
+                  source={images.customerMarker}
+                  style={styles.imgDestinationMarker}
+                />
+              </View>
+            </Marker>
+          )}
         <PathDraw />
         {/* Restrict Path Blinking */}
         <Polyline
