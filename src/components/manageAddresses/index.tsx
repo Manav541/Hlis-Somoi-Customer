@@ -23,7 +23,7 @@ interface PropsType {
   navigateFromCart: boolean;
   navigateFromHome: boolean;
   onPressAddress: (selectedAddress: LocationData) => void;
-   // Pagination
+  // Pagination
   loadMoreCategories: () => void;
   canLoadMore: boolean;
   setCanLoadMore: (value: boolean) => void;
@@ -57,21 +57,20 @@ const ManageAddressesComponent = (props: PropsType) => {
 
         <View style={styles.vwDefaultEditDelete}>
           {/* Set Default Section */}
-          <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity
-              style={{ alignSelf: "center" }}
-              activeOpacity={activityOpacity}
-              onPress={() => props.handleSetDefault(item)}
-            >
-              <Image
-                source={item?.is_default ? images.checkfill : images.checkempty}
-                style={styles.imgSetDefault}
-              />
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={{ alignSelf: "center", flexDirection: "row" }}
+            activeOpacity={activityOpacity}
+            onPress={() => props.handleSetDefault(item)}
+            disabled={item?.is_default}
+          >
+            <Image
+              source={item?.is_default ? images.checkfill : images.checkempty}
+              style={styles.imgSetDefault}
+            />
             <Text style={styles.lblSetAsDefault}>
               {getTranslation("setAsDefault")}
             </Text>
-          </View>
+          </TouchableOpacity>
 
           {/* Separator */}
           {!props.navigateFromCart && <View style={styles.vwLine} />}
@@ -133,20 +132,20 @@ const ManageAddressesComponent = (props: PropsType) => {
           justifyContent:
             props.arrManageAddress.length === 0 ? "center" : "flex-start",
           alignItems: "center",
-          paddingBottom : 40
+          paddingBottom: 40,
         }}
         showsVerticalScrollIndicator={false}
         bounces={false}
-         onEndReached={() => {
-              if (props.canLoadMore && props.hasMountedOnce.current) {
-                props.loadMoreCategories();
-              }
-            }}
-            onEndReachedThreshold={0.4}
-            onContentSizeChange={(w, h) => {
-              props.setCanLoadMore(h > 600); // Adjust if needed
-              props.hasMountedOnce.current = true;
-            }}
+        onEndReached={() => {
+          if (props.canLoadMore && props.hasMountedOnce.current) {
+            props.loadMoreCategories();
+          }
+        }}
+        onEndReachedThreshold={0.4}
+        onContentSizeChange={(w, h) => {
+          props.setCanLoadMore(h > 600); // Adjust if needed
+          props.hasMountedOnce.current = true;
+        }}
         ListEmptyComponent={
           <Text style={styles.lblNoData}>
             {getTranslation("emptyAddressList")}

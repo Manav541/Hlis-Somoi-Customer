@@ -429,18 +429,19 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.black50,
   },
   vwFilterModalContainer: {
+    height: ScreenDimensions.screenHeight / 2.5,
     width: ScreenDimensions.screenWidth,
     backgroundColor: colors.blue4e,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingHorizontal: 16,
-    paddingTop: 33,
   },
   vwEditDeleteReview: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     gap: 10,
+    marginTop: 5,
   },
   lblYourReview: {
     color: colors.white,
@@ -448,14 +449,14 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.bold,
     marginBottom: 36,
     textAlign: "center",
+    marginTop: 33,
   },
   lblReviewDesc: {
     color: colors.greya7,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.regular,
     lineHeight: 20,
-    marginTop: 10,
-    marginBottom: 35.8,
+
     marginRight: 31,
   },
   imgStarModal: {

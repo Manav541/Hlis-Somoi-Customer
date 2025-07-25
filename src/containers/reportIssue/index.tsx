@@ -92,7 +92,7 @@ const ReportIssueContainer = ({ navigation, route }: any) => {
               if (isAllow) {
                 const isMultiSelection = true;
                 ImagePickerManager.choosePickerOptions(
-                  "mixed",
+                  "photo",
                   isMultiSelection
                 )
                   .then((result: unknown) => {
@@ -181,11 +181,13 @@ const ReportIssueContainer = ({ navigation, route }: any) => {
   // -------------------------API Calling----------------------------
   // handleOrderDetailsApi
   const handleReportIssueApi = async (message: string, media?: string[]) => {
-    const dictData = {
+    const dictData: any = {
       order_id: order_id,
       message: message,
-      media: media,
     };
+    if (media && media.length > 0) {
+      dictData.media = media;
+    }
     try {
       const response = await reportIssueApi(dictData, navigation);
       if (response !== undefined && response !== null) {

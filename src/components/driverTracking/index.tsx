@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { RefObject, useCallback } from "react";
+import React, { RefObject, useCallback, useMemo } from "react";
 import { styles } from "./styles";
 import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -32,36 +32,70 @@ interface PropsType {
 
 const DriverTrackingComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
-  const PathDraw = useCallback(() => {
-    return (
-      props.googleApiKey != "" &&
-      props?.trackingDetails != null &&
-      props?.trackingDetails?.driver_latitude != null &&
-      props?.trackingDetails?.driver_longitude != null &&
-      props?.trackingDetails?.customer_latitude != null &&
-      props?.trackingDetails?.customer_longitude != null && (
-        <MapViewDirections
-          origin={{
-            latitude: Number(props?.trackingDetails?.driver_latitude),
-            longitude: Number(props?.trackingDetails?.driver_longitude),
-          }}
-          destination={{
-            latitude: Number(props?.trackingDetails?.customer_latitude),
-            longitude: Number(props?.trackingDetails?.customer_longitude),
-          }}
-          apikey={props.googleApiKey}
-          strokeWidth={3}
-          strokeColor={colors.black35}
-          strokeColors={[colors.black35]}
-          mode="DRIVING"
-          onError={(error) => {
-            __DEV__ && console.log("Maps Directions Error ===>", error);
-          }}
-          onReady={props?.handleOnReadyDirections}
-        />
-      )
-    );
-  }, [props]);
+  
+  // const PathDraw = useCallback(() => {
+  //   console.log("props changes")
+  //   return (
+
+  //     )
+  //   );
+  // }, [props?.trackingDetails]);
+  const {
+    driver_latitude,
+    driver_longitude,
+    customer_latitude,
+    customer_longitude,
+  } = props?.trackingDetails || {};
+
+  const driverLat = Number(props.trackingDetails?.driver_latitude);
+const driverLng = Number(props.trackingDetails?.driver_longitude);
+const customerLat = Number(props.trackingDetails?.customer_latitude);
+const customerLng = Number(props.trackingDetails?.customer_longitude);
+
+const isValidCoordinate = (lat: number, lng: number) =>
+  typeof lat === "number" &&
+  typeof lng === "number" &&
+  !isNaN(lat) &&
+  Math.abs(lat) <= 90 &&
+  Math.abs(lng) <= 180;
+
+const shouldRenderDirections =
+  isValidCoordinate(driverLat, driverLng) &&
+  isValidCoordinate(customerLat, customerLng) &&
+  !(driverLat === customerLat && driverLng === customerLng);
+
+
+  const directionPath = useMemo(() => {
+  if (!shouldRenderDirections || !props.googleApiKey) return null;
+
+  return (
+    <MapViewDirections
+      key={`${driverLat}-${driverLng}-${customerLat}-${customerLng}`} // Only when safe
+      origin={{ latitude: driverLat, longitude: driverLng }}
+      destination={{ latitude: customerLat, longitude: customerLng }}
+      apikey={props.googleApiKey}
+      strokeWidth={3}
+      strokeColor="#000"
+      region="IN"
+      mode="DRIVING"
+      onReady={props.handleOnReadyDirections}
+      onError={(errorMessage) => {
+        if (__DEV__) {
+          console.warn("MapViewDirections error:", errorMessage);
+        }
+      }}
+    />
+  );
+}, [
+  driverLat,
+  driverLng,
+  customerLat,
+  customerLng,
+  props.googleApiKey,
+  props.handleOnReadyDirections,
+  shouldRenderDirections,
+]);
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -119,7 +153,8 @@ const DriverTrackingComponent = (props: PropsType) => {
               </View>
             </Marker>
           )}
-        <PathDraw />
+        {shouldRenderDirections && directionPath}
+
         {/* Restrict Path Blinking */}
         <Polyline
           coordinates={props?.routeCoordinates}

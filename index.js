@@ -12,6 +12,7 @@ import { ScreenNames } from "./src/routers";
 import { navigate } from "./src/constants/utils/Notification/notificationNavigation";
 import { PlatformVersion } from "./src/constants/utils/Platform";
 import { EmitterTypes, NotificationTypes } from "./src/constants/GConstant";
+import { setupSentry } from "./setupSentry";
 
 LogBox.ignoreAllLogs();
 
@@ -33,9 +34,24 @@ PlatformVersion.isAndroid &&
   getMessaging().setBackgroundMessageHandler(async (remoteMessage) => {
     __DEV__ &&
       console.log("[FCMService] setBackgroundMessageHandler:", remoteMessage);
-    // Defines Emitter
-    DeviceEventEmitter.emit("refresh", "test");
-    DeviceEventEmitter.emit(EmitterTypes.CHAT);
+    const orderEventTypes = [
+      EmitterTypes.ORDER_ACCEPTED,
+      EmitterTypes.ORDER_PREPARING,
+      EmitterTypes.ORDER_PREPARED,
+      EmitterTypes.ORDER_PACKAGING,
+      EmitterTypes.ORDER_OUT_FOR_DELIVERY,
+      EmitterTypes.ORDER_DELIVERED,
+      EmitterTypes.ORDER_CANCELLED,
+      EmitterTypes.ORDER_REJECTED,
+      EmitterTypes.ORDER_RETURN_REQUESTED,
+      EmitterTypes.ORDER_RETURN_ACCEPTED,
+      EmitterTypes.ORDER_RETURNED,
+      EmitterTypes.DELIVERY_PERSON_NOT_AVAILABLE
+    ];
+
+    orderEventTypes.forEach((type) => {
+      DeviceEventEmitter.emit("order-event", type);
+    });
 
     try {
       const notification = PlatformVersion.isIOS
@@ -139,6 +155,7 @@ function handleNotificationPress(notification) {
   setTimeout(() => {
     switch (tag) {
       case NotificationTypes.ADMIN_NOTIFICATION:
+      case NotificationTypes.CONTACT_US:
         navigate(ScreenNames.notification);
         break;
       case NotificationTypes.ORDER_PLACED:
@@ -173,5 +190,5 @@ function handleNotificationPress(notification) {
     }
   }, 1000);
 }
-
+setupSentry();
 AppRegistry.registerComponent(appName, () => App);

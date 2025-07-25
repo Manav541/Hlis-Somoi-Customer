@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
   vwBestSellersItemDetails: {
     paddingTop: 14,
     paddingBottom: 10,
+    backgroundColor:colors.white
   },
   vwLocation: {
     marginTop: 5,
@@ -89,7 +90,7 @@ export const styles = StyleSheet.create({
     width: ScreenDimensions.screenWidth - 40,
     borderRadius: 20,
     overflow: "hidden",
-    backgroundColor: colors.white,
+    backgroundColor: colors.blue4e,
     marginBottom: 10,
   },
   btnFavourite: {

@@ -58,6 +58,7 @@ interface PropsType {
 const RateAndReviewComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
   const renderUploadImageVideo = (item: any, index: number) => {
+    console.log("item=>",item)
     return (
       <View style={styles.vwUploadImageVideosItem} key={index}>
         {item?.type == "video/mp4" ? (
@@ -65,7 +66,7 @@ const RateAndReviewComponent = (props: PropsType) => {
             source={{ uri: item?.uri }}
             style={styles.imgUpload}
             paused={true} // Don't autoplay
-            controls={true} // Native play/pause buttons
+            controls={false} // Native play/pause buttons
             resizeMode="cover"
             repeat={false}
             muted
@@ -74,7 +75,7 @@ const RateAndReviewComponent = (props: PropsType) => {
           <FastImage
             style={styles.imgUpload}
             source={{ uri: item?.uri }}
-            resizeMode="stretch"
+            resizeMode="contain"
           />
         )}
         <TouchableOpacity
@@ -108,6 +109,7 @@ const RateAndReviewComponent = (props: PropsType) => {
             <FastImage
               style={styles.imgBestSellers}
               source={{ uri: props?.storeDetail?.banner_image }}
+              resizeMode="cover"
             />
             <View style={styles.vwBestSellersItemDetails}>
               <Text style={styles.lblBestSellersItemName}>

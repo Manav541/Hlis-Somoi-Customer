@@ -1,5 +1,5 @@
 import { Text, StatusBar } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import DriverTrackingComponent from "../../components/driverTracking";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { useFocusEffect } from "@react-navigation/native";
@@ -37,9 +37,13 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
   const mapRef = useRef<MapView | null>(null);
   const [markersReady, setMarkersReady] = useState(false);
 
-  const handleOnReadyDirections = async (result: MapDirectionsResponse) => {
-    setRouteCoordinates(result.coordinates);
-  };
+  const handleOnReadyDirections = useCallback(
+    (result: MapDirectionsResponse) => {
+      // Remove the early return
+      setRouteCoordinates(result.coordinates);
+    },
+    []
+  );
 
   const onPressChat = () => {
     navigation.navigate(ScreenNames.chat, {

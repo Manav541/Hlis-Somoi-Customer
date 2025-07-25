@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
     width: ScreenDimensions.screenWidth - 40,
     borderRadius: 20,
     overflow: "hidden",
-    backgroundColor: colors.white,
+    backgroundColor: colors.blue4e,
     marginBottom: 10,
     marginHorizontal: 20,
   },
@@ -63,6 +63,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 12.5,
     paddingTop: 14,
     paddingBottom: 10,
+    backgroundColor : colors.white
   },
   vwLocation: {
     marginTop: 5,

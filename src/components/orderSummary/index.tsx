@@ -8,6 +8,7 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   RefreshControl,
+  Pressable,
 } from "react-native";
 import React from "react";
 import { styles } from "./styles";
@@ -33,6 +34,7 @@ import {
   StatusTimeline,
 } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
+import { fontsfamily } from "../../constants/FontFamily";
 
 interface PropsType {
   orderDetails: OrderDetailsData;
@@ -56,6 +58,8 @@ interface PropsType {
   onPressReportIssue: () => void;
   isRefreshing: boolean;
   onRefresh: () => void;
+  showMore: boolean;
+  toggleShowMore: () => void;
 }
 
 const OrderSummaryComponent = (props: PropsType) => {
@@ -433,7 +437,12 @@ const OrderSummaryComponent = (props: PropsType) => {
 
             {/* Report Issue */}
             {props?.orderDetails?.status !== "Order Cancelled" &&
-              props?.orderDetails?.status !== "Order Returned" && (
+              props?.orderDetails?.status !== "Order Requested" &&
+              props?.orderDetails?.status !== "Order Accepted" &&
+              props?.orderDetails?.status !== "Order Preparing" &&
+              props?.orderDetails?.status !== "Order Prepared" &&
+              props?.orderDetails?.status !== "Order Packaging" &&
+              props?.orderDetails?.status !== "Order Out for Delivery" && (
                 <TouchableOpacity
                   style={styles.btnReportIssue}
                   activeOpacity={activityOpacity}
@@ -563,13 +572,14 @@ const OrderSummaryComponent = (props: PropsType) => {
               </View>
 
               {/* Discount */}
-              {props?.orderDetails?.discount_price != "0.00" &&
-              <View style={styles.vwOrderDetailsItem}>
-                <Text style={styles.lblOrderDetailsTitle}>Discount</Text>
-                <Text style={styles.lblOrderDetailsValue}>
-                  -{rupeeSymbol + props?.orderDetails?.discount_price}
-                </Text>
-              </View>}
+              {props?.orderDetails?.discount_price != "0.00" && (
+                <View style={styles.vwOrderDetailsItem}>
+                  <Text style={styles.lblOrderDetailsTitle}>Discount</Text>
+                  <Text style={styles.lblOrderDetailsValue}>
+                    -{rupeeSymbol + props?.orderDetails?.discount_price}
+                  </Text>
+                </View>
+              )}
 
               {/* Delivery */}
               <View style={styles.vwOrderDetailsItem}>
@@ -616,70 +626,100 @@ const OrderSummaryComponent = (props: PropsType) => {
           backgroundColor={colors.black50}
           barStyle={"dark-content"}
         />
-        <TouchableWithoutFeedback onPress={props?.onPressCloseEditReviewModal}>
-          <View style={styles.vwFilterModal}>
-            <TouchableWithoutFeedback>
-              <View
-                style={{
-                  ...styles.vwFilterModalContainer,
-                  paddingBottom: PlatformVersion.isIOS
-                    ? insets.bottom + 20
-                    : 20,
-                }}
-              >
-                <Text style={styles.lblYourReview}>
-                  {getTranslation("yourReview")}
-                </Text>
-                <View style={{ flexDirection: "row" }}>
-                  {[1, 2, 3, 4, 5].map((item: number, index: number) => (
-                    <Image
-                      key={index}
-                      style={styles.imgStarModal}
-                      source={
-                        Number(item) <=
-                        Number(props?.ratingData?.rating_summary?.rating)
-                          ? images.starFilled
-                          : images.starEmpty
-                      }
-                      resizeMode="stretch"
-                    />
-                  ))}
-                </View>
-                <Text style={styles.lblReviewDesc}>
+        <View style={styles.vwFilterModal}>
+          <Pressable
+            style={{ flex: 1 }}
+            onPress={() => props?.onPressCloseEditReviewModal()}
+          />
+          <View
+            style={{
+              ...styles.vwFilterModalContainer,
+              paddingBottom: PlatformVersion.isIOS ? insets.bottom + 20 : 20,
+            }}
+          >
+            <ScrollView
+              bounces={false}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{
+                flexGrow: 1,
+              }}
+            >
+              <Text style={styles.lblYourReview}>
+                {getTranslation("yourReview")}
+              </Text>
+              <View style={{ flexDirection: "row" }}>
+                {[1, 2, 3, 4, 5].map((item: number, index: number) => (
+                  <Image
+                    key={index}
+                    style={styles.imgStarModal}
+                    source={
+                      Number(item) <=
+                      Number(props?.ratingData?.rating_summary?.rating)
+                        ? images.starFilled
+                        : images.starEmpty
+                    }
+                    resizeMode="stretch"
+                  />
+                ))}
+              </View>
+              <View style={{ marginTop: 10 }}>
+                <Text
+                  style={styles.lblReviewDesc}
+                  numberOfLines={props?.showMore ? undefined : 3}
+                >
                   {props?.ratingData?.rating_summary?.review}
                 </Text>
-                <View style={styles.vwEditDeleteReview}>
-                  <GlobalButton
-                    isOrange
-                    title={getTranslation("edit")}
-                    flex={1}
-                    onPress={() => {
-                      props?.onPressEditReview(props?.ratingData);
-                    }}
-                  />
+
+                {(props?.ratingData?.rating_summary?.review?.length ?? 0) >
+                  150 && (
                   <TouchableOpacity
-                    style={styles.btnDelete}
                     activeOpacity={activityOpacity}
                     hitSlop={hitSlop}
-                    onPress={() => {
-                      const ratingId =
-                        props?.ratingData?.rating_summary?.rating_id;
-                      if (ratingId) {
-                        props.onPressDeleteReview(ratingId);
-                      }
-                    }}
+                    onPress={props?.toggleShowMore}
                   >
-                    <Image
-                      style={constnatStyles.img24}
-                      source={images.delete1}
-                      resizeMode="stretch"
-                    />
+                    <Text
+                      style={{
+                        ...styles.lblReviewDesc,
+                        fontFamily: fontsfamily.semibold,
+                        marginBottom: 35.8,
+                        marginTop: 5,
+                      }}
+                    >
+                      {props?.showMore ? "Read Less" : "Read More"}
+                    </Text>
                   </TouchableOpacity>
-                </View>
+                )}
               </View>
-            </TouchableWithoutFeedback>
+            </ScrollView>
+            <View style={styles.vwEditDeleteReview}>
+              <GlobalButton
+                isOrange
+                title={getTranslation("edit")}
+                flex={1}
+                onPress={() => {
+                  props?.onPressEditReview(props?.ratingData);
+                }}
+              />
+              <TouchableOpacity
+                style={styles.btnDelete}
+                activeOpacity={activityOpacity}
+                hitSlop={hitSlop}
+                onPress={() => {
+                  const ratingId = props?.ratingData?.rating_summary?.rating_id;
+                  if (ratingId) {
+                    props.onPressDeleteReview(ratingId);
+                  }
+                }}
+              >
+                <Image
+                  style={constnatStyles.img24}
+                  source={images.delete1}
+                  resizeMode="stretch"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-        </TouchableWithoutFeedback>
+        </View>
       </Modal>
     </View>
   );

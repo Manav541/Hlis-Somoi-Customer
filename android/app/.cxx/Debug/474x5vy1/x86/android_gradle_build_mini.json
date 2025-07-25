@@ -2,6 +2,7 @@
   "buildFiles": [
     "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-clipboard/clipboard/android/build/generated/source/codegen/jni/CMakeLists.txt",
     "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@react-native-community/geolocation/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/@sentry/react-native/android/build/generated/source/codegen/jni/CMakeLists.txt",
     "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-compressor/android/build/generated/source/codegen/jni/CMakeLists.txt",
     "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-date-picker/android/build/generated/source/codegen/jni/CMakeLists.txt",
     "/Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
@@ -123,6 +124,11 @@
     },
     "react_codegen_RNLocalizeSpec::@f3ba5298aff84514e205": {
       "artifactName": "react_codegen_RNLocalizeSpec",
+      "abi": "x86",
+      "runtimeFiles": []
+    },
+    "react_codegen_RNSentrySpec::@b85314237d91cb2ada57": {
+      "artifactName": "react_codegen_RNSentrySpec",
       "abi": "x86",
       "runtimeFiles": []
     },

@@ -55,7 +55,7 @@ const AddAddressComponent = (props: PropsType) => {
       contentContainerStyle={styles.vwMain}
       bounces={false}
       showsVerticalScrollIndicator={false}
-      keyboardShouldPersistTaps='handled'
+      keyboardShouldPersistTaps="handled"
     >
       <StatusBar
         translucent={false}
@@ -72,7 +72,7 @@ const AddAddressComponent = (props: PropsType) => {
             <GooglePlacesTextInput
               key={
                 props.isEditAddress && props.isAddressInitialized
-                  ? 'location-initialization'
+                  ? "location-initialization"
                   : undefined
               }
               style={{
@@ -163,6 +163,7 @@ const AddAddressComponent = (props: PropsType) => {
                   height: 24,
                   gap: 10,
                 }}
+                disabled={props?.isDefault}
               >
                 <Image
                   source={

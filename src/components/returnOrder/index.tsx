@@ -83,7 +83,7 @@ const ReturnOrderComponent = (props: PropsType) => {
             source={{ uri: item?.uri }}
             style={styles.imgUpload}
             paused={true} // Don't autoplay
-            controls={true} // Native play/pause buttons
+            controls={false} // Native play/pause buttons
             resizeMode="cover"
             repeat={false}
             muted

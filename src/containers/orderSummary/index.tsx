@@ -20,6 +20,7 @@ import {
 import { constnatStyles } from "../../constants/Styles";
 import {
   backendToUIStatusMap,
+  EmitterTypes,
   flashMessageWarning,
 } from "../../constants/GConstant";
 import { zustandStore } from "../../store";
@@ -124,6 +125,9 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
   const [isEditReviewModalVisible, setIsEditReviewModalVisible] =
     useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [showMore, setShowMore] = useState(false);
+
+  const toggleShowMore = () => setShowMore(!showMore);
 
   const onRefresh = async () => {
     setIsRefreshing(true);
@@ -181,14 +185,14 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     navigation.navigate(ScreenNames.driverTracking, {
       driver_details: orderDetails?.driver_details,
       customer_details: orderDetails?.delivery_details,
-      order_id : order_id
+      order_id: order_id,
     });
   };
 
   const onPressChatDriver = () => {
     navigation.navigate(ScreenNames.chat, {
-      driver_id : orderDetails?.driver_details?.id,
-      customer_id : orderDetails?.delivery_details?.customer_id,
+      driver_id: orderDetails?.driver_details?.id,
+      customer_id: orderDetails?.delivery_details?.customer_id,
     });
   };
 
@@ -380,16 +384,35 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     }
   };
 
+  const allowedEmitterTypes = [
+    EmitterTypes.ORDER_ACCEPTED,
+    EmitterTypes.ORDER_PREPARING,
+    EmitterTypes.ORDER_PREPARED,
+    EmitterTypes.ORDER_PACKAGING,
+    EmitterTypes.ORDER_OUT_FOR_DELIVERY,
+    EmitterTypes.ORDER_DELIVERED,
+    EmitterTypes.ORDER_CANCELLED,
+    EmitterTypes.ORDER_REJECTED,
+    EmitterTypes.ORDER_RETURN_REQUESTED,
+    EmitterTypes.ORDER_RETURN_ACCEPTED,
+    EmitterTypes.ORDER_RETURNED,
+    EmitterTypes.DELIVERY_PERSON_NOT_AVAILABLE,
+  ];
+
   useEffect(() => {
-    const refreshListener = DeviceEventEmitter.addListener("refresh", () => {
-      handleOrderDetailsApi();
-    });
+    const refreshListener = DeviceEventEmitter.addListener(
+      "order-event",
+      (eventType: string) => {
+        if (allowedEmitterTypes.includes(eventType)) {
+          handleOrderDetailsApi(); // ✅ Only called for allowed order events
+        }
+      }
+    );
 
     return () => {
       refreshListener.remove();
     };
   }, []);
-
 
   useFocusEffect(
     React.useCallback(() => {
@@ -424,6 +447,8 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
           onPressReportIssue={onPressReportIssue}
           isRefreshing={isRefreshing}
           onRefresh={onRefresh}
+          showMore={showMore}
+          toggleShowMore={toggleShowMore}
         />
       ) : (
         <View style={{ flex: 1, backgroundColor: colors.blue4e }}></View>

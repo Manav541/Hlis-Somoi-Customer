@@ -207,7 +207,8 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
     if (payment_type == "cod") {
       handlePlaceOrderApi(location_id, payment_type);
     } else {
-      openRazorpay();
+      // openRazorpay();
+      handlePlaceOrderApi(location_id, payment_type);
     }
   };
 

@@ -219,7 +219,7 @@ const HomeComponent = (props: PropsType) => {
         <FastImage
           style={styles.imgBestSeller}
           source={{ uri: item?.store_cover_image }}
-          resizeMode="stretch"
+          resizeMode="cover"
         />
 
         <View style={styles.vwBestSellerDetails}>

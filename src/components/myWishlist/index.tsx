@@ -247,7 +247,7 @@ const MyWishlistComponent = (props: PropsType) => {
         <FastImage
           style={styles.imgBestSellers}
           source={{ uri: item?.image }}
-          resizeMode="stretch"
+          resizeMode="cover"
         />
         <TouchableOpacity
           style={styles.btnFavourite}

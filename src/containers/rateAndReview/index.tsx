@@ -184,8 +184,6 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
       console.log("🧾 Final file names:", allImageFileNames);
 
       if (isEditRating == true) {
-        console.log("Calllllll");
-
         handleEditRateApi(allImageFileNames);
       } else {
         handleRateProductApi(allImageFileNames);

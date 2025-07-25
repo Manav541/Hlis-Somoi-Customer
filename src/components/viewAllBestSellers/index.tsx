@@ -47,6 +47,7 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
         <FastImage
           style={styles.imgBestSellers}
           source={{ uri: item?.store_cover_image }}
+          resizeMode="cover"
         />
         <TouchableOpacity
           style={styles.btnFavourite}
