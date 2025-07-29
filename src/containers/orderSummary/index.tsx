@@ -181,11 +181,17 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     });
   };
 
-  const onPressTrackDriver = () => {
+ const onPressTrackDriver = () => {
     navigation.navigate(ScreenNames.driverTracking, {
-      driver_details: orderDetails?.driver_details,
-      customer_details: orderDetails?.delivery_details,
       order_id: order_id,
+      driver_id: orderDetails?.driver_details?.id,
+      driverProfileImage: orderDetails?.driver_details?.image,
+      driverName: orderDetails?.driver_details?.name,
+      customer_id: orderDetails?.delivery_details?.customer_id,
+      customerName: orderDetails?.delivery_details?.name,
+      customerAddress: orderDetails?.delivery_details?.address,
+      customerLatitude: Number(orderDetails?.delivery_details?.latitude),
+      customerLongitude: Number(orderDetails?.delivery_details?.longitude),
     });
   };
 

@@ -166,7 +166,7 @@ export interface ChatMessage {
   receiver_role: "customer" | "driver" | string;
   sender_id: string;
   receiver_id: string;
-  message: string;
+  message: string | null;
   message_type: "text" | "image" | "video" | string;
   media_url: string;
   created_at: string; // format: "YYYY-MM-DD HH:mm:ss"

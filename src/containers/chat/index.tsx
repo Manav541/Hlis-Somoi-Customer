@@ -2,7 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import ChatComponent from "../../components/chat";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
-import { DeviceEventEmitter, Keyboard, Linking, StatusBar, Text } from "react-native";
+import {
+  DeviceEventEmitter,
+  Keyboard,
+  Linking,
+  StatusBar,
+  Text,
+} from "react-native";
 import { Asset } from "react-native-image-picker";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import {
@@ -37,8 +43,8 @@ const ChatConatiner = ({ navigation, route }: any) => {
   const driver_id = route?.params?.driver_id;
   const sender_role = "customer";
   const receiver_role = "driver";
-  const [driverName,setDriverName] = useState("");
-  const [driverMobileNumber,setDriverMobileNumber] = useState("");
+  const [driverName, setDriverName] = useState("");
+  const [driverMobileNumber, setDriverMobileNumber] = useState("");
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [isEmojiPickerVisible, setEmojiPickerVisible] = useState(false);
   const [messageValue, setMessageValue] = useState("");
@@ -158,7 +164,7 @@ const ChatConatiner = ({ navigation, route }: any) => {
             sender_id: customer_id,
             receiver_role: receiver_role,
             receiver_id: driver_id,
-            message: messageValue.trim(),
+            message: null,
             message_type: "image",
             media_url: response,
           };
@@ -174,7 +180,7 @@ const ChatConatiner = ({ navigation, route }: any) => {
                 receiver_role: receiver_role,
                 sender_id: customer_id,
                 receiver_id: driver_id,
-                message: messageValue.trim(),
+                message: null,
                 created_at: new Date().toISOString(),
                 message_type: "image",
                 media_url: fullUrl,
@@ -219,9 +225,7 @@ const ChatConatiner = ({ navigation, route }: any) => {
         />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>
-          {driverName}
-        </Text>
+        <Text style={constnatStyles.lblHeaderTitle}>{driverName}</Text>
       ),
       headerRight: () => (
         <GlobalBackButton
@@ -252,7 +256,8 @@ const ChatConatiner = ({ navigation, route }: any) => {
         __DEV__ &&
           console.log("CHAT HISTORY RESPONSE===>", JSON.stringify(response));
         if (response.code === statusCodes.success) {
-          const driverData = (response?.data as { receiver_details?: any })?.receiver_details;
+          const driverData = (response?.data as { receiver_details?: any })
+            ?.receiver_details;
           setDriverName(driverData?.name);
           setDriverMobileNumber(driverData?.mobile_number);
           const chatdata =
