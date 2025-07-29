@@ -224,43 +224,31 @@ const CartContainer = ({ navigation }: any) => {
 
         const response = await addressListApi(dictData, navigation);
 
-        if (response !== undefined && response !== null) {
-          __DEV__ &&
-            console.log(
-              `ADDRESS LIST RESPONSE  ===>`,
-              JSON.stringify(response)
+        if (response?.code === statusCodes.success) {
+          const locationData = response.data;
+
+          if (Array.isArray(locationData) && locationData.length > 0) {
+            const defaultAddress = locationData.find(
+              (item) => item.is_default === true
             );
 
-          if (response.code === statusCodes.success) {
-            const locationData = response.data;
+            if (defaultAddress) {
+              console.log("defaultAddress => ", defaultAddress);
 
-            if (Array.isArray(locationData) && locationData.length > 0) {
-              const defaultAddress = locationData.find(
-                (item) => item.is_default === true
-              );
-
-              if (defaultAddress) {
-                console.log("defaultAddress => ", defaultAddress);
-
-                const formattedAddress = `${defaultAddress.building_details}, ${defaultAddress.address}, ${defaultAddress.description}`;
-                setDeliverToAddress(formattedAddress);
-                setLocation_id(defaultAddress?.id);
-                foundDefault = true;
-                break; // ✅ Stop pagination once found
-              } else {
-                page++; // ✅ Go to next page
-              }
+              const formattedAddress = `${defaultAddress.building_details}, ${defaultAddress.address}, ${defaultAddress.description}`;
+              setDeliverToAddress(formattedAddress);
+              setLocation_id(defaultAddress?.id);
+              foundDefault = true;
+              break;
             } else {
-              break; // ✅ No more pages
+              page++; // Go to next page
             }
-          } else if (
-            response.code === statusCodes.invaildOrFail ||
-            response.code === statusCodes.emptyData
-          ) {
-            setDeliverToAddress("");
-            break;
+          } else {
+            break; // No more pages
           }
         } else {
+          // 🔥 Break loop on unauthorized or other error codes
+          console.log("ADDRESS LIST API Error or Invalid Response:", response);
           break;
         }
       }
@@ -269,7 +257,7 @@ const CartContainer = ({ navigation }: any) => {
         setDeliverToAddress("No default address found.");
       }
     } catch (error) {
-      __DEV__ && console.log("ADDRESS LIST API Error:", error);
+      console.log("ADDRESS LIST API Exception:", error);
     }
   };
 

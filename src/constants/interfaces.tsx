@@ -110,6 +110,7 @@ export interface APIResponseType {
   code: number;
   message: string;
   data: object;
+  status :number
 }
 
 export interface VerifyOTPResponseType {

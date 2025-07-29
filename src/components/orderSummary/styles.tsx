@@ -257,11 +257,13 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.mediumGolosText,
     fontSize: fontSize.size16,
     marginBottom: 5,
+    marginRight: 60,
   },
   lblReportIssueDesc: {
     color: colors.greya7,
     fontFamily: fontsfamily.regular,
     fontSize: fontSize.size12,
+    marginRight: 60,
   },
   lblRefundDesc: {
     color: colors.green4f,
