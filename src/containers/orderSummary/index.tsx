@@ -26,6 +26,8 @@ import {
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
 import { colors } from "../../constants/Colors";
+import { getTranslation } from "../../localization/i18n/i18n.config";
+import { styles } from "./styles";
 
 const OrderSummaryContainer = ({ navigation, route }: any) => {
   // API zustand store
@@ -181,7 +183,7 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     });
   };
 
- const onPressTrackDriver = () => {
+  const onPressTrackDriver = () => {
     navigation.navigate(ScreenNames.driverTracking, {
       order_id: order_id,
       driver_id: orderDetails?.driver_details?.id,
@@ -404,21 +406,27 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     EmitterTypes.ORDER_RETURNED,
     EmitterTypes.DELIVERY_PERSON_NOT_AVAILABLE,
   ];
-
-  useEffect(() => {
-    const refreshListener = DeviceEventEmitter.addListener(
-      "order-event",
-      (eventType: string) => {
-        if (allowedEmitterTypes.includes(eventType)) {
-          handleOrderDetailsApi(); // ✅ Only called for allowed order events
+  useFocusEffect(
+    React.useCallback(() => {
+      const refreshListener = DeviceEventEmitter.addListener(
+        "order-event",
+        (eventType: string) => {
+          if (allowedEmitterTypes.includes(eventType)) {
+            __DEV__ &&
+              console.log(
+                "[OrderSummaryContainer] Received order-event:",
+                eventType
+              );
+            handleOrderDetailsApi();
+          }
         }
-      }
-    );
+      );
 
-    return () => {
-      refreshListener.remove();
-    };
-  }, []);
+      return () => {
+        refreshListener.remove();
+      };
+    }, [])
+  );
 
   useFocusEffect(
     React.useCallback(() => {
@@ -457,7 +465,11 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
           toggleShowMore={toggleShowMore}
         />
       ) : (
-        <View style={{ flex: 1, backgroundColor: colors.blue4e }}></View>
+        <View style={styles.vwBlankScreen}>
+          <Text style={styles.lblBlankScreenMsg}>
+            {getTranslation("fetchingOrderDetail")}
+          </Text>
+        </View>
       )}
     </>
   );

@@ -8,6 +8,7 @@ import GlobalBackButton from "../../../global/GlobalBackButton";
 import { FilterDate, FilterOrderType } from "../../../constants/interfaces";
 import { constnatStyles } from "../../../constants/Styles";
 import {
+  EmitterTypes,
   flashMessageWarning,
   showConfirmForGuest,
   toggleLoader,
@@ -65,6 +66,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
   const hasMountedOnce = useRef(false);
   const [canLoadMore, setCanLoadMore] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
 
   const onPressFilter = () => {
     if (isGuestUser) {
@@ -199,6 +201,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
     } catch (error) {
       __DEV__ && console.log(error);
     } finally {
+      setIsInitialLoading(false);
       if (!isLoadMore) toggleLoader(false);
       else setIsLoadingMore(false);
     }
@@ -206,6 +209,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      setIsInitialLoading(false);
       // Fetch Guest User
       MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
         const isGuest = Boolean(storedValue);
@@ -224,15 +228,42 @@ const MyOrdersContainer = ({ navigation }: any) => {
     }, [navigation])
   );
 
-  useEffect(() => {
-    const refreshListener = DeviceEventEmitter.addListener("refresh", () => {
-      handleOrderListApi(selectOrderType, selectOrderDate, 1, false);
-    });
+  const allowedEmitterTypes = [
+    EmitterTypes.ORDER_ACCEPTED,
+    EmitterTypes.ORDER_PREPARING,
+    EmitterTypes.ORDER_PREPARED,
+    EmitterTypes.ORDER_PACKAGING,
+    EmitterTypes.ORDER_OUT_FOR_DELIVERY,
+    EmitterTypes.ORDER_DELIVERED,
+    EmitterTypes.ORDER_CANCELLED,
+    EmitterTypes.ORDER_REJECTED,
+    EmitterTypes.ORDER_RETURN_REQUESTED,
+    EmitterTypes.ORDER_RETURN_ACCEPTED,
+    EmitterTypes.ORDER_RETURNED,
+    EmitterTypes.DELIVERY_PERSON_NOT_AVAILABLE,
+  ];
 
-    return () => {
-      refreshListener.remove();
-    };
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const refreshListener = DeviceEventEmitter.addListener(
+        "order-event",
+        (eventType: string) => {
+          if (allowedEmitterTypes.includes(eventType)) {
+            __DEV__ &&
+              console.log(
+                "[MyOrdersContainer] Received order-event:",
+                eventType
+              );
+            handleOrderListApi(selectOrderType, selectOrderDate, 1, false);
+          }
+        }
+      );
+
+      return () => {
+        refreshListener.remove();
+      };
+    }, [selectOrderType, selectOrderDate])
+  );
 
   return (
     <MyOrdersComponent
@@ -256,6 +287,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
       hasMountedOnce={hasMountedOnce}
       isRefreshing={isRefreshing}
       onRefresh={onRefresh}
+      isInitialLoading={isInitialLoading}
     />
   );
 };

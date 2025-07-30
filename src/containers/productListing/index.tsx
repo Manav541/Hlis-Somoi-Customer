@@ -68,36 +68,8 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     []
   );
   const [selectedTitle, setSelectedTitle] = useState("");
+  const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
 
-  const [subCategoryFoodTitle, setSubCategoryFoodTitle] = useState([
-    {
-      subIcon: images.allSubIcon,
-      name: "All",
-      isSelected: true,
-    },
-    {
-      subIcon: images.riceSubIcon,
-      name: "Local & Regional Cuisine",
-      isSelected: false,
-    },
-    {
-      subIcon: images.fastfoodSubIcon,
-      name: "Fast Food & Snacks",
-      isSelected: false,
-    },
-  ]);
-  const [subCategoryFashionTitle, setSubCategoryFashionTitle] = useState([
-    {
-      subIcon: images.allSubIcon,
-      name: "All",
-      isSelected: true,
-    },
-    {
-      subIcon: images.tshirtIcon,
-      name: "T-shirt",
-      isSelected: false,
-    },
-  ]);
   const currentLatLong = route.params?.currentLatLong;
 
   // Filer Modal
@@ -493,6 +465,11 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       }
     } catch (error) {
       __DEV__ && console.log("Product Listing API Error:", error);
+    } finally {
+      // Clear initial loading state after API call completes
+      setIsInitialLoading(false);
+      if (!isLoadMore) toggleLoader(false);
+      else setIsLoadingMore(false);
     }
   };
   // const handleProductListingApi = async (
@@ -936,6 +913,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      setIsInitialLoading(true);
       // Fetch Guest User
       MmkvManager.getData(MmkvManager.Keys.isGuestUser, (storedValue) => {
         console.log("isGuestUser=====>", Boolean(storedValue));
@@ -981,9 +959,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     <ProductListingComponent
       mainCategoryName={mainCategoryName}
       subCategoryTitle={subCategoryTitle}
-      subCategoryFoodTitle={subCategoryFoodTitle}
       arrRestaurants={arrRestaurants}
-      subCategoryFashionTitle={subCategoryFashionTitle}
       onPressSubCategoryTitle={onPressSubCategoryTitle}
       arrSubCategoryProduct={arrSubCategoryProduct}
       handleQuantityChange={handleQuantityChange}
@@ -1009,6 +985,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
       canLoadMore={canLoadMore}
       setCanLoadMore={setCanLoadMore}
       hasMountedOnce={hasMountedOnce}
+      isInitialLoading={isInitialLoading}
     />
   );
 };

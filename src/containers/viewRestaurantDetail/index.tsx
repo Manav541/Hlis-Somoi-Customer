@@ -34,6 +34,9 @@ import { MmkvManager } from "../../constants/utils/MmkvManager";
 import { styles } from "./styles";
 import { colors } from "../../constants/Colors";
 import GlobalBackButton from "../../global/GlobalBackButton";
+import { fontsfamily } from "../../constants/FontFamily";
+import { fontSize } from "../../constants/FontSizes";
+import { getTranslation } from "../../localization/i18n/i18n.config";
 
 const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   // API Zustand store
@@ -683,7 +686,11 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
           toggleShowMore={toggleShowMore}
         />
       ) : (
-        <View style={{ flex: 1, backgroundColor: colors.blue4e }}></View>
+        <View style={styles.vwBlankScreen}>
+          <Text style={styles.lblBlankScreenMsg}>
+            {getTranslation('fetchingRestaurantDetail')}
+          </Text>
+        </View>
       )}
     </>
   );

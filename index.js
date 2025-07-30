@@ -13,6 +13,7 @@ import { navigate } from "./src/constants/utils/Notification/notificationNavigat
 import { PlatformVersion } from "./src/constants/utils/Platform";
 import { EmitterTypes, NotificationTypes } from "./src/constants/GConstant";
 import { setupSentry } from "./setupSentry";
+import { zustandStore } from "./src/store";
 
 LogBox.ignoreAllLogs();
 
@@ -34,29 +35,80 @@ PlatformVersion.isAndroid &&
   getMessaging().setBackgroundMessageHandler(async (remoteMessage) => {
     __DEV__ &&
       console.log("[FCMService] setBackgroundMessageHandler:", remoteMessage);
-    const orderEventTypes = [
-      EmitterTypes.ORDER_ACCEPTED,
-      EmitterTypes.ORDER_PREPARING,
-      EmitterTypes.ORDER_PREPARED,
-      EmitterTypes.ORDER_PACKAGING,
-      EmitterTypes.ORDER_OUT_FOR_DELIVERY,
-      EmitterTypes.ORDER_DELIVERED,
-      EmitterTypes.ORDER_CANCELLED,
-      EmitterTypes.ORDER_REJECTED,
-      EmitterTypes.ORDER_RETURN_REQUESTED,
-      EmitterTypes.ORDER_RETURN_ACCEPTED,
-      EmitterTypes.ORDER_RETURNED,
-      EmitterTypes.DELIVERY_PERSON_NOT_AVAILABLE
-    ];
-
-    orderEventTypes.forEach((type) => {
-      DeviceEventEmitter.emit("order-event", type);
-    });
+    const chatReceiverId =
+      zustandStore.ChatNotificationStore.getState().receiverId;
+    __DEV__ && console.log("Chat receiver id from index===>", chatReceiverId);
 
     try {
       const notification = PlatformVersion.isIOS
         ? remoteMessage?.notification
         : JSON.parse(remoteMessage.data.data);
+
+      // Restrict Chat Notification
+      if (
+        chatReceiverId &&
+        notification.notification_tag == NotificationTypes.NEW_CHAT_RECEIVED
+      ) {
+        if (chatReceiverId == notification?.sender_id) {
+          __DEV__ &&
+            console.log(
+              "Not shown notification because same of socket connection"
+            );
+          return;
+        }
+      }
+
+      // Emit order-event only for order-related notifications
+      const orderNotificationTypes = [
+        NotificationTypes.ORDER_PLACED,
+        NotificationTypes.ORDER_ACCEPTED,
+        NotificationTypes.ORDER_PREPARING,
+        NotificationTypes.ORDER_PREPARED,
+        NotificationTypes.ORDER_PACKAGING,
+        NotificationTypes.ORDER_OUT_FOR_DELIVERY,
+        NotificationTypes.ORDER_DELIVERED,
+        NotificationTypes.ORDER_CANCELLED,
+        NotificationTypes.ORDER_REJECTED,
+        NotificationTypes.ORDER_RETURN_REQUESTED,
+        NotificationTypes.ORDER_RETURN_ACCEPTED,
+        NotificationTypes.ORDER_RETURNED,
+        NotificationTypes.DELIVERY_PERSON_NOT_AVAILABLE,
+      ];
+
+      const notificationToEmitterMap = {
+        [NotificationTypes.ORDER_PLACED]: EmitterTypes.ORDER_PLACED,
+        [NotificationTypes.ORDER_ACCEPTED]: EmitterTypes.ORDER_ACCEPTED,
+        [NotificationTypes.ORDER_PREPARING]: EmitterTypes.ORDER_PREPARING,
+        [NotificationTypes.ORDER_PREPARED]: EmitterTypes.ORDER_PREPARED,
+        [NotificationTypes.ORDER_PACKAGING]: EmitterTypes.ORDER_PACKAGING,
+        [NotificationTypes.ORDER_OUT_FOR_DELIVERY]:
+          EmitterTypes.ORDER_OUT_FOR_DELIVERY,
+        [NotificationTypes.ORDER_DELIVERED]: EmitterTypes.ORDER_DELIVERED,
+        [NotificationTypes.ORDER_CANCELLED]: EmitterTypes.ORDER_CANCELLED,
+        [NotificationTypes.ORDER_REJECTED]: EmitterTypes.ORDER_REJECTED,
+        [NotificationTypes.ORDER_RETURN_REQUESTED]:
+          EmitterTypes.ORDER_RETURN_REQUESTED,
+        [NotificationTypes.ORDER_RETURN_ACCEPTED]:
+          EmitterTypes.ORDER_RETURN_ACCEPTED,
+        [NotificationTypes.ORDER_RETURNED]: EmitterTypes.ORDER_RETURNED,
+        [NotificationTypes.DELIVERY_PERSON_NOT_AVAILABLE]:
+          EmitterTypes.DELIVERY_PERSON_NOT_AVAILABLE,
+      };
+
+      if (orderNotificationTypes.includes(notification.notification_tag)) {
+        const eventType =
+          notificationToEmitterMap[notification.notification_tag];
+        if (eventType) {
+          __DEV__ &&
+            console.log(
+              "[FCMService] Emitting order-event:",
+              eventType,
+              "for notification_tag:",
+              notification.notification_tag
+            );
+          DeviceEventEmitter.emit("order-event", eventType);
+        }
+      }
 
       await showNotification(notification);
     } catch (err) {
@@ -71,15 +123,80 @@ PlatformVersion.isAndroid &&
       "[FCMService] Foreground notification received:",
       remoteMessage
     );
-    // Defines Emitter
-    DeviceEventEmitter.emit("refresh", "test");
-    DeviceEventEmitter.emit(EmitterTypes.CHAT);
+    const chatReceiverId =
+      zustandStore.ChatNotificationStore.getState().receiverId;
+    __DEV__ && console.log("Chat receiver id from index===>", chatReceiverId);
 
     try {
       const notification = PlatformVersion.isIOS
         ? remoteMessage?.notification
         : JSON.parse(remoteMessage.data.data);
 
+      // Restrict Chat Notification
+      if (
+        chatReceiverId &&
+        notification.notification_tag == NotificationTypes.NEW_CHAT_RECEIVED
+      ) {
+        if (chatReceiverId == notification?.sender_id) {
+          __DEV__ &&
+            console.log(
+              "Not shown notification because same of socket connection"
+            );
+          return;
+        }
+      }
+
+      // Emit order-event only for order-related notifications
+      const orderNotificationTypes = [
+        NotificationTypes.ORDER_PLACED,
+        NotificationTypes.ORDER_ACCEPTED,
+        NotificationTypes.ORDER_PREPARING,
+        NotificationTypes.ORDER_PREPARED,
+        NotificationTypes.ORDER_PACKAGING,
+        NotificationTypes.ORDER_OUT_FOR_DELIVERY,
+        NotificationTypes.ORDER_DELIVERED,
+        NotificationTypes.ORDER_CANCELLED,
+        NotificationTypes.ORDER_REJECTED,
+        NotificationTypes.ORDER_RETURN_REQUESTED,
+        NotificationTypes.ORDER_RETURN_ACCEPTED,
+        NotificationTypes.ORDER_RETURNED,
+        NotificationTypes.DELIVERY_PERSON_NOT_AVAILABLE,
+      ];
+
+      const notificationToEmitterMap = {
+        [NotificationTypes.ORDER_PLACED]: EmitterTypes.ORDER_PLACED,
+        [NotificationTypes.ORDER_ACCEPTED]: EmitterTypes.ORDER_ACCEPTED,
+        [NotificationTypes.ORDER_PREPARING]: EmitterTypes.ORDER_PREPARING,
+        [NotificationTypes.ORDER_PREPARED]: EmitterTypes.ORDER_PREPARED,
+        [NotificationTypes.ORDER_PACKAGING]: EmitterTypes.ORDER_PACKAGING,
+        [NotificationTypes.ORDER_OUT_FOR_DELIVERY]:
+          EmitterTypes.ORDER_OUT_FOR_DELIVERY,
+        [NotificationTypes.ORDER_DELIVERED]: EmitterTypes.ORDER_DELIVERED,
+        [NotificationTypes.ORDER_CANCELLED]: EmitterTypes.ORDER_CANCELLED,
+        [NotificationTypes.ORDER_REJECTED]: EmitterTypes.ORDER_REJECTED,
+        [NotificationTypes.ORDER_RETURN_REQUESTED]:
+          EmitterTypes.ORDER_RETURN_REQUESTED,
+        [NotificationTypes.ORDER_RETURN_ACCEPTED]:
+          EmitterTypes.ORDER_RETURN_ACCEPTED,
+        [NotificationTypes.ORDER_RETURNED]: EmitterTypes.ORDER_RETURNED,
+        [NotificationTypes.DELIVERY_PERSON_NOT_AVAILABLE]:
+          EmitterTypes.DELIVERY_PERSON_NOT_AVAILABLE,
+      };
+
+      if (orderNotificationTypes.includes(notification.notification_tag)) {
+        const eventType =
+          notificationToEmitterMap[notification.notification_tag];
+        if (eventType) {
+          __DEV__ &&
+            console.log(
+              "[FCMService] Emitting order-event:",
+              eventType,
+              "for notification_tag:",
+              notification.notification_tag
+            );
+          DeviceEventEmitter.emit("order-event", eventType);
+        }
+      }
       await showNotification(notification);
     } catch (err) {
       console.error("[FCMService] Error parsing notification payload:", err);

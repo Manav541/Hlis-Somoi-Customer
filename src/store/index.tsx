@@ -4,6 +4,7 @@ import AvailableOffersStore from "./availableOffers";
 import CartStore from "./cart";
 import { CartItemCountStore } from "./cartItemCount";
 import ChatHistoryStore from "./chat";
+import ChatNotificationStore from "./chatNotification";
 import CompareProductStore from "./compareProduct";
 import HomeStore from "./home";
 import KeyStore from "./keys";
@@ -17,6 +18,7 @@ import userOtpVerificationStore from "./verfication";
 export const zustandStore = {
   KeyStore: KeyStore,
   ChatHistoryStore: ChatHistoryStore,
+  ChatNotificationStore: ChatNotificationStore,
 
   // Authentication Module
   AuthStore: AuthStore,
@@ -24,7 +26,7 @@ export const zustandStore = {
 
   // Home Module
   HomeStore: HomeStore,
-  NotificationListStore : NotificationListStore,
+  NotificationListStore: NotificationListStore,
 
   // Category Module
   ProductListingStore: ProductListingStore,

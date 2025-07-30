@@ -2,24 +2,15 @@ import React, { useState, useEffect } from "react";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import SettingComponent from "../../../components/bottomTabs/setting";
 import {
-  appName,
   flashMessageSucess,
   flashMessageWarning,
-  showConfirmAlert,
   showConfirmForGuest,
-  toggleLoader,
 } from "../../../constants/GConstant";
 import { images } from "../../../constants/Images";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../../routers";
-import {
-  Alert,
-  ImageSourcePropType,
-  Share,
-  StatusBar,
-  Text,
-} from "react-native";
+import { Share, StatusBar, Text } from "react-native";
 import {
   CustomerDetails,
   SettingDataItem,
@@ -27,8 +18,9 @@ import {
 import { constnatStyles } from "../../../constants/Styles";
 import { zustandStore } from "../../../store";
 import { statusCodes } from "../../../api/APIConstant";
+import Rate, { AndroidMarket } from "react-native-rate";
 
-const SettingContainer = ({ navigation, route }: any) => {
+const SettingContainer = ({ navigation }: any) => {
   // API Zustand Store
   const logoutApi = zustandStore.AuthStore((state) => state.logout);
   const deleteAccountApi = zustandStore.AuthStore(
@@ -68,6 +60,26 @@ const SettingContainer = ({ navigation, route }: any) => {
     } catch (error) {
       console.error("Error sharing customer app:", error);
     }
+  };
+
+  const handleOnRateApp = () => {
+    Rate.rate(
+      {
+        AppleAppID: "", // iOS Apple ID
+        GooglePackageName: "", // Android package name
+        openAppStoreIfInAppFails: true,
+        preferInApp: true,
+        preferredAndroidMarket: AndroidMarket.Google,
+      },
+      (success) => {
+        if (success) {
+          __DEV__ && console.log("SUCCESS==>", success);
+        } else {
+          __DEV__ &&
+            console.log("IN APP RATE FAILS, REDIRECTING TO APP STORE...");
+        }
+      }
+    );
   };
 
   const arrSettingData: SettingDataItem[] = [
@@ -199,8 +211,10 @@ const SettingContainer = ({ navigation, route }: any) => {
           icon: images.rateAppIcon,
           title: getTranslation("rateApp"),
           ...ICON_SIZE,
-          onPress: () =>
-            flashMessageWarning(getTranslation("underDevelopment")),
+          onPress: () => {
+            handleOnRateApp();
+            // flashMessageWarning(getTranslation("underDevelopment"));
+          },
         },
         {
           icon: images.shareAppIcon,

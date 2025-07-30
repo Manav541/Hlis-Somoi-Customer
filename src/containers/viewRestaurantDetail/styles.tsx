@@ -21,6 +21,18 @@ export const styles = StyleSheet.create({
     top: 15,
     alignSelf: "center",
   },
+  vwBlankScreen: {
+    flex: 1,
+    backgroundColor: colors.blue4e,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal : 20
+  },
+  lblBlankScreenMsg: {
+    fontFamily: fontsfamily.semibold,
+    fontSize: fontSize.size18,
+    color: colors.white,
+  },
   lblBedge: {
     color: colors.white,
     fontSize: fontSize.size08_31,

@@ -3,7 +3,6 @@ import ChatComponent from "../../components/chat";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
 import {
-  DeviceEventEmitter,
   Keyboard,
   Linking,
   StatusBar,
@@ -14,7 +13,6 @@ import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import {
   cameraPermission,
   checkPermission,
-  EmitterTypes,
   flashMessageWarning,
   galleryPermission,
   messages,
@@ -30,11 +28,14 @@ import { APIManager } from "../../api/ApiManager";
 import ImageUpload, { FolderName } from "../../constants/utils/S3ImageUpload";
 import { PlatformVersion } from "../../constants/utils/Platform";
 
+var myMsgDetails: any = {};
+
 const ChatConatiner = ({ navigation, route }: any) => {
   // API Zustand store
   const chatHistoryApi = zustandStore.ChatHistoryStore(
     (state) => state.chatHistory
   );
+  const { setReceiverId } = zustandStore.ChatNotificationStore();
   const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
   const [s3AccessKey, setS3AccessKey] = useState<string>("");
   const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
@@ -260,11 +261,13 @@ const ChatConatiner = ({ navigation, route }: any) => {
             ?.receiver_details;
           setDriverName(driverData?.name);
           setDriverMobileNumber(driverData?.mobile_number);
+          myMsgDetails = driverData;
           const chatdata =
             response?.data && "chat_history" in response.data
               ? (response.data.chat_history as ChatMessage[])
               : [];
           setChatHistory(chatdata);
+          setReceiverId(driverData?.id);
         } else if (response.code === statusCodes.invaildOrFail) {
           setChatHistory([]);
         } else if (response.code === statusCodes.emptyData) {
@@ -322,22 +325,31 @@ const ChatConatiner = ({ navigation, route }: any) => {
           if (decryptData !== undefined) {
             const parsedData = JSON.parse(decryptData);
             console.log("Received parsed message:", parsedData.data);
-            setChatHistory((prev) => [...prev, parsedData.data]);
+            if (
+              myMsgDetails?.id == parsedData.data?.sender_id &&
+              myMsgDetails?.role == parsedData?.data?.sender_role
+            ) {
+              setChatHistory((prev) => [...prev, parsedData.data]);
+            }
           }
         });
       });
       handleSecretKeyApi();
-      handleChatHistoryApi();
 
       return () => {
         if (socketRef.current) {
           console.log("Disconnecting socket...");
+          setReceiverId("");
           socketRef.current.disconnect();
           socketRef.current = null;
         }
       };
     }, [])
   );
+
+  useEffect(() => {
+    handleChatHistoryApi();
+  }, [route]);
 
   useFocusEffect(
     React.useCallback(() => {

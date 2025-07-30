@@ -2164,6 +2164,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNRate (1.2.12):
+    - React-Core
   - RNReanimated (3.17.5):
     - DoubleConversion
     - glog
@@ -2474,6 +2476,7 @@ DEPENDENCIES:
   - RNLocalize (from `../node_modules/react-native-localize`)
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNPermissions (from `../node_modules/react-native-permissions`)
+  - RNRate (from `../node_modules/react-native-rate`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
@@ -2692,6 +2695,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@notifee/react-native"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
+  RNRate:
+    :path: "../node_modules/react-native-rate"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -2811,6 +2816,7 @@ SPEC CHECKSUMS:
   RNLocalize: 530e4a79bacbc6d7c13df44edb266e805903f656
   RNNotifee: 5e3b271e8ea7456a36eec994085543c9adca9168
   RNPermissions: 07d1b1581f05af345f1993bf8fba382ed52c4d5b
+  RNRate: 7641919330e0d6688ad885a985b4bd697ed7d14c
   RNReanimated: a3f55346df73f35c38bf0b446294d3d0b1ac8cf9
   RNScreens: a25b818417609cbd805474dffd2d28b229704cfc
   RNSentry: 934c61f205647d746efd043fff4342b69d8e837f

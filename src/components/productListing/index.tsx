@@ -33,9 +33,7 @@ import { DateFormatsManager } from "../../constants/utils/DateFormats";
 interface PropsType {
   mainCategoryName: string;
   subCategoryTitle: SubCategoryTitle[];
-  subCategoryFoodTitle: any[];
   arrRestaurants: Restaurant[];
-  subCategoryFashionTitle: any[];
   onPressSubCategoryTitle: (selectedName: string) => void;
   arrSubCategoryProduct: Product[];
   handleQuantityChange: (
@@ -79,6 +77,7 @@ interface PropsType {
   canLoadMore: boolean;
   setCanLoadMore: (value: boolean) => void;
   hasMountedOnce: { current: boolean };
+  isInitialLoading: boolean;
 }
 
 const ProductListingComponent = (props: PropsType) => {
@@ -465,7 +464,9 @@ const ProductListingComponent = (props: PropsType) => {
           ListEmptyComponent={
             <View style={styles.vwNoData}>
               <Text style={styles.lblNoData}>
-                {getTranslation("noDataFound")}
+                {props.isInitialLoading
+                  ? getTranslation("fetchingYourData")
+                  : getTranslation("noDataFound")}
               </Text>
             </View>
           }
@@ -480,7 +481,7 @@ const ProductListingComponent = (props: PropsType) => {
             paddingHorizontal: 20,
             paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
             gap: 19,
-            flexGrow : 1
+            flexGrow: 1,
           }}
           columnWrapperStyle={{
             justifyContent: "space-between",
@@ -500,7 +501,9 @@ const ProductListingComponent = (props: PropsType) => {
           ListEmptyComponent={
             <View style={styles.vwNoData}>
               <Text style={styles.lblNoData}>
-                {getTranslation("noDataFound")}
+                {props.isInitialLoading
+                  ? getTranslation("fetchingYourData")
+                  : getTranslation("noDataFound")}
               </Text>
             </View>
           }

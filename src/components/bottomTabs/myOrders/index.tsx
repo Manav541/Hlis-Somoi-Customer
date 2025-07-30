@@ -48,6 +48,7 @@ interface PropsType {
   hasMountedOnce: { current: boolean };
   isRefreshing: boolean;
   onRefresh: () => void;
+  isInitialLoading: boolean;
 }
 
 const MyOrdersComponent = (props: PropsType) => {

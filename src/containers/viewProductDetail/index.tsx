@@ -41,6 +41,8 @@ import { Text } from "react-native-gesture-handler";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { colors } from "../../constants/Colors";
 import { styles } from "./styles";
+import { fontsfamily } from "../../constants/FontFamily";
+import { fontSize } from "../../constants/FontSizes";
 
 const ViewProductDetailContainer = ({ navigation, route }: any) => {
   // API Zustand store
@@ -854,7 +856,11 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
           toggleShowMoreReview={toggleShowMoreReview}
         />
       ) : (
-        <View style={{ flex: 1, backgroundColor: colors.blue4e }}></View>
+        <View style={styles.vwBlankScreen}>
+          <Text style={styles.lblBlankScreenMsg}>
+            {getTranslation("fetchingProdutDetail")}
+          </Text>
+        </View>
       )}
     </>
   );

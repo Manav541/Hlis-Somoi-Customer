@@ -353,6 +353,14 @@
 	[
 		{
 			"backtrace" : 4,
+			"id" : "react_codegen_rnclipboard::@6385240493dfcaf22ab7"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "react_codegen_RNCGeolocationSpec::@1b959fcb56e23f7716ba"
+		},
+		{
+			"backtrace" : 4,
 			"id" : "react_codegen_RNSentrySpec::@b85314237d91cb2ada57"
 		},
 		{
@@ -366,14 +374,6 @@
 		{
 			"backtrace" : 4,
 			"id" : "react_codegen_rngesturehandler_codegen::@39f233abcd2c728bc6ec"
-		},
-		{
-			"backtrace" : 4,
-			"id" : "react_codegen_rnclipboard::@6385240493dfcaf22ab7"
-		},
-		{
-			"backtrace" : 4,
-			"id" : "react_codegen_RNCGeolocationSpec::@1b959fcb56e23f7716ba"
 		},
 		{
 			"backtrace" : 4,
