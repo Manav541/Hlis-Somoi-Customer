@@ -27,10 +27,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GlobalButton from "../../global/GlobalButton";
 import { constnatStyles } from "../../constants/Styles";
 import {
-  OrderDetail,
   OrderDetailsData,
   OrderItem,
-  OrderProduct,
   StatusTimeline,
 } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";

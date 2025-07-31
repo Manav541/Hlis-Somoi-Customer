@@ -18,12 +18,13 @@ export const styles = StyleSheet.create({
     marginBottom: 18,
   },
   vwMyWishlistItem: {
-    height: 241,
+    height: 303,
     borderRadius: 20,
     overflow: "hidden",
   },
   vwProductImgLike: {
-    height: 112,
+    // height: 172,
+    flex: 1,
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
     overflow: "hidden",
@@ -32,7 +33,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   vwProductDetails: {
-    flex: 1,
+    // flex: 1,
     marginHorizontal: 7,
     marginTop: 6,
     marginBottom: 7,
@@ -109,6 +110,20 @@ export const styles = StyleSheet.create({
     paddingLeft: 6,
     paddingRight: 7,
   },
+  vwInOutStock: {
+    height: 17,
+    backgroundColor: colors.white,
+    borderTopLeftRadius: 3,
+    borderBottomLeftRadius: 3,
+    borderWidth: 1,
+    paddingLeft: 5,
+    paddingRight: 4,
+    position: "absolute",
+    right: 0,
+    bottom: 3,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
   // Text Styles
   lblSubCategoryTitle: {
@@ -129,17 +144,14 @@ export const styles = StyleSheet.create({
   lblInStock: {
     fontSize: fontSize.size10,
     fontFamily: fontsfamily.semibold,
-    position: "absolute",
-    right: 7,
-    bottom: 1,
-    lineHeight: 18,
+    textAlign: "center",
   },
   lblProductName: {
     color: colors.black35,
     fontSize: fontSize.size14,
     fontFamily: fontsfamily.semibold,
     lineHeight: 20,
-    flex: 1,
+    // flex: 1,
   },
   lblProductWeight: {
     color: colors.greya7,
@@ -206,7 +218,7 @@ export const styles = StyleSheet.create({
 
   // Touchableopacity Styles
   btnMyWishlistItem: {
-    height: 207,
+    height: 270,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: colors.white,

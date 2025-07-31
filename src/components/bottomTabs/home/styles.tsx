@@ -27,11 +27,18 @@ export const styles = StyleSheet.create({
     gap: 19.42,
     flexDirection: "row",
   },
-
   vwType: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  vwLinearBG: {
+    position: "absolute",
+    height: 80,
+    borderRadius: 14,
+    width: (ScreenDimensions.screenWidth - 20 * 2 - 20) / 2,
+    alignItems: "center",
+    flexDirection: "row",
   },
   vwLocationNotification: {
     flexDirection: "row",
@@ -128,7 +135,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 14,
     paddingTop: 8,
-    paddingBottom : 10
+    paddingBottom: 10,
   },
   vwRatingContainer: {
     flexDirection: "row",
@@ -152,6 +159,7 @@ export const styles = StyleSheet.create({
     color: colors.blue4e,
     fontSize: fontSize.size18,
     fontFamily: fontsfamily.semibold,
+    marginLeft: 16,
   },
   lblLocation: {
     color: colors.blue4e,
@@ -224,11 +232,10 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
   btnGroceriesFood: {
-    // height: 122,
-    height: 50,
+    height: 80,
     width: (ScreenDimensions.screenWidth - 20 * 2 - 20) / 2,
-    borderRadius: 11.42,
-    backgroundColor: colors.orange1c,
+    borderRadius: 14,
+    backgroundColor: "transparent",
     overflow: "hidden",
   },
   btnNotification: {
@@ -259,10 +266,9 @@ export const styles = StyleSheet.create({
 
   // Image Styles
   imgGroceriesFood: {
-    // height: 87.36,
-    height: 65,
-    width: (ScreenDimensions.screenWidth - 60 * 2 - 20) / 2,
-    borderRadius: 11.42,
+    height: 80,
+    width: (ScreenDimensions.screenWidth - 20 * 2 - 20) / 2,
+    borderRadius: 14,
   },
   imgLocation: {
     height: 24,
@@ -290,7 +296,7 @@ export const styles = StyleSheet.create({
     borderRadius: 100,
     position: "absolute",
     right: 12.29,
-    top : 138.16,
+    top: 138.16,
   },
   imgStar: {
     height: 24,

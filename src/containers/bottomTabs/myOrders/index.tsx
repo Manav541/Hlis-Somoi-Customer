@@ -5,7 +5,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { images } from "../../../constants/Images";
 import { ScreenNames } from "../../../routers";
 import GlobalBackButton from "../../../global/GlobalBackButton";
-import { FilterDate, FilterOrderType } from "../../../constants/interfaces";
+import { FilterDate, FilterOrderType, MyOrderHistoryItem } from "../../../constants/interfaces";
 import { constnatStyles } from "../../../constants/Styles";
 import {
   EmitterTypes,
@@ -26,7 +26,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
   const [selectOrderType, setSelectOrderType] = useState<string>("orders");
   const [selectOrderDate, setSelectOrderDate] =
     useState<string>("last_30_days");
-  const [arrOrderList, setArrOrderList] = useState<any[]>([]);
+  const [arrOrderList, setArrOrderList] = useState<MyOrderHistoryItem[]>([]);
   const [arrFilterOrderType, setArrFilterOrderType] = useState<
     FilterOrderType[]
   >([
@@ -177,7 +177,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
           console.log("ORDER LISTING RESPONSE===>", JSON.stringify(response));
         if (response.code === statusCodes.success) {
           setIsRefreshing(false);
-          const rawData = response.data as any;
+          const rawData = response.data as MyOrderHistoryItem[];
           if (Array.isArray(rawData) && rawData.length > 0) {
             setArrOrderList((prev) =>
               isLoadMore ? [...prev, ...rawData] : rawData

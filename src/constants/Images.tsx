@@ -64,6 +64,8 @@ export const images = {
   starEmpty: require("../assets/images/starEmpty.png"),
   starFilled: require("../assets/images/starFilled.png"),
   notificationBell: require("../assets/images/notificationBell.png"),
+  whiteLinear: require("../assets/images/whiteLinear.png"),
+  orangeLinear: require("../assets/images/orangeLinear.png"),
 
   // All Categories
   groceriesC1: require("../assets/images/groceriesC1.png"),
@@ -184,7 +186,7 @@ export const images = {
   mapDirection: require("../assets/images/mapDirection.png"),
   driverMarker: require("../assets/images/driverMarker.png"),
   customerMarker: require("../assets/images/customerMarker.png"),
-  vehicleIcon : require("../assets/images/vehicleIcon.png"),
+  vehicleIcon: require("../assets/images/vehicleIcon.png"),
 
   // Chat
   call: require("../assets/images/call.png"),

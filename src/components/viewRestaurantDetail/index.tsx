@@ -24,7 +24,6 @@ import { colors } from "../../constants/Colors";
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import FastImage from "react-native-fast-image";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import GlobalBackButton from "../../global/GlobalBackButton";
 import {
   Category,
   FoodProductVariation,

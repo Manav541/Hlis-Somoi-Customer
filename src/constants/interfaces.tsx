@@ -1,17 +1,17 @@
 import { ImageSourcePropType } from "react-native";
 import { Source as FastImageSource } from "react-native-fast-image";
 
+export interface APIResponseType {
+  code: number;
+  message: string;
+  data: object;
+  status: number;
+}
+
 export interface SecretKeyItem {
   id: number;
   name: string;
   keys: string | null;
-}
-
-export interface RegionType {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
 }
 
 export interface CoordinatesType {
@@ -19,18 +19,7 @@ export interface CoordinatesType {
   longitude: number;
 }
 
-export interface editProfileResponse {
-  name: string;
-  profile_image?: string | null;
-}
-
-export interface ConatctUsResponse {
-  name: string;
-  email: string;
-  subject: string;
-  description: string;
-}
-
+// ------------------------------------Authentication------------------------------------
 export interface CustomerDetails {
   country_code: string;
   created_at: string;
@@ -106,13 +95,6 @@ export interface DeviceInfoType {
   name?: string;
 }
 
-export interface APIResponseType {
-  code: number;
-  message: string;
-  data: object;
-  status :number
-}
-
 export interface VerifyOTPResponseType {
   mobile_number?: number;
   country_code?: string;
@@ -173,7 +155,34 @@ export interface ChatMessage {
   created_at: string; // format: "YYYY-MM-DD HH:mm:ss"
 }
 
+// ------------------------------------Home Tab------------------------------------
 // Home
+export interface MainCategoryListItem {
+  id: string;
+  name: string;
+  image: string;
+  parent_id: string | null;
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AdItem {
+  image: string;
+}
+
+export interface SubCategoryListItem {
+  id: string;
+  name: string;
+  image: string;
+  parent_id: string;
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface BestProductSellerData {
   id: string;
   vendor_id: string;
@@ -240,47 +249,8 @@ export interface NotificationGroup {
   data: NotificationData[];
 }
 
-// Home Tab
-export interface MainCategoryListItem {
-  id: string;
-  name: string;
-  image: string;
-  parent_id: string | null;
-  is_active: boolean;
-  is_delete: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface SubCategoryListItem {
-  id: string;
-  name: string;
-  image: string;
-  parent_id: string;
-  is_active: boolean;
-  is_delete: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface AdItem {
-  image: string;
-}
-
-export interface SubCategory {
-  image: FastImageSource;
-  name: string;
-}
-
-export interface BestProduct {
-  image: FastImageSource;
-  name: string;
-  used: string;
-  height: number;
-  width: number;
-}
-
-// Category tab
+// ------------------------------------Category Tab------------------------------------
+// Product Listing
 export interface SubCategoryTitle {
   id: string;
   image?: any;
@@ -330,7 +300,6 @@ export interface ProductListDictData {
 }
 
 // Product Detail Page
-
 export interface ProductDetailsDictData {
   product_id: string;
   vendor_id?: string;
@@ -382,6 +351,17 @@ export interface ProductData {
   cart: Cart;
 }
 
+export interface GroceryProductVariation {
+  product_id: string;
+  variation_id: string;
+  price: string;
+  original_price: string;
+  quantity: string;
+  is_selected: boolean;
+  image: string;
+  weight: string;
+}
+
 export interface ColorVariation {
   name: string;
   hex: string;
@@ -404,17 +384,6 @@ export interface ProductImages {
   image: string;
 }
 
-export interface GroceryProductVariation {
-  product_id: string;
-  variation_id: string;
-  price: string;
-  original_price: string;
-  quantity: string;
-  is_selected: boolean;
-  image: string;
-  weight: string;
-}
-
 export interface Tag {
   title?: string;
   icon?: ImageSourcePropType;
@@ -425,13 +394,7 @@ export interface Highlight {
   value?: string;
 }
 
-export interface ReviewData {
-  average_rating: string;
-  total_reviews: string;
-  rating_summary: RatingSummary[];
-  reviews: Review[];
-}
-
+// Reviews
 export interface RatingSummary {
   rate_number: number;
   rate_percentage: number;
@@ -456,7 +419,7 @@ export interface Cart {
   quantity: number;
 }
 
-// Food Data
+// Food Details
 export interface RestaurantDetailResponse {
   restaurant: RestaurantInfo;
   categories: Category[];
@@ -523,43 +486,6 @@ export interface FoodProductVariation {
   is_selected: boolean;
 }
 
-export interface ProductImage {
-  imgMain: FastImageSource;
-}
-
-export interface ProductHighlight {
-  highlightTitle: string;
-  highlightDesc: string;
-}
-
-export interface DeliveryData {
-  deliveryDataImage: ImageSourcePropType;
-  deliveryDataTitle: string;
-}
-
-export interface GroceryProduct {
-  mainCategoryTitle: string;
-  subCategoryTitle: string;
-  product_imgMain: ProductImage[];
-  product_img: FastImageSource;
-  product_name: string;
-  product_price: string;
-  product_weight: string;
-  product_final_price: string;
-  product_rating: string;
-  product_review?: number;
-  isFavourite: boolean;
-  product_quantity: number;
-  product_deliverytime: string;
-  product_distance: string;
-  product_desc: string;
-  product_highlight: ProductHighlight[];
-  product_inStock: boolean;
-  product_deliveryData: DeliveryData[];
-  height: number;
-  width: number;
-}
-
 export interface Restaurant {
   id: string;
   name: string;
@@ -573,13 +499,6 @@ export interface Restaurant {
   image: string;
   is_store_wishlisted: boolean;
   distance: string;
-}
-
-export interface SimilarProduct {
-  product_img: ImageSourcePropType;
-  product_final_price: string;
-  product_price: string;
-  product_weight: string;
 }
 
 export interface AddToCartDictData {
@@ -627,7 +546,14 @@ export interface SimilarCompareProductData {
   variation_id: string;
 }
 
+// ------------------------------------Cart Tab------------------------------------
 // Cart
+export interface ApplyCouponResponseData {
+  discount_price: string;
+  total_bill: string;
+  offer_data: OfferData;
+}
+
 export interface OfferData {
   id: number;
   vendor_id: number | null;
@@ -650,39 +576,168 @@ export interface OfferData {
   end_date: string; // ISO date format
 }
 
-export interface ApplyCouponResponseData {
+export interface CartDataResponse {
+  id: string;
+  customer_id: string;
+  location_id: string | null;
+  vendor_id: string | null;
+  total_amount: string;
   discount_price: string;
+  total_quantity: string;
+  delivery_charges: string;
+  tax_percentage: string;
+  tax_amount: string;
   total_bill: string;
-  offer_data: OfferData;
+  offer_code: string | null;
+  is_offer_applied: boolean;
+  payment_type: string;
+  delivery_time: string | null;
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
+  transaction_id: string;
+  name: string;
+  email: string;
+  country_code: string;
+  mobile_number: string;
+  password: string;
+  profile_image: string | null;
+  steps: string;
+  otp: number;
+  is_verified: boolean;
+  is_block: boolean;
+  last_login: string;
+  login_status: string;
+  cart_id: string;
+  offer_data:OfferData;
+  cart_details: CartDetail[];
 }
 
-// My Order Tab
-export interface OrderProduct {
-  product_name: string;
-  product_img: ImageSourcePropType;
-  price: string;
-  quantity: number;
-  unit: string;
-  height: number;
-  width: number;
-}
-
-export interface Order {
-  order_number: string;
+export interface CartDetail {
+  id: string;
+  cart_id: string;
+  product_id: string;
+  variation_id: string;
+  vendor_id: string;
+  quantity: string;
+  per_product_price: string;
   total: string;
-  items_Count: number;
-  status:
-    | "Confirmed"
-    | "Preparing"
-    | "On_the_way"
-    | "Delivered"
-    | "Request_return"
-    | "Request_exchange"
-    | "Returned"
-    | "Cancelled";
-  date: string;
-  arrProduct: OrderProduct[];
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
+  product_data: ProductData;
 }
+
+export interface CartProductData {
+  id: string;
+  vendor_id: string;
+  category_id: string;
+  name: string;
+  description: string;
+  is_product_available: boolean;
+  is_product_returnable: boolean;
+  is_cod_available: boolean;
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
+  gst_percentage: string;
+  sub_category_id: string;
+  set_alert: string;
+  is_fast_delivery: boolean;
+  price: string | null;
+  quantity: string | null;
+  unit_id: string | null;
+  is_size: boolean;
+  is_color: boolean;
+  is_variation: boolean;
+  image: string;
+  rating: string;
+  total_reviews: string;
+  category_name: string;
+  variation_data: VariationData;
+}
+
+export interface CartProductVariationData {
+  price: string;
+  quantity: string;
+  unit: string;
+  amount: string;
+  variation_id: string;
+}
+
+export interface OfferData {
+  id: number;
+  vendor_id: number | null;
+  name: string;
+  minimum_price: number | null;
+  discount_percentage: string;
+  coupon_code: string;
+  type: string; // e.g., "percentage", "flat", etc.
+  description: string;
+  duration_date: string | null;
+  created_by: string; // e.g., "admin"
+  admin_id: number;
+  is_block: boolean;
+  is_approve: string; // e.g., "approve", "pending"
+  is_active: boolean;
+  is_delete: boolean;
+  created_at: string;
+  updated_at: string;
+  start_date: string; // ISO 8601 format
+  end_date: string;   // ISO 8601 format
+}
+
+// ------------------------------------My Orders Tab------------------------------------
+// My Order List
+export interface MyOrderHistoryItem {
+  order_id: string;
+  order_number: string;
+  status: string;
+  total_price: string;
+  status_text: string;
+  status_date: string; // format: YYYY-MM-DD
+  items: OrderItem[];
+}
+
+export interface MyOrderItem {
+  id: string;
+  variation_id: string;
+  name: string;
+  price: string;
+  weight: string;
+  quantity: number;
+  image: string;
+}
+
+// export interface OrderProduct {
+//   product_name: string;
+//   product_img: ImageSourcePropType;
+//   price: string;
+//   quantity: number;
+//   unit: string;
+//   height: number;
+//   width: number;
+// }
+
+// export interface Order {
+//   order_number: string;
+//   total: string;
+//   items_Count: number;
+//   status:
+//     | "Confirmed"
+//     | "Preparing"
+//     | "On_the_way"
+//     | "Delivered"
+//     | "Request_return"
+//     | "Request_exchange"
+//     | "Returned"
+//     | "Cancelled";
+//   date: string;
+//   arrProduct: OrderProduct[];
+// }
 
 export interface FilterOrderType {
   id: number;
@@ -794,26 +849,6 @@ export interface CancelOrderReason {
   isSelected: boolean;
 }
 
-// Order Details
-export interface OrderDetail {
-  orderDetailTitle: string | null;
-  orderDetailValue: string;
-}
-
-// Setting Tab
-export interface SettingSubItem {
-  icon: ImageSourcePropType;
-  title: string | null;
-  height: number;
-  width: number;
-  onPress: () => void;
-  disabled?: boolean;
-}
-
-export interface SettingDataItem {
-  titleMain: string | null;
-  subArr: SettingSubItem[];
-}
 
 // Manage Payment Methods
 export interface CardDetails {
@@ -826,17 +861,17 @@ export interface CardDetails {
 }
 
 // My Wishlist
-export interface WishlistItem {
-  product_img: FastImageSource;
-  product_name: string;
-  product_price: string;
-  product_weight: string;
-  product_final_price: string;
-  product_rating: string;
-  favourite: boolean;
-  height: number;
-  width: number;
-}
+// export interface WishlistItem {
+//   product_img: FastImageSource;
+//   product_name: string;
+//   product_price: string;
+//   product_weight: string;
+//   product_final_price: string;
+//   product_rating: string;
+//   favourite: boolean;
+//   height: number;
+//   width: number;
+// }
 
 export interface AddRemoveWishlistDictData {
   product_id: string;
@@ -874,31 +909,56 @@ export interface AvailableOfferItem {
 }
 
 // FAQ
-export interface FaqArrProps {
-  faqTitle: string | null;
-  faqDesc: string | null;
-  isSelected: boolean;
-}
+// export interface FaqArrProps {
+//   faqTitle: string | null;
+//   faqDesc: string | null;
+//   isSelected: boolean;
+// }
 
-// Category Drop down
-export interface CategoryItem {
-  label: string;
-  value: string;
-}
+// // Category Drop down
+// export interface CategoryItem {
+//   label: string;
+//   value: string;
+// }
 
-export interface SubCategoryItem {
-  label: string;
-  value: string;
-}
+// export interface SubCategoryItem {
+//   label: string;
+//   value: string;
+// }
 
-export interface SubCategoryData {
-  category: string;
-  subCategory: SubCategoryItem[];
-}
+// export interface SubCategoryData {
+//   category: string;
+//   subCategory: SubCategoryItem[];
+// }
 
 // extra
 
-export interface GroceriesFoodItem {
-  type: string | null;
-  image: FastImageSource;
+// export interface GroceriesFoodItem {
+//   type: string | null;
+//   image: FastImageSource;
+// }
+
+// ------------------------------------Setting Tab------------------------------------
+export interface SettingSubItem {
+  icon: ImageSourcePropType;
+  title: string | null;
+  onPress: () => void;
+  disabled?: boolean;
+}
+
+export interface SettingDataItem {
+  titleMain: string | null;
+  subArr: SettingSubItem[];
+}
+
+export interface editProfileResponse {
+  name: string;
+  profile_image?: string | null;
+}
+
+export interface ConatctUsResponse {
+  name: string;
+  email: string;
+  subject: string;
+  description: string;
 }

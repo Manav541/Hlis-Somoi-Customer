@@ -1,11 +1,9 @@
-import { View, Text, StatusBar } from "react-native";
+import {  Text, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import AddCompareProductsComponent from "../../components/addCompareProducts";
 import GlobalBackButton from "../../global/GlobalBackButton";
-import { images } from "../../constants/Images";
 import { useFocusEffect } from "@react-navigation/native";
 import {
-  GroceryProduct,
   SimilarCompareProductData,
 } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";

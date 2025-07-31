@@ -18,15 +18,14 @@ import {
   rupeeSymbol,
 } from "../../../constants/GConstant";
 import GlobalButton from "../../../global/GlobalButton";
-import { fontsfamily } from "../../../constants/FontFamily";
 import {
   ApplyCouponResponseData,
-  GroceryProduct,
+  CartDataResponse,
 } from "../../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 
 interface PropsType {
-  cartDetails: any;
+  cartDetails: CartDataResponse | null;
   couponCode: string;
   isApplyCoupon: boolean;
   onChangeCouponCode: (text: string) => void;
@@ -358,7 +357,7 @@ const CartComponent = (props: PropsType) => {
               isOrange
               title={getTranslation("placeOrder")}
               onPress={() => {
-                props?.onPressPlaceOrder(props?.cartDetails?.total_bill);
+                props?.onPressPlaceOrder(props?.cartDetails?.total_bill || '0');
               }}
             />
           </View>

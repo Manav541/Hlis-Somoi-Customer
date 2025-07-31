@@ -1,16 +1,16 @@
-import { View, Text, StatusBar } from "react-native";
+import { Text, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import CartComponent from "../../../components/bottomTabs/cart";
 import { useFocusEffect } from "@react-navigation/native";
-import { flashMessageWarning, rupeeSymbol } from "../../../constants/GConstant";
+import { flashMessageWarning } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
-import { images } from "../../../constants/Images";
 import { ScreenNames } from "../../../routers";
 import {
   AddToCartDictData,
   ApplyCouponResponseData,
+  CartDataResponse,
+  CartDetail,
   CustomerDetails,
-  GroceryProduct,
 } from "../../../constants/interfaces";
 import { constnatStyles } from "../../../constants/Styles";
 import { zustandStore } from "../../../store";
@@ -43,7 +43,7 @@ const CartContainer = ({ navigation }: any) => {
   const [couponCode, setCouponCode] = useState<string>("");
   const [isApplyCoupon, setIsApplyCoupon] = useState<boolean>(false);
 
-  const [cartDetails, setCartDetails] = useState<any>(null);
+  const [cartDetails, setCartDetails] = useState<CartDataResponse | null>(null);
   const [deliverToName, setDeliverToName] = useState<string>("");
   const [deliverToAddress, setDeliverToAddress] = useState<string>("");
   const hasSelectedAddressRef = React.useRef(false);
@@ -53,7 +53,7 @@ const CartContainer = ({ navigation }: any) => {
   const [location_id, setLocation_id] = useState<string>("");
 
   const handleQuantityChange = (index: number, type: "add" | "remove") => {
-    const cartArray = [...cartDetails?.cart_details];
+    const cartArray = [...cartDetails?.cart_details as CartDetail[]];
     const item = cartArray[index];
 
     const currentQty = Number(item.quantity) || 0;
@@ -143,7 +143,7 @@ const CartContainer = ({ navigation }: any) => {
       if (response !== undefined && response !== null) {
         __DEV__ &&
           console.log("CART LISTING RESPONSE===>", JSON.stringify(response));
-        const rawData = response.data as any;
+        const rawData = response.data as CartDataResponse;
         if (response.code === statusCodes.success) {
           setCartDetails(rawData);
         } else if (response.code === statusCodes.invaildOrFail) {
@@ -369,14 +369,14 @@ const CartContainer = ({ navigation }: any) => {
     try {
       const response = await cartListingApi(dictData, navigation);
       if (response !== undefined && response !== null) {
-        const updatedCart = response.data as any;
+        const updatedCart = response.data as CartDataResponse;
         const updatedCartIds = updatedCart?.cart_details?.map(
           (item: any) => item.product_id
         );
 
         const hasChanges =
-          prevCartIds.length !== updatedCartIds.length ||
-          !prevCartIds.every((id: string) => updatedCartIds.includes(id));
+          (prevCartIds?.length ?? 0) !== (updatedCartIds?.length ?? 0) ||
+          !prevCartIds?.every((id: string) => updatedCartIds?.includes(id));
 
         if (hasChanges) {
           setCartDetails(updatedCart);

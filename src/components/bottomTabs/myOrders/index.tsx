@@ -23,11 +23,15 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import GlobalButton from "../../../global/GlobalButton";
 import { fontSize } from "../../../constants/FontSizes";
 import { fontsfamily } from "../../../constants/FontFamily";
-import { FilterDate, FilterOrderType } from "../../../constants/interfaces";
+import {
+  FilterDate,
+  FilterOrderType,
+  MyOrderHistoryItem,
+} from "../../../constants/interfaces";
 import { DateFormatsManager } from "../../../constants/utils/DateFormats";
 
 interface PropsType {
-  arrOrderList: any[];
+  arrOrderList: MyOrderHistoryItem[];
   filterModal: boolean;
   selectOrderType: string;
   selectOrderDate: string;

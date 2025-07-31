@@ -21,7 +21,6 @@ import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import {
-  GroceryProduct,
   Product,
   Restaurant,
 } from "../../constants/interfaces";

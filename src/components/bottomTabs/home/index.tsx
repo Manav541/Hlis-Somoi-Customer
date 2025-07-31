@@ -7,8 +7,9 @@ import {
   Text,
   FlatList,
   StyleSheet,
+  ImageBackground,
 } from "react-native";
-import React, { Ref } from "react";
+import React from "react";
 import { styles } from "./styles";
 import { images } from "../../../constants/Images";
 import { ScreenDimensions } from "../../../constants/utils/Dimensions";
@@ -18,15 +19,13 @@ import { activityOpacity, hitSlop } from "../../../constants/GConstant";
 import { colors } from "../../../constants/Colors";
 import {
   AdItem,
-  BestProduct,
   BestProductSellerData,
   MainCategoryListItem,
-  Restaurant,
-  SubCategory,
   SubCategoryListItem,
 } from "../../../constants/interfaces";
 import Carousel from "react-native-reanimated-carousel";
 import FastImage from "react-native-fast-image";
+import LinearGradient from "react-native-linear-gradient";
 
 interface PropsType {
   arrMainCategoryList: MainCategoryListItem[];
@@ -71,26 +70,25 @@ const HomeComponent = (props: PropsType) => {
     return (
       <TouchableOpacity
         key={index}
-        style={[
-          styles.btnGroceriesFood,
-          {
-            backgroundColor:
-              props?.isGroceriesFoodSelected === item?.name
-                ? colors.orange1c
-                : colors.white,
-          },
-        ]}
+        style={styles.btnGroceriesFood}
         activeOpacity={activityOpacity}
         onPress={() => props?.onPressMainCategory(item.name, item?.id)}
       >
-        {/* <FastImage
+        <FastImage
           style={styles.imgGroceriesFood}
           source={{ uri: item?.image }}
           resizeMode="stretch"
-        /> */}
-        <View style={styles.vwType}>
+        />
+        <ImageBackground
+          source={
+            props?.isGroceriesFoodSelected === item?.name
+              ? images.orangeLinear
+              : images.whiteLinear
+          }
+          style={styles.vwLinearBG}
+        >
           <Text style={styles.lblGroceriesFood}>{item?.name}</Text>
-        </View>
+        </ImageBackground>
       </TouchableOpacity>
     );
   };

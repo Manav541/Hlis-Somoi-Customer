@@ -140,7 +140,7 @@ const ProductListingComponent = (props: PropsType) => {
         style={[
           styles.vwMyWishlistItem,
           {
-            width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
+            width: (ScreenDimensions.screenWidth - 20 * 2 - 9) / 2,
           },
         ]}
       >
@@ -148,7 +148,7 @@ const ProductListingComponent = (props: PropsType) => {
           style={[
             styles.btnMyWishlistItem,
             {
-              width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
+              width: (ScreenDimensions.screenWidth - 20 * 2 - 9) / 2,
             },
           ]}
           activeOpacity={activityOpacity}
@@ -169,8 +169,12 @@ const ProductListingComponent = (props: PropsType) => {
           <View style={styles.vwProductImgLike}>
             <FastImage
               source={{ uri: item?.image }}
-              style={{ height: 80, aspectRatio: 1 }}
-              resizeMode={FastImage.resizeMode.contain}
+              style={{
+                // height: 172,
+                flex : 1,
+                aspectRatio: 1 
+              }}
+              resizeMode={"cover"}
             />
             <TouchableOpacity
               style={styles.btnRedHeart}
@@ -191,27 +195,34 @@ const ProductListingComponent = (props: PropsType) => {
               />
             </TouchableOpacity>
 
-            <Text
-              style={[
-                styles.lblInStock,
-                { color: item?.inStock ? colors.green2b : colors.red2e },
-              ]}
+            <View
+              style={{
+                ...styles.vwInOutStock,
+                borderColor: item?.inStock ? colors.green2b : colors.red2e,
+              }}
             >
-              {item?.inStock
-                ? getTranslation("inStock")
-                : getTranslation("outOfStock")}
-            </Text>
+              <Text
+                style={[
+                  styles.lblInStock,
+                  { color: item?.inStock ? colors.green2b : colors.red2e },
+                ]}
+              >
+                {item?.inStock
+                  ? getTranslation("inStock")
+                  : getTranslation("outOfStock")}
+              </Text>
+            </View>
           </View>
 
           {/* Product Details */}
           <View style={styles.vwProductDetails}>
             {/* name and weight */}
-            <View style={{ height: 59 }}>
+            {/* <View style={{ height: 59 }}> */}
               <Text style={styles.lblProductName} numberOfLines={2}>
                 {item?.name}
               </Text>
               <Text style={styles.lblProductWeight}>{item?.weight}</Text>
-            </View>
+            {/* </View> */}
 
             {/* Price and Rating */}
             <View style={styles.vwPriceRating}>
@@ -458,7 +469,7 @@ const ProductListingComponent = (props: PropsType) => {
           }}
           onEndReachedThreshold={0.4}
           onContentSizeChange={(w, h) => {
-            props.setCanLoadMore(h > 600); // Adjust if needed
+            props.setCanLoadMore(h > 600); 
             props.hasMountedOnce.current = true;
           }}
           ListEmptyComponent={
@@ -480,7 +491,7 @@ const ProductListingComponent = (props: PropsType) => {
           contentContainerStyle={{
             paddingHorizontal: 20,
             paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
-            gap: 19,
+            gap: 9,
             flexGrow: 1,
           }}
           columnWrapperStyle={{

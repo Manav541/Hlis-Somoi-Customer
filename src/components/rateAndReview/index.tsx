@@ -4,8 +4,6 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  ImageSourcePropType,
-  FlatList,
   StatusBar,
 } from "react-native";
 import React, { Ref } from "react";
@@ -24,7 +22,7 @@ import { TextInput } from "react-native-gesture-handler";
 import GlobalButton from "../../global/GlobalButton";
 import GlobalSuccessModal from "../../global/GlobalSuccessModal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import FastImage, { Source as FastImageSource } from "react-native-fast-image";
+import FastImage from "react-native-fast-image";
 import { OrderItem, RestaurantInfo } from "../../constants/interfaces";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
 import { fontsfamily } from "../../constants/FontFamily";

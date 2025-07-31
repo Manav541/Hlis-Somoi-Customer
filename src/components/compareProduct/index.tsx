@@ -19,7 +19,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
 import {
   ComapareProductData,
-  GroceryProduct,
 } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 import { colors } from "../../constants/Colors";
