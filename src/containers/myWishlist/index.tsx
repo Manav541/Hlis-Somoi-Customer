@@ -14,9 +14,8 @@ import { ScreenNames } from "../../routers";
 import { statusCodes } from "../../api/APIConstant";
 import { zustandStore } from "../../store";
 import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
-import { debounceQuery } from "../../constants/utils/Debounce";
 
-const MyWishlistContainer = ({ navigation, route }: any) => {
+const MyWishlistContainer = ({ navigation }: any) => {
   // API Zustand store
   const currentLatLong = zustandStore.AddressStore(
     (state) => state.currentLocation
@@ -131,9 +130,6 @@ const MyWishlistContainer = ({ navigation, route }: any) => {
               setArrMyWishlistStore([]);
             }
             setHasMoreData(false);
-            if (response.message) {
-              flashMessageWarning(response.message);
-            }
           }
         }
       } catch (error) {

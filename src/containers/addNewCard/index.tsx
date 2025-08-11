@@ -1,8 +1,7 @@
-import { View, Text, TextInput, StatusBar } from "react-native";
+import { Text, TextInput, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import AddNewCardComponent from "../../components/addNewCard";
 import GlobalBackButton from "../../global/GlobalBackButton";
-import { regex } from "../../constants/Regex";
 import {
   flashMessageSucess,
   flashMessageWarning,
@@ -39,7 +38,7 @@ const AddNewCardContainer = ({ navigation }: any) => {
   };
 
   const formatExpiryDate = (text: string): string => {
-    const cleaned = text.replace(/\D/g, '');
+    const cleaned = text.replace(/\D/g, "");
     if (cleaned.length >= 2) {
       return `${cleaned.slice(0, 2)}/${cleaned.slice(2, 4)}`;
     }
@@ -48,20 +47,20 @@ const AddNewCardContainer = ({ navigation }: any) => {
 
   const handleOnChangeText = (text: string, type: string) => {
     if (type === "cardNumber") {
-      const cleaned = text.replace(/\D/g, '');
+      const cleaned = text.replace(/\D/g, "");
       if (cleaned.length <= 16) {
-        setCardNumber(cleaned); 
+        setCardNumber(cleaned);
       }
     } else if (type === "cardHolderName") {
-      const cleaned = text.replace(/[^A-Za-z\s]/g, '').trim();
+      const cleaned = text.replace(/[^A-Za-z\s]/g, "").trim();
       setCardHolderName(cleaned);
     } else if (type === "expiryDate") {
-      const cleaned = text.replace(/\D/g, '');
+      const cleaned = text.replace(/\D/g, "");
       if (cleaned.length <= 4) {
         setExpiryDate(formatExpiryDate(cleaned));
       }
     } else {
-      const cleaned = text.replace(/\D/g, '');
+      const cleaned = text.replace(/\D/g, "");
       if (cleaned.length <= 3) {
         setCvv(cleaned);
       }
@@ -96,26 +95,26 @@ const AddNewCardContainer = ({ navigation }: any) => {
     if (cardNumebr.trim() === "") {
       flashMessageWarning(getTranslation("emptyCardNumber"));
     } else if (cardNumebr.length !== 16) {
-      flashMessageWarning(getTranslation('invalidCardNumber'));
+      flashMessageWarning(getTranslation("invalidCardNumber"));
     } else if (cardHolderName.trim() === "") {
       flashMessageWarning(getTranslation("emptyCardHolderName"));
-    }  else if (expiryDate.trim() === "") {
+    } else if (expiryDate.trim() === "") {
       flashMessageWarning(getTranslation("emptyExpiryDate"));
     } else if (cvv.trim() === "") {
       flashMessageWarning(getTranslation("emptyCvv"));
     } else if (cvv.length !== 3) {
-      flashMessageWarning(getTranslation('invalidCvv'));
+      flashMessageWarning(getTranslation("invalidCvv"));
     } else {
       const newCard = {
         card_number: cardNumebr,
         card_expirydate: expiryDate,
         card_holdername: cardHolderName,
         card_cvv: cvv,
-        card_type: "visa"
+        card_type: "visa",
       };
-      
+
       navigation.goBack("Manage Payment Methods", {
-        newCardData: newCard
+        newCardData: newCard,
       });
       flashMessageSucess(getTranslation("successAddNewCard"));
     }
@@ -131,7 +130,9 @@ const AddNewCardContainer = ({ navigation }: any) => {
         />
       ),
       headerTitle: () => (
-        <Text style={constnatStyles.lblHeaderTitle}>{ScreenNames.addNewCard}</Text>
+        <Text style={constnatStyles.lblHeaderTitle}>
+          {ScreenNames.addNewCard}
+        </Text>
       ),
     });
   };

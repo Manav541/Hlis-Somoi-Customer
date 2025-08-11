@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, ImageSourcePropType } from "react-native";
+import {  Text, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import RateAndReviewComponent from "../../components/rateAndReview";
 import { useFocusEffect } from "@react-navigation/native";

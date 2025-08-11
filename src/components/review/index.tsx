@@ -233,7 +233,7 @@ const ReviewComponent = (props: PropsType) => {
             {props?.arrRateProgress.map(renderItemArrRateProgress)}
           </View>
         </View>
-        <View style={{ marginTop: 20 }}>
+        <View style={{ marginTop: 20, paddingBottom : 30 }}>
           {props?.arrRevieews.map(renderItemArrReviews)}
         </View>
         {props?.hasMoreData && props?.showViewMore && (

@@ -6,7 +6,6 @@ import { SubCategoryListItem } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { ScreenNames } from "../../routers";
 import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
-import { getTranslation } from "../../localization/i18n/i18n.config";
 import ViewAllSubCategoriesComponent from "../../components/viewAllSubCategories";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";

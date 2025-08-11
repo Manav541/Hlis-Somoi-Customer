@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
   },
   vwLinearBG: {
     position: "absolute",
-    height: 80,
+    height: 50,
     borderRadius: 14,
     width: (ScreenDimensions.screenWidth - 20 * 2 - 20) / 2,
     alignItems: "center",
@@ -232,7 +232,7 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
   btnGroceriesFood: {
-    height: 80,
+    height: 50,
     width: (ScreenDimensions.screenWidth - 20 * 2 - 20) / 2,
     borderRadius: 14,
     backgroundColor: "transparent",

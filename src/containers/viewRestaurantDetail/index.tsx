@@ -17,7 +17,6 @@ import {
   showConfirmForGuest,
 } from "../../constants/GConstant";
 import { images } from "../../constants/Images";
-import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { ScreenNames } from "../../routers";
 import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import { zustandStore } from "../../store";
@@ -34,8 +33,6 @@ import { MmkvManager } from "../../constants/utils/MmkvManager";
 import { styles } from "./styles";
 import { colors } from "../../constants/Colors";
 import GlobalBackButton from "../../global/GlobalBackButton";
-import { fontsfamily } from "../../constants/FontFamily";
-import { fontSize } from "../../constants/FontSizes";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 
 const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
@@ -66,22 +63,16 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   );
   const cartItemTotal = cartItemCount;
   const [isGuestUser, setIsGuestUser] = useState<boolean>(false);
-  // console.log("route", route.params?.item);
   const itemData = route.params;
   const vendor_id = itemData?.vendor_id;
   const customer_latitude = itemData?.customer_latitude;
   const customer_longitude = itemData?.customer_longitude;
-  const mainCategoryId = itemData?.mainCategoryId;
   const [isSharing, setIsSharing] = useState<boolean>(true);
-
   const [foodData, setFoodData] = useState<RestaurantDetailResponse>();
-
   const [arrSubCategoryType, setArrSubCategoryType] = useState<Category[]>([]);
-
   const [arrSubCategoryFoodData, setArrSubCategoryFoodData] = useState<
     ProductRestaurant[]
   >([]);
-
   const [isFoodModalVisible, setIsFoodModalVisible] = useState(false);
   const [selectedFoodItem, setSelectedFoodItem] = useState<any>(null);
   const [selectedFoodItemIndex, setSelectedFoodItemIndex] = useState<any>(null);

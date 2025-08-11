@@ -5,16 +5,13 @@ import { ScreenNames } from "../../../routers";
 import { useFocusEffect } from "@react-navigation/native";
 import {
   MainCategoryListItem,
-  Restaurant,
 } from "../../../constants/interfaces";
 import { statusCodes } from "../../../api/APIConstant";
 import {
-  flashMessageWarning,
   showConfirmForGuest,
   toggleLoader,
 } from "../../../constants/GConstant";
 import { zustandStore } from "../../../store";
-import LocationManager from "../../../constants/utils/LocationManager";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
 import { colors } from "../../../constants/Colors";
 

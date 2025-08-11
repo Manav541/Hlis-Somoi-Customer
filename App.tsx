@@ -13,7 +13,6 @@ import Loader from "./src/constants/Loader";
 import { constnatStyles } from "./src/constants/Styles";
 import { requestUserForNotificationPermission } from "./src/constants/utils/Notification/PushNotificationHelper";
 import { PlatformVersion } from "./src/constants/utils/Platform";
-import { zustandStore } from "./src/store";
 import LocationManager from "./src/constants/utils/LocationManager";
 
 const App = () => {

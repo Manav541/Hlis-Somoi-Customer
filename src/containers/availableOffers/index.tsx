@@ -1,6 +1,5 @@
 import { View, Text, StatusBar } from "react-native";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { styles } from "./styles";
+import React, { useEffect, useRef, useState } from "react";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import AvailableOffersComponent from "../../components/availableOffers";
 import GlobalBackButton from "../../global/GlobalBackButton";
@@ -11,8 +10,6 @@ import { constnatStyles } from "../../constants/Styles";
 import Clipboard from "@react-native-clipboard/clipboard";
 import {
   flashMessageSucess,
-  flashMessageWarning,
-  rupeeSymbol,
   toggleLoader,
 } from "../../constants/GConstant";
 import { statusCodes } from "../../api/APIConstant";

@@ -2,7 +2,6 @@ import {
   StatusBar,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  Alert,
   Share,
   View,
   Image,
@@ -36,13 +35,10 @@ import {
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
 import { MmkvManager } from "../../constants/utils/MmkvManager";
-import { constnatStyles } from "../../constants/Styles";
 import { Text } from "react-native-gesture-handler";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { colors } from "../../constants/Colors";
 import { styles } from "./styles";
-import { fontsfamily } from "../../constants/FontFamily";
-import { fontSize } from "../../constants/FontSizes";
 
 const ViewProductDetailContainer = ({ navigation, route }: any) => {
   // API Zustand store
@@ -142,10 +138,6 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     const scrollPosition = event.nativeEvent.contentOffset.x;
     const index = Math.round(scrollPosition / ScreenDimensions.screenWidth);
     setCurrentIndex(index);
-  };
-
-  const onPressBack = () => {
-    navigation.pop();
   };
 
   const onShareProduct = async (productId: string, productName: string) => {

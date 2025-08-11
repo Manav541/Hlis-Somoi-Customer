@@ -1,4 +1,4 @@
-import { View, Text, StatusBar } from "react-native";
+import {  Text, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import ViewAllBestProductsComponent from "../../components/viewAllBestProducts";
 import GlobalBackButton from "../../global/GlobalBackButton";
@@ -171,6 +171,7 @@ const ViewAllBestProductsContainer = ({ navigation, route }: any) => {
       return () => {};
     }, [navigation])
   );
+  
   return (
     <ViewAllBestProductsComponent
       arrBestProductsSellers={arrBestProductsSellers}

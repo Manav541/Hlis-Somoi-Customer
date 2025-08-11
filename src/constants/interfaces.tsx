@@ -395,6 +395,12 @@ export interface Highlight {
 }
 
 // Reviews
+export interface ReviewData {
+  average_rating: string; 
+  total_reviews: string; 
+  rating_summary: RatingSummary[];
+  reviews: Review[];
+}
 export interface RatingSummary {
   rate_number: number;
   rate_percentage: number;
@@ -610,7 +616,7 @@ export interface CartDataResponse {
   last_login: string;
   login_status: string;
   cart_id: string;
-  offer_data:OfferData;
+  offer_data: OfferData;
   cart_details: CartDetail[];
 }
 
@@ -687,7 +693,7 @@ export interface OfferData {
   created_at: string;
   updated_at: string;
   start_date: string; // ISO 8601 format
-  end_date: string;   // ISO 8601 format
+  end_date: string; // ISO 8601 format
 }
 
 // ------------------------------------My Orders Tab------------------------------------
@@ -848,7 +854,6 @@ export interface CancelOrderReason {
   reason: string;
   isSelected: boolean;
 }
-
 
 // Manage Payment Methods
 export interface CardDetails {

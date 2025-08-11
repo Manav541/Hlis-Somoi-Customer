@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ChangePasswordComponent from "../../../components/authentication/changePassword";
 import GlobalBackButton from "../../../global/GlobalBackButton";
-import { BackHandler, Text, TextInput } from "react-native";
+import { Text, TextInput } from "react-native";
 import {
   containsEmoji,
   flashMessageSucess,

@@ -56,6 +56,8 @@ interface PropsType {
 }
 
 const MyOrdersComponent = (props: PropsType) => {
+  console.log("isInitialLoading => ", props.isInitialLoading);
+
   const renderItemOrderList = ({
     item,
     index,
@@ -168,46 +170,50 @@ const MyOrdersComponent = (props: PropsType) => {
         barStyle={"dark-content"}
         backgroundColor={colors.orange1c}
       />
-      {props?.arrOrderList.length > 0 ? (
-        <View style={styles.vwMainContainer}>
-          <FlatList
-            data={props.arrOrderList}
-            contentContainerStyle={{
-              paddingTop: 20,
-              paddingBottom: 20,
-              gap: 12,
-            }}
-            keyExtractor={(item, index) =>
-              item.order_number?.toString() ?? index.toString()
+      <View style={styles.vwMainContainer}>
+        <FlatList
+          data={props.arrOrderList}
+          contentContainerStyle={{
+            paddingTop: 20,
+            paddingBottom: 20,
+            gap: 12,
+            flexGrow: 1,
+          }}
+          keyExtractor={(item, index) =>
+            item.order_number?.toString() ?? index.toString()
+          }
+          showsVerticalScrollIndicator={false}
+          bounces={true}
+          renderItem={renderItemOrderList}
+          onEndReached={() => {
+            if (
+              props.canLoadMore &&
+              props.hasMountedOnce.current &&
+              !props.isRefreshing
+            ) {
+              props.loadMoreCategories();
             }
-            showsVerticalScrollIndicator={false}
-            bounces={true}
-            renderItem={renderItemOrderList}
-            onEndReached={() => {
-              if (
-                props.canLoadMore &&
-                props.hasMountedOnce.current &&
-                !props.isRefreshing
-              ) {
-                props.loadMoreCategories();
-              }
-            }}
-            onEndReachedThreshold={0.4}
-            refreshControl={
-              <RefreshControl
-                refreshing={props.isRefreshing}
-                onRefresh={props.onRefresh}
-                colors={[colors.orange1c]}
-                tintColor={colors.orange1c}
-              />
-            }
-          />
-        </View>
-      ) : (
-        <View style={styles.vwMainEmpty}>
-          <Text style={styles.lblEmptyCart}>{getTranslation("noOrder")}</Text>
-        </View>
-      )}
+          }}
+          onEndReachedThreshold={0.4}
+          refreshControl={
+            <RefreshControl
+              refreshing={props.isRefreshing}
+              onRefresh={props.onRefresh}
+              colors={[colors.orange1c]}
+              tintColor={colors.orange1c}
+            />
+          }
+          ListEmptyComponent={
+            <View style={styles.vwMainEmpty}>
+              <Text style={styles.lblEmptyCart}>
+                {props.isInitialLoading
+                  ? getTranslation("fetchingYourData")
+                  : getTranslation("noDataFound")}
+              </Text>
+            </View>
+          }
+        />
+      </View>
 
       {/* Filter Modal */}
       <Modal

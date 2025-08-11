@@ -2,7 +2,6 @@ import {
   View,
   Text,
   TextInput,
-  Alert,
   BackHandler,
   StatusBar,
 } from "react-native";
@@ -23,11 +22,9 @@ import { constnatStyles } from "../../../constants/Styles";
 import {
   AddressResponseType,
   SecretKeyItem,
-  SignupResponse,
 } from "../../../constants/interfaces";
 import { zustandStore } from "../../../store";
 import { statusCodes } from "../../../api/APIConstant";
-import { styles } from "./styles";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const AddAddressContainer = ({ navigation, route }: any) => {

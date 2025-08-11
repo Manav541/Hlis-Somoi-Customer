@@ -25,7 +25,6 @@ import {
 } from "../../../constants/interfaces";
 import Carousel from "react-native-reanimated-carousel";
 import FastImage from "react-native-fast-image";
-import LinearGradient from "react-native-linear-gradient";
 
 interface PropsType {
   arrMainCategoryList: MainCategoryListItem[];
@@ -86,8 +85,25 @@ const HomeComponent = (props: PropsType) => {
               : images.whiteLinear
           }
           style={styles.vwLinearBG}
+          tintColor={
+            props?.isGroceriesFoodSelected === item?.name
+              ? colors.orange1c
+              : colors.blue4e
+          }
         >
-          <Text style={styles.lblGroceriesFood}>{item?.name}</Text>
+          <Text
+            style={[
+              styles.lblGroceriesFood,
+              {
+                color:
+                  props?.isGroceriesFoodSelected === item?.name
+                    ? colors.blue4e
+                    : colors.white,
+              },
+            ]}
+          >
+            {item?.name}
+          </Text>
         </ImageBackground>
       </TouchableOpacity>
     );
