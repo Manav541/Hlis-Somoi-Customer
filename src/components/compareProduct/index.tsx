@@ -17,9 +17,7 @@ import {
 } from "../../constants/GConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
-import {
-  ComapareProductData,
-} from "../../constants/interfaces";
+import { ComapareProductData } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 import { colors } from "../../constants/Colors";
 
@@ -81,8 +79,16 @@ const CompareProductComponent = (props: PropsType) => {
           </View>
           <View style={styles.vwPrice}>
             <Text style={styles.lblProductFinalPrice}>
-              {rupeeSymbol + item?.price}
+              {rupeeSymbol + item?.original_price}
             </Text>
+            {item?.original_price !== item?.price &&
+              item?.price !== null &&
+              item?.price !== "NaN" &&
+              item?.price !== "0.00" && (
+                <Text style={styles.lblProductPrice}>
+                  {rupeeSymbol + item?.price}
+                </Text>
+              )}
           </View>
           <Text style={styles.lblProductDesc} numberOfLines={4}>
             {item?.description}

@@ -28,10 +28,10 @@ async function createNotificationChannel() {
     vibration: true,
   });
 }
-PlatformVersion.isAndroid && createNotificationChannel();
+ createNotificationChannel();
 
 // Background message handler
-PlatformVersion.isAndroid &&
+
   getMessaging().setBackgroundMessageHandler(async (remoteMessage) => {
     __DEV__ &&
       console.log("[FCMService] setBackgroundMessageHandler:", remoteMessage);
@@ -41,7 +41,7 @@ PlatformVersion.isAndroid &&
 
     try {
       const notification = PlatformVersion.isIOS
-        ? remoteMessage?.notification
+        ? remoteMessage?.data
         : JSON.parse(remoteMessage.data.data);
 
       // Restrict Chat Notification
@@ -117,7 +117,7 @@ PlatformVersion.isAndroid &&
   });
 
 // Foreground message handler
-PlatformVersion.isAndroid &&
+
   getMessaging().onMessage(async (remoteMessage) => {
     console.log(
       "[FCMService] Foreground notification received:",
@@ -129,7 +129,7 @@ PlatformVersion.isAndroid &&
 
     try {
       const notification = PlatformVersion.isIOS
-        ? remoteMessage?.notification
+        ? remoteMessage?.data
         : JSON.parse(remoteMessage.data.data);
 
       // Restrict Chat Notification
@@ -204,7 +204,7 @@ PlatformVersion.isAndroid &&
   });
 
 // Initial Notification Handler
-PlatformVersion.isAndroid &&
+
   getMessaging()
     .getInitialNotification()
     .then(async (remoteMessage) => {
@@ -212,11 +212,17 @@ PlatformVersion.isAndroid &&
         __DEV__ &&
           console.log("[FCM Service] Initial Notification:", remoteMessage);
         await notifee.cancelAllNotifications();
-        if (AppState.currentState === "active" && Platform.OS === "android") {
-          await showNotification(remoteMessage.data);
-        }
+        handleNotificationPress(remoteMessage);
       }
     });
+
+  getMessaging().onNotificationOpenedApp(async (remoteMessage) => {
+    console.log(
+      "[FCMService] Notification opened app:",
+      remoteMessage.notification
+    );
+    handleNotificationPress(remoteMessage);
+  });
 
 // Display notifiction handler
 async function showNotification(remoteMessage) {
@@ -237,7 +243,7 @@ async function showNotification(remoteMessage) {
 }
 
 // Foreground notification taps handler
-PlatformVersion.isAndroid &&
+
   notifee.onForegroundEvent(({ type, detail }) => {
     if (type === EventType.PRESS) {
       const detailedData = PlatformVersion.isIOS
@@ -250,7 +256,7 @@ PlatformVersion.isAndroid &&
   });
 
 // Background notification taps handler
-PlatformVersion.isAndroid &&
+
   notifee.onBackgroundEvent(async ({ type, detail }) => {
     if (type === EventType.PRESS) {
       const detailedData = PlatformVersion.isIOS
@@ -289,15 +295,15 @@ function handleNotificationPress(notification) {
       case NotificationTypes.ORDER_RETURNED:
       case NotificationTypes.DELIVERY_PERSON_NOT_AVAILABLE:
         navigate(ScreenNames.orderSummary, {
-          order_id: notification?.order_id,
+          order_id: notification?.order_id || notification?.data?.order_id,
         });
         break;
 
       case NotificationTypes.CHAT:
       case NotificationTypes.NEW_CHAT_RECEIVED:
         navigate(ScreenNames.chat, {
-          driver_id: notification?.sender_id,
-          customer_id: notification?.receiver_id,
+          driver_id: notification?.sender_id || notification?.data?.sender_id,
+          customer_id: notification?.receiver_id || notification?.data?.receiver_id,
         });
         break;
 

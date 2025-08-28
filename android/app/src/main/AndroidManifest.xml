@@ -22,7 +22,7 @@
       android:extractNativeLibs="true">
       <meta-data
           android:name="com.google.android.geo.API_KEY"
-          android:value="AIzaSyDsF3qou0ZMIleMPcSwV0bwisWXKXpAIfk"
+          android:value="AIzaSyC43qD5NygSQ9G9Jw7r4e4o-0U4KfP4MPA"
           />
 
       <activity

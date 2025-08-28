@@ -1,8 +1,7 @@
-import { View, Text, Image, TextInput, StatusBar } from "react-native";
+import { View, TextInput, StatusBar } from "react-native";
 import React, { Ref } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { styles } from "./styles";
-import { images } from "../../constants/Images";
 import GlobalTextInput from "../../global/GlobalTextInput";
 import GlobalButton from "../../global/GlobalButton";
 import { getTranslation } from "../../localization/i18n/i18n.config";
@@ -14,16 +13,19 @@ import { colors } from "../../constants/Colors";
 interface PropsType {
   name: string;
   email: string;
+  mobileNumber: string;
   subject: string;
   description: string;
 
   nameRef: Ref<TextInput>;
   emailRef: Ref<TextInput>;
+  mobileNumberRef: Ref<TextInput>;
   subjectRef: Ref<TextInput>;
   descriptionRef: Ref<TextInput>;
 
   isNameFocused: boolean;
   isEmailFocused: boolean;
+  isMobileNumberFocused: boolean;
   isSubjectFocused: boolean;
   isDescriptionFocused: boolean;
 
@@ -78,6 +80,28 @@ const ContactUsComponent = (props: PropsType) => {
             onFocus={() => props?.handleOnFocus("email")}
             onBlur={() => props?.handleOnBlur("email")}
             isEmailField
+          />
+          <GlobalTextInput
+            isPhoneField
+            isLastField
+            maxLength={10}
+            placeholder={getTranslation("mobileNumber")}
+            value={props.mobileNumber}
+            reference={props.mobileNumberRef}
+            onChangeText={(text) => {
+              props.handleOnChangeText(text, "mobileNumber");
+            }}
+            onSubmitEditing={() => {
+              props.handleOnSubmit("mobileNumber");
+            }}
+            onFocus={() => {
+              props.handleOnFocus("mobileNumber");
+            }}
+            onBlur={() => {
+              props.handleOnBlur("mobileNumber");
+            }}
+            focusValue={props.isMobileNumberFocused}
+            countryCode={"+91"}
           />
           <GlobalTextInput
             placeholder={getTranslation("subject")}

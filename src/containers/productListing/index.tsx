@@ -798,6 +798,8 @@ const ProductListingContainer = ({ navigation, route }: any) => {
           incrementCartItemCount(1);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          flashMessageWarning(response.message);
         }
       }
     } catch (error) {

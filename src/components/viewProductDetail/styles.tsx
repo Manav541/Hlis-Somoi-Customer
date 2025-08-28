@@ -413,9 +413,8 @@ export const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   imgSimilarProduct: {
-    height: 102,
-    width: 70,
-    alignSelf: "center",
+    flex: 1,
+    width:'100%'
   },
   imgMainStar: {
     height: 15.02,
@@ -461,20 +460,18 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     height: 192,
     width: 120,
-    justifyContent: "space-between",
-    paddingTop: 15,
     paddingBottom: 14,
+    overflow: "hidden",
   },
-   btnSimilarProductSelected: {
+  btnSimilarProductSelected: {
     backgroundColor: colors.creamee,
     borderRadius: 20,
     height: 192,
     width: 120,
-    justifyContent: "space-between",
-    paddingTop: 11,
     paddingBottom: 10,
-    borderColor : colors.orange1c,
-    borderWidth : 4
+    borderColor: colors.orange1c,
+    borderWidth: 3,
+    overflow: "hidden",
   },
   btnViewAll: {
     flexDirection: "row",
@@ -499,7 +496,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
     backgroundColor: colors.orange1c,
-    paddingHorizontal : 13.5
+    paddingHorizontal: 13.5,
   },
   btnColor: {
     height: 42,

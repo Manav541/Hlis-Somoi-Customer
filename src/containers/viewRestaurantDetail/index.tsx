@@ -426,6 +426,8 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
           // header();
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          flashMessageWarning(response.message);
         }
       }
     } catch (error) {
@@ -679,7 +681,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
       ) : (
         <View style={styles.vwBlankScreen}>
           <Text style={styles.lblBlankScreenMsg}>
-            {getTranslation('fetchingRestaurantDetail')}
+            {getTranslation("fetchingRestaurantDetail")}
           </Text>
         </View>
       )}

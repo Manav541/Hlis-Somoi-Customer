@@ -49,7 +49,7 @@ const AddCompareProductsComponent = (props: PropsType) => {
         style={[
           styles.vwMyWishlistItem,
           {
-            width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
+            width: (ScreenDimensions.screenWidth - 20 * 2 - 9) / 2,
           },
         ]}
         key={index}
@@ -58,7 +58,7 @@ const AddCompareProductsComponent = (props: PropsType) => {
           style={[
             styles.btnMyWishlistItem,
             {
-              width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
+              width: (ScreenDimensions.screenWidth - 20 * 2 - 9) / 2,
             },
           ]}
           activeOpacity={activityOpacity}
@@ -79,31 +79,37 @@ const AddCompareProductsComponent = (props: PropsType) => {
           <View style={styles.vwProductImgLike}>
             <FastImage
               source={{ uri: item?.image }}
-              style={{ height: 80, aspectRatio: 1 }}
-              resizeMode={FastImage.resizeMode.contain}
+              style={{ flex: 1, width:'100%' }}
+              resizeMode={"cover"}
             />
           </View>
 
           {/* Product Details */}
           <View style={styles.vwProductDetails}>
-            <View style={{ height: 59 }}>
-              <View style={{ height: 44 }}>
-                <Text style={styles.lblProductName} numberOfLines={2}>
-                  {item?.name}
-                </Text>
+            {/* <View style={{ height: 59 }}> */}
+            <Text style={styles.lblProductName} numberOfLines={2}>
+              {item?.name}
+            </Text>
+            {item?.weight && (
+              <View style={{ height: 15 }}>
+                <Text style={styles.lblProductWeight}>{item?.weight}</Text>
               </View>
-              {item?.weight && (
-                <View style={{ height: 15 }}>
-                  <Text style={styles.lblProductWeight}>{item?.weight}</Text>
-                </View>
-              )}
-            </View>
+            )}
+            {/* </View> */}
 
             <View style={styles.vwPriceRating}>
               <View style={styles.vwPrice}>
                 <Text style={styles.lblProductFinalPrice}>
-                  {rupeeSymbol + item?.price}
+                  {rupeeSymbol + item?.original_price}
                 </Text>
+                {item?.original_price !== item?.price &&
+                  item?.price !== null &&
+                  item?.price !== "NaN" &&
+                  item?.price !== "0.00" && (
+                    <Text style={styles.lblProductPrice}>
+                      {rupeeSymbol + item?.price}
+                    </Text>
+                  )}
               </View>
               <View style={styles.vwProductRating}>
                 <Image style={styles.imgStar} source={images.star} />
@@ -141,10 +147,10 @@ const AddCompareProductsComponent = (props: PropsType) => {
         keyExtractor={(_, index) => index.toString()}
         contentContainerStyle={{
           paddingHorizontal: 20,
-          paddingBottom: PlatformVersion.isIOS ? insets.bottom : 19,
-          gap: 19,
+          paddingBottom: insets.bottom ? insets.bottom + 20 : 20,
+          gap: 9,
           marginTop: 20,
-          flexGrow : 1
+          flexGrow: 1,
         }}
         columnWrapperStyle={{
           justifyContent: "space-between",
@@ -161,7 +167,7 @@ const AddCompareProductsComponent = (props: PropsType) => {
           props.setCanLoadMore(h > 600); // Adjust if needed
           props.hasMountedOnce.current = true;
         }}
-         ListEmptyComponent={
+        ListEmptyComponent={
           <View style={styles.vwNoData}>
             <Text style={styles.lblNoData}>
               {getTranslation("noDataFound")}

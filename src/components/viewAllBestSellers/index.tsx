@@ -13,7 +13,7 @@ import { images } from "../../constants/Images";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import { fontsfamily } from "../../constants/FontFamily";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { BestProductSellerData, Restaurant } from "../../constants/interfaces";
+import { BestProductSellerData } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 import { colors } from "../../constants/Colors";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
@@ -58,9 +58,9 @@ const ViewAllBestSellersComponent = (props: PropsType) => {
           <Image
             style={styles.imgHeart}
             source={
-              item?.is_store_wishlisted == true
-                ? images.emptyHeart
-                : images.redHeart
+              item?.is_store_wishlisted 
+                ? images.redHeart
+                : images.emptyHeart
             }
             resizeMode="stretch"
           />

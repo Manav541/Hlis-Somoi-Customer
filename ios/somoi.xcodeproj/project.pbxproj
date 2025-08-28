@@ -31,6 +31,7 @@
 		5DDA7AB42DED879B00A564AB /* NativeEncryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDA7AB32DED879A00A564AB /* NativeEncryption.swift */; };
 		5DDA7AB52DED879B00A564AB /* NativeEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DDA7AB22DED879A00A564AB /* NativeEncryption.m */; };
 		5DDA7AB62DED879B00A564AB /* CryptLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DDA7AB12DED879A00A564AB /* CryptLib.m */; };
+		5DE03C2D2E5DC264000A8085 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5DE03C2C2E5DC264000A8085 /* GoogleService-Info.plist */; };
 		636FF512C90142C3A4871902 /* PublicSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EEFFCEB543E249AB82811EC2 /* PublicSans-Regular.ttf */; };
 		6480CD1E040C43B89A279BD4 /* PublicSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53C7C35C132447EFB350BC38 /* PublicSans-Thin.ttf */; };
 		695C9ACA91AC4D848ED2F907 /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 80E383F2FAEA4D70A92C6905 /* Montserrat-BoldItalic.ttf */; };
@@ -92,11 +93,13 @@
 		534D0BCF9B034B95AA5B4D33 /* PublicSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-SemiBold.ttf"; path = "../src/assets/fonts/PublicSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		5375E74BEAF94F2996DAECAA /* GolosText-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Bold.ttf"; path = "../src/assets/fonts/GolosText-Bold.ttf"; sourceTree = "<group>"; };
 		53C7C35C132447EFB350BC38 /* PublicSans-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Thin.ttf"; path = "../src/assets/fonts/PublicSans-Thin.ttf"; sourceTree = "<group>"; };
+		5D9C43B62E5F1F050047F238 /* somoi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = somoi.entitlements; path = somoi/somoi.entitlements; sourceTree = "<group>"; };
 		5DDA7AB02DED879A00A564AB /* CryptLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CryptLib.h; sourceTree = "<group>"; };
 		5DDA7AB12DED879A00A564AB /* CryptLib.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CryptLib.m; sourceTree = "<group>"; };
 		5DDA7AB22DED879A00A564AB /* NativeEncryption.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeEncryption.m; sourceTree = "<group>"; };
 		5DDA7AB32DED879A00A564AB /* NativeEncryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeEncryption.swift; sourceTree = "<group>"; };
 		5DDA7AB72DED879D00A564AB /* somoi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "somoi-Bridging-Header.h"; sourceTree = "<group>"; };
+		5DE03C2C2E5DC264000A8085 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		67E4BDEE60C94CC2A1F476A2 /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BlackItalic.ttf"; path = "../src/assets/fonts/Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
 		68359B4034924F7F94D91780 /* GolosText-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GolosText-Medium.ttf"; path = "../src/assets/fonts/GolosText-Medium.ttf"; sourceTree = "<group>"; };
 		69CFEEF2DDC14643A82B857A /* PublicSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PublicSans-Italic.ttf"; path = "../src/assets/fonts/PublicSans-Italic.ttf"; sourceTree = "<group>"; };
@@ -152,6 +155,8 @@
 		13B07FAE1A68108700A75B9A /* somoi */ = {
 			isa = PBXGroup;
 			children = (
+				5D9C43B62E5F1F050047F238 /* somoi.entitlements */,
+				5DE03C2C2E5DC264000A8085 /* GoogleService-Info.plist */,
 				5DDA7AB02DED879A00A564AB /* CryptLib.h */,
 				5DDA7AB12DED879A00A564AB /* CryptLib.m */,
 				5DDA7AB22DED879A00A564AB /* NativeEncryption.m */,
@@ -385,6 +390,7 @@
 				636FF512C90142C3A4871902 /* PublicSans-Regular.ttf in Resources */,
 				0018DEEB09A84367B640A219 /* PublicSans-SemiBold.ttf in Resources */,
 				93D7C094038C45D4930BA337 /* PublicSans-SemiBoldItalic.ttf in Resources */,
+				5DE03C2D2E5DC264000A8085 /* GoogleService-Info.plist in Resources */,
 				6480CD1E040C43B89A279BD4 /* PublicSans-Thin.ttf in Resources */,
 				FFA0B6BD1F584802BEFCC16B /* PublicSans-ThinItalic.ttf in Resources */,
 			);
@@ -501,10 +507,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = somoi/somoi.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = AMSNWNQ47N;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = WB6Y62UGU8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = somoi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -518,10 +525,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Hyperlink.Development;
+				PRODUCT_BUNDLE_IDENTIFIER = com.somoi.customer;
 				PRODUCT_NAME = somoi;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Hyperlink_X11_Development;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Somoi Customer Development";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -540,10 +547,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = somoi/somoi.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = AMSNWNQ47N;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = WB6Y62UGU8;
 				INFOPLIST_FILE = somoi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -556,10 +564,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Hyperlink.Development;
+				PRODUCT_BUNDLE_IDENTIFIER = com.somoi.customer;
 				PRODUCT_NAME = somoi;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Hyperlink_X11_Development;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Somoi Customer Development";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -651,10 +659,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -734,10 +739,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

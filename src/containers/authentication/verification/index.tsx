@@ -142,6 +142,8 @@ const VerificationContainer = ({ navigation, route }: any) => {
 
     if (email) {
       dictData.email = email;
+      dictData.mobile_number = Number(mobileNumber);
+      dictData.country_code = countryCode.trim();
     } else {
       dictData.mobile_number = Number(mobileNumber);
       dictData.country_code = countryCode.trim();

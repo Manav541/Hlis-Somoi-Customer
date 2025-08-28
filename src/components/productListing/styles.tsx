@@ -40,15 +40,15 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   vwPriceRating: {
-    height: 17,
+    // height: 17,
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 7,
   },
   vwPrice: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
+    // flexDirection: "row",
+    // alignItems: "center",
+    // gap: 6,
   },
   vwProductRating: {
     flexDirection: "row",

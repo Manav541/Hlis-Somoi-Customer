@@ -110,7 +110,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
         style={[
           styles.vwMyWishlistItem,
           {
-            width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
+            width: (ScreenDimensions.screenWidth - 20 * 2 - 9) / 2,
           },
         ]}
         key={index}
@@ -119,7 +119,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
           style={[
             styles.btnFoodItem,
             {
-              width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
+              width: (ScreenDimensions.screenWidth - 20 * 2 - 9) / 2,
             },
           ]}
           activeOpacity={activityOpacity}
@@ -128,7 +128,14 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
         >
           {/* Product Image and Favourite button */}
           <View style={styles.vwFoodImgLike}>
-            <FastImage source={{ uri: item?.image }} style={styles.imgFood} />
+            <FastImage
+              source={{ uri: item?.image }}
+              style={{
+                flex: 1,
+                aspectRatio: 1,
+              }}
+              resizeMode={"cover"}
+            />
             <TouchableOpacity
               style={styles.btnRedHeart}
               activeOpacity={activityOpacity}
@@ -146,23 +153,32 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
 
           {/* Product Details */}
           <View style={styles.vwFoodDetails}>
-            <View style={{ height: 44, marginRight: 10 }}>
-              <Text style={styles.lblFoodName} numberOfLines={2}>
-                {item?.name}
-              </Text>
-            </View>
+            {/* <View style={{ height: 44, marginRight: 10 }}> */}
+            <Text style={styles.lblFoodName} numberOfLines={2}>
+              {item?.name}
+            </Text>
+
+            <Text style={styles.lblFoodWeight}>
+              {item?.selected_variation?.amount +
+                item?.selected_variation?.unit}
+            </Text>
+            {/* </View> */}
 
             <View style={styles.vwPriceRating}>
               <View
                 style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
               >
                 <Text style={styles.lblFoodFinalPrice}>
-                  {rupeeSymbol + item?.price}
+                  {rupeeSymbol + item?.original_price}
                 </Text>
-                <Text style={styles.lblFoodWeight}>
-                  {item?.selected_variation?.amount +
-                    item?.selected_variation?.unit}
-                </Text>
+                {item?.original_price !== item?.price &&
+                  item?.price !== null &&
+                  item?.price !== "NaN" &&
+                  item?.price !== "0.00" && (
+                    <Text style={styles.lblFoodPrice}>
+                      {rupeeSymbol + item?.price}
+                    </Text>
+                  )}
               </View>
               <View style={styles.vwFoodRating}>
                 <Image style={styles.imgStarFood} source={images.star} />
@@ -251,11 +267,25 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
         <FastImage
           style={styles.imgSimilarProduct}
           source={{ uri: props?.selectedFoodItem?.image }}
+          resizeMode="cover"
         />
-        <View>
-          <Text style={styles.lblProdcuctFinalPrice}>
-            {rupeeSymbol + parseInt(item?.price).toFixed(2)}
+        <View style={styles.vwPriceWeight}>
+          <Text
+            style={{
+              ...styles.lblProdcuctFinalPrice,
+              color: colors.blue4e,
+            }}
+          >
+            {rupeeSymbol + item?.original_price}
           </Text>
+          {item?.original_price !== item?.price &&
+            item?.price !== null &&
+            item?.price !== "NaN" &&
+            item?.price !== "0.00" && (
+              <Text style={styles.lblProductPrice}>
+                {rupeeSymbol + item?.price}
+              </Text>
+            )}
 
           <Text style={styles.lblProductWeight1}>
             {item?.amount + item?.unit}
@@ -481,8 +511,13 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                     >
                       <View style={styles.vwFoodImgBG}>
                         <FastImage
-                          style={styles.imgModalFood}
+                          style={{
+                            height: 249,
+                            width: ScreenDimensions.screenWidth - 40,
+                            alignSelf: "center",
+                          }}
                           source={{ uri: props?.selectedFoodItem?.image }}
+                          resizeMode="cover"
                         />
                         <TouchableOpacity
                           style={{

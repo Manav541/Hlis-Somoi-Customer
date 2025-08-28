@@ -9,7 +9,6 @@ import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { regex } from "../../../constants/Regex";
 import {
   CountryDataType,
-  CustomerDetails,
   DeviceInfoType,
   SignupResponse,
 } from "../../../constants/interfaces";

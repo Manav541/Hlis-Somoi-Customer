@@ -618,6 +618,9 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         }
+        else if (response.code === statusCodes.emptyData) {
+          flashMessageWarning(response.message);
+        }
       }
     } catch (error) {
       __DEV__ && console.log("Product Listing API Error:", error);

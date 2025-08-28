@@ -82,6 +82,7 @@ interface PropsType {
 
 const ProductListingComponent = (props: PropsType) => {
   const insets = useSafeAreaInsets();
+
   const renderItemSubCategoryTitle = ({
     item,
     index,
@@ -170,9 +171,8 @@ const ProductListingComponent = (props: PropsType) => {
             <FastImage
               source={{ uri: item?.image }}
               style={{
-                // height: 172,
-                flex : 1,
-                aspectRatio: 1 
+                flex: 1,
+                width: "100%",
               }}
               resizeMode={"cover"}
             />
@@ -218,19 +218,39 @@ const ProductListingComponent = (props: PropsType) => {
           <View style={styles.vwProductDetails}>
             {/* name and weight */}
             {/* <View style={{ height: 59 }}> */}
-              <Text style={styles.lblProductName} numberOfLines={2}>
-                {item?.name}
-              </Text>
-              <Text style={styles.lblProductWeight}>{item?.weight}</Text>
+            <Text style={styles.lblProductName} numberOfLines={2}>
+              {item?.name}
+            </Text>
+            <Text style={styles.lblProductWeight}>
+              {" "}
+              {item?.is_variation && item?.is_color && item?.is_size
+                ? `${item?.size?.value}-${item?.color?.name}`
+                : item?.is_variation && item?.is_color
+                ? item?.color?.name
+                : item?.is_variation && item?.is_size
+                ? item?.size?.value
+                : item?.is_variation
+                ? item?.weight
+                : ""}
+            </Text>
             {/* </View> */}
 
             {/* Price and Rating */}
             <View style={styles.vwPriceRating}>
               {/* Price */}
-              <Text style={styles.lblProductFinalPrice}>
-                {rupeeSymbol + parseFloat(item?.price).toFixed(2)}
-              </Text>
-
+              <View>
+                <Text style={styles.lblProductFinalPrice}>
+                  {rupeeSymbol + parseFloat(item?.originalPrice).toFixed(2)}
+                </Text>
+                {item?.originalPrice !== item?.price &&
+                  item?.price !== null &&
+                  item?.price !== "NaN" &&
+                  item?.price !== "0.00" && (
+                    <Text style={styles.lblProductPrice}>
+                      {rupeeSymbol + parseFloat(item?.price).toFixed(2)}
+                    </Text>
+                  )}
+              </View>
               {/* Rating */}
               <View style={styles.vwProductRating}>
                 <Image
@@ -469,7 +489,7 @@ const ProductListingComponent = (props: PropsType) => {
           }}
           onEndReachedThreshold={0.4}
           onContentSizeChange={(w, h) => {
-            props.setCanLoadMore(h > 600); 
+            props.setCanLoadMore(h > 600);
             props.hasMountedOnce.current = true;
           }}
           ListEmptyComponent={
@@ -635,7 +655,6 @@ const ProductListingComponent = (props: PropsType) => {
               </View>
 
               {/* rating range */}
-
               <View style={styles.vwRatingRange}>
                 <Text style={styles.lblCategories}>
                   {getTranslation("ratingRange")}
@@ -662,8 +681,8 @@ const ProductListingComponent = (props: PropsType) => {
                   ))}
                 </View>
               </View>
-              {/* Filter Button */}
 
+              {/* Filter Button */}
               <View
                 style={{
                   marginTop: 15,

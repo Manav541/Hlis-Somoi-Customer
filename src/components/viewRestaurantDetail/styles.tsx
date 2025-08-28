@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     // paddingBottom: 20,
   },
   vwMyWishlistItem: {
-    height: 231,
+    height: 293,
     borderRadius: 20,
     overflow: "hidden",
   },
@@ -36,8 +36,8 @@ export const styles = StyleSheet.create({
   vwRestaurantAddress: {
     flexDirection: "row",
     gap: 5.39,
-    marginRight : 20,
-    marginTop : 5.39
+    marginRight: 20,
+    marginTop: 5.39,
   },
   vwRestaurantTimeDistance: {
     flexDirection: "row",
@@ -76,7 +76,7 @@ export const styles = StyleSheet.create({
   },
 
   vwFoodImgLike: {
-    height: 112,
+    flex: 1,
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
     overflow: "hidden",
@@ -85,10 +85,10 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   vwFoodDetails: {
-    flex: 1,
     marginHorizontal: 7,
     marginTop: 6,
     marginBottom: 11,
+    justifyContent: "space-between",
   },
   vwPriceRating: {
     height: 17,
@@ -118,16 +118,20 @@ export const styles = StyleSheet.create({
   },
   vwRestaurantFood: {
     paddingHorizontal: 20,
-    gap: 19,
+    gap: 9,
     marginBottom: 40,
     marginTop: 10,
   },
   vwPriceWeight: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
     marginHorizontal: 9,
     marginTop: 4,
+  },
+  vwProductPrice: {
+    marginHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 18,
+    gap: 9,
   },
 
   // Text Styles
@@ -140,7 +144,7 @@ export const styles = StyleSheet.create({
     color: colors.white,
     fontSize: fontSize.size1294,
     fontFamily: fontsfamily.regularOutFit,
-    lineHeight : 20
+    lineHeight: 20,
   },
   lblRestaurant_deliverytime: {
     color: colors.white,
@@ -198,7 +202,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.size13,
     fontFamily: fontsfamily.bold,
   },
-   lblFoodPrice: {
+  lblFoodPrice: {
     color: colors.greya7,
     fontSize: fontSize.size12,
     fontFamily: fontsfamily.regular,
@@ -224,13 +228,17 @@ export const styles = StyleSheet.create({
     color: colors.blue4e,
     fontSize: fontSize.size18,
     fontFamily: fontsfamily.semibold,
-    marginLeft : 10
+  },
+  lblProductPrice: {
+    color: colors.greya7,
+    fontSize: fontSize.size18,
+    fontFamily: fontsfamily.regular,
+    textDecorationLine: "line-through",
   },
   lblProductWeight1: {
     color: colors.greya7,
     fontSize: fontSize.size18,
     fontFamily: fontsfamily.regular,
-    marginLeft : 10
   },
 
   // Image Styles
@@ -283,14 +291,13 @@ export const styles = StyleSheet.create({
     width: 88,
   },
   imgSimilarProduct: {
-    height: 102,
-    width: 95,
-    alignSelf: "center",
+    flex: 1,
+    width: "100%",
   },
 
   // Touchableopacity Styles
   btnFoodItem: {
-    height: 197,
+    height: 260,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: colors.white,
@@ -340,19 +347,19 @@ export const styles = StyleSheet.create({
     height: 192,
     width: 120,
     justifyContent: "space-between",
-    paddingTop: 15,
     paddingBottom: 11,
+    overflow: "hidden",
   },
-   btnSimilarProductSelected: {
+  btnSimilarProductSelected: {
     backgroundColor: colors.creamee,
     borderRadius: 20,
     height: 192,
     width: 120,
     justifyContent: "space-between",
-    paddingTop: 15,
     paddingBottom: 7,
-    borderWidth : 4,
-    borderColor : colors.orange1c
+    borderWidth: 4,
+    borderColor: colors.orange1c,
+    overflow: "hidden",
   },
 
   //   Modal
@@ -377,6 +384,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.whiteff,
     justifyContent: "center",
     alignItems: "center",
+    overflow: "hidden",
   },
   vwFoodNameShare: {
     flexDirection: "row",

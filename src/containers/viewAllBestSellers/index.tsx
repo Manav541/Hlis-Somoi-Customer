@@ -7,7 +7,11 @@ import { ScreenNames } from "../../routers";
 import { BestProductSellerData } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { statusCodes } from "../../api/APIConstant";
-import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
+import {
+  flashMessageWarning,
+  showConfirmForGuest,
+  toggleLoader,
+} from "../../constants/GConstant";
 import { zustandStore } from "../../store";
 import { MmkvManager } from "../../constants/utils/MmkvManager";
 
@@ -35,7 +39,13 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
   const currentLatLong = route.params?.currentLatLong;
 
   const onPressFavourite = (index: number, vendor_id: string) => {
-    handleWishlistStoreApi(vendor_id, index);
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+      });
+    } else {
+      handleWishlistStoreApi(vendor_id, index);
+    }
   };
 
   const onPressRestaurant = (vendor_id: string) => {
@@ -170,7 +180,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
       return () => {};
     }, [navigation])
   );
-  
+
   return (
     <ViewAllBestSellersComponent
       arrBestProductsSellers={arrBestProductsSellers}

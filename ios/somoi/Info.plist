@@ -31,10 +31,10 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Would like to access your location to find near by best restaurants and tracking your order?</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Would like to use your camera to take picture for your profile?</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Would like to access your location to find near by best restaurants and tracking your order?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Would like to use your gallery to take picture for your profile?</string>
 	<key>NSPhotoLibraryUsageDescription</key>

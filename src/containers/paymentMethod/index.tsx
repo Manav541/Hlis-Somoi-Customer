@@ -1,14 +1,14 @@
-import { Text, StatusBar, Alert } from "react-native";
+import { Text, StatusBar } from "react-native";
 import React, { useEffect, useState } from "react";
 import PaymentMethodComponent from "../../components/paymentMethod";
 import { CommonActions, useFocusEffect } from "@react-navigation/native";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { ScreenNames } from "../../routers";
-import { CardDetails } from "../../constants/interfaces";
+import { CardDetails, SecretKeyItem } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
-import { flashMessageWarning, toggleLoader } from "../../constants/GConstant";
+import { flashMessageWarning } from "../../constants/GConstant";
 import RazorpayCheckout from "react-native-razorpay";
 import { images } from "../../constants/Images";
 import { colors } from "../../constants/Colors";
@@ -16,9 +16,15 @@ import { colors } from "../../constants/Colors";
 const PaymentMethodContainer = ({ navigation, route }: any) => {
   // API zustand store
   const placeOrderApi = zustandStore.CartStore((state) => state.placeOrder);
+  const createOrderIdApi = zustandStore.CartStore(
+    (state) => state.createOrderId
+  );
   const setCartItemCount = zustandStore.CartItemCountStore(
     (state) => state.setCartItemCount
   );
+  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
+  const [razorpay_key_id, setRazorpay_key_id] = useState<string>("");
+  const [createOrderId, setCreateOrderId] = useState<string>("");
   const location_id = route?.params?.location_id;
   const total_bill = route?.params?.total_bill;
   const isCodRestricted = route?.params?.isCodRestricted;
@@ -74,14 +80,18 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
   const amountInPaise = convertRupeesToPaise(totalRupees);
 
   const openRazorpay = () => {
+    if (!razorpay_key_id || !createOrderId) {
+      console.log("Missing Razorpay Key ID or Order ID");
+      return;
+    }
     const options = {
       description: "Order Payment",
       image: images.logoTitle, // optional
       currency: "INR",
-      key: "rzp_test_Rxht1N8StSV1cJ", // Your Razorpay Key ID
+      key: razorpay_key_id, // Your Razorpay Key ID
       amount: amountInPaise.toString(), // amount in paise (₹50.00)
       name: "Somoi App",
-      // order_id: "order_DBJOWzybf0sJbb", // From backend (recommended)
+      order_id: createOrderId, // From backend (recommended)
       prefill: {
         email: customer_details?.email,
         contact: customer_details?.contact,
@@ -94,8 +104,9 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
       .then((data) => {
         console.log(`Success: `, data);
         console.log(`Success: ${data.razorpay_payment_id}`);
+        const payment_id = data.razorpay_payment_id;
         // Call backend API to verify payment
-        handlePlaceOrderApi(location_id, payment_type);
+        handlePlaceOrderApi(location_id, payment_type, payment_id);
       })
       .catch((error) => {
         console.log(`Error: ${error.code} | ${error.description}`);
@@ -207,8 +218,8 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
     if (payment_type == "cod") {
       handlePlaceOrderApi(location_id, payment_type);
     } else {
-      // openRazorpay();
-      handlePlaceOrderApi(location_id, payment_type);
+      openRazorpay();
+      // handlePlaceOrderApi(location_id, payment_type);
     }
   };
 
@@ -277,12 +288,17 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
   // handlePlaceOrderApi
   const handlePlaceOrderApi = async (
     location_id: string,
-    payment_type: string
+    payment_type: string,
+    payment_id?: string
   ) => {
-    const dictData = {
+    const dictData: any = {
       location_id: location_id,
       payment_type: payment_type,
     };
+
+    if (payment_type === "card") {
+      dictData.payment_id = payment_id;
+    }
     try {
       const response = await placeOrderApi(dictData, navigation);
       if (response !== undefined && response !== null) {
@@ -304,9 +320,61 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
     }
   };
 
+  const handleCreateOrderIdApi = async (amount: string) => {
+    const dictData = {
+      amount: amount,
+    };
+    try {
+      const response = await createOrderIdApi(dictData, navigation);
+      if (response !== undefined && response !== null) {
+        __DEV__ &&
+          console.log("CREATE ORDER ID RESPONSE===>", JSON.stringify(response));
+        if (response.code === statusCodes.success) {
+          const rawData = response.data as any;
+          setCreateOrderId(rawData?.id);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+        } else if (response.code === statusCodes.emptyData) {
+          flashMessageWarning(response.message);
+        }
+      }
+    } catch (error) {
+      __DEV__ && console.log(error);
+    }
+  };
+
+  const handleSecretKeyApi = async () => {
+    try {
+      const response = await secretKeyApi({}, navigation);
+      if (
+        response?.code === statusCodes.success &&
+        Array.isArray(response.data)
+      ) {
+        const keysData = response.data as SecretKeyItem[];
+        console.log("keysData", keysData);
+
+        keysData.forEach((item) => {
+          switch (item.name) {
+            case "razorpay_key_id":
+              if (item.keys) setRazorpay_key_id(item.keys);
+              break;
+            default:
+              break;
+          }
+        });
+      } else if (response?.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
+      }
+    } catch (error) {
+      __DEV__ && console.log("Secret Key API Error:", error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       StatusBar.setBarStyle("dark-content");
+      handleSecretKeyApi();
+      handleCreateOrderIdApi(total_bill);
       return () => {};
     }, [navigation])
   );

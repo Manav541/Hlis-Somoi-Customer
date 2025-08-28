@@ -20,10 +20,7 @@ import {
 import { ScreenDimensions } from "../../constants/utils/Dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PlatformVersion } from "../../constants/utils/Platform";
-import {
-  Product,
-  Restaurant,
-} from "../../constants/interfaces";
+import { Product, Restaurant } from "../../constants/interfaces";
 import FastImage from "react-native-fast-image";
 import { DateFormatsManager } from "../../constants/utils/DateFormats";
 import { fontsfamily } from "../../constants/FontFamily";
@@ -78,7 +75,7 @@ const MyWishlistComponent = (props: PropsType) => {
       <View
         style={[
           styles.vwMyWishlistItem,
-          { width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2 },
+          { width: (ScreenDimensions.screenWidth - 20 * 2 - 9) / 2 },
         ]}
       >
         <TouchableOpacity
@@ -87,7 +84,7 @@ const MyWishlistComponent = (props: PropsType) => {
           style={[
             styles.btnMyWishlistItem,
             {
-              width: (ScreenDimensions.screenWidth - 20 * 2 - 19) / 2,
+              width: (ScreenDimensions.screenWidth - 20 * 2 - 9) / 2,
             },
           ]}
           onPress={() =>
@@ -106,8 +103,8 @@ const MyWishlistComponent = (props: PropsType) => {
           <View style={styles.vwProductImgLike}>
             <FastImage
               source={{ uri: item?.image }}
-              style={{ height: 80, aspectRatio: 1 }}
-              resizeMode={FastImage.resizeMode.contain}
+              style={{ flex: 1, width:'100%' }}
+              resizeMode={"cover"}
             />
             <TouchableOpacity
               style={styles.btnRedHeart}
@@ -131,25 +128,37 @@ const MyWishlistComponent = (props: PropsType) => {
 
           {/* Product Details */}
           <View style={styles.vwProductDetails}>
-            <View style={{ height: 60 }}>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.lblProductName} numberOfLines={2}>
-                  {item?.name}
-                </Text>
-              </View>
-              <View style={{ height: 15 }}>
-                <Text style={styles.lblProductWeight}>{item?.weight}</Text>
-              </View>
+            <Text style={styles.lblProductName} numberOfLines={2}>
+              {item?.name}
+            </Text>
+            <View style={{ height: 15 }}>
+              <Text style={styles.lblProductWeight}>
+                {item?.is_variation && item?.is_color && item?.is_size
+                  ? `${item?.size?.value}-${item?.color?.name}`
+                  : item?.is_variation && item?.is_color
+                  ? item?.color?.name
+                  : item?.is_variation && item?.is_size
+                  ? item?.size?.value
+                  : item?.is_variation
+                  ? item?.weight
+                  : ""}
+              </Text>
             </View>
 
             <View style={styles.vwPriceRating}>
-              <Text style={styles.lblProductFinalPrice}>
-                {rupeeSymbol + item?.price}
-              </Text>
-              {/* <Text style={styles.lblProductPrice}>
+              <View style={styles.vwPrice}>
+                <Text style={styles.lblProductFinalPrice}>
                   {rupeeSymbol + item?.originalPrice}
-                </Text> */}
-
+                </Text>
+                {item?.originalPrice !== item?.price &&
+                  item?.price !== null &&
+                  item?.price !== "NaN" &&
+                  item?.price !== "0.00" && (
+                    <Text style={styles.lblProductPrice}>
+                      {rupeeSymbol + item?.price}
+                    </Text>
+                  )}
+              </View>
               <View style={styles.vwRating}>
                 <Image
                   style={styles.imgStar}
@@ -430,7 +439,7 @@ const MyWishlistComponent = (props: PropsType) => {
           }}
           columnWrapperStyle={{
             justifyContent: "space-between",
-            marginBottom: 19,
+            marginBottom: 9,
           }}
           showsVerticalScrollIndicator={false}
           bounces={false}

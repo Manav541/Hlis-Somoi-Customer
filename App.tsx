@@ -37,7 +37,7 @@ const App = () => {
 
       return () => clearTimeout(timeout);
     }
-    PlatformVersion.isAndroid && requestUserForNotificationPermission();
+    requestUserForNotificationPermission();
   }, [initialRoute]);
 
   // For Navigation

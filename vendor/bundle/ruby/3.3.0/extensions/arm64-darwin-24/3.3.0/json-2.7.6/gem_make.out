@@ -1,0 +1,21 @@
+current directory: /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/vendor/bundle/ruby/3.3.0/gems/json-2.7.6/ext/json/ext/parser
+/Users/hyperlink/.rbenv/versions/3.3.4/bin/ruby extconf.rb
+checking for rb_enc_raise() in ruby.h... yes
+checking for rb_enc_interned_str() in ruby.h... yes
+checking for whether -std=c99 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/vendor/bundle/ruby/3.3.0/gems/json-2.7.6/ext/json/ext/parser
+make DESTDIR\= sitearchdir\=./.gem.20250813-86037-j7l3uy sitelibdir\=./.gem.20250813-86037-j7l3uy clean
+
+current directory: /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/vendor/bundle/ruby/3.3.0/gems/json-2.7.6/ext/json/ext/parser
+make DESTDIR\= sitearchdir\=./.gem.20250813-86037-j7l3uy sitelibdir\=./.gem.20250813-86037-j7l3uy
+compiling parser.c
+linking shared-object json/ext/parser.bundle
+
+current directory: /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/vendor/bundle/ruby/3.3.0/gems/json-2.7.6/ext/json/ext/parser
+make DESTDIR\= sitearchdir\=./.gem.20250813-86037-j7l3uy sitelibdir\=./.gem.20250813-86037-j7l3uy install
+/usr/bin/install -c -m 0755 parser.bundle ./.gem.20250813-86037-j7l3uy/json/ext
+
+current directory: /Users/hyperlink/Desktop/Himani/Somoi/V.0.1/Source/somoi-app/vendor/bundle/ruby/3.3.0/gems/json-2.7.6/ext/json/ext/parser
+make DESTDIR\= sitearchdir\=./.gem.20250813-86037-j7l3uy sitelibdir\=./.gem.20250813-86037-j7l3uy clean

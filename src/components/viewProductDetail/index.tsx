@@ -73,7 +73,7 @@ interface PropsType {
   navigateFromCompareProduct: boolean;
   showMore: boolean;
   toggleShowMore: () => void;
-  showMoreReview:{ [reviewId: string]: boolean };
+  showMoreReview: { [reviewId: string]: boolean };
   toggleShowMoreReview: (reviewId: string) => void;
 }
 
@@ -162,7 +162,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
         <FastImage
           style={styles.imgSimilarProduct}
           source={{ uri: item?.image }}
+          resizeMode={"cover"}
         />
+
         <View style={styles.vwPriceWeight}>
           <Text
             style={{
@@ -170,8 +172,17 @@ const ViewProductDetailComponent = (props: PropsType) => {
               color: colors.blue4e,
             }}
           >
-            {rupeeSymbol + parseInt(item?.price).toFixed()}
+            {rupeeSymbol + item?.original_price}
           </Text>
+          {item?.original_price !== item?.price &&
+            item?.price !== null &&
+            item?.price !== "NaN" &&
+            item?.price !== "0.00" && (
+              <Text style={styles.lblProductPrice}>
+                {rupeeSymbol + item?.price}
+              </Text>
+            )}
+
           <Text style={styles.lblProductWeight1}>{item?.weight}</Text>
         </View>
       </TouchableOpacity>
@@ -231,7 +242,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
         <View style={{ marginTop: 10 }}>
           <Text
             style={styles.lblReviewDesc}
-            numberOfLines={props?.showMoreReview[item.rating_id] ? undefined : 3}
+            numberOfLines={
+              props?.showMoreReview[item.rating_id] ? undefined : 3
+            }
           >
             {item?.comment}
           </Text>
@@ -248,7 +261,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
                   fontFamily: fontsfamily.medium,
                 }}
               >
-                {props?.showMoreReview[item.rating_id] ? "Read Less" : "Read More"}
+                {props?.showMoreReview[item.rating_id]
+                  ? "Read Less"
+                  : "Read More"}
               </Text>
             </TouchableOpacity>
           )}
@@ -258,7 +273,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
           data={item?.media}
           horizontal
           bounces={false}
-          contentContainerStyle={{ gap: 20,marginTop : 10 }}
+          contentContainerStyle={{ gap: 20, marginTop: 10 }}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item: itemMedia, index }) => (
             <>
@@ -379,7 +394,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
                   <Image
                     style={styles.imgProduct_imgMainF}
                     source={{ uri: item.image }}
-                    resizeMode={"stretch"}
+                    resizeMode={"cover"}
                   />
                 );
               }}
@@ -414,9 +429,9 @@ const ViewProductDetailComponent = (props: PropsType) => {
           </Text>
 
           {/* Product Weight */}
-          {props?.productDetails?.product_weight && (
+          {props?.productDetails?.weight && (
             <Text style={styles.lblProductWeight}>
-              {props?.productDetails?.product_weight}
+              {props?.productDetails?.weight}
             </Text>
           )}
 
@@ -449,11 +464,17 @@ const ViewProductDetailComponent = (props: PropsType) => {
           {/* Product Price */}
           <View style={styles.vwProductPrice}>
             <Text style={styles.lblProdcuctFinalPrice}>
-              {rupeeSymbol + props?.productDetails?.price}
-            </Text>
-            {/* <Text style={styles.lblProductPrice}>
               {rupeeSymbol + props?.productDetails?.original_price}
-            </Text> */}
+            </Text>
+            {props?.productDetails?.original_price !==
+              props?.productDetails?.price &&
+              props?.productDetails?.price !== null &&
+              props?.productDetails?.price !== "NaN" &&
+              props?.productDetails?.price !== "0.00" && (
+                <Text style={styles.lblProductPrice}>
+                  {rupeeSymbol + props?.productDetails?.price}
+                </Text>
+              )}
           </View>
 
           {/* Prodcut distance time */}
@@ -578,13 +599,23 @@ const ViewProductDetailComponent = (props: PropsType) => {
               {props?.productDetails?.description}
             </Text>
 
-            {props?.productDetails?.description && (
-              <TouchableOpacity activeOpacity={activityOpacity} hitSlop={hitSlop} onPress={props?.toggleShowMore}>
-                <Text style={{...styles.lblProductDesc,fontFamily:fontsfamily.medium}}>
-                  {props?.showMore ? "Read Less" : "Read More"}
-                </Text>
-              </TouchableOpacity>
-            )}
+            {props?.productDetails?.description &&
+              props?.productDetails?.description?.length > 150 && (
+                <TouchableOpacity
+                  activeOpacity={activityOpacity}
+                  hitSlop={hitSlop}
+                  onPress={props?.toggleShowMore}
+                >
+                  <Text
+                    style={{
+                      ...styles.lblProductDesc,
+                      fontFamily: fontsfamily.medium,
+                    }}
+                  >
+                    {props?.showMore ? "Read Less" : "Read More"}
+                  </Text>
+                </TouchableOpacity>
+              )}
           </View>
 
           {/* Reviews */}

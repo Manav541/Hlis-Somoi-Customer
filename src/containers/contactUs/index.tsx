@@ -22,16 +22,21 @@ const ContactUsContainer = ({ navigation }: any) => {
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [mobileNumber, setMobileNumber] = useState<string>("");
+  const [countryCode, setCountryCode] = useState<string>("+91");
   const [subject, setSubject] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
   const nameRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
+  const mobileNumberRef = useRef<TextInput>(null);
   const subjectRef = useRef<TextInput>(null);
   const descriptionRef = useRef<TextInput>(null);
 
   const [isNameFocused, setIsNameFocused] = useState<boolean>(false);
   const [isEmailFocused, setIsEmailFocused] = useState<boolean>(false);
+  const [isMobileNumberFocused, setIsMobileNumberFocused] =
+    useState<boolean>(false);
   const [isSubjectFocused, setIsSubjectFocused] = useState<boolean>(false);
   const [isDescriptionFocused, setIsDescriptionFocused] =
     useState<boolean>(false);
@@ -54,6 +59,7 @@ const ContactUsContainer = ({ navigation }: any) => {
       // Reset focus states
       setIsNameFocused(false);
       setIsEmailFocused(false);
+      setIsMobileNumberFocused(false);
       setIsSubjectFocused(false);
       setIsDescriptionFocused(false);
 
@@ -71,6 +77,8 @@ const ContactUsContainer = ({ navigation }: any) => {
     if (type === "name") {
       emailRef?.current?.focus();
     } else if (type === "email") {
+      mobileNumberRef?.current?.focus();
+    } else if (type === "mobileNumber") {
       subjectRef?.current?.focus();
     } else if (type === "subject") {
       descriptionRef?.current?.focus();
@@ -84,6 +92,9 @@ const ContactUsContainer = ({ navigation }: any) => {
       }
     } else if (type === "email") {
       setEmail(text.replace(/\s/g, ""));
+    } else if (type === "mobileNumber") {
+      const onlyDigits = text.replace(/[^0-9]/g, "");
+      setMobileNumber(onlyDigits);
     } else if (type === "subject") {
       setSubject(text);
     } else if (type === "description") {
@@ -96,6 +107,8 @@ const ContactUsContainer = ({ navigation }: any) => {
       setIsNameFocused(true);
     } else if (type === "email") {
       setIsEmailFocused(true);
+    } else if (type === "mobileNumber") {
+      setIsMobileNumberFocused(true);
     } else if (type === "subject") {
       setIsSubjectFocused(true);
     } else if (type === "description") {
@@ -108,6 +121,8 @@ const ContactUsContainer = ({ navigation }: any) => {
       setIsNameFocused(false);
     } else if (type === "email") {
       setIsEmailFocused(false);
+    } else if (type === "mobileNumber") {
+      setIsMobileNumberFocused(false);
     } else if (type === "subject") {
       setIsSubjectFocused(false);
     } else if (type === "description") {
@@ -122,6 +137,10 @@ const ContactUsContainer = ({ navigation }: any) => {
       flashMessageWarning(getTranslation("emptyEmailCU"));
     } else if (!regex.email.test(email)) {
       flashMessageWarning(getTranslation("invalidEmail"));
+    } else if (mobileNumber.trim() === "") {
+      flashMessageWarning(getTranslation("emptyMobileNumber"));
+    } else if (!regex.mobile.test(mobileNumber)) {
+      flashMessageWarning(getTranslation("invalidMobileNumber"));
     } else if (subject.trim() === "") {
       flashMessageWarning(getTranslation("emptySubjectCU"));
     } else if (description.trim() === "") {
@@ -135,6 +154,8 @@ const ContactUsContainer = ({ navigation }: any) => {
     const dictData: ConatctUsResponse = {
       name: name,
       email: email,
+      country_code: countryCode,
+      mobile_number: mobileNumber,
       subject: subject,
       description: description,
     };
@@ -146,6 +167,7 @@ const ContactUsContainer = ({ navigation }: any) => {
           flashMessageSucess(response.message);
           setName("");
           setEmail("");
+          setMobileNumber("");
           setSubject("");
           setDescription("");
           setIsNameFocused(false);
@@ -154,6 +176,7 @@ const ContactUsContainer = ({ navigation }: any) => {
           setIsDescriptionFocused(false);
           nameRef.current?.blur();
           emailRef.current?.blur();
+          mobileNumberRef.current?.blur();
           subjectRef.current?.blur();
           navigation.goBack();
         } else if (response.code === statusCodes.invaildOrFail) {
@@ -191,15 +214,18 @@ const ContactUsContainer = ({ navigation }: any) => {
     <ContactUsComponent
       name={name}
       email={email}
+      mobileNumber={mobileNumber}
       subject={subject}
       description={description}
       nameRef={nameRef}
       emailRef={emailRef}
+      mobileNumberRef={mobileNumberRef}
       subjectRef={subjectRef}
       descriptionRef={descriptionRef}
       isNameFocused={isNameFocused}
       isEmailFocused={isEmailFocused}
-      isSubjectFocused={isSubjectFocused}
+      isMobileNumberFocused={isMobileNumberFocused}
+      isSubjectFocused={isSubjectFocused}                     
       isDescriptionFocused={isDescriptionFocused}
       handleOnChangeText={handleOnChangeText}
       handleOnSubmit={handleOnSubmit}

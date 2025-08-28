@@ -10,11 +10,13 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.blue4e,
   },
   vwMyWishlistItem: {
-    height: 241,
+    height: 303,
     borderRadius: 20,
+    overflow: "hidden",
   },
   vwProductImgLike: {
-    height: 112,
+    // height: 112,
+    flex: 1,
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
     overflow: "hidden",
@@ -23,21 +25,22 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   vwProductDetails: {
-    flex: 1,
+    // flex: 1,
     marginHorizontal: 7,
     marginTop: 6,
     marginBottom: 7,
+    justifyContent: "space-between",
   },
   vwPriceRating: {
-    height: 17,
+    // height: 17,
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 7,
   },
   vwPrice: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
+    // flexDirection: "row",
+    // alignItems: "center",
+    // gap: 6,
   },
   vwProductRating: {
     flexDirection: "row",
@@ -92,10 +95,11 @@ export const styles = StyleSheet.create({
 
   //   TouchableOpacity Styles
   btnMyWishlistItem: {
-    height: 207,
+    height: 270,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: colors.white,
+    overflow: "hidden",
   },
   btnAddToCart: {
     height: 34,

@@ -279,7 +279,6 @@ export interface Product {
     code: string;
     image: string;
   };
-
   size?: {
     size_id: string;
     name: string;
@@ -339,7 +338,7 @@ export interface ProductData {
   price: string;
   original_price: string;
   variation_id: string;
-  product_weight: string;
+  weight: string;
   distance: string;
   estimated_delivery_time: string;
   variations: (GroceryProductVariation | SizeVariation | ColorVariation)[];
@@ -456,7 +455,8 @@ export interface ProductRestaurant {
   id: string;
   name: string;
   category_id: string;
-  price: number;
+  price: string;
+  original_price: string;
   rating: string;
   image: string;
   is_added_to_cart: boolean;
@@ -484,6 +484,7 @@ export interface FoodProductVariation {
   variation_id: string;
   product_id: string;
   price: string;
+  original_price: string;
   quantity: number;
   unit_id: string;
   unit: string;
@@ -529,6 +530,7 @@ export interface ComapareProductData {
   is_variation: boolean;
   image: string;
   rating: string;
+  original_price: string;
   price: string;
   color_id: string;
   size_id: string;
@@ -545,6 +547,7 @@ export interface SimilarCompareProductData {
   is_variation: boolean;
   image: string;
   rating: string;
+  original_price: string;
   price: string;
   weight?: string;
   color_id: string;
@@ -964,6 +967,8 @@ export interface editProfileResponse {
 export interface ConatctUsResponse {
   name: string;
   email: string;
+  country_code: string;
+  mobile_number: string;
   subject: string;
   description: string;
 }

@@ -47,8 +47,12 @@ const MyWishlistContainer = ({ navigation }: any) => {
 
   const [search, setSearch] = useState<string>("");
   const [selectedTab, setSelectedTab] = useState<string>("Product");
-  const [arrMyWhislistProduct, setArrMyWishlistProduct] = useState<Product[]>([]);
-  const [arrMyWhislistStore, setArrMyWishlistStore] = useState<Restaurant[]>([]);
+  const [arrMyWhislistProduct, setArrMyWishlistProduct] = useState<Product[]>(
+    []
+  );
+  const [arrMyWhislistStore, setArrMyWishlistStore] = useState<Restaurant[]>(
+    []
+  );
   // Pagination state
   const [wishlistPageNumber, setWishlistPageNumber] = useState<number>(1);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
@@ -246,7 +250,14 @@ const MyWishlistContainer = ({ navigation }: any) => {
       const nextPage = wishlistPageNumber + 1;
       handleMyWhilistApi(search, selectedTab, nextPage, true);
     }
-  }, [hasMoreData, isLoadingMore, wishlistPageNumber, search, selectedTab, handleMyWhilistApi]);
+  }, [
+    hasMoreData,
+    isLoadingMore,
+    wishlistPageNumber,
+    search,
+    selectedTab,
+    handleMyWhilistApi,
+  ]);
 
   // API call handlers
   const handleWishlistProductApi = async (
@@ -317,6 +328,8 @@ const MyWishlistContainer = ({ navigation }: any) => {
         setArrMyWishlistProduct(updated);
         incrementCartItemCount(1);
       } else if (response?.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
+      } else if (response.code === statusCodes.emptyData) {
         flashMessageWarning(response.message);
       }
     } catch (error) {
