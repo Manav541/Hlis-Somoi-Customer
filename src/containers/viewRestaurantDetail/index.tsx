@@ -69,6 +69,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
   const customer_longitude = itemData?.customer_longitude;
   const [isSharing, setIsSharing] = useState<boolean>(true);
   const [foodData, setFoodData] = useState<RestaurantDetailResponse>();
+  const [storeName, setStoreName] = useState<string>("");
   const [arrSubCategoryType, setArrSubCategoryType] = useState<Category[]>([]);
   const [arrSubCategoryFoodData, setArrSubCategoryFoodData] = useState<
     ProductRestaurant[]
@@ -123,6 +124,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     if (isGuestUser) {
       showConfirmForGuest(() => {
         navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
     } else {
       const currentItem = arrSubCategoryFoodData[index];
@@ -183,6 +185,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     if (isGuestUser) {
       showConfirmForGuest(() => {
         navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
     } else {
       handleWishlistProductApi(product_id, index);
@@ -210,30 +213,55 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
     });
   };
 
-  const onPressShare = async () => {
-    if (!isSharing) return;
-
-    setIsSharing(false);
-    try {
-      const result = await Share.share({
-        message: `${appName} App`,
+  const onShareStore = async (vendorId: string, storeName: string) => {
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error: any) {
-      Alert.alert(error.message);
-    }
+    } else {
+      try {
+        let universalLink = `https://devweb.somoi.in/store-details`;
+        const params = new URLSearchParams();
 
-    setTimeout(() => {
-      setIsSharing(true);
-    }, 1000);
+        params.append("vendor_id", vendorId);
+
+        universalLink += `?${params.toString()}`;
+        console.log("universalLink", universalLink);
+
+        const result = await Share.share({
+          message: `Check out this store "${storeName}" on ${appName}:\n${universalLink}`,
+          url: universalLink,
+          title: `${storeName} - ${appName}`,
+        });
+
+        if (result.action === Share.sharedAction) {
+          console.log("Store shared successfully!");
+        } else if (result.action === Share.dismissedAction) {
+          console.log("Share dismissed.");
+        }
+      } catch (error: any) {
+        console.error("Error sharing store:", error.message);
+      }
+    }
+  };
+
+  const onPressShare = async () => {
+    try {
+      // const universalLink = `https://yourapp.com/product/${productId}`;
+      // const result = await Share.share({
+      //   message: `Check out this product "${productName}" on ${appName}:\n${universalLink}`,
+      //   url: universalLink, // For iOS, some apps use this
+      //   title: `${productName} - ${appName}`,
+      // });
+      // if (result.action === Share.sharedAction) {
+      //   console.log("Product shared successfully!");
+      // } else if (result.action === Share.dismissedAction) {
+      //   console.log("Share dismissed.");
+      // }
+    } catch (error: any) {
+      console.error("Error sharing product:", error.message);
+    }
   };
 
   const onPressCartIcon = useCallback(() => {
@@ -292,7 +320,8 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
         if (response.code === statusCodes.success) {
           const foodData = response.data as RestaurantDetailResponse;
           setFoodData(foodData);
-
+          console.log("STORE name===>", foodData?.restaurant?.name);
+          setStoreName(foodData?.restaurant?.name);
           const subArrFood = foodData?.products as ProductRestaurant[];
           setArrSubCategoryFoodData(subArrFood);
 
@@ -619,7 +648,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
           <TouchableOpacity
             activeOpacity={activityOpacity}
             hitSlop={hitSlop}
-            onPress={onPressShare}
+            onPress={() => onShareStore(vendor_id, storeName)}
           >
             <Image
               style={styles.imgButton}
@@ -651,7 +680,7 @@ const ViewRestaurantDetailContainer = ({ navigation, route }: any) => {
 
   useEffect(() => {
     header();
-  }, [cartItemTotal]);
+  }, [cartItemTotal,vendor_id,storeName]);
 
   return (
     <>

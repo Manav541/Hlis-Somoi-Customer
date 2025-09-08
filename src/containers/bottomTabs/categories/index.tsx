@@ -53,6 +53,7 @@ const CategoriesContainer = ({ navigation }: any) => {
     if (isGuestUser) {
       showConfirmForGuest(() => {
         navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
     } else {
       navigation.navigate(ScreenNames.manageAddress, {

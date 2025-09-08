@@ -54,6 +54,12 @@ interface PropsType {
   onPressEditReview: (prodcutDetail: OrderItem) => void;
   onPressDeleteReview: (rating_id: string) => void;
   onPressReportIssue: () => void;
+  refundDate: string;
+  isRefunded: boolean;
+  refundStatus: string;
+  refundFailedDate: string;
+  isRefundFailed: boolean;
+  refundFailedStatus: string;
   isRefreshing: boolean;
   onRefresh: () => void;
   showMore: boolean;
@@ -314,6 +320,11 @@ const OrderSummaryComponent = (props: PropsType) => {
                       : props?.orderDetails?.reject_reason}
                   </Text>
                 </View>
+                {!props?.isRefunded && !props?.isRefundFailed && (
+                  <Text style={styles.lblRefundDesc}>
+                    {getTranslation("refundDesc")}
+                  </Text>
+                )}
               </View>
             </View>
           ) : (
@@ -333,15 +344,108 @@ const OrderSummaryComponent = (props: PropsType) => {
                     <Text style={styles.lblReportIssueDesc}>
                       {props?.orderDetails?.return_reason}
                     </Text>
-                    <Text style={styles.lblRefundDesc}>
-                      {getTranslation("refundDesc")}
-                    </Text>
+                    {!props?.isRefunded && !props?.isRefundFailed && (
+                      <Text style={styles.lblRefundDesc}>
+                        {getTranslation("refundDesc")}
+                      </Text>
+                    )}
                   </View>
                 </View>
               )}
             </View>
           )}
         </View>
+
+        {/* Refund Success View */}
+        {props?.isRefunded &&
+          (props?.orderDetails?.status === "Order Cancelled" ||
+            props?.orderDetails?.status === "Order Rejected" ||
+            props?.orderDetails?.status === "Order Returned") && (
+            <View style={{ ...styles.vwCancelledOrder, marginHorizontal: 20 }}>
+              <Image
+                style={styles.imgCancel}
+                source={images.refundSuccess}
+                resizeMode="stretch"
+              />
+              <View style={{ gap: 5, flex: 1 }}>
+                <Text style={{ ...styles.lblReportIssueQue, marginBottom: 0 }}>
+                  {props?.refundStatus}
+                </Text>
+                <Text style={styles.lblOrderStatusDate}>
+                  <Text>{"On "}</Text>
+                  <Text>
+                    {DateFormatsManager.formatDate(
+                      props?.refundDate,
+                      DateFormatsManager.DateFormats.ddMMMYYYY
+                    )}
+                  </Text>
+                </Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.lblReportIssueDesc}>
+                    <Text
+                      style={{
+                        ...styles.lblReportIssueDesc,
+                        fontFamily: fontsfamily.semibold,
+                      }}
+                    >
+                      Refund Id:{" "}
+                    </Text>
+                    {props?.orderDetails?.razorpay_refund_id}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          )}
+
+        {/* Refund Failed View */}
+        {props?.isRefundFailed &&
+          (props?.orderDetails?.status === "Order Cancelled" ||
+            props?.orderDetails?.status === "Order Rejected" ||
+            props?.orderDetails?.status === "Order Returned") && (
+            <View style={{ ...styles.vwCancelledOrder, marginHorizontal: 20 }}>
+              <Image
+                style={styles.imgCancel}
+                source={images.refundFail}
+                resizeMode="stretch"
+              />
+              <View style={{ gap: 5, flex: 1 }}>
+                <Text style={{ ...styles.lblReportIssueQue, marginBottom: 0 }}>
+                  {props?.refundFailedStatus}
+                </Text>
+                <Text style={styles.lblOrderStatusDate}>
+                  <Text>{"On "}</Text>
+                  <Text>
+                    {DateFormatsManager.formatDate(
+                      props?.refundFailedDate,
+                      DateFormatsManager.DateFormats.ddMMMYYYY
+                    )}
+                  </Text>
+                </Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.lblReportIssueDesc}>
+                    <Text
+                      style={{
+                        ...styles.lblReportIssueDesc,
+                        fontFamily: fontsfamily.semibold,
+                      }}
+                    >
+                      Payment Id:{" "}
+                    </Text>
+                    {props?.orderDetails?.razorpay_payment_id}
+                  </Text>
+                  <Text
+                    style={{
+                      ...styles.lblReportIssueDesc,
+                      marginRight: 30,
+                      marginTop: 5,
+                    }}
+                  >
+                    {getTranslation("refundfailDesc")}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          )}
 
         <View style={styles.vwLine} />
 
@@ -367,7 +471,11 @@ const OrderSummaryComponent = (props: PropsType) => {
         <Text style={styles.lblDelivertoName}>
           <Text>{getTranslation("deliverto")}</Text>
           <Text> </Text>
-          <Text>{props?.orderDetails?.delivery_details?.name}</Text>
+          <Text>
+            {props?.orderDetails?.delivery_details?.name == null
+              ? ""
+              : props?.orderDetails?.delivery_details?.name}
+          </Text>
         </Text>
         <Text style={styles.lblDelivertoAddress}>
           {props?.orderDetails?.delivery_details?.address}

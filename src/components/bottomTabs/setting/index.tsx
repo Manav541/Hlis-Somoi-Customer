@@ -87,13 +87,13 @@ const SettingComponent = (props: PropsType) => {
               <FastImage
                 style={
                   !props?.isGuestUser &&
-                  props?.profileImage != props?.baseImagePath
+                  props?.profileImage != null
                     ? styles.imgPrfileImage
                     : styles.imgProfileIcon
                 }
                 source={
                   !props?.isGuestUser &&
-                  props?.profileImage != props?.baseImagePath
+                  props?.profileImage != null
                     ? { uri: props.profileImage }
                     : images.profileBigIcon
                 }
@@ -101,7 +101,7 @@ const SettingComponent = (props: PropsType) => {
             </View>
             <View style={styles.vwHelloName}>
               <Text style={styles.lblHello}>{getTranslation("hello")}</Text>
-              <Text style={styles.lblName}>{props?.name}</Text>
+              <Text style={styles.lblName}>{props?.name? props?.name : 'User'}</Text>
             </View>
           </View>
 

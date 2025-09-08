@@ -179,6 +179,8 @@ export const images = {
   closeImage: require("../assets/images/closeImage.png"),
   dummyImg: require("../assets/images/dummyImg.png"),
   returnIcon: require("../assets/images/returnIcon.png"),
+  refundSuccess: require("../assets/images/refundSuccess.png"),
+  refundFail: require("../assets/images/refundFail.png"),
   delete1: require("../assets/images/delete1.png"),
 
   // Tracking Order

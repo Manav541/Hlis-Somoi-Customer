@@ -44,6 +44,12 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
   );
   const [cancelledDate, setCancelledDate] = useState<string>("");
   const [rejectedDate, setRejectedDate] = useState<string>("");
+  const [refundDate, setRefundDate] = useState<string>("");
+  const [isRefunded, setIsRefunded] = useState<boolean>(false);
+  const [refundStatus, setRefundStatus] = useState<string>("");
+  const [refundFailedDate, setRefundFailedDate] = useState<string>("");
+  const [isRefundFailed, setIsRefundFailed] = useState<boolean>(false);
+  const [refundFailedStatus, setRefundFailedStatus] = useState<string>("");
 
   const defaultOrderStatus: StatusTimeline[] = [
     {
@@ -293,6 +299,34 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
             setRejectedDate(rejectedDate);
           }
 
+          // ✅ Extract "Order Refund Processed" created_at time
+          const refundStatus = rawData.status_timeline.find(
+            (item) => item.status === "Order Refund Processed"
+          );
+
+          if (refundStatus) {
+            const refundDate = refundStatus.created_at;
+            console.log("Refund Date:", refundDate);
+            setIsRefunded(true);
+            // 💡 Optionally store it in a state variable
+            setRefundDate(refundDate);
+            setRefundStatus(refundStatus.status);
+          }
+
+           // ✅ Extract "Order Refund Processed" created_at time
+          const refundFailedStatus = rawData.status_timeline.find(
+            (item) => item.status === "Order Refund Failed"
+          );
+
+          if (refundFailedStatus) {
+            const refundFailedDate = refundFailedStatus.created_at;
+            console.log("Refund failed Date:", refundFailedDate);
+            setIsRefundFailed(true);
+            // 💡 Optionally store it in a state variable
+            setRefundFailedDate(refundFailedDate);
+            setRefundFailedStatus(refundFailedStatus.status);
+          }
+
           // ✅ Map backend status to UI status
           const mappedTimeline = rawData.status_timeline.map((item) => ({
             ...item,
@@ -404,6 +438,8 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
     EmitterTypes.ORDER_RETURN_REQUESTED,
     EmitterTypes.ORDER_RETURN_ACCEPTED,
     EmitterTypes.ORDER_RETURNED,
+    EmitterTypes.REFUND_PAYMENT,
+    EmitterTypes.REFUND_FAILED,
     EmitterTypes.DELIVERY_PERSON_NOT_AVAILABLE,
   ];
   useFocusEffect(
@@ -459,6 +495,12 @@ const OrderSummaryContainer = ({ navigation, route }: any) => {
           onPressEditReview={onPressEditReview}
           onPressDeleteReview={onPressDeleteReview}
           onPressReportIssue={onPressReportIssue}
+          refundDate={refundDate}
+          isRefunded={isRefunded}
+          refundStatus={refundStatus}
+          refundFailedDate={refundFailedDate}
+          isRefundFailed={isRefundFailed}
+          refundFailedStatus={refundFailedStatus}
           isRefreshing={isRefreshing}
           onRefresh={onRefresh}
           showMore={showMore}

@@ -258,7 +258,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
               <Text
                 style={{
                   ...styles.lblReviewDesc,
-                  fontFamily: fontsfamily.medium,
+                  fontFamily: fontsfamily.bold,
                 }}
               >
                 {props?.showMoreReview[item.rating_id]
@@ -609,7 +609,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
                   <Text
                     style={{
                       ...styles.lblProductDesc,
-                      fontFamily: fontsfamily.medium,
+                      fontFamily: fontsfamily.bold,
                     }}
                   >
                     {props?.showMore ? "Read Less" : "Read More"}
@@ -703,7 +703,7 @@ const ViewProductDetailComponent = (props: PropsType) => {
               }
             />
           </TouchableOpacity>
-          {props?.productDetails?.cart?.quantity === 0 ? (
+          {Number(props?.productDetails?.cart?.quantity) === 0 ? (
             <GlobalButton
               isOrange
               title={getTranslation("buyNow")}
@@ -719,9 +719,11 @@ const ViewProductDetailComponent = (props: PropsType) => {
               >
                 <Image style={styles.imgAddMinus} source={images.minus} />
               </TouchableOpacity>
+
               <Text style={styles.lblProductQuantity}>
-                {props?.productDetails?.cart?.quantity}
+                {Number(props?.productDetails?.cart?.quantity)}
               </Text>
+
               <TouchableOpacity
                 onPress={() => props.onPressBuyNow("add")}
                 hitSlop={hitSlop}

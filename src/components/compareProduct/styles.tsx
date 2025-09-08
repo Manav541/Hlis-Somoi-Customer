@@ -46,9 +46,9 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.bold,
   },
   lblProductPrice: {
-    color: colors.greya7,
+    color: colors.grey76,
     fontSize: fontSize.size10,
-    fontFamily: fontsfamily.regular,
+    fontFamily: fontsfamily.bold,
     textDecorationLine: "line-through",
   },
   lblProductDesc: {

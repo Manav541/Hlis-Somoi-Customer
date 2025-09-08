@@ -76,7 +76,7 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
   const driverProfileImage = routeData?.driverProfileImage;
   const driverName = routeData?.driverName;
   const customer_id = routeData?.customer_id;
-  const customerName = routeData?.customerName;
+  const customerName = routeData?.customerName || '';
   const customerAddress = routeData?.customerAddress;
   const customerLatitude = routeData?.customerLatitude;
   const customerLongitude = routeData?.customerLongitude;

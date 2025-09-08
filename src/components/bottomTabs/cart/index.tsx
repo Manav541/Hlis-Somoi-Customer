@@ -273,7 +273,9 @@ const CartComponent = (props: PropsType) => {
           {/* Delivert To Name */}
           <View style={styles.vwDelivertoChange}>
             <Text style={styles.lblDeliverToName}>
-              {getTranslation("deliverto1") + " " + props?.deliverToName}
+              {getTranslation("deliverto1") +
+                " " +
+                (props?.deliverToName == null ? "" : props?.deliverToName)}
             </Text>
             <TouchableOpacity
               activeOpacity={activityOpacity}

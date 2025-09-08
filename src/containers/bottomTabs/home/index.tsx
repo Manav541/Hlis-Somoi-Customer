@@ -78,6 +78,7 @@ const HomeContainer = ({ navigation }: any) => {
     if (isGuestUser) {
       showConfirmForGuest(() => {
         navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
     } else {
       navigation.navigate(ScreenNames.manageAddress, {
@@ -182,6 +183,7 @@ const HomeContainer = ({ navigation }: any) => {
     navigation.navigate(ScreenNames.notification);
   };
 
+  // ------------------------API Calling-----------------------------
   const handleMainCategoryListApi = async () => {
     if (hasLoadedMainCategories) return;
 

@@ -1,9 +1,9 @@
+import Firebase
+import GoogleMaps
 import React
 import ReactAppDependencyProvider
 import React_RCTAppDelegate
 import UIKit
-import GoogleMaps
-import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -57,6 +57,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return true
   }
 }
+
+// Universal Link start
+func application(
+  _ app: UIApplication,
+  open url: URL,
+  options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+) -> Bool {
+  return RCTLinkingManager.application(app, open: url, options: options)
+}
+
+func application(
+  _ application: UIApplication,
+  continue userActivity: NSUserActivity,
+  restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
+) -> Bool {
+  return RCTLinkingManager.application(
+    application,
+    continue: userActivity,
+    restorationHandler: restorationHandler)
+}
+// Universal Link end
 
 class ReactNativeDelegate: RCTDefaultReactNativeFactoryDelegate {
   override func sourceURL(for bridge: RCTBridge) -> URL? {

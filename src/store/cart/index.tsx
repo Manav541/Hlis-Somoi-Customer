@@ -18,6 +18,7 @@ interface Store {
     dictData: object,
     navigation: any
   ) => Promise<APIResponseType>;
+  getCODStatus: (dictData: object, navigation: any) => Promise<APIResponseType>;
 }
 
 const CartStore = create<Store>((set) => ({
@@ -144,6 +145,32 @@ const CartStore = create<Store>((set) => ({
 
       APIManager.postServerRequestWithToken({
         apiEndPoint: apiEndPoint.createOrderId,
+        callback: callback,
+        dictData: dictData,
+        navigation: navigation,
+      });
+    });
+  },
+
+  getCODStatus(dictData, navigation) {
+    return new Promise<APIResponseType>((resolve, reject) => {
+      const callback = (
+        data: APIResponseType | null,
+        error: { message: string } | null
+      ) => {
+        if (error) {
+          console.warn("API error===>", error);
+          reject(error.message || "An error occurred");
+          return;
+        } else {
+          if (data) {
+            resolve(data);
+          }
+        }
+      };
+
+      APIManager.postServerRequestWithToken({
+        apiEndPoint: apiEndPoint.getCODStatus,
         callback: callback,
         dictData: dictData,
         navigation: navigation,

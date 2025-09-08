@@ -18,6 +18,18 @@ import moment from "moment";
 
 export const appName = "Somoi";
 
+// s3 Bucket
+export const GlobalVar = {
+  region: "ap-south-1",
+  permissionAccess: "public-read-write",
+  // bucketName: "hlik-deep-bhaumik",
+  // url: "https://hlik-deep-bhaumik.s3.amazonaws.com/",
+
+  // Development
+  bucketName: "somoi-delivery-app-dev",
+  url: "https://somoi-delivery-app-dev.s3.ap-south-1.amazonaws.com/",
+};
+
 // Alert
 export const showAlert = (message: string) => {
   Alert.alert(appName, message);
@@ -114,15 +126,6 @@ export const flashMessageWarning = (message: string | null) => {
       fontSize: fontSize.size16,
     },
   });
-};
-
-// s3 Bucket
-export const GlobalVar = {
-  region: "ap-south-1",
-  permissionAccess: "public-read-write",
-  bucketName: "hlik-deep-bhaumik",
-  // url: "https://hlik-deep-bhaumik.s3.amazonaws.com/",
-  url: "https://hlik-deep-bhaumik.s3.amazonaws.com/",
 };
 
 // Loader
@@ -288,6 +291,10 @@ export const NotificationTypes = {
   ORDER_RETURN_ACCEPTED: "ORDER_RETURN_ACCEPTED",
   ORDER_RETURNED: "ORDER_RETURNED",
   DELIVERY_PERSON_NOT_AVAILABLE: "DELIVERY_PERSON_NOT_AVAILABLE",
+  PAYMENT_SUCCESSFUL:"PAYMENT_SUCCESSFUL",
+  PAYMENT_FAILED:"PAYMENT_FAILED",
+  REFUND_PAYMENT:"REFUND_PAYMENT",
+  REFUND_FAILED:"REFUND_FAILED",
   CHAT: "CHAT",
   NEW_CHAT_RECEIVED: "NEW_CHAT_RECEIVED",
 };
@@ -305,6 +312,10 @@ export const EmitterTypes = {
   ORDER_RETURN_REQUESTED: "ORDER_RETURN_REQUESTED",
   ORDER_RETURN_ACCEPTED: "ORDER_RETURN_ACCEPTED",
   ORDER_RETURNED: "ORDER_RETURNED",
+  PAYMENT_SUCCESSFUL:"PAYMENT_SUCCESSFUL",
+  PAYMENT_FAILED:"PAYMENT_FAILED",
+  REFUND_PAYMENT:"REFUND_PAYMENT",
+  REFUND_FAILED:"REFUND_FAILED",
   DELIVERY_PERSON_NOT_AVAILABLE: "DELIVERY_PERSON_NOT_AVAILABLE",
   CHAT: "CHAT",
 };
@@ -321,6 +332,7 @@ export const formatNotifications = (rawData: any[]): NotificationGroup[] => {
     const formattedTime = createdAt.format("hh:mm A");
 
     const notificationItem: NotificationData = {
+      id: item.id,
       title: item.title,
       desc: item.body,
       time: formattedTime,

@@ -31,6 +31,15 @@ const NotificationContainer = ({ navigation }: any) => {
   const [arrNotificationList, setArrNotificationList] = useState<
     NotificationGroup[]
   >([]);
+  const [showMoreNotification, setShowMoreNotification] = useState<{
+    [reviewId: string]: boolean;
+  }>({});
+  const toggleShowMoreNotification = (reviewId: string) => {
+    setShowMoreNotification((prev: any) => ({
+      ...prev,
+      [reviewId]: !prev[reviewId],
+    }));
+  };
 
   // Pagination state
   const [notificationListPageNumber, setNotificationListPageNumber] =
@@ -241,6 +250,8 @@ const NotificationContainer = ({ navigation }: any) => {
     <NotificationComponent
       arrNotificationList={arrNotificationList}
       onPressNotification={onPressNotification}
+      showMoreNotification={showMoreNotification}
+      toggleShowMoreNotification={toggleShowMoreNotification}
       // pagination
       loadMoreCategories={loadMoreCategories}
       canLoadMore={canLoadMore}

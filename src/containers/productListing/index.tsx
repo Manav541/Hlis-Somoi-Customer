@@ -197,6 +197,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     if (isGuestUser) {
       showConfirmForGuest(() => {
         navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
     } else {
       const currentItem = arrSubCategoryProduct[index];
@@ -252,6 +253,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     if (isGuestUser) {
       showConfirmForGuest(() => {
         navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
     } else {
       handleWishlistProductApi(product_id, variation_id, is_variation);
@@ -262,6 +264,7 @@ const ProductListingContainer = ({ navigation, route }: any) => {
     if (isGuestUser) {
       showConfirmForGuest(() => {
         navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
     } else {
       handleWishlistStoreApi(vendor_id, index);

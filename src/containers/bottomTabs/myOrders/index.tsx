@@ -72,6 +72,7 @@ const MyOrdersContainer = ({ navigation }: any) => {
     if (isGuestUser) {
       showConfirmForGuest(() => {
         navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
     } else {
       setFilterModal(true);
@@ -240,6 +241,8 @@ const MyOrdersContainer = ({ navigation }: any) => {
     EmitterTypes.ORDER_RETURN_REQUESTED,
     EmitterTypes.ORDER_RETURN_ACCEPTED,
     EmitterTypes.ORDER_RETURNED,
+    EmitterTypes.REFUND_PAYMENT,
+    EmitterTypes.REFUND_FAILED,
     EmitterTypes.DELIVERY_PERSON_NOT_AVAILABLE,
   ];
 

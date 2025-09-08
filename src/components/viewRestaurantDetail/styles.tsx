@@ -80,18 +80,19 @@ export const styles = StyleSheet.create({
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
     overflow: "hidden",
-    backgroundColor: colors.whiteff,
+    // backgroundColor: colors.whiteff,
     justifyContent: "center",
     alignItems: "center",
   },
   vwFoodDetails: {
-    marginHorizontal: 7,
-    marginTop: 6,
-    marginBottom: 11,
+    paddingHorizontal: 7,
+    paddingTop: 6,
+    paddingBottom: 11,
     justifyContent: "space-between",
+    backgroundColor: colors.white
   },
   vwPriceRating: {
-    height: 17,
+    // height: 17,
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 7,
@@ -203,9 +204,9 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.bold,
   },
   lblFoodPrice: {
-    color: colors.greya7,
+    color: colors.grey76,
     fontSize: fontSize.size12,
-    fontFamily: fontsfamily.regular,
+    fontFamily: fontsfamily.bold,
     textDecorationLine: "line-through",
   },
   lblFoodRating: {
@@ -230,9 +231,9 @@ export const styles = StyleSheet.create({
     fontFamily: fontsfamily.semibold,
   },
   lblProductPrice: {
-    color: colors.greya7,
+    color: colors.grey76,
     fontSize: fontSize.size18,
-    fontFamily: fontsfamily.regular,
+    fontFamily: fontsfamily.bold,
     textDecorationLine: "line-through",
   },
   lblProductWeight1: {
@@ -300,7 +301,7 @@ export const styles = StyleSheet.create({
     height: 260,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    backgroundColor: colors.white,
+    // backgroundColor: colors.white,
   },
   btnSubCategoryTitle: {
     paddingHorizontal: 15,
@@ -390,7 +391,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: 24,
+    // height: 24,
     marginTop: 24,
   },
   vwAdditionalInfo: {

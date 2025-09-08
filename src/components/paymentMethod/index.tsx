@@ -34,7 +34,7 @@ interface PropsType {
   onPressTrackOrder: () => void;
   onPressContinueShopping: () => void;
   payment_type: string;
-  isCodRestricted: boolean;
+  isCod: boolean;
 }
 
 const PaymentMethodComponent = (props: PropsType) => {
@@ -125,7 +125,7 @@ const PaymentMethodComponent = (props: PropsType) => {
         </TouchableOpacity>
 
         {/* cash on delivery */}
-        {!props?.isCodRestricted && (
+        {props?.isCod && (
           <TouchableOpacity
             style={styles.btnCOD}
             activeOpacity={activityOpacity}

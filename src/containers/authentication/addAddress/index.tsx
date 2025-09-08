@@ -204,8 +204,8 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       address: address,
       building_details: house,
       description: additionalDescription,
-      latitude: latitude,
-      longitude: longitude,
+      latitude: latitude.toString(),
+      longitude: longitude.toString(),
       is_default: isDefault,
       location_id: location_id,
     };

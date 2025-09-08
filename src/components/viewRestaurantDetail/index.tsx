@@ -64,6 +64,8 @@ interface PropsType {
 }
 
 const ViewRestaurantDetailComponent = (props: PropsType) => {
+  console.log("Selected food item => ", props?.selectedFoodItem);
+
   const insets = useSafeAreaInsets();
 
   const renderItemSubCategoryType = ({
@@ -132,7 +134,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
               source={{ uri: item?.image }}
               style={{
                 flex: 1,
-                aspectRatio: 1,
+                width: "100%",
               }}
               resizeMode={"cover"}
             />
@@ -159,8 +161,16 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
             </Text>
 
             <Text style={styles.lblFoodWeight}>
-              {item?.selected_variation?.amount +
-                item?.selected_variation?.unit}
+              {item?.is_variation && item?.is_color && item?.is_size
+                ? `${item?.selected_variation?.size_name}-${item?.selected_variation?.color_name}`
+                : item?.is_variation && item?.is_color
+                ? item?.selected_variation?.color_name
+                : item?.is_variation && item?.is_size
+                ? item?.selected_variation?.size_name
+                : item?.is_variation
+                ? item?.selected_variation?.amount +
+                  item?.selected_variation?.unit
+                : ""}
             </Text>
             {/* </View> */}
 
@@ -188,7 +198,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
           </View>
         </TouchableOpacity>
         {/* Add to cart */}
-        {item.quantity === 0 ? (
+        {Number(item.quantity) === 0 ? (
           <TouchableOpacity
             style={styles.btnAddToCart}
             activeOpacity={activityOpacity}
@@ -223,7 +233,9 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
             >
               <Image style={styles.imgAddMinus} source={images.minus} />
             </TouchableOpacity>
-            <Text style={styles.lblFoodQuantity}>{item.quantity}</Text>
+
+            <Text style={styles.lblFoodQuantity}>{Number(item.quantity)}</Text>
+
             <TouchableOpacity
               onPress={() =>
                 props.handleQuantityChange(
@@ -288,7 +300,19 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
             )}
 
           <Text style={styles.lblProductWeight1}>
-            {item?.amount + item?.unit}
+            {props?.selectedFoodItem?.is_variation &&
+            props?.selectedFoodItem?.is_color &&
+            props?.selectedFoodItem?.is_size
+              ? `${item?.size_name}-${item?.color_name}`
+              : props?.selectedFoodItem?.is_variation &&
+                props?.selectedFoodItem?.is_color
+              ? item?.color_name
+              : props?.selectedFoodItem?.is_variation &&
+                props?.selectedFoodItem?.is_size
+              ? item?.size_name
+              : props?.selectedFoodItem?.is_variation
+              ? item?.amount + item?.unit
+              : ""}
           </Text>
         </View>
       </TouchableOpacity>
@@ -489,8 +513,8 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
             onRequestClose={props?.handleCloseFoodModal}
           >
             <StatusBar
-              translucent
-              backgroundColor={colors.black50}
+              translucent={false}
+              backgroundColor={colors.orange1c}
               barStyle={"dark-content"}
             />
             <View style={styles.vwFoodModalView}>
@@ -552,9 +576,9 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                       </View>
                       <View style={styles.vwFoodNameShare}>
                         <Text style={styles.lblModalFoodName}>
-                          {props?.selectedFoodItem.name}
+                          {props?.selectedFoodItem.name} 
                         </Text>
-                        <View style={{ flexDirection: "row", gap: 9 }}>
+                        {/* <View style={{ flexDirection: "row", gap: 9 }}>
                           <TouchableOpacity
                             activeOpacity={activityOpacity}
                             hitSlop={hitSlop}
@@ -584,7 +608,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                               tintColor={colors.white}
                             />
                           </TouchableOpacity>
-                        </View>
+                        </View> */}
                       </View>
 
                       <View style={{ marginTop: 30 }}>
@@ -595,7 +619,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                           {props?.selectedFoodItem?.description}
                         </Text>
 
-                        {props?.selectedFoodItem?.description && (
+                        {props?.selectedFoodItem?.description?.length > 150 && (
                           <TouchableOpacity
                             activeOpacity={activityOpacity}
                             hitSlop={hitSlop}
@@ -604,7 +628,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                             <Text
                               style={{
                                 ...styles.lblModalFoodDesc,
-                                fontFamily: fontsfamily.medium,
+                                fontFamily: fontsfamily.bold,
                               }}
                             >
                               {props?.showMore ? "Read Less" : "Read More"}
@@ -635,7 +659,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
 
                     {/* Add To Cart */}
                     <View style={styles.fixedBottom}>
-                      {props?.selectedFoodItem?.quantity == 0 ? (
+                      {Number(props?.selectedFoodItem?.quantity) === 0 ? (
                         <TouchableOpacity
                           style={styles.btnModalAddToCart}
                           activeOpacity={activityOpacity}
@@ -678,9 +702,11 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
                               source={images.minus}
                             />
                           </TouchableOpacity>
+
                           <Text style={styles.lblFoodQuantity}>
-                            {props?.selectedFoodItem?.quantity}
+                            {Number(props?.selectedFoodItem?.quantity)}
                           </Text>
+
                           <TouchableOpacity
                             onPress={() =>
                               props.handleQuantityChange(

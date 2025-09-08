@@ -18,10 +18,13 @@ import {
 } from "../../constants/interfaces";
 import { colors } from "../../constants/Colors";
 import { getTranslation } from "../../localization/i18n/i18n.config";
+import { fontsfamily } from "../../constants/FontFamily";
 
 interface PropsType {
   arrNotificationList: NotificationGroup[];
   onPressNotification: (tag: string, other_data: NotificationOtherData) => void;
+  showMoreNotification: { [reviewId: string]: boolean };
+  toggleShowMoreNotification: (reviewId: string) => void;
   // Pagination
   loadMoreCategories: () => void;
   canLoadMore: boolean;
@@ -45,6 +48,7 @@ const NotificationComponent = (props: PropsType) => {
         activeOpacity={activityOpacity}
         hitSlop={hitSlop}
         key={index}
+        disabled
         onPress={() => props.onPressNotification(item.tag, item.other_data)}
       >
         <Image
@@ -57,7 +61,31 @@ const NotificationComponent = (props: PropsType) => {
             <Text style={styles.lblNotificationTitle}>{item?.title}</Text>
             <Text style={styles.lblNotificationTime}>{item?.time}</Text>
           </View>
-          <Text style={styles.lblNotificationDesc}>{item?.desc}</Text>
+          <Text
+            style={styles.lblNotificationDesc}
+            numberOfLines={
+              props?.showMoreNotification[item.id] ? undefined : 3
+            }
+          >
+            {item?.desc}
+          </Text>
+          {item?.desc?.length > 150 && (
+            <TouchableOpacity
+              activeOpacity={activityOpacity}
+              hitSlop={hitSlop}
+              onPress={() => props?.toggleShowMoreNotification(item.id)}
+            >
+              <Text
+                style={{
+                  ...styles.lblNotificationDesc,
+                  fontFamily: fontsfamily.semibold,
+                  marginTop : 5
+                }}
+              >
+                {props?.showMoreNotification[item.id] ? "Read Less" : "Read More"}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </TouchableOpacity>
     );
@@ -75,12 +103,11 @@ const NotificationComponent = (props: PropsType) => {
         bounces={true}
         showsVerticalScrollIndicator={false}
         renderItem={renderItemArrNotification}
+        stickySectionHeadersEnabled={false}
         renderSectionHeader={({ section: { titleMain } }) => (
           <Text style={styles.lblTitleMain}>{titleMain}</Text>
         )}
         contentContainerStyle={{
-          paddingTop: 20,
-          gap: 20,
           paddingBottom: 40,
           flexGrow: 1,
         }}

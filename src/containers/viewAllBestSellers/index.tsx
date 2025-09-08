@@ -42,6 +42,7 @@ const ViewAllBestSellersContainer = ({ navigation, route }: any) => {
     if (isGuestUser) {
       showConfirmForGuest(() => {
         navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
     } else {
       handleWishlistStoreApi(vendor_id, index);

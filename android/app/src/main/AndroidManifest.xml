@@ -32,6 +32,18 @@
         android:launchMode="singleTask"
         android:windowSoftInputMode="adjustResize"
         android:exported="true">
+
+        <!-- intent filter for deep linking -->
+        <intent-filter android:autoVerify="true">
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="https" android:host="devweb.somoi.in" android:pathPattern=".*"/>
+          <!-- <data android:scheme="https" />
+      <data android:host="devapi.somoi.in" /> -->
+        </intent-filter>
+        <!-- intent filter for deep linking end -->
+        
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />

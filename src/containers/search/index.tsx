@@ -100,6 +100,7 @@ const SearchContainer = ({ navigation, route }: any) => {
   const handleSearchProductApi = async (
     text: String,
     page: number,
+
     isLoadMore = false
   ) => {
     if (isLoadMore && isLoadingMore) return;
@@ -109,6 +110,8 @@ const SearchContainer = ({ navigation, route }: any) => {
     const dictData = {
       search_text: text,
       page_no: page,
+      customer_latitude: currentLatLong?.latitude.toString(),
+      customer_longitude: currentLatLong?.longitude.toString(),
     };
     try {
       const response = await searchProductApi(
@@ -204,11 +207,11 @@ const SearchContainer = ({ navigation, route }: any) => {
         <SearchComponent
           arrProducts={arrProducts}
           onPressProduct={onPressProduct}
-           // pagination
-      loadMoreCategories={loadMoreCategories}
-      canLoadMore={canLoadMore}
-      setCanLoadMore={setCanLoadMore}
-      hasMountedOnce={hasMountedOnce}
+          // pagination
+          loadMoreCategories={loadMoreCategories}
+          canLoadMore={canLoadMore}
+          setCanLoadMore={setCanLoadMore}
+          hasMountedOnce={hasMountedOnce}
         />
       </View>
     </TouchableWithoutFeedback>

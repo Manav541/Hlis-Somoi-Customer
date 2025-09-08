@@ -141,22 +141,67 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
   };
 
   const onShareProduct = async (productId: string, productName: string) => {
-    try {
-      const universalLink = `https://yourapp.com/product/${productId}`;
-
-      const result = await Share.share({
-        message: `Check out this product "${productName}" on ${appName}:\n${universalLink}`,
-        url: universalLink, // For iOS, some apps use this
-        title: `${productName} - ${appName}`,
+    if (isGuestUser) {
+      showConfirmForGuest(() => {
+        navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
+    } else {
+      try {
+        let universalLink = `https://devweb.somoi.in/product-details`;
+        const params = new URLSearchParams();
 
-      if (result.action === Share.sharedAction) {
-        console.log("Product shared successfully!");
-      } else if (result.action === Share.dismissedAction) {
-        console.log("Share dismissed.");
+        params.append("product_id", productId);
+        params.append(
+          "is_variation",
+          String(productDetails?.is_variation || false)
+        );
+        params.append("is_size", String(productDetails?.is_size || false));
+        params.append("is_color", String(productDetails?.is_color || false));
+
+        if (productDetails?.is_variation) {
+          params.append("variation_id", productDetails.variation_id || "");
+
+          if (productDetails.is_size) {
+            const selectedSize = arrSizeVariations.find((s) => s.is_selected);
+            if (selectedSize) {
+              // Use size_id if available, otherwise fall back to variation_id
+              params.append(
+                "size_id",
+                selectedSize.size_id || selectedSize.variation_id || ""
+              );
+            }
+          }
+
+          if (productDetails.is_color) {
+            const selectedColor = arrColorVariations.find((c) => c.is_selected);
+            if (selectedColor) {
+              // Use color_id if available, otherwise fall back to variation_id
+              params.append(
+                "color_id",
+                selectedColor.color_id || selectedColor.variation_id || ""
+              );
+            }
+          }
+        }
+
+        universalLink += `?${params.toString()}`;
+        console.log("universalLink", universalLink);
+
+        const result = await Share.share({
+          message: `Check out this product "${productName}" on ${appName}:\n${universalLink}`,
+          url: universalLink,
+          title: `${productName} - ${appName}`,
+        });
+
+        if (result.action === Share.sharedAction) {
+          console.log("Product shared successfully!");
+        } else if (result.action === Share.dismissedAction) {
+          console.log("Share dismissed.");
+        }
+      } catch (error: any) {
+        console.error("Error sharing product:", error.message);
       }
-    } catch (error: any) {
-      console.error("Error sharing product:", error.message);
     }
   };
 
@@ -164,6 +209,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     if (isGuestUser) {
       showConfirmForGuest(() => {
         navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
     } else {
       handleAddCompareProductApi(product_id);
@@ -174,6 +220,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     if (isGuestUser) {
       showConfirmForGuest(() => {
         navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
     } else {
       handleWishlistProductApi(product_id, variation_id);
@@ -189,6 +236,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
     if (isGuestUser) {
       showConfirmForGuest(() => {
         navigation.navigate(ScreenNames.signin);
+        MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
       });
     } else {
       if (!productDetails) return;
@@ -295,7 +343,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
       handleProductDetailsApi(
         product_id,
         selectedColor.variation_id,
-        size_id,
+        selectedSizeObj.size_id,
         selectedColor.color_id
       );
     } else {
@@ -617,8 +665,7 @@ const ViewProductDetailContainer = ({ navigation, route }: any) => {
           incrementCartItemCount(1);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
-        }
-        else if (response.code === statusCodes.emptyData) {
+        } else if (response.code === statusCodes.emptyData) {
           flashMessageWarning(response.message);
         }
       }

@@ -3,15 +3,12 @@ import SignupComponent from "../../../components/authentication/signup";
 import { regex } from "../../../constants/Regex";
 import {
   containsEmoji,
-  flashMessageSucess,
   flashMessageWarning,
-  toggleLoader,
 } from "../../../constants/GConstant";
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import { CountryData } from "../../../constants/utils/CountryData";
 import {
   CountryDataType,
-  DeviceInfoType,
   RequestOTPResponseType,
 } from "../../../constants/interfaces";
 import { MmkvManager } from "../../../constants/utils/MmkvManager";
@@ -240,7 +237,7 @@ const SignupContainer = ({ navigation }: any) => {
   const handleOnPressSignIn = () => {
     if (isNavigating) return;
     setIsNavigating(true);
-    navigation.replace("Sign In");
+    navigation.navigateDeprecated(ScreenNames.signin);
     // Reset the flag after a short delay
     setTimeout(() => {
       setIsNavigating(false);

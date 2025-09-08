@@ -29,6 +29,7 @@ export const styles = StyleSheet.create({
     color: colors.white,
     fontSize: fontSize.size18,
     fontFamily: fontsfamily.semibold,
+    marginTop:20
   },
   lblNotificationTitle: {
     color: colors.white,
@@ -63,6 +64,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     paddingBottom: 20,
     gap: 12,
+    marginTop : 20
   },
 
   // Image Styles

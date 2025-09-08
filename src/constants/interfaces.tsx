@@ -230,6 +230,7 @@ export interface VariationData {
 
 // Notification
 export interface NotificationData {
+  id: string;
   title: string;
   desc: string;
   time: string;
@@ -377,6 +378,7 @@ export interface SizeVariation {
   size_id: string;
   is_selected: boolean;
   colors: ColorVariation[];
+  variation_id: string;
 }
 
 export interface ProductImages {
@@ -395,8 +397,8 @@ export interface Highlight {
 
 // Reviews
 export interface ReviewData {
-  average_rating: string; 
-  total_reviews: string; 
+  average_rating: string;
+  total_reviews: string;
   rating_summary: RatingSummary[];
   reviews: Review[];
 }
@@ -464,6 +466,8 @@ export interface ProductRestaurant {
   is_favorite: boolean;
   description: string;
   is_variation: boolean;
+  is_size: boolean;
+  is_color: boolean;
   variation_id: string;
   variations: FoodProductVariation[];
   selected_variation: {
@@ -477,6 +481,8 @@ export interface ProductRestaurant {
     in_stock: boolean;
     is_selected: boolean;
     weight: string;
+    size_name: string;
+    color_name: string;
   };
 }
 
@@ -491,6 +497,8 @@ export interface FoodProductVariation {
   amount: string;
   in_stock: boolean;
   is_selected: boolean;
+  size_name: string;
+  color_name: string;
 }
 
 export interface Restaurant {
@@ -763,6 +771,8 @@ export interface FilterDate {
 // Order Summary
 export interface OrderDetailsData {
   order_number: string;
+  razorpay_refund_id: string;
+  razorpay_payment_id: string;
   placed_on_date: string;
   placed_on_time: string;
   total_bill: number;

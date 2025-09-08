@@ -163,7 +163,7 @@ const SignInContainer = ({ navigation }: any) => {
     console.log("type ===>>", DeviceInfoManager.getPlatformType());
     const dictData: DeviceInfoType = {
       device_type: DeviceInfoManager.getPlatformType(),
-      device_token: fcmToken || '0',
+      device_token: fcmToken || "0",
       os_version: await DeviceInfoManager.getVersion(),
       device_name: await DeviceInfoManager.getDeviceName(),
       model_name: await DeviceInfoManager.getModel(),
@@ -238,7 +238,7 @@ const SignInContainer = ({ navigation }: any) => {
   const handleOnPressSignUp = () => {
     if (isNavigating) return;
     setIsNavigating(true);
-    navigation.replace("Sign Up");
+    navigation.navigateDeprecated(ScreenNames.signup);
     // Reset the flag after a short delay
     setTimeout(() => {
       setIsNavigating(false);
@@ -246,7 +246,7 @@ const SignInContainer = ({ navigation }: any) => {
   };
 
   const handleOnPressForgotPassword = () => {
-    navigation.navigate("Forgot Password");
+    navigation.navigate(ScreenNames.forgotPassword);
   };
 
   const handleOnPressGuest = () => {

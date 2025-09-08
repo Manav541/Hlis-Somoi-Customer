@@ -53,7 +53,7 @@ const CartContainer = ({ navigation }: any) => {
   const [location_id, setLocation_id] = useState<string>("");
 
   const handleQuantityChange = (index: number, type: "add" | "remove") => {
-    const cartArray = [...cartDetails?.cart_details as CartDetail[]];
+    const cartArray = [...(cartDetails?.cart_details as CartDetail[])];
     const item = cartArray[index];
 
     const currentQty = Number(item.quantity) || 0;
@@ -361,43 +361,38 @@ const CartContainer = ({ navigation }: any) => {
     location_id: string,
     customerDetails: any
   ): Promise<void> => {
-    const prevCartIds = cartDetails?.cart_details?.map(
-      (item: any) => item.product_id
-    );
+    const prevCartIds =
+      cartDetails?.cart_details?.map((item: any) => item.product_id) ?? [];
 
-    const dictData = {};
+    const dictData = { location_id: location_id };
     try {
       const response = await cartListingApi(dictData, navigation);
-      if (response !== undefined && response !== null) {
+      if (response !== undefined && response !== null && response.data) {
         const updatedCart = response.data as CartDataResponse;
-        const updatedCartIds = updatedCart?.cart_details?.map(
-          (item: any) => item.product_id
-        );
+        const updatedCartIds =
+          updatedCart?.cart_details?.map((item: any) => item.product_id) ?? [];
 
         const hasChanges =
-          (prevCartIds?.length ?? 0) !== (updatedCartIds?.length ?? 0) ||
-          !prevCartIds?.every((id: string) => updatedCartIds?.includes(id));
+          prevCartIds.length !== updatedCartIds.length ||
+          !prevCartIds.every((id: string) => updatedCartIds.includes(id));
 
         if (hasChanges) {
           setCartDetails(updatedCart);
           flashMessageWarning(
-            "Some items were removed from your cart due to unavailability. Please review your cart before ordering."
+              "Some items were removed from your cart due to unavailability. Please review your cart before ordering."
           );
           return;
         }
 
-        // ✅ Proceed with navigation if cart is valid
-        setCartDetails(updatedCart); // update with latest
-        const isCodRestricted = updatedCart?.cart_details?.some(
-          (item: any) => item?.product_data?.is_cod_available === false
-        );
-
+        setCartDetails(updatedCart);
         navigation.navigate(ScreenNames.paymentMethod, {
           location_id: location_id,
           total_bill: total_bill,
-          isCodRestricted: isCodRestricted,
           customer_details: customerDetails,
         });
+      } else if (response?.code === statusCodes.invalidLocationId) {
+        // Fixed typo in statusCodes.invalidOrFail
+        flashMessageWarning(response.message);
       }
     } catch (error) {
       __DEV__ && console.log("Recheck Cart Error:", error);

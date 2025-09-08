@@ -104,6 +104,7 @@ const SettingContainer = ({ navigation }: any) => {
             if (isGuestUser) {
               showConfirmForGuest(() => {
                 navigation.navigate(ScreenNames.signin);
+                MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
               });
             } else {
               navigation.navigate(ScreenNames.changePassword, {
@@ -120,6 +121,7 @@ const SettingContainer = ({ navigation }: any) => {
             if (isGuestUser) {
               showConfirmForGuest(() => {
                 navigation.navigate(ScreenNames.signin);
+                MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
               });
             } else {
               navigation.navigate(ScreenNames.changeEmailPhoneNumber, {
@@ -136,6 +138,7 @@ const SettingContainer = ({ navigation }: any) => {
             if (isGuestUser) {
               showConfirmForGuest(() => {
                 navigation.navigate(ScreenNames.signin);
+                MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
               });
             } else {
               navigation.navigate(ScreenNames.changeEmailPhoneNumber, {
@@ -152,6 +155,7 @@ const SettingContainer = ({ navigation }: any) => {
             if (isGuestUser) {
               showConfirmForGuest(() => {
                 navigation.navigate(ScreenNames.signin);
+                MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
               });
             } else {
               navigation.navigate(ScreenNames.managePaymentMethods);
@@ -166,6 +170,7 @@ const SettingContainer = ({ navigation }: any) => {
             if (isGuestUser) {
               showConfirmForGuest(() => {
                 navigation.navigate(ScreenNames.signin);
+                MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
               });
             } else {
               navigation.navigate(ScreenNames.myWishlist);
@@ -180,6 +185,7 @@ const SettingContainer = ({ navigation }: any) => {
             if (isGuestUser) {
               showConfirmForGuest(() => {
                 navigation.navigate(ScreenNames.signin);
+                MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
               });
             } else {
               navigation.navigate(ScreenNames.manageAddress, {
@@ -196,6 +202,7 @@ const SettingContainer = ({ navigation }: any) => {
             if (isGuestUser) {
               showConfirmForGuest(() => {
                 navigation.navigate(ScreenNames.signin);
+                MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
               });
             } else {
               navigation.navigate(ScreenNames.availableOffers);
@@ -239,6 +246,7 @@ const SettingContainer = ({ navigation }: any) => {
             if (isGuestUser) {
               showConfirmForGuest(() => {
                 navigation.navigate(ScreenNames.signin);
+                MmkvManager.setData(MmkvManager.Keys.isGuestUser, "false");
               });
             } else {
               navigation.navigate(ScreenNames.contactUs);

@@ -1,10 +1,14 @@
+import { invalid } from "moment";
+
 // Base url
 export const apiBaseURL = {
-  //  development: "https://devapi.somoi.in/api/v1", // It is use localhost for API.
-  stage: "https://hyperlinkdevteam.link:7753/api/v1", //It is use hyperlink server for API.
+  development: "https://devapi.somoi.in/api/v1", // It is use localhost for API.
+  stage: "https://devapi.somoi.in/api/v1", //It is use hyperlink server for API.
   production: "", //It is use live server for API.,
-  socketUrl: "https://hyperlinkdevteam.link:7753/chat?user_id=",
-  development: "https://hyperlinkdevteam.link:7753/api/v1", // It is use localhost for API.
+  socketUrl: "https://devapi.somoi.in/chat?user_id=",
+
+  // --------------------- Hyperlink -----------------------
+  // development: "https://hyperlinkdevteam.link:7753/api/v1", // It is use localhost for API.
   // stage: "https://hyperlinkdevteam.link:7753/api/v1", //It is use hyperlink server for API.
   // production: "", //It is use live server for API.,
   // socketUrl: "https://hyperlinkdevteam.link:7753/chat?user_id=",
@@ -16,6 +20,7 @@ export const apiBaseURL = {
 export const apiEndPoint = {
   // Secret Key
   secretKey: "/admin/secret-key",
+  getCODStatus: "/admin/get-cod-status",
 
   // Chat
   chatHistory: "/chat/chat_history",
@@ -111,7 +116,8 @@ export const statusCodes = {
   emptyData: 2,
   success: 1,
   userSessionExpire: -1,
-  cartQuantityNotFound : 12
+  cartQuantityNotFound: 12,
+  invalidLocationId: 13,
 };
 
 // API keys

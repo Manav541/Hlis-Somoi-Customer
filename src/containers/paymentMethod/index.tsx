@@ -19,15 +19,16 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
   const createOrderIdApi = zustandStore.CartStore(
     (state) => state.createOrderId
   );
+  const getCODStatusApi = zustandStore.CartStore((state) => state.getCODStatus);
   const setCartItemCount = zustandStore.CartItemCountStore(
     (state) => state.setCartItemCount
   );
   const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
   const [razorpay_key_id, setRazorpay_key_id] = useState<string>("");
-  const [createOrderId, setCreateOrderId] = useState<string>("");
+  // const [createOrderId, setCreateOrderId] = useState<string>("");
   const location_id = route?.params?.location_id;
   const total_bill = route?.params?.total_bill;
-  const isCodRestricted = route?.params?.isCodRestricted;
+  const [isCod, setIsCod] = useState<boolean>(false);
   const customer_details = route?.params?.customer_details;
   console.log("location_id", location_id);
   const [orderNumber, setOrderNumber] = useState<string>("");
@@ -79,7 +80,7 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
   const totalRupees = Number(total_bill);
   const amountInPaise = convertRupeesToPaise(totalRupees);
 
-  const openRazorpay = () => {
+  const openRazorpay = (createOrderId: string) => {
     if (!razorpay_key_id || !createOrderId) {
       console.log("Missing Razorpay Key ID or Order ID");
       return;
@@ -106,7 +107,9 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
         console.log(`Success: ${data.razorpay_payment_id}`);
         const payment_id = data.razorpay_payment_id;
         // Call backend API to verify payment
-        handlePlaceOrderApi(location_id, payment_type, payment_id);
+        // handlePlaceOrderApi(location_id, payment_type, payment_id);
+        setIsSuccessModalVisible(true);
+        setCartItemCount(0);
       })
       .catch((error) => {
         console.log(`Error: ${error.code} | ${error.description}`);
@@ -218,7 +221,8 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
     if (payment_type == "cod") {
       handlePlaceOrderApi(location_id, payment_type);
     } else {
-      openRazorpay();
+      handleCreateOrderIdApi(location_id);
+      // openRazorpay();
       // handlePlaceOrderApi(location_id, payment_type);
     }
   };
@@ -288,17 +292,17 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
   // handlePlaceOrderApi
   const handlePlaceOrderApi = async (
     location_id: string,
-    payment_type: string,
-    payment_id?: string
+    payment_type: string
+    // payment_id?: string
   ) => {
     const dictData: any = {
       location_id: location_id,
       payment_type: payment_type,
     };
 
-    if (payment_type === "card") {
-      dictData.payment_id = payment_id;
-    }
+    // if (payment_type === "card") {
+    //   dictData.payment_id = payment_id;
+    // }
     try {
       const response = await placeOrderApi(dictData, navigation);
       if (response !== undefined && response !== null) {
@@ -320,9 +324,9 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
     }
   };
 
-  const handleCreateOrderIdApi = async (amount: string) => {
+  const handleCreateOrderIdApi = async (location_id: string) => {
     const dictData = {
-      amount: amount,
+      location_id: location_id,
     };
     try {
       const response = await createOrderIdApi(dictData, navigation);
@@ -331,11 +335,25 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
           console.log("CREATE ORDER ID RESPONSE===>", JSON.stringify(response));
         if (response.code === statusCodes.success) {
           const rawData = response.data as any;
-          setCreateOrderId(rawData?.id);
+          // setCreateOrderId(rawData?.id);
+          openRazorpay(rawData?.id);
         } else if (response.code === statusCodes.invaildOrFail) {
           flashMessageWarning(response.message);
         } else if (response.code === statusCodes.emptyData) {
-          flashMessageWarning(response.message);
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [
+                {
+                  name: ScreenNames.bottomTabsNavigation,
+                  state: {
+                    routes: [{ name: ScreenNames.myOrders }],
+                    index: 0,
+                  },
+                },
+              ],
+            })
+          );
         }
       }
     } catch (error) {
@@ -370,11 +388,34 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
     }
   };
 
+  const handleCODStatusApi = async () => {
+    const dictData = {
+      role: "customer",
+    };
+    try {
+      const response = await getCODStatusApi(dictData, navigation);
+      console.log("COD STATUS RESPONSE", JSON.stringify(response));
+
+      if (response?.code === statusCodes.success) {
+        const rawData = response.data as any;
+        console.log("hdkshf => ", rawData?.cod_checkbox);
+
+        if (rawData?.cod_checkbox) {
+          setIsCod(rawData?.cod_checkbox);
+        }
+      } else if (response?.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
+      }
+    } catch (error) {
+      __DEV__ && console.log("Secret Key API Error:", error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       StatusBar.setBarStyle("dark-content");
       handleSecretKeyApi();
-      handleCreateOrderIdApi(total_bill);
+      handleCODStatusApi();
       return () => {};
     }, [navigation])
   );
@@ -393,7 +434,7 @@ const PaymentMethodContainer = ({ navigation, route }: any) => {
       onPressTrackOrder={onPressTrackOrder}
       onPressContinueShopping={onPressContinueShopping}
       payment_type={payment_type}
-      isCodRestricted={isCodRestricted}
+      isCod={isCod}
     />
   );
 };

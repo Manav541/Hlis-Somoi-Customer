@@ -6,7 +6,6 @@ import { colors } from "../constants/Colors";
 import { fontSize } from "../constants/FontSizes";
 import { fontsfamily } from "../constants/FontFamily";
 import { enableScreens } from "react-native-screens";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createStackNavigator } from "@react-navigation/stack";
 import { navigationRef } from "../constants/utils/Notification/notificationNavigation";
 
@@ -14,6 +13,7 @@ enableScreens();
 
 interface PropsType {
   initialRoute: string;
+  linkingUrl:any;
 }
 
 const MainNavigation = (props: PropsType) => {
@@ -47,7 +47,7 @@ const MainNavigation = (props: PropsType) => {
 
   return (
     <View style={{ backgroundColor: colors.blue4e, flex: 1 }}>
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer ref={navigationRef} linking={props?.linkingUrl}>
         <Stack.Navigator
           screenOptions={{ animation: "slide_from_right" }}
           initialRouteName={props?.initialRoute}

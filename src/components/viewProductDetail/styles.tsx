@@ -256,7 +256,7 @@ export const styles = StyleSheet.create({
   lblProductPrice: {
     color: colors.greya7,
     fontSize: fontSize.size18,
-    fontFamily: fontsfamily.regular,
+    fontFamily: fontsfamily.semibold,
     textDecorationLine: "line-through",
   },
   lblApproxDistanceTime: {
