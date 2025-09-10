@@ -81,6 +81,7 @@ interface PropsType {
 }
 
 const ProductListingComponent = (props: PropsType) => {
+  console.log("Filter sort after ==> ", props?.arrSubCategoryProduct);
   const insets = useSafeAreaInsets();
 
   const renderItemSubCategoryTitle = ({

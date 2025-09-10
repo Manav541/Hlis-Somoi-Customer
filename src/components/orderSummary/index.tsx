@@ -687,6 +687,16 @@ const OrderSummaryComponent = (props: PropsType) => {
                 </View>
               )}
 
+              {/* GST Amount */}
+              {props?.orderDetails?.gst_amount != "0.00" && (
+                <View style={styles.vwOrderDetailsItem}>
+                  <Text style={styles.lblOrderDetailsTitle}>GST</Text>
+                  <Text style={styles.lblOrderDetailsValue}>
+                    {rupeeSymbol + props?.orderDetails?.gst_amount}
+                  </Text>
+                </View>
+              )}
+
               {/* Delivery */}
               <View style={styles.vwOrderDetailsItem}>
                 <Text style={styles.lblOrderDetailsTitle}>Delivery</Text>

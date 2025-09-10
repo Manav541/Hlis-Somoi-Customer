@@ -268,6 +268,11 @@ const HomeContainer = ({ navigation }: any) => {
         isGuestUser,
         navigation
       );
+       __DEV__ &&
+          console.log(
+            "BEST PRODUCT LIST RESPONSE===>",
+            JSON.stringify(response)
+          );
       if (response?.code === statusCodes.success) {
         const rawData = response.data as BestProductSellerData;
         setArrBestProductsSellers(Array.isArray(rawData) ? rawData : []);

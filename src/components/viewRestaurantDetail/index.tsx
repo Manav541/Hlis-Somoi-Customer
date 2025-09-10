@@ -176,7 +176,7 @@ const ViewRestaurantDetailComponent = (props: PropsType) => {
 
             <View style={styles.vwPriceRating}>
               <View
-                style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
+                // style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
               >
                 <Text style={styles.lblFoodFinalPrice}>
                   {rupeeSymbol + item?.original_price}

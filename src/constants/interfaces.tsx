@@ -600,6 +600,7 @@ export interface CartDataResponse {
   vendor_id: string | null;
   total_amount: string;
   discount_price: string;
+  gst_amount: string;
   total_quantity: string;
   delivery_charges: string;
   tax_percentage: string;
@@ -779,6 +780,7 @@ export interface OrderDetailsData {
   total_amount: number;
   total_quantity: string;
   discount_price: string;
+  gst_amount: string;
   payment_type: string;
   delivery_charges: string;
   status: string;

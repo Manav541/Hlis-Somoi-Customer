@@ -150,6 +150,7 @@ const CartContainer = ({ navigation }: any) => {
           flashMessageWarning(response.message);
         } else if (response.code === statusCodes.emptyData) {
           setCartDetails(null);
+          
         } else if (response.code === statusCodes.cartQuantityNotFound) {
           setCartDetails(rawData);
         }

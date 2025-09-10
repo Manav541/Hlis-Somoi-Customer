@@ -61,6 +61,7 @@ export const images = {
   macdonaldsLogo: require("../assets/images/macdonaldsLogo.png"),
   burgerKingLogo: require("../assets/images/burgerKingLogo.png"),
   locationIconOrange: require("../assets/images/locationIconOrange.png"),
+  currentLocation: require("../assets/images/currentLocation.png"),
   starEmpty: require("../assets/images/starEmpty.png"),
   starFilled: require("../assets/images/starFilled.png"),
   notificationBell: require("../assets/images/notificationBell.png"),

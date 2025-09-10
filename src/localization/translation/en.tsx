@@ -59,7 +59,7 @@ export default {
   phoneNumberUpdateSuccess: "Phone number updated successfully",
   emptyPfofileImage: "Please select profile image",
   offerCodeCopySuccess: "Offer code copied successfully",
-  addressRequired: "Please select address",
+  addressRequired: "Please enter address",
   houseRequired: "Please enter house no/building/sreet/area",
   textOutOfStock: "This item is out of stock",
 
@@ -359,6 +359,7 @@ export default {
     "Please fill in the details below to add a new address for your orders.",
   HousenoBuildingsreetarea: "House no/ Building/street/area",
   additionalDescription: "Additional Description",
+  confirmLocation:"Confirm Location",
 
   // Manage Payment Methods
   addNewCard: "Add New Card",

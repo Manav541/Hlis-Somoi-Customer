@@ -41,8 +41,8 @@ interface PropsType {
 }
 
 const CartComponent = (props: PropsType) => {
-  console.log("Cart Data=> ",JSON.stringify(props?.cartDetails));
-  
+  console.log("Cart Data=> ", JSON.stringify(props?.cartDetails));
+
   const renderItemOrderProduct = (item: any, index: number) => {
     return (
       <View style={styles.vwOrderProductItem} key={index}>
@@ -60,7 +60,9 @@ const CartComponent = (props: PropsType) => {
               {rupeeSymbol + item?.per_product_price}
             </Text>
             {item?.product_data?.variation_data && (
-              <View style={{flexDirection : 'row', alignItems : 'center',gap : 4}}>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
+              >
                 <Image
                   style={styles.imgBlueDot}
                   source={images.dotOrange}
@@ -91,9 +93,7 @@ const CartComponent = (props: PropsType) => {
                     : item?.product_data?.is_variation &&
                       item?.product_data?.is_color &&
                       item?.product_data?.is_size
-                    ? `${item?.product_data?.variation_data?.size} - ${
-                        item?.product_data?.variation_data?.color_name
-                      }`
+                    ? `${item?.product_data?.variation_data?.size} - ${item?.product_data?.variation_data?.color_name}`
                     : ""}
                 </Text>
               </View>
@@ -313,13 +313,24 @@ const CartComponent = (props: PropsType) => {
                 </View>
 
                 {/* Discount */}
-                {props?.cartDetails?.discount_price != "0.00" && 
-                <View style={styles.vwOrderDetailsItem}>
-                  <Text style={styles.lblOrderDetailsTitle}>Discount</Text>
-                  <Text style={styles.lblOrderDetailsValue}>
-                    -{rupeeSymbol + props?.cartDetails?.discount_price}
-                  </Text>
-                </View>}
+                {props?.cartDetails?.discount_price != "0.00" && (
+                  <View style={styles.vwOrderDetailsItem}>
+                    <Text style={styles.lblOrderDetailsTitle}>Discount</Text>
+                    <Text style={styles.lblOrderDetailsValue}>
+                      -{rupeeSymbol + props?.cartDetails?.discount_price}
+                    </Text>
+                  </View>
+                )}
+
+                {/* GST Amount */}
+                {props?.cartDetails?.gst_amount != "0.00" && (
+                  <View style={styles.vwOrderDetailsItem}>
+                    <Text style={styles.lblOrderDetailsTitle}>GST</Text>
+                    <Text style={styles.lblOrderDetailsValue}>
+                      {rupeeSymbol + props?.cartDetails?.gst_amount}
+                    </Text>
+                  </View>
+                )}
 
                 {/* Delivery */}
                 {/* {props?.cartDetails?.delivery_charges != "0.00" &&  */}
@@ -359,7 +370,7 @@ const CartComponent = (props: PropsType) => {
               isOrange
               title={getTranslation("placeOrder")}
               onPress={() => {
-                props?.onPressPlaceOrder(props?.cartDetails?.total_bill || '0');
+                props?.onPressPlaceOrder(props?.cartDetails?.total_bill || "0");
               }}
             />
           </View>
