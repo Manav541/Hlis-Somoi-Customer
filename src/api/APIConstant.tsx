@@ -2,19 +2,15 @@ import { invalid } from "moment";
 
 // Base url
 export const apiBaseURL = {
-  development: "https://devapi.somoi.in/api/v1", // It is use localhost for API.
-  stage: "https://devapi.somoi.in/api/v1", //It is use hyperlink server for API.
-  production: "", //It is use live server for API.,
+  development: "https://devapi.somoi.in/api/v1",
+  stage: "", 
+  production: "",
   socketUrl: "https://devapi.somoi.in/chat?user_id=",
 
-  // --------------------- Hyperlink -----------------------
-  // development: "https://hyperlinkdevteam.link:7753/api/v1", // It is use localhost for API.
-  // stage: "https://hyperlinkdevteam.link:7753/api/v1", //It is use hyperlink server for API.
-  // production: "", //It is use live server for API.,
-  // socketUrl: "https://hyperlinkdevteam.link:7753/chat?user_id=",
+ 
 };
 
-// https://hyperlinkdevteam.link:7753/chat?user_id=67&role=customer
+
 
 // API end points
 export const apiEndPoint = {

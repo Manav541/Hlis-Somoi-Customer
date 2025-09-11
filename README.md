@@ -1,97 +1,102 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# SomoiCustomer
 
-# Getting Started
+## 📖 Getting Started
+SomoiCustomer is a React Native mobile application built using the company’s boilerplate.  
+It uses **Zustand** for central state management, where all APIs are registered and stored in the project’s `store` folder.  
+This document provides setup instructions, usage, and troubleshooting guidelines.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-## Step 1: Start Metro
+## 📑 Table of Contents
+1. [Project Information](#-project-information)  
+2. [Installation](#️-installation)  
+3. [Running the Application](#-running-the-application)  
+4. [Troubleshooting](#-troubleshooting)  
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+---
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## 📝 Project Information
+- **Technology**: React Native CLI  
+- **Project Version**: 0.79.1  
+- **Node Version**: 23.11.0  
+- **Structure/Architecture**: Company’s Boilerplate  
+- **Android Studio**: Meerkat | 2024.3.1 Patch 2  
+- **Xcode**: 16.2  
+- **State Management**: Zustand  
+- **iOS Development Certificates**: Located inside the project’s **ios/** folder  
 
-```sh
-# Using npm
-npm start
+🔹 All APIs are registered in Zustand and located in the project’s **store** folder.
 
-# OR using Yarn
-yarn start
-```
+---
 
-## Step 2: Build and run your app
+## ⚙️ Installation
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/RMC-Somoi/SomoiCustomer.git
+   ```
 
-### Android
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+   If you face issues with peer dependencies:
+   ```bash
+   npm install --legacy-peer-deps
+   ```
 
-```sh
-# Using npm
-npm run android
+3. **Install required Pods for iOS**
+   ```bash
+   cd ios
+   pod install
+   cd ..
+   ```
 
-# OR using Yarn
-yarn android
-```
+---
 
-### iOS
+## 🚀 Running the Application
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+1. **Start the Metro Bundler**
+   ```bash
+   npx react-native start
+   ```
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+2. **Run project on iOS**
+   ```bash
+   npx react-native run-ios
+   ```
 
-```sh
-bundle install
-```
+3. **Run project on Android**
+   ```bash
+   npx react-native run-android
+   ```
 
-Then, and every time you update your native dependencies, run:
+---
 
-```sh
-bundle exec pod install
-```
+## 🔧 Troubleshooting
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+### Emoji Picker Fix
+If using `react-native-emoji-selector`, make the following changes:
 
-```sh
-# Using npm
-npm run ios
+- Navigate to:  
+  `node_modules/react-native-emoji-selector/index.js`
+- On **line 95**, remove `tabSize` from `fontSize`.  
+- Change:
+  ```js
+  fontSize: 24
+  ```
+  to:
+  ```js
+  fontSize: 16
+  ```
+  ✅ A static `fontSize: 16` works after removing `tabSize`.
 
-# OR using Yarn
-yarn ios
-```
+---
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+### Pod Installation Errors
+If you encounter errors while installing pods, try the following:
+```bash
+pod deintegrate
+rm -rf Podfile.lock
+pod repo update
+pod install
