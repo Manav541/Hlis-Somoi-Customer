@@ -90,6 +90,11 @@ const MainNavigation = (props: PropsType) => {
             MyScreens.AddAddressContainer,
             true
           )}
+           {handleStackScreens(
+            ScreenNames.googleSearchPlaces,
+            MyScreens.GoogleSearchPlacesContainer,
+            true
+          )}
 
           {/* Bottom Tabs */}
           {handleStackScreens(

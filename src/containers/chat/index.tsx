@@ -2,12 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ChatComponent from "../../components/chat";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { images } from "../../constants/Images";
-import {
-  Keyboard,
-  Linking,
-  StatusBar,
-  Text,
-} from "react-native";
+import { Keyboard, Linking, StatusBar, Text } from "react-native";
 import { Asset } from "react-native-image-picker";
 import { ImagePickerManager } from "../../constants/utils/NativeImagePicker";
 import {
@@ -18,15 +13,19 @@ import {
   messages,
   toggleLoader,
 } from "../../constants/GConstant";
-import { ChatMessage, SecretKeyItem } from "../../constants/interfaces";
+import { ChatMessage } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { useFocusEffect } from "@react-navigation/native";
 import { apiBaseURL, statusCodes } from "../../api/APIConstant";
 import SocketIOClient from "socket.io-client";
 import { zustandStore } from "../../store";
 import { APIManager } from "../../api/ApiManager";
-import ImageUpload, { FolderName } from "../../constants/utils/S3ImageUpload";
 import { PlatformVersion } from "../../constants/utils/Platform";
+import {
+  AWS_FOLDER_NAME,
+  getMimeTypeFromPath,
+  uploadMultipleFilesToS3,
+} from "../../api/AWSUpload";
 
 var myMsgDetails: any = {};
 
@@ -36,9 +35,9 @@ const ChatConatiner = ({ navigation, route }: any) => {
     (state) => state.chatHistory
   );
   const { setReceiverId } = zustandStore.ChatNotificationStore();
-  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
-  const [s3AccessKey, setS3AccessKey] = useState<string>("");
-  const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
+  const s3ImageUploadApi = zustandStore.S3ImageUploadStore(
+    (state) => state.s3ImageUpload
+  );
   const socketRef = useRef<any>(null);
   const customer_id = route?.params?.customer_id;
   const driver_id = route?.params?.driver_id;
@@ -50,6 +49,112 @@ const ChatConatiner = ({ navigation, route }: any) => {
   const [isEmojiPickerVisible, setEmojiPickerVisible] = useState(false);
   const [messageValue, setMessageValue] = useState("");
   const [isMsgInputFocused, setIsMsgInputFocused] = useState(false);
+
+  // handleApiUploadImages
+  const handleApiUploadImages = async (uri: string, type: string) => {
+    try {
+      const localFormattedImages = [
+        {
+          folder_name: AWS_FOLDER_NAME.CHAT_MEDIA,
+          file_type: type,
+          is_video: false,
+          local_path: uri,
+        },
+      ];
+
+      const dictData = { images: localFormattedImages };
+
+      // Pass dictData and navigation as separate arguments
+      const response = await s3ImageUploadApi(dictData, navigation);
+      console.log("UPLOAD IMAGES RESPONSE===>", JSON.stringify(response));
+
+      if (response.code === statusCodes.success) {
+        const imageData = response.data as any;
+        // 1️⃣ Prepare array of files for S3 upload
+        const filesToUpload = imageData.map((fileItem: any) => ({
+          localPath: fileItem.local_path,
+          signedUrl: fileItem.link,
+          mimeType: getMimeTypeFromPath(fileItem.local_path),
+        }));
+
+        // 2️⃣ Upload all files in parallel
+        const uploadResults = await uploadMultipleFilesToS3(filesToUpload);
+
+        // 3️⃣ Log results and extract uploaded URLs
+        uploadResults.forEach((result) => {
+          if (result.error) {
+            console.log(`❌ Upload failed: ${result.localPath}`, result.error);
+          } else {
+            console.log(
+              `✅ Uploaded: ${result.localPath} -> ${result.uploadedUrl}`
+            );
+          }
+        });
+
+        // 4️⃣ Call your final form API with uploaded URLs
+        const uploadedUrls = uploadResults
+          .map((r) => r.uploadedUrl)
+          .filter(Boolean) as string[];
+
+        console.log("UPLOADED S3 URLS===>", uploadedUrls);
+
+        // 5️⃣ Extract only file names from uploaded URLs
+        const uploadedFileNames = uploadedUrls.map((url) => {
+          // Split by '/' and take the last part of the URL
+          return url.substring(url.lastIndexOf("/") + 1);
+        });
+
+        console.log("UPLOADED S3 FILE NAMES===>", uploadedFileNames);
+
+        // Send the uploaded media via socket
+        const socket = socketRef.current;
+        if (!socket || !socket.connected) {
+          console.warn("Socket not connected. Cannot send message.");
+          return;
+        }
+
+        const fullUrl = uploadedUrls[0]; // Use the first uploaded URL
+        const sendMessagePayload = {
+          sender_role: sender_role,
+          sender_id: customer_id,
+          receiver_role: receiver_role,
+          receiver_id: driver_id,
+          message: null,
+          message_type: "image",
+          media_url: uploadedFileNames[0], // Use file name for payload
+        };
+
+        APIManager.encryptData(
+          JSON.stringify(sendMessagePayload),
+          (encryptedData: string) => {
+            socket.emit("send_message", encryptedData);
+            console.log("sendMessagePayload==>", sendMessagePayload);
+
+            const messageObj: ChatMessage = {
+              sender_role: sender_role,
+              receiver_role: receiver_role,
+              sender_id: customer_id,
+              receiver_id: driver_id,
+              message: null,
+              created_at: new Date().toISOString(),
+              message_type: "image",
+              media_url: fullUrl, // Use full URL for chat history
+            };
+
+            console.log("messageObj => ", messageObj);
+            if (fullUrl) {
+              setChatHistory((prev) => [...prev, messageObj]);
+            }
+          }
+        );
+      } else if (response.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
+      }
+    } catch (error) {
+      console.log("Error===>", error);
+      flashMessageWarning("Failed to upload media");
+    }
+  };
 
   const handleOnChangeText = (text: string) => {
     setMessageValue(text);
@@ -114,19 +219,14 @@ const ChatConatiner = ({ navigation, route }: any) => {
                     console.log("Response==>", result);
                     if (pickerResponse[0].uri) {
                       const response = pickerResponse[0].uri;
-
+                      const uri = pickerResponse[0].uri;
+                      const file_type = pickerResponse[0].type
+                        ? pickerResponse[0].type.split("/")[1]
+                        : "";
                       toggleLoader(false);
-                      const isImage =
-                        pickerResponse[0].type?.startsWith("image/") || false;
 
-                      if (isImage) {
-                        uploadImage(response);
-                      } else {
-                        const fileExtension = response.split(".").pop();
-                        const type = `video/${fileExtension}` || "video/mp4";
-                        const ext = `.${fileExtension}`;
-                        // uploadVideo(response, type, ext);
-                      }
+                      // uploadImage(response);
+                      handleApiUploadImages(uri, file_type);
                     } else {
                       __DEV__ && console.log("No media selected or captured");
                     }
@@ -134,62 +234,6 @@ const ChatConatiner = ({ navigation, route }: any) => {
                   .catch((error: string) => {
                     __DEV__ && console.log("Error capturing media:", error);
                   });
-              }
-            }
-          );
-        }
-      }
-    );
-  };
-
-  // Image uplaod
-  const uploadImage = async (url: any) => {
-    const socket = socketRef.current;
-
-    if (!socket || !socket.connected) {
-      console.warn("Socket not connected. Cannot send message.");
-      return;
-    }
-    await ImageUpload.uploadImage(
-      s3AccessKey,
-      s3SecretAccessKey,
-      url,
-      FolderName.CHAT_MEDIA,
-      "image/png",
-      ".png",
-      (response: any, fullUrl: any) => {
-        console.log("Media uploaded sucessfully ===>", response);
-        if (response) {
-          const sendMessagePayload = {
-            sender_role: sender_role,
-            sender_id: customer_id,
-            receiver_role: receiver_role,
-            receiver_id: driver_id,
-            message: null,
-            message_type: "image",
-            media_url: response,
-          };
-
-          APIManager.encryptData(
-            JSON.stringify(sendMessagePayload),
-            (encryptedData: string) => {
-              socket.emit("send_message", encryptedData);
-              console.log("sendMessagePayload==>", sendMessagePayload);
-
-              const messageObj: ChatMessage = {
-                sender_role: sender_role,
-                receiver_role: receiver_role,
-                sender_id: customer_id,
-                receiver_id: driver_id,
-                message: null,
-                created_at: new Date().toISOString(),
-                message_type: "image",
-                media_url: fullUrl,
-              };
-
-              console.log("messageObj => ", messageObj);
-              if (fullUrl) {
-                setChatHistory((prev) => [...prev, messageObj]);
               }
             }
           );
@@ -279,35 +323,6 @@ const ChatConatiner = ({ navigation, route }: any) => {
     }
   };
 
-  // handleSecretKeyApi
-  const handleSecretKeyApi = async () => {
-    try {
-      const response = await secretKeyApi({}, navigation);
-      if (
-        response?.code === statusCodes.success &&
-        Array.isArray(response.data)
-      ) {
-        const keysData = response.data as SecretKeyItem[];
-        keysData.forEach((item) => {
-          switch (item.name) {
-            case "S3_ACCESS_KEY":
-              if (item.keys) setS3AccessKey(item.keys);
-              break;
-            case "S3_SECRET_KEY":
-              if (item.keys) setS3SecretAccessKey(item.keys);
-              break;
-            default:
-              break;
-          }
-        });
-      } else if (response?.code === statusCodes.invaildOrFail) {
-        flashMessageWarning(response.message);
-      }
-    } catch (error) {
-      __DEV__ && console.log("Secret Key API Error:", error);
-    }
-  };
-
   // Socket Connection
   useFocusEffect(
     React.useCallback(() => {
@@ -334,7 +349,6 @@ const ChatConatiner = ({ navigation, route }: any) => {
           }
         });
       });
-      handleSecretKeyApi();
 
       return () => {
         if (socketRef.current) {

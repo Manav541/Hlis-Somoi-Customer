@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import React, { Ref, useState } from "react";
 import { colors } from "../../constants/Colors";
 import { styles } from "./styles";
@@ -32,6 +32,8 @@ interface PropsType {
   maxLength?: number;
   isExpiryDateField?: boolean;
   isBlueInput?: boolean;
+  googlePlacesInput?: boolean;
+  isLoaderVisible?: boolean;
 }
 
 const GlobalTextInput = (props: PropsType) => {
@@ -51,6 +53,7 @@ const GlobalTextInput = (props: PropsType) => {
             : props.focusValue || props.value?.length > 0
             ? colors.white
             : colors.greya7,
+            flex:props.googlePlacesInput ? 0 : 1,
         },
       ]}
     >
@@ -181,6 +184,14 @@ const GlobalTextInput = (props: PropsType) => {
           new Date(new Date().setFullYear(new Date().getFullYear() + 10))
         }
       />
+
+      {/* Googler Places Loader */}
+      {props?.isLoaderVisible && props?.googlePlacesInput && (
+        <ActivityIndicator
+          size={'small'}
+          color={colors.orange1c}
+        />
+      )}
     </View>
   );
 };

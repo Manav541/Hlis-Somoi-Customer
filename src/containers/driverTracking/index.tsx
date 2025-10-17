@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { Text } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import GlobalBackButton from "../../global/GlobalBackButton";
 import { constnatStyles } from "../../constants/Styles";
@@ -7,17 +7,19 @@ import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
 import {
   CoordinatesType,
-  SecretKeyItem,
-  TrackingData,
+  DeliveryTrackingResponse,
 } from "../../constants/interfaces";
 import { flashMessageWarning } from "../../constants/GConstant";
 import MapView from "react-native-maps";
-import { MapDirectionsResponse } from "react-native-maps-directions";
 import DriverTrackingComponent from "../../components/driverTracking";
 import LocationManager from "../../constants/utils/LocationManager";
+import { decode } from "@mapbox/polyline";
 
 // Custom debounce function
-const debounce = <T extends (...args: any[]) => void>(func: T, wait: number) => {
+const debounce = <T extends (...args: any[]) => void>(
+  func: T,
+  wait: number
+) => {
   let timeout: NodeJS.Timeout | null = null;
   let isFirstCall = true;
 
@@ -50,12 +52,10 @@ const debounce = <T extends (...args: any[]) => void>(func: T, wait: number) => 
 
 const DriverTrackingContainer = ({ navigation, route }: any) => {
   // Zustand Store
-  const driverTrackApi = zustandStore.MyOrdersStore(
-    (state) => state.deliveryBoyLocation
+  const getDriverDirectionsApi = zustandStore.MyOrdersStore(
+    (state) => state.getDriverDirections
   );
-  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
 
-  const [googleApiKey, setGoogleApiKey] = useState<string>("");
   const [driverLatitude, setDriverLatitude] = useState<number>(0);
   const [driverLongitude, setDriverLongitude] = useState<number>(0);
   const [vendorLatitude, setVendorLatitude] = useState<number>(0);
@@ -76,7 +76,7 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
   const driverProfileImage = routeData?.driverProfileImage;
   const driverName = routeData?.driverName;
   const customer_id = routeData?.customer_id;
-  const customerName = routeData?.customerName || '';
+  const customerName = routeData?.customerName || "";
   const customerAddress = routeData?.customerAddress;
   const customerLatitude = routeData?.customerLatitude;
   const customerLongitude = routeData?.customerLongitude;
@@ -86,11 +86,6 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
       driver_id: driver_id,
       customer_id: customer_id,
     });
-  };
-
-  const handleOnReadyDirections = (result: MapDirectionsResponse) => {
-    __DEV__ && console.log("Route Coordinates:", result?.coordinates);
-    setRouteCoordinates(result?.coordinates || []);
   };
 
   const header = () => {
@@ -106,41 +101,36 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
     });
   };
 
-  // API to fetch Google API key
-  const handleSecretKeyApi = async () => {
-    try {
-      const response = await secretKeyApi({}, navigation);
-      if (
-        response?.code === statusCodes.success &&
-        Array.isArray(response.data)
-      ) {
-        const keysData = response.data as SecretKeyItem[];
-        const googleKey = keysData.find((item) => item.name === "googleApiKey");
-        if (googleKey?.keys) setGoogleApiKey(googleKey.keys);
-      } else if (response?.code === statusCodes.invaildOrFail) {
-        flashMessageWarning(response.message);
-      }
-    } catch (error) {
-      __DEV__ && console.log("Secret Key API Error:", error);
-    }
-  };
-
   // Validate coordinates
   const isValidCoordinate = (value: any) =>
     typeof value === "number" && !isNaN(value) && value !== 0;
 
   // Debounced driver location update
-  const handleDriverLocation = debounce(async () => {
-    const dictData = { order_id };
+  const handleGetDriverDirectionsApi = debounce(async () => {
+    const dictData = {
+      order_id: order_id,
+      type: "customer",
+    };
     try {
-      const response = await driverTrackApi(dictData, navigation);
+      const response = await getDriverDirectionsApi(dictData, navigation);
       if (response?.code === statusCodes.success) {
-        const driverData = response.data as TrackingData;
-        const newLat = Number(driverData?.driver_latitude);
-        const newLon = Number(driverData?.driver_longitude);
-        const newHeading = Number(driverData?.driver_heading);
-        const newVendorLat = Number(driverData?.vendor_latitude);
-        const newVendorLon = Number(driverData?.vendor_longitude);
+        __DEV__ &&
+          console.log("Get Driver Directions API Response:", response.data);
+        const locationData = response.data as DeliveryTrackingResponse;
+
+        // Decode polyline for route coordinates
+        const points = decode(locationData?.route?.encoded_polyline);
+        const decodedCoordinates = points.map((point: any) => ({
+          latitude: point[0],
+          longitude: point[1],
+        }));
+        setRouteCoordinates(decodedCoordinates);
+        // Update driver and vendor coordinates
+        const newLat = Number(locationData?.driver_location?.latitude);
+        const newLon = Number(locationData?.driver_location?.longitude);
+        const newHeading = Number(locationData?.driver_location?.heading);
+        const newVendorLat = Number(locationData?.vendor_location?.latitude);
+        const newVendorLon = Number(locationData?.vendor_location?.longitude);
 
         // Only update state if coordinates are valid
         if (isValidCoordinate(newLat) && isValidCoordinate(newLon)) {
@@ -172,15 +162,14 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
     } catch (error) {
       __DEV__ && console.log("Driver Location API Error:", error);
     }
-  }, 10000); // Debounce for 10 seconds, but first call is immediate
+  }, 10000);
 
   // Set header and fetch API key and initial driver location on mount
   useEffect(() => {
     header();
     (async () => {
-      await handleSecretKeyApi();
       setIsTracking(true);
-      handleDriverLocation(); // Trigger initial API call immediately
+      handleGetDriverDirectionsApi(); // Trigger initial API call immediately
     })();
   }, []);
 
@@ -193,28 +182,27 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
       if (!hasPermission || !isTracking) return;
 
       interval = setInterval(() => {
-        handleDriverLocation();
+        handleGetDriverDirectionsApi();
       }, 12000); // Slightly longer than debounce to avoid overlap
     };
 
     startTracking();
 
     return () => {
-      handleDriverLocation.cancel(); // Cancel debounced function
+      handleGetDriverDirectionsApi.cancel(); // Cancel debounced function
       if (interval) clearInterval(interval);
     };
   }, [isTracking]);
 
-  // Restrict marker blinking
+  // // Restrict marker blinking
   useEffect(() => {
-    const timer = setTimeout(() => setMarkersReady(true), 10000);
+    const timer = setTimeout(() => setMarkersReady(true), 5000);
     return () => clearTimeout(timer);
   }, []);
 
   // Set map ready when all coordinates and API key are available
   useEffect(() => {
     if (
-      googleApiKey &&
       isValidCoordinate(driverLatitude) &&
       isValidCoordinate(driverLongitude) &&
       isValidCoordinate(customerLatitude) &&
@@ -222,7 +210,7 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
     ) {
       setIsMapReady(true);
     }
-  }, [googleApiKey, driverLatitude, driverLongitude, customerLatitude, customerLongitude]);
+  }, [driverLatitude, driverLongitude, customerLatitude, customerLongitude]);
 
   return (
     <DriverTrackingComponent
@@ -234,7 +222,6 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
       customerLongitude={customerLongitude}
       mapRef={mapRef}
       markersReady={markersReady}
-      googleApiKey={googleApiKey}
       driverLatitude={driverLatitude}
       driverLongitude={driverLongitude}
       driverHeading={driverHeading}
@@ -242,7 +229,6 @@ const DriverTrackingContainer = ({ navigation, route }: any) => {
       vendorLongitude={vendorLongitude}
       onPressChat={onPressChat}
       routeCoordinates={routeCoordinates}
-      handleOnReadyDirections={handleOnReadyDirections}
       isMapReady={isMapReady}
     />
   );

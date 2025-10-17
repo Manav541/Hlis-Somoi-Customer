@@ -1,22 +1,22 @@
-import { invalid } from "moment";
-
 // Base url
 export const apiBaseURL = {
   development: "https://devapi.somoi.in/api/v1",
-  stage: "", 
+  stage: "",
   production: "",
   socketUrl: "https://devapi.somoi.in/chat?user_id=",
-
- 
 };
-
-
 
 // API end points
 export const apiEndPoint = {
   // Secret Key
   secretKey: "/admin/secret-key",
   getCODStatus: "/admin/get-cod-status",
+  getDriverDirections: "/admin/get-driver-directions",
+  searchPlaces: "/admin/search-places",
+  getFormattedAddress: "/home/customer/get-address-from-coords",
+
+  // S3 Image Upload
+  s3ImageUpload: "/home/customer/upload-images",
 
   // Chat
   chatHistory: "/chat/chat_history",

@@ -13,12 +13,14 @@ import MyWishlistStore from "./myWishlist";
 import NotificationListStore from "./notification";
 import ProductListingStore from "./productListing";
 import RateAndReviewStore from "./rateAndReview";
+import S3ImageUploadStore from "./s3ImageUpload";
 import userOtpVerificationStore from "./verfication";
 
 export const zustandStore = {
   KeyStore: KeyStore,
   ChatHistoryStore: ChatHistoryStore,
   ChatNotificationStore: ChatNotificationStore,
+  S3ImageUploadStore: S3ImageUploadStore,
 
   // Authentication Module
   AuthStore: AuthStore,

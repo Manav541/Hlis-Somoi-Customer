@@ -19,6 +19,8 @@ interface Store {
     dictData: object,
     navigation: any
   ) => Promise<APIResponseType>;
+  getDriverDirections: StoreFunction;
+  searchPlaces: StoreFunction;
 }
 
 const MyOrdersStore = create<Store>((set) => ({
@@ -203,6 +205,79 @@ const MyOrdersStore = create<Store>((set) => ({
         navigation: navigation,
       });
     });
+  },
+
+
+  getDriverDirections: async (
+    dictData: object,
+    navigation: any
+  ): Promise<APIResponseType> => {
+    try {
+      return await new Promise<APIResponseType>((resolve, reject) => {
+        const callback = (
+          data: APIResponseType | null,
+          error: { message: string } | null
+        ) => {
+          if (error) {
+            console.warn("API error===>", error);
+            reject(new Error(error.message || "An error occurred"));
+            return;
+          }
+          if (data) {
+            resolve(data);
+          } else {
+            reject(new Error("No data returned from API"));
+          }
+        };
+
+        APIManager.postServerRequestWithToken({
+          apiEndPoint: apiEndPoint.getDriverDirections,
+          callback,
+          dictData,
+          showLoader: false,
+          navigation,
+        });
+      });
+    } catch (error) {
+      console.error("getDriverDirections error:", error);
+      throw error;
+    }
+  },
+
+  searchPlaces: async (
+    dictData: object,
+    navigation: any
+  ): Promise<APIResponseType> => {
+    try {
+      return await new Promise<APIResponseType>((resolve, reject) => {
+        const callback = (
+          data: APIResponseType | null,
+          error: { message: string } | null
+        ) => {
+          if (error) {
+            console.warn("API error===>", error);
+            reject(new Error(error.message || "An error occurred"));
+            return;
+          }
+          if (data) {
+            resolve(data);
+          } else {
+            reject(new Error("No data returned from API"));
+          }
+        };
+
+        APIManager.postServerRequestWithToken({
+          apiEndPoint: apiEndPoint.searchPlaces,
+          callback,
+          dictData,
+          showLoader: false,
+          navigation,
+        });
+      });
+    } catch (error) {
+      console.error("searchPlaces error:", error);
+      throw error;
+    }
   },
 }));
 

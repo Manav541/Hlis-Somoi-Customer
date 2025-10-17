@@ -1,4 +1,4 @@
-import {  Text, StatusBar } from "react-native";
+import { Text, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import RateAndReviewComponent from "../../components/rateAndReview";
 import { useFocusEffect } from "@react-navigation/native";
@@ -24,7 +24,11 @@ import {
   RestaurantInfo,
   SecretKeyItem,
 } from "../../constants/interfaces";
-import ImageUpload, { FolderName } from "../../constants/utils/S3ImageUpload";
+import {
+  AWS_FOLDER_NAME,
+  getMimeTypeFromPath,
+  uploadMultipleFilesToS3,
+} from "../../api/AWSUpload";
 
 const RateAndReviewContainer = ({ navigation, route }: any) => {
   // API Store
@@ -37,7 +41,9 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
   const editRateApi = zustandStore.RateAndReviewStore(
     (state) => state.editRate
   );
-  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
+  const s3ImageUploadApi = zustandStore.S3ImageUploadStore(
+    (state) => state.s3ImageUpload
+  );
 
   const itemData = route?.params;
   console.log("Item Data", itemData?.prodcutDetail?.rating_summary);
@@ -48,8 +54,6 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
 
   const [product_rating, setProduct_rating] = useState(0);
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
-  const [s3AccessKey, setS3AccessKey] = useState<string>("");
-  const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
   const uploadedS3ImageUrlsRef = useRef<string[] | null>(null);
   const [product_review, setproduct_review] = useState<string>("");
   const product_reviewRef = useRef<TextInput>(null);
@@ -58,6 +62,102 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
 
   const [isReviewSuccessModalVisible, setIsReviewSuccessModalVisible] =
     useState(false);
+
+  // handleApiUploadImages
+  const handleApiUploadImages = async () => {
+    try {
+      // Filter new media (local URIs not containing S3 base URL)
+      const baseS3Url = `${GlobalVar.url}somoiapp`;
+      const newImagesToUpload = multiImagesArray.filter(
+        (item) => item.uri && !item.uri.includes(baseS3Url)
+      );
+      const alreadyUploadedUrls = multiImagesArray
+        .filter((item) => item.uri && item.uri.includes(baseS3Url))
+        .map((item) => item.uri);
+
+      const localFormattedImages = newImagesToUpload.map((item, index) => ({
+        folder_name: AWS_FOLDER_NAME.RATING_MEDIA,
+        file_type: item?.type
+          ? item.type.includes("/")
+            ? item.type.split("/")[1]
+            : item.type
+          : "",
+        is_video: item.type?.includes("video/") ? true : false,
+        local_path: item.uri ? item.uri : "",
+      }));
+
+      let uploadedFileNames: string[] = [];
+
+      if (newImagesToUpload.length > 0) {
+        const dictData = { images: localFormattedImages };
+
+        const response = await s3ImageUploadApi(dictData, navigation);
+        console.log("UPLOAD IMAGES RESPONSE===>", JSON.stringify(response));
+
+        if (response.code === statusCodes.success) {
+          const imageData = response.data as any[];
+          // 1️⃣ Prepare array of files for S3 upload
+          const filesToUpload = imageData.map((fileItem) => ({
+            localPath: fileItem.local_path,
+            signedUrl: fileItem.link,
+            mimeType: getMimeTypeFromPath(fileItem.local_path),
+          }));
+
+          // 2️⃣ Upload all files in parallel
+          const uploadResults = await uploadMultipleFilesToS3(filesToUpload);
+
+          // 3️⃣ Log results and extract uploaded URLs
+          uploadResults.forEach((result) => {
+            if (result.error) {
+              console.log(
+                `❌ Upload failed: ${result.localPath}`,
+                result.error
+              );
+            } else {
+              console.log(
+                `✅ Uploaded: ${result.localPath} -> ${result.uploadedUrl}`
+              );
+            }
+          });
+
+          // 4️⃣ Extract uploaded URLs
+          const uploadedUrls = uploadResults
+            .map((r) => r.uploadedUrl)
+            .filter(Boolean) as string[];
+
+          console.log("UPLOADED S3 URLS===>", uploadedUrls);
+
+          // 5️⃣ Extract only file names from uploaded URLs
+          uploadedFileNames = uploadedUrls.map((url) => {
+            return url.substring(url.lastIndexOf("/") + 1);
+          });
+
+          console.log("UPLOADED S3 FILE NAMES===>", uploadedFileNames);
+        } else if (response.code === statusCodes.invaildOrFail) {
+          flashMessageWarning(response.message);
+          return;
+        }
+      }
+
+      // Combine already uploaded file names with newly uploaded ones
+      const alreadyUploadedFileNames = alreadyUploadedUrls.map((url) => {
+        return url ? url.substring(url.lastIndexOf("/") + 1) : "";
+      });
+      const allFileNames = [...alreadyUploadedFileNames, ...uploadedFileNames];
+
+      console.log("ALL S3 FILE NAMES===>", allFileNames);
+
+      // Call the appropriate API with all file names
+      if (isEditRating === true) {
+        handleEditRateApi(allFileNames);
+      } else {
+        handleRateProductApi(allFileNames);
+      }
+    } catch (error) {
+      console.error("Error===>", error);
+      flashMessageWarning("Failed to upload media");
+    }
+  };
 
   // Image uplaod
   const handleOnPressUploadImages = () => {
@@ -99,102 +199,6 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
     );
   };
 
-  const uploadImagesInS3 = async () => {
-    const imagesURIArray =
-      multiImagesArray.map((image: Asset) => image.uri) || [];
-    __DEV__ && console.log("All Image URIs:", imagesURIArray);
-
-    const baseS3Url = `${GlobalVar.url}somoiapp`;
-
-    // 🔁 Use full Asset objects to detect type
-    const newImagesToUpload = multiImagesArray.filter(
-      (image: Asset) => image.uri && !image.uri.includes(baseS3Url)
-    );
-
-    const alreadyUploadedUrls = multiImagesArray
-      .filter((image: Asset) => image.uri && image.uri.includes(baseS3Url))
-      .map((image: Asset) => image.uri);
-
-    try {
-      toggleLoader(true);
-
-      let newlyUploadedUrls: string[] = [];
-
-      if (newImagesToUpload.length > 0) {
-        const uploadPromises = newImagesToUpload.map(
-          (image: Asset) =>
-            new Promise<string>((resolve, reject) => {
-              const isVideo = image.type?.includes("video/mp4");
-
-              if (isVideo) {
-                ImageUpload.uploadVideo(
-                  s3AccessKey,
-                  s3SecretAccessKey,
-                  image.uri,
-                  FolderName.RATING_MEDIA,
-                  "video/mp4",
-                  ".mp4",
-                  (response: string) => {
-                    try {
-                      const parsed =
-                        typeof response === "string"
-                          ? JSON.parse(response)
-                          : response;
-                      const videoName = parsed?.videoName || "";
-                      __DEV__ &&
-                        console.log("✅ Extracted videoName:", videoName);
-                      resolve(videoName);
-                    } catch (err) {
-                      console.error("❌ Error parsing video response:", err);
-                      resolve(""); // or reject(err);
-                    }
-                  }
-                );
-              } else {
-                ImageUpload.uploadImage(
-                  s3AccessKey,
-                  s3SecretAccessKey,
-                  image.uri,
-                  FolderName.RATING_MEDIA,
-                  "image/png",
-                  ".png",
-                  (response: string) => {
-                    __DEV__ && console.log("✅ Uploaded file Image:", response);
-                    resolve(response);
-                  }
-                );
-              }
-            })
-        );
-
-        newlyUploadedUrls = await Promise.all(uploadPromises);
-        uploadedS3ImageUrlsRef.current = newlyUploadedUrls;
-      }
-
-      const allUrls = [...alreadyUploadedUrls, ...newlyUploadedUrls];
-
-      const allImageFileNames = allUrls.map((url: string | undefined) => {
-        try {
-          return url?.split("/").pop() || "";
-        } catch {
-          return "";
-        }
-      });
-
-      console.log("🧾 Final file names:", allImageFileNames);
-
-      if (isEditRating == true) {
-        handleEditRateApi(allImageFileNames);
-      } else {
-        handleRateProductApi(allImageFileNames);
-      }
-    } catch (error) {
-      console.error("❌ Error:", error);
-    } finally {
-      toggleLoader(false);
-    }
-  };
-
   const handleOnPressDeleteUploadedImage = (index: number) => {
     const updatedArray = [...multiImagesArray];
     updatedArray.splice(index, 1);
@@ -234,7 +238,8 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
       if (navigateFromStoreReview == true) {
         handleRateVendorApi();
       } else {
-        uploadImagesInS3();
+        // uploadImagesInS3();
+        handleApiUploadImages();
       }
     }
   };
@@ -365,35 +370,6 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
     }
   };
 
-  // handleSecretKeyApi
-  const handleSecretKeyApi = async () => {
-    try {
-      const response = await secretKeyApi({}, navigation);
-      if (
-        response?.code === statusCodes.success &&
-        Array.isArray(response.data)
-      ) {
-        const keysData = response.data as SecretKeyItem[];
-        keysData.forEach((item) => {
-          switch (item.name) {
-            case "S3_ACCESS_KEY":
-              if (item.keys) setS3AccessKey(item.keys);
-              break;
-            case "S3_SECRET_KEY":
-              if (item.keys) setS3SecretAccessKey(item.keys);
-              break;
-            default:
-              break;
-          }
-        });
-      } else if (response?.code === statusCodes.invaildOrFail) {
-        flashMessageWarning(response.message);
-      }
-    } catch (error) {
-      __DEV__ && console.log("Secret Key API Error:", error);
-    }
-  };
-
   useEffect(() => {
     if (!isEditRating || !prodcutDetail?.rating_summary?.rating_media) return;
 
@@ -420,7 +396,6 @@ const RateAndReviewContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleSecretKeyApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])

@@ -14,14 +14,10 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { getTranslation } from "../../../localization/i18n/i18n.config";
 import GlobalTextInput from "../../../global/GlobalTextInput";
 import GlobalButton from "../../../global/GlobalButton";
-import { PlatformVersion } from "../../../constants/utils/Platform";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { activityOpacity, hitSlop } from "../../../constants/GConstant";
 import { images } from "../../../constants/Images";
 import { colors } from "../../../constants/Colors";
-import GooglePlacesTextInput, {
-  GooglePlacesTextInputRef,
-} from "react-native-google-places-textinput";
 import MapView, { Marker } from "react-native-maps";
 import { constnatStyles } from "../../../constants/Styles";
 
@@ -47,15 +43,7 @@ interface PropsType {
   handleSetDefault: () => void;
   isNavigateFromManageAddress: boolean;
   isEditAddress: boolean;
-  handlePlaceSelect: (place: any) => void;
-  googleApiKey: string;
   isAddressInitialized: boolean;
-
-  searchLocation: string;
-  searchLocationFocused: boolean;
-  searchLocationRef: Ref<GooglePlacesTextInputRef>;
-  handleOnChangeSearchText: (text: string) => void;
-
   latitude: number;
   longitude: number;
   fullAddress: string;
@@ -65,10 +53,11 @@ interface PropsType {
   handleConfirmLocation: () => void;
   handleCurrentLocation: () => void; // New prop for current location handling
   handleMapPress: (event: any) => void;
+  handleOnPressStoreLocation: () => void;
+  searchLocation: string;
 }
 
 const AddAddressComponent = (props: PropsType) => {
-  console.log("Search Location ", props.latitude, props.longitude);
   const insets = useSafeAreaInsets();
 
   return (
@@ -98,14 +87,10 @@ const AddAddressComponent = (props: PropsType) => {
                 latitude: props.latitude,
                 longitude: props.longitude,
               }}
-            >
-               <View style={styles.vwDestinationMarker}>
-                  <Image
-                    source={images.customerMarker}
-                    style={constnatStyles.img24}
-                  />
-                </View>
-            </Marker>
+              onDragEnd={props.handleMapPress}
+              pinColor={colors.orange1c}
+              draggable
+            />
           ) : null}
         </MapView>
         {/* Current Location Button (moved outside MapView) */}
@@ -115,33 +100,26 @@ const AddAddressComponent = (props: PropsType) => {
           activeOpacity={activityOpacity}
           hitSlop={hitSlop}
         >
-          <Image source={images.currentLocation} style={constnatStyles.img24} tintColor={colors.blue4e} />
+          <Image
+            source={images.currentLocation}
+            style={constnatStyles.img24}
+            tintColor={colors.blue4e}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.searchContainer}>
-        <GooglePlacesTextInput
-          key={"searchLocation"}
-          style={{
-            container: styles.googlePlacesContainer,
-            input: {
-              ...styles.input,
-            },
-            placeholder: styles.placeholder,
-            loadingIndicator: styles.loadingIndicator,
-            suggestionsContainer: styles.suggestionsContainer,
+        <TouchableOpacity
+          activeOpacity={activityOpacity}
+          hitSlop={hitSlop}
+          style={styles.googlePlacesContainer}
+          onPress={() => {
+            props.handleOnPressStoreLocation();
           }}
-          onTextChange={(text) => {
-            props.handleOnChangeSearchText(text);
-          }}
-          placeHolderText={"Search Location "}
-          ref={props?.searchLocationRef as Ref<GooglePlacesTextInputRef>}
-          value={props?.searchLocation}
-          apiKey={props?.googleApiKey}
-          onPlaceSelect={props?.handlePlaceSelect}
-          debounceDelay={300}
-          showClearButton={true}
-          hideOnKeyboardDismiss={true}
-        />
+        >
+          <Text style={styles.input}>
+            {props?.searchLocation == "" ? "Search Location" : props?.searchLocation}
+          </Text>
+        </TouchableOpacity>
       </View>
       <View
         style={[

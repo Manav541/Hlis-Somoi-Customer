@@ -73,6 +73,11 @@ export default {
     "Shop from a variety of stores and get everything you need in one place.",
   onboardingDesc3: "Stay updated with live tracking from pickup to delivery.",
 
+  // Search Address Screen
+  searchAddressTitle: 'Search Address',
+  searchaddressTitle: 'Search address',
+  noAddressFound: 'No address found',
+  
   // Buttons
   next: "Next",
   getStarted: "Get Started",

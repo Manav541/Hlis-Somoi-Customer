@@ -19,7 +19,11 @@ import { CancelOrderReason, SecretKeyItem } from "../../constants/interfaces";
 import { constnatStyles } from "../../constants/Styles";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
-import ImageUpload, { FolderName } from "../../constants/utils/S3ImageUpload";
+import {
+  AWS_FOLDER_NAME,
+  getMimeTypeFromPath,
+  uploadMultipleFilesToS3,
+} from "../../api/AWSUpload";
 
 const ReturnOrderContainer = ({ navigation, route }: any) => {
   // API zustand store
@@ -29,15 +33,15 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
   const returnOrderApi = zustandStore.MyOrdersStore(
     (state) => state.returnOrder
   );
-  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
+  const s3ImageUploadApi = zustandStore.S3ImageUploadStore(
+    (state) => state.s3ImageUpload
+  );
   console.log("selected item", route?.params?.items);
 
   const order_id = route.params?.order_id;
   const selectedItems = route.params?.items;
   const arrProductIds = selectedItems.map((item: any) => item.product_id);
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
-  const [s3AccessKey, setS3AccessKey] = useState<string>("");
-  const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
   const uploadedS3ImageUrlsRef = useRef<string[] | null>(null);
   const [arrReturnOrderReason, setArrReturnOrderReason] = useState<
     CancelOrderReason[]
@@ -52,6 +56,71 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
   const [selectedReason, setSelectedReason] = useState<string>("");
   const [isRefundReplacement, setIsRefundReplacement] =
     useState<string>("Refund");
+
+  // handleApiUploadImages
+  const handleApiUploadImages = async (
+    selectedReason: CancelOrderReason,
+    description?: string
+  ) => {
+    try {
+      const localFormattedImages = multiImagesArray.map((item, index) => ({
+        folder_name: AWS_FOLDER_NAME.ORDER_RETURN_MEDIA,
+        file_type: item?.type ? item.type.split("/")[1] : "",
+        is_video: item.type?.includes("video/mp4") ? true : false,
+        local_path: item.uri ? item.uri : "",
+      }));
+
+      const dictData = { images: localFormattedImages };
+
+      const response = await s3ImageUploadApi(dictData, navigation);
+      console.log("UPLOAD IMAGES RESPONSE===>", JSON.stringify(response));
+
+      if (response.code === statusCodes.success) {
+        const imageData = response.data as any[];
+        // 1️⃣ Prepare array of files for S3 upload
+        const filesToUpload = imageData.map((fileItem) => ({
+          localPath: fileItem.local_path,
+          signedUrl: fileItem.link,
+          mimeType: getMimeTypeFromPath(fileItem.local_path),
+        }));
+
+        // 2️⃣ Upload all files in parallel
+        const uploadResults = await uploadMultipleFilesToS3(filesToUpload);
+
+        // 3️⃣ Log results and extract uploaded URLs
+        uploadResults.forEach((result) => {
+          if (result.error) {
+            console.log(`❌ Upload failed: ${result.localPath}`, result.error);
+          } else {
+            console.log(
+              `✅ Uploaded: ${result.localPath} -> ${result.uploadedUrl}`
+            );
+          }
+        });
+
+        // 4️⃣ Call your final form API with uploaded URLs
+        const uploadedUrls = uploadResults
+          .map((r) => r.uploadedUrl)
+          .filter(Boolean) as string[];
+
+        console.log("UPLOADED S3 URLS===>", uploadedUrls);
+
+        // 5️⃣ Extract only file names from uploaded URLs
+        const uploadedFileNames = uploadedUrls.map((url) => {
+          // Split by '/' and take the last part of the URL
+          return url.substring(url.lastIndexOf("/") + 1);
+        });
+
+        console.log("UPLOADED S3 FILE NAMES===>", uploadedFileNames);
+
+        handleReturnOrderApi(selectedReason, description, uploadedFileNames);
+      } else if (response.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
+      }
+    } catch (error) {
+      console.log("Error===>", error);
+    }
+  };
 
   // Image uplaod
   const handleOnPressUploadImages = () => {
@@ -91,103 +160,6 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
         }
       }
     );
-  };
-
-  const uploadImagesInS3 = async (
-    selectedReason: CancelOrderReason,
-    description?: string
-  ) => {
-    const imagesURIArray =
-      multiImagesArray.map((image: Asset) => image.uri) || [];
-    __DEV__ && console.log("All Image URIs:", imagesURIArray);
-
-    const baseS3Url = `${GlobalVar.url}somoiapp`;
-
-    // 🔁 Use full Asset objects to detect type
-    const newImagesToUpload = multiImagesArray.filter(
-      (image: Asset) => image.uri && !image.uri.includes(baseS3Url)
-    );
-
-    const alreadyUploadedUrls = multiImagesArray
-      .filter((image: Asset) => image.uri && image.uri.includes(baseS3Url))
-      .map((image: Asset) => image.uri);
-
-    try {
-      toggleLoader(true);
-
-      let newlyUploadedUrls: string[] = [];
-
-      if (newImagesToUpload.length > 0) {
-        const uploadPromises = newImagesToUpload.map(
-          (image: Asset) =>
-            new Promise<string>((resolve, reject) => {
-              console.log("Video Asset image", image);
-
-              const isVideo = image.type?.includes("video/mp4");
-
-              if (isVideo) {
-                ImageUpload.uploadVideo(
-                  s3AccessKey,
-                  s3SecretAccessKey,
-                  image.uri,
-                  FolderName.ORDER_RETURN_MEDIA,
-                  "video/mp4",
-                  ".mp4",
-                  (response: string) => {
-                    try {
-                      const parsed =
-                        typeof response === "string"
-                          ? JSON.parse(response)
-                          : response;
-                      const videoName = parsed?.videoName || "";
-                      __DEV__ &&
-                        console.log("✅ Extracted videoName:", videoName);
-                      resolve(videoName);
-                    } catch (err) {
-                      console.error("❌ Error parsing video response:", err);
-                      resolve(""); // or reject(err);
-                    }
-                  }
-                );
-              } else {
-                ImageUpload.uploadImage(
-                  s3AccessKey,
-                  s3SecretAccessKey,
-                  image.uri,
-                  FolderName.ORDER_RETURN_MEDIA,
-                  "image/png",
-                  ".png",
-                  (response: string) => {
-                    __DEV__ && console.log("✅ Uploaded file Image:", response);
-                    resolve(response);
-                  }
-                );
-              }
-            })
-        );
-
-        newlyUploadedUrls = await Promise.all(uploadPromises);
-        uploadedS3ImageUrlsRef.current = newlyUploadedUrls;
-      }
-
-      const allUrls = [...alreadyUploadedUrls, ...newlyUploadedUrls];
-
-      const allImageFileNames = allUrls.map((url: string | undefined) => {
-        try {
-          return url?.split("/").pop() || "";
-        } catch {
-          return "";
-        }
-      });
-
-      console.log("🧾 Final file names:", allImageFileNames);
-
-      handleReturnOrderApi(selectedReason, description, allImageFileNames);
-    } catch (error) {
-      console.error("❌ Error:", error);
-    } finally {
-      toggleLoader(false);
-    }
   };
 
   const handleOnPressDeleteUploadedImage = (index: number) => {
@@ -249,7 +221,8 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
       flashMessageWarning("Please upload at least one image/video.");
       return;
     } else {
-      uploadImagesInS3(selectedReason, otherReason.trim());
+      // uploadImagesInS3(selectedReason, otherReason.trim());
+      handleApiUploadImages(selectedReason, otherReason.trim());
     }
 
     // 🟡 If images are selected, upload them to S3 first
@@ -304,6 +277,13 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
   // ----------------------- API Calling -------------------------
   // handleCancelOrderReasonListApi
   const handleCancelOrderReasonListApi = async () => {
+    const defaultReasons: CancelOrderReason[] = [
+      {
+        reason: "Other (please specify)",
+        isSelected: false,
+      },
+    ];
+
     const dictData = {
       type: "cancel",
     };
@@ -318,30 +298,34 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
             "RETURN REASON LISTING RESPONSE===>",
             JSON.stringify(response)
           );
-        if (response.code === statusCodes.success) {
+        if (
+          response.code === statusCodes.success &&
+          Array.isArray(response.data)
+        ) {
           const rawData = response.data as CancelOrderReason[];
-          // Map API reasons to your CancelOrderReason type
+          // Map API reasons to CancelOrderReason type
           const apiReasons: CancelOrderReason[] = rawData.map((item: any) => ({
             id: item.id,
             reason: item.reason,
             isSelected: false,
           }));
-
           // Add 'Other (please specify)' at the end
-          const finalReasons: CancelOrderReason[] = [
-            ...apiReasons,
-            {
-              reason: "Other (please specify)",
-              isSelected: false,
-            },
-          ];
-          setArrReturnOrderReason(finalReasons);
-        } else if (response.code === statusCodes.invaildOrFail) {
-          flashMessageWarning(response.message);
+          setArrReturnOrderReason([...apiReasons, ...defaultReasons]);
+        } else {
+          // Set default reason if API fails or returns no data
+          setArrReturnOrderReason(defaultReasons);
+          if (response.code === statusCodes.invaildOrFail) {
+            flashMessageWarning(response.message);
+          }
         }
+      } else {
+        // Set default reason if response is null or undefined
+        setArrReturnOrderReason(defaultReasons);
       }
     } catch (error) {
-      __DEV__ && console.log(error);
+      __DEV__ && console.log("Error fetching reasons:", error);
+      // Set default reason on error
+      setArrReturnOrderReason(defaultReasons);
     }
   };
 
@@ -378,38 +362,8 @@ const ReturnOrderContainer = ({ navigation, route }: any) => {
     }
   };
 
-  // handleSecretKeyApi
-  const handleSecretKeyApi = async () => {
-    try {
-      const response = await secretKeyApi({}, navigation);
-      if (
-        response?.code === statusCodes.success &&
-        Array.isArray(response.data)
-      ) {
-        const keysData = response.data as SecretKeyItem[];
-        keysData.forEach((item) => {
-          switch (item.name) {
-            case "S3_ACCESS_KEY":
-              if (item.keys) setS3AccessKey(item.keys);
-              break;
-            case "S3_SECRET_KEY":
-              if (item.keys) setS3SecretAccessKey(item.keys);
-              break;
-            default:
-              break;
-          }
-        });
-      } else if (response?.code === statusCodes.invaildOrFail) {
-        flashMessageWarning(response.message);
-      }
-    } catch (error) {
-      __DEV__ && console.log("Secret Key API Error:", error);
-    }
-  };
-
   useFocusEffect(
     React.useCallback(() => {
-      handleSecretKeyApi();
       handleCancelOrderReasonListApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};

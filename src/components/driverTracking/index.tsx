@@ -2,9 +2,6 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import React, { RefObject, useState } from "react";
 import { styles } from "./styles";
 import MapView, { Marker, Polyline } from "react-native-maps";
-import MapViewDirections, {
-  MapDirectionsResponse,
-} from "react-native-maps-directions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getTranslation } from "../../localization/i18n/i18n.config";
 import FastImage from "react-native-fast-image";
@@ -23,7 +20,6 @@ interface PropsType {
   customerLongitude: number;
   mapRef: RefObject<MapView | null>;
   markersReady: boolean;
-  googleApiKey: string;
   driverLatitude: number;
   driverLongitude: number;
   driverHeading: number;
@@ -31,7 +27,6 @@ interface PropsType {
   vendorLongitude: number;
   onPressChat: () => void;
   routeCoordinates: CoordinatesType[];
-  handleOnReadyDirections: (result: MapDirectionsResponse) => void;
   isMapReady: boolean;
 }
 
@@ -55,8 +50,6 @@ const DriverTrackingComponent = (props: PropsType) => {
     customerName,
     customerAddress,
     onPressChat,
-    googleApiKey,
-    handleOnReadyDirections,
     routeCoordinates,
   } = props;
 
@@ -83,8 +76,10 @@ const DriverTrackingComponent = (props: PropsType) => {
           onMapReady={() => setIsMapReady(true)}
         >
           {/* Driver Marker */}
-          {isValidCoordinate(driverLatitude) &&
-            isValidCoordinate(driverLongitude) && (
+          {
+          isValidCoordinate(driverLatitude) &&
+            isValidCoordinate(driverLongitude) && 
+            (
               <Marker
                 coordinate={{
                   latitude: driverLatitude,
@@ -93,7 +88,7 @@ const DriverTrackingComponent = (props: PropsType) => {
                 rotation={driverHeading}
                 flat
                 anchor={{ x: 0.5, y: 0.5 }}
-                tracksViewChanges={!markersReady}
+                // tracksViewChanges={!markersReady}
               >
                 <Image
                   source={images.vehicleIcon}
@@ -110,7 +105,7 @@ const DriverTrackingComponent = (props: PropsType) => {
                   latitude: customerLatitude,
                   longitude: customerLongitude,
                 }}
-                tracksViewChanges={!markersReady}
+                // tracksViewChanges={!markersReady}
               >
                 <View style={styles.vwDestinationMarker}>
                   <Image
@@ -124,27 +119,7 @@ const DriverTrackingComponent = (props: PropsType) => {
           {/* Path Rendering */}
           {canDrawPath && (
             <>
-              <MapViewDirections
-                origin={{
-                  latitude: driverLatitude,
-                  longitude: driverLongitude,
-                }}
-                destination={{
-                  latitude: customerLatitude,
-                  longitude: customerLongitude,
-                }}
-                apikey={googleApiKey}
-                strokeWidth={4}
-                strokeColor={colors.black35}
-                strokeColors={[colors.black35]}
-                onReady={handleOnReadyDirections}
-                onError={(error) => {
-                  __DEV__ && console.log("Maps Directions Error ===>", error);
-                }}
-                mode="DRIVING"
-                region="IN"
-                resetOnChange={false} // Prevent resetting the route on every change
-              />
+             
 
               {/* Draw custom polyline */}
               {routeCoordinates.length > 0 && (

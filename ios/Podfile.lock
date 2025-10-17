@@ -2084,6 +2084,8 @@ PODS:
     - FirebaseCoreExtension
     - React-Core
     - RNFBApp
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (2.25.0):
     - DoubleConversion
     - glog
@@ -2339,7 +2341,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSentry (6.18.1):
+  - RNSentry (7.0.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2469,6 +2471,7 @@ DEPENDENCIES:
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
@@ -2682,6 +2685,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
     :path: "../node_modules/@react-native-firebase/messaging"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNLocalize:
@@ -2806,6 +2811,7 @@ SPEC CHECKSUMS:
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBApp: df5caad9f64b6bc87f8a0b110e6bc411fb00a12b
   RNFBMessaging: 6586f18ab3411aeb3349088c19fe54283d39e529
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: b249b5be5a3659025aed8898aaaafd567dc2d660
   RNLocalize: 4bac9fd4d5d1f661e2b0aac813b02421db24b851
   RNNotifee: 4a6ee5c7deaf00e005050052d73ee6315dff7ec9
@@ -2813,7 +2819,7 @@ SPEC CHECKSUMS:
   RNRate: ef3bcff84f39bb1d1e41c5593d3eea4aab2bd73a
   RNReanimated: 7b926938d4190114e5848b5b022d83dbc2c0fe2c
   RNScreens: 4ada1709be95c3a4bf1f885378262ceadd9cc939
-  RNSentry: 82cc2e9793abde7a0214edbce7a0f149e60fe091
+  RNSentry: c93d95d91d2e28e5b4df5b62f87bcbcab02266e7
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   Sentry: 59993bffde4a1ac297ba6d268dc4bbce068d7c1b

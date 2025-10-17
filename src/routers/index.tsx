@@ -3,6 +3,7 @@ import AddNewCardContainer from "../containers/addNewCard";
 import AddAddressContainer from "../containers/authentication/addAddress";
 import ChangePasswordContainer from "../containers/authentication/changePassword";
 import ForgotPasswordContainer from "../containers/authentication/forgotPassword";
+import GoogleSearchPlacesContainer from "../containers/authentication/googleSearchPlaces";
 import OnboardingContainer from "../containers/authentication/onboarding";
 import SignInContainer from "../containers/authentication/signin";
 import SignupContainer from "../containers/authentication/signup";
@@ -50,6 +51,7 @@ export const ScreenNames = {
   forgotPassword: "Forgot Password",
   changePassword: "Change Password",
   addAddress: "Add Address",
+  googleSearchPlaces: "Search Address",
 
   // Home page screens
   allCategories: "All Categories",
@@ -111,6 +113,7 @@ export const MyScreens = {
   ForgotPasswordContainer,
   ChangePasswordContainer,
   AddAddressContainer,
+  GoogleSearchPlacesContainer,
 
   // bottom tabs
   BottomTabsNavigation,

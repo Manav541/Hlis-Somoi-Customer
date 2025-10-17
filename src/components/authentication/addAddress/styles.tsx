@@ -25,6 +25,11 @@ export const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
+     backgroundColor: colors.orange1c,
+    paddingBottom: 15,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    paddingHorizontal: 20,
   },
   // Bottom container (for modal content)
   bottomContainer: {
@@ -129,34 +134,18 @@ export const styles = StyleSheet.create({
   },
   // GooglePlacesTextInput Styles
   googlePlacesContainer: {
-    backgroundColor: colors.orange1c,
-    paddingBottom: 15,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    paddingHorizontal: 20,
-  },
-  input: {
-    fontSize: fontSize.size14,
-    color: colors.black35,
-    fontFamily: fontsfamily.medium,
     backgroundColor: colors.white,
     borderRadius: 100,
     borderWidth: 1,
     borderColor: colors.grey76,
     height : 57,
+    justifyContent : 'center',
+    paddingHorizontal : 20
   },
-  placeholder: {
-    color: colors.greya7,
-  },
-  loadingIndicator: {
-    color: colors.orange1c,
-  },
-  suggestionsContainer: {
-    position: "absolute",
-    top: 52,
-    maxHeight: 250,
-    zIndex: 1000,
-    marginHorizontal: 20,
-    width: "100%",
+  input: {
+    fontSize: fontSize.size14,
+    color: colors.black35,
+    fontFamily: fontsfamily.medium,
+   
   },
 });

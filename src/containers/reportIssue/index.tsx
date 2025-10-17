@@ -17,69 +17,89 @@ import ReportIssueComponent from "../../components/reportIssue";
 import { constnatStyles } from "../../constants/Styles";
 import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
-import ImageUpload, { FolderName } from "../../constants/utils/S3ImageUpload";
-import { SecretKeyItem } from "../../constants/interfaces";
+import {
+  AWS_FOLDER_NAME,
+  getMimeTypeFromPath,
+  uploadMultipleFilesToS3,
+} from "../../api/AWSUpload";
 
 const ReportIssueContainer = ({ navigation, route }: any) => {
   // API zustand store
   const reportIssueApi = zustandStore.MyOrdersStore(
     (state) => state.reportIssue
   );
-  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
-
+  const s3ImageUploadApi = zustandStore.S3ImageUploadStore(
+    (state) => state.s3ImageUpload
+  );
   const order_id = route?.params?.order_id;
-  const [s3AccessKey, setS3AccessKey] = useState<string>("");
-  const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
-  const uploadedS3ImageUrlsRef = useRef<string[] | null>(null);
   const [multiImagesArray, setMultiImagesArray] = useState<Asset[]>([]);
   const [reportIssue, setReportIssue] = useState<string>("");
   const reportIssueRef = useRef<TextInput>(null);
   const [reportIssueFocused, setReportIssueFocused] = useState<boolean>(false);
 
-  // Image uplaod
-  const uploadImageInS3 = async () => {
-    const imagesURIArray =
-      multiImagesArray.map((image: Asset) => image.uri) || [];
-    __DEV__ && console.log("All Image URIs:", imagesURIArray);
-
+  // handleApiUploadImages
+  const handleApiUploadImages = async () => {
     try {
-      toggleLoader(true);
+      const localFormattedImages = multiImagesArray.map((item, index) => ({
+        folder_name: AWS_FOLDER_NAME.REPORTS_MEDIA,
+        file_type: item?.type ? item.type.split("/")[1] : "",
+        is_video: false,
+        local_path: item.uri ? item.uri : "",
+      }));
 
-      let newlyUploadedUrls: string[] = [];
+      const dictData = { images: localFormattedImages };
 
-      // 🆕 Only upload new images (local file URIs)
-      if (imagesURIArray.length > 0) {
-        const uploadPromises = imagesURIArray.map(
-          (uri: string | undefined) =>
-            new Promise<string>((resolve, reject) => {
-              ImageUpload.uploadImage(
-                s3AccessKey,
-                s3SecretAccessKey,
-                uri,
-                FolderName.REPORTS_MEDIA,
-                "image/png",
-                ".png",
-                (response: string) => {
-                  __DEV__ && console.log("✅ Uploaded image:", response);
-                  resolve(response);
-                }
-              );
-            })
-        );
+      const response = await s3ImageUploadApi(dictData, navigation);
+      console.log("UPLOAD IMAGES RESPONSE===>", JSON.stringify(response));
 
-        newlyUploadedUrls = await Promise.all(uploadPromises);
-        uploadedS3ImageUrlsRef.current = newlyUploadedUrls;
+      if (response.code === statusCodes.success) {
+        const imageData = response.data as any[];
+        // 1️⃣ Prepare array of files for S3 upload
+        const filesToUpload = imageData.map((fileItem) => ({
+          localPath: fileItem.local_path,
+          signedUrl: fileItem.link,
+          mimeType: getMimeTypeFromPath(fileItem.local_path),
+        }));
+
+        // 2️⃣ Upload all files in parallel
+        const uploadResults = await uploadMultipleFilesToS3(filesToUpload);
+
+        // 3️⃣ Log results and extract uploaded URLs
+        uploadResults.forEach((result) => {
+          if (result.error) {
+            console.log(`❌ Upload failed: ${result.localPath}`, result.error);
+          } else {
+            console.log(
+              `✅ Uploaded: ${result.localPath} -> ${result.uploadedUrl}`
+            );
+          }
+        });
+
+        // 4️⃣ Call your final form API with uploaded URLs
+        const uploadedUrls = uploadResults
+          .map((r) => r.uploadedUrl)
+          .filter(Boolean) as string[];
+
+        console.log("UPLOADED S3 URLS===>", uploadedUrls);
+
+        // 5️⃣ Extract only file names from uploaded URLs
+        const uploadedFileNames = uploadedUrls.map((url) => {
+          // Split by '/' and take the last part of the URL
+          return url.substring(url.lastIndexOf("/") + 1);
+        });
+
+        console.log("UPLOADED S3 FILE NAMES===>", uploadedFileNames);
+        handleReportIssueApi(reportIssue, uploadedFileNames);
+        //  if (isEditRating == true) {
+        //   handleEditRateApi(uploadedFileNames);
+        // } else {
+        //   handleRateProductApi(uploadedFileNames);
+        // }
+      } else if (response.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
       }
-
-      const allUrls = [...newlyUploadedUrls];
-
-      console.log("🧾 Final image file names:", allUrls);
-
-      await handleReportIssueApi(reportIssue, allUrls);
     } catch (error) {
-      console.error("❌ Error:", error);
-    } finally {
-      toggleLoader(false);
+      console.log("Error===>", error);
     }
   };
 
@@ -156,7 +176,8 @@ const ReportIssueContainer = ({ navigation, route }: any) => {
       reportIssueRef?.current?.focus();
       return;
     } else {
-      uploadImageInS3();
+      handleApiUploadImages();
+      // uploadImageInS3();
       // handleReportIssueApi(reportIssue, multiImagesArray);
     }
   };
@@ -204,38 +225,8 @@ const ReportIssueContainer = ({ navigation, route }: any) => {
     }
   };
 
-  // handleSecretKeyApi
-  const handleSecretKeyApi = async () => {
-    try {
-      const response = await secretKeyApi({}, navigation);
-      if (
-        response?.code === statusCodes.success &&
-        Array.isArray(response.data)
-      ) {
-        const keysData = response.data as SecretKeyItem[];
-        keysData.forEach((item) => {
-          switch (item.name) {
-            case "S3_ACCESS_KEY":
-              if (item.keys) setS3AccessKey(item.keys);
-              break;
-            case "S3_SECRET_KEY":
-              if (item.keys) setS3SecretAccessKey(item.keys);
-              break;
-            default:
-              break;
-          }
-        });
-      } else if (response?.code === statusCodes.invaildOrFail) {
-        flashMessageWarning(response.message);
-      }
-    } catch (error) {
-      __DEV__ && console.log("Secret Key API Error:", error);
-    }
-  };
-
   useFocusEffect(
     React.useCallback(() => {
-      handleSecretKeyApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])

@@ -15,14 +15,19 @@ import { ScreenNames } from "../../../routers";
 import { constnatStyles } from "../../../constants/Styles";
 import {
   AddressResponseType,
-  SecretKeyItem,
 } from "../../../constants/interfaces";
 import { zustandStore } from "../../../store";
 import { statusCodes } from "../../../api/APIConstant";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { GooglePlacesTextInputRef } from "react-native-google-places-textinput";
 import LocationManager from "../../../constants/utils/LocationManager";
 import MapView from "react-native-maps";
+
+interface PlacesDetailsType {
+  latitude: number;
+  longitude: number;
+  mainText: string;
+  secondaryText: string;
+}
 
 const AddAddressContainer = ({ navigation, route }: any) => {
   const insets = useSafeAreaInsets();
@@ -31,24 +36,18 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const updateAddressApi = zustandStore.AddressStore(
     (state) => state.updateAddress
   );
-  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
-
-  const [googleApiKey, setGoogleApiKey] = useState<string>("");
+  const getFormattedAddressApi = zustandStore.AddressStore(
+    (state) => state.getFormattedAddress
+  );
   const [isAddressInitialized, setIsAddressInitialized] = useState(false);
-
-  // Search Location
-  const [searchLocation, setSearchLocation] = useState("");
-  const [searchLocationFocused, setSearchLocationFocused] = useState(false);
-  const searchLocationRef = useRef<GooglePlacesTextInputRef>(null);
   const [fullAddress, setFullAddress] = useState("");
-
   const [address, setAddress] = useState("");
   const [house, setHouse] = useState("");
   const [additionalDescription, setAdditionalDescription] = useState("");
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState<any>();
+  const [longitude, setLongitude] = useState<any>();
   const [location_id, setLocation_id] = useState("");
-
+  const [searchLocation, setSearchLocation] = useState("");
   const addressRef = useRef<TextInput>(null);
   const houseRef = useRef<TextInput>(null);
   const additionalDescriptionRef = useRef<TextInput>(null);
@@ -75,7 +74,6 @@ const AddAddressContainer = ({ navigation, route }: any) => {
         setLongitude(location.longitude);
         const address = await LocationManager.getFormattedAddress(location);
         setFullAddress(address || "");
-        setSearchLocation(address || "");
         setAdditionalDescription(address || "");
         if (mapRef.current) {
           mapRef.current.animateToRegion(
@@ -93,15 +91,43 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   }, []);
 
   const handleMapPress = useCallback(async (event: any) => {
-    console.log("event", event);
     const coord = event.nativeEvent.coordinate;
-    setLatitude(coord.latitude);
-    setLongitude(coord.longitude);
-    const address = await LocationManager.getFormattedAddress(coord);
-    setFullAddress(address || "");
-    setSearchLocation(address || "");
-    setAdditionalDescription(address || "");
+    await handleApiSearchPlaces(coord.latitude, coord.longitude);
+    // const address = await LocationManager.getFormattedAddress(coord);
+    // console.log("address", address);
+    // setFullAddress(address || "");
+    // setAdditionalDescription(address || "");
   }, []);
+
+  const handleApiSearchPlaces = async (latitude: number, longitude: number) => {
+    const dictdata = {
+      latitude: latitude.toString(),
+      longitude: longitude.toString(),
+    };
+    try {
+      const response = await getFormattedAddressApi(dictdata, navigation);
+      __DEV__ &&
+        console.log(
+          "GET FORMATTED ADDRESS RESPONSE===>",
+          JSON.stringify(response)
+        );
+
+      if (response.code === statusCodes.success) {
+        setLatitude(latitude);
+        setLongitude(longitude);
+        const placesData = response.data as any;
+
+        console.log("placesData", placesData);
+        setFullAddress(placesData.result[0].formatted_address || "");
+        setAddress(placesData.result[0].formatted_address || "");
+      } else if (response.code === statusCodes.invaildOrFail) {
+        flashMessageWarning(response.message);
+      } else if (response.code === statusCodes.emptyData) {
+      }
+    } catch (error) {
+      console.log("Error===>", error);
+    }
+  };
 
   const handleConfirmLocation = () => {
     setIsModalVisible(true);
@@ -110,71 +136,12 @@ const AddAddressContainer = ({ navigation, route }: any) => {
     setIsModalVisible(false);
   };
 
-  const handlePlaceSelect = useCallback(
-    async (place: any) => {
-      handleOnFocus("address");
-      console.log("place", place);
-
-      const mainText = place.structuredFormat?.mainText?.text || "";
-      const secondaryText = place.structuredFormat?.secondaryText?.text || "";
-
-      console.log("Main Text:", mainText);
-      console.log("Secondary Text:", secondaryText);
-      const fullLocation = mainText + ", " + secondaryText;
-
-      // Update state to reflect the full address
-      setSearchLocation(fullLocation);
-      setFullAddress(fullLocation);
-      setAddress(mainText);
-      setAdditionalDescription(secondaryText);
-
-      const placeId = place.place_id || place.placeId;
-      if (!placeId) return;
-
-      const location = await fetchPlaceDetails(placeId);
-      if (location) {
-        setLatitude(location.lat);
-        setLongitude(location.lng);
-      }
-
-      console.log("Location:", location);
-    },
-    [googleApiKey]
-  );
-
-  const fetchPlaceDetails = useCallback(
-    async (placeId: string) => {
-      const url = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${googleApiKey}`;
-
-      try {
-        const response = await fetch(url);
-        const result = await response.json();
-
-        if (result.status === "OK") {
-          const location = result.result.geometry.location;
-          console.log("Latitude:", location.lat);
-          console.log("Longitude:", location.lng);
-          return location;
-        } else {
-          console.warn("Google Place Details Error:", result.status);
-        }
-      } catch (err) {
-        console.error("Failed to fetch place details:", err);
-      }
-    },
-    [googleApiKey]
-  );
-
   const handleOnSubmit = useCallback((type: string) => {
     if (type === "address") {
       houseRef?.current?.focus();
     } else if (type === "house") {
       additionalDescriptionRef?.current?.focus();
     }
-  }, []);
-
-  const handleOnChangeSearchText = useCallback((text: string) => {
-    setSearchLocation(text);
   }, []);
 
   const handleOnChangeText = useCallback((text: string, type: string) => {
@@ -195,7 +162,6 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const handleOnFocus = useCallback((type: string) => {
     if (type === "address") {
       setAddressFocused(true);
-      setSearchLocationFocused(true);
     } else if (type === "house") {
       setHouseFocused(true);
     } else if (type === "description") {
@@ -206,27 +172,12 @@ const AddAddressContainer = ({ navigation, route }: any) => {
   const handleOnBlur = useCallback((type: string) => {
     if (type === "address") {
       setAddressFocused(false);
-      setSearchLocationFocused(false);
     } else if (type === "house") {
       setHouseFocused(false);
     } else if (type === "description") {
       setAdditionalDescriptionFocused(false);
     }
   }, []);
-
-  const handleOnPressAdd = useCallback(() => {
-    if (address.trim() === "") {
-      flashMessageWarning(getTranslation("addressRequired"));
-    } else if (house.trim() === "") {
-      flashMessageWarning(getTranslation("houseRequired"));
-    } else {
-      if (isEditAddress) {
-        handleUpdateLocationApi();
-      } else {
-        handleAddLocationApi();
-      }
-    }
-  }, [address, house, isEditAddress]);
 
   const handleAddLocationApi = useCallback(async () => {
     const dictData: AddressResponseType = {
@@ -309,6 +260,26 @@ const AddAddressContainer = ({ navigation, route }: any) => {
     navigation,
   ]);
 
+  const handleOnPressAdd = useCallback(() => {
+    if (address.trim() === "") {
+      flashMessageWarning(getTranslation("addressRequired"));
+    } else if (house.trim() === "") {
+      flashMessageWarning(getTranslation("houseRequired"));
+    } else {
+      if (isEditAddress) {
+        handleUpdateLocationApi();
+      } else {
+        handleAddLocationApi();
+      }
+    }
+  }, [
+    address,
+    house,
+    isEditAddress,
+    handleAddLocationApi,
+    handleUpdateLocationApi,
+  ]);
+
   const handleSetDefault = useCallback(() => {
     showConfirmAlert(
       "Are you sure want to set this as default?",
@@ -336,30 +307,22 @@ const AddAddressContainer = ({ navigation, route }: any) => {
     }
   }, [isNavigateFromManageAddress, navigation]);
 
-  const handleSecretKeyApi = useCallback(async () => {
-    try {
-      const response = await secretKeyApi({}, navigation);
-      if (
-        response?.code === statusCodes.success &&
-        Array.isArray(response.data)
-      ) {
-        const keysData = response.data as SecretKeyItem[];
-        keysData.forEach((item) => {
-          switch (item.name) {
-            case "googleApiKey":
-              if (item.keys) setGoogleApiKey(item.keys);
-              break;
-            default:
-              break;
-          }
-        });
-      } else if (response?.code === statusCodes.invaildOrFail) {
-        flashMessageWarning(response.message);
-      }
-    } catch (error) {
-      __DEV__ && console.log("Secret Key API Error:", error);
-    }
-  }, [navigation]);
+  const handleSetStoreAddress = (placesData: PlacesDetailsType) => {
+    setSearchLocation(placesData.mainText);
+    setAddress(placesData.mainText);
+    setAdditionalDescription(placesData.secondaryText);
+    setLatitude(placesData.latitude.toString());
+    setLongitude(placesData.longitude.toString());
+    const fullLocation = `${placesData.mainText}, ${placesData.secondaryText}`;
+    setFullAddress(fullLocation);
+  };
+
+  const handleOnPressStoreLocation = () => {
+    navigation.navigate(ScreenNames.googleSearchPlaces, {
+      handleSetStoreAddress: handleSetStoreAddress,
+      storeLocation: searchLocation,
+    });
+  };
 
   const header = useCallback(() => {
     navigation.setOptions({
@@ -437,7 +400,6 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       // Initialize searchLocation with combined address and description
       const fullLocation = `${editItem.address}, ${editItem.description}`;
       setFullAddress(fullLocation);
-      setSearchLocation(fullLocation);
     } else {
       setAddress("");
       setHouse("");
@@ -445,7 +407,6 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       setIsDefault(false);
       setLatitude(0);
       setLongitude(0);
-      setSearchLocation("");
       setFullAddress("");
     }
     // Mark it as initialized
@@ -454,10 +415,9 @@ const AddAddressContainer = ({ navigation, route }: any) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleSecretKeyApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
-    }, [handleSecretKeyApi])
+    }, [])
   );
 
   // Fetch and store current location only if not editing an address
@@ -474,8 +434,7 @@ const AddAddressContainer = ({ navigation, route }: any) => {
             setLongitude(location.longitude);
             const address = await LocationManager.getFormattedAddress(location);
             setFullAddress(address || "");
-            setSearchLocation(address || "");
-            setAdditionalDescription(address || "");
+            setAddress(address || "");
           }
           if (mapRef.current) {
             mapRef.current.animateToRegion(
@@ -529,13 +488,7 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       handleSetDefault={handleSetDefault}
       isNavigateFromManageAddress={isNavigateFromManageAddress}
       isEditAddress={isEditAddress}
-      handlePlaceSelect={handlePlaceSelect}
-      googleApiKey={googleApiKey}
       isAddressInitialized={isAddressInitialized}
-      searchLocation={searchLocation}
-      searchLocationFocused={searchLocationFocused}
-      searchLocationRef={searchLocationRef}
-      handleOnChangeSearchText={handleOnChangeSearchText}
       latitude={latitude}
       longitude={longitude}
       fullAddress={fullAddress}
@@ -545,6 +498,8 @@ const AddAddressContainer = ({ navigation, route }: any) => {
       handleConfirmLocation={handleConfirmLocation}
       handleCurrentLocation={handleCurrentLocation}
       handleMapPress={handleMapPress}
+      handleOnPressStoreLocation={handleOnPressStoreLocation}
+      searchLocation={searchLocation}
     />
   );
 };

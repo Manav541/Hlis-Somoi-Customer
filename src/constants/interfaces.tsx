@@ -19,6 +19,29 @@ export interface CoordinatesType {
   longitude: number;
 }
 
+// Delivery tracking response interface
+export interface DeliveryTrackingResponse {
+  customer_location: {
+    latitude: number;
+    longitude: number;
+  };
+  driver_location: {
+    latitude: number;
+    longitude: number;
+    heading: number;
+  };
+  vendor_location: {
+    latitude: number;
+    longitude: number;
+  };
+  order_status: string;
+  route: {
+    distance: string;
+    duration: string;
+    encoded_polyline: string;
+  };
+}
+
 // ------------------------------------Authentication------------------------------------
 export interface CustomerDetails {
   country_code: string;
@@ -767,6 +790,24 @@ export interface FilterDate {
   id: number;
   date: string;
   value: string;
+}
+
+export interface PlaceDetailsType {
+  place_id: string;
+  description: string;
+  structured_formatting: {
+    main_text: string;
+    main_text_matched_substrings: Array<{
+      length: number;
+      offset: number;
+    }>;
+    secondary_text: string;
+  };
+  main_text: string;
+  secondary_text: string;
+  latitude: number;
+  longitude: number;
+  formatted_address: string;
 }
 
 // Order Summary

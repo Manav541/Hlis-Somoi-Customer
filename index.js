@@ -12,8 +12,8 @@ import { ScreenNames } from "./src/routers";
 import { navigate } from "./src/constants/utils/Notification/notificationNavigation";
 import { PlatformVersion } from "./src/constants/utils/Platform";
 import { EmitterTypes, NotificationTypes } from "./src/constants/GConstant";
-import { setupSentry } from "./setupSentry";
 import { zustandStore } from "./src/store";
+import { setupSentry } from "./setupSentry";
 
 LogBox.ignoreAllLogs();
 

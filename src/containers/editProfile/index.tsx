@@ -21,28 +21,97 @@ import { zustandStore } from "../../store";
 import { statusCodes } from "../../api/APIConstant";
 import {
   editProfileResponse,
-  SecretKeyItem,
   SignupResponse,
 } from "../../constants/interfaces";
-import ImageUpload, { FolderName } from "../../constants/utils/S3ImageUpload";
 import { MmkvManager } from "../../constants/utils/MmkvManager";
+import { AWS_FOLDER_NAME, getMimeTypeFromPath, uploadMultipleFilesToS3 } from "../../api/AWSUpload";
 
 const EditProfileContainer = ({ navigation }: any) => {
   const editProfileApi = zustandStore.AuthStore((state) => state.editProfile);
   const customerDetailApi = zustandStore.AuthStore(
     (state) => state.getCustomerDetail
   );
-  const secretKeyApi = zustandStore.KeyStore((state) => state.secretKey);
-
-  const [s3AccessKey, setS3AccessKey] = useState<string>("");
-  const [s3SecretAccessKey, setS3SecretAccessKey] = useState<string>("");
+  const s3ImageUploadApi = zustandStore.S3ImageUploadStore((state) => state.s3ImageUpload);
   const [userProfileUrl, setUserProfileUrl] = useState<string>("");
   const [profileImage, setProfileImage] = useState<string>("");
+  const [profileImageType, setProfileImageType] = useState<string>("");
   const [name, setName] = useState<string>("");
   const nameRef = useRef<TextInput>(null);
   const [nameFocused, setNameFocused] = useState(false);
   const baseImagePath =
     "https://hlik-deep-bhaumik.s3.amazonaws.com/somoiapp/customers_images/";
+
+    // handleApiUploadImages
+  const handleApiUploadImages = async () => {
+  try {
+    const localFormattedImages = [
+      {
+        folder_name: AWS_FOLDER_NAME.USER_IMAGE,
+        file_type: profileImageType,
+        is_video: false,
+        local_path: profileImage,
+      },
+    ];
+
+    const dictData = { images: localFormattedImages };
+
+    // Pass dictData and navigation as separate arguments
+    const response = await s3ImageUploadApi(
+      dictData,
+      navigation
+    );
+    console.log('UPLOAD IMAGES RESPONSE===>', JSON.stringify(response));
+
+    if (response.code === statusCodes.success) {
+      const imageData = response.data as any;
+      // 1️⃣ Prepare array of files for S3 upload
+      const filesToUpload = imageData.map((fileItem: any) => ({
+        localPath: fileItem.local_path,
+        signedUrl: fileItem.link,
+        mimeType: getMimeTypeFromPath(fileItem.local_path),
+      }));
+
+      // 2️⃣ Upload all files in parallel
+      const uploadResults = await uploadMultipleFilesToS3(filesToUpload);
+
+      // 3️⃣ Log results and extract uploaded URLs
+      uploadResults.forEach(result => {
+        if (result.error) {
+          console.log(`❌ Upload failed: ${result.localPath}`, result.error);
+        } else {
+          console.log(
+            `✅ Uploaded: ${result.localPath} -> ${result.uploadedUrl}`,
+          );
+        }
+      });
+
+      // 4️⃣ Call your final form API with uploaded URLs
+      const uploadedUrls = uploadResults
+        .map(r => r.uploadedUrl)
+        .filter(Boolean) as string[];
+
+      console.log('UPLOADED S3 URLS===>', uploadedUrls);
+
+      // 5️⃣ Extract only file names from uploaded URLs
+      const uploadedFileNames = uploadedUrls.map(url => {
+        // Split by '/' and take the last part of the URL
+        return url.substring(url.lastIndexOf('/') + 1);
+      });
+
+      console.log('UPLOADED S3 FILE NAMES===>', uploadedFileNames);
+      handleEditProfileApi(uploadedFileNames[0]);
+      // if (!isEditable) {
+      //   await handleApiAddVehicle(uploadedFileNames);
+      // } else {
+      //   // For edit vehicle, you might have a different API call
+      // }
+    } else if (response.code === statusCodes.invaildOrFail) {
+      flashMessageWarning(response.message);
+    }
+  } catch (error) {
+    console.log('Error===>', error);
+  }
+};
 
   const handleOnChangeText = (text: string, type: string) => {
     if (type === "name") {
@@ -64,24 +133,7 @@ const EditProfileContainer = ({ navigation }: any) => {
     }
   };
 
-  const uploadImageUser = async (url: string): Promise<string> => {
-    return new Promise<string>((resolve, reject) => {
-      ImageUpload.uploadImage(
-        s3AccessKey,
-        s3SecretAccessKey,
-        url,
-        FolderName.USER_IMAGE,
-        "image/png",
-        ".png",
-        (response: string) => {
-          console.log("Profile uploaded successfully ===>", response);
-          resolve(response);
-        }
-      );
-    });
-  };
-
-  const handleOnPressProfileImage = () => {
+    const handleOnPressProfileImage = () => {
     checkPermission(cameraPermission, messages.cameraPermission).then(
       (isAllow) => {
         if (isAllow) {
@@ -91,12 +143,19 @@ const EditProfileContainer = ({ navigation }: any) => {
                 ImagePickerManager.choosePickerOptions("photo")
                   .then((result: unknown) => {
                     const pickerResponse = result as Asset[];
+                     console.log('pickerResponse===>', pickerResponse);
                     if (
                       Array.isArray(pickerResponse) &&
                       pickerResponse[0]?.uri
                     ) {
                       const selectedImageUri = pickerResponse[0].uri;
+                      const file_type = pickerResponse[0].type ? pickerResponse[0].type.split('/')[1] : '';
+                      
                       setProfileImage(selectedImageUri);
+                      setProfileImageType(file_type);
+                      console.log('profileImage===>', selectedImageUri);
+                      console.log('file_type===>', file_type);
+                      
                     } else {
                       __DEV__ && console.log("No media selected or captured");
                     }
@@ -116,18 +175,8 @@ const EditProfileContainer = ({ navigation }: any) => {
     if (!name || name.trim() === "") {
       flashMessageWarning(getTranslation("emptyName"));
     } else {
-      try {
-        let uploadedUrl: string | null = null;
-
-        if (profileImage !== "" && !profileImage.startsWith("http")) {
-          uploadedUrl = await uploadImageUser(profileImage);
+      await handleApiUploadImages();
         }
-
-        handleEditProfileApi(uploadedUrl);
-      } catch (error) {
-        __DEV__ && console.log("Upload error:", error);
-      }
-    }
   };
 
   const handleEditProfileApi = async (uploadedUrl: string | null = null) => {
@@ -180,34 +229,6 @@ const EditProfileContainer = ({ navigation }: any) => {
     }
   };
 
-  const handleSecretKeyApi = async () => {
-    try {
-      const response = await secretKeyApi({}, navigation);
-      if (
-        response?.code === statusCodes.success &&
-        Array.isArray(response.data)
-      ) {
-        const keysData = response.data as SecretKeyItem[];
-        keysData.forEach((item) => {
-          switch (item.name) {
-            case "S3_ACCESS_KEY":
-              if (item.keys) setS3AccessKey(item.keys);
-              break;
-            case "S3_SECRET_KEY":
-              if (item.keys) setS3SecretAccessKey(item.keys);
-              break;
-            default:
-              break;
-          }
-        });
-      } else if (response?.code === statusCodes.invaildOrFail) {
-        flashMessageWarning(response.message);
-      }
-    } catch (error) {
-      __DEV__ && console.log("Secret Key API Error:", error);
-    }
-  };
-
   const header = () => {
     navigation.setOptions({
       headerLeft: () => (
@@ -233,7 +254,6 @@ const EditProfileContainer = ({ navigation }: any) => {
   useFocusEffect(
     React.useCallback(() => {
       handleCustomerDetailApi();
-      handleSecretKeyApi();
       StatusBar.setBarStyle("dark-content");
       return () => {};
     }, [navigation])

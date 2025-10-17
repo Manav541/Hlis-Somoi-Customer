@@ -13,6 +13,10 @@ export const constnatStyles = StyleSheet.create({
     marginTop: 10,
     paddingHorizontal: 20,
   },
+   vwBlueBgOnly:{
+    flex: 1,
+    backgroundColor: colors.blue4e,
+  },
   vwBlueBgBottomRadius: {
     flex: 1,
     backgroundColor: colors.blue4e,

@@ -24,6 +24,10 @@ interface Store {
     dictData: object,
     navigation: any
   ) => Promise<APIResponseType>;
+  getFormattedAddress: (
+    dictData: object,
+    navigation: any
+  ) => Promise<APIResponseType>;
 }
 
 const AddressStore = create<Store>((set) => ({
@@ -133,6 +137,41 @@ const AddressStore = create<Store>((set) => ({
         navigation: navigation,
       });
     });
+  },
+
+  getFormattedAddress: async (
+    dictData: object,
+    navigation: any
+  ): Promise<APIResponseType> => {
+    try {
+      return await new Promise<APIResponseType>((resolve, reject) => {
+        const callback = (
+          data: APIResponseType | null,
+          error: { message: string } | null
+        ) => {
+          if (error) {
+            console.warn("API error===>", error);
+            reject(new Error(error.message || "An error occurred"));
+            return;
+          }
+          if (data) {
+            resolve(data);
+          } else {
+            reject(new Error("No data returned from API"));
+          }
+        };
+
+        APIManager.postServerRequestWithToken({
+          apiEndPoint: apiEndPoint.getFormattedAddress,
+          callback,
+          dictData,
+          navigation,
+        });
+      });
+    } catch (error) {
+      console.error("searchPlaces error:", error);
+      throw error;
+    }
   },
 }));
 
